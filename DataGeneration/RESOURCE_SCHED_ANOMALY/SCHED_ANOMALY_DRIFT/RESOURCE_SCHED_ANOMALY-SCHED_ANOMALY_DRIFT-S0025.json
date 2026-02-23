@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0025",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell shows resource allocation drift over the last 6h during shoulder hours with eMBB streaming: PRB util ~76%, fairness ~0.73, allocation skew 37, p95 allocation latency 95 ms, median DL 22 Mbps, and SINR ~4 dB indicating interference / signal overlap.",
+    "ar": "خلية NR ماكرو حضرية تُظهر انحرافاً في تخصيص الموارد خلال آخر 6 ساعات أثناء فترة الكتف مع بث eMBB: استخدام PRB ~76%، عدالة ~0.73، انحياز تخصيص 37، كمون توزيع p95 يبلغ 95 مللي ثانية، متوسط تنزيل 22 ميجابت/ث، وSINR ~4 dB مما يدل على تداخل/تراكب الإشارات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "NR-URB-MACRO-001 in an urban area has uneven resource allocation over the last 6h (shoulder period). Users on eMBB streaming reported buffering. KPIs: PRB util 76%, fairness 0.73, allocation skew 37, p95 allocation latency 95 ms, median DL 22 Mbps, SINR ~4 dB (interference / signal overlap). No alarms. Please assess.",
+      "message_ar": "الخلية NR-URB-MACRO-001 في منطقة حضرية لديها عدم توازن في تخصيص الموارد خلال آخر 6 ساعات (فترة الكتف). مستخدمو بث eMBB أبلغوا عن تقطّع. المؤشرات: استخدام PRB 76%، العدالة 0.73، انحياز التخصيص 37، كمون التوزيع p95 يساوي 95 مللي ثانية، متوسط التنزيل 22 ميجابت/ث، وSINR ~4 ديسيبل (تداخل/تراكب الإشارات). لا توجد إنذارات. الرجاء التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling a 6h OSS snapshot for NR-URB-MACRO-001 to validate allocator, QoS mix, and interference context. Please confirm access is approved.",
+      "message_ar": "مفهوم. سأبدأ باستخراج لقطة OSS لمدة 6 ساعات للخلية NR-URB-MACRO-001 للتحقق من المُخصّص ومزيج مستويات الجودة وسياق التداخل. يرجى تأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-URB-MACRO-001 over the last 6h.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NR-URB-MACRO-001 لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot complete: PRB util 76%, best-effort share 59% vs high-priority 31%, fairness 0.73, allocation skew 37, p95 allocation latency 95 ms; RSRQ -11 dB and SINR ~4 dB indicate interference / signal overlap. Next, I will plot PRB and allocation fairness time series over 6h to confirm drift. Proceeding.",
+      "message_ar": "تمت لقطة OSS: استخدام PRB 76%، حصة أفضل جهد 59% مقابل الحصة عالية الأولوية 31%، العدالة 0.73، انحياز التخصيص 37، كمون التوزيع p95 يبلغ 95 مللي ثانية؛ قيمة RSRQ -11 ديسيبل وSINR ~4 ديسيبل تشير إلى تداخل/تراكب الإشارات. التالي، سأرسم سلسلة زمنية لـ PRB وعدالة التوزيع خلال 6 ساعات لتأكيد الانحراف. جارٍ التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time series review.",
+      "message_ar": "موافقة على المتابعة بمراجعة السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows fairness dipping to ~0.68 and allocation skew peaking near 40 during shoulder load; spikes align with increased best-effort share and low SINR windows. Throughput median stabilizes when fairness >0.76. Diagnosis: allocator drift under mixed traffic with interference pressure. I propose a safe tuning to raise high-priority weight slightly, rein in best-effort burstiness, and tighten latency guardrails. Approve?",
+      "message_ar": "السلسلة الزمنية تُظهر هبوط العدالة إلى ~0.68 وبلوغ انحياز التخصيص قرابة 40 أثناء حمل فترة الكتف؛ ترتبط القمم بارتفاع حصة أفضل جهد ونوافذ SINR منخفضة. يستقر المتوسط عندما تكون العدالة >0.76. التشخيص: انحراف في المُخصّص تحت حركة مختلطة مع ضغط تداخل. أقترح ضبطاً آمناً لرفع وزن الحركة عالية الأولوية قليلاً، وكبح اندفاع أفضل جهد، وتشديد حواجز الكمون. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for a cautious parameter optimization on this cell.",
+      "message_ar": "موافقة على تحسين معلمات حذر لهذه الخلية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: minor uplift to high-priority weighting, capped best-effort burstiness, and tighter latency guardrails. Rollout succeeded without errors. Starting post-change checks now.",
+      "message_ar": "تم تطبيق التغيير: رفع طفيف لوزن الحركة عالية الأولوية، وضع حد لاندفاع أفضل جهد، وتشديد حواجز الكمون. نُفِّذ النشر دون أخطاء. أبدأ فحوصات ما بعد التغيير الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: p95 allocation latency dropped from 95 ms to ~72 ms; fairness improved from 0.73 to ~0.79; median DL moved to ~24 Mbps. No new faults observed.",
+      "message_ar": "ملاحظة أولية: انخفض كمون التوزيع p95 من 95 مللي ثانية إلى ~72 مللي ثانية؛ تحسنت العدالة من 0.73 إلى ~0.79؛ ارتفع متوسط التنزيل إلى ~24 ميجابت/ث. لا توجد أعطال جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I see allocator skew easing and QoS mix more balanced; KPIs are stabilizing. I will keep an eye on interference-sensitive periods to ensure the gains hold.",
+      "message_ar": "تم. أرى تخفف انحياز المُخصّص وتوازناً أفضل في مزيج مستويات الجودة؛ المؤشرات في حالة استقرار. سأراقب الفترات الحساسة للتداخل لضمان استمرار التحسن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed with the latency tail trending down. Action taken was parameter optimization on the allocator to rebalance QoS. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن مع انخفاض ذيل الكمون. الإجراء المنفذ كان تحسين المعلمات على المُخصّص لإعادة موازنة مستويات الجودة. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and share an update after this window. If latency tail regresses or fairness drops, we will roll back the change; if interference persists, we will escalate to pursue interference mitigation.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنزودكم بتحديث بعد هذه الفترة. إذا تدهور ذيل الكمون أو انخفضت العدالة فسنقوم بالتراجع عن التغيير؛ وإذا استمر التداخل فسنتصعّد لاتخاذ إجراءات تخفيف التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-001",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-001",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness_latency"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation anomaly on an urban NR macro cell: moderate PRB load but low fairness, high allocation skew, and elevated allocation latency with low SINR indicating interference pressure. Executed a 6h OSS review and PRB time series to confirm drift, then applied site parameter tuning to rebalance QoS weighting and tighten latency guardrails. Post-change, fairness improved and the latency tail decreased; continued monitoring is planned.",
+    "ar": "تم تشخيص خلل في تخصيص الموارد على خلية NR ماكرو حضرية: حمل PRB متوسط لكن عدالة منخفضة وانحياز تخصيص مرتفع وكمون توزيع مرتفع مع SINR منخفض يشير إلى ضغط تداخل. جرى تنفيذ مراجعة OSS لمدة 6 ساعات وسلسلة زمنية لـ PRB لتأكيد الانحراف، ثم تطبيق ضبط معلمات للموقع لإعادة موازنة أوزان مستويات الجودة وتشديد حواجز الكمون. بعد التغيير تحسنت العدالة وانخفض ذيل الكمون؛ ستستمر المراقبة."
+  }
+}

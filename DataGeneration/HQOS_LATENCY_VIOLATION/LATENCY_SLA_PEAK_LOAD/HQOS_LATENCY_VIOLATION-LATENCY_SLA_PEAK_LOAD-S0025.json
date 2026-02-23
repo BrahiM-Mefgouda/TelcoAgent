@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0025",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 2h: ~369 users, PRB utilization ~84%, BLER ~6–7%, p95 scheduling latency ~43 ms, and end-to-end latency ~51 ms with eMBB peak-evening traffic.",
+    "ar": "خلية ماكرو NR حضرية تظهر إنذار ازدحام خلال آخر ساعتين: نحو 369 مستخدمًا، استخدام PRB حوالي 84%، BLER حوالي 6–7%، زمن جدولة p95 نحو 43 مللي ثانية، وزمن وصول نهائي حوالي 51 مللي ثانية مع حركة eMBB في ذروة المساء."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro site, peak evening. Alarm for latency SLA breach over the last 2 hours: ~369 users, PRB ~84%, BLER ~6–7%, p95 scheduling latency ~43 ms, end-to-end latency ~51 ms. eMBB traffic is dominant.",
+      "message_ar": "موقع ماكرو NR حضري في ذروة المساء. يوجد إنذار تجاوز في SLA لزمن الوصول خلال آخر ساعتين: نحو 369 مستخدمًا، استخدام PRB ~84%، BLER ~6–7%، زمن جدولة p95 ~43 مللي ثانية، وزمن وصول نهائي ~51 مللي ثانية. حركة eMBB هي السائدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an OSS snapshot for the last 2h to verify load and queuing on the affected cell. Please share the cell ID and approve read access.",
+      "message_ar": "سأبدأ بلقطة OSS لآخر ساعتين للتحقق من الحمل والاصطفاف على الخلية المتأثرة. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-001A. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-001A. تمّت الموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS checks for NR-URB-001A over 2h. Findings: PRB utilization avg ~84% (peaks ~88%), DL queue build-up during busy minutes, BLER moderate (~6–7%), backhaul normal, no active faults. Next, I will pull a latency time series to isolate burst periods. Please approve.",
+      "message_ar": "أجري فحص OSS للخلية NR-URB-001A خلال ساعتين. النتائج: استخدام PRB بمتوسط ~84% (قمم ~88%)، تراكم طوابير DL في الدقائق المزدحمة، BLER متوسط (~6–7%)، الربط الخلفي طبيعي، لا أعطال نشطة. بعد ذلك سأسحب سلسلة زمنية لزمن الوصول لعزل فترات الارتفاع. يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series confirms recurrent spikes between 19:05–19:55; p95 scheduling latency 42–47 ms with end-to-end 50–55 ms, correlating with eMBB surges. I propose targeted site parameter tuning to reduce queuing delay and improve QoS prioritization with minimal throughput impact. Proceed?",
+      "message_ar": "السلسلة الزمنية لزمن الوصول تؤكّد ارتفاعات متكررة بين 19:05–19:55؛ زمن جدولة p95 بين 42–47 مللي ثانية وزمن الوصول الكلي 50–55 مللي ثانية، ويتزامن ذلك مع ذروات eMBB. أقترح ضبطًا انتقائيًا لمعاملات الموقع لتقليل زمن الاصطفاف وتحسين أولوية QoS مع تأثير طفيف على الإنتاجية. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning.",
+      "message_ar": "تفضّل بتنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied minor parameter optimization on NR-URB-001A: increased QoS weight for latency-sensitive flows and tightened queue thresholds to curb buffer build-up; fairness adjusted slightly. Change committed successfully. Observing immediate impact for 10 minutes.",
+      "message_ar": "تم تطبيق تحسين طفيف للمعاملات على NR-URB-001A: زيادة وزن QoS للتدفّقات الحساسة للزمن وتشديد عتبات الطوابير للحد من تراكم المخازن؛ مع تعديل طفيف للعدالة. تم اعتماد التغيير بنجاح. أراقب الأثر الفوري لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes, p95 scheduling latency is now ~36–38 ms and end-to-end latency ~41–44 ms. Throughput remains stable.",
+      "message_ar": "بعد 10 دقائق، أصبح زمن جدولة p95 نحو 36–38 مللي ثانية وزمن الوصول الكلي نحو 41–44 مللي ثانية. الإنتاجية مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I can maintain short-term monitoring and prepare a concise summary. Please confirm the desired monitoring window.",
+      "message_ar": "تحسّن جيد. يمكنني الاستمرار في المراقبة القصيرة وإعداد ملخصًا موجزًا. يرجى تأكيد نافذة المراقبة المطلوبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Let’s monitor through the next busy hour. Latency spikes are trending down after the site parameter tuning. Provide an update after that window.",
+      "message_ar": "لنراقب خلال ساعة الذروة القادمة. ارتفاعات زمن الوصول تتناقص بعد ضبط معاملات الموقع. يرجى تزويدي بتحديث بعد تلك النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next busy hour and report the latency and queuing trends. If performance regresses, we will roll back the tuning; if congestion persists, we will escalate for further capacity and load-distribution actions.",
+      "message_ar": "تم التأكيد. سنراقب خلال ساعة الذروة القادمة ونقدّم تقريرًا عن اتجاهات زمن الوصول والاصطفاف. إذا تراجعت الأداء سنعود عن الضبط؛ وإذا استمر الازدحام سنصعّد لاتخاذ إجراءات إضافية في السعة وتوزيع الحمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency QoS violation on an urban NR macro during peak evening: high PRB utilization drove queue build-up, with p95 scheduling latency ~43 ms and end-to-end latency ~51 ms. We verified the issue via an OSS snapshot and latency time series, then applied site parameter tuning to reduce queuing and improve QoS prioritization. Post-optimization, latency decreased and we set a monitoring window for the next busy hour.",
+    "ar": "تم تشخيص انتهاك QoS لزمن الوصول على موقع ماكرو NR حضري خلال ذروة المساء: أدى ارتفاع استخدام PRB إلى تراكم الطوابير مع زمن جدولة p95 ~43 مللي ثانية وزمن وصول نهائي ~51 مللي ثانية. تم التحقق عبر لقطة OSS وسلسلة زمنية لزمن الوصول، ثم تطبيق ضبط معاملات الموقع لتقليل الاصطفاف وتحسين أولوية QoS. بعد التحسين انخفض زمن الوصول وتم تحديد نافذة مراقبة لساعة الذروة القادمة."
+  }
+}

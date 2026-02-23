@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0018",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6h shows very high PRB use (~94%), uneven allocation (fairness ~0.52, skew 16), QoS imbalance (best‑effort ~61% vs high‑priority 30%), and elevated p95 queuing latency (~89 ms) during shoulder hours.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات تُظهر استخدام PRB مرتفعًا (~94%) وتخصيصًا غير متوازن (مؤشر العدالة ~0.52، انحراف 16)، وعدم توازن في QoS (أفضل جهد ~61% مقابل أولوية عالية 30%) وارتفاع زمن انتظار p95 (~89 مللي ثانية) خلال ساعات الذروة الجزئية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re getting buffering complaints on eMBB streaming in an urban NR macro sector during shoulder hours; last 6h show ~94% PRB, low fairness, and p95 queuing latency near 89 ms. No alarms.",
+      "message_ar": "نتلقى شكاوى من التجميد أثناء بث eMBB في قطاع NR ماكرو حضري خلال ساعات الذروة الجزئية؛ آخر 6 ساعات تُظهر ~94% PRB وعدالة منخفضة وزمن انتظار p95 يقارب 89 مللي ثانية. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Likely allocation drift. First, I’ll fetch the last 6h OSS counters for the affected cell to baseline load and QoS mix. Please share the cell ID and approve access.",
+      "message_ar": "مفهوم. يبدو انحرافًا في التخصيص. أولاً سأجلب عدادات OSS لآخر 6 ساعات للخلية المتأثرة لعمل خط أساس للحمل ومزيج QoS. الرجاء تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-UGB123. Access approved for the 6h window.",
+      "message_ar": "معرّف الخلية: NR-Cell-UGB123. تمت الموافقة على الوصول لمدة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot: PRB ~94%, allocation fairness ~0.52, skew 16; QoS mix shows best‑effort ~61% vs high‑priority 30%; p95 queuing latency ~89 ms. I’ll now pull a 6h PRB time series to quantify burst patterns and correlation with high‑priority traffic.",
+      "message_ar": "لقطة OSS: PRB ~94%، عدالة التخصيص ~0.52، انحراف 16؛ مزيج QoS يظهر أفضل جهد ~61% مقابل أولوية عالية 30%؛ زمن انتظار p95 ~89 مللي ثانية. سأستخرج الآن سلسلة زمنية لـ PRB لمدة 6 ساعات لقياس أنماط الاندفاع والارتباط مع حركة المرور ذات الأولوية العالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows shoulder-hour bursts up to 97–98% PRB, persistent imbalance toward best‑effort, and latency spikes aligned to those bursts. I propose a bounded parameter optimization: increase allocator fairness weighting, strengthen protection for high‑priority flows, and temper bursty best‑effort usage. Approve?",
+      "message_ar": "السلسلة الزمنية تُظهر اندفاعات خلال ساعات الذروة الجزئية تصل إلى 97–98% PRB، وعدم توازن مستمر لصالح أفضل جهد، وارتفاعات في زمن الانتظار متزامنة مع تلك الاندفاعات. أقترح تحسينًا محدودًا للمعلمات: تعزيز وزن العدالة في المُخصِّص، تقوية حماية التدفقات ذات الأولوية العالية، وكبح استخدام أفضل جهد الاندفاعي. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed on NR-Cell-UGB123.",
+      "message_ar": "موافقة على التنفيذ على NR-Cell-UGB123."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied safely on NR-Cell-UGB123. Early checks: allocation fairness improved to ~0.66, p95 queuing latency down to ~62 ms, high‑priority share +3–5 pts; PRB remains ~92–94%. We’ll watch stabilization for 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين بأمان على NR-Cell-UGB123. الفحوصات الأولية: تحسن عدالة التخصيص إلى ~0.66، وانخفض زمن الانتظار p95 إلى ~62 مللي ثانية، وارتفعت حصة الأولوية العالية بمقدار 3–5 نقاط؛ لا يزال PRB ~92–94%. سنراقب الاستقرار لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Users report fewer stalls, and we see fewer high-latency samples; p95 throughput edged up slightly. No negative impact noted.",
+      "message_ar": "المستخدمون يبلغون عن تقليل التجميد، ونرى عينات أقل بزمن تأخر عالٍ؛ زاد p95 لمعدل النقل قليلاً. لم تُلاحظ آثار سلبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep an eye on fairness, PRB bursts, and high‑priority flow share through the next interval. Let me know if any other sectors show similar imbalance.",
+      "message_ar": "جيد. سأتابع عدالة التخصيص واندفاعات PRB وحصة التدفقات ذات الأولوية العالية خلال الفاصل التالي. أبلغني إذا ظهرت قطاعات أخرى بعدم توازن مماثل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: queuing delay is trending down and allocation looks more even. Action taken was a parameter optimization on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: زمن الانتظار يتناقص والاقتسام أصبح أكثر توازنًا. الإجراء كان تحسين معلمات على الخلية. لنتابع خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and update you on fairness, latency, and QoS mix. If degradation reappears, we will rollback the tweak; if it widens, we’ll escalate for broader capacity and policy review.",
+      "message_ar": "سنقوم نحن بمتابعة الأداء خلال ساعة الانشغال التالية وسنوافيكم بتحديث عن العدالة والكمون ومزيج QoS. إذا عادت التدهورات سنعود عن التغيير، وإن اتسع الأثر سنصعّد لمراجعة السعة والسياسات على نطاق أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation anomaly on an urban NR macro cell with high PRB usage, poor fairness, and elevated queuing latency during shoulder hours. Pulled baselines and time series, then executed targeted site parameter tuning to improve allocator fairness and protect high‑priority flows. Post‑change checks showed improved fairness and lower latency; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص خلل في تخصيص الموارد على خلية NR ماكرو حضرية مع استخدام PRB مرتفع وعدالة ضعيفة وارتفاع في زمن الانتظار خلال ساعات الذروة الجزئية. تم جلب خط الأساس والسلاسل الزمنية ثم تنفيذ ضبط معلمات موجّه للموقع لتحسين عدالة المُخصِّص وحماية التدفقات ذات الأولوية العالية. أظهرت الفحوصات بعد التغيير تحسنًا في العدالة وانخفاضًا في الكمون؛ سنواصل المراقبة خلال ساعة الانشغال التالية."
+  }
+}

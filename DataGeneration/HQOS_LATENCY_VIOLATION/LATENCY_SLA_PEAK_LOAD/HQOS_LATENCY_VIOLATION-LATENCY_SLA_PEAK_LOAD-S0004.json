@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0004",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G macro cell shows a congestion alarm during peak evening with p95 scheduling latency at 51 ms, PRB ~83%, 236 users, and median downlink 16 Mbps over the last 2 hours.",
+    "ar": "خلية ماكرو 5G حضرية تعرض إنذار ازدحام خلال ذروة المساء مع كمون جدولة p95 عند 51 مللي ثانية، وإشغال PRB ~83%، و236 مستخدمًا، ومعدل تنزيل وسطي 16 ميجابت/ث خلال آخر ساعتين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on an urban 5G macro shows a congestion alarm: p95 scheduling latency ~51 ms, PRB ~83%, 236 users, and median DL 16 Mbps for eMBB. Need help restoring latency SLA in the last 2h window.",
+      "message_ar": "ذروة المساء على خلية ماكرو 5G حضرية تُظهر إنذار ازدحام: كمون جدولة p95 ~51 مللي ثانية، وإشغال PRB ~83%، و236 مستخدمًا، ومعدل تنزيل وسطي 16 ميجابت/ث لحركة eMBB. نحتاج لاستعادة SLA للكمون في نافذة الساعتين الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking live counters for the affected cell over the last 2 hours. Please confirm the cell ID and approve access; any recent changes or backhaul issues?",
+      "message_ar": "سأبدأ بفحص العدادات الحية للخلية المتأثرة خلال آخر ساعتين. يرجى تأكيد معرف الخلية والموافقة على الوصول؛ هل كانت هناك أي تغييرات حديثة أو مشاكل في النقل الخلفي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR1234_urban_macro_01. Access approved; no planned changes and backhaul is normal.",
+      "message_ar": "معرّف الخلية: NR1234_urban_macro_01. الوصول مُعتمد؛ لا أعمال مخططة والنقل الخلفي طبيعي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled live counters for NR1234_urban_macro_01 (2h): PRB 82–88%, BLER ~2%, DL p95 latency peaked 52 ms at 19:10, queue depth spikes during eMBB streaming—indicates HQoS queue buildup under load. Next, I’ll review the latency trend series to confirm. Proceed?",
+      "message_ar": "تم سحب العدادات الحية لـ NR1234_urban_macro_01 (2 س): PRB بين 82–88%، وBLER ~2%، وبلغ كمون DL p95 ذروته 52 مللي ثانية عند 19:10، مع ارتفاعات في عمق الطوابير أثناء بث eMBB—ما يشير إلى تراكم طوابير HQoS تحت الحمل. التالي سأراجع السلسلة الزمنية للكمون للتأكيد. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, go ahead.",
+      "message_ar": "موافق، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series (2h) shows rise 18:30–20:00: p95 from 28→51 ms; correlated with PRB >80%; no error spikes—scheduler delay dominant. Proposal: apply targeted site parameter tuning to prioritize low-latency traffic and reduce buffer dwell time; safe and reversible. Proceed?",
+      "message_ar": "السلسلة الزمنية للكمون (2 س) تُظهر ارتفاعًا بين 18:30–20:00: p95 من 28→51 مللي ثانية؛ ترابط مع PRB >80%؛ لا طفرات أخطاء—تأخير المجدول هو المسيطر. الاقتراح: تطبيق ضبط موجه لمعلمات الموقع لإعطاء أولوية لحركة المرور منخفضة الكمون وتقليل مكوث الطوابير؛ آمن وقابل للتراجع. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافقة على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied optimization on NR1234_urban_macro_01: tuned HQoS scheduling weights, tightened queue thresholds, and minor scheduler guards; no service interruption. Monitoring immediate impact.",
+      "message_ar": "تم تطبيق التحسين على NR1234_urban_macro_01: ضبط أوزان HQoS، وتشديد عتبات الطوابير، وحواجز طفيفة للجدولة؛ دون انقطاع خدمة. أراقب الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after ~10 minutes: p95 scheduling latency down to ~34 ms; PRB still ~80%; no user complaints.",
+      "message_ar": "ملاحظة أولية بعد ~10 دقائق: كمون الجدولة p95 انخفض إلى ~34 مللي ثانية؛ PRB ما يزال ~80%؛ لا شكاوى مستخدمين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I’ll keep watching latency and user throughput through the remainder of the peak. Notify me if any anomalies appear.",
+      "message_ar": "اتجاه جيد. سأواصل متابعة الكمون ومعدل نقل المستخدمين خلال بقية فترة الذروة. أبلغني بأي شذوذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: p95 latency holding near 32–35 ms with fewer queue spikes. Action taken was QoS scheduler parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن مستقر: p95 للكمون ثابت قرب 32–35 مللي ثانية مع انخفاض ذروات الطوابير. الإجراء كان ضبط معلمات مجدول QoS. لِنراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring for the next busy hour and share results. If latency drifts above target, we’ll escalate for capacity relief; if adverse effects appear, we’ll roll back the tuning. Summary: analyzed counters and latency trends, then optimized HQoS scheduling to mitigate queuing delay.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الانشغال التالية ونوافيك بالنتائج. إذا انحرف الكمون فوق الهدف فسنصعّد نحو تخفيف السعة؛ وإذا ظهرت آثار عكسية فسنعود عن الضبط. الملخص: حللنا العدادات واتجاهات الكمون ثم حسّنا جدولة HQoS لتقليل تأخير الطوابير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR1234_urban_macro_01",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR1234_urban_macro_01",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "HQoS scheduler and queue parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnostics confirmed a QoS latency breach driven by scheduler-induced queuing under high PRB load during peak evening. We reviewed live counters and the latency time series, then applied site parameter tuning to optimize HQoS scheduling and queue thresholds. Latency improved to around 32–35 ms, and we will monitor through the next busy hour.",
+    "ar": "أكدت التشخيصات وجود تجاوز في كمون QoS ناتج عن طوابير بسبب المجدول تحت حمل PRB مرتفع خلال ذروة المساء. راجعنا العدادات الحية والسلسلة الزمنية للكمون ثم طبقنا ضبط معلمات للموقع لتحسين جدولة HQoS وعتبات الطوابير. تحسن الكمون إلى حوالي 32–35 مللي ثانية وسنواصل المراقبة خلال ساعة الانشغال التالية."
+  }
+}

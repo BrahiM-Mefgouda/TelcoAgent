@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0019",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium 5G NR micro cell over the last 6h shows QoS 0.30 vs 0.98 target with 108 ms latency, PRB 0.84, and p50 throughput 4 Mbps (slow data) while a congestion alarm is active.",
+    "ar": "خلية 5G NR ميكرو في الملعب خلال آخر 6 ساعات تُظهر QoS = 0.30 مقابل الهدف 0.98 مع زمن تأخير 108 مللي ثانية، واستغلال PRB 0.84، وتنزيل وسيطي 4 ميجابت/ث (بيانات بطيئة) مع وجود إنذار ازدحام فعّال."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro-cells during the last 6h show QoS 0.30 vs 0.98 target, latency ~108 ms, PRB ~0.84, p50 DL 4 Mbps (slow data), BLER ~7%; an alarm flagged congestion in-event with ~1k users.",
+      "message_ar": "خلايا NR الميكرو في الملعب خلال آخر 6 ساعات تُظهر QoS = 0.30 مقابل الهدف 0.98، زمن تأخير ~108 مللي ثانية، استغلال PRB ~0.84، تنزيل وسيطي 4 ميجابت/ث (بيانات بطيئة)، وBLER ~7%؛ وقد أطلق الإنذار ازدحاماً أثناء الحدث مع ~1000 مستخدم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will identify the impacted cell and start diagnostics; approve access to pull last 6h OSS counters for the cell?",
+      "message_ar": "تم الاستلام. سأحدد الخلية المتأثرة وأبدأ التشخيص؛ هل توافق على سحب عدادات OSS لآخر 6 ساعات للخلية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Focus on NR-STAD-MICRO-12 over the same 6h window.",
+      "message_ar": "موافق. ركّز على NR-STAD-MICRO-12 لنفس نافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS counters for NR-STAD-MICRO-12 over 6h now. Results: PRB utilization peaks 95% (avg ~84%), QoS score ~0.30, user count peaks ~1,050, DL latency >100 ms, no backhaul fault alarms. Congestion confirmed.",
+      "message_ar": "أقوم بسحب عدادات OSS لـ NR-STAD-MICRO-12 خلال 6 ساعات الآن. النتائج: ذروة استغلال PRB 95% (متوسط ~84%)، درجة QoS ~0.30، ذروة عدد المستخدمين ~1050، تأخير تنزيل >100 مللي ثانية، ولا إنذارات أعطال نقل خلفي. تم تأكيد الازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will chart the QoS time series to isolate when compliance dropped and correlate with load; proceed?",
+      "message_ar": "التالي، سأرسم سلسلة زمنية لـ QoS لتحديد توقيت الهبوط وربطه بالحمل؛ هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series shows drops <0.4 from 18:15–22:30 aligned with PRB >90%, latency spikes 100–130 ms, p50 DL 3–5 Mbps; BLER briefly up to 10%. Peak coincides with eMBB streaming.",
+      "message_ar": "السلسلة الزمنية لـ QoS تُظهر هبوطاً أقل من 0.4 من 18:15 إلى 22:30 متزامناً مع PRB >90%، وارتفاع التأخير إلى 100–130 مللي ثانية، وتنزيل وسيطي 3–5 ميجابت/ث؛ وارتفاع BLER مؤقتاً حتى 10%. الذروة تزامنت مع بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "This is an SLA breach due to capacity saturation on the stadium micro cell. I recommend opening an SLA incident for capacity relief actions and attach findings; approve?",
+      "message_ar": "هذه مخالفة SLA بسبب تشبع السعة في خلية الملعب الميكرو. أوصي بفتح بلاغ SLA لإجراءات تخفيف السعة وإرفاق النتائج؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the incident.",
+      "message_ar": "موافق على فتح البلاغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident created for the SLA breach with a summary of QoS degradation, high PRB, and high latency; findings attached. I will keep watch through the upcoming busy period.",
+      "message_ar": "تم إنشاء بلاغ لمخالفة SLA بملخص تدهور QoS وارتفاع PRB وارتفاع التأخير؛ تم إرفاق النتائج. سأواصل المتابعة خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing initial improvement as crowd thins: median downlink now ~6 Mbps and latency trending down toward 95 ms. Action taken: QoS time-series analysis and incident creation. Suggest monitoring through the next busy hour and update DU-SLA-04127 afterward.",
+      "message_ar": "نرى تحسناً أولياً مع تراجع الحشود: التنزيل الوسطي الآن ~6 ميجابت/ث والتأخير يتجه نحو 95 مللي ثانية. الإجراء المُتخذ: تحليل السلسلة الزمنية لـ QoS وإنشاء البلاغ. أقترح المراقبة خلال ساعة الذروة القادمة وتحديث DU-SLA-04127 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we performed counter review and QoS trend analysis and opened the incident. We own the next busy-hour monitoring and will update the ticket afterward. If QoS stays below target, we will escalate for temporary capacity; if it stabilizes, we will close after verification.",
+      "message_ar": "تم؛ قمنا بمراجعة العدادات وتحليل اتجاهات QoS وفتحنا البلاغ. سنتولى المراقبة خلال ساعة الذروة القادمة وسنُحدِّث التذكرة بعدها. إذا بقيت جودة الخدمة دون الهدف، سنصعّد لإضافة سعة مؤقتة؛ وإذا استقرت، سنغلق بعد التحقق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the 6h event window, the stadium 5G NR micro cell breached the SLA due to congestion, with PRB up to 95%, latency 100–130 ms, and slow median downlink. We reviewed network counters and QoS trends to confirm the impact. An SLA incident was raised for capacity relief and we will continue monitoring through the next busy hour.",
+    "ar": "خلال نافذة الـ6 ساعات للحدث، خالفت خلية 5G NR الميكرو في الملعب اتفاقية الخدمة بسبب الازدحام، مع PRB حتى 95%، وتأخير 100–130 مللي ثانية، وتنزيل وسيطي بطيء. قمنا بمراجعة العدادات واتجاهات QoS لتأكيد التأثير. تم رفع بلاغ SLA لتخفيف السعة وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

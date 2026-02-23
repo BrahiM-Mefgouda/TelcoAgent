@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0003",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro cell shows 24% URLLC slice admission denials over the last 24h despite 61% resource use, ~28 slice requests/min, 52% slice utilization, 15 ms latency, and a strict threshold at 93.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تُظهر 24% رفض قبول لشريحة URLLC خلال آخر 24 ساعة رغم استخدام الموارد 61%، ~28 طلب/دقيقة، استغلال الشريحة 52%، زمن تأخير 15 مللي ثانية، وعتبة سياسة صارمة عند 93."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has elevated URLLC slice admission denials over the last 24h. Mixed hours, heavy eMBB streaming. Latency ~15 ms, PRB ~61%. Please investigate.",
+      "message_ar": "خلية NR ماكرو في منطقة حضرية لديها ارتفاع في رفض قبول شريحة URLLC خلال آخر 24 ساعة. أوقات مختلطة مع بث eMBB كثيف. زمن التأخير ~15 مللي ثانية، واستخدام PRB ~61%. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by reviewing operations counters for the last 24h to confirm admission denials and policy settings. Please confirm the target cell ID and approve read access.",
+      "message_ar": "سأبدأ بمراجعة عدادات النظام للتأكد من نسب الرفض وإعدادات السياسة خلال آخر 24 ساعة. يرجى تأكيد معرف الخلية المستهدفة والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_MACRO_231. Access approved for a 24h view.",
+      "message_ar": "معرف الخلية NR_MACRO_231. تم منح الموافقة لعرض 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Review complete: URLLC admission denials average 24% with ~28 requests/min. Slice utilization ~52%, cell load moderate (PRB 61%), no active alarms. URLLC admission threshold is high (93), likely causing avoidable rejections. I propose relaxing the admission policy slightly while keeping latency within 15 ms. Do you approve?",
+      "message_ar": "اكتملت المراجعة: متوسط رفض قبول URLLC عند 24% مع ~28 طلب/دقيقة. استغلال الشريحة ~52%، وحمل الخلية متوسط (PRB 61%)، ولا توجد إنذارات نشطة. عتبة القبول لـ URLLC مرتفعة (93) وقد تسبب رفضاً غير ضروري. أقترح تخفيف سياسة القبول قليلاً مع الحفاظ على زمن التأخير ضمن 15 مللي ثانية. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to adjust the URLLC admission policy with latency protection.",
+      "message_ar": "موافقة على تعديل سياسة قبول URLLC مع الحفاظ على حماية زمن التأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying change now: reduce admission threshold to 85 and enable a short-burst allowance; latency guardrail unchanged. Change applied cleanly.",
+      "message_ar": "جاري التطبيق: خفض عتبة القبول إلى 85 وتمكين سماح اندفاع قصير؛ حد الأمان لزمن التأخير دون تغيير. تم تطبيق التغيير بسلاسة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Any immediate effect on denials or latency?",
+      "message_ar": "تم. هل هناك تأثير فوري على الرفض أو زمن التأخير؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Early read (first 10 minutes): admission denials down to ~9–11%; request rate steady; latency stable at 14–16 ms. For traceability, I suggest recording this change. May I proceed?",
+      "message_ar": "قراءة أولية (10 دقائق الأولى): انخفضت حالات الرفض إلى ~9–11%؛ معدل الطلبات ثابت؛ زمن التأخير مستقر عند 14–16 مللي ثانية. لأغراض التتبع، أقترح توثيق هذا التغيير. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the record.",
+      "message_ar": "تفضل بتوثيق السجل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created: DU-SLICE-04217 for the URLLC policy update on NR_MACRO_231. I will continue observation and prepare a brief summary.",
+      "message_ar": "تم إنشاء السجل: DU-SLICE-04217 لتحديث سياسة URLLC على NR_MACRO_231. سأستمر بالمراقبة وأعد ملخصاً موجزاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: admission denials are trending down and latency remains stable. The action was a slice policy update. Let’s monitor through the next busy hour and update DU-SLICE-04217 afterward.",
+      "message_ar": "نلاحظ تحسناً: حالات رفض القبول تتناقص والزمن مستقر. الإجراء كان تحديث سياسة الشريحة. لنراقب خلال الساعة المزدحمة القادمة ونحدث DU-SLICE-04217 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy hour and post results to the ticket after the window. If denials rise or latency degrades, we will roll back the change or escalate to the core slicing team.",
+      "message_ar": "سنتولى مراقبة الساعة المزدحمة القادمة وننشر النتائج في التذكرة بعد انتهاء الفترة. إذا ارتفعت حالات الرفض أو تدهور الزمن، سنقوم بالرجوع عن التغيير أو التصعيد إلى فريق التقسيم الأساسي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_MACRO_231",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC",
+        "admission_threshold=85;burst_credit=on;latency_guardrail=15ms"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "DU-SLICE-04217: URLLC admission policy relaxed on NR_MACRO_231 after 24h review; denials 24% with headroom; monitoring next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated URLLC slice admission denials on an urban NR macro despite moderate load; the admission threshold was set too high. Reviewed recent counters, then updated the URLLC slice policy to relax the threshold and allow short bursts while maintaining latency guardrails. A change record was created and the site will be monitored through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع رفض قبول شريحة URLLC على خلية NR ماكرو حضرية رغم حمل متوسط؛ كانت عتبة القبول مرتفعة للغاية. تمت مراجعة العدادات الأخيرة ثم تحديث سياسة الشريحة لتخفيف العتبة والسماح باندفاعات قصيرة مع الحفاظ على حدود زمن التأخير. تم إنشاء سجل تغيير وسيتم مراقبة الموقع خلال الساعة المزدحمة القادمة."
+  }
+}

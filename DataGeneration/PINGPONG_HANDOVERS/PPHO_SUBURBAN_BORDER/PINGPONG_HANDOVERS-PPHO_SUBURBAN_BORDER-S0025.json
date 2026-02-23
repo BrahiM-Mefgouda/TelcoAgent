@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0025",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro cell shows high ping-pong handovers (23%) over the last 5 hours with handover success ~85%, moderate signal quality (SINR ~7 dB), and heavy resource use (~82% PRB) during shoulder eMBB streaming.",
+    "ar": "خلية ماكرو NR في منطقة سكنية تُظهر معدل تبديل متأرجح مرتفع (23%) خلال آخر 5 ساعات مع نجاح تسليم يقارب 85%، وجودة إشارة متوسطة (SINR حوالي 7 dB)، واستخدام موارد مرتفع (~82% PRB) خلال فترة الكتف مع بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector has ping-pong handovers rising to 23% in the last 5 hours. Handover success ~84.8%, RSRP ~-106 dBm, RSRQ ~-11 dB, SINR ~7 dB, users peaked at 217, PRB ~82%. No alarms.",
+      "message_ar": "قطاع ماكرو NR في منطقة سكنية لديه تبديل متأرجح وصل إلى 23% خلال آخر 5 ساعات. نجاح التسليم ~84.8%، RSRP حوالي -106 dBm، وRSRQ حوالي -11 dB، وSINR ~7 dB، وعدد المستخدمين بلغ الذروة عند 217، وPRB ~82%. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling OSS counters for the last 5 hours to verify mobility and neighbor relations contributing to ping-pong. Please share the serving cell ID and approve read access.",
+      "message_ar": "مفهوم. سأبدأ بسحب مؤشرات OSS لآخر 5 ساعات للتحقق من التنقل والعلاقات مع الخلايا المجاورة التي تساهم في التبديل المتأرجح. يرجى مشاركة معرف الخلية الخادمة والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-213-S1. Read access approved.",
+      "message_ar": "معرف الخلية: NR-SUB-213-S1. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot (5h) for NR-SUB-213-S1: ping-pong 23%, HO failures 13%, top oscillation with NR-SUB-214-S2 and NR-SUB-215-S1. Current settings: event margin 3 dB, time-to-trigger 212 ms, hysteresis 1 dB. Radio: RSRP ~-106 dBm, RSRQ ~-11 dB, SINR ~7 dB. Load: PRB ~82%, users up to 217. Next, I will review handover trends by neighbor to isolate the loops.",
+      "message_ar": "لقطة OSS (5 ساعات) للخلية NR-SUB-213-S1: التبديل المتأرجح 23%، إخفاقات التسليم 13%، أعلى تذبذب مع NR-SUB-214-S2 وNR-SUB-215-S1. الإعدادات الحالية: هامش الحدث 3 dB، زمن التفعيل 212 ms، والهيستريزيس 1 dB. الراديو: RSRP حوالي -106 dBm، RSRQ حوالي -11 dB، SINR ~7 dB. الحمل: PRB ~82%، والمستخدمون حتى 217. بعد ذلك سأراجع اتجاهات التسليم لكل جار لعزل الحلقات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes confirm a border near a shopping strip; users often streaming during shoulder hours.",
+      "message_ar": "ملاحظات الميدان تؤكد وجود حد تغطية قرب مجمع تسوق؛ المستخدمون غالبًا يبثّون خلال ساعات الكتف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding to analyze handover trends for NR-SUB-213-S1 over the same 5-hour window to pinpoint oscillation periods and neighbor pairs. Approve this check.",
+      "message_ar": "سأتابع تحليل اتجاهات التسليم للخلية NR-SUB-213-S1 خلال نفس نافذة 5 ساعات لتحديد فترات التذبذب وأزواج الجيران. يرجى الموافقة على هذا الفحص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend review shows short-cycle loops peaking during shoulder hours, primarily between NR-SUB-213-S1 ↔ NR-SUB-214-S2 and secondarily with NR-SUB-215-S1. To suppress ping-pong while preserving mobility, I propose a targeted mobility retune on these relations: slightly increase decision dwell time (~+70 ms), raise hysteresis by ~1 dB, and trim the event margin from 3 dB to ~2 dB. Confirm to implement now.",
+      "message_ar": "مراجعة الاتجاه تظهر حلقات قصيرة الذبذبة تبلغ ذروتها خلال ساعات الكتف، بشكل أساسي بين NR-SUB-213-S1 ↔ NR-SUB-214-S2 وبدرجة أقل مع NR-SUB-215-S1. للحد من التبديل المتأرجح مع الحفاظ على التنقل، أقترح إعادة ضبط انتقائية على هذه العلاقات: زيادة طفيفة في زمن اتخاذ القرار (~+70 ms)، رفع الهيستريزيس بحوالي 1 dB، وتقليل هامش الحدث من 3 dB إلى ~2 dB. يرجى التأكيد للتنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the change now.",
+      "message_ar": "تابع تنفيذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the mobility tuning to NR-SUB-213-S1 relations with NR-SUB-214-S2 and NR-SUB-215-S1. Change committed; initial post-check over 10 minutes shows ping-pong trending down toward ~15%, handover success improving toward ~89–90%, no rise in radio link failures, and load unchanged. I will continue to observe.",
+      "message_ar": "تطبيق ضبط التنقل على علاقات NR-SUB-213-S1 مع NR-SUB-214-S2 وNR-SUB-215-S1. تم اعتماد التغيير؛ الفحص الأولي خلال 10 دقائق يُظهر انخفاضًا في التبديل المتأرجح نحو ~15% وتحسنًا في نجاح التسليم نحو ~89–90% دون زيادة في فشل رابط الراديو، والحمل دون تغيير. سأستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer short loops and handover success improving. The parameter optimization appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "ألاحظ انخفاض الحلقات القصيرة وتحسن نجاح التسليم. يبدو أن تحسين المعلمات فعّال. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and report ping-pong rate, handover success, and any side effects. If degradation reappears, we’ll roll back to prior thresholds for the affected neighbors and escalate for deeper interference and coverage review.",
+      "message_ar": "تم الاستلام. سنراقب خلال ساعة الذروة القادمة ونبلغ عن معدل التبديل المتأرجح ونجاح التسليم وأي آثار جانبية. إذا ظهر تدهور من جديد، سنعيد القيم السابقة للحدود للجيران المتأثرين ونصعّد لمراجعة أعمق للتداخل والتغطية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated high ping-pong handovers on a suburban NR macro sector using recent OSS counters and handover trend analysis. Confirmed short-cycle loops with two neighbors during shoulder-hour load. Mitigated by targeted site parameter tuning on the affected relations (slightly higher dwell time, increased hysteresis, and a modest reduction in event margin), yielding immediate improvement in ping-pong rate and handover success.",
+    "ar": "تم التحقيق في ارتفاع التبديل المتأرجح على قطاع ماكرو NR في منطقة سكنية باستخدام مؤشرات OSS الحديثة وتحليل اتجاهات التسليم. تأكدت حلقات قصيرة مع جارين خلال حمل ساعات الكتف. جرى التخفيف عبر ضبط معلمات الموقع على العلاقات المتأثرة (زيادة طفيفة في زمن البقاء، رفع الهيستريزيس، وتقليل بسيط في هامش الحدث)، ما أدى إلى تحسن فوري في معدل التبديل المتأرجح ونجاح التسليم."
+  }
+}

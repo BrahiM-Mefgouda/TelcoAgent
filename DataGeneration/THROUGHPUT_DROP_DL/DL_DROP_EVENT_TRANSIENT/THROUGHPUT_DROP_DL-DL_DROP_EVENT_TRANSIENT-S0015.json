@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0015",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "In the stadium over the last 2 hours, the NR micro cell shows slow data with a congestion alarm, high load (~502 users) and interference/signal overlap (SINR ~3 dB), PRB ~89%, and DL throughput ~7 Mbps.",
+    "ar": "في الاستاد خلال آخر ساعتين، تُظهر خلية NR المصغّرة بطء بيانات مع إنذار ازدحام وحمل عالٍ (~502 مستخدم) وتداخل/تراكب إشارة (SINR ~3 dB)، وPRB ~89%، وسرعة تنزيل ~7 Mbps."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell shows downlink slow data over the last 2 hours with a congestion alarm. Users ~502, SINR ~3 dB, RSRQ -11 dB, DL ~7 Mbps during ingress; lots of video streaming.",
+      "message_ar": "خلية NR مصغّرة في الاستاد تُظهر بطء بيانات تنزيل خلال آخر ساعتين مع إنذار ازدحام. عدد المستخدمين ~502، نسبة SINR ~3 dB وRSRQ -11 dB، ومعدل تنزيل ~7 Mbps أثناء مرحلة الدخول؛ الكثير من بث الفيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start diagnostics: first pull recent cell counters/alarms for the last 2 hours, then review DL time-series, and apply mitigation if needed. Please confirm the cell ID and grant read/write access.",
+      "message_ar": "مفهوم. سأبدأ التشخيص: أولاً سأسحب عدادات الخلية والإنذارات لآخر ساعتين، ثم أراجع السلسلة الزمنية للتنزيل، وأطبّق التخفيف إذا لزم. يرجى تأكيد معرف الخلية ومنحي صلاحية قراءة/كتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-TRIBUNE-01. Access approved for read/write.",
+      "message_ar": "معرف الخلية هو NR-STAD-TRIBUNE-01. الموافقة ممنوحة للقراءة والكتابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initiating health/load check for NR-STAD-TRIBUNE-01 over the last 2 hours: PRB, DL user throughput, BLER, radio resource latency p95, and RF quality. Proceeding now.",
+      "message_ar": "أبدأ فحص الحالة/الحمولة للخلية NR-STAD-TRIBUNE-01 خلال آخر ساعتين: PRB، معدل تنزيل المستخدم، BLER، كمون موارد الراديو p95، وجودة RF. جارٍ التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: cell available but capacity-limited — PRB 88–90%, DL user throughput ~7 Mbps, BLER ~7%, SINR ~3 dB, resource-latency p95 ~108 ms, ~500 active users. Next, I will fetch DL throughput and PRB time series for the same 2-hour window to validate ingress correlation.",
+      "message_ar": "النتائج: الخلية متاحة لكنها محدودة السعة — PRB 88–90%، تنزيل المستخدم ~7 Mbps، BLER ~7%، SINR ~3 dB، كمون الموارد p95 ~108 مللي ثانية، ~500 مستخدم نشط. بعد ذلك سأجلب السلسلة الزمنية لمعدل التنزيل وPRB لنفس نافذة الساعتين للتحقق من ترابط الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series confirms a drop 17:40–18:55 aligned with ingress; DL fell 18→6–8 Mbps while PRB saturated and BLER spiked. I will mitigate by optimizing cell parameters to prioritize DL resource allocation under crowd load and harden against interference. Approve immediate apply?",
+      "message_ar": "السلسلة الزمنية تؤكد الهبوط بين 17:40–18:55 المتزامن مع الدخول؛ التنزيل انخفض من 18 إلى 6–8 Mbps مع تشبّع PRB وارتفاع BLER. سأخفّف عبر تحسين معلمات الخلية لإعطاء أولوية لتخصيص موارد التنزيل تحت الحمل وتعزيز الصمود ضد التداخل. هل توافق على التطبيق الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافق على التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: tuned DL resource allocation and fairness weights and increased robustness to interference; non-disruptive. Post-change verification is OK; starting a 15-minute observation.",
+      "message_ar": "تم التطبيق: ضبطنا تخصيص موارد التنزيل وأوزان الإنصاف وزدنا المتانة ضد التداخل؛ دون انقطاع. تحقق ما بعد التغيير ناجح؛ نبدأ مراقبة لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: average DL per user ~11 Mbps and lower radio resource delay; action taken was site parameter tuning. Monitor through the next busy hour.",
+      "message_ar": "يوجد تحسّن: متوسط تنزيل المستخدم ~11 Mbps وانخفاض تأخر موارد الراديو؛ الإجراء كان تحسين معلمات الموقع. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and report DL throughput, PRB load, BLER, and user experience afterward. If degradation returns, we will extend optimization to adjacent cells or roll back to the previous baseline.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ لاحقاً بسرعة التنزيل، حمولة PRB، BLER، وتجربة المستخدم. إذا عاد التدهور، سنوسّع التحسين إلى الخلايا المجاورة أو نرجع إلى الأساس السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-TRIBUNE-01",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-TRIBUNE-01",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL resource allocation/fairness tuning and interference mitigation for stadium ingress"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a stadium NR micro downlink slowdown as congestion with interference during the ingress period, validated by high PRB utilization, low SINR, and a DL time-series dip in the last 2 hours. Applied site parameter tuning to improve DL resource allocation and resilience to interference. We will monitor through the next busy hour to ensure stability.",
+    "ar": "تم تشخيص بطء التنزيل في خلية NR مصغّرة بالاستاد كازدحام مع تداخل خلال فترة الدخول، وذلك بناءً على ارتفاع PRB وانخفاض SINR وهبوط سلسلة زمنية للتنزيل خلال آخر ساعتين. تم تطبيق ضبط لمعلمات الموقع لتحسين تخصيص موارد التنزيل وتعزيز الصمود ضد التداخل. سنراقب خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

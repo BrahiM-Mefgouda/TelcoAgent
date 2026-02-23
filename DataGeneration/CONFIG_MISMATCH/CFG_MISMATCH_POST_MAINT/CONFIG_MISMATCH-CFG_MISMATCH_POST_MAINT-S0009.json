@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0009",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows 3 configuration mismatches detected ~6h after maintenance with moderate drift, a slight rise in handover failures (3%), BLER ~3.6%, PRB ~49%, and median downlink 27 Mbps affecting enterprise private users (including some streaming).",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحي تُظهر 3 اختلافات في الإعدادات اكتُشفت بعد ~6 ساعات من الصيانة مع انجراف متوسط، وارتفاع طفيف في فشل التسليم (3%)، وقيمة BLER ~3.6%، واستخدام PRB ~49%، ومعدل تنزيل وسطي 27 ميجابت/ث يؤثر على مستخدمي الشركات الخاصة (يشمل بعض البث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell had post-maintenance flags ~6h ago: 3 config mismatches, HO failures around 3%, BLER ~3.6%. PRB ~49% and median DL ~27 Mbps. Enterprise private traffic with some streaming. Please investigate.",
+      "message_ar": "تم رصد إشارات بعد الصيانة منذ ~6 ساعات في خلية ماكرو 5G NR بضواحي المدينة: 3 اختلافات إعدادية، فشل تسليم يقارب 3%، وBLER ~3.6%. استخدام PRB ~49% والتنزيل الوسطي ~27 ميجابت/ث. حركة شركات خاصة مع بعض البث. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with a live-vs-baseline audit over the last 24h to isolate the mismatches. Please confirm the cell ID and allow read access for that window.",
+      "message_ar": "سأبدأ بتدقيق بين الحالة الحية والخط الأساسي لآخر 24 ساعة لعزل الاختلافات. يرجى تأكيد معرّف الخلية والسماح بالوصول للقراءة لهذه الفترة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-203. Read access for the 24h window is approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-203. تم اعتماد وصول القراءة لفترة 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit completed. Found 3 mismatches: (1) HO Event A3 offset live=2 dB vs baseline=4 dB, (2) SSB burst periodicity live=20 ms vs baseline=5 ms, (3) missing neighbor relation to NCI 5023 expected in the template. These explain the HO failures/BLER uptick. I recommend aligning to baseline. Approve change?",
+      "message_ar": "تم إكمال التدقيق. وُجدت 3 اختلافات: (1) إزاحة حدث التسليم A3 بالحالة الحية=2 dB مقابل الخط الأساسي=4 dB، (2) دورية حزمة SSB بالحالة الحية=20 مللي ثانية مقابل الخط الأساسي=5 مللي ثانية، (3) علاقة جار مفقودة مع NCI 5023 متوقعة في القالب. هذا يفسّر ارتفاع فشل التسليم/‏BLER. أوصي بالمواءمة مع الخط الأساسي. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to align with the baseline now.",
+      "message_ar": "موافق على المواءمة مع الخط الأساسي الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will take a backup of current settings and prepare the corrected set for NR-SUB-203. Any constraints from the enterprise tenant I should be aware of?",
+      "message_ar": "سآخذ نسخة احتياطية من الإعدادات الحالية وأجهّز المجموعة المصححة للخلية NR-SUB-203. هل توجد قيود من جهة عميل الشركة يجب أن أعلم بها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No additional constraints. Proceed.",
+      "message_ar": "لا توجد قيود إضافية. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing alignment: restoring A3 offset to 4 dB, setting SSB periodicity to 5 ms, and adding the neighbor relation to NCI 5023. Push completed successfully; live state matches the baseline.",
+      "message_ar": "أقوم بتنفيذ المواءمة: إعادة إزاحة A3 إلى 4 dB، ضبط دورية SSB إلى 5 مللي ثانية، وإضافة علاقة الجار مع NCI 5023. تم إكمال الدفع بنجاح؛ الحالة الحية الآن مطابقة للخط الأساسي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: handover failures trending down and BLER slightly improved in the last 10 minutes.",
+      "message_ar": "المؤشرات الأولية أفضل: فشل التسليم في اتجاه هبوطي وBLER تحسن قليلاً خلال آخر 10 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will create a change-tracking record with before/after snapshots and continue to observe short-term stability.",
+      "message_ar": "جيد. سأُنشئ سجل متابعة للتغيير مع لقطات قبل/بعد وسأواصل مراقبة الاستقرار قصير المدى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed—handover failures trending down. Action taken: configuration push to realign with the baseline. Let’s monitor through the next busy hour; reference DU-CFG-01873.",
+      "message_ar": "تمت ملاحظة تحسن — حالات فشل التسليم في اتجاه هبوطي. الإجراء المُتخذ: دفع الإعدادات لإعادة المواءمة مع الخط الأساسي. لنراقب خلال ساعة الذروة القادمة؛ المرجع DU-CFG-01873."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and update the ticket after the window. If regression appears, we will roll back to the backup and isolate the specific change; if issues persist, we will escalate for a field check.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. في حال حدوث تراجع، سنعود إلى النسخة الاحتياطية ونعزل التغيير المحدد؛ وإذا استمرت المشاكل، سنصعّد لإجراء فحص ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Post-maintenance audit identified three live-vs-baseline configuration mismatches causing a mild rise in handover failures and BLER. We aligned the cell to the baseline via a configuration push and opened a tracking ticket. We will monitor during the next busy hour to verify stability and revert if any regression is observed.",
+    "ar": "كشف تدقيق ما بعد الصيانة عن ثلاثة اختلافات بين الإعدادات الحية والخط الأساسي تسببت في ارتفاع طفيف بفشل التسليم وBLER. قمنا بمواءمة الخلية مع الخط الأساسي عبر دفع الإعدادات وفتحنا تذكرة متابعة. سنراقب خلال ساعة الذروة القادمة للتحقق من الاستقرار والرجوع في حال ظهور أي تراجع."
+  }
+}

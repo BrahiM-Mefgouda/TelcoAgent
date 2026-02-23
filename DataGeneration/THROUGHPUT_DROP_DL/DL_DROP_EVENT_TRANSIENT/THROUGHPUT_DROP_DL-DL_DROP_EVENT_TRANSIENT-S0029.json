@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0029",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium 5G NR micro cell reports slow data over the last 2h with a congestion alarm, severe interference / signal overlap (SINR ~1 dB), PRB ~91%, and DL throughput ~4 Mbps.",
+    "ar": "خلية مايكرو 5G NR في الملعب تُظهر بطء بيانات خلال آخر ساعتين مع إنذار ازدحام، وتداخل/تراكب إشارة شديد (SINR ~1 dB)، واستغلال PRB ~91%، ومعدل تنزيل ~4 Mbps."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium 5G NR micro cell shows a downlink slowdown in the last 2h during egress; congestion alarm is active. DL ~4 Mbps, PRB ~91%, SINR ~1 dB, RSRQ -10 dB, BLER ~6%, p95 queueing delay 58 ms, ~420 users with heavy streaming.",
+      "message_ar": "خلية مايكرو 5G NR في الملعب تشهد هبوطاً في سرعة التنزيل خلال آخر ساعتين وقت خروج الجماهير؛ إنذار الازدحام مفعل. معدل التنزيل ~4 Mbps، استغلال PRB ~91%، SINR ~1 dB، RSRQ -10 dB، BLER ~6%، تأخر صفوف p95 يبلغ 58 ms، وعدد المستخدمين ~420 مع بث كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will run a 2-step diagnosis then apply a targeted optimization: 1) pull last 2h counters and health, 2) chart DL trends to confirm the drop pattern; then tune site parameters to relieve congestion under interference. Please confirm the cell_id and permit read/write access for this window.",
+      "message_ar": "مفهوم. سأجري تشخيصاً من خطوتين ثم أطبق تحسيناً موجهاً: 1) سحب مؤشرات الساعتين الماضيتين وحالة الصحة، 2) رسم اتجاهات التنزيل لتأكيد نمط الهبوط؛ ثم ضبط معايير الموقع لتخفيف الازدحام في ظل التداخل. يرجى تأكيد معرف الخلية والسماح بنفاذ قراءة/كتابة لهذه الفترة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell_id: NR-STAD-05-MICRO-1. Read/write access approved for the next 2h.",
+      "message_ar": "معرف الخلية: NR-STAD-05-MICRO-1. تمت الموافقة على نفاذ القراءة/الكتابة للساعتين القادمتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 2h counters: PRB utilization 88–96% peaking during egress; median DL UE throughput 3–5 Mbps; BLER 5–8%; interference remains high (SINR 0–2 dB, RSRQ ~ -10 dB). No hardware or backhaul faults; CPU normal; users peaked ~440. Confirms congestion with interference.",
+      "message_ar": "تم سحب مؤشرات الساعتين: استغلال PRB بين 88–96% مع ذروة وقت خروج الجماهير؛ متوسط تنزيل المستخدم 3–5 Mbps؛ BLER بين 5–8%؛ التداخل مرتفع (SINR بين 0–2 dB و RSRQ نحو -10 dB). لا أعطال عتادية أو خلفية نقل؛ المعالج طبيعي؛ المستخدمون بلغوا الذروة ~440. يؤكد ازدحاماً مع تداخل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time trend over 2h vs. prior day shows DL collapse after ~18:10 while PRB saturates and queueing delay rises to ~55–60 ms; BLER moderate and stable. This is load-driven with low SINR limiting capacity.",
+      "message_ar": "اتجاهات الزمن خلال ساعتين مقابل اليوم السابق تُظهر انهيار التنزيل بعد ~18:10 مع تشبّع PRB وارتفاع تأخر الصفوف إلى ~55–60 ms؛ BLER معتدل ومستقر. المشكلة ناجمة عن الحمل، مع SINR منخفض يحدّ السعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "That matches onsite reports from the post-event egress.",
+      "message_ar": "هذا يتطابق مع تقارير الموقع بعد انتهاء الفعالية وخروج الحشود."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply live parameter tuning to rebalance PRBs across users, tighten admission/load thresholds, and cap per-UE bursts under low SINR to reduce contention. Changes are minor and reversible. Approve to proceed now?",
+      "message_ar": "الخطة: تطبيق ضبط مباشر للمعايير لإعادة موازنة PRB بين المستخدمين، تشديد عتبات الإدخال/الحمل، وتحديد حد لمعدلات الاندفاع لكل مستخدم في ظل SINR منخفض لتقليل التزاحم. التغييرات طفيفة وقابلة للرجوع. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied and confirmed. After ~10 minutes: PRB down to 82–85%, median DL now 9–12 Mbps, p95 queueing delay ~34 ms, BLER ~5–6%, SINR ~1–2 dB (unchanged). Serving ~390 users. DL performance is recovering for event traffic.",
+      "message_ar": "تم تطبيق التحسين والتأكيد. بعد ~10 دقائق: انخفض استغلال PRB إلى 82–85%، وأصبح متوسط التنزيل 9–12 Mbps، وتأخر الصفوف p95 ~34 ms، وBLER ~5–6%، وSINR ~1–2 dB (غير متغير). يتم خدمة ~390 مستخدماً. أداء التنزيل في تحسّن لحركة الحدث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will keep watching the counters for the next 15–20 minutes; please share any immediate user-experience feedback from the venue.",
+      "message_ar": "سأواصل متابعة المؤشرات خلال الـ15–20 دقيقة القادمة؛ يرجى مشاركة أي ملاحظات فورية عن تجربة المستخدم من الموقع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "User experience is improving; slow data complaints are down. Downlink rates are higher and queueing delay is trending down after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسنت تجربة المستخدم؛ الشكاوى من بطء البيانات انخفضت. معدلات التنزيل أعلى وتأخر الصفوف في اتجاه نزولي بعد ضبط معايير الموقع. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and provide an update after the window. If degradation returns, we will escalate to load balancing actions and roll back the tuning if it worsens conditions.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً بعد انتهاء الفترة. إذا عاد التدهور، سنصعّد إلى إجراءات موازنة الحمل وسنرجع عن الضبط إذا ساءت الحالة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During stadium egress, the 5G NR micro cell experienced PRB saturation with low SINR interference, causing a downlink throughput drop. We validated the condition with recent counters and DL time trends, then executed site parameter tuning to rebalance resources and moderate per-UE bursts under low SINR. Post-change, PRB eased to the mid‑80s and median DL improved toward 10 Mbps; we will monitor through the next busy hour.",
+    "ar": "أثناء خروج الجماهير في الملعب، عانت خلية 5G NR المايكرو من تشبّع PRB مع SINR منخفض وتداخل، ما تسبب في هبوط سرعة التنزيل. قمنا بالتحقق عبر مؤشرات حديثة واتجاهات التنزيل، ثم نفذنا ضبطاً لمعايير الموقع لإعادة موازنة الموارد وتخفيف اندفاع المعدلات لكل مستخدم في ظل SINR منخفض. بعد التعديل، انخفض استغلال PRB إلى منتصف الثمانينيات وتحسن متوسط التنزيل إلى نحو 10 Mbps؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

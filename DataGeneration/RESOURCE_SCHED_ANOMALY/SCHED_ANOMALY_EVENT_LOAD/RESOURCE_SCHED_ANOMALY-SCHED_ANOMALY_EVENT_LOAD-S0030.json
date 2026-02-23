@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0030",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell shows a congestion alarm over the last 3h with high PRB use, slow data, and interference/signal overlap; investigate resource allocation anomaly and stabilize throughput?",
+    "ar": "خلية NR صغيرة في ملعب عليها إنذار ازدحام خلال آخر 3 ساعات مع استخدام PRB مرتفع وبطء البيانات وتداخل/تراكب الإشارة؛ هل يمكن التحقيق في خلل توزيع الموارد واستقرار معدل النقل؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell NR-STAD-MICRO-1 has a congestion alarm over the last 3h; users report slow data, SINR ~2 dB and RSRQ -16 dB. Please assist.",
+      "message_ar": "الخلية NR-STAD-MICRO-1 (NR صغيرة في الملعب) عليها إنذار ازدحام خلال آخر 3 ساعات؛ المستخدمون يبلغون عن بطء البيانات، مع SINR حوالي 2 dB وRSRQ ‏-16 dB. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will run a 3h health check on NR-STAD-MICRO-1 to validate a resource allocation anomaly under heavy load and interference/signal overlap; approve read access?",
+      "message_ar": "تم الاستلام. سأجري فحصاً لحالة آخر 3 ساعات على NR-STAD-MICRO-1 للتحقق من خلل في توزيع الموارد تحت الحمل المرتفع وتداخل/تراكب الإشارة؛ هل توافق على صلاحية القراءة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed for the last 3h.",
+      "message_ar": "موافق؛ تفضل واستعرض آخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Recent stats confirm high load: PRB ~95%, 683 users, DL queueing p95 ~87 ms; best-effort share 59% vs high-priority 12%; fairness index low. Next, I will review PRB time series over 3h to confirm burst patterns and imbalance.",
+      "message_ar": "الإحصاءات الحديثة تؤكد حملاً عالياً: PRB ~95%، 683 مستخدماً، زمن انتظار DL p95 ~87 مللي ثانية؛ حصة أفضلية منخفضة (12%) مقابل حركة أفضل جهد (59%)؛ انخفاض في مؤشر العدالة. تالياً سأراجع سلسلة زمنية لـ PRB خلال 3 ساعات لتأكيد أنماط الاندفاع والاختلال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "PRB series shows sustained >90% with spikes; allocation skew ~41; p50 throughput ~5 Mbps with a wide tail; spikes align with eMBB streaming. This confirms allocator imbalance under congestion and interference. Requesting approval to apply targeted parameter tuning (fairness weights, modest priority uplift, per-UE burst cap, small control reserve).",
+      "message_ar": "السلسلة الزمنية لـ PRB تُظهر بقاءه فوق 90% مع طفرات؛ انحراف التخصيص ~41؛ وسيط المعدل ~5 Mbps مع ذيل واسع؛ الطفرات تتماشى مع بث eMBB. هذا يؤكد اختلال الموزّع تحت الازدحام والتداخل. أطلب الموافقة لتطبيق ضبط معلمات موجّه (أوزان العدالة، رفع بسيط لأولوية التدفق العالي، حد للاندفاع لكل مستخدم، واحتياطي صغير للتحكم)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: tuned allocator fairness weights, slight boost for high-priority flows, enabled per-UE burst cap, and reserved a small PRB slice for control. No restarts. Monitoring immediate impact for 10–15 minutes.",
+      "message_ar": "تم التطبيق: ضبط أوزان عدالة الموزّع، تعزيز طفيف للتدفقات ذات الأولوية العالية، تفعيل حد الاندفاع لكل مستخدم، وحجز جزء صغير من PRB للتحكم. دون إعادة تشغيل. أتابع الأثر الفوري لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: fairness index up to ~0.56, median throughput ~7–8 Mbps, p95 DL queueing ~60 ms; load remains high.",
+      "message_ar": "الملاحظة الأولية: مؤشر العدالة ارتفع إلى ~0.56، وسيط المعدل ~7–8 Mbps، وزمن انتظار DL p95 حوالي 60 مللي ثانية؛ الحمل ما زال مرتفعاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good response under load. Keep the tuning; we’ll continue observing stability while the event is ongoing.",
+      "message_ar": "استجابة جيدة تحت الحمل. سنُبقي الضبط وسنواصل متابعة الاستقرار طوال فترة الحدث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement persists; DL queueing is trending down and slow data complaints are fewer after allocator parameter tuning. Let's monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر؛ زمن انتظار DL يتناقص وشكاوى بطء البيانات أقل بعد ضبط معلمات الموزّع. لنتابع خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Summary: we ran a 3h health check, analyzed PRB trends, and applied allocator tuning. We will monitor through the next busy hour and share an update afterward. If metrics regress, we will escalate to RF interference mitigation or roll back the tuning.",
+      "message_ar": "الملخّص: أجرينا فحصاً لآخر 3 ساعات، حلّلنا اتجاهات PRB، وطبّقنا ضبطاً للموزّع. سنراقب خلال ساعة الذروة التالية ونشارك تحديثاً بعدها. إذا تراجعت المؤشرات، سنصعّد لمعالجة التداخل مع فريق RF أو نعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-1",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation imbalance on a stadium NR micro cell during an in-event surge, evidenced by very high PRB utilization, low fairness, and elevated DL queueing amid interference. Findings were validated via recent stats and PRB time series. Mitigated with site parameter tuning to improve allocator fairness, adjust priority weighting, and cap per-UE bursts; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص اختلال في توزيع الموارد على خلية NR صغيرة في الملعب أثناء ذروة الحدث، ويتضح ذلك من ارتفاع استخدام PRB وانخفاض العدالة وارتفاع زمن انتظار DL مع وجود تداخل. تم تأكيد النتائج عبر الإحصاءات الحديثة والسلسلة الزمنية لـ PRB. تمت المعالجة عبر ضبط معلمات الموقع لتحسين عدالة الموزّع وتعديل أوزان الأولوية وتحديد اندفاع كل مستخدم؛ وتستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

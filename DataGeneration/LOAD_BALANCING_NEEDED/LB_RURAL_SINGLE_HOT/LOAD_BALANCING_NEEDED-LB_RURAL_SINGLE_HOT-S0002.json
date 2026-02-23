@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0002",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural 5G macro cell shows a hot-spot with slow data (median ~4 Mbps) over the last 6h while neighbors are lightly loaded (~39% PRB), indicating load balancing is needed.",
+    "ar": "خلية 5G ماكرو ريفية تُظهر نقطة ضغط مع بيانات بطيئة (الوسيط ~4 Mbps) خلال آخر 6 ساعات بينما الجيران منخفضو الإشغال (~39% PRB)، مما يشير إلى الحاجة لموازنة الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NR-Cell-4821 has been hot for the last 6h: PRB ~84%, 199 users, median DL ~4 Mbps; neighbors average ~39% PRB. SINR ~16 dB, RSRQ -7 dB. Mixed hours with eMBB streaming complaints. Please review.",
+      "message_ar": "الخلية NR-Cell-4821 (ماكرو ريفية) كانت ساخنة خلال آخر 6 ساعات: استخدام PRB ~84%، 199 مستخدمًا، وسيط الداونلينك ~4 Mbps؛ متوسط الجيران ~39% PRB. قيمة SINR ~16 dB و RSRQ -7 dB. ساعات مختلطة مع شكاوى eMBB (بث). الرجاء المراجعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a neighbor audit to confirm load gaps and mobility behavior, then proceed with targeted load-balancing tuning if warranted. Please approve access to NR-Cell-4821 and its neighbors for the last 6h.",
+      "message_ar": "تم. سأبدأ بتدقيق الجيران للتحقق من فجوات الحمل وسلوك التنقل، ثم أتابع بضبط موجّه لموازنة الحمل إذا لزم. برجاء الموافقة على الوصول إلى NR-Cell-4821 وجيرانها لآخر 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell: NR-Cell-4821. Neighbors: NR-Cell-4822, NR-Cell-4823, NR-Cell-4824.",
+      "message_ar": "الوصول مُعتمد. الخلية: NR-Cell-4821. الجيران: NR-Cell-4822 و NR-Cell-4823 و NR-Cell-4824."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the neighbor audit now. Findings: neighbors at 30–45% PRB with good radio quality; inter-site ≈6.3 km, clean overlaps, no PCI/Xn issues. Mobility now: CIO 0 dB, A3 offset 2 dB with 2 dB hysteresis; load-based HO is disabled. Imbalance confirmed. I propose: CIO +3 dB toward 4822/4823, reduce hysteresis by 1 dB, enable load-based HO with trigger at 75% and target share 60/20/20. Approve to implement?",
+      "message_ar": "أجري تدقيق الجيران الآن. النتائج: الجيران عند 30–45% PRB مع جودة راديوية جيدة؛ مسافات المواقع ≈6.3 كم وتداخلات نظيفة ولا توجد مشكلات PCI/Xn. إعدادات التنقل الحالية: CIO = 0 dB، تعويض A3 = 2 dB مع هيستريسيس 2 dB؛ موازنة الحمل عبر التسليم غير مفعلة. عدم الاتزان مؤكد. أقترح: زيادة CIO بمقدار +3 dB نحو 4822/4823، خفض الهيستريسيس بمقدار 1 dB، وتفعيل التسليم المعتمد على الحمل عند 75% مع توزيع مستهدف 60/20/20. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed load-balancing changes.",
+      "message_ar": "موافَق على تنفيذ تغييرات موازنة الحمل المقترحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan to execute now: apply CIO +3 dB toward 4822/4823, reduce HO hysteresis by 1 dB, and enable load-based HO with a 75% trigger, aiming to offload ~20–25% from 4821. No user impact expected. Confirm to proceed.",
+      "message_ar": "خطة التنفيذ الآن: تطبيق CIO +3 dB نحو 4822/4823، خفض هيستريسيس التسليم بمقدار 1 dB، وتفعيل التسليم المعتمد على الحمل بعتبة 75% بهدف تفريغ ~20–25% من 4821. لا يُتوقع تأثير على المستخدمين. أكد المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—proceed now.",
+      "message_ar": "تم التأكيد—تابع الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing the parameter changes and committing. Completed: CIO shifted toward 4822/4823, hysteresis reduced, load-based HO enabled at 75% with balanced targets. I will track HO out/in rates, PRB, and user distribution in the next intervals.",
+      "message_ar": "أُنفِّذ تغييرات المعلمات وتم الاعتماد. تم: إزاحة CIO نحو 4822/4823، خفض الهيستريسيس، وتفعيل التسليم المعتمد على الحمل عند 75% بأهداف متوازنة. سأتابع معدلات الخروج/الدخول للتسليم، واستخدام PRB، وتوزيع المستخدمين في الفترات القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: active users on 4821 down to ~170, PRB ~72%; neighbors 4822/4823 up to ~50–55%. Median DL improving to ~6 Mbps.",
+      "message_ar": "ملاحظة أولية: المستخدمون النشطون على 4821 انخفضوا إلى ~170، وPRB إلى ~72%؛ الجيران 4822/4823 ارتفعوا إلى ~50–55%. وسيط الداونلينك يتحسن إلى ~6 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change checks show higher HO-out with stable failures, no alarms, and normal DL processing latency. I will continue watching for additional offload as traffic builds.",
+      "message_ar": "فحوصات ما بعد التغيير تُظهر زيادة في الخروج بالتسليم مع ثبات الإخفاقات، دون إنذارات، وزمن معالجة الداونلينك طبيعي. سأواصل المتابعة لأي تفريغ إضافي مع ارتفاع الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: utilization is trending down and slow data complaints are easing. The load-balancing parameter tuning looks effective. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: استخدام الموارد يتجه للانخفاض وشكاوى بطء البيانات تتراجع. يبدو أن ضبط معلمات موازنة الحمل فعّال. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own the next busy-hour monitoring and update on PRB, user distribution, and median throughput. If congestion returns or KPIs regress, we will roll back the offsets/hysteresis and consider a conservative tilt adjustment; otherwise we keep the tuning.",
+      "message_ar": "مفهوم. سنتولى مراقبة ساعة الذروة القادمة وتحديث حالة PRB وتوزيع المستخدمين والوسيط عبر السرعة. إذا عاد الازدحام أو تراجعت المؤشرات، سنُرجع الإزاحات/الهيستريسيس وننظر في تعديل بسيط للميل؛ وإلا سنُبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural 5G macro hot cell with slow data and underutilized neighbors. A neighbor audit confirmed no conflicts and that load-based handover was off; we executed site parameter tuning (CIO shifts toward two neighbors, reduced hysteresis, enabled load-based handover) to offload traffic. Early results show lower utilization on the hot cell and improved median throughput; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص خلية ماكرو 5G ريفية ساخنة مع بيانات بطيئة وجيران منخفضي الإشغال. أكد تدقيق الجيران عدم وجود تعارضات وأن التسليم المعتمد على الحمل كان غير مفعل؛ نفّذنا ضبط معلمات الموقع (إزاحة CIO نحو جارين، خفض الهيستريسيس، وتفعيل التسليم المعتمد على الحمل) لتفريغ الحركة. تظهر النتائج الأولية انخفاضاً في الاستخدام على الخلية الساخنة وتحسناً في الوسيط عبر السرعة؛ سنراقب خلال ساعة الذروة القادمة."
+  }
+}

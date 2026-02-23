@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0028",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell shows high BLER (~20%) over the last 2 hours during peak, with SINR ~0 dB indicating interference/signal overlap and p50 throughput ~5 Mbps causing slow data; an alarm is active.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تُظهر BLER مرتفعاً (~20%) خلال آخر ساعتين أثناء الذروة، مع SINR حوالي 0 ديسيبل مما يشير إلى تداخل/تراكب إشارات، ومعدل تنزيل وسطي ~5 ميجابت/ث يسبب بطئ البيانات؛ يوجد إنذار مفعل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 2 hours at peak shows ~20% BLER, SINR ~0 dB, RSRP -106 dBm, RSRQ -11 dB, and p50 throughput ~5 Mbps. Users report slow streaming. An alarm is active.",
+      "message_ar": "خلية NR ماكرو في منطقة الضواحي خلال آخر ساعتين أثناء الذروة تُظهر BLER ~20%، وSINR ~0 ديسيبل، وRSRP -106 dBm، وRSRQ -11 dB، ومعدل تنزيل وسطي ~5 ميجابت/ث. المستخدمون يبلّغون عن تباطؤ في بث الفيديو. يوجد إنذار فعّال."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling 2h health counters to validate BLER, PRB load, and interference indicators. Please share the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بسحب عدادات الحالة لآخر ساعتين للتحقق من BLER وحِمل PRB ومؤشرات التداخل. يرجى مشاركة معرّف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-045-1. Read-only access approved. Neighbor load looks high around 80%.",
+      "message_ar": "معرّف الخلية: NR-SUB-045-1. تمت الموافقة على الوصول للقراءة فقط. حمل الجيران يبدو مرتفعًا حوالي 80%."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check confirms: DL BLER averaging 19–21% with bursty spikes; PRB utilization ~78%; neighbor load ~80%; about 208 users; median throughput ~5 Mbps. This points to peak-hour intercell interference. Next, I’ll chart the BLER time series over 2h to isolate burst patterns and correlation with neighbor load—proceed?",
+      "message_ar": "فحص OSS يؤكد: متوسط BLER على الوصلة الهابطة 19–21% مع ارتفاعات اندفاعية؛ استخدام PRB ~78%؛ حمل الجيران ~80%؛ حوالي 208 مستخدمين؛ ومعدل تنزيل وسطي ~5 ميجابت/ث. هذا يشير إلى تداخل بين الخلايا في ساعة الذروة. التالي، سأرسم سلسلة زمنية لـ BLER خلال ساعتين لعزل نمط الاندفاع والارتباط بحمل الجيران—أتقدم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows BLER spikes coincident with low-SINR windows and high neighbor PRB; errors are concentrated on downlink data, consistent with interference bursts rather than coverage holes. I propose parameter tuning now: tighten inter-cell interference coordination, increase control-channel robustness for edge users, lightly cap DL MCS under congestion, and a small DMRS power boost. Expect a minor capacity trade-off for lower errors. Approve?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاعات BLER متزامنة مع فترات SINR منخفضة وحِمل PRB مرتفع لدى الجيران؛ الأخطاء مركزة على بيانات الوصلة الهابطة، بما يتماشى مع اندفاعات تداخل وليس فجوات تغطية. أقترح تنفيذ ضبط معلمات الآن: تشديد تنسيق التداخل بين الخلايا، زيادة متانة قناة التحكم لمستخدمي الحافة، تقييدًا طفيفًا لـ MCS في الازدحام، وزيادة بسيطة لطاقة DMRS. من المتوقع مقايضة طفيفة في السعة مقابل أخطاء أقل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "موافق على تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization applied and committed. Expect BLER reduction within the next 5–10 minutes; I’ll watch immediate counters and recent logs for regression.",
+      "message_ar": "تم تطبيق تحسين المعلمات واعتماده. من المتوقع انخفاض BLER خلال 5–10 دقائق القادمة؛ سأراقب العدادات الفورية والسجلات القريبة للكشف عن أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: BLER has dropped to about 8–10%, retransmissions are down, and user throughput is improving.",
+      "message_ar": "ملاحظة أولية: انخفض BLER إلى حوالي 8–10%، وانخفضت الإعادات، ويتحسن معدل تنزيل المستخدمين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. Neighbor interference remains moderate; we’ll continue observing during busy usage. If BLER stays above target, we can plan coordinated neighbor retuning in a later window; otherwise keep current settings.",
+      "message_ar": "اتجاه جيد. تداخل الجيران ما زال متوسطًا؛ سنواصل المراقبة أثناء الاستخدام المزدحم. إذا بقي BLER أعلى من الهدف، يمكننا التخطيط لإعادة ضبط منسقة مع الجيران في نافذة لاحقة؛ وإلا سنحافظ على الإعدادات الحالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: BLER trending down with fewer retransmissions; slow data complaints easing after the parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة التحسن: BLER في اتجاه هبوطي مع إعادات أقل؛ وشكاوى بطء البيانات تتراجع بعد ضبط المعلمات. دعونا نتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and report BLER, SINR, and throughput. If degradation returns, we will escalate to coordinated neighbor tuning; if adverse effects appear, we will roll back to the previous parameters. Summary: validated the issue with 2h counters, confirmed bursty BLER via time series, and applied interference-mitigation parameter tuning; early results show lower BLER and better user experience.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تقريرًا عن BLER وSINR ومعدل التنزيل. إذا عاد التدهور سنصعّد إلى ضبط منسق مع الجيران؛ وإذا ظهرت آثار جانبية سنعود إلى المعلمات السابقة. الملخص: تم التحقق من المشكلة عبر عدادات ساعتين، وتأكيد BLER الاندفاعي عبر السلسلة الزمنية، وتطبيق ضبط معلمات لتخفيف التداخل؛ والنتائج الأولية تُظهر BLER أقل وتجربة مستخدم أفضل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A BLER anomaly during peak hours was confirmed with 2-hour counters and a BLER time series, which showed bursty errors aligned with low SINR and high neighbor load, indicating intercell interference. The agent applied site parameter tuning to strengthen interference coordination and downlink robustness with a minor capacity trade-off. Early results show BLER reduction and improved user throughput, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تأكيد شذوذ BLER خلال ساعات الذروة باستخدام عدادات ساعتين وسلسلة زمنية لـ BLER أظهرت أخطاء اندفاعية متزامنة مع SINR منخفض وحمل مرتفع لدى الجيران، ما يدل على تداخل بين الخلايا. قام الوكيل بتطبيق ضبط معلمات للموقع لتعزيز تنسيق التداخل ومتانة الوصلة الهابطة مع مقايضة طفيفة في السعة. تظهر النتائج الأولية انخفاضًا في BLER وتحسنًا في معدل تنزيل المستخدمين، وسيتم مراقبة الخلية خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0003",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban 5G NR macro cell under shoulder-hour eMBB demand shows high resource use (~85% with 301 users), neighbors are lighter (~46% avg), handovers skew outward, and radio quality is moderate; load balancing is needed.",
+    "ar": "خلية ماكرو NR حضرية خلال فترة الكتف ومع طلب eMBB تُظهر استخداماً مرتفعاً للموارد (~85% مع 301 مستخدم)، بينما الجيران أخف حملاً (~46% متوسط)، وتسليمات منحازة للخارج وجودة راديو متوسطة؛ هناك حاجة لموازنة الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell shows sustained high resource use (~85%) with 301 users during shoulder hours; neighbors average ~46% and handovers skew outward (31 out vs 18 in per 5 min). No alarms; radio quality moderate (RSRQ -9 dB, SINR 7 dB). Please review for load balancing.",
+      "message_ar": "خلية ماكرو NR حضرية تُظهر استخداماً مرتفعاً مستمراً (~85%) مع 301 مستخدم خلال فترة الكتف؛ متوسط الجيران ~46% وتسليمات منحازة إلى الخارج (31 خروج مقابل 18 دخول كل 5 دقائق). لا توجد إنذارات؛ جودة الراديو متوسطة (RSRQ -9 ديسيبل، SINR 7 ديسيبل). يرجى المراجعة لتحقيق موازنة الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will audit neighbor relations and load distribution over the last 4 hours to confirm offload opportunities; please approve access to the cell and adjacent sectors.",
+      "message_ar": "تم الاستلام. سأدقق علاقات الجيران وتوزيع الحمل خلال آخر 4 ساعات لتأكيد فرص التفريغ؛ يرجى الموافقة على الوصول إلى الخلية والقطاعات المجاورة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Use NR_MACRO_3101 and adjacent macros for the 4-hour window.",
+      "message_ar": "موافق. استخدم NR_MACRO_3101 والماكرو المجاورة ضمن نافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit indicates neighbors N1/N2/N3 at 40–55% utilization with normal quality; mobility bias toward them is neutral and load-based steering is conservative. The cell is carrying heavy eMBB streaming. A targeted 10–15% offload is feasible.",
+      "message_ar": "يشير التدقيق إلى أن الجيران N1/N2/N3 عند استخدام 40–55% مع جودة طبيعية؛ الانحياز نحوهم محايد والتوجيه المعتمد على الحمل محافظ. الخلية تحمل حركة eMBB كثيفة. تفريغ موجّه بنسبة 10–15% ممكن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: apply a small negative bias toward the three least‑loaded neighbors and slightly increase load‑aware handover aggressiveness, capped around 15% offload; timers unchanged to avoid ping‑pong. Proceed?",
+      "message_ar": "الاقتراح: تطبيق انحياز طفيف سالب نحو الجيران الأقل حملاً الثلاثة وزيادة طفيفة في عدوانية التسليم المعتمد على الحمل، بحد يقارب 15% للتفريغ؛ دون تغيير المؤقتات لتفادي التذبذب. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied to neighbor biases and load-based steering for NR_MACRO_3101 with a safety cap. I will watch PRB, handover balance, and quality for early effects over the next 30–60 minutes.",
+      "message_ar": "تم تطبيق التعديل على انحيازات الجيران والتوجيه المعتمد على الحمل لِـ NR_MACRO_3101 مع حد أمان. سأراقب PRB وتوازن التسليم والجودة لرصد الأثر المبكر خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes, PRB eased to 76–78%; neighbors rose to ~50–58%. Handover failures remain stable.",
+      "message_ar": "بعد ~20 دقيقة، انخفض PRB إلى 76–78%؛ وارتفع لدى الجيران إلى ~50–58%. إخفاقات التسليم مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. Please confirm user experience improvements (less buffering, smoother streaming) and that RSRQ/SINR stayed steady.",
+      "message_ar": "مؤشر جيد. يرجى تأكيد تحسّن تجربة المستخدم (تقليل التوقف المؤقت وتحسّن البث) وأن RSRQ/SINR بقيت مستقرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "User feedback shows fewer buffering events and faster page loads; RSRQ around -9 dB and SINR ~7 dB. No alarms.",
+      "message_ar": "تعليقات المستخدمين تُظهر انخفاض حالات التوقف المؤقت وتسارع تحميل الصفحات؛ RSRQ حوالي -9 ديسيبل وSINR ~7 ديسيبل. لا توجد إنذارات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: downlink resource use is trending down and the outward–inward handover gap is narrowing. Action taken was neighbor bias tuning with load-based mobility adjustment. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "التحسن واضح: استخدام الموارد في الوصلة الهابطة يتجه للانخفاض وفجوة التسليم خروج/دخول تضيق. الإجراء كان ضبط انحياز الجيران مع تعديل التنقل المعتمد على الحمل. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the 2–4 hour monitoring window and provide updates on PRB, handover balance, and user-experience indicators. If congestion returns or ping‑pong increases, we will roll back the bias change and escalate for capacity options.",
+      "message_ar": "تم الفهم—سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنزودكم بتحديثات حول PRB وتوازن التسليم ومؤشرات تجربة المستخدم. إذا عادت الازدحامات أو زاد التذبذب، سنُرجِع تعديل الانحياز ونصعّد لبحث خيارات السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "The urban NR macro cell was overloaded while nearby cells had headroom, indicating a load imbalance. We audited neighbor relations and tuned neighbor bias and load‑based mobility to steer roughly 10–15% of traffic toward less‑loaded neighbors. Early results show reduced resource use with stable radio quality; we will continue monitoring and adjust if needed.",
+    "ar": "كانت خلية NR الحضرية مثقلة بينما لدى الجيران فسحة، ما يشير إلى اختلال في توزيع الحمل. قمنا بتدقيق علاقات الجيران وضبط انحياز الجيران والتنقل المعتمد على الحمل لتوجيه نحو 10–15% من الحركة إلى الجيران الأقل حملاً. تظهر النتائج الأولية انخفاض استخدام الموارد مع ثبات جودة الراديو؛ سنواصل المراقبة وإجراء التعديلات عند الحاجة."
+  }
+}

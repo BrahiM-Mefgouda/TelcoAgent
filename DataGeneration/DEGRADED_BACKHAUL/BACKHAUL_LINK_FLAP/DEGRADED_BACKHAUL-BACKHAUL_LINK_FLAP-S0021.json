@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0021",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell over the last 6h shows backhaul link flaps (~2/hr), bursty loss (~1.75/hr), p95 latency 71 ms, jitter 33 ms, and 101 interface errors with moderate load (PRB ~59%, 150 users) and DL ~12 Mbps affecting eMBB streaming.",
+    "ar": "موقع ماكرو NR في منطقة ضواحي خلال آخر 6 ساعات يظهر تذبذباً في رابط النقل الخلفي (~2/ساعة)، فقداناً متقطعاً (~1.75/ساعة)، زمن تأخير p95 = 71 مللي ثانية، تذبذباً 33 مللي ثانية، و101 خطأ في الواجهة مع حمل متوسط (PRB ~59%، 150 مستخدماً) وسرعة تحميل ~12 ميجابت/ث تؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell with backhaul instability in the last 6 hours: link flaps ~2/hr, burst loss, p95 latency 71 ms, jitter 33 ms, and ~101 interface errors. DL around 12 Mbps with 150 users; eMBB streaming complaints.",
+      "message_ar": "موقع ماكرو NR في منطقة ضواحي يعاني عدم استقرار في النقل الخلفي خلال آخر 6 ساعات: تبدّل حالة الرابط ~2/ساعة، فقدان متقطع، زمن تأخير p95 يساوي 71 مللي ثانية، تذبذب 33 مللي ثانية، وحوالَي 101 خطأ في الواجهة. السرعة الهابطة نحو 12 ميجابت/ث مع 150 مستخدماً؛ توجد شكاوى تتعلق ببث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull the last 6h operational counters for the cell to validate backhaul events and interface errors. If confirmed, I’ll apply targeted backhaul-stability tuning on the site and then raise a transport follow-up. Please provide the cell ID and approve access.",
+      "message_ar": "سأبدأ بجمع عدادات التشغيل لآخر 6 ساعات للتحقق من أحداث النقل الخلفي وأخطاء الواجهة. إذا تأكدت المشكلة، سأطبّق ضبطاً موجهاً لاستقرار النقل الخلفي على الموقع ثم أرفع متابعة لجهة النقل. الرجاء تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-12345; access approved.",
+      "message_ar": "معرّف الخلية NR-12345؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected last 6h stats for NR-12345: 10 link state changes (~1.7/hr), 101 interface CRC/alignment errors, loss-burst rate ~1.75/hr; p95 latency 71 ms and jitter 33 ms. Radio load is moderate (PRB ~59%, SINR 15 dB, RSRP -106 dBm). This indicates degraded backhaul rather than air-interface congestion.",
+      "message_ar": "تم جمع إحصاءات آخر 6 ساعات للخلية NR-12345: 10 تبدّلات في حالة الرابط (~1.7/ساعة)، 101 خطأ CRC/محاذاة في الواجهة، معدل فقدان متقطع ~1.75/ساعة؛ زمن تأخير p95 = 71 مللي ثانية وتذبذب 33 مللي ثانية. حمل الراديو متوسط (PRB ~59%، نسبة SINR 15 dB، وRSRP -106 dBm). ما يشير إلى تدهور في النقل الخلفي وليس ازدحاماً على الواجهة الهوائية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: apply backhaul-interface stabilization on NR-12345 (debounce/hold-time hardening and queue shaping) to damp link flaps and loss bursts. Expected impact is minimal (<1s control-plane blip). Proceed?",
+      "message_ar": "الاقتراح: تطبيق ضبط لاستقرار واجهة النقل الخلفي على الخلية NR-12345 (تعزيز فترات التثبيت وتشكيل الطوابير) لتخفيف تبدّل الرابط والفقدان المتقطع. الأثر متوقع أن يكون طفيفاً (<1 ثانية على مستوى قناة التحكم). هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed on NR-12345.",
+      "message_ar": "موافق على التنفيذ على الخلية NR-12345."
+    },
+    {
+      "role": "agent",
+      "message_en": "Backhaul-stability tuning applied on NR-12345 successfully. Early post-change checks show no new link transitions in 5 minutes and interface error counters stable.",
+      "message_ar": "تم تطبيق ضبط استقرار النقل الخلفي على الخلية NR-12345 بنجاح. الفحوصات الأولية بعد التغيير خلال 5 دقائق لا تظهر تبدّلات جديدة في حالة الرابط واستقراراً في عدادات أخطاء الواجهة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will open a transport ticket to investigate the physical/provider backhaul path and attach logs and timestamps from the last 6h. Please confirm.",
+      "message_ar": "بعد ذلك، سأفتح تذكرة مع فريق النقل للتحقيق في مسار النقل الخلفي المادي/المزوّد وإرفاق السجلات والطوابع الزمنية لآخر 6 ساعات. الرجاء التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Please proceed with opening the transport ticket.",
+      "message_ar": "تم التأكيد. يُرجى فتح تذكرة النقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Transport ticket opened with details of link flaps, interface errors, and our stabilization change; requested optical and path diagnostics. We’ll continue to observe stability after the change.",
+      "message_ar": "تم فتح تذكرة لدى فريق النقل متضمنة تفاصيل تبدّل الرابط وأخطاء الواجهة والتغيير الذي أجريناه للاستقرار، مع طلب فحوصات بصرية ومسار النقل. سنواصل مراقبة الاستقرار بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: no new backhaul link flaps and interface errors remain flat over the last 15 minutes. Action taken was backhaul stabilization parameters on NR-12345, and transport ticket DU-BH-04219 is open. Let’s monitor through the next busy hour.",
+      "message_ar": "هناك تحسن: لا توجد تبدّلات جديدة في رابط النقل الخلفي وعدادات أخطاء الواجهة ثابتة خلال آخر 15 دقيقة. الإجراء كان ضبط معلمات استقرار النقل الخلفي على الخلية NR-12345، وتذكرة النقل DU-BH-04219 مفتوحة. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update the ticket afterward. If instability returns, we will escalate to field for physical checks; if any adverse effect is detected, we will roll back the tuning.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا عاد عدم الاستقرار سنصعّد إلى فريق الميدان لإجراء فحوصات ميدانية؛ وإذا ظهر أي أثر سلبي فسنقوم بالتراجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-12345",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_stability"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Backhaul link flaps/errors on NR-12345; applied stabilization; request transport path and optics diagnostics."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Backhaul degradation on a suburban NR macro site was confirmed by frequent link flaps, burst loss, elevated latency/jitter, and interface errors while radio load was moderate. We mitigated by applying site parameter tuning to stabilize the backhaul interface and opened a transport ticket for path and optics investigation. We will monitor through the next busy hour to ensure link transitions and error counters remain flat.",
+    "ar": "تم تأكيد تدهور النقل الخلفي في موقع ماكرو NR ضمن منطقة ضواحٍ عبر تكرار تبدّل رابط النقل، فقدان متقطع، وزمن تأخير/تذبذب مرتفعين مع وجود أخطاء واجهة، بينما كان حمل الراديو متوسطاً. قمنا بالتخفيف عبر ضبط معلمات الموقع لاستقرار واجهة النقل الخلفي وفتحنا تذكرة لدى فريق النقل لفحص المسار والمكوّنات البصرية. سنراقب خلال ساعة الذروة القادمة لضمان ثبات تبدّلات الرابط وعدادات الأخطاء."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0027",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows backhaul congestion during peak hours: 94% utilization, 30 ms latency with 1.7% loss and 19 ms jitter, about 225 users and slow data (~6 Mbps) impacting eMBB streaming over the last 3 hours.",
+    "ar": "خلية NR ماكرو حضرية تظهر ازدحامًا في الدارة الخلفية خلال ساعات الذروة: استهلاك 94%، تأخير 30 مللي ثانية مع فقد 1.7% وتذبذب 19 مللي ثانية، نحو 225 مستخدمًا وبيانات بطيئة (~6 ميجابت/ث) تؤثر على بث eMBB خلال آخر 3 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour alarm on an urban NR macro cell: users report slow data and streaming stalls over the last 3 hours; backhaul ~94% utilization, ~30 ms latency, ~1.7% loss, jitter ~19 ms.",
+      "message_ar": "إنذار في ساعة الذروة على موقع ماكرو NR حضري: المستخدمون يبلغون عن بيانات بطيئة وتقطّع في البث خلال آخر 3 ساعات؛ استهلاك الدارة الخلفية ~94%، زمن تأخير ~30 مللي ثانية، فقد حزم ~1.7%، وتذبذب ~19 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion. I will pull last 3h OSS statistics for the impacted cell to validate backhaul contention and available headroom; please approve read access.",
+      "message_ar": "تم تأكيد الازدحام. سأجلب إحصاءات آخر 3 ساعات من النظام للتحقق من ازدحام الدارة الخلفية والهامش المتاح؛ يرجى اعتماد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. The cell is serving about 225 users with DL around 6 Mbps.",
+      "message_ar": "موافق. الخلية تخدم نحو 225 مستخدمًا مع تنزيل يقارب 6 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled stats: backhaul utilization 94%, latency 30 ms, loss 1.7%, jitter 19 ms, queue occupancy 76%; radio load moderate (PRB ~67%). This indicates peak-hour backhaul congestion limiting eMBB throughput. I propose a temporary site parameter tuning: enable backhaul-aware scheduling, tighten queue management, and slightly temper non-GBR eMBB bursts to stabilize experience. Approve change?",
+      "message_ar": "تم سحب الإحصاءات: استهلاك الدارة الخلفية 94%، التأخير 30 مللي ثانية، الفقد 1.7%، التذبذب 19 مللي ثانية، امتلاء الصف 76%؛ حمل الراديو متوسط (PRB ~67%). هذا يشير إلى ازدحام الدارة الخلفية في ساعة الذروة الذي يحد من أداء eMBB. أقترح ضبطًا مؤقتًا لمعلمات الموقع: تفعيل الجدولة المستندة إلى حالة الدارة الخلفية، تشديد إدارة الصفوف، وتخفيف اندفاعات eMBB غير المضمونة قليلًا لاستقرار التجربة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed. Please avoid spillover impact on neighbors.",
+      "message_ar": "موافقة؛ تابع. يرجى تجنب تأثير سلبي على الخلايا المجاورة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed and committed. Starting a 15-minute observation on delay/loss and user throughput; no service interruption expected. I will watch KPIs while you confirm field experience.",
+      "message_ar": "تم تنفيذ التغيير وتثبيته. أبدأ مراقبة لمدة 15 دقيقة للتأخير/الفقد وسرعات المستخدمين؛ لا يُتوقع انقطاع خدمة. سأراقب مؤشرات الأداء بينما تؤكدون تجربة الميدان."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, latency is ~22 ms, jitter ~12 ms, loss ~0.7%; user speeds now ~10–12 Mbps and streaming is stable. Utilization remains high.",
+      "message_ar": "بعد التغيير، التأخير ~22 مللي ثانية، التذبذب ~12 مللي ثانية، الفقد ~0.7%؛ سرعات المستخدمين الآن ~10–12 ميجابت/ث والبث مستقر. ما زال الاستهلاك مرتفعًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will open a tracking ticket to flag degraded backhaul and request transport follow-up; proposed ID DU-BH-04219. Shall I proceed?",
+      "message_ar": "تحسن جيد. سأفتح تذكرة متابعة للإشارة إلى الدارة الخلفية المتدهورة وطلب متابعة من النقل؛ المعرّف المقترح DU-BH-04219. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the ticket.",
+      "message_ar": "تفضل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-04219 created, documenting congestion, KPIs, and the mitigation applied. I will continue trend checks and alert on regressions. Any other field observations?",
+      "message_ar": "تم إنشاء التذكرة DU-BH-04219 مع توثيق الازدحام والمؤشرات والإجراء التخفيفي المطبق. سأواصل التحقق من الاتجاهات والتنبيه عند أي تراجع. هل هناك ملاحظات ميدانية أخرى؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "So far, slow data complaints subsided and backhaul delay is trending down. The site parameter tuning helped; let's monitor through the next busy hour under DU-BH-04219.",
+      "message_ar": "حتى الآن، انخفضت شكاوى بطء البيانات ويتجه تأخير الدارة الخلفية للانخفاض. ساعد ضبط معلمات الموقع؛ لنتابع خلال ساعة الذروة القادمة ضمن DU-BH-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket afterward. If congestion returns, we will escalate to transport for capacity or path review and, if needed, roll back the tuning to protect radio KPIs.",
+      "message_ar": "سنكون مسؤولين عن المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا عاد الازدحام، سنصعّد إلى قسم النقل لمراجعة السعة أو المسار، وعند الحاجة سنرجع عن الضبط لحماية مؤشرات الراديو."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-hour backhaul congestion on an urban NR macro cell: high utilization, delay, loss, and jitter drove slow data and streaming stalls. Pulled operational stats and applied site parameter tuning to enable backhaul-aware scheduling and tighter queue management, improving delay and loss with better user throughput. A tracking ticket was created for transport follow-up, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص ازدحام الدارة الخلفية في ساعة الذروة على خلية NR ماكرو حضرية: استهلاك مرتفع وتأخير وفقد وتذبذب أدت إلى بطء البيانات وتقطّع البث. تم سحب الإحصاءات التشغيلية وتطبيق ضبط لمعلمات الموقع لتفعيل الجدولة القائمة على حالة الدارة الخلفية وتشديد إدارة الصفوف، مما حسّن التأخير والفقد ورفع سرعات المستخدمين. تم إنشاء تذكرة متابعة لقسم النقل، وسيتم مراقبة الخلية خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0013",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3h during peak eMBB traffic: backhaul utilization 86% with 54 ms latency, 2.8% loss, 13 ms jitter, 91% queue, PRB 73%, SINR 7 dB, 373 users, and downlink ~11 Mbps.",
+    "ar": "موقع ماكرو 5G NR حضري يظهر إنذار ازدحام خلال آخر 3 ساعات في ذروة حركة eMBB: استغلال الوصلة الخلفية 86% مع زمن وصول 54 مللي ثانية، فقدان 2.8%، تذبذب 13 مللي ثانية، امتلاء طابور 91%، استغلال موارد الراديو 73%، SINR عند 7 dB، 373 مستخدمًا، ومعدل تنزيل يقارب 11 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro at site UBN123 raised a congestion alarm this peak hour. Backhaul util 86%, latency ~54 ms, loss ~2.8%, queue ~91%; DL ~11 Mbps with 373 users on eMBB streaming. Please check.",
+      "message_ar": "موقع ماكرو NR حضري في الموقع UBN123 أطلق إنذار ازدحام خلال ساعة الذروة. استغلال الوصلة الخلفية 86%، زمن وصول ~54 مللي ثانية، فقدان ~2.8%، امتلاء الطابور ~91%؛ معدل التنزيل ~11 ميجابت/ث مع 373 مستخدمًا على بث eMBB. يرجى الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will pull last 3h OSS stats for cell UBN123-S1 and correlate backhaul vs radio to confirm the bottleneck. Approve access?",
+      "message_ar": "تم الاستلام. سأجلب إحصاءات آخر 3 ساعات من نظام الإدارة لخلية UBN123-S1 وأقارن الوصلة الخلفية مقابل الراديو لتأكيد عنق الزجاجة. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for UBN123-S1.",
+      "message_ar": "الوصول مُعتمد لـ UBN123-S1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: backhaul utilization ~86% with queue occupancy ~91% at peak, latency ~54 ms, loss ~2.8%, jitter 13 ms. PRB ~73% and SINR ~7 dB indicate radio not the limiter. This is backhaul congestion. I propose a conservative QoS shaping/AQM tweak on the cell to reduce queue buildup and bufferbloat. Approve?",
+      "message_ar": "النتائج: استغلال الوصلة الخلفية ~86% مع امتلاء الطابور ~91% في الذروة، زمن وصول ~54 مللي ثانية، فقدان ~2.8%، وتذبذب 13 مللي ثانية. استغلال الموارد ~73% وSINR ~7 dB يشيران إلى أن الراديو ليس العامل المحدِّد. المشكلة ازدحام على الوصلة الخلفية. أقترح تعديلًا محافظًا لتشكيل QoS/إدارة نشطة للطوابير على الخلية لتقليل تراكم الطوابير وتقليل bufferbloat. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the conservative tweak.",
+      "message_ar": "موافَق على المضيّ في التعديل المحافظ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: conservative backhaul QoS shaping and scheduler weighting to pace eMBB traffic and prioritize short flows; no RF power changes. Expect lower queueing, latency, and loss. Monitoring immediate impact for 10–15 minutes.",
+      "message_ar": "تم تطبيق التغيير: تشكيل محافظ لـ QoS على الوصلة الخلفية وضبط أوزان الجدولة لتنظيم حركة eMBB وإعطاء أولوية للتدفقات القصيرة؛ دون تغييرات على طاقة الراديو. المتوقع انخفاض الطوابير وزمن الوصول والفقد. سأراقب الأثر الفوري لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: queue occupancy is dipping and DL throughput is edging up; pings feel snappier.",
+      "message_ar": "المؤشرات الأولية أفضل: نسبة امتلاء الطابور بدأت بالانخفاض ومعدل التنزيل يتحسن قليلًا؛ واختبارات الاتصال تبدو أسرع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Given sustained peak demand and transport saturation, I will open a follow-up with transport to review aggregation link capacity and QoS markings while we continue to monitor.",
+      "message_ar": "جيد. نظرًا لاستمرار الطلب في الذروة وتشبع طبقة النقل، سأفتح متابعة مع فريق النقل لمراجعة سعة وصلة التجميع ووسوم QoS مع مواصلة المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافَق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Follow-up has been opened with transport to verify upstream capacity and policies. Continuing to watch KPIs through the next 30–60 minutes.",
+      "message_ar": "تم فتح متابعة مع فريق النقل للتحقق من السعة والسياسات في المسار الصاعد. سأواصل مراقبة مؤشرات الأداء خلال الدقائق 30–60 القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement now: latency trending ~38 ms and packet loss under 1%; the backhaul QoS tuning/config push helped. Let’s monitor through the next busy hour; tracking under DU-BH-04271.",
+      "message_ar": "يوجد تحسن الآن: زمن الوصول يتجه إلى ~38 مللي ثانية والفقد أقل من 1%؛ ضبط QoS على الوصلة الخلفية/دفع الإعدادات أفاد. لنتابع المراقبة خلال ساعة الذروة القادمة؛ المتابعة تحت DU-BH-04271."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket after the window. If congestion resurges, we will escalate for capacity augmentation; if any regressions appear, we will rollback the change.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا عاد الازدحام سنصعّد لزيادة السعة؛ وإن ظهرت تراجعات سنعود عن التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-hour degraded backhaul on an urban NR macro: high backhaul utilization with heavy queueing, latency, and packet loss while radio load was moderate. Pulled recent OSS stats, applied a conservative site parameter tuning to shape backhaul traffic and reduce bufferbloat, and created a transport ticket for upstream capacity and QoS review. Monitoring the next busy hour to confirm stability and sustain the gains.",
+    "ar": "تم تشخيص تدهور الوصلة الخلفية في ساعة الذروة على موقع NR حضري: استغلال عالٍ للوصلة الخلفية مع امتلاء طوابير وزمن وصول وفقد مرتفعين بينما حمل الراديو متوسط. تم جلب إحصاءات حديثة من نظام الإدارة، وتطبيق ضبط محافظ لمعلمات الموقع لتشكيل حركة الوصلة الخلفية وتقليل تضخم المخازن، وإنشاء تذكرة مع فريق النقل لمراجعة السعة والسياسات في المسار الصاعد. سيتم المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار واستدامة التحسن."
+  }
+}

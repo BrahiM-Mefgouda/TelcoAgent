@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0013",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban NR macro cell with an active congestion alarm over the last 6h: PCI 172, high neighbor PCI overlap (67), HO success ~75% with 27% failures, ping-pong 20%, RSRQ -17 dB, BLER 11%, SINR 6 dB, and p50 throughput 19 Mbps under eMBB traffic.",
+    "ar": "خلية ماكرو NR في منطقة حضرية مع إنذار ازدحام نشط خلال آخر 6 ساعات: PCI 172، تداخل مرتفع مع PCI للجيران (67)، نجاح التسليم ~75% مع فشل 27%، بينغ-بونغ 20%، RSRQ ‏-17 dB، BLER ‏11%، SINR ‏6 dB، وسرعة وسيطة 19 ميجابت/ث تحت حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have an active alarm on an urban 5G NR macro sector over the last 6h: HO success ~75% with 27% failures, ping-pong 20%, RSRQ -17 dB, BLER 11%, PRB ~74%, 371 users, SINR 6 dB; neighbor PCI overlap shows 67.",
+      "message_ar": "لدينا إنذار نشط على قطاع ماكرو NR حضري خلال آخر 6 ساعات: نجاح التسليم ~75% مع فشل 27%، بينغ-بونغ 20%، RSRQ ‏-17 dB، BLER ‏11%، استخدام PRB ~74%، 371 مستخدمًا، وSINR ‏6 dB؛ تداخل PCI مع الجيران = 67."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. I will start by auditing neighbors for PCI reuse/collision on this cell. Please share the exact cell ID and confirm I can run the check for the last 6h.",
+      "message_ar": "شكرًا. سأبدأ بتدقيق الجيران لاكتشاف إعادة استخدام/تصادم PCI لهذه الخلية. يرجى مشاركة معرّف الخلية والتأكيد بالسماح بإجراء الفحص لآخر 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-UGB123-S1. Approved to run the check on that window.",
+      "message_ar": "معرّف الخلية هو NR-UGB123-S1. موافق على تنفيذ الفحص ضمن تلك الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the neighbor audit now. Finding: adjacent sector NR-UGB123-S2 shares PCI 172 with our cell, with ~67% coverage overlap; additional confusion with neighbor PCI 155 on edges. This explains HO failures and ping-pong under eMBB streaming loads.",
+      "message_ar": "أجري الآن تدقيق الجيران. النتيجة: القطاع المجاور NR-UGB123-S2 يستخدم نفس PCI 172 مثل خلايانا مع تداخل تغطية ~67%؛ كما يوجد ارتباك إضافي مع جار PCI 155 عند الأطراف. هذا يفسّر فشل التسليم والبينغ-بونغ تحت أحمال eMBB (بث)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Field reports also noted frequent reselections near the intersection by the site.",
+      "message_ar": "مفهوم. تقارير الميدان ذكرت أيضًا عمليات إعادة اختيار متكررة قرب التقاطع بجانب الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: reassign our sector PCI from 172 to a free value in the cluster and refresh neighbor relations to remove ambiguity; minor mobility tuning to curb ping-pong. Low-risk, expected sub-second impact. Approve execution now?",
+      "message_ar": "الاقتراح: إعادة تعيين PCI لقطاعنا من 172 إلى قيمة شاغرة ضمن العنقود وتحديث علاقات الجيران لإزالة الالتباس؛ مع ضبط بسيط للحركية لتقليل البينغ-بونغ. مخاطرة منخفضة وتأثير دون الثانية. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: PCI reassigned to 114, neighbor list refreshed, and mobility margins fine-tuned. Immediate post-check shows stable broadcasts and cleaner neighbor rankings.",
+      "message_ar": "تم التطبيق: إعادة تعيين PCI إلى 114، تحديث قائمة الجيران، وضبط هوامش الحركية بدقة. الفحص الفوري يُظهر بثًا مستقرًا وتصنيفًا أنظف للجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: fewer rapid handovers and fewer radio link retries.",
+      "message_ar": "المؤشرات الأولية أفضل: تسليمات أقل متكررة وإعادات محاولة رابط راديو أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Logging the change for traceability and ongoing observation; created record DU-PCI-01482. We’ll watch HO success, ping-pong, RSRQ, and BLER through the next hours.",
+      "message_ar": "أوثّق التغيير للمرجعية والمتابعة؛ تم إنشاء السجل DU-PCI-01482. سنراقب نجاح التسليم، والبينغ-بونغ، وRSRQ، وBLER خلال الساعات القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement: handover failures trending down and RSRQ a couple of dB better so far after the PCI reassignment and neighbor cleanup. Let’s monitor through the next busy hour; please update DU-PCI-01482 afterwards.",
+      "message_ar": "تمت ملاحظة تحسن: فشل التسليم يتناقص وRSRQ تحسّن ببضعة dB حتى الآن بعد إعادة تعيين PCI وتنظيف الجيران. لنتابع خلال ساعة الذروة القادمة؛ يرجى تحديث DU-PCI-01482 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—actions taken: PCI reassignment, neighbor refresh, and mobility fine-tuning. We’ll own monitoring for the next busy hour and post an update to the record afterwards. If degradation reappears we will escalate to a wider cluster retune; if adverse effects emerge we will roll back the PCI change to the previous value.",
+      "message_ar": "تم التأكيد—الإجراءات المنفذة: إعادة تعيين PCI، تحديث الجيران، وضبط الحركية بدقة. سنتولى المتابعة خلال ساعة الذروة القادمة وسنحدّث السجل بعد ذلك. إذا عادت التدهورات سنصعّد إلى إعادة ضبط أوسع على مستوى العنقود؛ وإذا ظهرت آثار سلبية سنستعيد إعداد PCI السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision between the serving NR macro sector and an adjacent sector with ~67% overlap, causing degraded handovers and ping-pong under eMBB load. Executed site parameter tuning by reassigning the PCI, refreshing neighbor relations, and fine-tuning mobility. Created a follow-up record to monitor HO success, ping-pong, RSRQ, and BLER.",
+    "ar": "تم تشخيص تصادم PCI بين القطاع الخادم NR الماكرو وقطاع مجاور مع تداخل ~67% مما أدى إلى تدهور التسليم وبنغ-بونغ تحت حمل eMBB. نُفّذت عملية ضبط معلمات للموقع عبر إعادة تعيين PCI وتحديث علاقات الجيران وضبط الحركية بدقة. تم إنشاء سجل متابعة لمراقبة نجاح التسليم والبينغ-بونغ وRSRQ وBLER."
+  }
+}

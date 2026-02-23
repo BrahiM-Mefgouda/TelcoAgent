@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0009",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban NR macro cell shows peak-evening load: PRB ~91% with 278 users while neighbors average ~42%, imbalance index 0.27, HO out 29/5min vs in 17/5min, RSRQ −13 dB and SINR 11 dB; assess and balance traffic across neighbors within the next 4 hours.",
+    "ar": "خلية NR ماكرو حضرية تظهر حملاً في ذروة المساء: استغلال PRB ~91% مع 278 مستخدمًا بينما متوسط الجيران ~42%، مؤشر عدم التوازن 0.27، تسليم للخارج 29/5 دقائق مقابل الداخل 17/5 دقائق، RSRQ −13 dB وSINR 11 dB؛ نرجو التقييم وموازنة الحركة مع الجيران خلال الساعات الأربع القادمة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During peak evening in the urban 5G NR macro sector NR-MACRO-123-1 (last 4h), PRB utilization is ~91% with 278 users; neighbors average ~42%. Handover out is 29/5min vs in 17/5min, RSRQ −13 dB, SINR 11 dB. Enterprise private traffic reports slower responses.",
+      "message_ar": "خلال ذروة المساء في قطاع NR ماكرو حضري NR-MACRO-123-1 (آخر 4 ساعات)، استغلال PRB ~91% مع 278 مستخدمًا؛ ومتوسط الجيران ~42%. التسليم إلى الخارج 29 كل 5 دقائق مقابل الداخل 17 كل 5 دقائق، وRSRQ −13 dB وSINR 11 dB. حركة المؤسسة الخاصة تُبلغ عن بطء في الاستجابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will lead a load-balance check: first audit neighbor relations and load distribution to confirm spare capacity and HO asymmetry; then, if confirmed, tune mobility/load-bias parameters to steer users to lighter sectors. Please confirm access to NR-MACRO-123-1 and proceed.",
+      "message_ar": "تم الاستلام. سأقود فحص موازنة الحمل: أولاً تدقيق الجيران وتوزيع الحمل للتحقق من السعة المتاحة وعدم تماثل التسليم؛ ثم، إن تأكد ذلك، ضبط معايير الحركة/تحيزات الحمل لتوجيه المستخدمين نحو القطاعات الأخف. يرجى تأكيد الوصول إلى NR-MACRO-123-1 للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-MACRO-123-1. Proceed with your checks.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-MACRO-123-1. تفضل بإجراء الفحوصات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit on NR-MACRO-123-1: co-sectors 123-2/123-3 run ~35–48% PRB across peak; offsets are neutral and no active load-based bias. HO out/in skew matches imbalance index 0.27. Proposal: apply +2 dB CIO toward 123-2/123-3, enable capacity-based preference, and reduce A3 margin by 1 dB to offload. Approve?",
+      "message_ar": "تدقيق الجيران على NR-MACRO-123-1: القطاعات الشقيقة 123-2/123-3 تعمل عند ~35–48% PRB عبر الذروة؛ الانحيازات حيادية ولا يوجد تحيز قائم على الحمل. عدم تماثل التسليم يتطابق مع مؤشر عدم التوازن 0.27. المقترح: تطبيق +2 dB CIO نحو 123-2/123-3، تفعيل تفضيل قائم على السعة، وتقليل هامش A3 بمقدار 1 dB لتفريغ الحمل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for NR-MACRO-123-1 toward 123-2 and 123-3. Proceed with the tuning.",
+      "message_ar": "موافق على NR-MACRO-123-1 باتجاه 123-2 و123-3. تفضل بتنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying load-balancing tuning: +2 dB CIO toward 123-2/123-3, enabling capacity-based bias, and −1 dB A3 margin; guard timers unchanged. Change committed. Expect gradual offload within 10–20 minutes.",
+      "message_ar": "تطبيق ضبط موازنة الحمل: +2 dB CIO نحو 123-2/123-3، تفعيل التحيز القائم على السعة، وتقليل هامش A3 بمقدار 1 dB؛ مؤقتات الحماية دون تغيير. تم اعتماد التغيير. يُتوقع تفريغ تدريجي خلال 10–20 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation (10 min): NR-MACRO-123-1 PRB ~78%; 123-2 ~55%, 123-3 ~49%. HO out/in gap narrowing; radio quality stable.",
+      "message_ar": "ملاحظة مبكرة (10 دقائق): PRB في NR-MACRO-123-1 ~78%؛ و123-2 ~55%، و123-3 ~49%. فجوة التسليم خارج/داخل تتقلص؛ وجودة الراديو مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Continue watching HO success and PRB spread across the tri-sector; enterprise sessions should remain stable. I will monitor user distribution and drop trends.",
+      "message_ar": "جيد. استمر في مراقبة نجاح التسليم وتوزيع PRB عبر القطاعات الثلاثة؛ ينبغي أن تبقى جلسات المؤسسة مستقرة. سأراقب توزيع المستخدمين واتجاهات الانقطاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No abnormal drops; enterprise session setup remains steady. Users are not reporting new issues.",
+      "message_ar": "لا توجد انقطاعات غير طبيعية؛ إعداد جلسات المؤسسة مستقر. لا يبلغ المستخدمون عن مشاكل جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will track the next busy hour. If PRB on 123-1 rises again persistently, we will consider broader cluster retuning; otherwise we keep this tuning in place.",
+      "message_ar": "سنراقب ساعة الانشغال القادمة. إذا ارتفع PRB على 123-1 مجددًا بشكل مستمر، فسندرس إعادة ضبط أوسع على مستوى العنقود؛ وإلا سنُبقي هذا الضبط قائمًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: PRB utilization trending lower and handovers more balanced. Action taken was load-balancing parameter tuning between 123-1 and co-sectors. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: استغلال PRB في اتجاه الانخفاض وتسليمات أكثر توازنًا. الإجراء المتخذ كان ضبط معايير موازنة الحمل بين 123-1 والقطاعات الشقيقة. لنراقب خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and report PRB distribution, HO success, and user trends. If performance regresses, we will roll back the offsets; if congestion persists, we will escalate to broader cluster retuning.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع القادمـة وسنبلغ بتوزيع PRB ونجاح التسليم واتجاهات المستخدمين. إذا تراجع الأداء سنقوم بعكس الانحيازات؛ وإذا استمرت الازدحامات سنصعّد إلى إعادة ضبط أوسع على مستوى العنقود."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 12,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban NR macro sector during peak evening: the serving cell ran ~91% PRB with HO asymmetry while co-sectors had spare capacity. Performed a neighbor audit to confirm neutral offsets and available headroom, then applied site parameter tuning to bias mobility and steer users toward lighter neighbors. Monitoring continues to ensure stable PRB distribution and handover performance.",
+    "ar": "تم تشخيص عدم توازن في الحمل على قطاع NR ماكرو حضري خلال ذروة المساء: الخلية الخادمة عند ~91% PRB مع عدم تماثل في التسليم بينما لدى القطاعات الشقيقة سعة احتياطية. أُجري تدقيق للجيران لتأكيد حيادية الانحيازات وتوفر السعة، ثم تم تطبيق ضبط معايير في الموقع لتحيز الحركة وتوجيه المستخدمين نحو الجيران الأخف. تستمر المراقبة لضمان استقرار توزيع PRB وأداء التسليم."
+  }
+}

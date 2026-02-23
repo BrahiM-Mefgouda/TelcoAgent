@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0004",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion with 395 users, PRB ~87%, low fairness and allocation skew, p95 scheduling latency 125 ms, median throughput 13 Mbps, and interference / signal overlap (SINR ~0 dB).",
+    "ar": "خلية NR صغيرة في الملعب تُظهر ازدحاماً مع 395 مستخدماً، استهلاك PRB ~87%، عدالة منخفضة وانحرافاً في التخصيص، كمون جدولة p95 = 125 مللي ثانية، متوسط سرعة 13 ميجابت/ث، مع تداخل/تراكب الإشارات (SINR ~0 ديسيبل)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell under a live event shows alarmed congestion: 395 users, PRB ~87%, low fairness with allocation skew, p95 scheduling latency 125 ms, median DL 13 Mbps, SINR ~0 dB.",
+      "message_ar": "خلية NR صغيرة في الملعب أثناء حدث مباشر تظهر ازدحاماً مع إنذار: 395 مستخدماً، استهلاك PRB ~87%، عدالة منخفضة مع انحراف في التخصيص، كمون الجدولة p95 يبلغ 125 مللي ثانية، متوسط تنزيل 13 ميجابت/ث، وSINR ~0 ديسيبل."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will run a focused 3h health check to isolate a resource scheduling anomaly. Please confirm the cell ID and grant read/execute access.",
+      "message_ar": "سأنفّذ فحصاً مركزاً لمدة 3 ساعات لتحديد خلل في جدولة الموارد. يرجى تأكيد معرّف الخلية ومنحي صلاحية القراءة والتنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-M34; access approved for the next 3 hours.",
+      "message_ar": "معرّف الخلية هو NR-STAD-M34؛ تمّت الموافقة على الوصول لمدة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 3h stats for NR-STAD-M34 and reviewing load, QoS mix, and scheduler counters now.",
+      "message_ar": "أقوم الآن بسحب إحصاءات آخر 3 ساعات للخلية NR-STAD-M34 ومراجعة الحمل ومزيج QoS ومؤشرات المجدول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No config changes today; adjacent micro sectors M33 and M35 are also heavily loaded.",
+      "message_ar": "لا تغييرات في الإعدادات اليوم؛ القطاعات المجاورة الصغيرة M33 وM35 محمّلة بشدة أيضاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: PRB ~88%, best-effort share ~76%, fairness index ~0.35, allocation skew 21; scheduling latency elevated. This aligns with eMBB streaming crowd. Next, I will review 3h PRB and latency trends to time-correlate the anomaly. Proceed?",
+      "message_ar": "النتائج: استهلاك PRB ~88%، حصة حركة Best-Effort ~76%، مؤشر العدالة ~0.35، انحراف التخصيص 21؛ كمون الجدولة مرتفع. هذا يتماشى مع جمهور eMBB للبث. التالي، سأراجع اتجاهات PRB والكمون خلال 3 ساعات لربط التوقيت مع الخلل. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows sustained PRB >90% at peaks, fairness dips to ~0.3, and latency spikes aligning with crowd surges, confirming scheduler imbalance under event load and interference. I propose minimal live tuning to improve fairness and protect high-priority traffic while smoothing best-effort bursts. Approve?",
+      "message_ar": "سلسلة الزمن تُظهر PRB يتجاوز 90% في الذروة، وانخفاض العدالة إلى ~0.3، وارتفاعات في الكمون تتوافق مع اندفاعات الجمهور، ما يؤكد عدم توازن المجدول تحت حمل الحدث والتداخل. أقترح ضبطاً مباشراً طفيفاً لتحسين العدالة وحماية الحركة ذات الأولوية العالية مع تهدئة دفعات Best-Effort. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply minimal tuning now.",
+      "message_ar": "موافق على تطبيق ضبط طفيف الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied scheduler parameter tuning on NR-STAD-M34 to improve fairness and reduce tail latency. Monitoring for 15 minutes, tracking fairness index, p95 scheduling latency, and median throughput.",
+      "message_ar": "تم تطبيق ضبط معايير المجدول على NR-STAD-M34 لتحسين العدالة وخفض كمون الذيل. سأراقب لمدة 15 دقيقة مع تتبّع مؤشر العدالة وكمون الجدولة p95 ومتوسط سرعة التنزيل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 minutes, fairness is trending up (~0.50), p95 scheduling latency down to ~88 ms, and median DL ~16 Mbps. Action taken was scheduler parameter tuning; let’s monitor through the next busy hour.",
+      "message_ar": "بعد 15 دقيقة، العدالة في تحسّن (~0.50)، وكمون الجدولة p95 انخفض إلى ~88 مللي ثانية، ومتوسط التنزيل ~16 ميجابت/ث. تم تنفيذ ضبط معايير المجدول؛ دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If metrics regress, we will roll back the tuning; if congestion persists due to capacity limits, we will escalate for temporary load relief and capacity planning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا تراجعت المؤشرات فسنعيد الضبط السابق، وإذا استمر الازدحام بسبب حدود السعة فسنصعّد لطلب تخفيف حمل مؤقت وتخطيط للسعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the cell exhibited a resource scheduling anomaly driven by congestion and interference. We pulled 3h operational data and analyzed PRB trends, confirming fairness dips and latency spikes aligned with peak load. We applied site parameter tuning of the scheduler to improve fairness and protect priority traffic; initial metrics improved and we will monitor through the next busy hour.",
+    "ar": "أثناء الحدث في الملعب ظهرت مشكلة في جدولة الموارد نتيجة الازدحام والتداخل. قمنا بجمع بيانات 3 ساعات وتحليل اتجاهات PRB، مما أكد انخفاض العدالة وارتفاع الكمون في أوقات الذروة. تم تنفيذ ضبط معايير على مستوى الموقع في المجدول لتحسين العدالة وحماية الحركة ذات الأولوية؛ أظهرت المؤشرات تحسناً أولياً وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

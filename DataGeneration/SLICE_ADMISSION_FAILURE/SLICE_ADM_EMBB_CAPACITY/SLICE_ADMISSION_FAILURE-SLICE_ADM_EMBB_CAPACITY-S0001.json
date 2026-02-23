@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_EMBB_CAPACITY-S0001",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_EMBB_CAPACITY",
+  "query": {
+    "en": "Stadium NR micro cell over the last 4h shows congestion with 24% slice admission denials, PRB ~92%, 79 requests/min, slice utilization 75%, latency 96 ms, and slow data (p50 7 Mbps).",
+    "ar": "موقع الملعب على طبقة NR الصغيرة خلال آخر 4 ساعات يظهر ازدحاماً مع 24% رفض قبول للشريحة، إشغال PRB ~92%، 79 طلباً/دقيقة، استعمال الشريحة 75%، زمن تأخير 96 مللي ثانية، وبيانات بطيئة (p50 7 Mbps)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro layer during the live event: eMBB slice admission failures spiking in the last 4h—PRB ~92%, 24% denials, 79 req/min, utilization 75%, latency 96 ms, and slow data (p50 7 Mbps). Heavy streaming traffic reported.",
+      "message_ar": "طبقة NR الصغيرة في الملعب أثناء الحدث: ارتفاع في فشل قبول شريحة eMBB خلال آخر 4 ساعات—إشغال PRB ~92%، رفض 24%، 79 طلب/دقيقة، استعمال 75%، زمن تأخير 96 مللي ثانية، وبيانات بطيئة (p50 7 Mbps). هناك حركة بث ثقيلة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion alarm. I will start by pulling the OSS status for the impacted cell over the last 4h to confirm load and admission counters, then propose a slice policy mitigation. Please confirm access and provide the cell_id and slice_id.",
+      "message_ar": "تم تأكيد تنبيه الازدحام. سأبدأ بسحب حالة النظام من OSS للخلية المتأثرة خلال آخر 4 ساعات لتأكيد الحمل وعدّادات القبول، ثم أقترح تخفيفاً على سياسة الشريحة. يرجى تأكيد الوصول وتزويدي بـ cell_id و slice_id."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Use cell_id NR-STAD-012-M and slice_id eMBB-STAD.",
+      "message_ar": "تمت الموافقة على الوصول. استخدم cell_id NR-STAD-012-M و slice_id eMBB-STAD."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 4h OSS snapshot for NR-STAD-012-M: PRB 91–95%, admission denials avg 24% (peaks 31%), ~892 active users, p50 DL 6–8 Mbps, latency ~95 ms. Slice eMBB-STAD policy shows per-UE minimum guarantee 188 Mbps and priority level 2 with a 75% capacity cap; admission gate is rejecting due to low PRB headroom.",
+      "message_ar": "تم سحب لقطة OSS لآخر 4 ساعات للخلية NR-STAD-012-M: إشغال PRB بين 91–95%، متوسط رفض القبول 24% (بلغ 31%)، حوالي 892 مستخدماً نشطاً، تنزيل p50 بين 6–8 Mbps، وزمن تأخير ~95 مللي ثانية. سياسة الشريحة eMBB-STAD تُظهر حد ضمان أدنى لكل مستخدم 188 Mbps ومستوى أولوية 2 مع سقف سعة 75%؛ بوابة القبول ترفض بسبب هامش PRB منخفض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: update the slice policy to raise the capacity share for eMBB-STAD within the stadium micro cluster, lower the per-UE minimum guarantee to a practical level, slightly relax admission threshold, and elevate priority by one level to reduce denials. Approve to proceed?",
+      "message_ar": "الاقتراح: تحديث سياسة الشريحة لرفع حصة السعة لشريحة eMBB-STAD ضمن مجموعة الخلايا الصغيرة في الملعب، خفض الحد الأدنى المضمون لكل مستخدم إلى مستوى عملي، تخفيف بسيط لعتبة القبول، ورفع مستوى الأولوية درجة واحدة لتقليل الرفض. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the slice policy changes for the event window.",
+      "message_ar": "موافق على تنفيذ تعديلات سياسة الشريحة خلال فترة الحدث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Slice policy updated on eMBB-STAD: increased capacity share for the cell group, reduced per-UE minimum guarantee, relaxed admission threshold, and raised priority within the site domain. Early 5-min readout shows denials down to ~10–12%, PRB 88–92%, latency ~60–70 ms, and p50 DL ~12–15 Mbps.",
+      "message_ar": "تم تحديث سياسة الشريحة على eMBB-STAD: زيادة حصة السعة لمجموعة الخلايا، خفض الحد الأدنى المضمون لكل مستخدم، تخفيف عتبة القبول، ورفع الأولوية ضمن نطاق الموقع. قراءة أولية خلال 5 دقائق تُظهر انخفاض الرفض إلى ~10–12%، وإشغال PRB بين 88–92%، وزمن تأخير ~60–70 مللي ثانية، وتنزيل p50 ~12–15 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I will open a tracking ticket documenting the temporary slice policy update and event capacity watch. Please confirm.",
+      "message_ar": "من أجل التتبع، سأفتح تذكرة توثّق تحديث سياسة الشريحة المؤقت ومراقبة السعة أثناء الحدث. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Please create the ticket.",
+      "message_ar": "مؤكد. يرجى إنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-SLICE-02157 created for the temporary policy change and monitoring. I will watch post-change counters over the near term and keep you posted.",
+      "message_ar": "تم إنشاء التذكرة DU-SLICE-02157 لتغيير السياسة المؤقت والمراقبة. سأراقب المؤشرات بعد التغيير على المدى القريب وأطلعك بالتحديثات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: admission denials trending down to single digits and user speeds recovering. Action taken was the slice policy update. Let’s monitor through the next 2–4 hours of peak; reference DU-SLICE-02157.",
+      "message_ar": "نلاحظ تحسناً: رفض القبول يتجه إلى خانة الآحاد وسرعات المستخدمين تتحسن. الإجراء كان تحديث سياسة الشريحة. لنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة في الذروة؛ المرجع DU-SLICE-02157."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we own the next 2–4 hours monitoring and will update the ticket after the window. If denials or latency rise again, we will revert the policy to baseline and escalate to capacity planning; if stable, we will keep the mitigation in place for the event and plan a controlled rollback post-peak.",
+      "message_ar": "تم الفهم—سنكون مسؤولين عن المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا عادت حالات الرفض أو ارتفع التأخير، سنعيد السياسة إلى الوضع الأساسي ونصعّد إلى فريق التخطيط للسعة؛ وإذا بقيت مستقرة، سنُبقي التخفيف طوال الحدث مع خطة تراجع مُتحكَّم بها بعد الذروة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the eMBB slice suffered high admission denials under heavy PRB load and an aggressive per‑UE minimum guarantee, causing slow data and high latency. We confirmed the load and policy constraints, then performed a slice policy update to increase capacity share, relax the minimum guarantee, and elevate priority, which reduced denials and improved throughput. A tracking ticket DU-SLICE-02157 was opened and the service will be monitored through the next busy hours.",
+    "ar": "أثناء حدث الملعب، عانت شريحة eMBB من ارتفاع رفض القبول تحت حمل PRB عالٍ وضمان أدنى لكل مستخدم مبالغ فيه، مما تسبب في بطء البيانات وارتفاع التأخير. تم تأكيد الحمل وقيود السياسة، ثم أُجري تحديث لسياسة الشريحة لزيادة حصة السعة وتخفيف الحد الأدنى المضمون ورفع الأولوية، ما خفّض الرفض وحسّن معدل النقل. تم فتح التذكرة DU-SLICE-02157 وسيتم مراقبة الخدمة خلال ساعات الذروة القادمة."
+  }
+}

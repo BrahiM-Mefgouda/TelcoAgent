@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0009",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro over the last 6h shows frequent backhaul link flaps (~5/hr), bursty loss, p95 latency 35 ms, jitter 15 ms, and 303 interface errors, with 220 users seeing ~14 Mbps downlink and SINR ~9 dB.",
+    "ar": "خلال آخر 6 ساعات في خلية NR ماكرو بضواحي المنطقة ظهرت تقطعات متكررة في الباكهول (~5/ساعة)، فقدان متقطع، كمون p95 يبلغ 35 مللي ثانية، تذبذب 15 مللي ثانية، و303 أخطاء على الواجهة، مع 220 مستخدماً يحصلون على ~14 ميجابت/ث وتحسن إشارة SINR ~9 ديسيبل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-Suburb-Macro-123 over the last 6h shows backhaul link flaps (~5/hr), burst loss, p95 latency ~35 ms, jitter 15 ms, and 303 interface errors. FWA users (220) report buffering and ~14 Mbps DL. Please check.",
+      "message_ar": "خلال آخر 6 ساعات في خلية NR ماكرو بضواحي المنطقة NR-Suburb-Macro-123 ظهرت تقطعات في وصلة الباكهول (~5/ساعة)، فقدان متقطع، كمون p95 ~35 مللي ثانية، تذبذب 15 مللي ثانية، و303 أخطاء على الواجهة. مستخدمو FWA (220) يشتكون من تقطيع وسرعة تحميل هابط ~14 ميجابت/ث. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling OSS counters for the past 6h to correlate backhaul events with radio load on NR-Suburb-Macro-123. Please confirm access.",
+      "message_ar": "سأبدأ بسحب مؤشرات OSS لآخر 6 ساعات لربط أحداث الباكهول مع حمل الراديو على NR-Suburb-Macro-123. يرجى تأكيد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Read access and change permission are granted if mitigation is needed.",
+      "message_ar": "الوصول مُعتمد. لديك صلاحية القراءة وإجراء التغيير إذا لزم التخفيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows 28 link up/down events in 6h, CRC/alignment errors spiking with burst loss up to ~1.3%, and backhaul p95 latency 34–38 ms. Radio side is moderate (PRB ~59%, SINR ~9 dB). The impairment is backhaul-dominant. I propose a low-risk cell parameter optimization to better tolerate jitter/loss and smooth FWA traffic. Approve?",
+      "message_ar": "المؤشرات تُظهر 28 حدث رفع/هبوط للوصلة خلال 6 ساعات، مع ارتفاع أخطاء CRC/المحاذاة وفقدان متقطع حتى ~1.3%، وكمون باكهول p95 بين 34–38 مللي ثانية. جانب الراديو معتدل (استخدام الموارد ~59%، وSINR ~9 ديسيبل). الخلل ناتج أساساً من الباكهول. أقترح تحسين إعدادات بسيط المخاطر لتحمّل التذبذب/الفقد وتنعيم حركة FWA. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for change. Traffic is dominated by FWA households with streaming.",
+      "message_ar": "موافق على التغيير. المزيج المروري يغلب عليه FWA للأسر مع بث فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mitigation: tuned RLC/PDCP buffers and reorder tolerance for loss/jitter, enabled loss-aware scheduling bias for FWA, and trimmed egress burstiness. No reset required. We will watch counters for 15 minutes.",
+      "message_ar": "تم تطبيق التخفيف: ضبط مخازن وتحمّل إعادة الترتيب في RLC/PDCP للتعامل مع الفقد/التذبذب، وتمكين انحياز جدولة واعٍ للفقد لحركة FWA، وتقليل اندفاع الإرسال. لا حاجة لإعادة تشغيل. سنراقب المؤشرات لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes: p95 latency is ~27 ms and DL is ~20 Mbps; link flaps still occur intermittently. You are approved to engage Transport.",
+      "message_ar": "بعد 10 دقائق: كمون p95 ~27 مللي ثانية وسرعة التحميل الهابط ~20 ميجابت/ث؛ لا تزال التقطعات تظهر بشكل متقطع. لديك موافقة على إشراك فريق النقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Opened ticket DU-BH-04217 with Transport: recurring backhaul link flaps and CRC errors on NR-Suburb-Macro-123; RAN mitigation applied and improvement observed. Requested optics/cabling and interface checks; attached graphs.",
+      "message_ar": "تم فتح التذكرة DU-BH-04217 مع فريق النقل: تقطعات باكهول متكررة وأخطاء CRC على NR-Suburb-Macro-123؛ تم تطبيق تخفيف على الراديو ولوحظ تحسّن. طُلب فحص البصريات/الكوابل والواجهة؛ أرفقت الرسوم البيانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Thanks. No planned work on this path. Please continue short-term monitoring and notify us if flaps spike.",
+      "message_ar": "شكراً. لا أعمال مخططة على هذا المسار. يرجى الاستمرار بالمراقبة القصيرة وإخطارنا إذا زادت التقطعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will monitor through the next busy hour with thresholds on flap rate >3/hr and burst loss events, and keep the mitigation in place. We will coordinate with Transport for any required repair actions.",
+      "message_ar": "سنراقب خلال ساعة الذروة القادمة مع حدود إنذار لمعدل التقطعات >3/ساعة وأحداث الفقد المتقطع، وسنُبقي التخفيف مطبقاً. وسننسّق مع فريق النقل لأي إجراءات إصلاح لازمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Last 30 minutes show improvement: burst loss reduced and p95 latency ~25–28 ms with DL ~22 Mbps. The parameter optimization helped, and DU-BH-04217 is open. Let’s monitor for the next 2–4 hours including the busy hour.",
+      "message_ar": "آخر 30 دقيقة تُظهر تحسّناً: انخفاض الفقد المتقطع واستقرار الكمون p95 عند ~25–28 مللي ثانية مع سرعة هابطة ~22 ميجابت/ث. تحسين الإعدادات أفاد، والتذكرة DU-BH-04217 مفتوحة. لنراقب خلال الساعتين إلى الأربع القادمتين بما يشمل ساعة الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update DU-BH-04217 after it ends. If flaps rise again or throughput degrades, we will escalate to Transport for immediate physical checks; if any side effects appear, we will roll back the parameter changes. Summary: validated backhaul impairment, applied loss/jitter mitigation on the cell, opened a Transport ticket, and will monitor per plan.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث DU-BH-04217 بعد انتهائها. إذا زادت التقطعات أو تدهورت السرعة سنصعّد إلى فريق النقل للفحص الفوري؛ وإن ظهرت آثار جانبية سنعيد تغييرات الإعدادات. خلاصة: تحققنا من خلل الباكهول، وطبّقنا تخفيف الفقد/التذبذب على الخلية، وفتحنا تذكرة مع النقل، وسنراقب حسب الخطة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-Macro-123",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Backhaul loss/jitter mitigation for FWA: adjust RLC/PDCP buffers and reorder tolerance; enable loss-aware scheduling bias; trim egress burstiness"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Backhaul link flaps and CRC/alignment errors on NR-Suburb-Macro-123; RAN mitigation applied with improved latency/throughput; request Transport to inspect optics/cabling and interface negotiation"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on NR-Suburb-Macro-123: frequent link flaps, CRC errors, burst loss, and elevated latency while radio load and RF quality were moderate. Applied site parameter tuning to increase tolerance to loss/jitter and smooth FWA scheduling, improving latency and downlink throughput. A transport ticket (DU-BH-04217) was opened for physical link investigation, and the site will be monitored through the next busy period.",
+    "ar": "تم تشخيص تدهور في الباكهول على NR-Suburb-Macro-123: تقطعات متكررة للوصلة، وأخطاء CRC، وفقدان متقطع وكمون مرتفع بينما حمل الراديو وجودة الإشارة معتدلان. تم تنفيذ ضبط إعدادات على الموقع لزيادة تحمّل الفقد/التذبذب وتنعيم جدولة FWA مما حسّن الكمون والسرعة الهابطة. فُتحت تذكرة نقل (DU-BH-04217) لفحص الارتباط الفيزيائي وسيتم مراقبة الموقع خلال فترة الذروة القادمة."
+  }
+}

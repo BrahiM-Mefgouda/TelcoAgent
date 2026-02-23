@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_INDOOR_MALL-S0006",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_INDOOR_MALL",
+  "query": {
+    "en": "Indoor mall NR micro cell shows congestion: PRB ~93%, 282 users, DL 9 Mbps, UL 4 Mbps, BLER 4.4%, and p95 scheduling latency 74 ms during the last 3h shoulder afternoon with eMBB traffic.",
+    "ar": "خلية NR صغيرة داخلية في المول تُظهر ازدحامًا: إشغال موارد ~93%، 282 مستخدمًا، تنزيل 9 ميجابت/ث، رفع 4 ميجابت/ث، BLER بنسبة 4.4%، وزمن جدولة p95 يبلغ 74 مللي ثانية خلال آخر 3 ساعات في فترة بعد الظهر مع حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro at the mall (NB_MALL_05_NR) is raising congestion alarms over the last 3h shoulder afternoon: PRB ~93%, 282 users, DL 9 Mbps, UL 4 Mbps, BLER ~4.4%, p95 scheduling latency 74 ms, plus eMBB streaming complaints.",
+      "message_ar": "الخلية NR الصغيرة الداخلية في المول (NB_MALL_05_NR) تُظهر إنذارات ازدحام خلال آخر 3 ساعات في فترة بعد الظهر: إشغال موارد ~93%، 282 مستخدمًا، تنزيل 9 ميجابت/ث، رفع 4 ميجابت/ث، BLER ~4.4%، وزمن جدولة p95 يبلغ 74 مللي ثانية، مع شكاوى من بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion. I will start by checking the last 3h KPIs from OSS for NB_MALL_05_NR to validate load and headroom; please confirm access.",
+      "message_ar": "تم الاستلام. سأبدأ بالتحقق من مؤشرات الساعات الثلاث الأخيرة من النظام لإثبات الحمل والهامش على NB_MALL_05_NR؛ يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NB_MALL_05_NR and the 3h window.",
+      "message_ar": "تمت الموافقة على الوصول لـ NB_MALL_05_NR ونافذة الثلاث ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: sustained PRB 92–96% with peaks aligned to streaming, users 260–300; DL 8–10 Mbps, UL 3–5 Mbps; BLER 3–6%; scheduler p95 65–90 ms. Next, I propose site parameter tuning (scheduler/QoS weights and admission thresholds) to relieve congestion while protecting latency. Proceed?",
+      "message_ar": "النتائج: إشغال موارد مستمر 92–96% مع ذروات متزامنة مع البث، المستخدمون 260–300؛ تنزيل 8–10 ميجابت/ث، رفع 3–5 ميجابت/ث؛ BLER بين 3–6%؛ وزمن جدولة p95 بين 65–90 مللي ثانية. أقترح تاليًا ضبط معلمات الموقع (أوزان المجدول وجودة الخدمة وحدود القبول) لتخفيف الازدحام مع الحفاظ على زمن الوصول. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning on this indoor small site.",
+      "message_ar": "تمت الموافقة على تطبيق الضبط على هذا الموقع الداخلي الصغير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed and config pushed: optimized scheduler weights, enabled burst smoothing, and tightened high-load admission. Early impact (5–10 min): PRB down to 82–86%, DL 12–15 Mbps, UL 5–6 Mbps, BLER ~2–3%, p95 ~55–60 ms. I also propose opening a capacity/monitoring ticket to track. Approve?",
+      "message_ar": "تم تنفيذ التغيير ودفع التهيئة: تحسين أوزان المجدول، تفعيل تسوية الاندفاعات، وتشديد القبول عند الحمل العالي. الأثر الأولي (5–10 دقائق): انخفض إشغال الموارد إلى 82–86%، التنزيل 12–15 ميجابت/ث، الرفع 5–6 ميجابت/ث، BLER ~2–3%، وp95 ~55–60 مللي ثانية. أقترح أيضًا فتح تذكرة متابعة/سعة للتتبع. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; users report smoother streaming already.",
+      "message_ar": "موافق؛ المستخدمون يبلّغون عن بث أنعم بالفعل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-LOAD-04237 to track sustained load at NB_MALL_05_NR; notes include the tuning applied and need for capacity assessment. I will continue observing KPIs; please share any floor feedback.",
+      "message_ar": "تم إنشاء DU-LOAD-04237 لتتبع الحمل المستمر على NB_MALL_05_NR؛ الملاحظات تتضمن الضبط المطبق والحاجة لتقييم السعة. سأستمر بمراقبة المؤشرات؛ يُرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 20 minutes, alarms cleared and app speeds improved; no drops observed.",
+      "message_ar": "بعد 20 دقيقة، اختفت الإنذارات وتحسنت سرعات التطبيقات؛ لم تُلاحظ حالات انقطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. Please confirm one key improvement and suggest a monitoring window; I will own the follow-up and updates on DU-LOAD-04237.",
+      "message_ar": "جيد. يُرجى تأكيد تحسن رئيسي واحد واقتراح نافذة مراقبة؛ سأتولى المتابعة والتحديثات على DU-LOAD-04237."
+    },
+    {
+      "role": "engineer",
+      "message_en": "PRB occupancy is trending lower and latency has decreased; the site parameter tuning/config push helped. Let’s monitor through the next busy hour and update DU-LOAD-04237 afterwards.",
+      "message_ar": "إشغال الموارد يتجه للانخفاض وزمن الوصول انخفض؛ ضبط معلمات الموقع/دفع التهيئة أفاد. لنراقب خلال ساعة الذروة القادمة ونحدّث DU-LOAD-04237 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood — we will monitor through the next busy hour and update the ticket afterwards. If performance degrades, we will escalate for capacity expansion; if unexpected side effects appear, we will roll back the tuning.",
+      "message_ar": "تم — سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا تدهور الأداء سنصعّد لزيادة السعة؛ وإذا ظهرت آثار جانبية غير متوقعة سنرجع الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained high PRB utilization on the indoor NR micro during shoulder-afternoon eMBB demand by validating the last-3h KPIs. Applied site parameter tuning to scheduler and admission behavior to reduce congestion, then opened a follow-up capacity ticket (DU-LOAD-04237). Early results show lower resource occupancy, better throughput, and reduced latency; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص إشغال مرتفع مستمر للموارد على خلية NR داخلية صغيرة خلال طلب eMBB في فترة بعد الظهر عبر التحقق من مؤشرات آخر 3 ساعات. تم تنفيذ ضبط معلمات الموقع لسلوك المجدول والقبول لتقليل الازدحام، ثم فتح تذكرة متابعة للسعة (DU-LOAD-04237). تُظهر النتائج الأولية انخفاض الإشغال وتحسن المعدلات وانخفاض زمن الوصول؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

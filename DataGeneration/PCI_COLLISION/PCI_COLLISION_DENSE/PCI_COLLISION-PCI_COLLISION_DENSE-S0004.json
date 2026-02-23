@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0004",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban NR macro cell shows PCI overlap (~34%) with degraded mobility (handover success ~78%, ping-pong 24%) and poor signal quality (RSRQ -15 dB, SINR 7 dB) over the last 6h; alarm indicates congestion/outage.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تُظهر تداخل PCI (~34٪) مع تدهور في الحركة (نجاح التسليم ~78٪، وتذبذب ping-pong بنسبة 24٪) وجودة إشارة ضعيفة (RSRQ -15 dB وSINR 7 dB) خلال آخر 6 ساعات؛ التنبيه يشير إلى ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell with active alarms in the last 6h: handover success ~78%, failures 27%, ping-pong 24%. RSRQ -15 dB, SINR 7 dB, p50 DL 21 Mbps, 371 users, PRB ~84%. eMBB streaming complaints reported.",
+      "message_ar": "خلية NR ماكرو حضرية مع تنبيهات نشطة خلال آخر 6 ساعات: نجاح التسليم ~78٪، الفشل 27٪، وping-pong بنسبة 24٪. RSRQ -15 dB وSINR 7 dB وسرعة تنزيل وسطية 21 ميجابت/ث، 371 مستخدماً وPRB ~84٪. تم الإبلاغ عن شكاوى في بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Symptoms and overlap suggest a PCI collision. I will start with a neighbor audit over the 6h window to verify duplicate/ambiguous PCI around the target cell. Please share the cell ID and confirm I can proceed.",
+      "message_ar": "شكرًا. الأعراض ونسبة التداخل توحي بتعارض PCI. سأبدأ بتدقيق الجيران خلال نافذة 6 ساعات للتحقق من وجود PCI مكرر/ملتبس حول الخلية المستهدفة. يرجى مشاركة معرّف الخلية وتأكيد السماح بالمضي قدمًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UCB-321-1. You have approval to proceed.",
+      "message_ar": "معرّف الخلية: NR-UCB-321-1. لديك الموافقة للمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit results: self PCI=86; found duplicates on NR-UCB-319-2 and NR-UCB-324-1 overlapping 0.7–1.1 km with ~34% area overlap. Also a close neighbor with PCI=2 (no collision but contributes to confusion). These align with the HO failures and ping-pong. I propose reassigning NR-UCB-321-1 to a free PCI and refreshing neighbor relations. Approve the change?",
+      "message_ar": "نتائج تدقيق الجيران: قيمة PCI للخلية=86؛ تم العثور على تكرارات على NR-UCB-319-2 وNR-UCB-324-1 بتداخل 0.7–1.1 كم مع ~34٪ تداخل مساحي. هناك جار قريب PCI=2 (لا يوجد تعارض لكنه يزيد الالتباس). هذا يتطابق مع فشل التسليم وارتفاع ping-pong. أقترح إعادة تعيين PCI لخلية NR-UCB-321-1 إلى قيمة خالية وتحديث علاقات الجوار. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the parameter change.",
+      "message_ar": "موافق. تفضل بتنفيذ تغيير المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: reassigned NR-UCB-321-1 PCI from 86 to 304 and refreshed neighbor relations to remove duplicates; mobility offsets kept consistent. Post-change sanity OK: neighbors updated and broadcast healthy, no new alarms. Shall I log a ticket for traceability?",
+      "message_ar": "تم التنفيذ: إعادة تعيين PCI لخلية NR-UCB-321-1 من 86 إلى 304 وتحديث علاقات الجوار لإزالة التكرارات؛ تم الحفاظ على اتساق انحرافات الحركة. فحوصات ما بعد التغيير سليمة: تم تحديث الجيران والبث طبيعي، ولا توجد تنبيهات جديدة. هل أسجل تذكرة للتتبع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, create a ticket.",
+      "message_ar": "نعم، أنشئ تذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-PCI-04172 capturing the PCI replan and neighbor updates. I will watch HO success, ping-pong, RSRQ, and user experience through the next busy period. Do you observe any immediate changes on your side?",
+      "message_ar": "تم إنشاء التذكرة: DU-PCI-04172 تتضمن إعادة تخطيط PCI وتحديثات الجوار. سأراقب نجاح التسليم وping-pong وRSRQ وتجربة المستخدم خلال فترة الذروة القادمة. هل تلاحظ أي تغييرات فورية لديك؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check (~15 min): failed handovers are dropping on drive logs, ping-pong less frequent, RSRQ improving to about -13 dB.",
+      "message_ar": "فحص مبكر (~15 دقيقة): حالات فشل التسليم في انخفاض بسجلات القيادة، وتكرار ping-pong أقل، وRSRQ يتحسن إلى حوالي -13 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I’ll continue observing mobility KPIs and any congestion effects given PRB ~84% and 371 users, and correlate with throughput (p50 ~21 Mbps) in this urban macro NR cell.",
+      "message_ar": "مؤشر جيد. سأواصل مراقبة مؤشرات الحركة وأي آثار للازدحام نظرًا لـPRB ~84٪ و371 مستخدمًا، وربط ذلك بمعدل النقل (الوسيط ~21 ميجابت/ث) في هذه الخلية الماكرو الحضرية NR."
+    },
+    {
+      "role": "engineer",
+      "message_en": "So far beam-related drops are stabilizing and ping-pong is trending down after the PCI/neighbor parameter optimization. Let’s monitor through the next busy hour (next 2 hours) and review in DU-PCI-04172.",
+      "message_ar": "حتى الآن حالات السقوط المرتبطة بالحزم تستقر وping-pong في اتجاه هابط بعد تحسين معلمات PCI/الجوار. لنعمل على المراقبة خلال ساعة الذروة القادمة (الساعتان المقبلتان) والمراجعة ضمن DU-PCI-04172."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and update the ticket after the window. If degradation reappears, we’ll roll back to the prior PCI and escalate to RF planning for a wider cluster replan. Summary: diagnosed PCI collision via neighbor audit, retuned site PCI and neighbors, and initiated monitoring.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد التدهور، سنعود إلى قيمة PCI السابقة ونصعّد إلى فريق تخطيط التغطية لإعادة تخطيط أوسع على مستوى العنقود. الخلاصة: تم تشخيص تعارض PCI عبر تدقيق الجيران، وإعادة ضبط PCI وعلاقات الجوار للموقع، وبدء المراقبة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-UCB-321-1",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI reassignment 86->304; refresh neighbor relations; keep mobility offsets consistent"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision fixed by reassignment and neighbor updates on NR-UCB-321-1"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A neighbor relations audit confirmed a PCI collision: the cell’s PCI 86 was duplicated on overlapping neighbors, aligning with handover failures and ping-pong. Site parameter tuning was executed to reassign the PCI and refresh neighbor relations, and a ticket was logged for traceability. Post-change, mobility indicators improved and monitoring continues through the next busy hour.",
+    "ar": "أكد تدقيق علاقات الجوار وجود تعارض PCI: كانت قيمة PCI للخلية (86) مكررة على جيران متداخلين، ما يتماشى مع فشل التسليم وارتفاع ping-pong. تم تنفيذ ضبط معلمات الموقع بإعادة تعيين PCI وتحديث علاقات الجوار، وتم تسجيل تذكرة للتتبع. بعد التغيير تحسنت مؤشرات الحركة وتستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

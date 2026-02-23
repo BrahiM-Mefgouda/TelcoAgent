@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0022",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "A suburban 5G NR macro cell shows ~91% PRB utilization off-peak over the last 4h with 195 users, p95 scheduling latency ~40 ms and 6% BLER; can we investigate capacity pressure affecting eMBB streaming?",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تسجل ~91% استخدام PRB خارج أوقات الذروة خلال آخر 4 ساعات مع 195 مستخدماً، وزمن جدولة p95 ≈ 40 مللي ثانية وBLER 6٪؛ هل نفحص ضغط السعة الذي قد يؤثر على بث eMBB؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro is running hot off-peak in the last 4h: PRB ~91%, 195 users, p95 scheduling latency ~40 ms, BLER ~6%. eMBB streaming users reported dips. Please check.",
+      "message_ar": "الخليّة NR ماكرو في الضواحي تعمل بمستوى مرتفع خارج أوقات الذروة خلال آخر 4 ساعات: استخدام PRB ~91%، 195 مستخدماً، زمن جدولة p95 ~40 مللي ثانية، وBLER ~6%. وردت شكاوى من مستخدمي بث eMBB. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling the last 4h performance counters for the affected cell; please confirm the cell ID and grant read access.",
+      "message_ar": "سأبدأ بسحب مؤشرات الأداء لآخر 4 ساعات للخليّة المعنية؛ يرجى تأكيد معرّف الخليّة ومنحي صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-MACRO-2113; access approved for the 4h window.",
+      "message_ar": "معرّف الخليّة هو NR-SUB-MACRO-2113؛ تمت الموافقة على الوصول لفترة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "4h counters pulled for NR-SUB-MACRO-2113: PRB utilization avg 91%, users 195, p95 scheduling latency 40 ms, BLER 6%, DL/UL throughput 10/8 Mbps. Off-peak contention is evident. Next, I propose targeted scheduler/PRB parameter tuning to relieve pressure; approve to proceed?",
+      "message_ar": "تم سحب مؤشرات 4 ساعات لـ NR-SUB-MACRO-2113: متوسط استخدام PRB 91%، المستخدمون 195، زمن جدولة p95 = 40 مللي ثانية، BLER = 6%، ومعدل DL/UL = 10/8 ميجابت/ث. يوجد تزاحم خارج أوقات الذروة. الخطوة التالية: ضبط انتقائي لأوزان الجدولة/PRB لتخفيف الضغط؛ هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning.",
+      "message_ar": "موافق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on NR-SUB-MACRO-2113: slight scheduler balancing and an admission threshold guard with conservative CQI/MCS stability; no resets. Monitoring immediate impact.",
+      "message_ar": "تم تطبيق الضبط على NR-SUB-MACRO-2113: موازنة طفيفة للجدولة مع حارس لعتبة القبول وحماية محافظة لاستقرار CQI/MCS؛ دون عمليات إعادة تشغيل. أراقب الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: streaming is smoother and interactive latency feels better on test devices.",
+      "message_ar": "ملاحظة أولية: البث أصبح أكثر سلاسة والزمن التفاعلي أفضل على أجهزة الاختبار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep short-term observation and recommend opening a tracking item for documentation and capacity follow-up; shall I raise it?",
+      "message_ar": "جيد. سأواصل المراقبة القصيرة وأوصي بفتح بند متابعة للتوثيق ومتابعة السعة؛ هل أتابع فتحه؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, go ahead.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking item created and annotated with the tuning and capacity note. I will watch PRB, latency, and BLER over the next hour.",
+      "message_ar": "تم إنشاء بند المتابعة وتوثيق الضبط وملاحظة الحاجة لمراجعة السعة. سأراقب PRB والزمن وBLER خلال الساعة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "PRB utilization is trending down toward ~80% and latency is improving after the parameter tuning; let's monitor for the next 2–4 hours and track under DU-PRB-04219.",
+      "message_ar": "استخدام PRB يتجه للانخفاض نحو ~80% والزمن يتحسن بعد ضبط المعلمات؛ لنراقب خلال الساعتين إلى أربع ساعات القادمة ونتابع تحت DU-PRB-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the 2–4 hour monitoring window and update the ticket after the window. If metrics regress, we'll escalate to capacity planning; if adverse effects appear, we'll roll back to the prior baseline. Summary: pulled 4h counters, applied targeted scheduler/PRB tuning, and created a tracking item; ongoing watch on PRB, latency, and BLER.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة فترة 2–4 ساعات وسنحدّث البند بعد انتهاء النافذة. إذا تراجعت المؤشرات سنصعّد إلى تخطيط السعة؛ وإذا ظهرت آثار سلبية سنرجع إلى الإعداد السابق. الملخص: سحب مؤشرات 4 ساعات، تطبيق ضبط مستهدف للجدولة/PRB، وإنشاء بند متابعة؛ متابعة مستمرة لـ PRB والزمن وBLER."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-2113",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PRB scheduler balancing; admission threshold guard; CQI/MCS stability"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB off-peak on NR macro; tuning applied; monitor 2–4h; capacity review"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained high PRB utilization (~91%) on a suburban 5G NR macro during off-peak with elevated scheduling latency and moderate BLER. Pulled 4h counters, then applied conservative site parameter tuning to the scheduler/admission to relieve contention, and created a tracking ticket for capacity follow-up. Monitoring PRB, latency, and BLER over the next 2–4 hours with escalation to capacity planning if relief is insufficient.",
+    "ar": "تم تشخيص ارتفاع مستمر في استخدام PRB (~91%) على خلية NR ماكرو في الضواحي خارج أوقات الذروة مع ارتفاع في زمن الجدولة وBLER متوسط. تم سحب مؤشرات 4 ساعات ثم تطبيق ضبط محافظ لمعلمات الموقع على الجدولة/القبول لتخفيف التزاحم، وإنشاء تذكرة متابعة لمراجعة السعة. تتم مراقبة PRB والزمن وBLER خلال الساعتين إلى أربع ساعات القادمة مع التصعيد إلى تخطيط السعة إذا لم يكن التخفيف كافياً."
+  }
+}

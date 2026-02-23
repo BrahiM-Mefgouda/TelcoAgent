@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0028",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro over the last 6h shows high TA percentiles (p50≈252 m, p95≈508 m) with SINR ≈1 dB indicating interference / signal overlap and about 34% users served from distance; investigate TA distribution drift and mis-association.",
+    "ar": "موقع ماكرو NR في منطقة ضاحية خلال آخر 6 ساعات يظهر ارتفاعًا في نسب TA (الوسيط≈252 م، 95%≈508 م) مع SINR≈1 dB ما يشير إلى تداخل/تراكب الإشارة وحوالي 34% من المستخدمين مخدومين من مسافة بعيدة؛ يرجى التحقق من انحراف توزيع TA وسوء الارتباط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro, last 6h: TA p50 ~252 m, p95 ~508 m, ~34% distant-serving, SINR ~1 dB, RSRP -102 dBm, RSRQ -12 dB; HO success ~87% with failures ~15%. Please assess.",
+      "message_ar": "موقع ماكرو NR في الضواحي خلال آخر 6 ساعات: وسيط TA ~252 م، 95% ~508 م، ~34% خدمة من مسافة بعيدة، SINR ~1 dB، RSRP -102 dBm، RSRQ -12 dB؛ نجاح التسليم ~87% مع فشل ~15%. يرجى التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely TA distribution drift with mis-association under interference / signal overlap and load. I will first pull recent stats for the affected sector over 6h to baseline; approve access?",
+      "message_ar": "تم الاستلام. يُرجّح وجود انحراف في توزيع TA مع سوء ارتباط تحت تداخل/تراكب الإشارة والحمولة. سأجمع إحصاءات حديثة للقطاع المتأثر خلال 6 ساعات كخط أساس؛ هل الموافقة على الوصول متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the affected sector; proceed.",
+      "message_ar": "تمت الموافقة على الوصول للقطاع المتأثر؛ تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline collected: PRB util ~84%, users ~217; TA histogram shifted (median ~250 m, 95th ~500 m); distant-serving concentrated on two azimuths; SINR ~1 dB. Indicates overlap and mild overshoot. Next, I will review TA time series to confirm drift over the window.",
+      "message_ar": "تم جمع خط الأساس: استخدام PRB ~84%، المستخدمون ~217؛ مخطط TA منحرف (الوسيط ~250 م، 95% ~500 م)؛ الخدمة من بعيد مركزة على اتجاهين؛ SINR ~1 dB. هذا يشير إلى تراكب وتجاوز تغطية طفيف. التالي، سأراجع السلسلة الزمنية لـ TA لتأكيد الانحراف خلال النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series confirms drift (index ~0.53), rising during mixed busy periods; spikes align with low SINR and higher load, with HO attempts. Diagnosis: mis-association/overshoot. I propose a minor down-tilt and mobility bias tune toward nearer neighbors; low-risk and reversible. Approve change?",
+      "message_ar": "السلسلة الزمنية لـ TA تؤكد الانحراف (المؤشر ~0.53)، يرتفع خلال فترات الانشغال المختلطة؛ القمم تتوافق مع SINR منخفض وحمولة أعلى ومع محاولات التسليم. التشخيص: سوء ارتباط/تجاوز تغطية. أقترح تقليلًا طفيفًا للاتجاه الرأسي وتعديل تحيزات التنقل نحو الجيران الأقرب؛ منخفض المخاطر ويمكن الرجوع عنه. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; execute now.",
+      "message_ar": "موافق؛ نفّذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: slight down-tilt and small bias toward nearer cells; commit successful, no faults raised. Expect reduced distant-serving and lower TA percentiles within minutes.",
+      "message_ar": "تم تطبيق التحسين: خفض طفيف للاتجاه الرأسي وتحيّز بسيط نحو الخلايا الأقرب؛ تم الاعتماد بنجاح وبدون أعطال. نتوقع تقليل الخدمة من بعيد وانخفاض نسب TA خلال دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change snapshot: SINR improved to ~3 dB, distant-serving ratio falling, early TA median down ~40 m; no new alarms.",
+      "message_ar": "لقطة بعد التغيير: تحسّن SINR إلى ~3 dB، وانخفاض نسبة المخدومين من بعيد، وهبوط مبكر في وسيط TA بحوالي 40 م؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. I will keep watching TA percentiles, HO outcomes, and SINR as traffic evolves, including evening streaming peaks.",
+      "message_ar": "مؤشرات جيدة. سأواصل مراقبة نسب TA ونتائج التسليم وSINR مع تطور الحركة، بما في ذلك ذروة البث المسائي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: distant-serving users trending down and TA median decreasing; the action taken was site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: المستخدمون المخدومون من بعيد في تراجع ووسيط TA في انخفاض؛ الإجراء كان ضبط معلمات الموقع. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour monitoring and share an update afterward. If TA drifts again or SINR worsens, we will roll back the tuning and review neighbor relations; if improvements hold, we’ll keep the new settings.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة القادمة وسنزودك بتحديث بعدها. إذا عاد انحراف TA أو ساء SINR، سنرجع التعديلات ونراجع علاقات الجوار؛ وإن استمرت التحسينات فسنُبقي الإعدادات الجديدة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "affected_NR_macro_sector",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "affected_NR_macro_sector",
+        "TA",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "minor down-tilt and mobility bias tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on a suburban NR macro with low SINR and a high share of distant-serving users. Baseline checks and TA time series confirmed drift correlated with interference/overlap and higher load. Applied site parameter tuning (minor down-tilt and mobility bias adjustment), yielding early improvements; monitoring will confirm stability.",
+    "ar": "تم تشخيص انحراف توزيع TA في موقع ماكرو NR بضاحية مع SINR منخفض وحصة مرتفعة من المستخدمين المخدومين من مسافة بعيدة. أكدت فحوصات الأساس والسلسلة الزمنية لـ TA الانحراف المرتبط بالتداخل/تراكب الإشارة والحمولة الأعلى. تم تنفيذ ضبط معلمات الموقع (خفض طفيف للاتجاه الرأسي وتعديل تحيزات التنقل)، مع تحسن مبكر؛ وستؤكد المتابعة الاستقرار."
+  }
+}

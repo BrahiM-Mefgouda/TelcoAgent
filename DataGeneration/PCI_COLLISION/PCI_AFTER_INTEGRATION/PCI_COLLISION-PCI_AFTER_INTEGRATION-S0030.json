@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0030",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban 5G macro cell shows degraded mobility (HO success 72.9%, ping-pong 13%) and SINR -2 dB indicating interference / signal overlap after integration, with an active alarm indicating congestion/outage.",
+    "ar": "خلية 5G ماكرو حضرية تعاني من تدهور الحركة (نسبة نجاح التسليم 72.9% وتذبذب 13%) وSINR = -2 dB مما يدل على تداخل / تراكب إشارة بعد الدمج، مع إنذار نشط يشير إلى ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration, our urban NR macro cell shows HO failures ~14%, ping-pong 13%, SINR -2 dB, RSRQ -16 dB, and p50 DL 18 Mbps. Alarm active over the last 8h and users report streaming buffering.",
+      "message_ar": "بعد الدمج، الخلية NR الماكرو في منطقة حضرية تُظهر فشل تسليم ~14% وتذبذب تسليم 13%، وSINR -2 dB وRSRQ -16 dB، ومتوسط تنزيل 18 Mbps. يوجد إنذار نشط خلال آخر 8 ساعات ومستخدمون يبلغون عن تقطيع في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. The low SINR indicates interference / signal overlap, likely tied to a PCI issue. I will first check neighbor relations and PCI reuse around this cell over the last 8 hours. Please confirm access.",
+      "message_ar": "شكرًا. انخفاض SINR يدل على تداخل / تراكب إشارة، ومن المرجح أنه مرتبط بمشكلة PCI. سأبدأ بفحص الجيران وإعادة استخدام PCI حول هذه الخلية خلال آخر 8 ساعات. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the cell and adjacent sectors within the 8h window.",
+      "message_ar": "تمت الموافقة على الوصول إلى الخلية والقطاعات المجاورة ضمن نافذة 8 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Result: a PCI collision is present—the serving sector uses PCI 343 and an adjacent sector also uses 343. There is ~55% footprint overlap, with a strong neighbor on PCI 48 contributing to confusion. This aligns with 72.9% HO success and 13% ping-pong.",
+      "message_ar": "النتيجة: يوجد تعارض PCI—القطاع الخادِم يستخدم PCI 343 وقطاع مجاور يستخدم 343 أيضًا. هناك تداخل في البصمة بحوالي 55%، مع جار قوي على PCI 48 يساهم في الالتباس. هذا يتماشى مع نجاح تسليم 72.9% وتذبذب 13%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. You have approval to proceed with live remediation.",
+      "message_ar": "مفهوم. لديك الموافقة للمضي في المعالجة الحية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: reassign the serving sector to a free, non-conflicting PCI and refresh neighbor relations with minor mobility threshold tuning. Brief service impact (<30s). Proceeding now.",
+      "message_ar": "الخطة: إعادة تعيين القطاع الخادِم إلى PCI غير متعارض وتحديث علاقات الجيران مع ضبط طفيف لعتبات الحركة. تأثير خدمة وجيز (<30 ثانية). جارٍ التنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change completed. PCI moved to a non-conflicting value and neighbor relations refreshed; cell is on-air. Early stats show SINR improved by ~4–5 dB in the overlap zone and RSRQ improved. We’ll watch HO failures and ping-pong.",
+      "message_ar": "تم التنفيذ. تم نقل PCI إلى قيمة غير متعارضة وتحديث علاقات الجيران؛ الخلية عاملة. تُظهر الإحصاءات الأولية تحسن SINR بحوالي 4–5 dB في منطقة التداخل وتحسن RSRQ. سنراقب حالات فشل التسليم والتذبذب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick check: SINR improved from -2 to +2–3 dB, RSRQ to about -11 dB; ping-pong counters already easing. No new alarms.",
+      "message_ar": "فحص سريع: تحسن SINR من -2 إلى +2–3 dB، وRSRQ إلى حوالي -11 dB؛ تراجعت عدادات التذبذب. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Logging the action for auditability: created ticket DU-PCI-08327 covering the PCI change and interference mitigation. We’ll observe performance as load builds; please confirm user experience.",
+      "message_ar": "تسجيل الإجراء للتتبع: تم إنشاء التذكرة DU-PCI-08327 لتغطية تغيير PCI وتخفيف التداخل. سنراقب الأداء مع ازدياد الحمل؛ يرجى تأكيد تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement—handover failures trending down and interference indicators stabilizing. Action taken: PCI reallocation with neighbor parameters optimized. Let’s monitor through the next busy hour; referencing DU-PCI-08327.",
+      "message_ar": "نلاحظ تحسنًا—عمليات فشل التسليم في اتجاه هبوطي ومؤشرات التداخل تستقر. الإجراء المنفذ: إعادة تخصيص PCI مع تحسين معلمات الجيران. لنراقب خلال ساعة الذروة القادمة؛ بالإشارة إلى DU-PCI-08327."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and update the ticket after the window. If issues recur, we will roll back the PCI change and escalate to RF planning for a wider retune.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عادت المشكلات، سنرجع تغيير PCI وسنصعّد إلى فريق تخطيط RF لإعادة ضبط أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor and PCI review confirmed a PCI collision with high overlap, driving interference and unstable mobility. We mitigated by site parameter tuning: reassigning the serving sector to a non-conflicting PCI and refreshing neighbor relations. A tracking ticket was created for post-change monitoring and audit.",
+    "ar": "أكّد فحص الجيران وPCI وجود تعارض PCI مع تداخل عالٍ، ما تسبب في تداخل وعدم استقرار الحركة. قمنا بالتخفيف عبر ضبط معلمات الموقع: إعادة تعيين القطاع الخادِم إلى PCI غير متعارض وتحديث علاقات الجيران. تم إنشاء تذكرة متابعة للمراقبة بعد التغيير ولأغراض التدقيق."
+  }
+}

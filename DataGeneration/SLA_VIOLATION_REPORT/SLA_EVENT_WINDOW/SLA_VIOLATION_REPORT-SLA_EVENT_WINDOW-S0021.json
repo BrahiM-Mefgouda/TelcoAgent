@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0021",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "In the stadium 5G NR micro site, a congestion alarm and severe SLA breach were observed in the last 6h egress window, with slow data (p50 ~4 Mbps), ~49 ms latency, ~96.5% PRB utilization, and QoS ~0.07 across ~792 users.",
+    "ar": "في موقع الجيل الخامس NR المصغّر في الملعب، تم رصد إنذار ازدحام ومخالفة حادة لاتفاقية الخدمة خلال نافذة 6 ساعات لفترة المغادرة، مع بيانات بطيئة (p50 ~4 ميجابت/ث)، وزمن تأخير ~49 مللي ثانية، واستخدام PRB ~96.5%، وجودة خدمة ~0.07 لنحو 792 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell over the last 6h (egress) is breaching SLA; congestion alarm active. KPIs: QoS ~0.074 vs 0.993 target, PRB ~96.5%, latency ~49 ms, BLER ~6.3%, ~792 users, p50 throughput ~4 Mbps (slow data). Please take lead.",
+      "message_ar": "الخلية المصغّرة NR في الملعب خلال آخر 6 ساعات (فترة المغادرة) تخالف اتفاقية الخدمة؛ إنذار ازدحام فعّال. المؤشرات: جودة الخدمة ~0.074 مقابل هدف 0.993، استخدام PRB ~96.5%، التأخير ~49 مللي ثانية، BLER ~6.3%، نحو 792 مستخدمًا، ومتوسط سرعة p50 ~4 ميجابت/ث (بيانات بطيئة). الرجاء تولّي القيادة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start with an OSS health snapshot aligned to the 6h egress window. Please confirm the target cell ID and approve access.",
+      "message_ar": "مفهوم. سأبدأ بلقطة حالة من نظام الإدارة متوافقة مع نافذة 6 ساعات لفترة المغادرة. يرجى تأكيد معرف الخلية المستهدفة والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NR_STAD_MICRO_23. Access approved. Traffic was heavy eMBB with streaming during exit.",
+      "message_ar": "الخلية: NR_STAD_MICRO_23. الوصول مُعتمد. كانت حركة المرور eMBB كثيفة مع بث فيديو أثناء المغادرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying OSS for NR_STAD_MICRO_23 over the last 6h now. Results: no hardware/backhaul alarms; cell availability 100%. RRC connected peak ~820; active users ~780. PRB utilization sustained >95% for ~3.8h. Scheduler queues high; radio CPU/power normal. QoS drops align with the egress period.",
+      "message_ar": "أستعلم من نظام الإدارة لخلية NR_STAD_MICRO_23 خلال آخر 6 ساعات الآن. النتائج: لا إنذارات عتاد أو وصلات خلفية؛ توفر الخلية 100%. ذروة RRC متصل ~820؛ مستخدمون نشطون ~780. استمر استخدام PRB >95% لمدة ~3.8 ساعات. طوابير الجدولة مرتفعة؛ المعالج/القدرة الراديوية طبيعيان. انخفاض جودة الخدمة يتماشى مع فترة المغادرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field reports match: streaming buffering observed; no onsite power issues. Proceed.",
+      "message_ar": "تتطابق تقارير الميدان: لوحظ توقف مؤقت أثناء البث؛ لا توجد مشاكل طاقة في الموقع. تفضّل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling QoS time series for NR_STAD_MICRO_23 over 6h. Findings: QoS averages ~0.07 with 49 breach intervals vs target 0.99. Worst window 18:30–19:15; latency spiked 45–60 ms; p50 throughput 3–5 Mbps; BLER stable 5–7%. Diagnosis: capacity saturation causing SLA violations during egress.",
+      "message_ar": "أسحب سلسلة زمنية لجودة الخدمة لخلية NR_STAD_MICRO_23 لمدة 6 ساعات. النتائج: متوسط جودة الخدمة ~0.07 مع 49 فترة مخالفة مقابل الهدف 0.99. أسوأ نافذة 18:30–19:15؛ ارتفع التأخير إلى 45–60 مللي ثانية؛ p50 للسرعة 3–5 ميجابت/ث؛ BLER مستقر 5–7%. التشخيص: تشبّع سعة يسبب مخالفات اتفاقية الخدمة خلال المغادرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. You have approval to take necessary action; neighbor micros look healthy.",
+      "message_ar": "مفهوم. لديك الموافقة لاتخاذ الإجراء اللازم؛ الخلايا المصغّرة المجاورة تبدو بحالة جيدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating an incident for capacity-driven SLA violations on NR_STAD_MICRO_23 with evidence from OSS and QoS timelines, requesting capacity relief and temporary traffic steering by operations. I will monitor immediate counters and the next busy hour for impact.",
+      "message_ar": "أقوم بإنشاء بلاغ لحالات مخالفة اتفاقية الخدمة بسبب السعة على الخلية NR_STAD_MICRO_23 مع تضمين الأدلة من نظام الإدارة والسلاسل الزمنية لجودة الخدمة، وطلب تخفيف السعة وتوجيه مؤقت لحركة المرور من فرق التشغيل. سأراقب المؤشرات الفورية والساعة المزدحمة القادمة لقياس الأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. I will watch for user complaints tapering as the venue clears.",
+      "message_ar": "تم الاستلام. سأتابع تراجع شكاوى المستخدمين مع تفريغ المكان."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial live view: PRB easing to ~88–90%, latency trending ~35–40 ms as load drops. I’ll continue monitoring and share an update after the agreed window.",
+      "message_ar": "الرصد الأولي المباشر: استخدام PRB ينخفض إلى ~88–90%، والتأخير يتجه نحو ~35–40 مللي ثانية مع انخفاض الحمل. سأستمر بالمراقبة وأشارك تحديثًا بعد انتهاء النافذة المتفق عليها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement now: slow data reports easing, p50 throughput ~10–12 Mbps and latency ~32 ms. Action taken: incident created for SLA violation based on QoS analysis; let’s monitor through the next busy hour and the next 2–4 hours, then update DU-SLA-04567.",
+      "message_ar": "نرى تحسنًا الآن: تقارير بطء البيانات تتراجع، وp50 للسرعة ~10–12 ميجابت/ث والتأخير ~32 مللي ثانية. الإجراء المتخذ: تم إنشاء بلاغ لمخالفة اتفاقية الخدمة بناءً على تحليل جودة الخدمة؛ لنتابع المراقبة خلال الساعة المزدحمة التالية والـ2–4 ساعات القادمة، ثم تحديث DU-SLA-04567."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own monitoring for the next busy hour and 2–4 hours and update the ticket afterward. If performance degrades again, we will escalate to capacity and RF teams for relief; if it holds steady, we will close the incident after validation. No rollback is needed unless a temporary steering action is later applied.",
+      "message_ar": "تم التأكيد—سنقوم نحن بمتابعة المراقبة خلال الساعة المزدحمة التالية والـ2–4 ساعات القادمة وسنحدّث البلاغ بعد ذلك. إذا تدهور الأداء مجددًا فسوف نُصعّد إلى فرق السعة وRF لطلب الدعم؛ وإن استقر فسنغلق البلاغ بعد التحقق. لا حاجة لتراجع أي تغييرات ما لم يتم تطبيق توجيه مؤقت لاحقًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated an SLA violation on the stadium 5G NR micro cell during egress by checking the OSS health and analyzing the QoS time series, which showed 49 breach intervals, high PRB utilization, elevated latency, and slow data. No hardware or backhaul faults were found; the issue is capacity-driven. Created an incident ticket to coordinate capacity relief/traffic steering and set a monitoring plan for the next busy hour and 2–4 hours.",
+    "ar": "تم التحقق من مخالفة اتفاقية الخدمة في خلية الجيل الخامس NR المصغّرة في الملعب خلال فترة المغادرة عبر فحص حالة النظام وتحليل السلسلة الزمنية لجودة الخدمة، والتي أظهرت 49 فترة مخالفة مع استخدام PRB مرتفع وزمن تأخير مرتفع وبيانات بطيئة. لم تُسجّل أعطال عتاد أو وصلات خلفية؛ والمشكلة ناتجة عن السعة. تم إنشاء بلاغ للتنسيق حول تخفيف السعة/توجيه الحركة ووُضع计划 مراقبة للساعة المزدحمة التالية و2–4 ساعات."
+  }
+}

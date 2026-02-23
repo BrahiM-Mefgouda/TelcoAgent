@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0028",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macrocell with congestion alarms shows interference/signal overlap after integration: PCI 277 has 36% neighbor overlap, SINR ~2 dB, handover failures 25%, ping‑pong 26%, and median throughput 16 Mbps under mixed hours and eMBB traffic.",
+    "ar": "موقع NR ماكرو حضري مع إنذارات ازدحام يُظهر تداخل/تراكب إشارة بعد الدمج: PCI 277 لديه تداخل جارٍ بنسبة 36%، وSINR ~2 dB، وفشل تسليم 25%، وPing‑Pong 26%، ومتوسط إنتاجية 16 ميجابت/ث تحت أوقات مختلطة وحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro just integrated; congestion alarms are active. We see HO failures ~25%, ping‑pong ~26%, SINR ~2 dB, RSRQ −11 dB, BLER ~12.7%. About 215 users, mixed hours; eMBB streaming reports brief stalls. Serving PCI: 277.",
+      "message_ar": "تم دمج موقع NR ماكرو حضري للتو؛ إنذارات الازدحام فعّالة. نرى فشل تسليم ~25% وPing‑Pong ~26% وSINR حوالي 2 dB وRSRQ −11 dB وBLER ~12.7%. نحو 215 مستخدمًا خلال أوقات مختلطة؛ توجد توقفات قصيرة في بث eMBB. الـPCI الخادم: 277."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Symptoms point to interference/signal overlap, likely a PCI collision post‑integration. I will run a neighbor audit over the last 8 hours to confirm any duplicate/overlapping PCI and adjacency consistency. Please confirm access and share the exact cell ID.",
+      "message_ar": "شكرًا. الأعراض تشير إلى تداخل/تراكب إشارة، على الأرجح تعارض PCI بعد الدمج. سأجري تدقيقًا للجيران خلال آخر 8 ساعات لتأكيد أي PCI مكرر/متداخل واتساق العلاقات. يرجى تأكيد الوصول ومشاركة معرف الخلية الدقيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID: NR_MACRO_UGR_277_A. Window: 8h.",
+      "message_ar": "الوصول مُعتمد. معرف الخلية: NR_MACRO_UGR_277_A. النافذة: 8 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit findings: Neighbor NR_MACRO_UGR_277_B is also using PCI 277 with ~36% footprint overlap; one reciprocal neighbor entry is missing. This aligns with the HO failures and ping‑pong. Proposal: retune NR_MACRO_UGR_277_A to a free PCI and refresh neighbor relations to eliminate the collision. Proceed?",
+      "message_ar": "نتائج التدقيق: الجار NR_MACRO_UGR_277_B يستخدم أيضًا PCI 277 مع تداخل تغطية بحوالي 36%؛ وهناك إدخال جارٍ متبادل مفقود. هذا يتماشى مع فشل التسليم والـPing‑Pong. الاقتراح: إعادة ضبط NR_MACRO_UGR_277_A إلى PCI خالٍ وتحديث علاقات الجيران لإزالة التعارض. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the change.",
+      "message_ar": "موافق. تابع التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed: Changed PCI from 277 to 139 on NR_MACRO_UGR_277_A and refreshed neighbor relations; mobility thresholds kept consistent. No service interruption observed. Early counters show HO failures trending down and SINR marginally improving. Shall I log a ticket for traceability?",
+      "message_ar": "تم تنفيذ التحسين: تم تغيير الـPCI من 277 إلى 139 على NR_MACRO_UGR_277_A وتحديث علاقات الجيران؛ مع الحفاظ على عتبات التنقل متسقة. لم تُلاحظ انقطاعات. المؤشرات الأولية تُظهر انخفاضًا في فشل التسليم وتحسنًا طفيفًا في SINR. هل أسجل تذكرة للتتبع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please create it.",
+      "message_ar": "نعم، يرجى إنشاؤها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created for traceability. We will track HO success, ping‑pong, RSRQ/SINR, and BLER over the upcoming period. Any immediate on‑air observations?",
+      "message_ar": "تم إنشاء تذكرة للتتبع. سنراقب نجاح التسليم، والـPing‑Pong، وRSRQ/SINR، وBLER خلال الفترة القادمة. هل هناك ملاحظات فورية على الشبكة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Immediate check shows fewer ping‑pong events and steadier links; median throughput remains around 16 Mbps.",
+      "message_ar": "التحقق الفوري يُظهر انخفاض أحداث الـPing‑Pong واستقرار الروابط؛ لا يزال الوسيط للإنتاجية نحو 16 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll continue observing KPIs as load builds.",
+      "message_ar": "تم الاستلام. سنواصل مراقبة مؤشرات الأداء مع ارتفاع الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: ping‑pong events are dropping and handover failures trending down. Action taken was PCI change with neighbor parameter optimization; let’s monitor through the next busy hour. Tracking under DU-PCI-00457.",
+      "message_ar": "تحسن ملحوظ: تتناقص أحداث الـPing‑Pong وفشل التسليم في اتجاه هابط. الإجراء كان تغيير الـPCI مع تحسين معلمات الجيران؛ لنتابع المراقبة خلال ساعة الذروة القادمة. المتابعة تحت DU-PCI-00457."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Today we identified and removed a PCI collision by changing the PCI and refreshing neighbor relations; we will own monitoring for the next busy hour and update the ticket after the window. If issues recur, we will escalate to cluster RF tuning; if regressions appear, we will roll back the PCI change.",
+      "message_ar": "مفهوم. اليوم حدّدنا وأزلنا تعارض PCI عبر تغيير الـPCI وتحديث علاقات الجيران؛ سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء الفترة. إذا عادت المشكلة سنصعّد إلى ضبط RF على مستوى العنقود؛ وإذا ظهرت انتكاسات سنعود عن تغيير الـPCI."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a duplicate PCI 277 with ~36% footprint overlap after the new NR macro integration, causing interference/signal overlap, handover failures, and ping‑pong. We mitigated by site parameter tuning: assigned a conflict‑free PCI and refreshed neighbor relations, then logged a ticket for traceability. KPIs will be monitored through the next busy hour with a rollback/escalation plan if needed.",
+    "ar": "أكد تدقيق الجيران وجود PCI مكرر 277 مع تداخل تغطية بنحو 36% بعد دمج موقع NR الماكرو الجديد، ما سبب تداخل/تراكب إشارة وفشل تسليم وPing‑Pong. قمنا بالتخفيف عبر ضبط معلمات الموقع: تعيين PCI خالٍ من التعارض وتحديث علاقات الجيران، ثم تسجيل تذكرة للتتبع. ستُراقَب مؤشرات الأداء خلال ساعة الذروة القادمة مع خطة تراجع/تصعيد عند الحاجة."
+  }
+}

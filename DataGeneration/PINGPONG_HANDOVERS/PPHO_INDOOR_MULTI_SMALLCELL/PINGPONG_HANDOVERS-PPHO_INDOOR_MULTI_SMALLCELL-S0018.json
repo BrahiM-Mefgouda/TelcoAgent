@@ -1,0 +1,105 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0018",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor NR micro site shows high ping-pong handovers (18%) over the last 3h with weak signal quality (RSRP -102 dBm, RSRQ -13 dB) and slow data (p50 8 Mbps) during the shoulder period.",
+    "ar": "موقع NR صغير داخلي يظهر ارتفاعاً في عمليات التسليم المتأرجحة (18%) خلال آخر 3 ساعات مع جودة إشارة ضعيفة (RSRP -102 dBm, RSRQ -13 dB) وبطء في البيانات (p50 8 Mbps) خلال فترة الكتف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cell cluster in the office wing is showing frequent ping-pong handovers in the last 3 hours; users report slow data during the shoulder period with streaming.",
+      "message_ar": "عنقود خلايا NR صغيرة داخلية في جناح المكاتب يظهر عمليات تسليم متأرجحة متكررة خلال آخر 3 ساعات؛ المستخدمون يبلغون عن بطء في البيانات خلال فترة الكتف مع بث الفيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull 3h OSS counters for the impacted indoor small site, then review handover time series and neighbor pairs, and finally apply minimal mobility tuning to damp ping-pong. Please confirm I can proceed.",
+      "message_ar": "تم. سأقوم أولاً باستخراج مؤشرات OSS لآخر 3 ساعات للموقع الداخلي الصغير المتأثر، ثم مراجعة السلاسل الزمنية للتسليم والجيران، وأخيراً تطبيق ضبط بسيط لمعاملات الحركة لتخفيف الـ Ping‑Pong. يرجى التأكيد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed; no active alarms on the cluster.",
+      "message_ar": "الموافقة على المتابعة؛ لا توجد إنذارات نشطة على العنقود."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS 3h snapshot: ping-pong at 18%, HO attempts ~46 per 5 min, HO failures ~15%. Radio quality is weak (RSRP -102 dBm, RSRQ -13 dB, SINR 7 dB). PRB utilization ~0.59 with ~228 users. Current mobility settings: hysteresis 1 dB, TTT 253 ms, A3 offset 2 dB. I will analyze HO time series across neighbor pairs next.",
+      "message_ar": "لقطة OSS لـ3 ساعات: الـ Ping‑Pong عند 18%، محاولات التسليم ~46 لكل 5 دقائق، إخفاقات التسليم ~15%. جودة الراديو ضعيفة (RSRP -102 dBm، RSRQ -13 dB، SINR 7 dB). استخدام PRB حوالي 0.59 مع ~228 مستخدماً. إعدادات الحركة الحالية: هيستريز 1 dB، TTT ‏253 ms، وإزاحة A3 بمقدار 2 dB. سأحلّل السلاسل الزمنية للتسليم عبر الجيران تالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series shows short dwell loops (20–40 s) predominantly between the serving cell and two neighbors; peaks align with shoulder traffic and are not PRB-driven. This is classic ping-pong driven by low hysteresis and short TTT under weak RSRP. I propose a minimal tune: increase hysteresis to 2 dB, extend TTT to 320 ms, and raise A3 offset to 3 dB for intra-frequency. Approve to apply now?",
+      "message_ar": "السلاسل الزمنية للتسليم تُظهر حلقات إقامة قصيرة (20–40 ثانية) بشكل رئيسي بين الخلية الخادمة وجارين؛ الذروات تتزامن مع حركة فترة الكتف وليست بسبب الـ PRB. هذا نمط Ping‑Pong تقليدي ناتج عن هيستريز منخفض وTTT قصير مع RSRP ضعيف. أقترح ضبطاً بسيطاً: رفع الهيستريز إلى 2 dB، تمديد TTT إلى 320 ms، ورفع إزاحة A3 إلى 3 dB ضمن نفس التردد. هل توافق على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "موافَق على تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied to the indoor micro pair. Post-change checks are clean: no new alarms, radio link failures stable, HO failures not increased. Early indicators show ping-pong trending down (from 18% to ~12% in ~15 min) and p50 user throughput improving from 8 to ~9–10 Mbps. I will keep observing.",
+      "message_ar": "تم تطبيق الضبط على الزوج الداخلي من الخلايا الصغيرة. فحوصات ما بعد التغيير سليمة: لا إنذارات جديدة، إخفاقات رابط الراديو مستقرة، ولم تزد إخفاقات التسليم. المؤشرات الأولية تُظهر انخفاضاً في الـ Ping‑Pong (من 18% إلى ~12% خلال ~15 دقيقة) وتحسناً في وسيط سرعة المستخدم من 8 إلى ~9–10 Mbps. سأستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "I see improvement: handover bouncing is decreasing and short dwell loops are fewer. The handover parameter optimization appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "ألاحظ تحسناً: تراجع ارتداد التسليم وانخفضت حلقات الإقامة القصيرة. يبدو أن تحسين معاملات التسليم فعّال. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the monitoring through the next busy hour and report updated ping-pong and user throughput. If regression appears, we will roll back the tuning and investigate neighbor relations and coverage balance; otherwise we will keep the optimization in place.",
+      "message_ar": "تم—سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ بتحديثات الـ Ping‑Pong وسرعة المستخدم. إذا ظهر تراجع، سنقوم بإلغاء الضبط والبحث في علاقات الجوار وتوازن التغطية؛ وإلا سنُبقي التحسين قائماً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on an indoor NR micro site by reviewing OSS counters and handover time series, which showed short dwell loops across specific neighbors under weak signal conditions. Applied targeted site parameter tuning (slightly higher hysteresis, extended TTT, and higher A3 offset) to stabilize mobility. Early results show reduced ping-pong and improved median throughput; continued monitoring through the next busy hour is planned.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم المتأرجحة في موقع NR صغير داخلي عبر مراجعة مؤشرات OSS والسلاسل الزمنية للتسليم التي أظهرت حلقات إقامة قصيرة عبر جيران محددين مع ضعف في الإشارة. تم تطبيق ضبط مُوجّه لمعاملات الموقع (رفع بسيط للهيستريز، تمديد TTT، وزيادة إزاحة A3) لاستقرار الحركة. النتائج الأولية تُظهر انخفاض الـ Ping‑Pong وتحسناً في الوسيط، مع الاستمرار بالمراقبة خلال ساعة الذروة القادمة."
+  }
+}

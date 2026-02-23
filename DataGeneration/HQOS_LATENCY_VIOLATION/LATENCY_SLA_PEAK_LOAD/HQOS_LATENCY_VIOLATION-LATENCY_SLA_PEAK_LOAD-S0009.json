@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0009",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows elevated latency (43 ms, p95 scheduler latency 87 ms) with high load (PRB 87%, 259 users) during peak evening for enterprise private traffic; congestion alarm active.",
+    "ar": "خلية NR ماكرو حضرية تُظهر ارتفاعًا في زمن الوصول (43 مللي ثانية، تأخر الجدولة p95 = 87 مللي ثانية) مع حمل مرتفع (استغلال PRB 87%، 259 مستخدمًا) خلال ذروة المساء لحركة مؤسسية خاصة؛ تنبيه ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening in the urban NR macro; enterprise‑private users report latency spikes. Active congestion alarm. Last 2h snapshot: PRB ~87%, BLER ~5.7%, 259 users, median latency ~43 ms, p95 scheduling latency 87 ms, median DL throughput ~13 Mbps.",
+      "message_ar": "ذروة المساء في موقع NR ماكرو حضري؛ مستخدمو المؤسسة الخاصة يبلّغون عن ارتفاعات في الكمون. هناك تنبيه ازدحام نشط. لقطة آخر ساعتين: PRB ~87%، BLER ~5.7%، 259 مستخدمًا، زمن وصول وسطي ~43 مللي ثانية، تأخر جدولة p95 = 87 مللي ثانية، تنزيل وسطي ~13 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull OSS counters for the last 2 hours to verify contention and errors. Please share the impacted cell ID and confirm access to proceed.",
+      "message_ar": "مفهوم. سأقوم أولًا بجلب عدّادات OSS لآخر ساعتين للتحقق من الازدحام والأخطاء. يرجى مشاركة معرف الخلية المتأثرة وتأكيد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-1123. Access approved. No transport alarms observed from our side.",
+      "message_ar": "معرف الخلية: NR-URB-1123. الوصول مُعتمد. لا توجد تنبيهات نقل من جانبنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS counters retrieved for NR-URB-1123 over the last 2h. Findings: PRB 82–95%, BLER 4–7%, active users peak ~270; queue-depth spikes align with 19:10–19:40. No RF faults. Next, I will analyze the latency time series to pinpoint the SLA breach windows.",
+      "message_ar": "تم جلب عدّادات OSS للخلية NR-URB-1123 خلال آخر ساعتين. النتائج: PRB بين 82–95%، BLER بين 4–7%، ذروة المستخدمين ~270؛ ارتفاعات عمق الطابور تتزامن مع 19:10–19:40. لا توجد أعطال راديوية. الخطوة التالية: سأحلل السلاسل الزمنية للكمون لتحديد فترات خرق اتفاقية مستوى الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Users reported jitter mainly between 19:00–20:00; proceed.",
+      "message_ar": "مفهوم. أفاد المستخدمون بوجود تقطع في الفترة 19:00–20:00؛ تفضّل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time-series complete: p50 = 36–46 ms; p95 peaks 85–92 ms between 19:12–19:38, tightly correlated with PRB >90%. This indicates scheduler queue build-up under congestion. I propose targeted HQoS/scheduler tuning (favor low-latency bearers, tighten buffer thresholds). Please approve implementation now.",
+      "message_ar": "اكتمل تحليل السلاسل الزمنية للكمون: الوسيط 36–46 مللي ثانية؛ تبلغ p95 ذروتها 85–92 مللي ثانية بين 19:12–19:38، وترتبط بشدة مع PRB >90%. هذا يشير إلى تراكم الطوابير في المجدول تحت الازدحام. أقترح ضبطًا انتقائيًا لـHQoS/المجدِّل (ترجيح حاملي الحركة منخفضة الكمون، وتشديد عتبات المخازن). الرجاء الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement tuning on NR-URB-1123 immediately.",
+      "message_ar": "موافَق على تنفيذ الضبط على NR-URB-1123 فورًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying conservative tuning on NR-URB-1123: adjusted scheduling weights and queue thresholds to protect low-latency traffic under high load. Change committed successfully; no errors observed. I will monitor short-term stabilization.",
+      "message_ar": "جارٍ تطبيق ضبط محافظ على NR-URB-1123: تم تعديل أوزان الجدولة وعتبات الطوابير لحماية الحركة منخفضة الكمون تحت الحمل العالي. تم اعتماد التغيير بنجاح دون أخطاء. سأراقب الاستقرار قصير الأمد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: p95 scheduling delay dropped to ~62 ms; BLER steady; user count stable. Any further action needed right now?",
+      "message_ar": "ملاحظة أولية: انخفض تأخر الجدولة p95 إلى ~62 مللي ثانية؛ BLER ثابت؛ وعدد المستخدمين مستقر. هل هناك إجراء إضافي مطلوب الآن؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "No further change needed at this time. Early post-change metrics show improved latency with stable error rates; PRB remains high as expected during peak. I’ll track against the pre-change baseline.",
+      "message_ar": "لا حاجة لتغيير إضافي حاليًا. تُظهر مؤشرات ما بعد التغيير المبكرة تحسنًا في الكمون مع ثبات معدلات الأخطاء؛ ويظل PRB مرتفعًا كما هو متوقع أثناء الذروة. سأتابع بالمقارنة مع خط الأساس قبل التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—scheduling delay trending down and latency spikes reduced after the site parameter tuning. Let’s monitor through the next 2–4 hours busy period.",
+      "message_ar": "تم تأكيد التحسن — تأخر الجدولة يتناقص وارتفاعات الكمون انخفضت بعد ضبط معلمات الموقع. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة من فترة الانشغال."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and provide an update afterward. If latency degrades or user experience worsens, we will roll back to prior parameters and escalate to investigate congestion sources.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات ونقدّم تحديثًا بعد ذلك. إذا تدهور الكمون أو ساءت تجربة المستخدم، فسنعود إلى المعلمات السابقة ونصعّد للتحقق من مصادر الازدحام."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Latency SLA violations on the urban NR macro during peak evening were traced to congestion-driven scheduler queue build-up, evidenced by high PRB and p95 latency spikes. We confirmed the issue using OSS counters and a latency time series, then applied site parameter tuning to favor low-latency traffic and tighten buffers. Post-change, latency improved and scheduling delay decreased; we will continue monitoring through the busy window.",
+    "ar": "تم إرجاع خروقات اتفاقية مستوى خدمة الكمون في موقع NR ماكرو حضري خلال ذروة المساء إلى تراكم طوابير المجدِّل الناجم عن الازدحام، كما يتضح من ارتفاع PRB وذروات p95 للكمون. قمنا بتأكيد المشكلة باستخدام عدّادات OSS وسلسلة زمنية للكمون، ثم طبقنا ضبطًا لمعلمات الموقع لترجيح الحركة منخفضة الكمون وتشديد المخازن. بعد التغيير تحسن الكمون وانخفض تأخر الجدولة؛ وسنواصل المراقبة خلال فترة الانشغال."
+  }
+}

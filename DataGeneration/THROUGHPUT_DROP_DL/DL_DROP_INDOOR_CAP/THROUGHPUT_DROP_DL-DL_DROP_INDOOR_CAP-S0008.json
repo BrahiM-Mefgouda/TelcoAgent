@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0008",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor office 5G micro cell shows slow data (DL ~8 Mbps) over the last 4h with 185 users and 85% resource use; congestion alarm active.",
+    "ar": "خلية 5G ميكرو داخلية في المكتب تُظهر بيانات بطيئة (DL ~8 Mbps) خلال آخر 4 ساعات مع 185 مستخدمًا و%85 استخدام للموارد؛ إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Enterprise indoor micro site is reporting slow downloads during business hours over the last 4h; office wing users complaining. Congestion alarm is active.",
+      "message_ar": "الموقع الميكروي الداخلي للمؤسسة يعاني من بطء في التنزيل خلال ساعات العمل خلال آخر 4 ساعات؛ مستخدمو جناح المكتب يشتكون. إنذار الازدحام نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by pulling last 4h counters for the target cell to scope the impact. Please share the cell ID and approve read-only access.",
+      "message_ar": "مفهوم. سأبدأ بسحب مؤشرات الساعات الأربع الأخيرة للخلية المستهدفة لتحديد حجم التأثير. الرجاء مشاركة معرف الخلية والموافقة على صلاحية القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_Micro_Ind_2305. Read-only access approved for the last 4h window.",
+      "message_ar": "معرّف الخلية: NR_Micro_Ind_2305. تمت الموافقة على صلاحية القراءة فقط لنافذة الأربع ساعات الأخيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters show DL throughput median ~8 Mbps, ~185 users, PRB utilization ~85%, BLER ~2.8%, and p95 scheduling latency ~65 ms. This points to capacity strain rather than radio errors on the indoor small site. Next, I’ll inspect DL KPI trends for the last 4h to isolate peak periods. Approve?",
+      "message_ar": "المؤشرات تُظهر متوسط سرعة تنزيل ~8 Mbps، حوالي 185 مستخدمًا، استخدام موارد ~85%، BLER ~2.8%، وزمن جدولة p95 ~65 مللي ثانية. يشير ذلك إلى ضغط سعة أكثر من كونه أخطاء راديوية في الموقع الداخلي الصغير. بعد ذلك سأفحص اتجاهات مؤشرات التنزيل خلال آخر 4 ساعات لتحديد فترات الذروة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to review DL trends for the last 4h.",
+      "message_ar": "موافَق على مراجعة اتجاهات التنزيل لآخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend confirms DL dips align with business hours; sustained plateaus around 6–8 Mbps under high load. I recommend applying targeted parameter tuning to improve DL scheduling efficiency and PRB allocation; change is low-risk and reversible. Proceed?",
+      "message_ar": "الاتجاه يؤكد أن هبوط التنزيل يتوافق مع ساعات العمل؛ مستويات ثابتة بين 6–8 Mbps تحت حمل عالٍ. أوصي بضبط بارامترات مستهدف لتحسين كفاءة الجدولة في التنزيل وتخصيص الموارد؛ التغيير منخفض المخاطر وقابل للتراجع. هل نمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning now.",
+      "message_ar": "تابع عملية الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied to improve DL scheduling weights and PRB admission limits; commit successful with no service reset. Early post-change counters show PRB utilization easing to ~78% and median DL rising to ~15–18 Mbps. Let’s observe for 15 minutes and check user experience.",
+      "message_ar": "تم تطبيق الضبط لتحسين أوزان جدولة التنزيل وحدود قبول الموارد؛ تم التنفيذ بنجاح دون إعادة تشغيل للخدمة. المؤشرات الأولية بعد التغيير تُظهر انخفاض استخدام الموارد إلى ~78% وارتفاع متوسط التنزيل إلى ~15–18 Mbps. لِنراقب لمدة 15 دقيقة ونتحقق من تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, users report better responsiveness; spot tests show 18–22 Mbps and p95 latency around 40–45 ms. No new alarms.",
+      "message_ar": "بعد حوالي 15 دقيقة، أفاد المستخدمون بتحسن الاستجابة؛ اختبارات سريعة تُظهر 18–22 Mbps وزمن تأخير p95 حوالي 40–45 مللي ثانية. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll continue watching KPIs and alerts; given enterprise-private load, we can keep these settings unless demand spikes again. Any specific apps still slow?",
+      "message_ar": "تحسن جيد. سأواصل مراقبة المؤشرات والتنبيهات؛ وبالنظر إلى حمل المؤسسة الخاص، يمكننا الإبقاء على هذه الإعدادات ما لم يرتفع الطلب مجددًا. هل هناك تطبيقات محددة ما تزال بطيئة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No specific app issues now; median downlink is holding near 18–20 Mbps. Action taken: site parameter tuning on DL scheduler/PRB. Let’s monitor through the next busy hour.",
+      "message_ar": "لا توجد مشاكل تطبيقات محددة الآن؛ متوسط التنزيل يستقر قرب 18–20 Mbps. الإجراء المتخذ: ضبط بارامترات الموقع لجدولة التنزيل/الموارد. دعنا نراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and share an update afterward. If congestion returns, we will escalate by steering some load to neighbors and roll back today’s tuning if any side effects appear.",
+      "message_ar": "تم الاستلام. سنراقب خلال ساعة الذروة التالية ونشارك تحديثًا بعد ذلك. إذا عاد الازدحام، سنصعّد عبر توجيه جزء من الحمل إلى الخلايا المجاورة وسنرجع عن ضبط اليوم إذا ظهرت أي آثار جانبية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_Micro_Ind_2305",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_Micro_Ind_2305",
+        "DL",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler and PRB allocation tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor 5G micro cell downlink slowdown as capacity-driven: high users and PRB utilization with low error rates. Reviewed 4h counters and DL trends, then applied site parameter tuning to improve scheduling efficiency and PRB allocation. Post-change KPIs improved and we will monitor through the next busy hour.",
+    "ar": "تم تشخيص بطء التنزيل في خلية 5G ميكرو داخلية بأنه ناتج عن السعة: عدد مستخدمين مرتفع واستخدام موارد عالٍ مع معدلات أخطاء منخفضة. تمّت مراجعة مؤشرات الأربع ساعات واتجاهات التنزيل، ثم تطبيق ضبط بارامترات الموقع لتحسين كفاءة الجدولة وتخصيص الموارد. تحسنت المؤشرات بعد التغيير وسنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

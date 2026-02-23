@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0011",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban NR macro shows 2 configuration mismatches over the last 24h with handover failures at 8% and median throughput ~29 Mbps under eMBB streaming; investigate post-maintenance drift.",
+    "ar": "موقع NR ماكرو في الضواحي يظهر تعارضين في الإعداد خلال آخر 24 ساعة مع فشل تسليم 8% ومتوسط سرعة ~29 ميغابت/ث تحت حركة eMBB المخصصة للبث؛ نحتاج للتحقق من الانجراف بعد الصيانة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-maintenance in the last 24h on a suburban NR macro, we see 2 config mismatch flags and handover failures around 8%. Median DL throughput ~29 Mbps, PRB ~31%, no alarms. Please check.",
+      "message_ar": "بعد الصيانة خلال آخر 24 ساعة على موقع NR ماكرو في الضواحي، نرى علامتين لتعارض الإعدادات ومعدل فشل التسليم حوالي 8%. وسيط سرعة التحميل ~29 ميغابت/ث، واستخدام PRB ~31%، ولا توجد إنذارات. يرجى التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first verify OSS vs live configuration over the last 24h to confirm drift. Please share the cell ID and confirm read-only access.",
+      "message_ar": "تم. سأبدأ بالتحقق من تطابق الإعدادات بين النظام والإعدادات الحية خلال آخر 24 ساعة لتأكيد الانجراف. الرجاء تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-401-1. Read-only access is approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-401-1. تم منح صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS inventory check for NR-SUB-401-1 over 24h. Findings: 2 parameters diverged ~20h ago—handover A3 offset (live 4 dB vs OSS 2 dB) and neighbor relation list revision (live missing 2 neighbors present in OSS). This aligns with the HO failure uptick.",
+      "message_ar": "أجري فحص الجرد عبر النظام لـ NR-SUB-401-1 خلال 24 ساعة. النتائج: عنصران غير متطابقين منذ ~20 ساعة—انحياز A3 للتسليم (الحي 4 dB مقابل النظام 2 dB) ومراجعة علاقات الجوار (الحي يفتقد جارَين موجودين في النظام). يتماشى ذلك مع ارتفاع فشل التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: align live to the OSS baseline by pushing the corrected configuration for those items. Expected user impact: negligible (<1s signaling blip). I will snapshot current settings for rollback. Approve immediate push?",
+      "message_ar": "الخطة: محاذاة الإعدادات الحية مع خط الأساس في النظام بدفع الإعدادات المصححة لهذه العناصر. الأثر على المستخدم متناهي الصغر (< ثانية إشارة). سآخذ نسخة احتياطية للحالة الحالية للرجوع عند الحاجة. هل توافق على التنفيذ فوراً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing config push to NR-SUB-401-1 and validating. Completed: A3 offset set to baseline and neighbor relations synchronized; post-apply parity check shows no remaining drift.",
+      "message_ar": "جارٍ دفع الإعدادات إلى NR-SUB-401-1 مع التحقق. تم: ضبط انحياز A3 وفق خط الأساس ومزامنة علاقات الجوار؛ فحص التعادل بعد التطبيق يُظهر عدم وجود انحراف متبقٍ."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will watch handover failures and short-term BLER through mixed busy hours under eMBB streaming. Please share any field feedback from this sector.",
+      "message_ar": "سنراقب فشل التسليم وBLER القصير خلال ساعات الذروة المختلطة مع حركة eMBB الخاصة بالبث. يرجى مشاركة أي ملاحظات ميدانية من هذا القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a change record for traceability and attaching pre/post snapshots with verification notes.",
+      "message_ar": "أقوم بإنشاء سجل تغيير للتتبع وإرفاق لقطات ما قبل/بعد مع ملاحظات التحقق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: handover failures are trending down and sessions feel steadier; no new alarms.",
+      "message_ar": "ملاحظة أولية: فشل التسليم يتجه للانخفاض والجلسات أكثر استقراراً؛ لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: handover failures decreasing and drops stable; your configuration push to realign with the OSS baseline appears effective. Let’s monitor through the next busy hour. Referencing ticket DU-CFG-02841.",
+      "message_ar": "تحسن ملحوظ: انخفاض فشل التسليم واستقرار الانقطاعات؛ دفع الإعدادات لإعادة المحاذاة مع خط الأساس في النظام يبدو فعّالاً. دعنا نتابع المراقبة خلال ساعة الذروة القادمة. المرجع DU-CFG-02841."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and update the ticket after the window. If degradation reappears, we will escalate to a deeper configuration audit and, if needed, roll back to the saved pre-change snapshot.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عادت المشكلة، سنصعّد إلى تدقيق إعدادات أعمق وعند الحاجة نعكس إلى النسخة المحفوظة قبل التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-401-1",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "OSS_BASELINE_NR-SUB-401-1_2025-09-13"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Post-maintenance config mismatch corrected on NR-SUB-401-1; aligned live with OSS baseline; monitor HO failures next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a post-maintenance configuration mismatch on the suburban NR macro: two live parameters diverged from the OSS baseline (handover margin and neighbor relations). Pushed the baseline configuration to realign the cell and created a record for traceability. We will monitor handover failures through the next busy hour to ensure stability.",
+    "ar": "تم تأكيد تعارض إعدادات بعد الصيانة على موقع NR ماكرو في الضواحي: عنصران حيان انحرفا عن خط الأساس في النظام (هامش التسليم وعلاقات الجوار). تم دفع إعدادات خط الأساس لإعادة محاذاة الخلية وإنشاء سجل للتتبع. سنراقب فشل التسليم خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

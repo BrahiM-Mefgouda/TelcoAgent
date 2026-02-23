@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0005",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G macro over the last 3h shows user latency around 80 ms with moderate load (~63% resources, 205 users); BLER 12.8% and RSRQ -13 dB suggest link quality is degrading QoS for eMBB streaming.",
+    "ar": "موقع ماكرو 5G في منطقة شبه حضرية خلال آخر 3 ساعات يظهر زمناً للازمنة بحوالي 80 مللي ثانية مع حمل متوسط (~63% من الموارد، 205 مستخدمين)؛ نسبة أخطاء الكتل 12.8% وRSRQ عند -13 ديسيبل تشير إلى أن جودة الإشارة تؤثر على جودة الخدمة لحركة eMBB والبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell with shoulder-hour traffic: users report high latency ~80 ms over the last 3h; p50 DL throughput ~14 Mbps. Load is moderate (~63% PRB, 205 users), streaming-heavy eMBB mix. Please investigate.",
+      "message_ar": "خلية ماكرو NR في منطقة شبه حضرية خلال ساعات الكتف: المستخدمون يبلغون عن زمن تأخير مرتفع ~80 مللي ثانية خلال آخر 3 ساعات؛ وسيط تنزيل ~14 ميجابت/ث. الحمل متوسط (~63% من PRB، 205 مستخدمين)، مع حركة eMBB تعتمد على البث. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnostics. Share the cell ID and approve a 3h performance snapshot to check load, radio quality, and QoS counters.",
+      "message_ar": "سأتولى التشخيص. يرجى تزويدي بمعرّف الخلية والموافقة على سحب لقطات أداء لآخر 3 ساعات للتحقق من الحمل وجودة الراديو ومؤشرات جودة الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-CELL-4821. You have approval to pull the 3h snapshot.",
+      "message_ar": "معرّف الخلية: NR-CELL-4821. لديك الموافقة لسحب لقطة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check on NR-CELL-4821 (3h): no site alarms; utilization ~63%; active users 180–210; RSRQ -12 to -14 dB; median SINR ~12 dB; DL BLER elevated 11–14%, more at cell edge; queue depths normal. This points to retransmission-driven latency rather than congestion.",
+      "message_ar": "فحص عبر نظام الإدارة لـ NR-CELL-4821 (3 ساعات): لا إنذارات بالموقع؛ الاستغلال ~63%؛ المستخدمون النشطون 180–210؛ RSRQ بين -12 و-14 ديسيبل؛ وسيط SINR ~12 ديسيبل؛ BLER في الوصلة الهابطة مرتفع 11–14% ويزداد عند حافة الخلية؛ عمق الطوابير طبيعي. هذا يشير إلى تأخير ناتج عن إعادة الإرسال وليس ازدحاماً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will pull the latency time series over the same 3h window to correlate with BLER. Please confirm.",
+      "message_ar": "بعد ذلك سأجلب سلسلة زمنية لزمن التأخير لنفس نافذة 3 ساعات لربطها مع BLER. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Proceed with the latency time series.",
+      "message_ar": "مؤكد. تفضل بسحب السلسلة الزمنية لزمن التأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency series (3h): p50 75–85 ms, p95 110–130 ms, peaks align with BLER spikes and poorer RSRQ; scheduler headroom present. Diagnosis: QoS latency breach driven by radio errors and retransmissions. I propose a targeted parameter optimization to bias link adaptation toward lower BLER and steadier MCS for latency-sensitive traffic. Approve?",
+      "message_ar": "السلسلة الزمنية للتأخير (3 ساعات): وسيط 75–85 مللي ثانية، الجزء 95% بين 110–130 مللي ثانية، وتبلغ القمم مع ارتفاع BLER وتدهور RSRQ؛ هناك سعة متبقية في الجدولة. التشخيص: خرق تأخير جودة الخدمة ناتج عن أخطاء الراديو وإعادة الإرسال. أقترح تحسين إعدادات موجهة لتهيئة التكيّف مع القناة نحو BLER أقل وMCS أكثر استقراراً لحركة الحساسة للتأخير. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize parameters for latency/BLER on NR-CELL-4821.",
+      "message_ar": "موافَق على تحسين الإعدادات لتقليل التأخير/BLER على NR-CELL-4821."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-CELL-4821: tuned for lower BLER and steadier MCS for the latency class. No service impact observed. Please watch p50 latency and BLER for the next 10 minutes and share a quick readout.",
+      "message_ar": "تم تطبيق التحسين على NR-CELL-4821: ضبط موجه لخفض BLER وتثبيت MCS لحركة الحساسة للتأخير. لم يُلاحظ أي تأثير على الخدمة. الرجاء متابعة وسيط التأخير وBLER خلال الـ10 دقائق القادمة ومشاركة قراءة سريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial readout (10 min): p50 latency down to ~58–60 ms; BLER ~8–9%; p50 DL throughput up to ~16–18 Mbps.",
+      "message_ar": "القراءة الأولية (10 دقائق): وسيط التأخير انخفض إلى ~58–60 مللي ثانية؛ BLER حوالي 8–9%؛ وسيط سرعة التنزيل ارتفع إلى ~16–18 ميجابت/ث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained and retransmissions trending down. Action taken: site parameter optimization targeting BLER/latency. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر وإعادات الإرسال تتجه للانخفاض. الإجراء المتخذ: تحسين إعدادات الموقع لاستهداف BLER/التأخير. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and report sustained latency and BLER levels. If performance regresses, we will rollback; if issues point to interference or backhaul, we will escalate to RF or transport teams.",
+      "message_ar": "تم. سنراقب خلال ساعة الذروة التالية ونبلغ بمستويات التأخير وBLER المستقرة. إذا تراجعت الأداء سنقوم بالرجوع عن التعديل؛ وإذا أشارت المشاكل إلى تداخل أو وصلات خلفية سنصعّد إلى فرق الترددات اللاسلكية أو النقل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-CELL-4821",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-CELL-4821",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "latency-focused BLER/MCS tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on a suburban 5G macro with moderate load but elevated BLER and poor RSRQ, indicating retransmission-driven delay rather than congestion. Verified latency peaks correlate with BLER over the 3h window, then mitigated by site parameter tuning to bias link adaptation toward lower BLER and steadier MCS for latency-sensitive traffic. Post-change metrics show latency and BLER reductions; the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص خرق في تأخير جودة الخدمة على خلية ماكرو 5G شبه حضرية بحمل متوسط لكن مع BLER مرتفع وRSRQ ضعيف، ما يشير إلى تأخير ناتج عن إعادة الإرسال وليس ازدحاماً. تم التحقق من ارتباط قمم التأخير مع BLER خلال نافذة 3 ساعات، ثم تم التخفيف عبر ضبط إعدادات الموقع لتوجيه تكيّف الوصلة نحو BLER أقل وMCS أكثر استقراراً لحركة الحساسة للتأخير. تُظهر مؤشرات ما بعد التعديل انخفاضاً في التأخير وBLER؛ وسيتم مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0007",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell has a congestion alarm during peak hours over the last 3h with backhaul utilization 83%, latency 97 ms, packet loss 1.8%, high queueing, and heavy eMBB traffic impacting throughput.",
+    "ar": "موقع ماكرو 5G NR حضري عليه إنذار ازدحام خلال ساعات الذروة في آخر 3 ساعات مع استخدام وصلات النقل 83% وزمن تأخير 97 مللي ثانية وفقد حزم 1.8% وازدحام صفوف مرتفع وحركة eMBB كثيفة تؤثر على الإنتاجية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour alarm on an urban 5G NR macro. eMBB streaming users report stalling. Last ~3h: backhaul ~83% util, 97 ms latency, 1.8% loss, 7 ms jitter, queue ~94%. Can you help?",
+      "message_ar": "يوجد إنذار خلال ساعة الذروة على موقع ماكرو 5G NR حضري. مستخدمو بث eMBB يبلّغون عن توقّف مؤقت. آخر ~3 ساعات: استخدام النقل ~83%، التأخير 97 مللي ثانية، الفقد 1.8%، التذبذب 7 مللي ثانية، امتلاء الصف ~94%. هل يمكنك المساعدة؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling health and traffic for the affected cell over the last 3h to confirm a backhaul bottleneck vs radio. Please confirm the cell ID and allow read access.",
+      "message_ar": "سأبدأ بسحب مؤشرات الحالة والحركة للخلية المتأثرة خلال آخر 3 ساعات لتأكيد ما إذا كانت المشكلة من النقل أم من الراديو. يرجى تأكيد معرف الخلية والسماح بالوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-22A. Read-only access approved for a 3h window.",
+      "message_ar": "معرف الخلية: NR-Cell-22A. تم اعتماد وصول قراءة فقط لمدة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pull complete. Backhaul util 83%, queue occupancy 94%, latency 97 ms, loss 1.8%, jitter 7 ms. Radio side: PRB ~72%, 376 users, DL ~10 Mbps, SINR 13 dB. This is peak backhaul congestion. I propose tuning backhaul QoS/buffer on the cell to cut queuing and smooth eMBB bursts. Approve immediate change?",
+      "message_ar": "تم السحب. استخدام النقل 83%، امتلاء الصف 94%، التأخير 97 مللي ثانية، الفقد 1.8%، التذبذب 7 مللي ثانية. جانب الراديو: استهلاك PRB ~72%، 376 مستخدمًا، تنزيل ~10 ميجابت/ث، SINR ‏13 ديسيبل. هذا ازدحام نقل في الذروة. أقترح ضبط جودة الخدمة/المخزن المؤقت على الخلية لتقليل الاصطفاف وتنعيم اندفاعات eMBB. هل توافق على التغيير الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: conservative QoS/queue tuning to prioritize latency classes and temper eMBB burstiness. Commit done; observing for 5–10 minutes for stabilization.",
+      "message_ar": "تم التطبيق: ضبط محافظ لجودة الخدمة/الصف لإعطاء أولوية لفئات الكمون وتقليل اندفاعية eMBB. تم الاعتماد؛ سنراقب لمدة 5–10 دقائق حتى الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~7 minutes: latency trending ~72–75 ms, loss ~1.0%, queue depth down ~25%. Fewer stalling complaints.",
+      "message_ar": "بعد حوالي 7 دقائق: التأخير يتجه إلى ~72–75 مللي ثانية، الفقد ~1.0%، عمق الصف انخفض ~25%. شكاوى التوقف المؤقت أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. Given sustained peak utilization >80%, we should also open a capacity case for backhaul augmentation with busy-hour evidence. Shall I raise it?",
+      "message_ar": "جيد. نظرًا لاستمرار الاستخدام في الذروة بأكثر من 80%، ينبغي فتح قضية سعة لزيادة النقل مع أدلة ساعة الانشغال. هل أفتحها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please open it and include the last 3h charts.",
+      "message_ar": "نعم، يرجى فتحها وإرفاق الرسوم البيانية لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Capacity case opened with a summary and attached 3h evidence. We will keep watching during the next busy period for stability.",
+      "message_ar": "تم فتح قضية السعة مع ملخص وإرفاق أدلة آخر 3 ساعات. سنستمر بالمراقبة خلال فترة الانشغال التالية للتحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing further improvement: latency now ~68 ms and packet loss ~0.9%. The backhaul QoS/buffer tuning helped, and the capacity case is logged as DU-BH-04219. Let's monitor through the next busy hour.",
+      "message_ar": "نرى تحسنًا إضافيًا: التأخير الآن ~68 مللي ثانية وفقد الحزم ~0.9%. ساعد ضبط جودة الخدمة/الصف للنقل، وتم تسجيل قضية السعة بالرقم DU-BH-04219. دعنا نراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and update the ticket after the window. If latency or loss regresses, we will roll back the tuning; if congestion persists, we will escalate to transport for capacity upgrade.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الانشغال القادمة ونحدّث التذكرة بعد انتهاء الفترة. إذا تراجع الأداء في التأخير أو الفقد سنعود عن الضبط، وإن استمر الازدحام سنصعّد إلى فريق النقل لزيادة السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-22A",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_qos_buffer_tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Peak-time backhaul congestion; capacity augmentation requested with evidence"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-time backhaul congestion on the urban 5G NR macro based on high backhaul utilization, queueing, latency, and loss with only moderate radio load. Mitigation applied via site parameter tuning to backhaul QoS and buffer handling, which reduced latency and loss. A capacity case was opened for backhaul augmentation, and performance will be monitored over the next busy hour.",
+    "ar": "تم تشخيص ازدحام وصلات النقل في ساعة الذروة على موقع ماكرو 5G NR حضري استنادًا إلى ارتفاع استخدام النقل وامتلاء الصفوف وزمن التأخير والفقد مع حمل راديو متوسط. تم تطبيق التخفيف عبر ضبط معلمات الموقع لجودة الخدمة والتعامل مع المخزن المؤقت للنقل مما خفّض التأخير والفقد. تم فتح قضية سعة لزيادة النقل وسيتم مراقبة الأداء خلال ساعة الانشغال التالية."
+  }
+}

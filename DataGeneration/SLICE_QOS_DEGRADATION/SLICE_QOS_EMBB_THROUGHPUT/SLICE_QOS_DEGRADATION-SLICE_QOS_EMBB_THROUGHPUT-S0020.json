@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_EMBB_THROUGHPUT-S0020",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_EMBB_THROUGHPUT",
+  "query": {
+    "en": "Urban NR macro eMBB slice shows median throughput 14 Mbps and latency 56 ms over the last 4 hours during peak evening, with 39% policy violations, ~90% resource use, and 299 users.",
+    "ar": "شريحة eMBB على موقع ماكرو NR حضري تُظهر متوسط سرعة 14 ميجابت/ثانية وزمن تأخير 56 مللي ثانية خلال آخر 4 ساعات في ذروة المساء، مع 39% مخالفات للسياسة، واستخدام موارد يقارب 90%، و299 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro eMBB slice degraded in the last 4h peak evening: median throughput 14 Mbps, latency 56 ms, violations 39%, PRB ~90%, 299 users. Please investigate.",
+      "message_ar": "حدث تدهور في شريحة eMBB على موقع ماكرو NR خلال آخر 4 ساعات من ذروة المساء: متوسط السرعة 14 ميجابت/ثانية، التأخير 56 مللي ثانية، المخالفات 39%، استخدام الموارد ~90%، وعدد المستخدمين 299. يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first validate via OSS for the affected cell over the last 4h and confirm slice/load conditions (peak-evening streaming load expected). Please share the cell and slice IDs and confirm read access.",
+      "message_ar": "مفهوم. سأبدأ بالتحقق عبر نظام الإدارة للشبكة للخلية المتأثرة خلال آخر 4 ساعات وتأكيد حالة الشريحة/التحميل (من المتوقع حمل بث مرئي في ذروة المساء). يرجى مشاركة معرف الخلية والشريحة وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NR-ULB-Macro-231; Slice: eMBB-slice-010. Read access approved.",
+      "message_ar": "الخلية: NR-ULB-Macro-231؛ الشريحة: eMBB-slice-010. صلاحية القراءة معتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding to check OSS counters for NR-ULB-Macro-231 over the last 4 hours, focusing on eMBB slice KPIs and load. I will report findings shortly.",
+      "message_ar": "سأقوم الآن بالتحقق من عدادات نظام الإدارة للخلية NR-ULB-Macro-231 خلال آخر 4 ساعات مع التركيز على مؤشرات شريحة eMBB والتحميل. سأبلغ بالنتائج قريبًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Users peaked near 300 around 20:00 local.",
+      "message_ar": "تم. بلغ عدد المستخدمين ذروته قرب 300 حوالي الساعة 20:00 بالتوقيت المحلي."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows high resource use (~90%), latency around 56 ms, and a low QoS class score (~0.57) for the eMBB slice. Next, I'll pull the QoS class trend for the last 4h to pinpoint peaks and variability.",
+      "message_ar": "يُظهر النظام استخدامًا عاليًا للموارد (~90%)، وتأخيرًا حوالي 56 مللي ثانية، وانخفاضًا في درجة فئة الجودة (~0.57) لشريحة eMBB. بعد ذلك سأستخرج منحنى فئة الجودة لآخر 4 ساعات لتحديد الذروات والتقلب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend confirms QoS class oscillating 0.52–0.60 with violations peaking near 19:30; median throughput stuck near 14 Mbps with ~299 users. To mitigate, I propose a targeted slice policy update to increase eMBB minimum share and priority on this sector to reduce latency and violations. Do you approve?",
+      "message_ar": "يؤكد المنحنى تذبذب فئة الجودة بين 0.52 و0.60 مع ذروة مخالفات قرب 19:30؛ ومتوسط السرعة ثابت قرب 14 ميجابت/ثانية مع ~299 مستخدمًا. للتخفيف، أقترح تحديثًا مستهدفًا لسياسة الشريحة برفع الحد الأدنى للحصة وأولوية شريحة eMBB على هذا القطاع لخفض التأخير والمخالفات. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the slice policy update on NR-ULB-Macro-231 for eMBB-slice-010.",
+      "message_ar": "موافق على تنفيذ تحديث سياسة الشريحة على NR-ULB-Macro-231 لشريحة eMBB-slice-010."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the slice policy update on eMBB-slice-010 for NR-ULB-Macro-231: boosting guaranteed share and priority within safe bounds. Change is live; observing immediate impact for 10–15 minutes.",
+      "message_ar": "أقوم بتطبيق تحديث سياسة الشريحة على eMBB-slice-010 للخلية NR-ULB-Macro-231: تعزيز الحصة المضمونة والأولوية ضمن الحدود الآمنة. التغيير أصبح نافذًا؛ أراقب الأثر الفوري لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: violations trending down and latency dipping to ~48 ms after the slice policy update. Let's monitor through the next busy hour.",
+      "message_ar": "تحسن مبكر ملحوظ: المخالفات تتراجع والتأخير انخفض إلى ~48 مللي ثانية بعد تحديث سياسة الشريحة. لنواصل المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If performance regresses, we will roll back the slice policy change; if latency remains high due to load, we will escalate to capacity planning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية وسنشارك تحديثًا بعدها. إذا تراجع الأداء سنعود عن تغيير سياسة الشريحة؛ وإذا بقي التأخير مرتفعًا بسبب التحميل فسنصعد الأمر إلى تخطيط السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS cls",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated the eMBB slice degradation on an urban NR macro during peak evening: high resource use, elevated latency, and a low QoS class score confirmed by OSS and the QoS trend. Implemented a slice policy update to increase the eMBB slice’s guaranteed share and priority. Early results show policy violations trending down and latency improving; continued monitoring will confirm stability.",
+    "ar": "تم التحقق من تدهور شريحة eMBB على موقع ماكرو NR حضري خلال ذروة المساء: استخدام مرتفع للموارد، تأخير مرتفع، وانخفاض في درجة فئة الجودة حسب نظام الإدارة ومنحنى فئة الجودة. تم تنفيذ تحديث لسياسة الشريحة لزيادة الحصة المضمونة والأولوية لشريحة eMBB. أظهرت النتائج المبكرة انخفاضًا في المخالفات وتحسنًا في التأخير؛ ستستمر المراقبة للتأكد من الاستقرار."
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_INDOOR_MALL-S0004",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_INDOOR_MALL",
+  "query": {
+    "en": "Investigate congestion at the indoor mall NR cell over the last 3 hours: PRB utilization ~91% with ~264 users causing slow data and some errors.",
+    "ar": "التحقيق في الازدحام ضمن خلية NR داخلية في المول خلال آخر 3 ساعات: استهلاك الموارد ~91% مع ~264 مستخدمًا يسبب بطء البيانات وبعض الأخطاء."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening at the indoor mall NR micro cell triggered a congestion alarm; users report slow data. Can you review the last 3 hours?",
+      "message_ar": "ذروة المساء في خلية NR صغيرة داخلية في المول أطلقت إنذار ازدحام؛ المستخدمون يشتكون من بطء البيانات. هل يمكنك مراجعة آخر 3 ساعات؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely high PRB load. Please confirm the cell ID and permit me to pull 3-hour performance counters from the network management system for this indoor small site.",
+      "message_ar": "تم. من المحتمل ارتفاع استهلاك الموارد. يرجى تأكيد معرّف الخلية والسماح لي بسحب مؤشرات أداء 3 ساعات من نظام إدارة الشبكة لهذا الموقع الداخلي الصغير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_MALL_A3_S1. You have access for the 3-hour window. Observed: ~6 Mbps downlink, ~9 Mbps uplink, ~5% BLER, p95 queuing delay ~26 ms, about 260–270 users.",
+      "message_ar": "معرّف الخلية: NR_MALL_A3_S1. لديك صلاحية الوصول لنافذة 3 ساعات. الملاحظ: ~6 ميجابت/ث تنزيل، ~9 ميجابت/ث رفع، BLER ~5%، تأخير p95 في الصف ~26 مللي ثانية، حوالي 260–270 مستخدمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling the last 3 hours of counters for NR_MALL_A3_S1 now and checking PRB load, user volume, throughput, errors, and drops.",
+      "message_ar": "أقوم الآن بسحب مؤشرات آخر 3 ساعات للخلية NR_MALL_A3_S1 ومراجعة حمل الموارد، عدد المستخدمين، الإنتاجية، الأخطاء، والانقطاعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: PRB utilization averages ~91% with peaks ~96%; active users 240–280; median DL ~6 Mbps, UL ~9; BLER ~5–6%; RLF ~2%. This is capacity-driven. I propose resource parameter tuning: increase time-domain fairness, apply a soft per-UE PRB cap during peaks, and prioritize short flows. Approve to implement?",
+      "message_ar": "النتائج: متوسط استهلاك الموارد ~91% مع ذروات ~96%؛ المستخدمون النشطون 240–280؛ الوسيط للتنزيل ~6 ميجابت/ث، والرفع ~9؛ BLER ~5–6%؛ RLF ~2%. الحالة ناجمة عن السعة. أقترح ضبط معلمات الموارد: تعزيز العدالة الزمنية، تطبيق حد مرن لاستهلاك الموارد لكل مستخدم أثناء الذروة، وإعطاء أولوية للتدفقات القصيرة. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing the optimization on NR_MALL_A3_S1: applied fairness weights, a soft admission limit at ~240 UEs, and short-flow prioritization. Changes are live; I will watch counters for the next 15–20 minutes.",
+      "message_ar": "جارٍ تنفيذ التحسين على NR_MALL_A3_S1: تطبيق أوزان عدالة زمنية، حد قبول مرن عند ~240 مستخدمًا، وأولوية للتدفقات القصيرة. التغييرات أصبحت فعّالة؛ سأراقب المؤشرات خلال 15–20 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Traffic is heavy with streaming during this hour; any user impact expected?",
+      "message_ar": "هناك حركة مرور كثيفة مع البث خلال هذه الساعة؛ هل يُتوقع تأثير على المستخدمين؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "No interruptions expected; new sessions may be gently directed to neighboring cells once the soft limit is reached, while ongoing sessions continue. I will open a tracking ticket for this congestion case.",
+      "message_ar": "لا يُتوقع انقطاع؛ قد تُوجَّه الجلسات الجديدة بلطف إلى خلايا مجاورة عند بلوغ الحد المرن، بينما تستمر الجلسات الجارية. سأفتح تذكرة متابعة لهذه حالة الازدحام."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed to open the ticket and note the parameter changes.",
+      "message_ar": "تفضل بفتح التذكرة وتوثيق تغييرات المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PRB-10472 created. Early results: PRB down to ~84–86%, DL median ~8–9 Mbps, and queuing delay improving. Continuing observation.",
+      "message_ar": "تم إنشاء التذكرة DU-PRB-10472. النتائج الأولية: انخفاض استهلاك الموارد إلى ~84–86%، وارتفاع الوسيط للتنزيل إلى ~8–9 ميجابت/ث، وتحسن في تأخير الصف. مستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see PRB trending ~83–85% and downlink speeds improving toward ~9–10 Mbps after your resource parameter optimization; let's monitor through the next busy hour and update DU-PRB-10472.",
+      "message_ar": "نلاحظ أن استهلاك الموارد يتجه إلى ~83–85% وتحسن سرعات التنزيل نحو ~9–10 ميجابت/ث بعد تحسين معلمات الموارد؛ لنتابع المراقبة خلال ساعة الانشغال التالية وتحديث DU-PRB-10472."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own monitoring for the next busy hour and update the ticket afterward. If congestion returns, we will extend mitigation with broader offload and refine parameters; if adverse effects appear, we will roll back to the previous settings.",
+      "message_ar": "متفق—سنتولى المراقبة خلال ساعة الانشغال التالية وسنحدّث التذكرة بعدها. إذا عاد الازدحام فسنوسع التخفيف عبر زيادة التفريغ وتحسين المعلمات؛ وإن ظهرت آثار سلبية سنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_MALL_A3_S1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "resource_fairness, per-UE_PRB_cap, soft_admission_limit"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB congestion at indoor mall NR micro; tuned resource parameters; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed capacity-driven congestion at the indoor mall 5G micro during the evening peak: PRB utilization ~91%, many users, slow data, and higher queuing delay. Pulled 3-hour counters, then applied site parameter tuning to increase fairness and enforce a soft admission/PRB cap, yielding immediate relief. Opened a tracking ticket and will monitor through the next busy hour for sustained improvement.",
+    "ar": "تم تشخيص ازدحام ناتج عن السعة في موقع 5G صغير داخل المول خلال ذروة المساء: استهلاك موارد ~91%، عدد مستخدمين مرتفع، بيانات بطيئة وتأخير صف أعلى. جرى سحب مؤشرات 3 ساعات ثم تطبيق ضبط لمعلمات الموقع لزيادة العدالة وفرض حد قبول/موارد مرن، ما أسفر عن تحسن فوري. تم فتح تذكرة متابعة وسيستمر الرصد خلال ساعة الانشغال التالية للتحقق من الاستمرارية."
+  }
+}

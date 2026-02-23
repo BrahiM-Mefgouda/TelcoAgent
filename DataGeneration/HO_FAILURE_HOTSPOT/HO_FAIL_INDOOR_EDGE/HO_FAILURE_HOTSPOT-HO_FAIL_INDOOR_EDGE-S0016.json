@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0016",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Investigate indoor office wing handover failures with interference/signal overlap during peak: HO success 88%, failures 18%, ping-pong 28%, SINR 1 dB, RSRP −100 dBm on an NR micro cell.",
+    "ar": "التحقق من فشل التسليم داخل جناح المكتب مع تداخل/تراكب إشارة خلال الذروة: نجاح التسليم 88%، الفشل 18%، الذهاب‑والإياب 28%، SINR بمقدار 1 dB وRSRP −100 dBm على خلية NR ميكرو."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour indoor NR micro cell in the office wing: HO success 88%, failures 18% over the last 4h; ping-pong 28%, SINR ~1 dB, RSRP ~−100 dBm, RSRQ −14 dB. eMBB streaming complaints. No alarms.",
+      "message_ar": "لدينا خلية NR ميكرو داخلية في جناح المكتب خلال ساعات الذروة: نجاح التسليم 88%، فشل التسليم 18% خلال آخر 4 ساعات، الذهاب‑والإياب 28%، SINR نحو 1 dB، RSRP حوالى −100 dBm وRSRQ −14 dB. شكاوى من مستخدمي eMBB (بث). لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an indoor RF heatmap for the last 4h at 10 m grid to locate the HO-failure hotspot and interference/overlap. Please confirm access to run it.",
+      "message_ar": "سأبدأ بخريطة تغطية داخلية (حرارية) لآخر 4 ساعات بدقة 10 م لتحديد بؤرة فشل التسليم والتداخل/تراكب الإشارة. هل تؤكد الإذن بالوصول والتنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Most drops reported near the eastern corridor by the elevators. Access granted.",
+      "message_ar": "موافق. معظم الانقطاعات قرب الممر الشرقي عند المصاعد. الإذن مُعطى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Heatmap results: edge overlap along the eastern corridor; low dominance with SINR 0–2 dB and thinning coverage. HO failures cluster at the micro–macro boundary. Mitigation plan: mobility tuning—shorter reaction time, lower hysteresis, slightly higher A3 bias to the stronger neighbor, and a small CIO tweak to adjacent macro/micro. Approve to implement now?",
+      "message_ar": "نتيجة الخريطة: تداخل عند الحافة على طول الممر الشرقي؛ هيمنة منخفضة وSINR بين 0–2 dB مع ترقّق التغطية؛ تتجمع حالات الفشل عند حد الانتقال بين الميكرو والماكرو. خطة المعالجة: ضبط حركة الخلية—تقصير زمن الاستجابة، خفض الهسترة، رفع انحياز A3 قليلاً لصالح الجار الأقوى وإزاحة CIO طفيفة للماكرو/الميكرو المجاورين. هل توافق على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, proceed. Many streaming users right now—keep impact minimal.",
+      "message_ar": "موافق، تابع. لدينا العديد من مستخدمي البث حالياً—الرجاء إبقاء الأثر أدنى ما يمكن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: TTT 130→80 ms, hysteresis 3→2 dB, A3 offset 3→4 dB, CIO −1 dB to target neighbors. No service interruption observed. I will watch early counters for 20 minutes.",
+      "message_ar": "تم التطبيق: TTT من 130 إلى 80 مللي ثانية، الهسترة من 3 إلى 2 dB، A3 من 3 إلى 4 dB، وCIO −1 dB للجارين المستهدفين. لم يحدث انقطاع خدمة. سأتابع العدّادات المبكرة لمدة 20 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs: fewer complaint calls; sample traces show earlier HO triggers; no new alarms.",
+      "message_ar": "مؤشرات أولية: شكاوى أقل؛ تتبّعات العيّنات تُظهر تحفيز تسليم أبكر؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Please keep an eye on the elevator area for HO retry spikes or abnormal reattachments; ping-pong should trend down.",
+      "message_ar": "جيد. الرجاء رصد منطقة المصاعد لأي ارتفاع في محاولات التسليم المتكررة أو الالتحاقات غير الطبيعية؛ يفترض أن ينخفض الذهاب‑والإياب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field note: transitions near the elevators feel smoother; fewer retries; radio link failures trending down.",
+      "message_ar": "ملاحظة ميدانية: الانتقالات قرب المصاعد أصبحت أكثر سلاسة؛ المحاولات المتكررة أقل؛ إخفاقات رابط الراديو في اتجاه تنازلي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. Let’s continue watching the next busy interval and confirm HO failures stay under ~10% with ping-pong below 15%.",
+      "message_ar": "ممتاز. لنواصل المتابعة خلال الفترة المزدحمة التالية وتأكيد بقاء فشل التسليم دون ~10% مع ذهاب‑وإياب أقل من 15%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: ping-pong is trending down and HO failures are easing after the mobility parameter optimization based on the indoor heatmap. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: الذهاب‑والإياب في اتجاه تنازلي وتراجع في فشل التسليم بعد تحسين معلمات الحركة المستند إلى الخريطة الداخلية. لنواصل المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next busy hour monitoring and share an update afterward. If degradation returns, we will roll back the mobility tuning and escalate to check indoor interference sources; otherwise we keep the new settings.",
+      "message_ar": "مفهوم—سنتولى متابعة ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا عاد التدهور سنرجع ضبط الحركة ونصعّد للتحقق من مصادر التداخل الداخلية؛ خلاف ذلك سنُبقي الإعدادات الجديدة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "10m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility tuning: TTT 130→80 ms; hysteresis 3→2 dB; A3 offset 3→4 dB; CIO −1 dB to target neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Indoor RF mapping identified an overlap hotspot along the office wing corridor with low SINR and clustered handover failures at the micro–macro boundary. We mitigated by site parameter tuning to accelerate handover decisions and reduce hysteresis, with a slight bias to target neighbors to cut ping-pong. We will monitor through the next busy hour and keep the adjustments if stability holds.",
+    "ar": "كشفت خريطة التغطية الداخلية عن بؤرة تراكب في ممر جناح المكتب مع SINR منخفض وتجمع لفشل التسليم عند حد الميكرو‑ماكرو. تمت المعالجة عبر ضبط معلمات الموقع لتسريع قرارات التسليم وخفض الهسترة مع انحياز طفيف نحو الجيران المستهدفين لتقليل الذهاب‑والإياب. سنراقب خلال ساعة الذروة القادمة ونُبقي التعديلات إذا استمرت الاستقرار."
+  }
+}

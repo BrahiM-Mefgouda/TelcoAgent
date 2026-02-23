@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0024",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell with a congestion alarm in the last 3h: backhaul utilization 88%, latency 47 ms, packet loss 0.67%, jitter 19 ms, queue 62%, PRB 68%, SINR 17 dB, and downlink 13 Mbps.",
+    "ar": "موقع ماكرو NR حضري مع إنذار ازدحام خلال آخر 3 ساعات: استخدام النقل الخلفي 88%، زمن التأخير 47 مللي ثانية، فقدان حزم 0.67%، تذبذب 19 مللي ثانية، امتلاء قائمة الانتظار 62%، استخدام PRB 68%، وSINR بقيمة 17 ديسيبل، ومعدل تنزيل 13 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell shows a backhaul congestion alarm over the last 3h during shoulder hours. eMBB traffic with streaming is heavy; users report slower downloads. KPIs: backhaul util 88%, latency 47 ms, loss 0.67%, jitter 19 ms, queue 62%; PRB 68%, SINR 17 dB; DL 13 Mbps.",
+      "message_ar": "الموقع الماكرو NR الحضري يُظهر إنذار ازدحام في النقل الخلفي خلال آخر 3 ساعات أثناء فترة الكتف. حركة eMBB مع بث فيديو كثيفة؛ المستخدمون يبلغون عن بطء التنزيل. المؤشرات: استخدام النقل الخلفي 88%، التأخير 47 مللي ثانية، الفقد 0.67%، التذبذب 19 مللي ثانية، قائمة الانتظار 62%؛ PRB 68%، وSINR 17 ديسيبل؛ معدل التنزيل 13 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull the last 3h counters from the network management system to separate backhaul from radio constraints. Please confirm the cell ID and approve access.",
+      "message_ar": "تم. سأستعلم أولاً مؤشرات آخر 3 ساعات من نظام إدارة الشبكة لعزل قيود النقل الخلفي عن قيود الراديو. يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-093-M1. Access approved for the last 3h window.",
+      "message_ar": "معرّف الخلية هو NR-URB-093-M1. تمت الموافقة على الوصول لفترة الثلاث ساعات الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 3h performance for NR-URB-093-M1 now. Findings: backhaul utilization sustained 82–92%, p95 latency ~55 ms, loss 0.6–0.8%, queue depth up to 70%. Radio is moderate (PRB 65–75%, SINR median 17 dB). This indicates peak-time backhaul congestion. I propose applying backhaul QoS/buffering tuning to reduce queuing and prioritize eMBB. Approve?",
+      "message_ar": "أقوم الآن بجلب أداء 3 ساعات للخلية NR-URB-093-M1. النتائج: استخدام النقل الخلفي مستمر عند 82–92%، زمن التأخير p95 حوالي 55 مللي ثانية، الفقد 0.6–0.8%، وعمق قائمة الانتظار يصل إلى 70%. جانب الراديو متوسط (PRB بين 65–75%، ووسيط SINR عند 17 ديسيبل). هذا يشير إلى ازدحام في النقل الخلفي وقت الذروة. أقترح ضبط جودة الخدمة والتهيئة التخزينية لتقليل الطوابير وإعطاء أولوية لـ eMBB. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning.",
+      "message_ar": "موافق على تطبيق الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing conservative tuning: enabling active queue control, adjusting buffering thresholds, and prioritizing interactive/streaming classes. Changes are reversible. Expect lower latency/jitter without increasing radio load. I will validate over the next 10–15 minutes.",
+      "message_ar": "أقوم بتنفيذ ضبط محافظ: تفعيل التحكم النشط في الطوابير، تعديل عتبات التخزين المؤقت، وإعطاء أولوية لفئات التفاعلي/البث. التغييرات قابلة للرجوع. نتوقع خفض التأخير/التذبذب دون زيادة حمل الراديو. سأتحقق خلال 10–15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Proceed and share the quick validation.",
+      "message_ar": "تم. تابع وشاركنا التحقق السريع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change snapshot (10 min): latency ~33 ms, loss ~0.3%, jitter 12 ms; backhaul utilization ~85–90% with queue occupancy down to ~45%. DL user throughput improved to ~17 Mbps. For traceability, I propose logging a ticket and continuing to monitor. May I create it?",
+      "message_ar": "لقطة بعد التغيير (10 دقائق): التأخير ~33 مللي ثانية، الفقد ~0.3%، التذبذب 12 مللي ثانية؛ استخدام النقل الخلفي ~85–90% مع انخفاض امتلاء الطوابير إلى ~45%. تحسن معدل تنزيل المستخدم إلى ~17 ميجابت/ث. لأغراض التتبع، أقترح فتح تذكرة ومواصلة المراقبة. هل أُنشئها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the ticket.",
+      "message_ar": "موافَق على إنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-04231 created: urban NR macro backhaul congestion during shoulder hours; applied backhaul QoS/buffering tuning; initial KPIs improved. I will keep watching for stability.",
+      "message_ar": "تم إنشاء التذكرة DU-BH-04231: ازدحام نقل خلفي لموقع ماكرو NR حضري خلال ساعات الكتف؛ تم تطبيق ضبط جودة الخدمة/التخزين المؤقت؛ تحسنت المؤشرات الأولية. سأواصل المتابعة للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see continued improvement—latency remains in the low-30 ms and packet loss is trending down. The backhaul QoS site parameter tuning looks effective. Let’s monitor through the next busy hour and update DU-BH-04231 afterward.",
+      "message_ar": "نرى استمرار التحسن—التأخير يبقى في أوائل 30 مللي ثانية والفقد يتجه للانخفاض. ضبط معلمات جودة الخدمة للنقل الخلفي يبدو فعّالاً. لنتابع خلال ساعة الانشغال القادمة ونحدّث التذكرة DU-BH-04231 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own monitoring through the next busy hour and update the ticket afterward. If loss or latency regresses, we will escalate to the transport team; if user KPIs deteriorate, we will roll back the tuning.",
+      "message_ar": "متفق—سنتولى المراقبة خلال ساعة الانشغال القادمة وسنحدّث التذكرة بعدها. إذا تدهور الفقد أو التأخير سنصعّد إلى فريق النقل؛ وإذا تراجعت مؤشرات المستخدمين سنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on the urban NR macro during shoulder hours: high backhaul utilization with elevated latency, packet loss, and queueing while radio load was moderate, confirming a backhaul bottleneck. Applied site parameter tuning for backhaul QoS and buffering to reduce queuing and prioritize traffic, then opened tracking ticket DU-BH-04231. We will monitor through the next busy hour and adjust if any regression appears.",
+    "ar": "تم تشخيص تدهور النقل الخلفي في موقع ماكرو NR حضري خلال ساعات الكتف: استخدام مرتفع للنقل الخلفي مع ارتفاع التأخير والفقد وطوابير الانتظار بينما حمل الراديو متوسط، ما يؤكد عنق زجاجة في النقل الخلفي. تم تطبيق ضبط معلمات الموقع لجودة الخدمة والتخزين المؤقت لتقليل الطوابير وإعطاء أولوية لحركة المرور، ثم فتح التذكرة DU-BH-04231. سنراقب خلال ساعة الانشغال القادمة ونجري التعديلات إذا ظهرت أي انتكاسة."
+  }
+}

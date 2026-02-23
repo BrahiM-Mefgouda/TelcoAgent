@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0005",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a rush-hour RLF spike within the last 2h: RLF ~4.9%, handovers ~87.8% success, T310 expiries elevated, PRB ~75%, 488 users, SINR 8 dB, BLER 5%, p95 latency 92 ms, p50 throughput 10 Mbps; congestion alarm is active.",
+    "ar": "موقع ماكرو 5G NR حضري يظهر ارتفاعاً في RLF خلال آخر ساعتين: RLF نحو 4.9%، نجاح التسليم ~87.8%، ارتفاع في انتهاء T310، استخدام PRB ~75%، 488 مستخدماً، SINR 8 dB، BLER 5%، تأخر p95 92 مللي ثانية، سرعة وسيط DL 10 ميجابت/ث؛ إنذار الازدحام مفعل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a rush-hour RLF spike on an urban macro 5G NR cell; handover success is lower and T310 expiries are elevated over the last 2 hours. Please assist.",
+      "message_ar": "نلاحظ ارتفاعاً في حالات انقطاع الاتصال RLF خلال ساعة الذروة على موقع ماكرو 5G NR حضري؛ نسبة نجاح التسليم منخفضة وانتهاء مؤقت T310 مرتفع خلال آخر ساعتين. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics: first pull the last 2h OSS counters for the impacted cell, then analyze the RLF trend and mitigate via mobility tuning if needed. Please share the cell ID and confirm access.",
+      "message_ar": "سأتولى التشخيص: أولاً سأسحب مؤشرات OSS لآخر ساعتين للخلية المتأثرة، ثم أحلل اتجاه RLF وأخفف المشكلة عبر ضبط معلمات الحركة إذا لزم. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-245A-1. Access approved for the 2-hour window.",
+      "message_ar": "معرّف الخلية: NR-URB-245A-1. تم اعتماد الوصول ضمن نافذة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot pulled (2h). Highlights: RLF ~4.9% (baseline <2%), HO success ~87–89%, T310 expiries peaking ~15/h, PRB utilization 70–80%, users up to 488 with evening eMBB streaming load; RSRQ −13 dB, SINR 8 dB; p95 scheduler latency ~92 ms; p50 DL ~10 Mbps. Approve running an RLF time-series to isolate peak intervals and affected neighbors?",
+      "message_ar": "تم سحب لقطة OSS لآخر ساعتين. أبرز النتائج: RLF نحو 4.9% (المرجع <2%)، نجاح التسليم ~87–89%، ذروات انتهاء T310 ~15/ساعة، استخدام PRB بين 70–80%، حتى 488 مستخدماً مع حمل بث eMBB مسائي؛ RSRQ −13 dB وSINR 8 dB؛ تأخر المجدول p95 ~92 مللي ثانية؛ تنزيل وسيطي ~10 ميجابت/ث. هل توافق على تشغيل سلسلة زمنية لـ RLF لعزل فترات الذروة والخلايا المجاورة المتأثرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time-series analysis.",
+      "message_ar": "موافَق على المضي في تحليل السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing RLF time-series (5‑min bins) for 17:30–19:30 and correlating with neighbor attempts. Result: RLF spikes 18:18–18:47; drops occur after attempted handovers to NR-URB-245A-2 and NR-URB-245B-1; majority are timer‑expiry driven under high PRB. I recommend a minor mobility tune (slightly higher HO hysteresis and time‑to‑trigger, and modest extension of failure recovery) to stabilize during load. Approve change?",
+      "message_ar": "أُنفّذ سلسلة زمنية لـ RLF (بنوافذ 5 دقائق) للفترة 17:30–19:30 مع ربطها بمحاولات التسليم إلى الجوار. النتيجة: ذروات RLF بين 18:18–18:47؛ تحدث السقوطات بعد محاولات تسليم إلى NR-URB-245A-2 وNR-URB-245B-1؛ الغالبية بسبب انتهاء مؤقت تحت ارتفاع استخدام PRB. أوصي بضبط بسيط لمعلمات الحركة (رفع طفيف لهيستريز وزمن التفعيل للتسليم، وتمديد محدود لمؤقت التعافي) لتحقيق الاستقرار أثناء الحمل. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Note: heavy evening footfall from the nearby mall; no planned works.",
+      "message_ar": "موافَق. ملاحظة: ازدحام مسائي من مركز تسوق قريب؛ لا توجد أعمال مجدولة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will apply a low‑risk profile on NR-URB-245A-1 with coordinated neighbor tweaks for NR-URB-245A-2/245B-1; changes are reversible and confined to mobility behavior.",
+      "message_ar": "سأطبّق ملفاً منخفض المخاطر على NR-URB-245A-1 مع تعديلات منسقة على الجارين NR-URB-245A-2/245B-1؛ التغييرات قابلة للرجوع ومحصورة بسلوك الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed now.",
+      "message_ar": "تابع الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: minor increase in HO hysteresis, slight time‑to‑trigger extension, modest failure‑recovery extension, and neighbor priority alignment for 245A‑2/245B‑1. Post‑change checks are clean; starting a 30–60 min watch expecting >30% RLF reduction.",
+      "message_ar": "تم تطبيق التحسين: زيادة طفيفة في هيستريز التسليم، تمديد بسيط لزمن التفعيل، تمديد محدود لتعافي الفشل، ومواءمة أولوية الجيران 245A‑2/245B‑1. فحوصات ما بعد التغيير سليمة؛ نبدأ مراقبة 30–60 دقيقة مع توقع خفض RLF بأكثر من 30%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: after 15 minutes, RLF down to ~2.6%, HO success ~92%, and timer expiries trending down. Action taken: site parameter tuning applied. Please monitor through the next busy hour.",
+      "message_ar": "ملاحظة أولية: بعد 15 دقيقة، انخفض RLF إلى ~2.6%، ونجاح التسليم ~92%، وانخفاض ملحوظ في انتهاء المؤقتات. الإجراء المتخذ: تم تطبيق ضبط معلمات الموقع. يرجى المتابعة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will monitor through the next busy hour and update with results. If issues recur, we will escalate to cluster‑level optimization; if adverse impact appears, we will roll back to the previous profile.",
+      "message_ar": "تم التأكيد؛ سنراقب خلال ساعة الذروة التالية ونوافيكم بالنتائج. إذا تكررت المشكلة سنصعّد إلى تحسين على مستوى المجموعة، وإذا ظهر أثر سلبي سنرجع إلى الملف السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an evening RLF spike on an urban macro NR cell by reviewing OSS counters and analyzing the RLF time series, which showed timer‑expiry drops after attempted handovers to two neighbors under high load. Mitigation was applied via targeted mobility site parameter tuning with small adjustments to hysteresis, trigger timing, and recovery behavior. Early results show reduced RLF and improved handover success; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع RLF المسائي على موقع ماكرو 5G NR حضري عبر مراجعة مؤشرات OSS وتحليل السلسلة الزمنية لـ RLF، والتي أظهرت سقوطات بسبب انتهاء المؤقت بعد محاولات تسليم إلى جارين تحت حمل مرتفع. تمت المعالجة عبر ضبط انتقائي لمعلمات الحركة في الموقع مع تعديلات طفيفة على الهيستريز وزمن التفعيل وسلوك التعافي. تظهر النتائج الأولية انخفاضاً في RLF وتحسناً في نجاح التسليم؛ وستستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

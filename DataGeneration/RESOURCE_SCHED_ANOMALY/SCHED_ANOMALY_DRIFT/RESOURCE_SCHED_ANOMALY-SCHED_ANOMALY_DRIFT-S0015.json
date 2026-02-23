@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0015",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell shows uneven resource allocation over the last 6h shoulder period: PRB ~84%, fairness ~0.74 with skew 33, best-effort share 65%, p95 allocation latency 27 ms, and a 29 Mbps gap between median and 95th percentile throughput impacting eMBB streaming.",
+    "ar": "خلية NR ماكرو حضرية تُظهر خلال آخر 6 ساعات (فترة الكتف) عدم توازن في تخصيص الموارد: إشغال PRB نحو 84%، العدالة نحو 0.74 مع انحراف 33، حصة Best‑Effort بنسبة 65%، كمون التخصيص p95 يساوي 27 مللي ثانية، وفجوة 29 ميجابت/ث بين الوسيط و95 المئوية تؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro over the last 6h shoulder period shows uneven resource allocation: PRB ~84%, fairness ~0.74 with skew 33, best-effort 65%, p95 allocation latency 27 ms; median DL 11 Mbps vs 95th 23 Mbps (gap 29). eMBB streaming complaints seen—please assess.",
+      "message_ar": "موقع NR ماكرو حضري خلال آخر 6 ساعات (فترة الكتف) يظهر عدم توازن في تخصيص الموارد: إشغال PRB ~84%، العدالة ~0.74 مع انحراف 33، Best‑Effort 65%، كمون التخصيص p95 يساوي 27 مللي ثانية؛ وسطي التحميل 11 ميجابت/ث مقابل 95 المئوية 23 ميجابت/ث (فجوة 29). هناك شكاوى بث eMBB—يرجى التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 6h cell counters to validate load, QoS mix, and allocator behavior. Please share the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بسحب عدادات الخلية لآخر 6 ساعات للتحقق من الحمل ومزيج مستويات الخدمة وسلوك مُخصص الموارد. يرجى تزويدي بمعرف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Cell-41023. Read-only access approved.",
+      "message_ar": "معرّف الخلية هو NR-Cell-41023. تم منح صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 6h stats: PRB occupancy avg 83% (peaks 92%); best-effort share 64–67%; high-priority ~30%; user count normal; RF OK (SINR ~14 dB). Indicates allocation bias toward best-effort. Next I’ll run a time series on PRB and allocation metrics to locate degradation periods. Proceed?",
+      "message_ar": "تم سحب إحصاءات 6 ساعات: إشغال PRB بمتوسط 83% (قمم 92%)؛ حصة Best‑Effort بين 64–67%؛ الحصة عالية الأولوية ~30%؛ عدد المستخدمين طبيعي؛ طبقة الراديو جيدة (SINR ~14 ديسيبل). هذا يشير إلى انحياز في التخصيص لصالح Best‑Effort. بعد ذلك سأجري سلسلة زمنية لمقاييس PRB والتخصيص لتحديد فترات التدهور. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows fairness dipping to 0.68 with skew peaking at 35 during shoulder; p95 allocation latency 28–30 ms; median DL 10–12 Mbps while tail remains 23–25 Mbps. Diagnosis: resource allocation drift. I propose tuning the cell—moderately increase QoS bias for high-priority and apply a soft cap on bursty best-effort. Approve change now?",
+      "message_ar": "السلسلة الزمنية تُظهر هبوط العدالة إلى 0.68 مع وصول الانحراف إلى 35 خلال فترة الكتف؛ كمون التخصيص p95 بين 28–30 مللي ثانية؛ الوسيط في التحميل 10–12 ميجابت/ث بينما الطرف الأعلى يبقى 23–25 ميجابت/ث. التشخيص: انحراف في تخصيص الموارد. أقترح ضبط الخلية—زيادة معتدلة للتحيز نحو الحركة عالية الأولوية وتطبيق حد مرن على اندفاع Best‑Effort. هل توافق على التعديل الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافق على التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied allocation tuning on NR-Cell-41023 with a modest high-priority bias and a soft cap on bursty best-effort; no service interruption. Allow 10–15 minutes for stabilization and please confirm early KPI movement.",
+      "message_ar": "تم تطبيق ضبط التخصيص على NR-Cell-41023 بزيادة معتدلة للأولوية العالية وحد مرن على اندفاع Best‑Effort؛ دون انقطاع خدمة. نحتاج 10–15 دقيقة للاستقرار ويرجى تأكيد حركة المؤشرات الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes: p95 allocation latency down to 21 ms; fairness ~0.82; skew ~19; PRB ~83%; median DL 13 Mbps and the gap down to 17 Mbps. Streaming complaints have subsided.",
+      "message_ar": "بعد 12 دقيقة: كمون التخصيص p95 انخفض إلى 21 مللي ثانية؛ العدالة ~0.82؛ الانحراف ~19؛ PRB ~83%؛ الوسيط في التحميل 13 ميجابت/ث والفجوة انخفضت إلى 17 ميجابت/ث. شكاوى البث تراجعت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great—KPIs improved with stable RF. I suggest continued observation through the next shoulder peak; no ticket needed at this stage.",
+      "message_ar": "جيد—تحسنت المؤشرات مع استقرار طبقة الراديو. أوصي بالمتابعة عبر ذروة فترة الكتف التالية؛ لا حاجة لفتح تذكرة حالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted—latency is trending down and fairness improved after site parameter tuning. Let’s monitor over the next busy hour.",
+      "message_ar": "تم—الكمون في اتجاه هابط والعدالة تحسنت بعد ضبط معلمات الموقع. لنتابع خلال الساعة المزدحمة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next-hour monitoring and share an update after the window. If metrics regress, we will roll back the change and escalate to assess neighboring cells for load distribution.",
+      "message_ar": "سنتولى مراقبة الساعة القادمة ونشارك تحديثاً بعد انتهاء الفترة. إذا تراجعت المؤشرات سنقوم بإرجاع التعديل والتصعيد لتقييم الخلايا المجاورة من ناحية توزيع الحمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-41023",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-41023",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_qos_bias_and_be_burst_cap"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation drift on an urban NR macro cell during the shoulder period, evidenced by high PRB utilization, low fairness, elevated allocation latency, and a large gap between median and tail throughput affecting eMBB. Validated the issue by reviewing OSS data and PRB time series, then mitigated it via site parameter tuning to adjust QoS weighting and cap bursty best-effort. Monitoring will continue through the next busy hour to ensure stability.",
+    "ar": "تم تشخيص انحراف في تخصيص الموارد على خلية NR ماكرو حضرية خلال فترة الكتف، تمثّل في إشغال PRB مرتفع، عدالة منخفضة، كمون تخصيص مرتفع، وفجوة كبيرة بين الوسيط والطرف الأعلى في معدل التحميل أثرت على eMBB. جرى التحقق عبر بيانات OSS والسلاسل الزمنية لـ PRB، ثم تمت المعالجة عبر ضبط معلمات الموقع بتعديل أوزان QoS ووضع حد مرن لاندفاع Best‑Effort. ستستمر المراقبة خلال الساعة المزدحمة القادمة لضمان الاستقرار."
+  }
+}

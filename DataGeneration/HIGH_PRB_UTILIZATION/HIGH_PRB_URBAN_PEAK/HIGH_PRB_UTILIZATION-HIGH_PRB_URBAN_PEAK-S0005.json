@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_URBAN_PEAK-S0005",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G macro cell shows 92% PRB utilization over the last 2h with 271 users, DL 15 Mbps, UL 9 Mbps, and p95 scheduling latency 42 ms; a congestion alarm is active during peak-evening eMBB traffic.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر استخدام PRB بنسبة 92% خلال آخر ساعتين مع 271 مستخدمًا، وسرعة تنزيل 15 ميجابت/ث، ورفع 9 ميجابت/ث، وزمن جدولة p95 يبلغ 42 مللي ثانية؛ يوجد إنذار ازدحام أثناء ذروة المساء لحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell under peak-evening load has a congestion alarm for the past 2h: PRB ~92%, 271 users, DL 15 Mbps, UL 9 Mbps, BLER ~4.6%, p95 scheduling latency 42 ms, RLF ~4.6%. Need support.",
+      "message_ar": "خلية ماكرو NR حضرية تحت حمل ذروة المساء بها إنذار ازدحام خلال آخر ساعتين: استخدام PRB ~92%، 271 مستخدمًا، التنزيل 15 ميجابت/ث، الرفع 9 ميجابت/ث، BLER ~4.6%، زمن جدولة p95 يبلغ 42 مللي ثانية، وRLF ~4.6%. نحتاج دعمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling last-2h network stats for the cell to confirm the load and bottlenecks—please share the cell ID and approve read access. Peak eMBB streaming likely increases contention.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب إحصاءات الشبكة لآخر ساعتين لهذه الخلية لتأكيد الحمل ومكامن الاختناق—يرجى مشاركة معرّف الخلية والموافقة على الوصول للقراءة. من المحتمل أن حركة eMBB الخاصة بالبث تزيد التزاحم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-123-1. Read access approved for the 2h window.",
+      "message_ar": "معرّف الخلية: NR-URB-123-1. تمت الموافقة على الوصول للقراءة لفترة الساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 2h stats for NR-URB-123-1: PRB 88–97% with peaks aligned to evening busy hour, control-channel usage ~85%, elevated buffers, concurrent users 250–280, no hardware/backhaul alerts. Diagnosis: downlink capacity saturation. I propose targeted site parameter tuning to relieve PRB pressure (adaptive scheduling/admission guardrails). Approve?",
+      "message_ar": "تم سحب إحصاءات الساعتين للخلية NR-URB-123-1: استخدام PRB بين 88–97% مع قمم متوافقة مع ساعة الذروة المسائية، استخدام قناة التحكم ~85%، ارتفاع في المخازن، مستخدمون متزامنون 250–280، ولا توجد تنبيهات عتاد أو وصلات خلفية. التشخيص: تشبّع سعة الوصلة الهابطة. أقترح ضبطًا موجهًا لمعاملات الموقع لتخفيف ضغط PRB (تكييف الجدولة وحواجز القبول). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the parameter tuning on NR-URB-123-1.",
+      "message_ar": "موافَق على المضي قدمًا بضبط المعاملات على NR-URB-123-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully. Early effects (first 5–10 min): PRB p95 down to ~84%, DL throughput up to ~19 Mbps, p95 scheduling latency ~28 ms, BLER steady ~4–5%, RLF unchanged. I will keep observing during the current peak.",
+      "message_ar": "تم تطبيق التحسين بنجاح. التأثيرات الأولية (أول 5–10 دقائق): انخفض PRB p95 إلى ~84%، ارتفع تنزيل DL إلى ~19 ميجابت/ث، أصبح زمن جدولة p95 ~28 مللي ثانية، واستقر BLER عند ~4–5%، ولم يتغير RLF. سأستمر بالمراقبة خلال الذروة الحالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field checks show smoother streaming and DL speed tests around 20 Mbps with no new complaints so far.",
+      "message_ar": "التحقق الميداني يُظهر بثًا أكثر سلاسة واختبارات تنزيل بحوالي 20 ميجابت/ث بدون شكاوى جديدة حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "To maintain visibility through the next busy interval, I will open a follow-up ticket summarizing the high-load mitigation and continue monitoring. Please confirm.",
+      "message_ar": "للحفاظ على الرؤية خلال فترة الذروة التالية، سأفتح تذكرة متابعة تُلخص إجراء التخفيف من الحمل العالي وسأواصل المراقبة. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Proceed with creating the follow-up ticket.",
+      "message_ar": "مؤكد. تفضل بإنشاء تذكرة المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-LOAD-04521 created: Urban NR macro cell high PRB utilization mitigated via site parameter tuning; monitor during evening peaks for stability and user experience.",
+      "message_ar": "تم إنشاء التذكرة DU-LOAD-04521: تم التخفيف من ارتفاع استخدام PRB في خلية ماكرو NR حضرية عبر ضبط معاملات الموقع؛ تتم المراقبة خلال ذرى المساء للاستقرار وتجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: PRB occupancy trending down and download speeds higher after the site parameter tuning; let’s monitor the next 2–4 hours and track in DU-LOAD-04521.",
+      "message_ar": "تمت ملاحظة تحسن: إشغال PRB في اتجاه هابط وسرعات تنزيل أعلى بعد ضبط معاملات الموقع؛ لنراقب الساعتين إلى الأربع القادمة ونتابع في DU-LOAD-04521."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update DU-LOAD-04521 afterward. If congestion returns, we will extend mitigation to adjacent cells; if any regressions appear, we will roll back the change.",
+      "message_ar": "سنقود نافذة المراقبة لمدة 2–4 ساعات وسنحدث DU-LOAD-04521 بعدها. إذا عاد الازدحام سنوسع إجراء التخفيف إلى الخلايا المجاورة؛ وإذا ظهرت أي تراجعات سنعيد التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed evening-peak downlink capacity saturation on an urban 5G macro cell after confirming sustained PRB utilization near saturation over the last 2 hours. Applied site parameter tuning to ease PRB pressure and improve scheduling efficiency, which reduced PRB p95 and lifted downlink throughput. Created a follow-up ticket for continued monitoring during evening peaks.",
+    "ar": "تم تشخيص تشبّع سعة الوصلة الهابطة أثناء ذروة المساء في خلية ماكرو 5G حضرية بعد التأكد من بقاء استخدام PRB قريبًا من التشبع خلال الساعتين الأخيرتين. تم تطبيق ضبط معاملات الموقع لتخفيف ضغط PRB وتحسين كفاءة الجدولة، مما خفض PRB p95 ورفع سرعة التنزيل. تم إنشاء تذكرة متابعة لمواصلة المراقبة خلال ذرى المساء."
+  }
+}

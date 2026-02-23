@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0014",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban NR macro cell over the last 12h shows slow data and elevated handover oscillations; possible PCI confusion affecting user experience.",
+    "ar": "خلية NR ماكرو في منطقة سكنية خلال آخر 12 ساعة تُظهر بيانات بطيئة واهتزازات مرتفعة في التسليم؛ احتمال ارتباك في PCI يؤثر على تجربة المستخدم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 12h shows slow data (p50 ~8 Mbps), ping-pong 13%, and ~10% handover failures; SINR ~8 dB, RSRQ −13 dB; 16 overlapping neighbors flagged—please check.",
+      "message_ar": "خلية NR ماكرو في منطقة سكنية خلال آخر 12 ساعة تُظهر بيانات بطيئة (وسيط ~8 Mbps)، نسبة ping‑pong 13% وفشل تسليم ~10%؛ قيمة SINR حوالي 8 dB و RSRQ −13 dB؛ تم الإبلاغ عن تداخل مع 16 جاراً. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with a neighbor audit to confirm any PCI collision/confusion around this cell in the last 12h, focusing on overlap and eMBB streaming periods. Please confirm access and share the exact cell ID.",
+      "message_ar": "سأبدأ بتدقيق الجيران للتحقق من أي تعارض/ارتباك في PCI حول هذه الخلية خلال آخر 12 ساعة، مع التركيز على التداخل وفترات بث eMBB. يرجى تأكيد صلاحية الوصول ومشاركة معرف الخلية الدقيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; cell ID: NR-SUB-332-1; window: last 12h.",
+      "message_ar": "الوصول مُعتمد؛ معرف الخلية: NR-SUB-332-1؛ النافذة: آخر 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit confirms PCI reuse: a nearby macro reuses PCI 263 within ~2.2 km with multi-beam overlap; total overlapping neighbors 16. Measurement ambiguity also seen near the NW boundary with the PCI-115 neighbor, matching the ping-pong issue.",
+      "message_ar": "تؤكد عملية تدقيق الجيران إعادة استخدام PCI: يوجد ماكرو مجاور يعيد استخدام PCI 263 على بُعد ~2.2 كم مع تداخل عدة حزم، وإجمالي الجيران المتداخلين 16. كما لوحظ غموض في القياسات قرب الحد الشمالي الغربي مع الجار ذي PCI-115، بما يتوافق مع مشكلة ping‑pong."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mitigation plan: reassign the serving cell to a free PCI and refresh neighbor relations to remove the conflict. Brief, low-impact change—approve to proceed now?",
+      "message_ar": "خطة المعالجة: إعادة تعيين الخلية الخادمة إلى PCI متاح وتحديث علاقات الجيران لإزالة التعارض. تغيير قصير ومنخفض التأثير—هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: PCI reallocated to a unique value and neighbor list refreshed. Post-checks show the collision cleared, HO success +3pp, ping-pong down ~5pp, BLER ~8%, no alarms.",
+      "message_ar": "تم التطبيق: إعادة تخصيص PCI إلى قيمة فريدة وتحديث قائمة الجيران. الفحوصات اللاحقة تظهر إزالة التعارض، وتحسن نجاح التسليم بمقدار +3 نقاط مئوية، وانخفاض ping‑pong بحوالي 5 نقاط مئوية، وBLER ~8%، ولا توجد إنذارات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field spot-check indicates steadier sessions and fewer oscillations; median downlink now ~12 Mbps, SINR ~10 dB.",
+      "message_ar": "فحص ميداني سريع يُظهر جلسات أكثر استقراراً واهتزازات أقل؛ وسطي التنزيل الآن ~12 Mbps، وSINR ~10 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a tracking record for audit and follow-up: DU-PCI-02137, including before/after snapshots and affected-neighbor notes. Continued background checks will run.",
+      "message_ar": "أقوم بإنشاء سجل متابعة للتدقيق والمتابعة: DU-PCI-02137، مع لقطات قبل/بعد وملاحظات الجيران المتأثرين. ستستمر الفحوصات الخلفية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Please include notes for the west-sector neighbors as well.",
+      "message_ar": "يرجى تضمين الملاحظات الخاصة بجيران القطاع الغربي أيضاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is sustained—ping-pong rate is trending down after the PCI reallocation and neighbor updates. Let’s monitor through the next busy hour; reference DU-PCI-02137.",
+      "message_ar": "التحسن مستمر—معدل الـ ping‑pong يتجه للانخفاض بعد إعادة تخصيص PCI وتحديث الجيران. لنتابع المراقبة خلال ساعة الذروة القادمة؛ المرجع DU-PCI-02137."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update DU-PCI-02137 afterward. If issues reappear, we will escalate to an on-site RF check and adjust boundaries; if any adverse effect emerges, we will roll back the PCI change.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث DU-PCI-02137 بعدها. إذا عادت المشكلات، سنصعّد إلى فحص ميداني RF وتعديل الحدود؛ وإذا ظهر أي أثر سلبي، سنرجع تغيير الـPCI."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed PCI confusion via a neighbor audit, which showed PCI reuse within ~2.2 km and heavy overlap driving ping-pong and slow data. Mitigated by site parameter tuning: PCI reallocation to a unique value and neighbor relation refresh, clearing the collision. Created tracking ticket DU-PCI-02137 and initiated a monitoring window through the next busy hour.",
+    "ar": "تم تشخيص ارتباك في PCI عبر تدقيق الجيران، والذي أظهر إعادة استخدام لـPCI ضمن ~2.2 كم وتداخلًا كبيرًا تسبب في ping‑pong وبطء البيانات. تمت المعالجة عبر ضبط معلمات الموقع: إعادة تخصيص PCI إلى قيمة فريدة وتحديث علاقات الجيران، مما أزال التعارض. تم إنشاء تذكرة متابعة DU-PCI-02137 وبدء نافذة مراقبة خلال ساعة الذروة القادمة."
+  }
+}

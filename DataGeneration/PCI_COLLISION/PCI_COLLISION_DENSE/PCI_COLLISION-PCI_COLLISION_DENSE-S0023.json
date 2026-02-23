@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0023",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban NR macro cell shows interference/signal overlap with SINR at −1 dB, handover success ~76% and 14% ping‑pong, neighbor PCI overlap 47%, and a congestion alarm active in the last 6 hours.",
+    "ar": "خلية NR ماكرو حضرية تُظهر تداخل/تراكب الإشارة مع SINR عند −1 dB ونسبة نجاح تسليم ~76% مع 14% تبديل متأرجح وتداخل PCI جار بنسبة 47%، ويوجد إنذار ازدحام خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector showing interference/signal overlap; SINR −1 dB, RSRQ −16 dB, HO success ~76% with 14% ping‑pong, neighbor PCI overlap 47%; a congestion alarm has been active in the last 6 hours, and eMBB streaming users report buffering. Please assess.",
+      "message_ar": "قطاع ماكرو NR حضري يعاني من تداخل/تراكب الإشارة؛ قيمة SINR −1 dB و RSRQ −16 dB، نجاح التسليم ~76% مع 14% تبديل متأرجح، وتداخل PCI جار بنسبة 47%؛ يوجد إنذار ازدحام خلال آخر 6 ساعات، ومستخدمي eMBB للبث أفادوا بتقطيع. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by auditing neighbors to confirm any PCI reuse within the footprint over the last 6 hours. Share the serving cell ID and confirm I can proceed.",
+      "message_ar": "سأبدأ بتدقيق الجيران للتحقق من أي إعادة استخدام PCI ضمن البصمة خلال آخر 6 ساعات. زوّدني بمعرّف الخلية وأكّد السماح بالبدء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRCell-41023A. Approval granted. Current load 330 users and ~74% resource utilization.",
+      "message_ar": "المعرّف: NRCell-41023A. الموافقة ممنوحة. الحمولة حالياً 330 مستخدماً واستهلاك الموارد ~74%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit complete: another NR cell uses the same PCI 472 with ~47% coverage overlap, and a strong neighbor on PCI 355 is present. This explains poor SINR and HO issues. I propose reassigning this sector’s PCI to a free value and refreshing neighbor relations now. Approve?",
+      "message_ar": "تم التدقيق: تم رصد خلية NR أخرى تستخدم نفس PCI 472 مع تداخل تغطية يقارب 47%، كما يوجد جار قوي على PCI 355. هذا يفسّر انخفاض SINR ومشكلات التسليم. أوصي بإعادة تعيين PCI لهذا القطاع إلى قيمة شاغرة وتحديث علاقات الجيران الآن. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, proceed with the change now.",
+      "message_ar": "موافق، يمكنك تنفيذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reassigning PCI from 472 to 501 (free in plan) and refreshing neighbor relations and HO weights. Applied; a very brief reference-signal reselection may occur, and I’ll validate counters in a few minutes.",
+      "message_ar": "أعيد تعيين PCI من 472 إلى 501 (قيمة شاغرة بالخطة) مع تحديث علاقات الجيران وأوزان التسليم. تم التطبيق، قد يحدث تبديل قصير جداً في الإشارات المرجعية، وسأتحقق من العدّادات بعد دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Applied cleanly; initial checks show RSRQ improved from −16 to −12 dB with no new alarms.",
+      "message_ar": "تم التطبيق دون إنذارات إضافية؛ القياسات الأولية تُظهر تحسناً في RSRQ من −16 إلى −12 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I will open an internal ticket documenting the PCI reassignment and neighbor refresh with before/after KPIs attached. Approve?",
+      "message_ar": "للتوثيق، سأفتح تذكرة داخلية تتضمن تفاصيل إعادة تعيين PCI وتحديث الجيران مع لقطات مؤشرات قبل/بعد. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the ticket.",
+      "message_ar": "موافق على فتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PCI-04267 is raised with the summary of the change and mitigation. I’ll watch HO failures, ping‑pong, BLER, and SINR continuously.",
+      "message_ar": "تم فتح التذكرة DU-PCI-04267 وتتضمن ملخص الإجراء والتخفيف. سأراقب فشل التسليم، التبديل المتأرجح، BLER، وSINR بشكل متواصل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: handover failures are trending down and SINR is up by about 3 dB. The action was PCI reassignment with neighbor updates. Let’s monitor through the next busy hour, referencing DU-PCI-04267.",
+      "message_ar": "نرى تحسناً: فشل التسليم في تراجع وارتفع SINR بنحو 3 dB. الإجراء كان إعادة تعيين PCI وتحديث الجيران. أقترح المراقبة خلال ساعة الذروة القادمة، وسنشير إلى DU-PCI-04267."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket after the window. If interference returns or HO failures rise, we will roll back the PCI change or escalate to field for further investigation.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وتحديث التذكرة بعد انتهاء النافذة. إذا عاد التداخل أو ارتفعت إخفاقات التسليم، سنرجع التغيير أو نصعّد لفريق الميدان لاستقصاء إضافي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed PCI reuse with significant footprint overlap, causing interference and degraded mobility. We mitigated by retuning site parameters: reassigning the PCI and refreshing neighbor relations, then recorded the change via a ticket. Early results show improved SINR and fewer handover failures; we will continue monitoring through the next busy hour.",
+    "ar": "أكد تحليل الجيران وجود إعادة استخدام PCI مع تداخل كبير في البصمة، مما سبب تداخلاً وتدهوراً في التنقل. قمنا بالتخفيف عبر ضبط معلمات الموقع: إعادة تعيين PCI وتحديث علاقات الجيران، وتم توثيق التغيير في تذكرة. النتائج الأولية تُظهر تحسناً في SINR وانخفاضاً في إخفاقات التسليم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

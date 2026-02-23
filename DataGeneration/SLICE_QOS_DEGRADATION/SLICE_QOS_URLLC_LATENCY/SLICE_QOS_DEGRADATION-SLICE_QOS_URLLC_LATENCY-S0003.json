@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0003",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban NR macro shows URLLC latency at 22 ms with jitter 6 ms, PRB ~85%, and 33% slice violations over the last 4h; a congestion alarm is active.",
+    "ar": "موقع NR حضري (ماكرو) يُظهر تأخير URLLC عند 22 مللي ثانية وتذبذب 6 مللي ثانية، واستهلاك موارد ~85%، وانتهاكات شريحة 33% خلال آخر 4 ساعات؛ إنذار ازدحام فعّال."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR_URBAN_MACRO_1023 shows URLLC slice latency ~22 ms with jitter 6 ms over the last 4h shoulder window; 117 users, PRB ~85%, slice violations ~33%, and a congestion alarm present. Need assistance.",
+      "message_ar": "خلية ماكرو NR حضرية NR_URBAN_MACRO_1023 تُظهر زمن تأخير لشريحة URLLC ≈ 22 مللي ثانية مع تذبذب 6 مللي ثانية خلال آخر 4 ساعات (فترة كتف)، 117 مستخدمًا، استهلاك موارد ~85%، وانتهاكات للشريحة ~33%، ووجود إنذار ازدحام. أحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will baseline the cell by pulling OSS counters for NR_URBAN_MACRO_1023 over the last 4h. Please confirm access and the URLLC slice ID.",
+      "message_ar": "تم الاستلام. سأقوم بعمل خط أساس للخلية بسحب عدادات منظومة التشغيل لخلية NR_URBAN_MACRO_1023 خلال آخر 4 ساعات. يرجى تأكيد الإذن ومعرّف شريحة URLLC."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. URLLC slice ID is URLLC_S01. No planned work in the area.",
+      "message_ar": "الإذن مُعطى. معرّف الشريحة URLLC_S01. لا توجد أعمال مخطط لها في المنطقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check now (4h). Findings: PRB 80–90% sustained, no cell resets, backhaul OK, RLC/HARQ normal, and URLLC queue depth spikes during 10‑minute bursts. Next, I will analyze URLLC latency trends to isolate peaks.",
+      "message_ar": "أُجري فحص المنظومة الآن (4 ساعات). النتائج: استهلاك الموارد 80–90% بشكل مستمر، لا عمليات إعادة تشغيل، النفاذ الخلفي سليم، طبقات RLC/HARQ ضمن الطبيعي، وتزايد عمق طابور URLLC خلال اندفاعات 10 دقائق. التالي، سأحلّل اتجاهات التأخير لعزل القمم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the latency analysis.",
+      "message_ar": "تابع تحليل التأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing 4h latency/jitter time series: p95 latency peaks at 26–28 ms aligned with PRB spikes; jitter up to 7–8 ms; admission success stable; violations clustered in short bursts. Indicates contention within the slice policy. Proposal: raise URLLC reservation/priority and slightly cap elastic traffic share. Approve?",
+      "message_ar": "أحلّل السلاسل الزمنية للتأخير/التذبذب خلال 4 ساعات: تبلغ قمم p95 للتأخير 26–28 مللي ثانية متزامنة مع ارتفاع استهلاك الموارد؛ التذبذب حتى 7–8 مللي ثانية؛ قبول الجلسات مستقر؛ والانتهاكات متجمعة في اندفاعات قصيرة. هذا يشير إلى تنافس داخل سياسة الشريحة. الاقتراح: رفع حجز/أولوية URLLC مع خفض بسيط لحصة الحركة المرنة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the slice policy change now.",
+      "message_ar": "موافق على تطبيق تغيير سياسة الشريحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying policy update on URLLC_S01 for NR_URBAN_MACRO_1023: increased priority/reservation and stricter preemption. Change applied successfully. Early result: latency 12–14 ms, jitter ~3–4 ms, violations dropping below 10% in recent samples.",
+      "message_ar": "أطبّق تحديث السياسة على URLLC_S01 لخلية NR_URBAN_MACRO_1023: زيادة الأولوية/الحجز وتشديد الاستباق. تم تطبيق التغيير بنجاح. نتيجة مبكرة: التأخير 12–14 مللي ثانية، التذبذب ~3–4 مللي ثانية، والانتهاكات تهبط لأقل من 10% في العينات الأخيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing similar improvement here; no error bursts after the change.",
+      "message_ar": "أرى تحسّنًا مماثلًا هنا؛ لا اندفاعات أخطاء بعد التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Do adjacent cells show URLLC issues, or was it limited to NR_URBAN_MACRO_1023?",
+      "message_ar": "جيد. هل تظهر الخلايا المجاورة مشكلات URLLC أم كان الأمر مقتصرًا على NR_URBAN_MACRO_1023؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No adjacent impact; URLLC latency holding ~13–15 ms and jitter ~3–4 ms after the slice policy update. Let's monitor over the next 2–4 hours.",
+      "message_ar": "لا تأثير مجاور؛ تأخير URLLC ثابت عند ~13–15 مللي ثانية وتذبذب ~3–4 مللي ثانية بعد تحديث سياسة الشريحة. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next 2–4 hours and share an update on URLLC latency, jitter, and violation rate. If latency rises again, we will escalate to capacity tuning; if any adverse effect appears on other slices, we will roll back the policy.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنشارك تحديثًا حول تأخير URLLC والتذبذب ومعدل الانتهاكات. إذا ارتفع التأخير مجددًا سنصعّد نحو ضبط السعة، وإذا ظهرت آثار سلبية على شرائح أخرى سنُعيد السياسة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS cls",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice QoS degradation on an urban NR macro during the last 4 hours: latency and jitter spikes under high PRB load with 33% violations. Verified via network counters and latency time series, indicating contention within the slice policy. Applied a slice policy update to raise URLLC priority and reserve capacity, reducing latency to ~12–14 ms; monitoring continues for the next 2–4 hours.",
+    "ar": "تم تشخيص تدهور جودة خدمة شريحة URLLC على خلية NR حضرية خلال آخر 4 ساعات: ارتفاعات في التأخير والتذبذب مع حمل موارد عالٍ وانتهاكات 33%. جرى التحقق عبر عدادات الشبكة والسلاسل الزمنية للتأخير، ما يشير إلى تنافس داخل سياسة الشريحة. طُبّق تحديث لسياسة الشريحة لرفع أولوية URLLC وحجز السعة، مما خفّض التأخير إلى ~12–14 مللي ثانية؛ ستستمر المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

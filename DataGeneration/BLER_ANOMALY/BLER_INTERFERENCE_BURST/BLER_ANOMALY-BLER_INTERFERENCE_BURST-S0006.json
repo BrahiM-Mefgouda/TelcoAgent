@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0006",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro shows high BLER and slow data (p50 6 Mbps) with interference/signal overlap indicated by SINR -1 dB during peak FWA traffic over the last 2 hours, with a congestion alarm active.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر BLER مرتفعًا وبطئًا في البيانات (الوسيط 6 Mbps) مع وجود تداخل/تراكب إشارات يتضح من SINR = -1 dB خلال ذروة حركة FWA في آخر ساعتين، مع إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm on a suburban NR macro in the last 2h: BLER ~14%, SINR -1 dB, PRB ~84%, p50 DL 6 Mbps for FWA at peak. Users report buffering. Please assist.",
+      "message_ar": "إنذار على خلية NR ماكرو في منطقة ضاحية خلال آخر ساعتين: BLER ~14% وSINR = -1 dB واستغلال PRB ~84% والسرعة الوسيطة للتنزيل 6 Mbps لمشتركي FWA في وقت الذروة. هناك شكاوى من التقطيع. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. The pattern suggests interference/signal overlap under congestion. I will 1) review OSS counters for the last 2h, 2) inspect BLER time series, 3) apply targeted parameter tuning if confirmed. Share the cell ID and approve read-only diagnostics.",
+      "message_ar": "تم الاستلام. النمط يشير إلى تداخل/تراكب إشارات مع ازدحام. سأقوم بـ 1) مراجعة عدادات OSS لآخر ساعتين، 2) فحص السلاسل الزمنية لـ BLER، 3) تطبيق ضبط معلمات مستهدف إذا تأكد السبب. يرجى تزويدي بمعرف الخلية والموافقة على فحوصات قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: OKNR-SUB-MACRO-017. Read-only access approved.",
+      "message_ar": "معرف الخلية: OKNR-SUB-MACRO-017. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS for OKNR-SUB-MACRO-017 (last 2h): PRB ~84–85%, users 173, neighbor load high (~86%). DL RSRP -107 dBm, RSRQ -14 dB, no hardware or backhaul alarms. Request approval to proceed with BLER time-series deep dive.",
+      "message_ar": "تم سحب بيانات OSS للخلية OKNR-SUB-MACRO-017 (آخر ساعتين): استغلال PRB ~84–85%، عدد المستخدمين 173، حمل الجيران مرتفع (~86%). RSRP للتنزيل -107 dBm وRSRQ -14 dB ولا توجد إنذارات عتاد أو نقل خلفي. أطلب الموافقة للانتقال إلى تحليل السلاسل الزمنية لـ BLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the BLER time series.",
+      "message_ar": "موافق. تفضل بتحليل السلاسل الزمنية لـ BLER."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series shows bursty spikes up to ~22% every few minutes, aligned with neighbor load peaks; HARQ retransmissions rise and MCS downshifts. This is consistent with adjacent-cell interference during peak FWA streaming. I propose localized interference-mitigation tuning on this cell with rollback if needed. Approve?",
+      "message_ar": "السلاسل الزمنية لـ BLER تُظهر ارتفاعات متقطعة تصل إلى ~22% كل عدة دقائق، متزامنة مع ذروات حمل الجيران؛ ترتفع إعادة الإرسال وتحدث خفضات في MCS. هذا يتوافق مع تداخل من خلايا مجاورة أثناء ذروة استخدام FWA للبث. أقترح ضبطًا محليًا لتخفيف التداخل على هذه الخلية مع إمكانية التراجع إذا لزم. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning with rollback if degradation is observed.",
+      "message_ar": "موافق على تنفيذ الضبط مع التراجع إذا تم رصد تدهور."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted tuning to harden scheduling and link adaptation under high neighbor load; changes scoped to this NR macro. Immediate check shows BLER stabilizing around 9–11% and p50 DL ~7–8 Mbps. I will watch short-term trends; please confirm any field-side change.",
+      "message_ar": "تم تطبيق ضبط مستهدف لتقوية الجدولة وتكيّف الرابط تحت حمل الجيران المرتفع؛ التغييرات محصورة بهذه الخلية NR الماكرو. الفحص الفوري يُظهر استقرار BLER حول 9–11% وسرعة تنزيل وسيطة ~7–8 Mbps. سأراقب الاتجاهات القصيرة الأجل؛ يرجى تأكيد أي تغيير من جهة الميدان."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: BLER now ~8–9%, p50 DL ~8.5 Mbps, PRB ~82–85%. Fewer buffering complaints.",
+      "message_ar": "ملاحظة أولية: BLER الآن ~8–9% والسرعة الوسيطة للتنزيل ~8.5 Mbps واستغلال PRB ~82–85%. عدد شكاوى التقطيع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Positive trend noted. I will keep watching short-term stability (BLER, SINR, p50 DL, retransmissions). Share any new user feedback as it comes.",
+      "message_ar": "الاتجاه إيجابي. سأواصل مراقبة الاستقرار قصير الأجل (BLER وSINR والسرعة الوسيطة للتنزيل وإعادة الإرسال). يرجى مشاركة أي ملاحظات جديدة من المستخدمين عند توفرها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained for ~20 minutes: BLER trending down to ~7% with fewer retransmissions. Action taken was site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن مستمر لمدة ~20 دقيقة: BLER يتجه للانخفاض إلى ~7% مع تقليل إعادة الإرسال. الإجراء المتخذ كان ضبط معلمات الموقع. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the busy-hour monitoring and report BLER, p50 throughput, and user impact afterward. If KPIs regress, we will roll back the tuning and escalate for cluster-level interference mitigation and a field interference scan; otherwise, we will keep the change.",
+      "message_ar": "سنقوم بمتابعة المراقبة خلال ساعة الذروة ونوافيكم لاحقًا ببيانات BLER والسرعة الوسيطة وتأثيرها على المستخدمين. إذا تراجعت مؤشرات الأداء، سنُعيد الضبط السابق ونصعّد لمعالجة التداخل على مستوى العنقود وإجراء مسح تداخل ميداني؛ وإلا سنُبقي التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "OKNR-SUB-MACRO-017",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "OKNR-SUB-MACRO-017",
+        "BLER",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "interference_mitigation_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During peak FWA load on a suburban NR macro, OSS and BLER time series confirmed bursty interference aligned with high neighbor load, driving elevated BLER and slow data. The agent executed site parameter tuning to harden scheduling and link adaptation under interference. Initial KPIs improved (BLER down, throughput up), and the cell will be monitored through the next busy hour.",
+    "ar": "خلال ذروة حركة FWA على خلية NR ماكرو في منطقة ضاحية، أكدت بيانات OSS والسلاسل الزمنية لـ BLER وجود تداخل متقطع متزامن مع ارتفاع حمل الجيران مما رفع BLER وأبطأ البيانات. قام الوكيل بتنفيذ ضبط معلمات للموقع لتعزيز الجدولة وتكيّف الرابط تحت التداخل. تحسنت المؤشرات مبدئيًا (انخفاض BLER وارتفاع السرعة)، وسيتم مراقبة الخلية خلال ساعة الذروة القادمة."
+  }
+}

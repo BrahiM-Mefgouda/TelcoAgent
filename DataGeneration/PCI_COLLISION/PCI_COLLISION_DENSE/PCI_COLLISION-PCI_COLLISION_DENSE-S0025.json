@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0025",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban NR macro cell shows interference/signal overlap over the last 6h with a congestion/outage alarm, high ping‑pong and handover failures during eMBB streaming peaks—investigate and fix possible PCI collision?",
+    "ar": "موقع NR ماكرو حضري خلال آخر 6 ساعات يظهر تداخل/تراكب إشارة مع إنذار ازدحام/انقطاع، ومعدلات تنقل متأرجح وفشل تسليم مرتفعة أثناء ذروة بث eMBB—هل يمكن فحص ومعالجة احتمال تصادم PCI؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro LNB-URB-22-S1 over the last 6h: ping-pong 26%, HO failures ~21%, SINR ~2 dB, RSRQ -15 dB. ~398 users with streaming complaints. Please assist diagnosis.",
+      "message_ar": "الموقع الحضري NR ماكرو LNB-URB-22-S1 خلال آخر 6 ساعات: تنقل متأرجح 26%، فشل تسليم ~21%، SINR حوالي 2 dB وRSRQ -15 dB. حوالي 398 مستخدماً مع شكاوى بث. نرجو المساعدة في التشخيص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given the interference/signal overlap and mobility instability, this points to a PCI collision. I will start with a neighbor audit over the last 6h around LNB-URB-22-S1 to confirm duplicate/ambiguous PCI and neighbor relations. Please confirm access to proceed and remediate if confirmed.",
+      "message_ar": "بالنظر إلى التداخل/تراكب الإشارة وعدم استقرار الحركة، فهذا يشير إلى تصادم PCI. سأبدأ بتدقيق الجوار لآخر 6 ساعات حول LNB-URB-22-S1 للتحقق من تكرار/التباس PCI وعلاقات الجوار. يرجى تأكيد السماح بالمتابعة وتنفيذ الإصلاح إذا تأكد السبب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell: LNB-URB-22-S1 (PCI 130); dense cluster includes site 405.",
+      "message_ar": "الوصول مُعتمد. الخلية: LNB-URB-22-S1 (PCI 130)؛ عنقود كثيف يضم الموقع 405."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor audit for LNB-URB-22-S1... Findings: duplicate PCI 130 detected on adjacent sector NR-405-S2 at ~350 m with overlapping footprint; ambiguous edge measurements causing oscillating HO candidates. This is a PCI collision. I propose retuning the serving PCI to a free value and refreshing neighbor relations. Approve?",
+      "message_ar": "أُجري تدقيق الجوار لـ LNB-URB-22-S1... النتائج: تم رصد تكرار PCI 130 على القطاع المجاور NR-405-S2 على بعد ~350 م مع تداخل التغطية؛ قياسات الحواف ملتبسة وتسبّب تذبذب مرشحي التسليم. هذا تصادم PCI. أقترح إعادة ضبط PCI للخلية إلى قيمة خالية وتحديث علاقات الجوار. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافقة، تفضل الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing mitigation: retuning LNB-URB-22-S1 PCI from 130 to 532 (free pool), refreshing neighbor relations and mobility offsets. Change committed; service impact was momentary (<1 min). Please validate counters.",
+      "message_ar": "تنفيذ المعالجة: إعادة ضبط PCI لِـ LNB-URB-22-S1 من 130 إلى 532 (قيمة متاحة)، وتحديث علاقات الجوار وانحيازات الحركة. تم تطبيق التغيير؛ كان تأثير الخدمة لحظياً (<1 دقيقة). يرجى التحقق من العدّادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing brief RRC re-establishments then stable. No new alarms; KPIs look steadier.",
+      "message_ar": "أرى إعادة إنشاء RRC وجيزة ثم استقرار. لا إنذارات جديدة؛ مؤشرات الأداء أكثر استقراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early post-change: HO success ~90% (up), ping-pong ~15% (down), median SINR 5–6 dB, RSRQ ~-11 dB, BLER ~6%. I will log the action and recommend a short observation window.",
+      "message_ar": "نتائج مبكرة بعد التغيير: نجاح التسليم ~90% (ارتفاع)، التنقل المتأرجح ~15% (انخفاض)، وSINR الوسطي 5–6 dB، وRSRQ حوالي -11 dB، وBLER ~6%. سأوثّق الإجراء وأوصي بفترة مراقبة قصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Continue.",
+      "message_ar": "تم، واصل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Action recorded for tracking. We will continue observing through the next busy period and capture trends.",
+      "message_ar": "تم توثيق الإجراء للمتابعة. سنواصل المراقبة خلال فترة الازدحام التالية وتسجيل الاتجاهات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures trending down and interference lower. Action taken: PCI retune and neighbor relations update. Let’s monitor during the next busy hour. Ticket DU-PCI-01234.",
+      "message_ar": "لوحظ تحسّن: فشل التسليم في انخفاض والتداخل أقل. الإجراء المتخذ: إعادة ضبط PCI وتحديث علاقات الجوار. لِنراقب خلال ساعة الذروة التالية. التذكرة DU-PCI-01234."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and update the ticket after the window. If regressions appear, we will roll back to the previous PCI and escalate to the RF field team.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا ظهرت تراجعات، سنعود إلى PCI السابق ونصعّد إلى فريق الميدان RF."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "LNB-URB-22-S1",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI retune to 532 and neighbor relations refresh"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI collision on LNB-URB-22-S1 via PCI retune and neighbor update; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on urban NR macro cell LNB-URB-22-S1 via neighbor analysis, finding a duplicate PCI 130 on adjacent sector NR-405-S2 driving interference/signal overlap and mobility instability. Mitigated by site parameter tuning: retuned the serving PCI to a free value and refreshed neighbor relations, and recorded a tracking ticket for follow-up. We will monitor through the next busy hour and update with post-change KPIs.",
+    "ar": "تم تشخيص تصادم PCI على خلية NR ماكرو حضرية LNB-URB-22-S1 عبر تحليل الجوار، حيث تم العثور على تكرار PCI 130 على القطاع المجاور NR-405-S2 مما سبب تداخل/تراكب إشارة وعدم استقرار في الحركة. تمت المعالجة عبر ضبط معلمات الموقع: إعادة ضبط PCI إلى قيمة خالية وتحديث علاقات الجوار، مع توثيق تذكرة للمتابعة. سنراقب خلال ساعة الذروة التالية ونحدث النتائج بمؤشرات الأداء بعد التغيير."
+  }
+}

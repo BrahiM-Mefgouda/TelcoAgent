@@ -1,0 +1,110 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0019",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows DL throughput near 15 Mbps over the last 3h at peak evening with 184 users, high resource use, and interference/signal overlap; a congestion alarm is active.",
+    "ar": "خلية ماكرو NR حضرية تعرض سرعة تحميل تقارب 15 ميجابت/ث خلال آخر 3 ساعات وقت الذروة المسائية مع 184 مستخدمًا، واستخدام موارد مرتفع وتداخل/تراكب إشارة؛ يوجد إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G macro cell NR-Cell-41023 shows DL throughput around 15 Mbps in the last 3h (peak evening). PRB ~87%, 184 users, SINR ~2 dB, RSRQ -11 dB. Congestion alarm present and eMBB streaming complaints.",
+      "message_ar": "خلية ماكرو 5G حضرية NR-Cell-41023 تُظهر سرعة تحميل نحو 15 ميجابت/ث خلال آخر 3 ساعات (ذروة مسائية). إشغال PRB ~87%، 184 مستخدمًا، SINR ~2 dB، وRSRQ -11 dB. يوجد إنذار ازدحام وشكاوى بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull last 3h OSS stats for NR-Cell-41023, then analyze the DL trend; if congestion worsened by interference is confirmed, I’ll apply targeted scheduler/interference tuning. Please confirm access.",
+      "message_ar": "سأبدأ بسحب إحصاءات OSS لآخر 3 ساعات للخلية NR-Cell-41023، ثم أحلل اتجاه سرعة التحميل؛ وإذا تبيّن ازدحام يتفاقم بسبب التداخل فسأطبق ضبطًا مستهدفًا للجدولة وتخفيف التداخل. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; use NR-Cell-41023 and the 3h window.",
+      "message_ar": "الوصول مُعتمد؛ استخدم NR-Cell-41023 ونطاق 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS counters (3h): users peaked 201; PRB 85–92%; SINR p50 ~2 dB; RSRQ -11 to -13 dB; BLER stable 2–3%; p95 scheduling latency 68–74 ms. DL throughput is depressed across the busy hour.",
+      "message_ar": "تم سحب مؤشرات OSS (3 ساعات): ذروة المستخدمين 201؛ إشغال PRB بين 85–92%؛ الوسيط لـSINR نحو 2 dB؛ RSRQ بين -11 و-13 dB؛ BLER مستقر 2–3%؛ كمون الجدولة p95 بين 68–74 مللي ثانية. سرعة التحميل منخفضة خلال الساعة المزدحمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzed DL series (3h): median 14–16 Mbps, p5 ~6 Mbps. Drops align with PRB >90% and SINR dips. eMBB streaming >70% of DL volume. This is capacity-limited with interference contribution.",
+      "message_ar": "تم تحليل سلسلة التحميل (3 ساعات): الوسيط 14–16 ميجابت/ث، الشريحة 5% ~6 ميجابت/ث. الانخفاضات تتزامن مع PRB>90% وهبوط SINR. يشكل بث eMBB أكثر من 70% من حجم التحميل. المشكلة ناتجة عن سعة محدودة مع مساهمة من التداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Proceed as needed.",
+      "message_ar": "تم. تابع حسب الحاجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed change: slight scheduler weight shift to favor throughput under high load, reduce PRB admission headroom by ~3%, and enable conservative inter-cell interference mitigation on DL. Expected +20–30% p50 DL without BLER risk. Approve to push?",
+      "message_ar": "التغيير المقترح: تعديل طفيف لأوزان المجدول لصالح التحميل عند الحمل العالي، خفض هامش قبول PRB بنحو 3%، وتفعيل تخفيف تداخل بيني محافظ على التحميل. المتوقع زيادة 20–30% في وسيط سرعة التحميل دون مخاطر على BLER. الموافقة على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-Cell-41023. Immediate checks: PRB now holding ≤88% at comparable load; SINR p50 up ~1 dB; BLER unchanged; DL p50 up ~22% to ~19 Mbps within the first minutes. I’ll observe stability.",
+      "message_ar": "تم تطبيق التحسين على NR-Cell-41023. الفحوصات الفورية: PRB الآن ≤88% عند حمل مماثل؛ ارتفاع وسيط SINR بنحو 1 dB؛ BLER دون تغيير؛ ارتفاع وسيط التحميل ~22% إلى ~19 ميجابت/ث خلال الدقائق الأولى. سأراقب الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: DL median around 19–20 Mbps and scheduling latency easing. Action taken: site parameter tuning for scheduler and interference mitigation. Let’s monitor through the next busy hour.",
+      "message_ar": "هناك تحسن: وسيط التحميل نحو 19–20 ميجابت/ث وتراجع كمون الجدولة. الإجراء المتخذ: ضبط معلمات الموقع للمجدول وتخفيف التداخل. لنتابع خلال الساعة المزدحمة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update on throughput, latency, and PRB load. If performance regresses, we will roll back the tuning; if interference resurges, we will escalate to cluster coordination for broader mitigation.",
+      "message_ar": "سنتولى المراقبة خلال الساعة المزدحمة القادمة ونشارك تحديثًا حول السرعة والكمون وحمل PRB. إذا تراجع الأداء سنعود عن الضبط، وإذا عاد التداخل سنصعّد إلى تنسيق على مستوى العنقود لتخفيف أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on an urban 5G macro cell as capacity congestion aggravated by interference during the evening peak. Pulled recent OSS data and time series to confirm high PRB load, low SINR, and DL degradation, then executed site parameter tuning for scheduler balance and conservative inter-cell interference mitigation. Post-change checks show improved median DL throughput and stable BLER; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص انخفاض سرعة التحميل في خلية ماكرو 5G حضرية كازدحام سعة تفاقمه التداخل خلال ذروة المساء. تم سحب بيانات OSS الحديثة وتحليل السلاسل الزمنية لتأكيد ارتفاع إشغال PRB وانخفاض SINR وتدهور التحميل، ثم تنفيذ ضبط معلمات الموقع لموازنة المجدول وتخفيف تداخل بيني محافظ. تظهر الفحوصات بعد التغيير تحسنًا في وسيط سرعة التحميل واستقرار BLER؛ وسيستمر الرصد خلال الساعة المزدحمة القادمة."
+  }
+}

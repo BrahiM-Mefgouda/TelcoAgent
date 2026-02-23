@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0018",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor office 5G micro cell shows slow data with downlink near 4 Mbps and very high load (~96% PRB, 159 users) over the last 4 hours; congestion alarm is active.",
+    "ar": "خلية 5G داخلية صغيرة في مكتب تُظهر بيانات بطيئة مع تنزيل يقارب 4 Mbps وحملاً عالياً جداً (~96% لاستخدام الموارد، 159 مستخدماً) خلال آخر 4 ساعات؛ إنذار الازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cell in the office wing shows slow data during business hours; congestion alarm is active. Over the last 4h we see DL ~4 Mbps, ~96% PRB, 159 users; enterprise tenants report streaming buffering.",
+      "message_ar": "خلية NR داخلية صغيرة في جناح المكاتب تُظهر بطءاً في البيانات خلال ساعات العمل؛ إنذار الازدحام نشط. خلال آخر 4 ساعات نرى تنزيل ~4 Mbps، استخدام موارد ~96%، و159 مستخدماً؛ المستأجرون يشكون من تعثر البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will lead diagnostics for this indoor small site. Please confirm the target cell ID and approve pulling the last 4h cell stats from OSS to check load, errors, and backhaul.",
+      "message_ar": "تم الاستلام. سأقود إجراءات التشخيص لهذا الموقع الداخلي الصغير. يرجى تأكيد معرّف الخلية المستهدفة والموافقة على سحب إحصاءات الخلية لآخر 4 ساعات من منصة الإدارة للتحقق من الحمل والأعطال والربط الخلفي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_INDOOR_MICRO_2451. Access approved for read-only queries over the last 4h.",
+      "message_ar": "معرّف الخلية: NR_INDOOR_MICRO_2451. الموافقة ممنوحة لاستعلامات القراءة فقط لآخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS health for NR_INDOOR_MICRO_2451 over 4h: PRB 94–98% sustained, users 150–170, DL scheduler p95 latency ~41 ms, BLER ~4%; no RF or backhaul faults. This indicates capacity congestion causing slow data. Next, I will chart downlink throughput over the window to confirm the pattern. Approve?",
+      "message_ar": "تم سحب حالة الخلية من منصة الإدارة لـ NR_INDOOR_MICRO_2451 خلال 4 ساعات: استخدام الموارد 94–98% بشكل مستمر، عدد المستخدمين 150–170، تأخر المجدول p95 نحو 41 مللي ثانية، ومعدل أخطاء الكتل ~4%؛ لا أعطال لاسلكية أو في الربط الخلفي. هذا يشير إلى ازدحام سعة يسبب بطء البيانات. بعد ذلك سأعرض سلسلة زمنية لمعدل التنزيل خلال النافذة لتأكيد النمط. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the throughput trend analysis.",
+      "message_ar": "تمت الموافقة على متابعة تحليل اتجاه معدل التنزيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows median 3–5 Mbps during the busy hour with slight relief after 14:00; aligns with high occupancy. Corrective action: apply targeted parameter tuning to prioritize eMBB traffic, trim control overhead, and improve burst scheduling without raising BLER. Proceed?",
+      "message_ar": "السلسلة الزمنية للتنزيل تُظهر وسيطاً 3–5 Mbps خلال ساعة الذروة مع تحسّن طفيف بعد 14:00؛ ويتطابق ذلك مع الازدحام العالي. الإجراء التصحيحي: تطبيق ضبط انتقائي للمعلمات لإعطاء أولوية لحركة eMBB، تقليل الحمل التحكمي، وتحسين الجدولة الدُّفعية دون زيادة نسبة الأخطاء. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Keep latency and error rate within current bounds and avoid any restarts.",
+      "message_ar": "موافق. حافظ على التأخر ومعدل الأخطاء ضمن الحدود الحالية وتجنب أي عمليات إعادة تشغيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied low-risk optimization on NR_INDOOR_MICRO_2451: adjusted downlink scheduler weights toward eMBB, eased buffer thresholds, and enabled opportunistic bursts under load. No service interruption. Starting live monitoring for the next 15 minutes.",
+      "message_ar": "تم تطبيق تحسين منخفض المخاطر على NR_INDOOR_MICRO_2451: تعديل أوزان المجدول نحو eMBB، تيسير عتبات المخازن المؤقتة، وتمكين الدُّفع الفرصي تحت الحمل. دون انقطاع خدمة. أبدأ المراقبة الحية خلال الـ 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change snapshot: median DL ~11 Mbps, p95 scheduler latency down to 28–32 ms; PRB still high but stable; user complaints have reduced.",
+      "message_ar": "لقطة بعد التغيير: وسيط التنزيل ~11 Mbps، تأخر المجدول p95 انخفض إلى 28–32 مللي ثانية؛ استخدام الموارد ما زال مرتفعاً لكنه مستقر؛ انخفضت الشكاوى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. We will continue observing through this busy period and watch user experience and error counters. If gains plateau, we can plan additional capacity measures later.",
+      "message_ar": "استجابة مبكرة جيدة. سنواصل المراقبة خلال فترة الذروة هذه مع متابعة تجربة المستخدم ومؤشرات الأخطاء. إذا توقفت المكاسب، يمكن النظر في إجراءات سعة إضافية لاحقاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Downlink throughput is trending up and latency improved after the parameter optimization. Let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "معدل التنزيل يتجه صعوداً وتحسن التأخر بعد ضبط المعلمات. لنراقب خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring through the next busy hour and share an update afterward. If performance degrades, we will roll back the tuning; if congestion persists, we will escalate to a capacity upgrade or traffic offload plan.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا تدهور الأداء سنرجع الضبط، وإذا استمر الازدحام فسوف نصعّد إلى ترقية سعة أو خطة تفريغ حركة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The indoor 5G micro cell experienced business-hour congestion with sustained high radio resource usage, low user throughput, and elevated scheduling delay. We pulled cell stats, analyzed downlink throughput trends, and applied site parameter tuning to improve scheduler behavior for eMBB traffic without increasing errors. Early results show higher user throughput and lower latency; we will continue monitoring through the next busy hour.",
+    "ar": "تعرضت الخلية الداخلية الصغيرة في 5G لازدحام خلال ساعات العمل مع استخدام مرتفع مستمر للموارد، انخفاض في معدل التنزيل للمستخدمين، وارتفاع في تأخر الجدولة. قمنا بسحب إحصاءات الخلية، وتحليل اتجاهات التنزيل، وتطبيق ضبط لمعلمات الموقع لتحسين سلوك المجدول لحركة eMBB دون زيادة الأخطاء. النتائج المبكرة تُظهر زيادة في معدل التنزيل وانخفاض التأخر؛ سنستمر بالمراقبة خلال ساعة الذروة القادمة."
+  }
+}

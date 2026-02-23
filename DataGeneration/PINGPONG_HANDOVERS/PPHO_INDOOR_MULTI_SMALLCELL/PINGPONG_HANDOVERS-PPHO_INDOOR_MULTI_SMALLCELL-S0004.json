@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0004",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office wing NR micro cell shows high ping‑pong handovers (~14%) with handover success near 80% over the last 3 hours, RSRP −97 dBm and SINR 6 dB.",
+    "ar": "خلية NR صغيرة ضمن جناح داخلي في المكتب تُظهر معدل تسليمات متأرجحة مرتفعًا (~14%) مع نجاح تسليمات يقارب 80% خلال آخر 3 ساعات، وقيم RSRP −97 dBm وSINR ‏6 dB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor office wing NR micro site is showing elevated ping‑pong (~14%). HO success ~80%, ~42 attempts/5min, RSRP −97 dBm, RSRQ −9 dB, SINR 6 dB, p50 DL 26 Mbps, ~249 users, no active alarms over the last 3h during peak with eMBB streaming.",
+      "message_ar": "موقع NR صغير داخلي في جناح المكتب يظهر ارتفاعًا في التسليمات المتأرجحة (~14%). نجاح التسليم ~80%، حوالي 42 محاولة/5 دقائق، RSRP −97 dBm، RSRQ −9 dB، SINR ‏6 dB، الوسيط للتنزيل 26 Mbps، ~249 مستخدمًا، ولا توجد إنذارات نشطة خلال آخر 3 ساعات في وقت الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by querying the network management system for the last 3h to pull HO counters and neighbor relations for the impacted indoor micro cell. Please confirm the exact cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بالاستعلام من نظام إدارة الشبكة لآخر 3 ساعات لجلب عدادات التسليم وعلاقات الجوار للخلية الصغيرة الداخلية المتأثرة. يرجى تأكيد معرّف الخلية والموافقة على الوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-IND-A12-MICRO-03. Approved for read-only access over the 3h window.",
+      "message_ar": "معرّف الخلية: NR-IND-A12-MICRO-03. الموافقة ممنوحة للوصول للقراءة فقط خلال نافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the network query now for NR-IND-A12-MICRO-03 over 3h. Findings: ping‑pong reversions elevated vs baseline, mainly with neighbors NR-IND-A12-MICRO-02 and -04. Current HO tuning shows A3 offset 2 dB, TTT 83 ms, hysteresis 0 dB. PRB utilization ~59%, no active alarms.",
+      "message_ar": "أجري الاستعلام الآن لـ NR-IND-A12-MICRO-03 خلال 3 ساعات. النتائج: ارتفعت عمليات الرجوع السريع (ping‑pong) مقارنة بالأساس، خصوصًا مع الجيران NR-IND-A12-MICRO-02 و-04. إعدادات التسليم الحالية: A3 offset = 2 dB، وTTT = 83 ms، وhysteresis = 0 dB. إشغال PRB ~59% ولا توجد إنذارات نشطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "On the floor B east corridor we’ve observed UEs bouncing between 03 and 02. No user complaints so far.",
+      "message_ar": "في ممر الطابق B الشرقي لاحظنا تنقل الأجهزة بين 03 و02. لا توجد شكاوى مستخدمين حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will pull handover time series by neighbor to quantify ping‑pong windows and dominant pairs. Do I have your approval to proceed?",
+      "message_ar": "بعد ذلك سأسحب سلسلة زمنية للتسليمات حسب الجار لقياس فترات التأرجح وأزواج الجيران المهيمنة. هل أملك موافقتك للمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series fetched for NR-IND-A12-MICRO-03 over 3h: bursts of ~42 HO attempts/5min with ping‑pong peaks during the busy half‑hour; majority are 03⇄02 with reversions <120 s. This aligns with zero hysteresis and short TTT. Proposal: raise TTT to 128 ms, add 2 dB hysteresis, and increase A3 offset to 3 dB for intra‑floor neighbors to stabilize edges. Please approve this targeted tuning.",
+      "message_ar": "تم جلب السلسلة الزمنية لـ NR-IND-A12-MICRO-03 خلال 3 ساعات: دفعات ~42 محاولة تسليم/5 دقائق مع ذروات تأرجح في نصف الساعة المزدحم؛ الغالبية 03⇄02 مع رجوعات أقل من 120 ثانية. هذا يتوافق مع انعدام الهسترة وTTT قصير. الاقتراح: رفع TTT إلى 128 ms، إضافة هسترة 2 dB، وزيادة A3 offset إلى 3 dB لجيران نفس الطابق لتثبيت الحدود. يرجى الموافقة على هذا الضبط المستهدف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for NR-IND-A12-MICRO-03 only. Proceed with the parameter change carefully.",
+      "message_ar": "موافق لخلية NR-IND-A12-MICRO-03 فقط. تفضل بتنفيذ تغيير المعلمات بحذر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization executed on NR-IND-A12-MICRO-03 (TTT 83→128 ms, hysteresis 0→2 dB, A3 2→3 dB). Apply/verify completed with no errors or alarms. Initial post‑change check (15 min): HO success up to ~86–88%, ping‑pong ratio trending down to ~8–9%, throughput stable.",
+      "message_ar": "تم تنفيذ تحسين المعلمات على NR-IND-A12-MICRO-03 (TTT من 83→128 ms، الهسترة من 0→2 dB، وA3 من 2→3 dB). تم التطبيق والتحقق دون أخطاء أو إنذارات. الفحص الأولي بعد التغيير (15 دقيقة): ارتفاع نجاح التسليم إلى ~86–88%، وانخفاض معدل التأرجح إلى ~8–9%، وثبات في معدل النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We now see fewer rapid toggles between 03 and 02 and ping‑pong attempts are trending down. This matches the handover parameter optimization you applied. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ الآن انخفاضًا في التبديلات السريعة بين 03 و02 مع اتجاه تنازلي لمحاولات التأرجح. هذا يتوافق مع تحسين معلمات التسليم الذي قمت به. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and share an update. If adverse effects appear, we will roll back to the previous settings and investigate neighbor relations; if instability persists, we will escalate to a broader coverage and mobility review.",
+      "message_ar": "تم الاستلام. سنراقب خلال ساعة الذروة القادمة ونوافيك بتحديث. في حال ظهور آثار سلبية سنعود إلى الإعدادات السابقة ونفحص علاقات الجوار؛ وإذا استمرت حالة عدم الاستقرار فسنقوم بالتصعيد إلى مراجعة أوسع للتغطية والتنقل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-IND-A12-MICRO-03",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-IND-A12-MICRO-03",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TTT=128ms; HYST=2dB; A3_OFFSET=3dB (intra-floor neighbors)"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping‑pong handovers on an indoor NR micro cell during peak hours, driven by aggressive mobility thresholds (short TTT and zero hysteresis). Reviewed recent network counters and handover time series, then applied targeted site parameter tuning (TTT, hysteresis, A3 offset). Early results show improved handover stability and reduced reversions; we will continue monitoring through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التسليمات المتأرجحة على خلية NR داخلية صغيرة خلال أوقات الذروة بسبب عتبات تنقل حادة (TTT قصير وهسترة معدومة). تمت مراجعة عدادات الشبكة الحديثة والسلسلة الزمنية للتسليمات، ثم تطبيق ضبط مستهدف لمعاملات الموقع (TTT، الهسترة، وإزاحة A3). أظهرت النتائج الأولية تحسنًا في استقرار التسليم وانخفاض الرجوعات؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

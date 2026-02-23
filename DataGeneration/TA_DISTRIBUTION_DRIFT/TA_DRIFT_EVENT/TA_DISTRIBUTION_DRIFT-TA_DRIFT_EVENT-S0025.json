@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0025",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows TA distribution drift over the last 3 hours (p50 181 m, p95 469 m, drift index 0.43), with 16% users served at distance, high resource use (~94%), weak signal (-111 dBm), and handover failures around 8%.",
+    "ar": "خلية NR مصغّرة في الملعب تُظهر انجرافاً في توزيع TA خلال آخر 3 ساعات (الوسيط 181 م، p95 = 469 م، مؤشر الانجراف 0.43)، مع 16% من المستخدمين يتم خدمتهم من مسافة، واستغلال موارد مرتفع (~94%)، وإشارة ضعيفة (-111 dBm)، وفشل تح handover بحوالي 8%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is showing widening TA spread during ingress over the last 3 hours; user reports mention edge-of-bowl drops. No alarms. Can you investigate?",
+      "message_ar": "خلية NR مصغّرة في الملعب تُظهر اتساعاً في انتشار TA أثناء الدخول خلال آخر 3 ساعات؛ توجد بلاغات عن انقطاعات على أطراف المدرجات. لا توجد إنذارات. هل يمكنك التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first review the cell’s recent status for the last 3 hours, then analyze TA time series to confirm drift and its timing. Please share the target cell name and approve read access.",
+      "message_ar": "سأراجع أولاً حالة الخلية خلال آخر 3 ساعات، ثم أحلل السلسلة الزمنية لـ TA لتأكيد الانجراف وتوقيته. الرجاء مشاركة اسم الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NR_STAD_MICRO_03. Read-only access approved for the last 3 hours. Heavy ingress with a lot of eMBB streaming.",
+      "message_ar": "الخلية: NR_STAD_MICRO_03. تمت الموافقة على وصول قراءة لآخر 3 ساعات. هناك دخول كثيف مع الكثير من بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checked recent status for NR_STAD_MICRO_03 (last 3h): PRB ~94%, median RSRP -111 dBm, handover failures ~8%, distant serving ~16%. Pattern aligns with ingress. Proceeding to pull TA time series to quantify drift.",
+      "message_ar": "تمت مراجعة الحالة الأخيرة للخلية NR_STAD_MICRO_03 (آخر 3 ساعات): استغلال الموارد ~94%، وسيط RSRP -111 dBm، فشل handover ~8%، ونسبة مستخدمين بعيدين ~16%. النمط يتوافق مع مرحلة الدخول. سأتبع ذلك باستخراج السلسلة الزمنية لـ TA لقياس الانجراف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA series shows p50 181 m, p95 469 m, std 131 m; drift index 0.43 rising during ingress. Diagnosis: footprint is too wide and users are latching from farther stands, increasing late handovers. I propose a minor beam down-tilt/power trim and small handover offset tuning to steer to adjacent sectors. No service interruption expected; approve?",
+      "message_ar": "السلسلة الزمنية لـ TA تُظهر وسيط 181 م، p95 = 469 م، وانحرافاً معيارياً 131 م؛ مؤشر الانجراف 0.43 يرتفع أثناء الدخول. التشخيص: تغطية أوسع من اللازم ومستخدمون يرتبطون من مدرجات أبعد، ما يزيد handover المتأخرة. أقترح تقليلًا طفيفًا لميل الحزمة/القدرة مع ضبط بسيط لإزاحات handover لتوجيه الحركة للقطاعات المجاورة. لا يُتوقع انقطاع؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the minor parameter changes.",
+      "message_ar": "موافَق على تطبيق التعديلات الطفيفة للمعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR_STAD_MICRO_03: slight beam down-tilt and power trim with refined handover offsets toward nearby sectors. Change committed; starting immediate spot checks over the next 10 minutes.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR_STAD_MICRO_03: خفض طفيف لميل الحزمة وتقليص قدرة بسيط مع تحسين إزاحات handover نحو القطاعات القريبة. تم اعتماد التغيير؛ أبدأ فحوصات فورية خلال 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: distant serving has dropped to around 9%, median RSRP improved to about -107 dBm, and late handovers are fewer.",
+      "message_ar": "المؤشرات الأولية أفضل: انخفضت نسبة المستخدمين البعيدين إلى حوالي 9%، وتحسّن وسيط RSRP إلى نحو -107 dBm، وانخفضت handover المتأخرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We will continue to watch TA tails and handover failures as the crowd builds. If any adverse effects appear, we can revert quickly; otherwise we keep the current tuning and observe during the next peak.",
+      "message_ar": "جيد. سنواصل مراقبة ذيول TA وفشل handover مع ازدياد الحضور. إذا ظهرت آثار سلبية سنعود سريعاً؛ وإلا سنُبقي الضبط الحالي ونراقب خلال الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed TA tail shrinking and handover failures trending down; the parameter optimization you applied is effective. Let’s monitor through the next busy hour.",
+      "message_ar": "لوحِظ تقلص ذيل TA وانخفاض اتجاه فشل handover؛ ضبط المعلمات الذي طبقتَه فعّال. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and provide an update afterward. If degradation returns, we will escalate with further offload tuning; if negative impact is detected, we will roll back the change.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً بعدها. إذا عاد التدهور سنصعّد بإجراء ضبط إضافي لتخفيف الحمل؛ وإذا ظهر تأثير سلبي سنُعيد التغيير للخلف."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STAD_MICRO_03",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STAD_MICRO_03",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "beam tilt/power trim; HO offsets to reduce distant serving"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "TA distribution drift was confirmed on the stadium NR micro cell during ingress, with high TA percentiles, a drift index of 0.43, distant serving at 16%, weak signal, and elevated handover failures. We reviewed recent cell status, analyzed TA time series, and performed site parameter tuning (beam tilt/power trim and handover offset refinement) to narrow the footprint and steer traffic to neighbors. Initial post-change indicators improved; we will monitor through the next busy hour.",
+    "ar": "تم تأكيد انجراف توزيع TA على خلية NR المصغّرة في الملعب أثناء الدخول، مع قيم TA مرتفعة، ومؤشر انجراف 0.43، ونسبة مستخدمين بعيدين 16%، وإشارة ضعيفة وارتفاع في فشل handover. قمنا بمراجعة حالة الخلية الأخيرة، وتحليل السلسلة الزمنية لـ TA، وتنفيذ ضبط لمعلمات الموقع (خفض ميل الحزمة/القدرة وتحسين إزاحات handover) لتضييق البصمة وتوجيه الحركة إلى الجوار. تحسنت المؤشرات الأولية بعد التغيير؛ وسنراقب خلال ساعة الذروة القادمة."
+  }
+}

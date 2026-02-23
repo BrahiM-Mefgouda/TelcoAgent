@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_EMBB_THROUGHPUT-S0017",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_EMBB_THROUGHPUT",
+  "query": {
+    "en": "Urban NR macro during peak evening shows eMBB slice QoS degradation: median throughput ~9 Mbps, latency 46 ms, 17% QoS violations, PRB utilization 84%, ~540 users; no active alarms.",
+    "ar": "موقع ماكرو NR حضري خلال وقت الذروة المسائي يظهر تدهور QoS لشريحة eMBB: متوسط السرعة ~9 Mbps، كمون 46 ms، مخالفات QoS بنسبة 17%، إشغال PRB 84%، حوالي 540 مستخدماً؛ لا توجد إنذارات نشطة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro in the last 4h during peak evening: eMBB slice QoS degraded—median slice throughput ~9 Mbps, p95 24 Mbps, latency ~46 ms, QoS violations 17%, PRB utilization ~84%, ~540 users; streaming complaints observed.",
+      "message_ar": "موقع ماكرو NR حضري خلال آخر 4 ساعات في وقت الذروة المسائي: تدهور QoS لشريحة eMBB—متوسط السرعة ~9 Mbps، p95 24 Mbps، الكمون ~46 ms، نسبة المخالفات 17%، إشغال PRB ~84%، حوالي 540 مستخدماً؛ وردت شكاوى في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Please share the affected cell and slice IDs and confirm I can pull the last 4h OSS counters to baseline the issue.",
+      "message_ar": "مفهوم. يرجى تزويدي بمعرّف الخلية ومعرّف الشريحة والتأكيد على السماح لي بسحب مؤشرات OSS لآخر 4 ساعات لعمل خط أساس للمشكلة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NRU-UM-015-S2; slice: eMBB-S1. Approved to query the last 4h.",
+      "message_ar": "الخلية: NRU-UM-015-S2؛ الشريحة: eMBB-S1. موافق على الاستعلام لآخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline pulled: no active faults; availability OK. DL PRB ~84–86%; QoS violations concentrated 18:40–21:10; users peaked ~560. Next, I'll chart the QoS-class trend over the same window to correlate with load—proceed?",
+      "message_ar": "تم استخراج الخط الأساسي: لا أعطال نشطة؛ التوافر جيد. إشغال PRB للوصلة الهابطة ~84–86%؛ المخالفات تركزت بين 18:40–21:10؛ عدد المستخدمين بلغ ~560. الخطوة التالية سأرسم اتجاه مؤشر فئة QoS لنفس الإطار الزمني لربطه بالحمل—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend confirms degradation: QoS-class index slid to ~0.41 during peaks; violation spikes to ~17%; latency tail >100 ms. This aligns with heavy eMBB streaming load. I propose a slice policy update to raise eMBB minimum share and priority for peak evening on this cell. Approve?",
+      "message_ar": "يؤكد المنحنى التدهور: مؤشر فئة QoS انخفض إلى ~0.41 أثناء الذروة؛ المخالفات تصل ~17%؛ ذيل الكمون يتجاوز 100 ms. هذا يتماشى مع حمل البث العالي لـeMBB. أقترح تحديث سياسة الشريحة لرفع الحد الأدنى للحصة وأولوية eMBB خلال المساء على هذه الخلية. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the slice policy change now.",
+      "message_ar": "موافق على تطبيق تغيير سياسة الشريحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Policy updated on eMBB-S1 for NRU-UM-015-S2: increased guaranteed share and weighting for 17:00–22:00; change committed successfully. Immediate check (5–10 min) shows QoS index ~0.58, violations ~9–10%, median latency ~35 ms; load unchanged but allocation fairer.",
+      "message_ar": "تم تحديث السياسة على eMBB-S1 للخلية NRU-UM-015-S2: زيادة الحصة المضمونة والوزن للفترة 17:00–22:00؛ تم اعتماد التغيير بنجاح. فحص فوري (5–10 دقائق) يظهر مؤشر QoS ~0.58، المخالفات ~9–10%، متوسط الكمون ~35 ms؛ الحمل لم يتغير لكن التخصيص أصبح أعدل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing median user throughput up to ~12 Mbps and fewer streaming stalls. Looks better.",
+      "message_ar": "أرى ارتفاع متوسط سرعة المستخدم إلى ~12 Mbps وانخفاض توقفات البث. الوضع أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We'll continue to watch the slice KPIs on this cell through the next busy period and validate stability.",
+      "message_ar": "جيد. سنواصل مراقبة مؤشرات الشريحة على هذه الخلية خلال فترة الانشغال التالية للتحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—QoS violations are trending down and latency is steadier after the slice policy update; please monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن—مخالفات QoS في اتجاه تنازلي والكمون أكثر ثباتاً بعد تحديث سياسة الشريحة؛ يرجى المراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We'll own the next busy-hour monitoring and report results. If KPIs regress, we'll escalate to capacity planning and roll back to the previous slice policy; otherwise we keep the change.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الانشغال القادمة ونبلغ بالنتائج. إذا تراجعت المؤشرات، سنصعّد إلى فريق السعة ونعيد السياسة السابقة للشريحة؛ وإلا سنبقي التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRU-UM-015-S2",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRU-UM-015-S2",
+        "QoS cls",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "eMBB-S1",
+        "peak_evening_min_share_increase"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed eMBB slice QoS degradation on an urban NR macro during peak evening. After validating the drop via QoS-class time series aligned with high load, we applied a slice policy update to boost the eMBB minimum share and priority in the busy window. Early checks show improved QoS index and fewer violations; we will monitor through the next busy hour.",
+    "ar": "تم تأكيد تدهور QoS لشريحة eMBB على موقع ماكرو NR حضري خلال الذروة المسائية. بعد التحقق عبر منحنى مؤشر فئة QoS المتوافق مع الحمل العالي، طبّقنا تحديثاً لسياسة الشريحة لزيادة الحصة الدنيا وأولوية eMBB خلال فترة الانشغال. الفحوصات المبكرة تظهر تحسناً في مؤشر QoS وانخفاضاً في المخالفات؛ سنستمر بالمراقبة خلال ساعة الانشغال التالية."
+  }
+}

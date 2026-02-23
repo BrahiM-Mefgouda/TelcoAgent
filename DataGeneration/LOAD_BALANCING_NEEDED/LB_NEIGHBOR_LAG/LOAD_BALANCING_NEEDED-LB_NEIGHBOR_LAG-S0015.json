@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0015",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban 5G NR macro cell during peak evening eMBB streaming shows 92% resource use with 303 users and a 0.34 imbalance versus neighbors at ~58%, with handovers out 43 vs in 11; assess and balance the load.",
+    "ar": "خلية ماكرو NR حضرية خلال ذروة المساء لترافيك eMBB (بث) تُظهر استخدام موارد 92% مع 303 مستخدمين وعدم توازن 0.34 مقارنة بجيران ~58%، وتحويلات خروج 43 مقابل دخول 11؛ نحتاج تقييم وموازنة الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector is tight at peak evening: PRB ~92%, 303 users, neighbors average ~58%, imbalance index ~0.34. HO out 43 vs in 11 per 5 min. Please investigate.",
+      "message_ar": "القطاع الماكرو NR في منطقة حضرية مضغوط خلال ذروة المساء: استخدام الموارد ~92%، 303 مستخدمين، متوسط الجيران ~58%، مؤشر عدم التوازن ~0.34. تحويلات الخروج 43 مقابل الدخول 11 لكل 5 دقائق. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Given eMBB streaming at peak, I will start by auditing neighbor relations and load-based biasing to confirm underused targets and any lag in load-aware HO. Approve access for the last 4h and share the cell ID?",
+      "message_ar": "تم الاستلام. نظراً لحركة eMBB (بث) في وقت الذروة، سأبدأ بتدقيق علاقات الجيران وتحيزات موازنة الحمل للتحقق من الجيران منخفضي الاستخدام وأي تأخر في التحويلات المعتمدة على الحمل. هل توافق على الوصول لآخر 4 ساعات وتزويدي بمعرّف الخلية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NR-URB-MACRO-245-S1. Access approved for 4h window.",
+      "message_ar": "الخليّة: NR-URB-MACRO-245-S1. الوصول مُعتمد لمدة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit completed: NR-URB-MACRO-245-S1 at 92% PRB; neighbors N2 ~56% and N3 ~48%. Load-based handover is conservative (bias ~0 dB to neighbors, high thresholds). I propose tuning load-balancing parameters to favor N2/N3 and gently offload ~10–15%. Approve?",
+      "message_ar": "تم تدقيق الجيران: الخلية NR-URB-MACRO-245-S1 عند 92% من الموارد؛ الجار N2 ~56% وN3 ~48%. التحويل المعتمد على الحمل محافظ (انحياز ~0 دB نحو الجيران وحدود مرتفعة). أقترح ضبط معلمات موازنة الحمل لتمييل الكفة نحو N2/N3 وتخفيف ~10–15% من الحمل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with a cautious adjustment; keep quality stable.",
+      "message_ar": "موافَق. تفضل بإجراء تعديل حذر مع الحفاظ على الجودة مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: enabled load-aware HO toward N2/N3 with a small positive neighbor bias and relaxed trigger to expedite offload, keeping hysteresis to avoid ping-pong. Changes are live; monitoring impact now.",
+      "message_ar": "تم تطبيق التحسين: تم تفعيل التحويل المعتمد على الحمل نحو N2/N3 مع تحيز بسيط لصالح الجيران وتخفيف شرط التفعيل لتسريع التفريغ، مع الحفاظ على الهيستريس لتجنب التردد. التغييرات فعّالة الآن؛ أراقب الأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. I’m watching the sector; no alarms triggered.",
+      "message_ar": "مفهوم. أراقب القطاع؛ لا توجد إنذارات مفعّلة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial effect: source PRB easing from 92% to 84% within 10 minutes; N2 rising to ~62%. HO success stable; no spike in failures. Continuing to observe.",
+      "message_ar": "الأثر الأولي: انخفاض استخدام المصدر من 92% إلى 84% خلال 10 دقائق؛ ارتفاع N2 إلى ~62%. نجاح التحويل مستقر؛ لا زيادة في الإخفاقات. أواصل المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quality looks steady: RSRQ around −12 dB unchanged; user load per cell slightly more even.",
+      "message_ar": "الجودة تبدو مستقرة: RSRQ حوالي −12 دB دون تغيير؛ توزيع المستخدمين بين الخلايا أصبح أكثر توازناً قليلاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Target is ~78–82% on the source with balanced handover in/out and neighbors in the mid-60s. I’ll keep tracking during the remaining peak window.",
+      "message_ar": "جيد. الهدف ~78–82% على الخلية المصدر مع توازن في التحويلات دخول/خروج وبلوغ الجيران منتصف الستينيات. سأواصل المتابعة خلال بقية فترة الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: source PRB now ~79% with neighbors ~65%; handovers are more balanced (out 28 vs in 24). After your load-balancing parameter optimization, let’s monitor for the next 2–4 hours.",
+      "message_ar": "تحديث: استخدام المصدر الآن ~79% والجيران ~65%؛ التحويلات أصبحت أكثر توازناً (الخروج 28 مقابل الدخول 24). بعد تحسين معلمات موازنة الحمل الذي قمت به، لنتابع خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and share the results. If regressions appear, we will safely roll back the bias adjustments; if congestion persists, we will escalate by extending balancing to additional neighbors.",
+      "message_ar": "تم. سنقود المتابعة خلال الساعتين إلى الأربع القادمتين ونشارك النتائج. إذا ظهرت انتكاسات، سنقوم بالرجوع عن تعديلات الانحياز بشكل آمن؛ وإذا استمر الازدحام، سنصعّد بتوسيع الموازنة لتشمل جيراناً إضافيين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban 5G NR macro cell: the source carried ~92% resources while neighbors were underutilized, confirmed by a neighbor audit showing conservative load-aware handover settings. Applied site parameter tuning to enable/strengthen load-based handovers and add a slight bias toward underused neighbors, offloading traffic and restoring balance. Post-change, utilization dropped to ~79% on the source with stable quality, and we will monitor during the next busy period.",
+    "ar": "تم تشخيص عدم توازن في الحمل على خلية ماكرو NR حضرية: المصدر كان عند ~92% بينما الجيران منخفضو الاستخدام، وتم تأكيد ذلك عبر تدقيق الجيران الذي أظهر إعدادات تحويل معتمدة على الحمل محافظة. تم تنفيذ ضبط لمعلمات الموقع لتعزيز التحويلات المعتمدة على الحمل وإضافة انحياز طفيف نحو الجيران منخفضي الاستخدام، مما خفّض الحمل وأعاد التوازن. بعد التغيير، انخفض الاستخدام إلى ~79% على المصدر مع جودة مستقرة، وسيتم المتابعة خلال فترة الانشغال التالية."
+  }
+}

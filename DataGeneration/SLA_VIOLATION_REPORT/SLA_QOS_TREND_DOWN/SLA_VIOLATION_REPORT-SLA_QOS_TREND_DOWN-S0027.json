@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0027",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban 5G NR macro cell shows QoS 0.456 vs SLA 0.953 over the last 24h, with slow data (p50 5 Mbps), latency 59 ms, PRB 77%, and a congestion alert active.",
+    "ar": "خلية ماكرو NR حضرية تُظهر QoS بقيمة 0.456 مقابل SLA 0.953 خلال آخر 24 ساعة، مع بيانات بطيئة (وسيط 5 ميجابت/ث)، كمون 59 مللي ثانية، إشغال PRB 77%، وتنبيه ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell under mixed hours shows QoS at 0.456 vs 0.953 SLA in the last 24h. Latency 59 ms, BLER 5.6%, PRB ~77%, 267 users, and p50 DL 5 Mbps affecting eMBB. Please assist.",
+      "message_ar": "خلية ماكرو NR حضرية خلال ساعات مختلطة تُظهر QoS عند 0.456 مقابل SLA 0.953 في آخر 24 ساعة. الكمون 59 مللي ثانية، BLER ‏5.6%، إشغال PRB ~77%، 267 مستخدماً، ووسيط تنزيل 5 ميجابت/ث يؤثر على eMBB. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis. Please confirm the cell ID and grant read access for the last 24h; I’ll pull live counters first.",
+      "message_ar": "سأتولى التشخيص. يرجى تأكيد معرف الخلية ومنحي صلاحية القراءة لآخر 24 ساعة؛ سأجلب العدادات أولاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-AC12-01. Read access approved for the 24h window.",
+      "message_ar": "معرّف الخلية هو NR-URB-MACRO-AC12-01. تمت الموافقة على صلاحية القراءة لفترة 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-URB-MACRO-AC12-01 over 24h now. Results: PRB ~76–77%, p50 DL ~5 Mbps, median latency ~59 ms, BLER ~5.6%, users peak ~267. Next, I’ll extract the QoS time series for 24h to confirm the trend and breach windows; approve?",
+      "message_ar": "أجري الآن فحص OSS للخلية NR-URB-MACRO-AC12-01 خلال 24 ساعة. النتائج: إشغال PRB ~76–77%، وسيط تنزيل ~5 ميجابت/ث، كمون وسطي ~59 مللي ثانية، BLER ~5.6%، ذروة مستخدمين ~267. بعد ذلك سأستخرج سلسلة QoS الزمنية لـ 24 ساعة لتأكيد الاتجاه وفترات الخرق؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the QoS time series.",
+      "message_ar": "موافَق على جلب السلسلة الزمنية لـ QoS."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series confirms sustained degradation: QoS index ~0.42–0.48 with dips ~0.35 at busy hours; latency spikes align with high load; slow data impacts eMBB streaming. With the breach confirmed, I will file an SLA violation report to trigger capacity/backhaul review—proceed?",
+      "message_ar": "السلسلة الزمنية لـ QoS تؤكد تدهوراً مستمراً: المؤشر ~0.42–0.48 مع هبوط ~0.35 في ساعات الذروة؛ ارتفاعات الكمون تتوافق مع الحمل المرتفع؛ البيانات البطيئة تؤثر على بث eMBB. مع تأكيد الخرق، سأقدّم تقرير خرق SLA لبدء مراجعة السعة/الوصلة الخلفية—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with filing the SLA violation report.",
+      "message_ar": "تفضّل بتقديم تقرير خرق SLA."
+    },
+    {
+      "role": "agent",
+      "message_en": "Submitting the SLA violation report now—submitted. We’ll monitor short-term and correlate any new complaints; I’ll share the reference in the wrap-up. Any recent maintenance or power events?",
+      "message_ar": "أقدّم الآن تقرير خرق SLA—تم الإرسال. سنراقب على المدى القريب ونربط أي شكاوى جديدة؛ سأشارك المرجع في الخلاصة. هل حدثت صيانة أو أحداث طاقة مؤخراً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No recent config or power changes. Last hour shows slight latency improvement and fewer buffering complaints.",
+      "message_ar": "لا تغييرات حديثة في الإعدادات أو الطاقة. الساعات الأخيرة تُظهر تحسناً طفيفاً في الكمون وتراجعاً في شكاوى التقطّع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll monitor through the next busy hour; success if QoS > 0.95, p50 DL > 8 Mbps, and latency < 30 ms. I’ll update the report after the window.",
+      "message_ar": "تم. سنراقب خلال ساعة الذروة القادمة؛ النجاح إذا تجاوز QoS ‏0.95 وكان وسيط التنزيل > 8 ميجابت/ث والكمون < 30 مللي ثانية. سأحدّث التقرير بعد النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency trending down toward ~50 ms. Action taken: SLA violation report submitted; please monitor during the next busy hour and update DU-SLA-02841.",
+      "message_ar": "ألاحظ تحسناً: الكمون يتجه نزولاً نحو ~50 مللي ثانية. الإجراء المتخذ: تم تقديم تقرير خرق SLA؛ يرجى المتابعة خلال ساعة الذروة القادمة وتحديث DU-SLA-02841."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring for the next busy hour and update the ticket afterward. If QoS worsens or service drops again, we’ll escalate to capacity and backhaul teams; if it stabilizes, we’ll close the report—no rollback needed since no parameters were changed.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعد ذلك. إذا ساء QoS أو حدث تراجع في الخدمة مرة أخرى فسنصعّد إلى فرق السعة والوصلة الخلفية؛ وإن استقرت الحالة فسنغلق التقرير—لا حاجة للتراجع لأننا لم نغيّر الإعدادات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-AC12-01",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-AC12-01",
+        "QoS",
+        "24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA violation on NR-URB-MACRO-AC12-01 over 24h: QoS 0.456 < 0.953, high load with latency 59 ms and p50 DL 5 Mbps; request capacity/backhaul review and monitoring."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "We diagnosed a sustained SLA breach on the urban NR macro cell: OSS counters and the 24h QoS trend confirmed low QoS with high load, latency spikes, and slow data in mixed hours. An SLA violation report was filed to trigger cross-domain actions such as capacity and backhaul review, and we will monitor through the next busy hour for recovery.",
+    "ar": "تمّ تشخيص خرق مستمر لاتفاقية مستوى الخدمة على خلية NR الماكرو الحضرية: أكدت عدادات OSS واتجاه QoS خلال 24 ساعة انخفاض المؤشر مع حمل مرتفع وارتفاعات في الكمون وبيانات بطيئة خلال الساعات المختلطة. تم رفع تقرير خرق SLA لبدء إجراءات مشتركة بين الفرق مثل مراجعة السعة والوصلة الخلفية، وسنراقب خلال ساعة الذروة القادمة للتحقق من التعافي."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0020",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban NR macro showing config drift for 12h with 12 mismatches (drift score ~0.75, age ~51h), handover failures ~12%, BLER ~10%, PRB ~80%, median DL throughput ~13 Mbps, and a congestion alarm active affecting eMBB streaming.",
+    "ar": "موقع NR ماكرو حضري يُظهر انحراف إعدادات خلال 12 ساعة مع 12 عدم تطابق (درجة الانحراف ~0.75، عمر ~51 ساعة)، وإخفاقات تسليم ~12%، وBLER ~10%، واستخدام PRB ~80%، ومعدل تنزيل وسطي ~13 ميجابت/ث، مع إنذار ازدحام نشط يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector during peak hours: congestion alarm active in the last 12h. Parameter drift alerts show score ~0.75, 12 mismatches, drift age ~51h. HO failures ~12%, BLER ~10%, PRB ~80%, p50 DL ~13 Mbps. eMBB users report streaming stutters. Please investigate.",
+      "message_ar": "قطاع NR ماكرو حضري خلال ساعات الذروة: إنذار ازدحام نشط خلال آخر 12 ساعة. تنبيهات انحراف المعلمات تُظهر درجة ~0.75 مع 12 عدم تطابق وعمر انحراف ~51 ساعة. إخفاقات التسليم ~12%، وBLER ~10%، واستخدام PRB ~80%، ومعدل تنزيل وسطي ~13 ميجابت/ث. مستخدمو eMBB يبلغون عن تقطّع في البث. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start with a configuration comparison between the management system and the live node over the last 12h. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأبدأ بمقارنة التهيئة بين نظام الإدارة والعقدة الحية خلال آخر 12 ساعة. يرجى تأكيد معرف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-33521; read access approved.",
+      "message_ar": "معرف الخلية هو NR-URB-33521؛ تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running config integrity check on NR-URB-33521 for the 12h window: found 12 mismatches, drift age ~51h, mainly handover timers and power-control thresholds. This aligns with the HO failures and BLER. Next, I plan to align to baseline; please approve write access.",
+      "message_ar": "أجري فحص سلامة الإعدادات على NR-URB-33521 خلال نافذة 12 ساعة: تم العثور على 12 عدم تطابق، بعمر انحراف ~51 ساعة، تشمل أساسًا مؤقتات التسليم وحدود التحكم في القدرة. هذا يتماشى مع إخفاقات التسليم وBLER. الخطوة التالية، سأقوم بالمطابقة مع التهيئة الأساسية؛ يرجى الموافقة على صلاحية الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Write access approved.",
+      "message_ar": "تمت الموافقة على صلاحية الكتابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing the baseline configuration to NR-URB-33521 with a rollback point. Push completed successfully; expected transient impact <1 minute. Please observe initial KPIs.",
+      "message_ar": "أقوم بدفع التهيئة الأساسية إلى NR-URB-33521 مع نقطة رجوع. تم إكمال الدفع بنجاح؛ التأثير المؤقت المتوقع أقل من دقيقة. يرجى مراقبة المؤشرات الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check after 10 minutes: BLER dropped to ~7%, PRB ~75%, and HO failures are starting to ease.",
+      "message_ar": "فحص أولي بعد 10 دقائق: انخفض BLER إلى ~7%، وPRB ~75%، وإخفاقات التسليم بدأت بالانحسار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Documenting the drift and remediation with a problem record; we will track stability through the next busy interval.",
+      "message_ar": "أقوم بتوثيق الانحراف والإصلاح عبر سجل مشكلة؛ سنراقب الاستقرار خلال فترة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Congestion alarm has cleared, median DL throughput now ~14–15 Mbps, and fewer streaming complaints.",
+      "message_ar": "تمت إزالة إنذار الازدحام، ومعدل التنزيل الوسطي الآن ~14–15 ميجابت/ث، والشكاوى من البث أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. I will continue watching HO failures and BLER trends and keep the record updated. Share a final snapshot around the next busy period.",
+      "message_ar": "تقدم جيد. سأواصل متابعة اتجاهات إخفاقات التسليم وBLER وأبقي السجل محدّثًا. يرجى مشاركة لقطة نهائية حول فترة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "HO failures are trending down (now ~7%). Action taken: baseline config push to clear mismatches. Let's monitor through the next busy hour (next 2–4 hours) and track via DU-CFG-04231.",
+      "message_ar": "إخفاقات التسليم تتجه للانخفاض (الآن ~7%). الإجراء المُتخذ: دفع التهيئة الأساسية لإزالة عدم التطابق. لنتابع خلال ساعة الانشغال القادمة (خلال 2–4 ساعات) والمتابعة عبر DU-CFG-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the monitoring for the next busy hour and will update the ticket after the window. If metrics regress, we will escalate to a field check; if any adverse effects appear, we will roll back to the saved baseline.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الانشغال القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا تراجعت المؤشرات سنصعّد إلى فحص ميداني؛ وإذا ظهرت آثار سلبية سنرجع إلى التهيئة الأساسية المحفوظة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-33521",
+        "last_12h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "baseline_NR-URB-33521"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config drift on NR-URB-33521; baseline config pushed; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a configuration mismatch on the urban NR macro cell with 12 parameters drifting for ~51 hours, correlating with elevated handover failures and BLER under peak eMBB load. Executed a baseline configuration push to realign timers and thresholds, then created a tracking ticket and initiated post-change monitoring. Early KPIs improved, and the site will be monitored through the next busy hour with rollback ready if needed.",
+    "ar": "تم تشخيص عدم تطابق في التهيئة على خلية NR ماكرو حضرية مع انحراف 12 معلمة لمدة ~51 ساعة، مما ارتبط بارتفاع إخفاقات التسليم وBLER تحت حمل eMBB. تم تنفيذ دفع للتهيئة الأساسية لإعادة محاذاة المؤقتات والعتبات، ثم إنشاء تذكرة متابعة وبدء المراقبة بعد التغيير. تحسنت المؤشرات الأولية، وسيتم مراقبة الموقع خلال ساعة الانشغال القادمة مع جاهزية الرجوع إذا لزم الأمر."
+  }
+}

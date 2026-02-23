@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0008",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "Suburban NR macro cell shows a 3h rise in radio link failures with low quality (RSRQ -16 dB), BLER ~11%, HO success 81%/failures ~19%, SINR 6 dB, and median downlink 19 Mbps during shoulder eMBB usage.",
+    "ar": "خلية ماكرو NR في منطقة ضواحي تُظهر ارتفاعاً لمدة 3 ساعات في حالات فقدان رابط الراديو مع جودة منخفضة (RSRQ ‎-16 dB)، وBLER نحو 11%، نجاح التسليم 81%/فشل ~19%، وSINR ‎6 dB، ومتوسط تنزيل 19 Mbps خلال فترة الكتف لاستخدام eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector had a 3h RLF spike during shoulder hours. Quality is weak (RSRQ -16 dB, SINR 6 dB), BLER ~11%, RLF ~3.8%, HO success 81% with ~19% failures, PRB 68%, p50 DL 19 Mbps. eMBB streaming users reported dropouts.",
+      "message_ar": "شهد قطاع ماكرو NR في منطقة الضواحي ارتفاعاً لمدة 3 ساعات في حالات فقدان رابط الراديو خلال فترة الكتف. الجودة ضعيفة (RSRQ ‎-16 dB، SINR ‎6 dB)، وBLER ~11%، ومعدل RLF ~3.8%، ونجاح التسليم 81% مع فشل ~19%، وإشغال PRB 68%، ومتوسط تنزيل 19 Mbps. مستخدمو eMBB (بث) أبلغوا عن تقطّع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling last 3h OSS counters and events for the affected cell to validate the RLF/HO context. Please approve read access.",
+      "message_ar": "مفهوم. سأبدأ بسحب عدادات وأحداث آخر 3 ساعات من نظام الإدارة للخلية المتأثرة للتحقق من سياق RLF/HO. يرجى منح موافقة القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved for the cell; proceed.",
+      "message_ar": "تمت الموافقة على الوصول للقراءة للخلية؛ تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows RLF elevated vs baseline, HO failures concentrated toward two neighbors, degraded wideband quality (RSRQ -16 dB) with moderate load; no site alarms. Next, I’ll extract the RLF time series over the 3h window and correlate with HO failures to pinpoint spikes. Proceed?",
+      "message_ar": "تُظهر بيانات النظام ارتفاع RLF مقارنة بالأساس، وفشل تسليم مُتركّز نحو جارَين، وتدهوراً واسع النطاق في الجودة (RSRQ ‎-16 dB) مع حمل معتدل؛ ولا إنذارات في الموقع. الخطوة التالية: سأستخرج السلسلة الزمنية لـ RLF خلال نافذة 3 ساعات وأربطها بحالات فشل التسليم لتحديد الذروات. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Field noted brief drops near the sector boundary while moving.",
+      "message_ar": "موافق. الميدان لاحظ انقطاعات قصيرة قرب حدود القطاع أثناء الحركة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows RLF peaks around 16:30–18:00, preceded by BLER rises and late handovers to west/north neighbors; HO failures reached ~22% at peaks. This indicates conservative HO triggering and short link tolerance at cell edge. I recommend targeted tuning of handover margins and link supervision to reduce drops. Approve change?",
+      "message_ar": "تُظهر السلسلة الزمنية ذُرى RLF بين 16:30–18:00، تسبقها زيادات في BLER وتسليمات متأخرة نحو الجارين الغربي والشمالي؛ وصلت حالات فشل التسليم إلى ~22% أثناء الذروة. يشير ذلك إلى تحفيز تسليم محافظ وتحمل قصير لفقدان الرابط على حافة الخلية. أوصي بضبط مستهدف لهوامش التسليم وإشراف الرابط لتقليل الانقطاعات. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: refined handover thresholds/time-to-trigger and slightly relaxed radio link supervision to favor earlier, reliable transfers to dominant neighbors. Immediate check: HO success ~87%, BLER ~9–10%, short-term RLF ~2% with load unchanged; no adverse effects observed.",
+      "message_ar": "تم تطبيق التحسين: تحسين عتبات وأزمنة تحفيز التسليم وتخفيف بسيط لإشراف رابط الراديو لصالح تحويلات أبكر وأكثر موثوقية نحو الجيران المسيطرين. فحص فوري: نجاح التسليم ~87%، وBLER ~9–10%، ومعدل RLF قصير الأجل ~2% مع بقاء الحمل ثابتاً؛ ولا آثار جانبية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "User feedback: streaming is smoother with fewer drops now.",
+      "message_ar": "ملاحظات المستخدمين: البث أصبح أكثر سلاسة مع انخفاض في السقوط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good to hear. We will watch RLF, HO success, and BLER as traffic evolves; please share any anomalies you notice in upcoming checks.",
+      "message_ar": "جيد. سنراقب RLF ونجاح التسليم وBLER مع تغير الحركة؛ يرجى مشاركة أي شواذ تلاحظها في الفحوصات القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing RLFs trending down and fewer handover failures after the cell parameter optimization; let’s monitor through the next busy hour.",
+      "message_ar": "نرى انخفاضاً في حالات RLF وتراجعاً في فشل التسليم بعد تحسين إعدادات الخلية؛ لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update after. If degradation reappears, we will roll back the change and escalate to RF for deeper interference analysis.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونشارك تحديثاً بعدها. إذا عاد التدهور سنُرجِع التغيير ونصعّد إلى فريق التغطية اللاسلكية لتحليل تداخل أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a shoulder-hour RLF spike on a suburban NR macro by validating OSS counters and analyzing RLF time series, which showed peaks aligned with BLER rises and late handovers to specific neighbors. Mitigation was applied via site parameter tuning of handover triggers and radio link supervision to improve edge robustness. Post-change checks indicated higher HO success and reduced RLF; continued monitoring is in place.",
+    "ar": "تم تشخيص ارتفاع RLF خلال فترة الكتف على خلية ماكرو NR في الضواحي عبر التحقق من عدادات نظام الإدارة وتحليل السلسلة الزمنية لـ RLF، والتي أظهرت ذُرى متزامنة مع ارتفاع BLER وتسليمات متأخرة نحو جيران محددين. تمت المعالجة عبر ضبط إعدادات الموقع لعتبات التسليم وإشراف رابط الراديو لتعزيز المتانة على حافة الخلية. أظهرت فحوص ما بعد التغيير تحسناً في نجاح التسليم وانخفاضاً في RLF؛ والمراقبة مستمرة."
+  }
+}

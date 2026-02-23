@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0017",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban NR macro cell shows URLLC latency at 18 ms, jitter 8 ms, QoS class 0.41 with 22% violations and 58 requests/min over the last 4 hours; congestion alarm is active during peak with PRB utilization at 77% and p50 throughput 12 Mbps for ~100 users.",
+    "ar": "خلية ماكرو NR حضرية تُظهر زمن وصول URLLC عند 18 مللي ثانية وتذبذب 8 مللي ثانية، وفئة جودة الخدمة 0.41 مع 22% انتهاكات و58 طلب/دقيقة خلال آخر 4 ساعات؛ إنذار الازدحام نشط خلال فترة الذروة مع استهلاك PRB عند 77% وسرعة p50 تبلغ 12 ميجابت/ث لنحو 100 مستخدم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell with URLLC slice degradation over the last 4h during peak. Alarm indicates congestion. Latency 18 ms, jitter 8 ms, QoS class 0.41, 22% violations, 58 requests/min, PRB ~77%, p50 throughput 12 Mbps, ~100 users.",
+      "message_ar": "خلية ماكرو NR حضرية مع تدهور في شريحة URLLC خلال آخر 4 ساعات أثناء الذروة. الإنذار يشير إلى ازدحام. زمن الوصول 18 مللي ثانية، التذبذب 8 مللي ثانية، فئة جودة الخدمة 0.41، الانتهاكات 22%، 58 طلب/دقيقة، استهلاك PRB ~77%، سرعة p50 تبلغ 12 ميجابت/ث، ~100 مستخدم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by checking the affected cell’s recent state for the URLLC slice over the last 4 hours. Please share the cell ID and approve read access.",
+      "message_ar": "تم الفهم. سأبدأ بالتحقق من حالة الخلية المتأثرة لشريحة URLLC خلال آخر 4 ساعات. يرجى مشاركة معرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Cell-41023. Read access approved.",
+      "message_ar": "معرّف الخلية هو NR-Cell-41023. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running cell state check for NR-Cell-41023 (last 4h). Findings: URLLC admission stable; QoS class index ~0.41; URLLC PRB share ~16% vs policy 25% under eMBB-heavy traffic (streaming noted); gNB load ~78%; backhaul OK; no outage. Next, I will pull QoS/latency time series to confirm peak-hour correlation. Approve?",
+      "message_ar": "أجري فحص حالة الخلية NR-Cell-41023 (آخر 4 ساعات). النتائج: قبول URLLC مستقر؛ مؤشر فئة جودة الخدمة ~0.41؛ حصة PRB لشريحة URLLC ~16% مقابل سياسة 25% مع ثقل eMBB (لوحظ بث فيديو)، حمل gNB ~78%؛ الربط الخلفي جيد؛ لا انقطاع. بعد ذلك سأجلب السلاسل الزمنية لجودة الخدمة/الزمن لتأكيد الارتباط بساعات الذروة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the time series check.",
+      "message_ar": "موافق. تفضل بإجراء فحص السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms peaks: median latency ~18 ms (target <5), jitter ~8 ms; violations 20–25% when PRB >75%. URLLC queue depth spikes align with eMBB bursts. Root cause: slice starving under congestion. I propose updating the slice policy for this cell: raise guaranteed PRB to 30% during busy hour, increase priority, and tighten the latency target. Proceed?",
+      "message_ar": "السلاسل الزمنية تؤكد الذروات: زمن الوصول الوسيط ~18 مللي ثانية (الهدف <5)، التذبذب ~8 مللي ثانية؛ الانتهاكات 20–25% عندما يتجاوز استهلاك PRB 75%. ارتفاع عمق طوابير URLLC يتوافق مع اندفاعات eMBB. السبب الجذري: جوع الشريحة تحت الازدحام. أقترح تحديث سياسة الشريحة لهذه الخلية: رفع الضمان الأدنى لـ PRB إلى 30% خلال الانشغال، زيادة الأولوية، وتشديد هدف زمن الوصول. هل نمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for a controlled change. Apply with guardrails.",
+      "message_ar": "موافق على تغيير مضبوط. نفّذ مع ضوابط احترازية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying slice policy update to URLLC-SLICE-01 on NR-Cell-41023: guaranteed share to 30% during peak, higher priority weight, stricter latency target. Change committed; scheduler refreshed. Monitoring immediate impact.",
+      "message_ar": "جاري تطبيق تحديث سياسة الشريحة URLLC-SLICE-01 على NR-Cell-41023: ضمان حصة 30% أثناء الذروة، وزن أولوية أعلى، وهدف زمن وصول أكثر صرامة. تم اعتماد التغيير وتحديث المجدول. أراقب الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick check shows latency down to ~10–11 ms and jitter ~5–6 ms in the last 5 minutes; violations trending lower. No negative impact on eMBB observed.",
+      "message_ar": "فحص سريع يُظهر انخفاض زمن الوصول إلى ~10–11 مللي ثانية والتذبذب ~5–6 مللي ثانية خلال آخر 5 دقائق؛ الانتهاكات في اتجاه هبوطي. لا أثر سلبي على eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. URLLC request success ~99% and PRB headroom ~5% preserved for eMBB. We will keep the change scoped to this cell and watch stability through the next busy interval.",
+      "message_ar": "تم التأكيد. نجاح طلبات URLLC ~99% مع احتفاظ بهامش PRB ~5% لـ eMBB. سنبقي التغيير محصورًا بهذه الخلية ونراقب الاستقرار خلال فترة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: URLLC latency now ~10 ms with violations decreasing. Action taken: slice policy update on the cell. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن: زمن وصول URLLC الآن ~10 مللي ثانية مع انخفاض الانتهاكات. الإجراء المتخذ: تحديث سياسة الشريحة على الخلية. لنراقب خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and share an update afterward. If latency regresses, we will roll back the policy change; if congestion shifts or widens, we will escalate by proposing controlled extensions to adjacent cells.",
+      "message_ar": "سنكون مسؤولين عن نافذة المراقبة لمدة 2–4 ساعات وسنشارك تحديثًا بعدها. إذا تراجع الأداء في زمن الوصول، سنعود عن تغيير السياسة؛ وإذا تحوّل الازدحام أو اتسع، سنصعد الأمر عبر اقتراح توسيعات مضبوطة للخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-41023",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-41023",
+        "QoS cls",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC-SLICE-01",
+        "peak_guarantee=30%,priority=high,latency_target=5ms"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice QoS degradation on an urban NR macro cell as congestion-driven starvation during peak hours, confirmed by QoS/latency time series and low PRB share for the slice. Mitigated by a slice policy update to increase guaranteed resources and priority with a tighter latency target. Immediate improvements observed; monitoring continues to ensure stability.",
+    "ar": "تم تشخيص تدهور جودة خدمة شريحة URLLC على خلية ماكرو حضرية NR بأنه جوع ناتج عن الازدحام خلال ساعات الذروة، وتم تأكيده عبر السلاسل الزمنية لجودة الخدمة/الزمن وانخفاض حصة PRB للشريحة. تمت المعالجة عبر تحديث سياسة الشريحة لزيادة الموارد المضمونة ورفع الأولوية مع هدف زمن وصول أكثر صرامة. لوحظ تحسن فوري؛ وتستمر المراقبة لضمان الاستقرار."
+  }
+}

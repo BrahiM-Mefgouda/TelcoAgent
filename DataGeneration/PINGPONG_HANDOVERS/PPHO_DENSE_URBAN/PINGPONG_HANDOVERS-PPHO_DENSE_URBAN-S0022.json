@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0022",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro in the last 4h shows 22% ping‑pong handovers and 15% handover failures with SINR ≈ 4 dB indicating interference/signal overlap, 312 users, and 64% resource use.",
+    "ar": "ضمن خلية ماكرو NR حضرية خلال آخر 4 ساعات، هناك 22% تبديل ذهاب‑إياب و15% فشل في التسليم، مع SINR ≈ 4 dB يشير إلى تداخل/تراكب للإشارة، و312 مستخدمًا واستخدام موارد 64%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening in a dense urban NR macro shows rising ping‑pong handovers; users on eMBB streaming report brief stalls. Snapshot: ping‑pong ~22%, HO failures 15%, SINR ~4 dB, RSRP −102 dBm, RSRQ −12 dB. Please investigate.",
+      "message_ar": "أثناء فترة الذروة المسائية في خلية ماكرو NR حضرية، نلاحظ زيادة في تبديلات الذهاب‑والإياب، ومستخدمو eMBB يعانون من توقفات قصيرة. الملخص: تبديل ذهاب‑إياب ~22%، فشل التسليم 15%، SINR ~4 dB، RSRP −102 dBm، وRSRQ −12 dB. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a 4h diagnostic focusing on interference/signal overlap and mobility. Please confirm the cell ID and approve access.",
+      "message_ar": "تم. سأبدأ بتشخيص لمدة 4 ساعات مع التركيز على التداخل/تراكب الإشارة والتنقل. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-31012-S1 (macro). Access approved. Noted frequent toggling with S2 and S3 near Main & 5th.",
+      "message_ar": "معرّف الخلية: NR-31012-S1 (ماكرو). الوصول معتمد. هناك تبديل متكرر مع S2 وS3 قرب Main & 5th."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-31012-S1 over the last 4h. Observations: HO attempts ~145/5min, HO failure rate 15%, ping‑pong rate 22% dominated by neighbors S2 (~13%) and S3 (~7%). Current settings: A3 offset 4 dB, TTT 206 ms, hysteresis 3 dB. Proceed to HO time‑series analysis?",
+      "message_ar": "أجري فحص OSS للخلية NR-31012-S1 خلال آخر 4 ساعات. الملاحظات: محاولات التسليم ~145/5 دقائق، معدل فشل التسليم 15%، معدل الذهاب‑والإياب 22% يهيمن عليه الجاران S2 (~13%) وS3 (~7%). الإعدادات الحالية: A3 offset بقيمة 4 dB، وTTT 206 ms، وhysteresis 3 dB. هل أمضي لتحليل السلاسل الزمنية للتسليم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Continue.",
+      "message_ar": "موافق. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time‑series over 4h shows HO spikes 18:30–21:00 with short‑dwell returns (<10s) at 36% from S2/S3. Pattern matches interference/signal overlap at sector edges with low SINR. I propose site parameter tuning: reduce A3 offset to 2 dB, increase TTT to 320 ms, and raise hysteresis to 4 dB to damp ping‑pong. Approve apply with rollback ready?",
+      "message_ar": "السلاسل الزمنية خلال 4 ساعات تُظهر ارتفاعات في التسليم بين 18:30 و21:00 مع عودة قصيرة الإقامة (<10 ثوانٍ) بنسبة 36% من S2/S3. النمط يتوافق مع تداخل/تراكب الإشارة عند حواف القطاع مع SINR منخفض. أقترح ضبط معلمات الموقع: خفض A3 offset إلى 2 dB، وزيادة TTT إلى 320 ms، ورفع hysteresis إلى 4 dB لتخفيف الذهاب‑والإياب. هل الموافقة على التطبيق مع جاهزية التراجع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change set applied to NR-31012-S1. Post‑check: no alarms, neighbor relations intact, coverage footprint stable. Initial 10‑min snapshot shows rapid returns down ~5–7%. I will keep watching counters as they settle.",
+      "message_ar": "تم تطبيق مجموعة التغييرات على NR-31012-S1. فحص ما بعد التطبيق: لا تنبيهات، علاقات الجوار سليمة، وبصمة التغطية مستقرة. لقطة أولية خلال 10 دقائق تُظهر انخفاض العودات السريعة بنحو 5–7%. سأواصل متابعة العدادات أثناء الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Spot‑check near Main & 5th shows fewer rapid bounces S1↔S2 and smoother streaming.",
+      "message_ar": "فحص ميداني قرب Main & 5th يُظهر انخفاضًا في الارتدادات السريعة بين S1↔S2 وتحسنًا في سلاسة البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. Please continue observing dwell times and return ratio over the rest of the busy period and flag any anomalies.",
+      "message_ar": "إشارة جيدة. يرجى الاستمرار في مراقبة أزمنة الإقامة ونسبة العودات خلال بقية فترة الانشغال وإبلاغي بأي شذوذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early stats show ping‑pong returns trending down (now ~12% vs 22%) with fewer short‑dwell events. Action taken: site parameter tuning on handover thresholds and timing. Let’s monitor through the next busy hour.",
+      "message_ar": "الإحصاءات الأولية تُظهر انخفاضًا في عودات الذهاب‑والإياب (الآن ~12% مقابل 22%) مع انخفاض في أحداث الإقامة القصيرة. الإجراء المتخذ: ضبط معلمات الموقع الخاصة بعتبات وتوقيت التسليم. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own the next busy hour monitoring and report updated return ratio, handover failures, and user impact afterward. If degradation reappears, we will revert the change set and escalate to neighbor‑specific tuning; otherwise we will keep the optimization in place.",
+      "message_ar": "مفهوم. سنتولى مراقبة ساعة الذروة القادمة ونقدّم تقريرًا بعد ذلك يتضمن نسبة العودات المحدّثة وفشل التسليم وتأثير المستخدمين. إذا عادت التدهورات سنرجع مجموعة التغييرات ونصعّد إلى ضبط خاص بالجيران؛ وإلا سنُبقي التحسين قائمًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping‑pong handovers on a dense urban NR macro by checking recent network metrics and reviewing handover time‑series, which showed short dwell returns aligned with peak hours and interference/signal overlap. Mitigated by site parameter tuning (handover thresholds and timing) to reduce sensitivity and stabilize dwell time. Early indicators show fewer rapid returns; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع تبديلات الذهاب‑والإياب في خلية ماكرو NR حضرية عبر فحص مؤشرات الشبكة الأخيرة ومراجعة السلاسل الزمنية للتسليم، والتي أظهرت عودات قصيرة الإقامة متزامنة مع ساعات الذروة وتداخل/تراكب في الإشارة. تم التخفيف عبر ضبط معلمات الموقع (عتبات وتوقيت التسليم) لتقليل الحساسية واستقرار زمن الإقامة. المؤشرات الأولية تُظهر انخفاضًا في العودات السريعة؛ وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

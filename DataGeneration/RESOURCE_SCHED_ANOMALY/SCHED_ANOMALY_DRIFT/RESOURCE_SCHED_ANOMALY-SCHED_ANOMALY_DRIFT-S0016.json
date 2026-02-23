@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0016",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell over the last 6h shoulder window shows high PRB use (~91%), uneven allocation (skew 39, fairness ~0.75), high best-effort share (~72%), median throughput ~9 Mbps, and p95 scheduler latency ~43 ms—please investigate a resource allocation anomaly.",
+    "ar": "خلية ماكرو NR حضرية خلال آخر 6 ساعات (فترة الكتف) تُظهر استخدام PRB مرتفعاً (~91%) وتوزيعاً غير متوازن (انحراف 39، إنصاف ~0.75)، وحصة مرتفعة لحركة أفضل جهد (~72%)، ومتوسط إنتاجية ~9 ميجابت/ث، وزمن تأخير p95 للمُجدوِل ~43 مللي ثانية—يرجى فحص شذوذ في تخصيص الموارد."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "In our urban 5G NR macro sector over the last 6h (shoulder period), users on eMBB streaming see inconsistent rates; PRB use is ~91% with skew 39, fairness ~0.75, p95 latency ~43 ms, SINR ~6 dB. Please look into a possible resource allocation anomaly.",
+      "message_ar": "في قطاع ماكرو NR حضري خلال آخر 6 ساعات (فترة الكتف)، يواجه المستخدمون مع بث eMBB سرعات غير متسقة؛ استخدام PRB ~91% مع انحراف 39 وإنصاف ~0.75، وزمن تأخير p95 ~43 مللي ثانية، وSINR ~6 ديسيبل. يرجى التحقق من احتمال وجود شذوذ في تخصيص الموارد."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll begin by pulling the last 6h counters for the target cell to verify PRB load, QoS shares, and scheduler latency. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بجلب عدادات آخر 6 ساعات للخلية المستهدفة للتحقق من حمل PRB وحصص QoS وزمن تأخير المُجدوِل. يرجى تزويدي بمعرف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-ULB-2213. Access approved.",
+      "message_ar": "معرّف الخلية: NR-Cell-ULB-2213. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 6h counters for NR-Cell-ULB-2213: PRB utilization averages ~91% with peaks near 95%; fairness ~0.75; allocation skew 39; high-priority share ~30% vs best-effort ~72%; p95 scheduler latency ~43 ms; SINR ~6 dB. Next, I’ll analyze PRB time series to correlate skew with load.",
+      "message_ar": "تم جلب عدادات 6 ساعات للخلية NR-Cell-ULB-2213: متوسط استخدام PRB ~91% مع قمم تقارب 95%؛ الإنصاف ~0.75؛ انحراف التخصيص 39؛ حصة الحركة ذات الأولوية العالية ~30% مقابل أفضل جهد ~72%؛ وزمن تأخير p95 للمُجدوِل ~43 مللي ثانية؛ وSINR ~6 ديسيبل. التالي، سأحلل سلسلة زمنية لـ PRB لربط الانحراف مع الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms recurrent PRB saturation around shoulder periods and stronger skew as UE count ramps; the p95–p50 throughput gap widens during these intervals. This indicates the scheduler weighting favors best-effort bursts. I propose conservative tuning to increase fairness and raise high-priority weighting to reduce skew.",
+      "message_ar": "تؤكد السلسلة الزمنية تشبع PRB المتكرر حول فترات الكتف وتزايد الانحراف مع ارتفاع عدد المستخدمين؛ كما يتسع فارق إنتاجية p95–p50 خلال هذه الفترات. يشير ذلك إلى ترجيح في المُجدوِل لصالح تدفقات أفضل جهد. أقترح ضبطاً تحفظياً لرفع الإنصاف وزيادة وزن الحركة ذات الأولوية العالية لتقليل الانحراف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning now.",
+      "message_ar": "تفضل بتنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning: increased fairness controls, modestly raised high-priority weights, added a small per-UE PRB floor, and tightened burst caps. No service interruption observed. I’ll monitor for improved fairness and lower latency.",
+      "message_ar": "تم تطبيق ضبط معلمات على الموقع: تعزيز ضوابط الإنصاف، ورفع أوزان الحركة ذات الأولوية العالية بشكل متحفظ، وإضافة حد أدنى بسيط من PRB لكل مستخدم، وتشديد حدود الاندفاع. لم تُلاحظ أي انقطاعات. سأراقب تحسن الإنصاف وانخفاض التأخير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 20 minutes, fairness is ~0.84, p95 scheduler latency ~32 ms, and the p95–p50 throughput gap is narrowing. Keep monitoring.",
+      "message_ar": "بعد 20 دقيقة، الإنصاف ~0.84، وزمن تأخير p95 للمُجدوِل ~32 مللي ثانية، وفجوة إنتاجية p95–p50 تتقلص. استمر بالمراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will track PRB utilization, allocation skew, and QoS shares over the next 2 hours, targeting ~40% high-priority share with stable latency. I’ll flag any regression immediately.",
+      "message_ar": "تم. سأتابع استخدام PRB وانحراف التخصيص وحصص QoS خلال الساعتين القادمتين، مستهدفاً ~40% لحصة الأولوية العالية مع تأخير مستقر. سأبلغ فوراً عن أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted—latency spikes are down and allocation skew is easing. The action taken was site parameter tuning on scheduler fairness and QoS weights. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن—انخفضت ذروات التأخير وتراجع انحراف التخصيص. تم تنفيذ ضبط معلمات على الموقع لإنصاف المُجدوِل وأوزان QoS. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring through the next busy hour and report results. We tuned scheduler fairness and QoS weights with conservative limits; if metrics degrade, we will roll back to prior values, and if congestion persists despite fair allocation, we will escalate for capacity relief.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة التالية ونقدم النتائج. قمنا بضبط إنصاف المُجدوِل وأوزان QoS بحدود تحفظية؛ وإذا تدهورت المؤشرات فسنُرجع القيم السابقة، وإذا استمرت الازدحامات رغم التوزيع العادل فسنصعّد لطلب تعزيز السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-ULB-2213",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-ULB-2213",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness, QoS_weights, burst_cap, min_PRB_per_UE"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban 5G NR macro cell: sustained high PRB utilization, strong allocation skew, low fairness, and elevated p95 scheduler latency during the shoulder period. Verified via counters and PRB time series, then mitigated with site parameter tuning on scheduler fairness, QoS weights, per-UE PRB floor, and burst caps. Monitoring will continue through the next busy hour to ensure fairness and latency remain improved.",
+    "ar": "تم تشخيص شذوذ في تخصيص الموارد على خلية ماكرو NR حضرية: استخدام PRB مرتفع بشكل مستمر، وانحراف قوي في التخصيص، وإنصاف منخفض، وارتفاع في زمن تأخير p95 للمُجدوِل خلال فترة الكتف. تم التحقق عبر العدادات والسلسلة الزمنية لـ PRB، ثم تم التخفيف من خلال ضبط معلمات الموقع لإنصاف المُجدوِل وأوزان QoS وحد أدنى لكل مستخدم وحدود الاندفاع. ستستمر المراقبة خلال ساعة الذروة التالية لضمان استمرار تحسن الإنصاف والتأخير."
+  }
+}

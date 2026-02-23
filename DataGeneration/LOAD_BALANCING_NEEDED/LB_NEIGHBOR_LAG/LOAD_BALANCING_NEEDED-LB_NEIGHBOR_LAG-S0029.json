@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0029",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban 5G NR macro cell during shoulder hours shows high PRB utilization (~89%) with 279 users while neighbors average ~59% PRB, indicating a load imbalance.",
+    "ar": "خلية ماكرو 5G NR حضرية خلال ساعات الذروة الجزئية تُظهر إشغال PRB مرتفعًا (~89%) مع 279 مستخدمًا بينما يبلغ متوسط الجيران ~59%، مما يشير إلى عدم توازن في الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell in shoulder hours with heavy eMBB streaming. PRB ~89%, 279 users; neighbors ~59% PRB. HO out/in 38/25. RSRQ -13 dB, SINR 5 dB. No alarms. Need assistance.",
+      "message_ar": "خلية ماكرو 5G NR حضرية خلال ساعات الذروة الجزئية مع حركة eMBB كثيفة للبث. إشغال PRB ~89% و279 مستخدمًا؛ الجيران ~59%. خروجات/دخول عمليات التسليم 38/25. RSRQ -13 dB وSINR 5 dB. لا إنذارات. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will assess neighbor load distribution and mobility bias, then apply targeted load-balancing tuning if warranted. Please share the cell ID and approve access for a 4h review.",
+      "message_ar": "تم الاستلام. سأقيّم توزيع الحمل على الجيران وانحياز التنقل، ثم أطبق ضبطًا مستهدفًا لموازنة الحمل إذا لزم. يرجى مشاركة معرف الخلية والموافقة على الوصول لمراجعة مدتها 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UTR-12345-S1. Access approved for 4h.",
+      "message_ar": "معرّف الخلية: NR-UTR-12345-S1. الوصول معتمد لمدة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor load audit on NR-UTR-12345-S1. Preliminary: N1=NR-UTR-12345-S2 at ~52% PRB, N2=NR-UTR-12345-S3 at ~56%; serving at 89% with HO out/in 38/25. Clear imbalance. Proposal: slight bias toward N1/N2 via load-based HO tuning targeting 8–12% offload. Approve?",
+      "message_ar": "أجري تدقيق حمل الجيران على NR-UTR-12345-S1. مبدئيًا: N1=NR-UTR-12345-S2 عند ~52% PRB، وN2=NR-UTR-12345-S3 عند ~56%؛ الخلية الخادمة 89% مع تسليمات خروج/دخول 38/25. عدم توازن واضح. المقترح: إزاحة طفيفة نحو N1/N2 عبر ضبط تسليم قائم على الحمل لاستهداف تحويل 8–12% من الحركة. هل الموافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed.",
+      "message_ar": "موافق. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing load-balancing parameter optimization on NR-UTR-12345-S1 toward N1/N2: reduce serving bias slightly and enable earlier offload under congestion with minor hysteresis tweak. Change committed; monitoring immediate impact.",
+      "message_ar": "أقوم بتنفيذ تحسين معلمات موازنة الحمل على NR-UTR-12345-S1 باتجاه N1/N2: تقليل الانحياز للخادمة بشكل طفيف وتمكين تحويل أبكر تحت الازدحام مع تعديل بسيط للهسترة. تم اعتماد التغيير؛ أراقب الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No alarms post-change. Counters updating.",
+      "message_ar": "لا إنذارات بعد التغيير. العدادات قيد التحديث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial impact (10 min): serving PRB ~78%; HO out/in ~34/31; RSRQ improved ~0.8 dB. Neighbor PRB up: N1 ~61%, N2 ~64%. Continuing to observe.",
+      "message_ar": "الأثر الأولي (10 دقائق): إشغال PRB للخادمة ~78%؛ تسليمات خروج/دخول ~34/31؛ تحسن RSRQ بنحو ~0.8 dB. ارتفع إشغال الجيران: N1 ~61% وN2 ~64%. أواصل المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "User streaming is steadier with fewer stalls; radio quality slightly better.",
+      "message_ar": "البث للمستخدمين أكثر استقرارًا مع حالات توقف أقل؛ جودة الراديو أفضل قليلًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend holding at 20 min: users ~255, PRB 76–79%, interference stable, mobility normalized. Will watch the next busy period.",
+      "message_ar": "الاتجاه ثابت عند 20 دقيقة: ~255 مستخدمًا، PRB بين 76–79%، التداخل مستقر، التنقل طبيعي. سأراقب الفترة المزدحمة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Looks improved: PRB utilization trending down and handover balance better. Action taken: neighbor audit followed by load-balancing parameter optimization. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "يبدو أنه تحسن: انخفاض اتجاه إشغال PRB وتحسن توازن التسليمات. الإجراء المتخذ: تدقيق الجيران تلاه تحسين معلمات موازنة الحمل. لنواصل المراقبة خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor over the next 2–4 hours and update on PRB, user counts, and handover balance. If congestion returns, we will roll back the bias change and escalate for capacity/features as needed.",
+      "message_ar": "تم—سوف نراقب خلال الساعات 2–4 القادمة ونقدم تحديثًا حول PRB وأعداد المستخدمين وتوازن التسليمات. إذا عاد الازدحام، سنعيد الإزاحة كما كانت ونصعّد لإضافة سعة/ميزات عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban 5G NR macro: serving PRB at ~89% with neighbors near ~59% and skewed handovers. Executed a neighbor load audit and applied targeted load‑balancing parameter tuning to shift traffic to underutilized neighbors. Early results show reduced PRB on the serving cell and improved handover balance; continued monitoring is in place.",
+    "ar": "تم تشخيص عدم توازن في الحمل على خلية ماكرو 5G NR حضرية: إشغال الخلية الخادمة ~89% بينما الجيران ~59% مع تسليمات غير متوازنة. تم تنفيذ تدقيق حمل للجيران وتطبيق ضبط مستهدف لمعلمات موازنة الحمل لتحويل الحركة إلى الجيران الأقل إشغالًا. تظهر النتائج الأولية انخفاض إشغال PRB على الخادمة وتحسن توازن التسليمات؛ والمتابعة مستمرة."
+  }
+}

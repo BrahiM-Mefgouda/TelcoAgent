@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0008",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G NR macro cell over the last 6h shows ~3 backhaul link flaps per hour with loss bursts, p95 backhaul latency 34 ms and 12 ms jitter, 707 interface errors, ~185 users, and only ~19 Mbps downlink despite moderate radio (SINR 9 dB, RSRP -101 dBm), affecting eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحي خلال آخر 6 ساعات تُظهر نحو 3 تقطعات في الوصلة الخلفية بالساعة مع دفعات فقدان، كمون p95 = 34 مللي ثانية وتذبذب 12 مللي ثانية، و707 أخطاء على الواجهة، وحوالي 185 مستخدمًا وسرعة تنزيل ~19 ميغابت/ث فقط رغم مؤشرات راديوية متوسطة (SINR ‏9 dB وRSRP ‏-101 dBm)، مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector over the last 6h shows backhaul link flaps ~3/hr, burst loss ~1.26, p95 backhaul latency 34 ms, jitter 12 ms, and 707 interface errors. Around 185 users with eMBB streaming see ~19 Mbps DL; radio is moderate (RSRP -101 dBm, SINR 9 dB).",
+      "message_ar": "قطاع ماكرو NR في منطقة ضواحي خلال آخر 6 ساعات يظهر تقطعات في الوصلة الخلفية ~3/ساعة، دفعات فقدان ~1.26، كمون p95 = 34 مللي ثانية، تذبذب 12 مللي ثانية، و707 أخطاء على الواجهة. حوالي 185 مستخدمًا مع بث eMBB يرون سرعة تنزيل ~19 ميغابت/ث؛ مؤشرات الراديو متوسطة (RSRP ‏-101 dBm وSINR ‏9 dB)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by checking OSS counters and logs for the last 6h on the affected cell. Please share the cell ID and confirm access.",
+      "message_ar": "مفهوم. سأبدأ بفحص عدّادات وسجلات النظام لآخر 6 ساعات على الخلية المعنية. الرجاء تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-112-S1; access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-112-S1؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check on NR-SUB-112-S1 for 6h to validate backhaul resets, interface errors, flaps, and latency/jitter. Findings: link flaps average ~3/hr; interface errors spike near busy periods; loss bursts align with DL dips; radio KPIs are relatively steady versus transport. I propose targeted backhaul-resilience tuning on the cell to mitigate jitter/loss. Please approve.",
+      "message_ar": "أُجري فحص النظام على NR-SUB-112-S1 لمدة 6 ساعات للتحقق من عمليات إعادة الضبط وأخطاء الواجهة والتقطعات والكمون/التذبذب. النتائج: تقطعات بمعدل ~3/ساعة؛ ارتفاع في أخطاء الواجهة قرب أوقات الذروة؛ دفعات الفقدان تتزامن مع هبوط التنزيل؛ مؤشرات الراديو مستقرة نسبيًا مقارنة بمسار النقل. أقترح ضبطًا لتعزيز تحمّل الخلية للتذبذب والفقدان على الوصلة الخلفية. الرجاء الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning.",
+      "message_ar": "موافَق على المضي في الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying site parameter tuning to improve backhaul resilience: enable buffering and traffic pacing for burst loss, enhance keepalive sensitivity, and use more conservative resource allocation under jitter. Change committed; no service impact expected beyond sub-second flow adjustments. I will watch immediate counters.",
+      "message_ar": "أطبّق ضبط معلمات الموقع لتحسين تحمّل الوصلة الخلفية: تفعيل التخزين المؤقت وتنعيم الإرسال ضد دفعات الفقدان، تعزيز حساسية الحفاظ على الارتباط، واعتماد تخصيص موارد أكثر تحفظًا أثناء التذبذب. تم تنفيذ التغيير؛ لا يُتوقع أثر خدمي سوى تعديلات دون الثانية على التدفقات. سأراقب المؤشرات فورًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change quick check: p95 latency holding ~30–32 ms, jitter trending down, and no new link flaps in 10 minutes.",
+      "message_ar": "فحص سريع بعد التغيير: كمون p95 مستقر ~30–32 مللي ثانية، التذبذب في انخفاض، ولا تقطعات جديدة خلال 10 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. Given earlier recurring upstream flaps, I will raise a transport follow-up ticket to investigate the backhaul path beyond the site. Please confirm.",
+      "message_ar": "تقدّم جيد. نظرًا للتقطعات المتكررة في الجزء العلوي سابقًا، سأفتح بلاغ متابعة لفريق النقل لفحص مسار الوصلة الخلفية خارج الموقع. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "مؤكّد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-BH-04172 to transport: “Suburban NR macro NR-SUB-112-S1 with recurrent backhaul flaps (~3/hr) and 707 interface errors over 6h; mitigated via site parameter tuning; request upstream circuit check.” I’ll attach post-change KPIs.",
+      "message_ar": "تم إنشاء البلاغ DU-BH-04172 إلى فريق النقل: «قطاع ماكرو NR في الضواحي NR-SUB-112-S1 مع تقطعات متكررة (~3/ساعة) و707 أخطاء واجهة خلال 6 ساعات؛ جرى التخفيف عبر ضبط معلمات الموقع؛ نرجو فحص الدارة في الجزء العلوي». سأرفق مؤشرات ما بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: loss bursts reduced and downlink throughput stabilizing around 22–24 Mbps. Action taken was site parameter tuning, and ticket DU-BH-04172 is open. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: انخفضت دفعات الفقدان واستقرت سرعة التنزيل عند 22–24 ميغابت/ث. الإجراء كان ضبط معلمات الموقع، والبلاغ DU-BH-04172 مفتوح. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own monitoring for the next busy hour and update DU-BH-04172 afterward. If flaps recur, we will escalate to transport and consider rolling back the tuning if any adverse effects appear; otherwise we will keep the tuning in place.",
+      "message_ar": "تم الاستلام—سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث DU-BH-04172 بعدها. إذا عادت التقطعات، سنصعّد إلى فريق النقل وننظر في التراجع عن الضبط إن ظهرت آثار سلبية؛ وإلا سنبقي الضبط قائمًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Degraded backhaul was confirmed on a suburban NR macro: OSS counters showed recurrent link flaps, high interface errors, and latency/jitter spikes while radio KPIs remained relatively stable. User impact was mitigated via site parameter tuning to improve backhaul resilience, and a transport ticket was raised for upstream circuit investigation. We will monitor through the next busy hour and update with post-change KPIs.",
+    "ar": "تم تأكيد تدهور الوصلة الخلفية في موقع NR ماكرو بالضواحي: أظهرت عدّادات النظام تقطعات متكررة وأخطاء واجهة مرتفعة وارتفاعات في الكمون/التذبذب بينما بقيت مؤشرات الراديو مستقرة نسبيًا. جرى تخفيف الأثر على المستخدمين عبر ضبط معلمات الموقع لتحسين تحمّل الوصلة الخلفية، وتم فتح بلاغ لفريق النقل للتحقق من الدارة في الجزء العلوي. سنواصل المراقبة خلال ساعة الذروة القادمة ونحدّث النتائج بعد ذلك."
+  }
+}

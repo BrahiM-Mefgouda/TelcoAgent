@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0018",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro over the last 6h shows widened TA spread (p50 315 m, p95 354 m) with 24% distant-serving users, weak signal at -114 dBm, 206 users, PRB ~74%, and slow data (p50 ≈ 5 Mbps).",
+    "ar": "موقع ماكرو NR في منطقة شبه حضرية خلال آخر 6 ساعات يظهر اتساع توزيع TA (الوسيط 315 م، 95% عند 354 م) مع 24% مستخدمين مخدومين من مسافات بعيدة، إشارة ضعيفة -114 dBm، 206 مستخدمين، إشغال موارد ~74%، وبيانات بطيئة (وسيط ≈ 5 Mbps)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over mixed hours shows widened TA, distant-serving at 24%, HO success ~81.8%, RSRP ~-114 dBm, PRB ~74%, and slow data around 5 Mbps. Please investigate TA drift/mis-association.",
+      "message_ar": "خلية ماكرو NR في منطقة شبه حضرية عبر ساعات مختلطة تُظهر اتساعاً في TA، ونسبة مستخدمين مخدومين من مسافات بعيدة 24%، ونسبة نجاح التسليم ~81.8%، وRSRP حوالي -114 dBm، وإشغال موارد ~74%، وبيانات بطيئة ~5 Mbps. الرجاء التحقيق في انجراف TA/الارتباط الخاطئ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll lead with a baseline health check for the last 6h, then analyze TA time series; if confirmed, I’ll apply light mobility/HO parameter tuning to reduce mis-association. Share the target cell ID and approve access.",
+      "message_ar": "مفهوم. سأبدأ بفحص أساسي لصحة الخلية لآخر 6 ساعات، ثم تحليل سلسلة زمنية لـ TA؛ وإذا تأكدت المشكلة سأطبق ضبطاً خفيفاً لمعاملات التنقل/التسليم للحد من الارتباط الخاطئ. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-1001-L1. You have access approval for the 6h window.",
+      "message_ar": "معرّف الخلية: NR-SUB-1001-L1. لديك موافقة للوصول ضمن نافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the 6h baseline now. Results: no active alarms, load moderate-high but stable, UL/DL power nominal, neighbor relations present. Metrics confirm weak serving signal and elevated distant-serving; HO failures at 11% indicate mobility strain. TA drift suspected.",
+      "message_ar": "أقوم الآن بفحص الأساس لـ6 ساعات. النتائج: لا إنذارات نشطة، الحمل متوسط-عالٍ لكنه مستقر، قدرة UL/DL طبيعية، علاقات الجيران موجودة. المقاييس تؤكد إشارة خدمة ضعيفة وارتفاع المستخدمين البعيدين؛ فشل التسليم 11% يشير إلى ضغط في التنقل. يُشتبه بانجراف TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will pull the TA distribution time series across the same 6h, correlating with load and mobility outcomes. Please confirm to proceed.",
+      "message_ar": "التالي، سأجلب السلسلة الزمنية لتوزيع TA لنفس مدة 6 ساعات مع ربطها بالحمل ونتائج التنقل. يرجى التأكيد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Proceed with the TA time-series analysis.",
+      "message_ar": "مؤكد. تابع تحليل السلسلة الزمنية لـ TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA analysis complete: drift index ~0.46 with p50 rising towards busy hours; distant-serving peaks ~28% at high load; p95 ~354 m persistent. These patterns align with mis-association and explain slow data. Mitigation is to tighten mobility thresholds and reduce serving bias.",
+      "message_ar": "اكتمل تحليل TA: مؤشر الانجراف ~0.46 مع ارتفاع الوسيط نحو ساعات الذروة؛ تبلغ ذروة المستخدمين البعيدين ~28% عند الحمل العالي؛ p95 ~354 م مستمر. هذه الأنماط تتماشى مع الارتباط الخاطئ وتُفسّر بطء البيانات. التخفيف هو تشديد عتبات التنقل وتقليل انحياز الخلية الخادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose a controlled optimization: slightly reduce serving cell bias, marginally increase offsets toward closer neighbors, and apply a minor beam footprint adjustment to re-anchor UEs locally. No service interruption and fully reversible. Approve?",
+      "message_ar": "أقترح تحسيناً مضبوطاً: تقليل بسيط لانحياز الخلية الخادمة، وزيادة طفيفة للإزاحات نحو الجيران الأقرب، مع ضبط طفيف لبصمة الحزمة لإعادة تثبيت المستخدمين محلياً. بدون انقطاع خدمة وقابل للعكس بالكامل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the limited change now.",
+      "message_ar": "موافق على تنفيذ التغيير المحدود الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: reduced serving bias, small positive offsets to closer neighbors, and a minor beam adjustment. Expect TA median to drop and distant-serving to fall by several points within minutes. I’ll watch early counters for stabilization.",
+      "message_ar": "تم تطبيق التحسين: خفض انحياز الخلية الخادمة، وزيادات طفيفة للإزاحات نحو الجيران الأقرب، وضبط طفيف للحزمة. من المتوقع انخفاض وسيط TA وتراجع المستخدمين البعيدين بعدة نقاط خلال دقائق. سأراقب المؤشرات المبكرة للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: distant-served users are trending down. The parameter optimization seems to be taking effect. Let’s monitor through the next busy hour.",
+      "message_ar": "ملاحظة مبكرة: المستخدمون المخدومون من مسافات بعيدة في اتجاه هبوطي. يبدو أن تحسين المعلمات بدأ يؤتي ثماره. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and report on TA spread, distant-serving ratio, and user throughput. If degradation reappears, we’ll roll back the change and escalate for deeper neighbor/physical alignment review.",
+      "message_ar": "تم التأكيد. سنراقب خلال ساعة الذروة القادمة ونبلغ عن تشتت TA، ونسبة المستخدمين البعيدين، ومعدل سرعة المستخدمين. إذا عادت حالة التدهور، سنعيد التغييرات ونتصعّد لمراجعة أعمق للجيران/المواءمة الفيزيائية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-1001-L1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-1001-L1",
+        "TA",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility thresholds, CIO, beam footprint"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift causing mis-association and slow data on a suburban NR macro by running a baseline health check and TA time-series analysis over 6 hours. Implemented site parameter tuning to tighten mobility thresholds, adjust bias toward closer neighbors, and refine the beam footprint. We will monitor TA spread and distant-serving ratio through the next busy hour to confirm sustained improvement.",
+    "ar": "تم تشخيص انجراف توزيع TA الذي يسبب الارتباط الخاطئ وبطء البيانات على خلية ماكرو NR في منطقة شبه حضرية عبر فحص أساسي وتحليل سلسلة زمنية لـ TA لمدة 6 ساعات. تم تنفيذ ضبط لمعلمات الموقع لتشديد عتبات التنقل، وتعديل الانحياز لصالح الجيران الأقرب، وتحسين بصمة الحزمة. سنراقب تشتت TA ونسبة المستخدمين البعيدين خلال ساعة الذروة القادمة للتأكد من استمرار التحسن."
+  }
+}

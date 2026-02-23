@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0008",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell shows a 64 ms median latency over the last 3h shoulder window with ~60% resource use, ~10.7% BLER, 155 users, and SINR 7 dB—requesting investigation of the latency SLA breach.",
+    "ar": "خلية ماكرو NR في منطقة ضاحية تُظهر كمونًا وسيطيًا 64 مللي ثانية خلال نافذة 3 ساعات في فترة الحمل المتوسط مع استخدام موارد ~60% وBLER ~10.7% و155 مستخدمًا وSINR بمقدار 7 dB—نرجو التحقيق في خرق SLA للكمون."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-MACRO-78121 shows a latency SLA breach in the last 3h shoulder window: median latency 64 ms, BLER ~10.7%, PRB ~60%, 155 users, SINR 7 dB, RSRQ -15 dB. Please investigate; access approved.",
+      "message_ar": "خلية ماكرو NR-MACRO-78121 في منطقة ضاحية لديها خرق SLA للكمون خلال آخر 3 ساعات (فترة الحمل المتوسط): كمون وسيطي 64 مللي ثانية، BLER ~10.7%، استخدام PRB ~60%، 155 مستخدمًا، SINR بمقدار 7 dB وRSRQ -15 dB. يرجى التحقيق؛ تم منح الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initiating diagnostics: I will query OSS for NR-MACRO-78121 over the last 3h to validate load, BLER, radio quality, and QoS class distribution, then correlate with latency trends.",
+      "message_ar": "أبدأ التشخيص: سأستعلم من OSS لخلية NR-MACRO-78121 خلال آخر 3 ساعات للتحقق من الحمل وBLER وجودة الراديو وتوزيع فئات QoS ثم ربطها باتجاهات الكمون."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No active alarms observed locally; proceed. Some users reported buffering during video streams.",
+      "message_ar": "لا توجد إنذارات نشطة محليًا؛ تفضل بالمتابعة. أبلغ بعض المستخدمين عن توقف مؤقت أثناء بث الفيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: PRB ~60% with 150–160 users; BLER 9–12% with short spikes; RSRQ -15 dB, SINR ~7 dB; no backhaul errors. Low-latency bearers are present but see higher HARQ re-transmissions. Moving to pull the latency time series.",
+      "message_ar": "تم فحص OSS: استخدام PRB ~60% مع 150–160 مستخدمًا؛ BLER بين 9–12% مع ارتفاعات قصيرة؛ RSRQ -15 dB وSINR ~7 dB؛ لا أخطاء في الربط الخلفي. توجد حوامل ذات كمون منخفض لكن مع زيادة في عمليات إعادة الإرسال HARQ. أنتقل لاستخراج سلسلة زمنية للكمون."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling latency time series for the last 3h to correlate with BLER and load.",
+      "message_ar": "أقوم باستخراج السلسلة الزمنية للكمون خلال آخر 3 ساعات لربطها مع BLER والحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency trend shows bursts to 70–80 ms aligned with BLER spikes; p50 recovers off-shoulder but violates during shoulder. Counters indicate queuing from radio errors rather than pure congestion.",
+      "message_ar": "اتجاه الكمون يُظهر ارتفاعات إلى 70–80 مللي ثانية متزامنة مع ارتفاعات BLER؛ يتحسن الوسيط خارج فترة الحمل المتوسط لكنه يخالف خلالها. العدادات تشير إلى اصطفاف سببه أخطاء الراديو أكثر من الازدحام البحت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: apply a low-risk optimization—slightly increase robustness (e.g., more conservative MCS target and higher control channel aggregation), adjust QoS weights to favor low-latency bearers, and minor RLC buffer tuning to trim head-of-line delay. Please approve live change.",
+      "message_ar": "الاقتراح: تطبيق تحسين منخفض المخاطر—زيادة طفيفة في المتانة (مثل هدف MCS أكثر تحفظًا وزيادة تجميع قناة التحكم)، وضبط أوزان QoS لصالح الحوامل منخفضة الكمون، مع ضبط بسيط لمخزن RLC لتقليل تأخير مقدمة الصف. يرجى الموافقة على التغيير الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied and committed; quick post-check shows BLER ~6–7%, RSRQ unchanged, and median latency trending toward ~40 ms. No drops or throughput regression detected. I will observe for 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين واعتماده؛ الفحص اللاحق السريع يُظهر BLER ~6–7% وRSRQ دون تغيير والكمون الوسطي يتجه نحو ~40 مللي ثانية. لا توجد حالات انقطاع أو تراجع في السرعة. سأراقب لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: median latency is now ~38 ms and BLER is trending down. Action taken was site parameter tuning/config push. Recommend monitoring through the next busy hour.",
+      "message_ar": "نلاحظ تحسنًا: الكمون الوسطي الآن ~38 مللي ثانية وBLER في اتجاه هابط. الإجراء كان ضبط معلمات الموقع/دفع الإعدادات. أوصي بالمراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor through the next busy hour and update with latency, BLER, and user impact. If latency regresses or BLER climbs, we will escalate to interference mitigation; if any adverse effects appear, we will roll back the change.",
+      "message_ar": "تم التأكيد—سنراقب خلال ساعة الذروة القادمة ونقدم تحديثًا يتضمن الكمون وBLER وتأثير المستخدمين. إذا عاد الكمون للارتفاع أو ارتفع BLER، سنصعّد إلى إجراءات تخفيف التداخل؛ وإذا ظهرت آثار سلبية سنعود عن التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA violation on a suburban NR macro under moderate load where elevated BLER and poor RSRQ caused retransmissions and queueing delays. Validated the issue via OSS checks and latency time series, then applied site parameter tuning to increase robustness and adjust QoS weights. Post-change, BLER fell and median latency improved; the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص خرق SLA للكمون على خلية ماكرو NR في منطقة ضاحية مع حمل متوسط حيث تسبب ارتفاع BLER وRSRQ الضعيف في عمليات إعادة الإرسال وتأخيرات الاصطفاف. تم التحقق من المشكلة عبر فحص OSS والسلسلة الزمنية للكمون، ثم تنفيذ ضبط لمعلمات الموقع لزيادة المتانة وضبط أوزان QoS. بعد التغيير انخفض BLER وتحسن الكمون الوسطي؛ سيتم مراقبة الخلية خلال ساعة الذروة القادمة."
+  }
+}

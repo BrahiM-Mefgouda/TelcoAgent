@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0005",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban 5G macro cell shows PCI confusion in the last 12h: HO success ~89%, ping-pong 10%, RSRQ −13 dB, SINR 7 dB, BLER 11.9%, PRB ~66%, and p50 DL 14 Mbps impacting eMBB streaming.",
+    "ar": "خلية ماكرو 5G في منطقة ضاحوية تظهر التباس PCI خلال آخر 12 ساعة: نجاح التسليم ~89%، تبديل ذهاب‑إياب 10%، RSRQ −13 dB، وSINR 7 dB، وBLER 11.9%، واستغلال PRB ~66%، والتحميل الوسيط 14 ميغابت/ث يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector shows 12h degradation: HO success 89%, ping-pong 10%, RSRQ −13 dB, SINR 7 dB, BLER ~12%, ~211 users, p50 DL 14 Mbps. Field notes from eMBB streaming report instability near the shopping strip and neighbor PCI 429 frequently observed.",
+      "message_ar": "قطاع ماكرو NR في منطقة ضاحوية يظهر تدهوراً خلال آخر 12 ساعة: نجاح التسليم 89%، تبديل ذهاب‑إياب 10%، RSRQ −13 dB، وSINR 7 dB، وBLER ~12%، حوالي 211 مستخدماً، والتحميل الوسيط 14 ميغابت/ث. ملاحظات بث eMBB تشير إلى عدم استقرار قرب الشارع التجاري ورصد PCI الجار 429 بشكل متكرر."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis: first, run a neighbor/PCI audit to confirm any collision or confusion. Please confirm the target cell ID and approve access to the serving cell and its neighbors for the last 12h.",
+      "message_ar": "سأقود التشخيص: أولاً، إجراء تدقيق للجيران/PCI لتأكيد أي تصادم أو التباس. يرجى تأكيد معرّف الخلية المستهدفة والموافقة على الوصول إلى الخلية والخلايا المجاورة لآخر 12 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Target cell is NR-SUB-ALPHA-01-S1. Access is approved for the serving sector and all adjacent neighbors over the last 12h.",
+      "message_ar": "الخلية المستهدفة هي NR-SUB-ALPHA-01-S1. تمت الموافقة على الوصول للقطاع الخادم وجميع الجيران المجاورين خلال آخر 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor/PCI audit result: direct PCI collision found with NR-SUB-BETA-02-S2 (same PCI 158). There are 13 overlapping PCI-group exposures; neighbor 429 dominates during mobility, explaining ping-pong and poor RSRQ. Proposal: reassign the serving sector to a free PCI (312) and slightly increase mobility hysteresis/TTT to dampen flapping. Approve execution now?",
+      "message_ar": "نتيجة تدقيق الجيران/PCI: تم العثور على تصادم PCI مباشر مع NR-SUB-BETA-02-S2 (نفس PCI 158). هناك 13 حالة تداخل لمجموعات PCI؛ الجار 429 يهيمن أثناء الحركة، ما يفسر التبديل المتكرر وتدهور RSRQ. الاقتراح: إعادة تعيين PCI للقطاع الخادم إلى قيمة شاغرة (312) وزيادة طفيفة لهسترة/TTT في الحركة لتقليل التقلّب. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed: PCI replan applied (158 → 312), neighbor relations and broadcasts refreshed, and mobility thresholds nudged slightly to stabilize handovers. Brief user impact (<30s) observed and cleared. I’ll validate early counters over the next 5–10 minutes.",
+      "message_ar": "تم التنفيذ: تطبيق إعادة تخطيط PCI (158 → 312)، تحديث علاقات الجيران والبث، وضبط طفيف لعتبات الحركة لاستقرار التسليمات. تم رصد تأثير وجيز على المستخدمين (<30 ثانية) وتمت معالجته. سأتحقق من المؤشرات المبكرة خلال 5–10 دقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No new alarms and traffic is steady. Do you see early changes in handovers and errors?",
+      "message_ar": "لا توجد إنذارات جديدة وحركة المرور مستقرة. هل تظهر تغييرات مبكرة في التسليم والأخطاء؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial post-change: HO success ~93–94%, ping-pong ~6%, RSRQ improved to −10 dB, BLER ~7%. PRB ~64% and p50 DL ~15–16 Mbps. I’ll continue watching through the next busy hour.",
+      "message_ar": "النتائج الأولية بعد التغيير: نجاح التسليم ~93–94%، تبديل ذهاب‑إياب ~6%، تحسّن RSRQ إلى −10 dB، وBLER ~7%. استغلال PRB ~64% والتحميل الوسيط ~15–16 ميغابت/ث. سأستمر في المتابعة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field probe notes smoother streaming and fewer quick handovers along the strip; neighbor 429 rejects are down.",
+      "message_ar": "تفيد القياسات الميدانية ببث أكثر سلاسة وعدد أقل من التسليمات السريعة على طول الشارع؛ انخفضت حالات الرفض مع الجار 429."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change is documented for traceability and post-change monitoring. I’ll include a single reference in the closure summary.",
+      "message_ar": "تم توثيق التغيير لأغراض التتبع والمتابعة بعد التعديل. سأضمّن مرجعاً واحداً في الملخص الختامي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good trend: ping-pong is trending down and RSRQ is less negative after the PCI replan and mobility parameter optimization. Let’s monitor through the next busy hour; tracking under DU-PCI-04271.",
+      "message_ar": "الاتجاه جيد: تبديل الذهاب‑الإياب يتراجع وRSRQ أصبح أقل سلبية بعد إعادة تخطيط PCI وتحسين معاملات الحركة. لنراقب خلال ساعة الانشغال القادمة؛ المتابعة تحت DU-PCI-04271."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We own the next busy-hour monitoring and will update the ticket afterward with HO stability, RSRQ, BLER, and user impact. If regressions appear, we’ll roll back the PCI change and revert mobility tweaks; if neighbors degrade, we’ll coordinate a broader PCI/neighbor replan. Summary: neighbor/PCI audit → PCI reassigned to 312 → light mobility tuning; continued observation through the busy hour.",
+      "message_ar": "تم التأكيد. سنقوم بمتابعة ساعة الانشغال القادمة وسنحدّث التذكرة بعدها بمؤشرات استقرار التسليم وRSRQ وBLER وتأثير المستخدم. إذا ظهرت انتكاسات، سنرجع تغيير PCI ونُلغي تعديلات الحركة؛ وإذا تدهور أداء الجيران، سننسّق إعادة تخطيط أوسع لـPCI/الجيران. الملخص: تدقيق الجيران/PCI → إعادة تعيين PCI إلى 312 → ضبط خفيف للحركة؛ استمرار المراقبة خلال ساعة الانشغال."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-SUB-ALPHA-01-S1",
+        "all"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI replan to 312; light mobility hysteresis/TTT adjustment"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Document PCI collision fix and mobility tuning for NR-SUB-ALPHA-01-S1; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a direct PCI collision with an adjacent sector and widespread PCI reuse causing ping-pong and poor RSRQ/BLER. We mitigated by reassigning the serving sector PCI to a free value and applying light mobility threshold tuning; a tracking ticket DU-PCI-04271 was raised, and monitoring continues through the next busy hour.",
+    "ar": "أكد تحليل الجيران وجود تصادم PCI مباشر مع قطاع مجاور وإعادة استخدام واسعة لـPCI تسببت في تبديل ذهاب‑إياب وضعف RSRQ/BLER. قمنا بالتخفيف عبر إعادة تعيين PCI للقطاع الخادم إلى قيمة شاغرة مع ضبط خفيف لعتبات الحركة؛ تم فتح التذكرة DU-PCI-04271، وتستمر المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

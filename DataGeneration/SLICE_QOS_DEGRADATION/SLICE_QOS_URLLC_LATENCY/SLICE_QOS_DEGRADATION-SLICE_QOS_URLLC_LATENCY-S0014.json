@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0014",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban NR macro cell shows alarmed congestion with URLLC slice latency at 28 ms, jitter 11 ms, 34% slice violations, 62 requests/min, 147 users, and slow data (p50 4 Mbps) over the last 4h during peak hours.",
+    "ar": "خلية NR ماكرو حضرية تُظهر ازدحاماً مع إنذار؛ كمون شريحة URLLC عند 28 مللي ثانية، وتذبذب 11 مللي ثانية، ومعدل خروقات 34%، و62 طلب/دقيقة، و147 مستخدمًا، مع بيانات بطيئة (p50=4 ميجابت/ث) خلال آخر 4 ساعات في وقت الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing URLLC latency spikes 20–35 ms and jitter ~11 ms on an urban NR macro over the last 4h (peak hour). Slice violations ~34%, 62 req/min, p50 throughput 4 Mbps (slow data). Alarm active. Please assist.",
+      "message_ar": "نرصد ارتفاعات في كمون URLLC بين 20–35 مللي ثانية وتذبذب ≈11 مللي ثانية على موقع NR ماكرو حضري خلال آخر 4 ساعات (وقت الذروة). خروقات الشريحة ≈34%، و62 طلب/دقيقة، ومعدل نقل وسيطي 4 ميجابت/ث (بيانات بطيئة). يوجد إنذار نشط. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion alarm. I will start by pulling OSS counters and alarms for cell NR-URB-04567-SECTOR2 over the last 4h to check slice scheduler, queues, and host health. Please confirm the cell ID and authorize read access.",
+      "message_ar": "تم استلام إنذار الازدحام. سأبدأ بجلب العدّادات والتنبيهات من النظام التشغيلي لخلية NR-URB-04567-SECTOR2 لآخر 4 ساعات للتحقق من المجدول الخاص بالشريحة، الطوابير، وصحة المنصّة. يرجى تأكيد معرف الخلية وتفويض صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID NR-URB-04567-SECTOR2 confirmed. Read access approved for the last 4 hours.",
+      "message_ar": "تم تأكيد معرف الخلية NR-URB-04567-SECTOR2. تمت الموافقة على صلاحية القراءة لآخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review complete: no outages; PRB 70–85% at peaks; URLLC queue depth elevated with high head-of-line delay; CPU normal; backhaul RTT ~1 ms. This indicates insufficient URLLC reservation/preemption under load. Next, I will analyze the QoS latency time series for this cell over the last 4 hours. Approve?",
+      "message_ar": "اكتمل فحص النظام: لا انقطاعات؛ استخدام الموارد PRB بين 70–85% في الذروة؛ عمق طابور URLLC مرتفع مع تأخير رأس الطابور؛ وحدة المعالجة طبيعية؛ زمن عودة الربط الخلفي ≈1 مللي ثانية. يُشير ذلك إلى حجز/أولوية URLLC غير كافية تحت الحمل. التالي، سأحلّل السلسلة الزمنية لكمون جودة الخدمة لهذه الخلية خلال آخر 4 ساعات. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the latency time-series analysis.",
+      "message_ar": "موافَق على المضي بتحليل السلسلة الزمنية للكمون."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series results: p95 latency climbed 12→32 ms during two peaks; jitter 6→12 ms; QoS index ~0.31; violations 30–38%. Correlates with PRB peaks; admissions fine but preemption low. I propose a slice policy update: raise URLLC guaranteed share by ~10–15%, tighten preemption against lower classes, and cap buffers to reduce head-of-line delay. Proceed?",
+      "message_ar": "نتائج السلسلة الزمنية: كمون p95 ارتفع من 12→32 مللي ثانية خلال ذروتين؛ التذبذب من 6→12 مللي ثانية؛ مؤشر جودة الخدمة ≈0.31؛ الخروقات 30–38%. الترابط واضح مع ذروات استخدام الموارد؛ القبول طبيعي لكن الأولوية/الاستباق منخفضة. أقترح تحديث سياسة الشريحة: رفع الحصة المضمونة لـ URLLC بنحو 10–15%، تشديد الاستباق مقابل الفئات الأدنى، وتحديد حجم المخازن لخفض تأخير رأس الطابور. هل نمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead with the slice policy change now; transient impact is acceptable.",
+      "message_ar": "تابع تنفيذ تغيير سياسة الشريحة الآن؛ تأثير عابر مقبول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Policy applied. Immediate impact: PRB allocation shifted toward URLLC; median latency 17–19 ms, jitter 6–7 ms over the last 10 minutes; violations trending below 15%. No abnormal drops observed. I will keep watching counters for the next 30–60 minutes.",
+      "message_ar": "تم تطبيق السياسة. الأثر الفوري: إعادة توزيع PRB باتجاه URLLC؛ كمون الوسيط 17–19 مللي ثانية، والتذبذب 6–7 مللي ثانية خلال آخر 10 دقائق؛ الخروقات تتجه لأقل من 15%. لم تُسجّل حالات سقوط غير طبيعية. سأواصل المراقبة خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 minutes, we observe p95 latency ≈22 ms and violations around 12–14%; user count stable. Continue.",
+      "message_ar": "بعد 15 دقيقة، نلاحظ كمون p95 ≈22 مللي ثانية وخروقات بحدود 12–14%؛ عدد المستخدمين مستقر. استمر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. The congestion alarm has cleared, buffer occupancy is lower, and admissions remain stable. I recommend observing through the next busy hour for confirmation.",
+      "message_ar": "جيد. تم زوال إنذار الازدحام، وانخفض إشغال المخزن، والقبول مستقر. أوصي بالمراقبة خلال ساعة الذروة القادمة للتأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: slice violations trending down and latency stabilized around low 20s ms. Following the slice policy update, let's monitor through the next busy hour to ensure it holds.",
+      "message_ar": "تم تأكيد التحسّن: خروقات الشريحة في اتجاه هبوطي والكمون مستقر حول أوائل العشرينات مللي ثانية. بعد تحديث سياسة الشريحة، لنتابع المراقبة خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and share an update afterward. We updated the URLLC slice policy to raise guarantee and preemption. If metrics regress, we will escalate by tightening the policy further or roll back to the previous baseline; otherwise, we will keep the change.",
+      "message_ar": "سنقوم نحن بمتابعة المراقبة خلال ساعة الذروة القادمة وتقديم تحديث بعدها. قمنا بتحديث سياسة شريحة URLLC لرفع الضمان والأولوية/الاستباق. إذا تراجعت المؤشرات، سنصعّد عبر تشديد السياسة أكثر أو نعود إلى الإعداد السابق؛ وإلا فسنُبقي التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-04567-SECTOR2",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-04567-SECTOR2",
+        "QoS cls",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC",
+        "priority+guarantee"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice QoS degradation on an urban NR macro during peak hours: high PRB load and elevated head-of-line delay drove 28 ms latency, 11 ms jitter, and 34% violations. Verified via latency time series showing spikes aligned with load and low preemption. Applied a slice policy update to increase URLLC guarantee and priority, reducing latency and violations; monitoring through the next busy hour.",
+    "ar": "تم تشخيص تدهور جودة خدمة شريحة URLLC على موقع NR ماكرو حضري خلال أوقات الذروة: حمل PRB مرتفع وتأخير رأس الطابور المرتفع تسببا في كمون 28 مللي ثانية وتذبذب 11 مللي ثانية وخروقات 34%. تم التحقق عبر سلسلة زمنية للكمون تُظهر ارتفاعات متزامنة مع الحمل وانخفاض الاستباق. تم تنفيذ تحديث لسياسة الشريحة بزيادة الضمان والأولوية لـ URLLC مما خفّض الكمون والخروقات؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

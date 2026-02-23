@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0022",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell has slow data with an active congestion/outage alarm; 10 config mismatches and ~64h parameter drift coincide with 11% handover failures, ~8.4% BLER, PRB ~43%, and p50 throughput at 8 Mbps during peak eMBB.",
+    "ar": "خلية ماكرو 5G NR حضرية تعاني من بطء البيانات مع تنبيه ازدحام/انقطاع نشط؛ يوجد 10 اختلافات إعدادية وانحراف معلمات منذ ~64 ساعة بالتزامن مع فشل تسليم 11% وBLER حوالي 8.4%، واستخدام PRB نحو 43% ومتوسط إنتاجية 8 Mbps خلال ذروة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro site raising an active alarm; users report slow data at peak. Handover failures around 11% and BLER ~8.4% over the last 12h with eMBB streaming. Need assistance.",
+      "message_ar": "موقع ماكرو NR حضري يصدر تنبيهًا نشطًا؛ المستخدمون يبلّغون عن بطء البيانات في أوقات الذروة. فشل التسليم حوالي 11% وBLER ~8.4% خلال آخر 12 ساعة مع بث eMBB. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will check for configuration drift: first compare live vs baseline settings over the last 12h, then realign if mismatches are confirmed. Please confirm the target cell ID and allow read access.",
+      "message_ar": "مفهوم. سأتحقق من انحراف الإعدادات: أولًا مقارنة الإعدادات الفعلية مع الخط الأساس خلال آخر 12 ساعة، ثم إعادة المواءمة إذا تأكدت الاختلافات. يرجى تأكيد معرف الخلية والسماح بالوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_MACRO_URB_1321. Read access approved.",
+      "message_ar": "معرّف الخلية هو NR_MACRO_URB_1321. تم اعتماد وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running a 12h config audit on NR_MACRO_URB_1321. Findings: 10 parameters out of baseline with drift age ~64h. Notable deviations include HO A3 offset/hysteresis, UL power control delta, and beam weights. KPIs corroborate impact: HO failures 11%, BLER 8.4%, while PRB ~43% (no capacity ceiling). Root cause points to config mismatch. I propose pushing the baseline to realign; approve?",
+      "message_ar": "أجري تدقيق إعدادات لمدة 12 ساعة على NR_MACRO_URB_1321. النتائج: 10 معلمات خارج الخط الأساس وعمر الانحراف ~64 ساعة. الانحرافات البارزة تشمل إزاحة/هيستيريزيز A3 للتسليم، فرق تحكم القدرة الصاعد، وأوزان الحزم. المؤشرات تؤكد التأثير: فشل التسليم 11% وBLER 8.4%، بينما PRB ~43% (لا يوجد سقف سعة). السبب الجذري يشير إلى عدم توافق الإعدادات. أقترح دفع الخط الأساس لإعادة المواءمة؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the baseline. Proceed.",
+      "message_ar": "موافق على دفع الخط الأساس. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing safely: apply non-service-affecting items first, then HO thresholds, with a guard rollback timer. Executing the configuration push now… Completed successfully; post-check shows parameters aligned to baseline and services stable. I will observe counters briefly.",
+      "message_ar": "تنفيذ آمن: تطبيق العناصر غير المؤثرة على الخدمة أولًا، ثم عتبات التسليم، مع مؤقّت حماية للعودة. أنفّذ دفع الإعدادات الآن… تم بنجاح؛ الفحص بعد التنفيذ يُظهر مواءمة المعلمات مع الخط الأساس واستقرار الخدمات. سأراقب المؤشرات لفترة وجيزة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after a few minutes: handover failures are trending down and median throughput improved from ~8 to ~11 Mbps. No new alarms.",
+      "message_ar": "ملاحظة أولية بعد بضع دقائق: حالات فشل التسليم في انخفاض، ومتوسط الإنتاجية تحسّن من ~8 إلى ~11 Mbps. لا توجد تنبيهات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. For traceability and follow-up, I will create a change record describing the mismatch and the baseline realignment. Please confirm.",
+      "message_ar": "جيد. من أجل التتبع والمتابعة، سأفتح سجل تغيير يصف عدم التوافق وإعادة المواءمة إلى الخط الأساس. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Please create it.",
+      "message_ar": "مؤكد. يرجى إنشاؤه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change ticket created: DU-CFG-04219. Summary includes 10-parameter drift (age ~64h), impact on HO/BLER/throughput, and baseline push completed with verification.",
+      "message_ar": "تم إنشاء تذكرة التغيير: DU-CFG-04219. تشمل الخلاصة انحراف 10 معلمات (عمر ~64 ساعة)، وتأثيره على التسليم/BLER/الإنتاجية، وإتمام دفع الخط الأساس مع التحقق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Metrics look better: handover failures trending down and slow data easing. The action taken was a config push to baseline on NR_MACRO_URB_1321. Let’s monitor through the next busy hour and reference DU-CFG-04219.",
+      "message_ar": "المؤشرات أفضل: حالات فشل التسليم في انخفاض وبطء البيانات يتلاشى. الإجراء المتخذ كان دفع الإعدادات إلى الخط الأساس على NR_MACRO_URB_1321. لِنُراقِب خلال ساعة الذروة القادمة مع الإشارة إلى DU-CFG-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and update the ticket afterward. If issues recur, we will escalate to field checks, and if regression is observed, we will roll back to the prior configuration.",
+      "message_ar": "تم الاستلام. سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة بعد ذلك. إذا تكررت المشكلات سنصعّد إلى فحوصات ميدانية، وإذا ظهرت انتكاسة سنعود إلى الإعداد السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_MACRO_URB_1321",
+        "12h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "baseline_NR_macro_v5"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config mismatch corrected on NR_MACRO_URB_1321 by aligning to baseline; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Detected a configuration mismatch on the urban 5G NR macro cell with 10 parameters drifting for ~64 hours, causing slow data, elevated BLER, and handover failures. Executed a baseline configuration push to realign the cell and verified stability, then recorded the change in a ticket. We will monitor through the next busy hour to ensure sustained recovery.",
+    "ar": "تم اكتشاف عدم توافق في الإعدادات على خلية ماكرو 5G NR حضرية مع انحراف 10 معلمات لمدة ~64 ساعة، ما أدى إلى بطء البيانات وارتفاع BLER وفشل التسليم. تم تنفيذ دفع الإعدادات إلى الخط الأساس لإعادة المواءمة والتحقق من الاستقرار، ثم توثيق التغيير في تذكرة. سنراقب خلال ساعة الذروة القادمة لضمان استدامة التحسّن."
+  }
+}

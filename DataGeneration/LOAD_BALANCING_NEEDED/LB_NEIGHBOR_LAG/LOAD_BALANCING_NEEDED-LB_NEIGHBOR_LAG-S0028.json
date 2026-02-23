@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0028",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban NR macro cell shows ~92% resource load with ~300 users versus neighbors at ~45%, HO out/in 59/19 per 5 minutes, and moderate signal quality (SINR 12 dB, RSRQ -9 dB) during the shoulder hour with eMBB streaming traffic.",
+    "ar": "الموقع الحضري NR ماكرو يظهر ~92% استخداماً للموارد مع ~300 مستخدم مقابل ~45% لدى الجيران، ونِسَب تسليم/استقبال يدوي HO بنحو 59/19 لكل 5 دقائق، وجودة إشارة متوسطة (SINR ‏12 dB، RSRQ ‏-9 dB) خلال فترة الذروة الجزئية مع حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-MACRO-UTR-1101 is under heavy load this shoulder hour: ~92% resource use with ~300 users; neighbors average ~45%. Users reported occasional streaming buffering.",
+      "message_ar": "الموقع الحضري NR ماكرو NR-MACRO-UTR-1101 تحت حمل مرتفع في فترة الذروة الجزئية: استخدام الموارد ~92% مع ~300 مستخدم؛ متوسط الجيران ~45%. وردت شكاوى عن تقطّع بسيط في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an adjacency/load audit to confirm offload potential, then apply mild load‑balancing parameter tuning if justified. Please confirm access for changes within the next 4 hours.",
+      "message_ar": "سأبدأ بتدقيق الجوار/التحميل للتحقق من إمكانية تحويل الحمل، ثم تطبيق ضبط طفيف لمعاملات موازنة الحمل إذا لزم. يرجى تأكيد السماح بالتغييرات خلال الساعات الأربع القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for this cell and first-tier neighbors during the next 4 hours.",
+      "message_ar": "تمت الموافقة على الوصول لهذه الخلية وجيران الطبقة الأولى خلال الساعات الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing neighbor and handover balance review for NR-MACRO-UTR-1101 against first-tier neighbors, capturing current load, HO out/in, and thresholds.",
+      "message_ar": "أقوم بمراجعة الجيران وتوازن التسليم بين الخلية NR-MACRO-UTR-1101 وجيران الطبقة الأولى، مع جمع الحمل الحالي ونِسَب التسليم/الاستقبال والعتبات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Note: HO out has been higher than HO in today; no outages or planned work flagged.",
+      "message_ar": "ملاحظة: عمليات التسليم الخارجة أعلى من الداخلة اليوم؛ لا توجد أعطال أو أعمال مخطط لها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: 6 first‑tier neighbors are ≤55% utilized; HO out/in ≈59/19 per 5 minutes; imbalance index ~0.39. This indicates under‑offloading. I propose gentle load‑balancing tweaks (thresholds/offsets and load‑based triggers) to move ~10–15% traffic to those neighbors, with conservative limits. Proceed?",
+      "message_ar": "النتائج: 6 من جيران الطبقة الأولى استخدامهم ≤55%؛ التسليم خارج/داخل ≈59/19 لكل 5 دقائق؛ مؤشر عدم التوازن ~0.39. هذا يدل على ضعف تحويل الحمل. أقترح تعديلات طفيفة على موازنة الحمل (حدود/محازات ومحفزات مبنية على الحمل) لنقل ~10–15% من الحركة إلى هؤلاء الجيران بحدود تحفظية. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted load‑balancing tuning on NR-MACRO-UTR-1101 and immediate neighbors; commit complete; change is low risk with clean rollback ready.",
+      "message_ar": "جارٍ تطبيق ضبط موجه لموازنة الحمل على NR-MACRO-UTR-1101 وجيرانها المباشرين؛ تم اعتماد التغيير؛ المخاطر منخفضة مع استعداد لرجوع نظيف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "10 minutes after change: resource use dropped to ~80%, HO in from neighbors increased, no error spikes.",
+      "message_ar": "بعد 10 دقائق من التغيير: استخدام الموارد انخفض إلى ~80%، وزادت عمليات التسليم الداخلة من الجيران، ولا توجد طفرات أخطاء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post‑change checks look healthy. We'll track PRB in the 70–80% band and steadier HO in/out while neighbor utilization rises toward 55–60%.",
+      "message_ar": "فحوصات ما بعد التغيير تبدو سليمة. سنراقب بقاء استهلاك الموارد بين 70–80% واستقرار التسليم داخل/خارج مع ارتفاع استخدام الجيران نحو 55–60%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: resource use stabilizing near 78% and handover imbalance narrowing. Action taken was neighbor audit followed by load‑balancing parameter tuning. Suggest monitoring through the next 2–4 hours.",
+      "message_ar": "نرى تحسناً: استخدام الموارد يستقر قرب 78% وتقل فجوة عدم توازن التسليم. الإجراء كان تدقيق الجيران تلاه ضبط معاملات موازنة الحمل. أقترح المتابعة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next 2–4 hours and report status. If congestion resurges or neighbor KPIs regress, we will roll back the tuning or escalate to optimization/field for further action. Summary: performed neighbor/HO audit, then applied targeted site parameter tuning to offload traffic; continuing to monitor stability and HO balance.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونوافيكم بالحالة. إذا عاد الازدحام أو تراجعت مؤشرات الجيران، سنعيد الضبط السابق أو نصعّد إلى فريق التحسين/الميدان لاتخاذ إجراء إضافي. الملخص: أجرينا تدقيق الجيران/التسليم ثم طبقنا ضبطاً موجهاً لمعاملات الموقع لتحويل الحمل؛ ونواصل مراقبة الاستقرار وتوازن التسليم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban NR macro cell: the sector was ~92% utilized with high HO out vs low HO in while neighbors were underused. Executed a neighbor/HO audit and applied targeted load‑balancing site parameter tuning to increase offload to adjacent cells. Post‑change checks show PRB around ~80% and improved handover balance; ongoing monitoring will ensure stability.",
+    "ar": "تم تشخيص عدم توازن الحمل على موقع NR ماكرو حضري: كان القطاع يستخدم ~92% مع ارتفاع التسليم للخارج مقابل الداخل بينما الجيران منخفضو الاستخدام. نُفِّذ تدقيق للجيران/التسليم وتبِعه ضبط موجّه لمعاملات الموقع لموازنة الحمل وزيادة التحويل إلى الخلايا المجاورة. فحوصات ما بعد التغيير تُظهر استخداماً يقارب ~80% وتحسناً في توازن التسليم؛ ستستمر المراقبة لضمان الاستقرار."
+  }
+}

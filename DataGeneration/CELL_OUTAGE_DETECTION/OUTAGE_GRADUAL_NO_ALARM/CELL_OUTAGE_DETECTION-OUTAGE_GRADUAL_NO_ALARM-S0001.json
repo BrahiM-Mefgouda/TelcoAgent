@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_GRADUAL_NO_ALARM-S0001",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_GRADUAL_NO_ALARM",
+  "query": {
+    "en": "Suburban 5G macro cell over the last 6h shows slow data with availability at 65%, high call setup failures, and rising user drops, with no active alarm.",
+    "ar": "خلية ماكرو 5G في منطقة شبه حضرية خلال آخر 6 ساعات تُظهر بيانات بطيئة مع توفر 65% وارتفاعًا في فشل بدء المكالمات وزيادة في انقطاع المستخدمين، دون أي إنذار نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell degrading over the last 6h (shoulder period): p50 throughput ~3 Mbps (slow data), call setup failures ~36%, user drops ~13%, availability ~65%. No alarms; eMBB users report streaming issues.",
+      "message_ar": "خلية ماكرو NR في منطقة شبه حضرية تتدهور خلال آخر 6 ساعات (فترة الكتف): المتوسط الوسيط للسرعة ~3 ميجابت/ث (بيانات بطيئة)، فشل بدء المكالمات ~36%، انقطاعات المستخدمين ~13%، والتوفر ~65%. لا توجد إنذارات؛ مستخدمو eMBB يشتكون من مشاكل في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by checking the cell’s last 6h health in OSS to validate availability and accessibility without relying on alarms. Please share the exact cell ID and confirm read access.",
+      "message_ar": "سأبدأ بفحص صحة الخلية خلال آخر 6 ساعات عبر نظام التشغيل للتحقق من التوفر وسهولة الوصول دون الاعتماد على الإنذارات. الرجاء تزويدي بمعرّف الخلية والتأكيد على صلاحية الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SBR-21457-1. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-SBR-21457-1. صلاحية القراءة مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check completed for NR-SBR-21457-1 over 6h: no active alarms; unavailable time rising; accessibility degraded (RRC setup success ~64%); call setup failures consistent with your report; DL traffic volume down ~58%; neighbor handovers up ~35%; no recent resets. This indicates a gradual partial outage with no alarm.",
+      "message_ar": "تم فحص النظام لـ NR-SBR-21457-1 خلال 6 ساعات: لا توجد إنذارات نشطة؛ وقت عدم التوفر في ازدياد؛ سهولة الوصول متدهورة (نجاح إعداد RRC ~64%)؛ فشل بدء المكالمات متوافق مع تقريرك؛ حجم حركة البيانات الهابطة انخفض ~58%؛ محاولات التسليم إلى الجيران ارتفعت ~35%؛ لا وجود لإعادات تشغيل حديثة. يشير ذلك إلى انقطاع جزئي تدريجي بدون إنذار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No planned power or backhaul work. Weather is normal and NOC hasn’t flagged the site.",
+      "message_ar": "لا توجد أعمال مخطط لها للطاقة أو الوصلة الخلفية. الطقس طبيعي ولم يقم مركز العمليات بالإشارة إلى الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given the silent degradation, I recommend opening a fault ticket for a gradual/no-alarm outage on this NR macro cell with the symptoms and time window captured. Shall I proceed?",
+      "message_ar": "نظرًا للتدهور الصامت، أوصي بفتح تذكرة عطل بعنوان انقطاع تدريجي بدون إنذار لهذه الخلية NR الماكرو مع تضمين الأعراض وإطار الزمن. هل أتابع الإجراء؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the fault ticket.",
+      "message_ar": "تفضل بفتح تذكرة العطل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-OUTAGE-03192. Recorded: suburban NR macro, 6h shoulder window, availability ~65%, slow data (p50 ~3 Mbps), high call setup failures and drops, no active alarms, signs of partial outage. I will monitor metrics and add updates for operations/field follow-up.",
+      "message_ar": "تم إنشاء التذكرة: DU-OUTAGE-03192. الملاحظات: موقع شبه حضري NR ماكرو، نافذة 6 ساعات (فترة الكتف)، التوفر ~65%، بيانات بطيئة (الوسيط ~3 ميجابت/ث)، ارتفاع فشل بدء المكالمات والانقطاعات، لا توجد إنذارات نشطة، مؤشرات على انقطاع جزئي. سأراقب المؤشرات وأضيف التحديثات لمتابعة العمليات/الميدان."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Past 10 minutes show slight recovery: fewer call setup failures and p50 throughput nudging toward ~5 Mbps.",
+      "message_ar": "آخر 10 دقائق تظهر تحسنًا طفيفًا: انخفاضًا في فشل بدء المكالمات وارتفاع الوسيط للسرعة إلى نحو ~5 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted. I’ll continue tracking availability, accessibility, and neighbor offload to confirm stabilization before we adjust the incident severity.",
+      "message_ar": "تمت الملاحظة. سأواصل متابعة التوفر وإمكانية الوصول وتحويل الحركة للجيران للتأكد من الاستقرار قبل تعديل شدة الحادث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Accessibility is trending up and call setup failures are trending down after the ticket creation. Let’s monitor for the next 2–4 hours to confirm recovery; we’ll reference DU-OUTAGE-03192.",
+      "message_ar": "إمكانية الوصول في تحسن وفشل بدء المكالمات يتجه للانخفاض بعد إنشاء التذكرة. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة للتأكد من التعافي؛ سنشير إلى DU-OUTAGE-03192."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we’ll own the next 2–4 hours of monitoring and update DU-OUTAGE-03192 afterward. If degradation returns or worsens, we will escalate to field dispatch; if any interim manual action introduces regressions, we will revert it; if stable, we’ll proceed to closure consensus.",
+      "message_ar": "متفق—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونحدّث DU-OUTAGE-03192 بعدها. إذا عاد التدهور أو ازداد سوءًا فسوف نصعّد إلى إرسال فريق ميداني؛ وإذا تسببت أي خطوة يدوية مؤقتة في تراجع فسنعيدها؛ وإن استقر الأداء فسنمضي نحو الإغلاق بالتوافق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Detected a gradual, no-alarm partial outage on a suburban 5G macro cell with slow data, low availability, and high setup failures. Confirmed via an OSS health check that availability and accessibility degraded while traffic collapsed and no active alarms were present. Opened a fault ticket to drive incident response, with ongoing monitoring as mitigation until field/operations remediation is completed.",
+    "ar": "تم اكتشاف انقطاع جزئي تدريجي بدون إنذار في خلية ماكرو 5G بمنطقة شبه حضرية مع بيانات بطيئة وتوفر منخفض وارتفاع في فشل بدء المكالمات. تم التأكيد عبر فحص النظام بأن التوفر وإمكانية الوصول متدهوران مع انخفاض الحركة وعدم وجود إنذارات نشطة. تم فتح تذكرة عطل لتحفيز الاستجابة للحادث، مع استمرار المراقبة كإجراء تخفيفي حتى إتمام المعالجة من قِبل العمليات/الميدان."
+  }
+}

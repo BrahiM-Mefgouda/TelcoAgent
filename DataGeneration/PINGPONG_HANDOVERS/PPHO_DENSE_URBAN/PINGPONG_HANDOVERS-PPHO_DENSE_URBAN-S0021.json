@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0021",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Urban NR macro shows high ping‑pong handovers (28% over the last 4h) with weak signal (RSRP −112 dBm, RSRQ −11 dB), HO success ~81.8% and 15% failures during off‑peak eMBB traffic—requesting stabilization.",
+    "ar": "موقع ماكرو NR حضري يظهر معدّل تبديل ذهاباً وإياباً مرتفعاً (28% خلال آخر 4 ساعات) مع إشارة ضعيفة (RSRP −112 dBm و RSRQ −11 dB)، ونسبة نجاح تحويل ~81.8% مع 15% فشل خلال خارج الذروة لحركة eMBB—نطلب الاستقرار."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing elevated ping‑pong handovers on an urban NR macro in the last 4h: HO success ~82%, failures 15%, RSRP around −112 dBm, users ~273. Please investigate.",
+      "message_ar": "نلاحظ ارتفاعاً في تبديلات الذهاب والإياب على موقع ماكرو NR حضري خلال آخر 4 ساعات: نجاح التحويل ~82%، الفشل 15%، RSRP حوالي −112 dBm، وعدد المستخدمين ~273. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis for ping‑pong. Please provide the cell ID and approve access to pull 4h counters and neighbor relations; I’ll then proceed to stabilization steps.",
+      "message_ar": "سأتولى تشخيص مشكلة الذهاب والإياب. يرجى تزويدي بمعرّف الخلية والموافقة على سحب مؤشرات 4 ساعات وجداول الجيران، ثم سأتابع خطوات الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRCell-41023. You have approval to run read checks within the last 4h window.",
+      "message_ar": "معرّف الخلية: NRCell-41023. لديك الموافقة لإجراء فحوصات القراءة ضمن نافذة الأربع ساعات الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Starting with network counters and neighbor data for NRCell-41023 over 4h. Initial read shows frequent back‑and‑forth with neighbor NRCell-41024 on the same band; small A3 margin, low hysteresis, and short dwell time align with weak serving signal (RSRP −112 dBm, SINR 9 dB). HO attempts ~128 per 5 min.",
+      "message_ar": "أبدأ بمؤشرات الشبكة وبيانات الجيران لخلية NRCell-41023 خلال 4 ساعات. القراءة الأولية تُظهر تبديلات متكررة ذهاباً وإياباً مع الجار NRCell-41024 على نفس الحزمة؛ هامش A3 صغير، تباين منخفض، وزمن مكوث قصير، مع إشارة خدمة ضعيفة (RSRP −112 dBm و SINR 9 dB). محاولات التحويل ~128 كل 5 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Copy. Proceed to trend analysis for this window.",
+      "message_ar": "تم. تابع تحليل الاتجاهات لهذه النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time‑series review of handover counters: ping‑pong averages 28% with bursts to ~32%; failure spikes coincide with rapid reversions within 20–40 s. Off‑peak eMBB (streaming) traffic present. Diagnosis: over‑aggressive event triggering under weak edge coverage causing oscillation between 41023↔41024.",
+      "message_ar": "مراجعة زمنية لمؤشرات التحويل: متوسط الذهاب والإياب 28% مع ذروات ~32%؛ ارتفاعات الفشل تتزامن مع رجوعات سريعة خلال 20–40 ثانية. توجد حركة eMBB خارج الذروة (بث مرئي). التشخيص: تفعيل أحداث مفرط تحت تغطية طرفية ضعيفة يسبب تذبذباً بين 41023↔41024."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement stabilization on this cell to reduce oscillation.",
+      "message_ar": "موافَق على تنفيذ إجراءات الاستقرار لهذه الخلية لتقليل التذبذب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply mobility tuning to increase stability—extend dwell time, raise decision margin, and add a short re‑entry guard between 41023 and 41024. Expected to cut ping‑pong by >30%. Requesting change approval now (off‑peak).",
+      "message_ar": "الخطة: تطبيق ضبط حركي لزيادة الاستقرار—تمديد زمن البقاء، رفع هامش القرار، وإضافة فترة حظر قصيرة لإعادة الدخول بين 41023 و41024. متوقع خفض الذهاب والإياب بأكثر من 30%. أطلب الموافقة على التغيير الآن (خارج الذروة)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now; keep changes focused on the 41023↔41024 pair.",
+      "message_ar": "موافَق على تطبيق الضبط الآن؛ أبقِ التغييرات مركزة على ثنائي 41023↔41024."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied to stabilize mobility on NRCell-41023 and its adjacency with 41024. Post‑change spot‑check (15 min): ping‑pong down to ~16%, HO success ~89%, failures ~8%; p50 throughput ~25 Mbps. I will continue to observe.",
+      "message_ar": "تم تطبيق ضبط لاستقرار الحركة على NRCell-41023 وعلاقته مع 41024. فحص سريع بعد التغيير (15 دقيقة): الذهاب والإياب انخفض إلى ~16%، نجاح التحويل ~89%، الفشل ~8%؛ وسيط السرعة ~25 ميجابت/ث. سأستمر بالملاحظة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: reversions trending down and handover failures easing. Action taken: mobility parameter tuning. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "نرى تحسناً: انخفاض الارتدادات وتراجع فشل التحويل. الإجراء المتخذ: ضبط معايير الحركة. لنتابع المراقبة خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring for the next 2–4 hours and report on ping‑pong ratio, HO success, and user experience. If degradation returns, we will roll back the change and escalate for neighbor plan review and field validation.",
+      "message_ar": "سنتولى المراقبة خلال الساعات 2–4 القادمة وسنبلغ عن نسبة الذهاب والإياب، نجاح التحويل، وتجربة المستخدم. إذا عاد التدهور، سنقوم بإرجاع التغيير والتصعيد لمراجعة مخطط الجيران والتحقق الميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell-41023",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell-41023",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility tuning: increase stability between 41023↔41024"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping‑pong handovers on an urban NR macro by reviewing network counters and handover trends, revealing over‑aggressive triggers under weak edge coverage between adjacent sectors. Applied site parameter tuning to stabilize mobility, increasing decision margins and dwell time with a short re‑entry guard. Early results show reduced ping‑pong and improved handover success; continued monitoring is planned.",
+    "ar": "تم تشخيص ارتفاع تبديلات الذهاب والإياب على موقع ماكرو NR حضري عبر مراجعة مؤشرات الشبكة واتجاهات التحويل، ما كشف تفعيل أحداث مفرط تحت تغطية طرفية ضعيفة بين قطاعات متجاورة. تم تطبيق ضبط معايير الموقع لاستقرار الحركة بزيادة هوامش القرار وزمن البقاء مع فترة حظر قصيرة لإعادة الدخول. النتائج الأولية تُظهر انخفاض الذهاب والإياب وتحسّن نجاح التحويل، مع استمرار المراقبة."
+  }
+}

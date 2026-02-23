@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0013",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro over 6h shows resource allocation imbalance: ~78% PRB use, low fairness (0.56), skew 38, best-effort 69% vs high-priority 25%, tail delay 75 ms, SINR 10 dB; users report variable rates during streaming.",
+    "ar": "موقع ماكرو 5G NR حضري خلال 6 ساعات يظهر عدم توازن في تخصيص الموارد: استخدام PRB ~78%، عدالة منخفضة (0.56)، انحراف 38، حصة أفضل جهد 69% مقابل أولوية عالية 25%، تأخر ذيلي 75 مللي ثانية، وSINR عند 10 ديسيبل؛ المستخدمون يلاحظون تذبذباً في السرعات أثناء البث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell in the shoulder period (last 6h). Users report variable rates during streaming. KPIs: PRB ~78%, fairness 0.56, allocation skew 38, high-priority 25% vs best-effort 69%, p50 16 Mbps with wide variability, tail delay (p95) 75 ms. RF: SINR 10 dB, RSRQ -11 dB. Please investigate.",
+      "message_ar": "موقع NR ماكرو حضري خلال فترة الكتف (آخر 6 ساعات). المستخدمون يبلّغون عن تذبذب في السرعات أثناء البث. المؤشرات: PRB ~78%، عدالة 0.56، انحراف التخصيص 38، أولوية عالية 25% مقابل أفضل جهد 69%، p50 عند 16 ميجابت/ث مع تباين واسع، وتأخر ذيلي (p95) 75 مللي ثانية. اللاسلكي: SINR 10 ديسيبل وRSRQ -11 ديسيبل. الرجاء التحليل."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull OSS counters for NR-URB-33211-S1 over the last 6h to baseline resource assignment and QoS mix. Please confirm access.",
+      "message_ar": "سأجلب مؤشرات OSS للخلية NR-URB-33211-S1 لآخر 6 ساعات لعمل خط أساس لتخصيص الموارد ومزيج مستويات الخدمة. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-URB-33211-S1 over 6h.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-URB-33211-S1 لمدة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline shows PRB ~78–80% with low fairness (~0.56) and elevated best-effort share. Short queue spikes align with the tail delay. No RF degradation beyond SINR 9–11 dB. Next, I will analyze PRB and fairness as a time series over 6h to confirm drift and burstiness. Proceed?",
+      "message_ar": "الخط الأساسي يُظهر PRB ~78–80% مع عدالة منخفضة (~0.56) وحصة مرتفعة لفئة أفضل جهد. توجد قمم قصيرة في الطوابير تتوافق مع التأخر الذّيلي. لا تدهور لاسلكي ملحوظ بخلاف SINR بين 9–11 ديسيبل. الخطوة التالية: تحليل PRB والعدالة كسلاسل زمنية على مدى 6 ساعات لتأكيد الانحراف والطفرات. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with the time-series analysis.",
+      "message_ar": "نعم، تفضل بإجراء تحليل السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms bursts with allocation skew >35 and fairness dips near 0.5, coinciding with tail delay 70–80 ms. RF stays stable. I recommend a targeted site parameter tuning to rebalance QoS weights and fairness guardrails on NR-URB-33211-S1. Low risk, no service interruption. Approve change?",
+      "message_ar": "السلاسل الزمنية تؤكد طفرات بانحراف تخصيص >35 وانخفاض العدالة قرب 0.5 متزامنة مع تأخر ذّيلي 70–80 مللي ثانية. حالة اللاسلكي مستقرة. أوصي بضبط معلمات خفيف على مستوى الموقع لإعادة موازنة أوزان مستويات الخدمة وحدود العدالة على NR-URB-33211-S1. مخاطرة منخفضة دون انقطاع. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Execute the tuning now.",
+      "message_ar": "موافق. نفّذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on NR-URB-33211-S1; commit successful. No restart required. I will observe live KPIs for initial impact.",
+      "message_ar": "تم تطبيق الضبط على NR-URB-33211-S1 مع نجاح الالتزام. لم تُطلب إعادة تشغيل. سأراقب المؤشرات الحية للأثر الأولي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: tail delay down to ~55 ms, fairness ~0.70, and high-priority share rising to ~32%. No error spikes.",
+      "message_ar": "الملاحظة الأولية: التأخر الذّيلي انخفض إلى ~55 مللي ثانية، والعدالة ~0.70، وحصة الفئة عالية الأولوية ارتفعت إلى ~32%. لا توجد زيادات في الأخطاء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. Please advise your preferred monitoring window; I can continue background observation and validate stability of PRB distribution and user rate consistency.",
+      "message_ar": "مؤشرات جيدة. يرجى تحديد نافذة المتابعة المفضلة؛ يمكنني الاستمرار بالمراقبة في الخلفية والتحقق من استقرار توزيع PRB واتساق سرعات المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds with steadier user rates; fairness is trending up. We performed site parameter tuning. Let’s monitor through the next 2–4 hours (shoulder to early peak).",
+      "message_ar": "التحسن مستمر مع سرعات مستخدمين أكثر استقراراً؛ العدالة في اتجاه تصاعدي. قمنا بضبط معلمات على مستوى الموقع. لنتابع خلال الساعتين إلى الأربع القادمة (من الكتف إلى بداية الذروة)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will monitor for the next 2–4 hours and share an update. If fairness drops or tail delay rises, I will roll back the tuning and escalate to the RAN performance team; otherwise we keep the change and consider broader optimization later if needed.",
+      "message_ar": "تم. سأراقب خلال الساعتين إلى الأربع القادمتين وأقدم تحديثاً. إذا انخفضت العدالة أو ارتفع التأخر الذّيلي فسأعيد التهيئة السابقة وأصعّد إلى فريق أداء RAN؛ وإلا سنُبقي التغيير وننظر في تحسين أوسع لاحقاً عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-33211-S1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-33211-S1",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation anomaly on an urban 5G NR macro: OSS review and PRB time-series confirmed bursts of allocation skew and low fairness aligned with elevated tail delay, while RF quality remained stable. Applied site parameter tuning to rebalance QoS weighting and fairness controls. Monitoring for 2–4 hours to ensure sustained improvement and readiness to rollback if regression appears.",
+    "ar": "تم تشخيص خلل في تخصيص الموارد على موقع 5G NR حضري ماكرو: أظهر فحص OSS وسلاسل PRB الزمنية طفرات في انحراف التخصيص وعدالة منخفضة متزامنة مع تأخر ذَيلي مرتفع، مع استقرار جودة اللاسلكي. تم تنفيذ ضبط معلمات على مستوى الموقع لإعادة موازنة أوزان مستويات الخدمة وعناصر العدالة. ستتم المتابعة لمدة 2–4 ساعات لضمان استمرار التحسن والاستعداد للرجوع في حال حدوث تراجع."
+  }
+}

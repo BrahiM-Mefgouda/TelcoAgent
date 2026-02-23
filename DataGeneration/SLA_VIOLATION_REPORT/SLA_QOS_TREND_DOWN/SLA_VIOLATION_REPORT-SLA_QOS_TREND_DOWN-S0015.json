@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0015",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban NR macro cell shows a QoS index 0.34 vs 0.99 target over the last 24h with an alarm indicating congestion, PRB ~73%, latency 76 ms, 352 users, BLER ~5.3%, and median throughput 4 Mbps (slow data).",
+    "ar": "خلية NR ماكرو حضرية تُظهر مؤشر جودة خدمة 0.34 مقابل هدف 0.99 خلال آخر 24 ساعة مع إنذار يشير إلى ازدحام، إشغال موارد ~73%، كمون 76 مللي ثانية، 352 مستخدمًا، BLER ~5.3%، ومتوسط سرعة 4 ميجابت/ث (بيانات بطيئة)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have an SLA alarm on an urban NR macro over the last 24h: QoS 0.34 vs 0.99 target, PRB ~73%, latency 76 ms, BLER ~5.3%, p50 DL 4 Mbps, 352 users; mixed hours with eMBB streaming reports of slow data.",
+      "message_ar": "لدينا إنذار SLA على خلية NR ماكرو حضرية خلال آخر 24 ساعة: مؤشر QoS 0.34 مقابل هدف 0.99، إشغال PRB ~73%، الكمون 76 مللي ثانية، BLER ~5.3%، سرعة تنزيل p50 تبلغ 4 ميجابت/ث، 352 مستخدمًا؛ فترات مختلطة مع شكاوى eMBB عن بطء البيانات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the diagnosis. First, I’ll pull 24h operational stats for the impacted cell to verify load, latency, and errors. Please share the cell ID and approve read access.",
+      "message_ar": "سأتولى التشخيص. أولاً سأجمع إحصاءات تشغيلية لمدة 24 ساعة للخلية المتأثرة للتحقق من الحمل والكمون والأخطاء. يرجى مشاركة معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-123. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-123. تمّت الموافقة على وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 24h stats: PRB avg ~73% with busy-hour peaks 90–92%; latency avg 76 ms with spikes >110 ms; BLER ~5–7%; users peak ~380; no hard faults. Next, I’ll analyze QoS time series over 24h to confirm the degradation pattern. Proceed?",
+      "message_ar": "تم جمع إحصاءات 24 ساعة: متوسط إشغال PRB ~73% مع ذروة ساعة الانشغال 90–92%؛ متوسط الكمون 76 مللي ثانية مع قمم تتجاوز 110 مللي ثانية؛ BLER نحو 5–7٪؛ ذروة المستخدمين ~380؛ لا أعطال صلبة. بعد ذلك سأحلّل سلسلة QoS الزمنية لمدة 24 ساعة لتأكيد نمط التدهور. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS trend confirms sustained dips during mixed busy periods: index ranges 0.28–0.42 with an SLA violation ratio ~42%. It correlates with PRB peaks and latency spikes; no outage signatures—congestion-driven. I will file an SLA report with findings and request capacity/QoS mitigation. Confirm?",
+      "message_ar": "اتجاه QoS يؤكد هبوطات مستمرة خلال فترات الانشغال المختلطة: القيم بين 0.28–0.42 مع نسبة انتهاك SLA ~42٪. يرتبط ذلك بذروات PRB وارتفاعات الكمون؛ لا مؤشرات لانقطاع—السبب ازدحام. سأقدّم تقرير SLA يتضمن النتائج وطلب تخفيف السعة/تحسين QoS. تأكيد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Please open the SLA report.",
+      "message_ar": "مؤكد. يرجى فتح تقرير SLA."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA report ticket has been created and routed with a summary of QoS 0.34 vs 0.99 target, p50 4 Mbps (slow data), latency spikes >110 ms, BLER ~5–7%, and PRB peaks >90% under eMBB load. We will monitor and append observations.",
+      "message_ar": "تم إنشاء تذكرة تقرير SLA وتوجيهها مع ملخص: QoS 0.34 مقابل هدف 0.99، p50 يساوي 4 ميجابت/ث (بيانات بطيئة)، قمم كمون >110 مللي ثانية، BLER ~5–7%، وذروات PRB >90% تحت حمل eMBB. سنراقب ونضيف الملاحظات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Neighbor cells look stable and backhaul checks are clear. You can share the data set with the capacity team.",
+      "message_ar": "الخلايا المجاورة مستقرة وفحوصات الوصلة الخلفية سليمة. يمكنك مشاركة مجموعة البيانات مع فريق السعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Near-term, we’ll watch the next busy periods; if congestion repeats, the ticket notes will recommend capacity relief and QoS policy tuning. No intrusive changes have been applied.",
+      "message_ar": "تم. على المدى القريب سنراقب فترات الانشغال القادمة؛ وإذا تكرر الازدحام، ستتضمن ملاحظات التذكرة توصية بتخفيف السعة وضبط سياسات QoS. لم يتم تطبيق أي تغييرات تدخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-alarm check: latency is trending down from ~95 ms to ~70 ms with fewer slow-data complaints after peak. Action taken: SLA report ticket opened and escalated (DU-SLA-04271). Let’s monitor through the next busy hour.",
+      "message_ar": "فحص بعد الإنذار: الكمون يتجه للانخفاض من ~95 مللي ثانية إلى ~70 مللي ثانية مع شكاوى أقل عن بطء البيانات بعد الذروة. الإجراء المتخذ: فتح تذكرة تقرير SLA وتصعيدها (DU-SLA-04271). لنواصل المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket after the window. If KPIs worsen, we will escalate for immediate capacity relief; if they normalize, we will keep the ticket open with observations or request closure. Rollback is not applicable beyond withdrawing any advisory notes.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الانشغال القادمة ونحدّث التذكرة بعد انتهاء الفترة. إذا ساءت مؤشرات الأداء، سنصعّد لطلب تخفيف سعة فوري؛ وإن استقرت، سنبقي التذكرة مفتوحة مع الملاحظات أو نطلب إقفالها. لا يلزم تراجع سوى سحب أي ملاحظات استشارية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-123",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-123",
+        "QoS",
+        "24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA QoS degradation on urban NR macro; QoS 0.34 vs 0.99 target, p50 4 Mbps, latency spikes >110 ms, BLER ~5–7%, PRB peaks >90%, eMBB load; congestion-driven; request capacity/QoS mitigation and monitoring."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed SLA QoS degradation on an urban 5G macro as congestion-driven: OSS showed PRB averaging ~73% with >90% peaks, latency spikes, and BLER ~5–7%, and the QoS time series confirmed a ~42% violation window. An SLA report ticket was created with findings, and capacity/QoS mitigation was requested; the site will be monitored through the next busy hour.",
+    "ar": "تم تشخيص تدهور QoS المرتبط بـ SLA على خلية 5G ماكرو حضرية بأنه ناتج عن ازدحام: أظهرت بيانات التشغيل متوسط PRB ~73% مع ذروات >90% وارتفاعات في الكمون وBLER ~5–7%، وأكّدت سلسلة QoS الزمنية نسبة انتهاك ~42%. تم إنشاء تذكرة تقرير SLA مع النتائج وطلب تخفيف السعة/تحسين سياسات QoS؛ وسيُراقَب الموقع خلال ساعة الانشغال القادمة."
+  }
+}

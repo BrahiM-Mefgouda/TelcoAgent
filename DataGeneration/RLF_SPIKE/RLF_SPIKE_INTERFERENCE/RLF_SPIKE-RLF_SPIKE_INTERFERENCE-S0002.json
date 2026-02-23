@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0002",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "Suburban NR macro cell shows an RLF spike over the last 3h during peak eMBB with slow data and degraded signal quality.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تُظهر ارتفاعاً في حالات انقطاع الارتباط خلال آخر 3 ساعات في ذروة eMBB مع بيانات بطيئة وتدهور في جودة الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour RLF spike on a suburban NR macro; users report slow data and streaming buffering. Last 3h KPIs: RSRQ -16 dB, SINR 7 dB, BLER ~12%, RLF ~4.9%, HO success ~85%, PRB ~80%, ~280 users.",
+      "message_ar": "ارتفاع في حالات انقطاع الارتباط خلال ساعة الذروة على خلية NR ماكرو بضواحي المدينة؛ المستخدمون يبلغون عن بطء في البيانات وتقطّع في البث. مؤشرات آخر 3 ساعات: RSRQ -16 dB، وSINR 7 dB، وBLER ~12%، ومعدل RLF ~4.9%، ونسبة نجاح التسليم ~85%، واستخدام PRB ~80%، وعدد المستخدمين ~280."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling the last 3h OSS counters for the impacted cell, then chart the RLF trend and proceed with targeted mobility tuning if confirmed. Please share the cell ID and approve access.",
+      "message_ar": "سأبدأ بجلب عدادات آخر 3 ساعات من نظام الإدارة للخلية المتأثرة، ثم رسم اتجاه RLF والمتابعة بضبط انتقائي لمعاملات الحركة إذا تأكدت المشكلة. الرجاء تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR123-1. Access approved for the 3h window.",
+      "message_ar": "معرّف الخلية: NR123-1. الوصول مُعتمد لمدة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h OSS for NR123-1: RLF attempts and drops peaked 18:10–18:55; HO failures elevated; no site alarms. RSRQ is poor, PRB ~80% (not saturated). Next, I will extract the RLF time series to validate the pattern. Proceed?",
+      "message_ar": "تم جلب بيانات آخر 3 ساعات لـ NR123-1: ذروة محاولات وسقوط RLF بين 18:10–18:55؛ ارتفاع في فشل التسليم؛ لا إنذارات على الموقع. RSRQ ضعيف وPRB ~80% (غير مُشبَع). التالي، سأستخرج سلسلة RLF الزمنية للتحقق من النمط. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "RLF time series confirms a sharp rise vs baseline during peak; HO success dips in the same window, with BLER ~12%. Edge UEs likely dropping around handover conditions. I propose low-risk mobility tuning: slightly lower TTT, modestly increase A3 offset, and tighten hysteresis to accelerate neighbor selection. Approve change?",
+      "message_ar": "السلسلة الزمنية لـ RLF تؤكد ارتفاعاً حاداً مقابل الأساس خلال الذروة؛ تراجع في نجاح التسليم في نفس النافذة وBLER ~12%. من المرجح أن تسقط أجهزة الحافة أثناء ظروف التسليم. أقترح ضبطاً منخفض المخاطر لمعاملات الحركة: تقليل طفيف لـ TTT، وزيادة بسيطة لإزاحة A3، وتشديد الهسترة لتسريع اختيار الجار. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the mobility tuning now.",
+      "message_ar": "موافق على تطبيق ضبط الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility tuning on NR123-1. Commit successful; no immediate errors. Quick post-check (10 min): HO success up ~2–3pp, RLF counters stabilizing, BLER unchanged, traffic steady. I’ll keep monitoring.",
+      "message_ar": "تم تطبيق ضبط الحركة على NR123-1 بنجاح دون أخطاء فورية. فحص سريع بعد 10 دقائق: ارتفاع نجاح التسليم ~2–3 نقاط مئوية، استقرار عدادات RLF، BLER دون تغيير، وحجم الحركة مستقر. سأستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look positive: RLF rate down ~30% vs prior 30 minutes, and median user throughput improved to ~6 Mbps. Fewer buffering reports.",
+      "message_ar": "المؤشرات الأولية إيجابية: انخفاض معدل RLF بنحو ~30% مقارنة بالـ30 دقيقة السابقة، وتحسن متوسط سرعة المستخدمين إلى ~6 ميجابت/ث. تقارير التقطّع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We’ll track RLF, HO success, and BLER through the next busy period to confirm stability, and verify user throughput remains above prior baseline. I’ll notify you with any regression.",
+      "message_ar": "جيد. سنراقب RLF ونجاح التسليم وBLER خلال فترة الانشغال القادمة لتأكيد الاستقرار، ونتحقق من بقاء سرعة المستخدم فوق الخط الأساسي السابق. سأبلغك بأي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement continues: drops trending down and slow data easing. The mobility parameter tuning you applied seems effective. Let’s monitor through the next busy hour to confirm.",
+      "message_ar": "التحسّن مستمر: حالات السقوط في اتجاه هبوطي وبطء البيانات يتراجع. ضبط معاملات الحركة الذي قمتَ بتطبيقه يبدو فعالاً. لنواصل المراقبة خلال ساعة الذروة القادمة للتأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy hour monitoring and share updates on RLF, handover success, and user throughput afterward. If issues return, we will roll back the tuning; if instability persists, we will escalate for field interference investigation.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة ونشاركك التحديثات حول RLF ونجاح التسليم وسرعة المستخدمين بعد ذلك. إذا عادت المشكلة سنرجع الضبط السابق؛ وإذا استمرت عدم الاستقرار فسوف نُصعّد لإجراء فحص تداخُل ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR123-1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR123-1",
+        "RLF",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility thresholds, TTT, HO offsets"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a peak-hour RLF spike on a suburban NR macro by reviewing recent OSS counters and confirming an RLF time-series surge aligned with degraded RSRQ and elevated BLER. Mitigated by site parameter tuning focused on mobility thresholds, TTT, and hysteresis to accelerate neighbor selection and reduce edge drops. Post-change checks show improved handover success, reduced RLF rate, and better median throughput; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع في حالات انقطاع الارتباط خلال ساعة الذروة على خلية NR ماكرو بضواحي المدينة عبر مراجعة عدادات النظام الأخيرة وتأكيد ارتفاع سلسلة RLF الزمنية المتزامن مع تدهور RSRQ وارتفاع BLER. تمت المعالجة عبر ضبط معاملات الموقع مع التركيز على عتبات الحركة وTTT والهسترة لتسريع اختيار الجار وتقليل السقوط عند الحافة. فحوصات ما بعد التغيير أظهرت تحسناً في نجاح التسليم وانخفاضاً في معدل RLF وتحسناً في السرعة المتوسطة؛ سيتم مواصلة المراقبة خلال ساعة الذروة القادمة."
+  }
+}

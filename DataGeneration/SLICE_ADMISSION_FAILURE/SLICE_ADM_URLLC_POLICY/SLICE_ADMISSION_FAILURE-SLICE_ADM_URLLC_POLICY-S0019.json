@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0019",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro cell with URLLC traffic shows ~19% slice admission denials over 24h at ~10 requests/min despite PRB ~78%, slice utilization ~52%, latency ~22 ms, and a policy threshold set at 94.",
+    "ar": "خلية ماكرو NR حضرية بحركة URLLC تُظهر نحو 19% رفض قبول للشريحة خلال 24 ساعة عند ~10 طلبات/دقيقة رغم أن PRB ~78%، استخدام الشريحة ~52%، الكمون ~22 مللي ثانية، وحد السياسة مضبوط على 94."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell with URLLC traffic; over the last 24h we see ~19% slice admission denials at ~10 requests/min, PRB ~78%, slice utilization ~52%, latency ~22 ms, and no active alarms.",
+      "message_ar": "موقع ماكرو NR حضري بحركة URLLC؛ خلال آخر 24 ساعة نرى نحو 19% رفض قبول للشريحة عند ~10 طلبات/دقيقة، إشغال PRB ~78%، استخدام الشريحة ~52%، والكمون ~22 مللي ثانية، ولا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling 24h OSS stats for the affected cell and auditing the URLLC slice admission settings; please share the cell ID and URLLC slice ID, and confirm change approval.",
+      "message_ar": "سأبدأ بجلب إحصاءات الـ24 ساعة من نظام الإدارة للخلايا المتأثرة ومراجعة إعدادات قبول شريحة URLLC؛ الرجاء تزويدي بمعرّف الخلية ومعرّف الشريحة والموافقة على إجراء تغييرات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UTR-123; URLLC slice ID: S-URLLC-01. Read/modify access approved.",
+      "message_ar": "معرّف الخلية: NR-UTR-123؛ معرّف شريحة URLLC: S-URLLC-01. تمت الموافقة على القراءة والتعديل."
+    },
+    {
+      "role": "agent",
+      "message_en": "24h stats pulled for NR-UTR-123: requests ≈10/min, denials 18–21% during mixed hours, PRB headroom >20%, slice utilization ~52%, latency 20–25 ms. Admission threshold is set at 94, likely over-restrictive. I propose a controlled relaxation to lower denials without harming isolation; confirm to proceed.",
+      "message_ar": "تم جلب إحصاءات 24 ساعة للخلية NR-UTR-123: الطلبات ≈10/دقيقة، الرفض 18–21% خلال ساعات مختلطة، هامش PRB >20%، استخدام الشريحة ~52%، والكمون 20–25 مللي ثانية. حد القبول مضبوط على 94 ويبدو مقيِّداً بشكل زائد. أقترح تخفيفاً مضبوطاً لخفض الرفض دون التأثير على العزل؛ يرجى التأكيد للمضي قدماً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with a controlled policy change.",
+      "message_ar": "موافقة على تنفيذ تغيير مضبوط في السياسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied URLLC policy update on S-URLLC-01: lowered admission threshold 94→88 and enabled a short 10% burst allowance with caps; change successful and validated.",
+      "message_ar": "تم تطبيق تحديث سياسة URLLC على S-URLLC-01: خفض حد القبول من 94 إلى 88 وتفعيل سماحية اندفاع قصيرة بنسبة 10% مع حدود؛ التغيير ناجح وتم التحقق منه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Immediate observation: new sessions are being admitted; denial ratio is dipping in the last 5 minutes.",
+      "message_ar": "ملاحظة فورية: يتم قبول جلسات جديدة؛ نسبة الرفض تنخفض خلال آخر 5 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We'll keep watching admits and latency and document the change for traceability. Shall I open a change record?",
+      "message_ar": "جيد. سنواصل مراقبة القبول والكمون وتوثيق التغيير لأغراض التتبع. هل أفتح سجلاً للتغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, open a record.",
+      "message_ar": "نعم، افتح سجلاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change record created for the URLLC policy update; initial snapshot shows denials ~9–12%, latency ~20–22 ms, PRB ~75–80%. Continuing observation.",
+      "message_ar": "تم إنشاء سجل للتغيير الخاص بتحديث سياسة URLLC؛ اللقطة الأولية تُظهر الرفض ~9–12%، والكمون ~20–22 مللي ثانية، وPRB ~75–80%. مستمرون في المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted — admission denials trending down. Action taken: URLLC slice policy update. Let's monitor through the next busy hour and update DU-SLICE-04217 afterward.",
+      "message_ar": "تحسن ملحوظ — حالات رفض القبول تتناقص. الإجراء المنفذ: تحديث سياسة شريحة URLLC. لنراقب خلال ساعة الذروة القادمة ثم نحدّث DU-SLICE-04217 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we'll own monitoring for the next busy hour and update the ticket afterward. If denials rise or latency worsens, we'll roll back the policy change; if instability persists, we'll escalate to the slicing domain team.",
+      "message_ar": "تم التأكيد؛ سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا ارتفع الرفض أو ساء الكمون سنعيد التغيير، وإن استمرت أي حالة عدم استقرار فسنصعّد إلى فريق مجال الشرائح."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high URLLC slice admission denials on an urban NR macro cell despite available radio headroom; the admission threshold at 94 was overly restrictive. Implemented a slice policy update by lowering the threshold and enabling a short burst allowance, then logged a change record. We will monitor admits and latency through the next busy hour and adjust if needed.",
+    "ar": "تم تشخيص ارتفاع رفض قبول شريحة URLLC في موقع ماكرو حضري NR رغم وجود هامش سعة راديوية؛ كان حد القبول عند 94 مقيِّداً بشكل زائد. تم تنفيذ تحديث في سياسة الشريحة بخفض الحد وتفعيل سماحية اندفاع قصيرة، ثم توثيق التغيير. سنراقب القبول والكمون خلال ساعة الذروة القادمة ونجري التعديلات عند الحاجة."
+  }
+}

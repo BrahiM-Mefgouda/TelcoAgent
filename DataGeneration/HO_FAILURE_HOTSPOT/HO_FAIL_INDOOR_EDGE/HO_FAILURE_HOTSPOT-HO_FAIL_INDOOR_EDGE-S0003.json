@@ -1,0 +1,100 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0003",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Indoor office east wing 5G micro cell shows elevated handover failures (~18%) and slow data (p50 ~8 Mbps) over the last 4 hours; please investigate and mitigate.",
+    "ar": "خلية 5G ميكرو داخلية في جناح المكتب الشرقي تُظهر فشل تسليم مرتفع (~18%) وبطء بيانات (وسيط ~8 Mbps) خلال آخر 4 ساعات؛ نرجو التحقيق والمعالجة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cell at the office east wing over the last 4h: HO failures ~18% (success ~78%), ping-pong ~16%, RLF ~2.8%, RSRP around -108 dBm, RSRQ -11 dB, SINR 8 dB, and p50 throughput ~8 Mbps with ~205 users during shoulder. Please assess.",
+      "message_ar": "خلية NR ميكرو داخلية في جناح المكتب الشرقي خلال آخر 4 ساعات: فشل التسليم ~18% (النجاح ~78%)، ارتداد ~16%، RLF ~2.8%، وRSRP نحو -108 dBm، وRSRQ -11 dB، وSINR 8 dB، ووسيط السرعة ~8 Mbps مع ~205 مستخدمين في فترة الكتف. الرجاء التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by reviewing the indoor coverage heatmap for the east wing grid over the same 4h window to pinpoint the handover failure hotspot and any competing neighbors. Please approve access.",
+      "message_ar": "تم الاستلام. سأبدأ بمراجعة خريطة التغطية الداخلية لشبكة الجناح الشرقي خلال نفس نافذة 4 ساعات لتحديد بؤرة فشل التسليم وأي تنافس بين الجيران. الرجاء الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the last 4 hours.",
+      "message_ar": "موافق لآخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "The heatmap shows weak serving dominance along the east corridor with overlap from two adjacent micros at the junction; edge RSRP is around -107 to -110 dBm, consistent with late handovers and ping-pong. Next, I propose mobility tuning for this indoor micro cell: increase A3 offset by +1 dB, shorten TTT from 305 to 256 ms, add -1 dB CIO toward the primary neighbor, and slightly raise hysteresis to stabilize boundaries. Proceed to apply?",
+      "message_ar": "تُظهر الخريطة ضعف هيمنة الخلية على ممر الشرق مع تداخل من خلتين مجاورتين عند التقاطع؛ RSRP على الحافة بين -107 و -110 dBm، ما يتسق مع تأخر التسليم والارتداد. أقترح ضبطاً حركياً لهذه الخلية الميكرو الداخلية: زيادة إزاحة A3 بمقدار +1 dB، تقصير TTT من 305 إلى 256 ms، إضافة CIO بمقدار -1 dB نحو الجار الرئيسي، ورفعاً طفيفاً للهسترة لتثبيت الحدود. هل أتابع التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed, keeping within vendor guardrails.",
+      "message_ar": "تابع، مع الالتزام بحدود المورّد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully: mobility thresholds updated as proposed. Expected effect: earlier exit from weak zones, fewer ping-pong events, and higher HO success. Let’s watch initial trends for 15–20 minutes; eMBB streaming users should see more stable sessions.",
+      "message_ar": "تم تطبيق التحسين بنجاح: تم تحديث عتبات الحركة كما اقترحنا. التأثير المتوقع: خروج أبكر من مناطق الضعف، تقليل الارتداد، وارتفاع نجاح التسليم. لنراقب الاتجاهات الأولية لمدة 15–20 دقيقة؛ يجب أن يلاحظ مستخدمو بث eMBB جلسات أكثر استقراراً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes, HO failure dropped from 18% to ~12%, HO success ~86%, ping-pong ~13%, and p50 throughput improved to ~10 Mbps. Fewer streaming complaints observed.",
+      "message_ar": "بعد ~20 دقيقة، انخفض فشل التسليم من 18% إلى ~12%، ونجاح التسليم ~86%، والارتداد ~13%، وتحسن وسيط السرعة إلى ~10 Mbps. لوحظت شكاوى بث أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend is positive. We’ll hold the current tuning as load builds and continue observing neighbor-boundary events and any RLF spikes. No further changes at this time.",
+      "message_ar": "الاتجاه إيجابي. سنُبقي الضبط الحالي مع ازدياد الحمل ونواصل مراقبة أحداث حدود الجوار وأي ارتفاعات في RLF. لا تغييرات إضافية حالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Over the last hour, handover failures keep trending down and ping-pong is decreasing. Action taken was coverage hotspot review followed by site mobility parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "خلال الساعة الماضية، تستمر إخفاقات التسليم بالانخفاض وينخفض الارتداد. الإجراء كان مراجعة بؤرة التغطية ثم ضبط معلمات الحركة للموقع. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own the next busy hour monitoring and report HO success, ping-pong, RLF, and user throughput. If metrics regress or complaints rise, we will escalate to an on-site survey; if adverse side effects appear (edge coverage shrinkage), we will roll back to the previous parameters.",
+      "message_ar": "مفهوم. سنتولى مراقبة ساعة الذروة التالية ونبلغ عن نجاح التسليم والارتداد وRLF وسرعة المستخدمين. إذا تراجعت المؤشرات أو زادت الشكاوى، سنصعّد إلى فحص ميداني؛ وإذا ظهرت آثار جانبية غير مرغوبة (انكماش تغطية الأطراف)، سنعود إلى المعلمات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "20m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "An indoor handover-failure hotspot was confirmed via coverage heatmap, showing weak serving dominance and overlap along the east corridor. Mobility parameter tuning (A3 offset, TTT, hysteresis, CIO) was applied to trigger earlier and more stable handovers. Early results show fewer failures and ping-pong with modest throughput gains; monitoring continues through the next busy hour.",
+    "ar": "تم تأكيد بؤرة فشل التسليم الداخلية عبر خريطة التغطية، مع ضعف هيمنة الخلية وتداخل على ممر الشرق. طُبق ضبط لمعلمات الحركة (إزاحة A3، زمن TTT، الهسترة، وCIO) لتمكين تسليمات أبكر وأكثر استقراراً. تُظهر النتائج الأولية انخفاضاً في الإخفاقات والارتداد وتحسناً طفيفاً في السرعة؛ وتستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

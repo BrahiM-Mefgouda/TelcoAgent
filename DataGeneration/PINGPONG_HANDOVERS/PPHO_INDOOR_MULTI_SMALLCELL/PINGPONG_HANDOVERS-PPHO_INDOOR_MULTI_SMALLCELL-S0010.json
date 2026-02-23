@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0010",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "In the indoor office wing over the last 3h at peak eMBB load, ping-pong handovers are high (15%) with weak RSRP (-107 dBm), poor RSRQ (-9 dB), and low SINR (4 dB) indicating interference/signal overlap.",
+    "ar": "في الجناح الداخلي بالمكتب خلال آخر 3 ساعات عند ذروة حمل eMBB، معدل عمليات التسليم المتأرجحة مرتفع (15%) مع RSRP ضعيف (-107 dBm) وRSRQ سيئ (-9 dB) وSINR منخفض (4 dB) مما يشير إلى تداخل/تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "The indoor micro 5G site in the office wing is bouncing users between small cells during peak. Last 3h: ping-pong ~15%, HO success ~86%, failures ~13%. RSRP ~-107 dBm, RSRQ -9 dB, SINR ~4 dB. Please investigate.",
+      "message_ar": "الموقع الصغير الداخلي 5G في جناح المكتب يسبب تنقلات متأرجحة بين الخلايا أثناء الذروة. آخر 3 ساعات: التأرجح ~15%، نجاح التسليم ~86%، الإخفاقات ~13%. RSRP حوالي -107 dBm وRSRQ -9 dB وSINR ~4 dB. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling the last 3h mobility counters and events for the impacted cell to baseline ping-pong and interference symptoms. Share the primary cell ID and confirm access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات التنقل والأحداث لآخر 3 ساعات للخلية المتأثرة لقياس التأرجح وأثر التداخل. الرجاء مشاركة معرف الخلية الأساسي وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-IND-SC-23; access approved for the 3h window.",
+      "message_ar": "معرّف الخلية: NR-IND-SC-23؛ الوصول مُعتمد خلال نافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS snapshot for NR-IND-SC-23 over 3h. Findings: ping-pong 15%, HO attempts ≈59/5min, HO fail 13%, users peak 184, PRB utilization ~61%. Radio levels weak (RSRP -107 dBm, RSRQ -9 dB, SINR 4 dB) suggesting signal overlap. Current mobility thresholds look aggressive (A3 2 dB, TTT 224 ms, hysteresis 0). Next, I will analyze HO time series and neighbor pairs.",
+      "message_ar": "تم سحب بيانات OSS لـ NR-IND-SC-23 خلال 3 ساعات. النتائج: التأرجح 15%، محاولات التسليم ≈59/5 دقائق، فشل التسليم 13%، ذروة المستخدمين 184، استغلال PRB ~61%. مستويات الراديو ضعيفة (RSRP -107 dBm، RSRQ -9 dB، SINR 4 dB) ما يشير إلى تراكب الإشارة. عتبات الحركة الحالية تبدو شديدة (A3 2 dB، TTT 224 ms، هيستريزس 0). الخطوة التالية: تحليل السلاسل الزمنية للتسليم وأزواج الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series review shows bursts aligned with peak eMBB streaming. Short dwell times (<10 s) on NR-IND-SC-23 when bouncing with NR-IND-SC-21/22 via Event A3. HO success recovers off-peak. To mitigate, I propose a small indoor tuning: raise A3 offset by +1 dB, add 2 dB hysteresis, and extend TTT to 320 ms for intra-floor neighbors. Approve to apply?",
+      "message_ar": "مراجعة السلاسل الزمنية تُظهر ارتفاعات متزامنة مع ذروة بث eMBB. أزمنة مكوث قصيرة (<10 ث) على NR-IND-SC-23 عند التأرجح مع NR-IND-SC-21/22 عبر حدث A3. يتحسن نجاح التسليم خارج الذروة. للتخفيف، أقترح ضبطاً بسيطاً داخلياً: زيادة إزاحة A3 بمقدار +1 dB، إضافة هيستريزس 2 dB، وتمديد TTT إلى 320 ms لجيران نفس الطابق. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for a controlled change.",
+      "message_ar": "موافَق على التغيير المتحكم به."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the indoor mobility tuning on NR-IND-SC-23: A3 offset +1 dB, hysteresis 2 dB, TTT 320 ms (no power/PRB changes). Post-change quick check started; observing counters for the next 10–15 minutes.",
+      "message_ar": "تم تطبيق ضبط الحركة الداخلي على NR-IND-SC-23: زيادة A3 بمقدار +1 dB، هيستريزس 2 dB، وTTT إلى 320 ms (بدون تغيير للطاقة/PRB). بدأ فحص سريع بعد التغيير؛ سنراقب المؤشرات خلال 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~12 minutes, early signs look better: fewer rapid back-and-forth events and smoother streaming complaints from floor staff.",
+      "message_ar": "بعد ~12 دقيقة، المؤشرات الأولية أفضل: أحداث أقل للذهاب والإياب السريع وشكاوى بث أكثر سلاسة من موظفي الطابق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Interim checks show ping-pong trending down to ~8–9% with HO success ~90%, failures not increasing; throughput median stable (~18–20 Mbps). No spike in drops. I recommend we keep this profile through the next busy hour and review.",
+      "message_ar": "الفحوصات المبدئية تُظهر انخفاض التأرجح إلى ~8–9% مع نجاح تسليم ~90% دون زيادة في الإخفاقات؛ الوسيط للسرعة مستقر (~18–20 Mbps). لا ارتفاع في السقوط. أوصي بالإبقاء على هذا الضبط خلال ساعة الذروة القادمة ثم المراجعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed—ping-pong events are trending down and HO failures are easing after the mobility parameter optimization. Let’s monitor through the next 2–4 hours of busy period and reassess.",
+      "message_ar": "متفق—أحداث التأرجح تتناقص وإخفاقات التسليم تتحسن بعد تحسين معلمات الحركة. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة من فترة الانشغال ثم نعيد التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the 2–4 hour monitoring window and share an update afterward. If deterioration appears, we will escalate for deeper interference investigation; if regressions persist, we will roll back to the prior mobility thresholds.",
+      "message_ar": "سنكون مسؤولين عن نافذة المراقبة لمدة 2–4 ساعات وسنشارك تحديثاً بعدها. إذا ظهرت تدهورات سنصعّد للتحقيق الأعمق في التداخل؛ وإذا استمرت الانتكاسات سنعود إلى عتبات الحركة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong between indoor micro 5G cells during peak with weak signal and overlap. We reviewed recent mobility KPIs, analyzed handover time series, and applied targeted site parameter tuning (A3 offset, hysteresis, and TTT) on the primary cell. Early results show reduced ping-pong and stable success rates; we will monitor the busy period and adjust if needed.",
+    "ar": "تم تشخيص ارتفاع التأرجح بين خلايا 5G الصغيرة الداخلية أثناء الذروة مع ضعف الإشارة وتراكبها. قمنا بمراجعة مؤشرات التنقل الحديثة وتحليل السلاسل الزمنية للتسليم وتطبيق ضبط مُستهدف لمعلمات الموقع (إزاحة A3 والهيستريزس وTTT) على الخلية الأساسية. النتائج الأولية تُظهر انخفاض التأرجح واستقرار معدلات النجاح؛ سنراقب فترة الانشغال ونُجري التعديل عند الحاجة."
+  }
+}

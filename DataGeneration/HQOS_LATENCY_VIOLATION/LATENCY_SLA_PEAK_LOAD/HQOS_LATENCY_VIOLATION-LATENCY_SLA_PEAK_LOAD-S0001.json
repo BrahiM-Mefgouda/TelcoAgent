@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0001",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows latency 76 ms (scheduler p95 55 ms) with 249 users and 86% resource use during peak evening; a congestion alarm is active for eMBB traffic.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تُظهر زمناً انتقالياً 76 مللي ثانية (p95 للمُجدِّول 55 مللي ثانية) مع 249 مستخدماً و86% من الموارد خلال ذروة المساء؛ إنذار ازدحام نشط لحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-evening latency SLA breach on urban NR macro cell NR-URB-1105-S1 with active congestion alarm: user-plane latency 76 ms, p95 scheduler latency 55 ms, 249 users, PRB utilization ~86%, median DL throughput 18 Mbps, BLER ~5.5%. Please investigate.",
+      "message_ar": "خرق SLA للزمن خلال ذروة المساء على خلية NR ماكرو حضرية NR-URB-1105-S1 مع إنذار ازدحام نشط: زمن المستخدم 76 مللي ثانية، p95 لزمن المُجدِّول 55 مللي ثانية، 249 مستخدماً، إشغال PRB ~86%، وسيط سرعات التحميل 18 ميجابت/ث، وBLER ~5.5%. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will 1) pull the last 2h OSS KPIs for the cell, 2) analyze latency time series, and 3) if congestion-driven, apply targeted HQoS tuning to cut queue delay. Please confirm access to proceed.",
+      "message_ar": "تم. سأقوم بـ 1) سحب مؤشرات OSS لآخر ساعتين للخلية، 2) تحليل سلسلة زمنية للزمن، و3) إن تأكد أن السبب ازدحام، تطبيق ضبط HQoS يستهدف خفض تأخير الطوابير. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; use the last 2 hours aligned to the alarm.",
+      "message_ar": "الوصول مُعتمد؛ استخدم آخر ساعتين المتوافقتين مع الإنذار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 2h KPIs: PRB 86%, users 249, median DL 18 Mbps, BLER 5.5%, user-plane latency 76 ms, p95 scheduler latency 55 ms—consistent with peak eMBB congestion. Proceeding to latency time-series drilldown; please confirm.",
+      "message_ar": "تم جمع مؤشرات ساعتين: PRB 86%، المستخدمون 249، وسيط التحميل 18 ميجابت/ث، BLER 5.5%، زمن المستخدم 76 مللي ثانية، وp95 لزمن المُجدِّول 55 مللي ثانية—متوافق مع ازدحام eMBB وقت الذروة. المتابعة إلى تحليل السلسلة الزمنية للزمن؛ يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Field reported brief streaming stalls in that window.",
+      "message_ar": "مؤكد. الميدان أبلغ عن توقفات قصيرة في البث خلال تلك الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series shows spikes 18:20–20:10 coincident with high PRB; retransmissions stable, indicating queueing in the scheduler rather than radio errors. I propose a non-disruptive parameter optimization to prioritize delay and trim buffer thresholds. Approve execution?",
+      "message_ar": "السلسلة الزمنية للزمن تُظهر قمماً بين 18:20–20:10 متزامنة مع ارتفاع PRB؛ عمليات الإعادة مستقرة ما يشير إلى تكدس في المُجدِّول أكثر من أخطاء راديوية. أقترح تحسيناً غير مُعطِّل للمعلمات لإعطاء أولوية للزمن وتقليل عتبات التخزين المؤقت. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization now.",
+      "message_ar": "موافق على تطبيق التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed site parameter tuning: adjusted QoS weights to reduce queueing delay under load and eased short-queue admission; no reset required. Change completed; starting close observation for impact.",
+      "message_ar": "تم تنفيذ معايرة معلمات الموقع: تم ضبط أوزان QoS لخفض تأخير الطوابير تحت الحمل وتخفيف قبول الطوابير القصيرة؛ دون الحاجة لإعادة تشغيل. اكتمل التغيير؛ أبدأ مراقبة لصيقة للأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial results: user-plane latency trending from ~52 to ~44 ms in 10 minutes, p95 scheduler latency ~38 ms; BLER steady.",
+      "message_ar": "النتائج الأولية: زمن المستخدم يتجه من ~52 إلى ~44 مللي ثانية خلال 10 دقائق، وp95 لزمن المُجدِّول ~38 مللي ثانية؛ وBLER ثابت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged improvement. I will keep watching KPIs across the next hour and verify stability versus throughput.",
+      "message_ar": "تمت ملاحظة التحسن. سأستمر في متابعة المؤشرات خلال الساعة القادمة والتحقق من الاستقرار مقابل السعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained; queueing delay trending down and streaming stalls reduced. Action taken: parameter optimization on the cell. Let's monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر؛ تأخير الطوابير في انخفاض وتوقفات البث تقل. الإجراء المتخذ: تحسين معلمات الخلية. لِنراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If latency rises again, we will roll back the tuning; if needed, we will escalate for temporary load relief via neighbor offload.",
+      "message_ar": "سنَتَولّى الرصد خلال ساعة الانشغال التالية ونشارك تحديثاً بعدها. إذا ارتفع الزمن مجدداً فسنعيد الضبط السابق؛ وإن لزم سنصعّد لإيجاد تخفيف حمولة مؤقت عبر تحويل جزئي إلى الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a latency SLA violation on an urban 5G NR macro cell during the peak evening with a congestion alarm. Reviewed OSS KPIs and latency time series confirming scheduler queueing under high PRB load. Executed site parameter tuning to optimize QoS scheduling and reduce delay; monitoring will continue through the next busy hour.",
+    "ar": "تم التحقيق في انتهاك SLA للزمن على خلية 5G NR ماكرو حضرية خلال ذروة المساء مع إنذار ازدحام. تمت مراجعة مؤشرات OSS والسلسلة الزمنية للزمن مؤكِّدتين أن التأخير ناتج عن تكدس في المُجدِّول تحت حمل PRB مرتفع. نُفِّذت معايرة معلمات على الموقع لتحسين جدولة QoS وخفض التأخير؛ وسيستمر الرصد خلال ساعة الانشغال التالية."
+  }
+}

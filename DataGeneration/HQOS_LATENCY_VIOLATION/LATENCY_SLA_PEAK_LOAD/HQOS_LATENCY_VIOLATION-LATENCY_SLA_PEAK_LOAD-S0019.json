@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0019",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell shows congestion during peak evening with 186 users, ~90% PRB, p95 latency 108 ms, and median throughput 6 Mbps (slow data).",
+    "ar": "خلية ماكرو NR حضرية تُظهر ازدحامًا خلال ذروة المساء مع 186 مستخدمًا، إشغال PRB ~90%، كمون p95 يبلغ 108 مللي ثانية ومعدل نقل وسيط 6 ميجابت/ث (بيانات بطيئة)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-evening latency SLA alarm on an urban NR macro; users report slow data during streaming. Current KPIs: PRB ~90%, avg latency ~77 ms, p95 ~108 ms, users 186. Please assist.",
+      "message_ar": "إنذار تجاوز SLA للكمون في ذروة المساء على موقع NR حضري ماكرو؛ المستخدمون يشتكون من بطء البيانات أثناء البث. المؤشرات الحالية: إشغال PRB ~90%، متوسط الكمون ~77 مللي ثانية، p95 ~108 مللي ثانية، 186 مستخدمًا. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion alarm. Plan: 1) pull last 2h OSS snapshot; 2) review latency time series; 3) apply QoS/resource tuning to reduce queue delay. Please share the cell_id and confirm read/write access.",
+      "message_ar": "تم تأكيد إنذار الازدحام. الخطة: 1) سحب لقطة OSS لآخر ساعتين؛ 2) مراجعة سلسلة زمنية للكمون؛ 3) ضبط موارد/QoS لتقليل تأخير الطوابير. الرجاء تزويدي بمعرّف الخلية وتأكيد صلاحيات القراءة/الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell_id: NR_URB_MACRO_1023. Window 2h is fine. Read/write access approved.",
+      "message_ar": "معرّف الخلية: NR_URB_MACRO_1023. نافذة ساعتين مناسبة. صلاحيات القراءة/الكتابة مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS for NR_URB_MACRO_1023 (2h). Findings: PRB 88–93% at peak, BLER ~5% within tolerance, active UEs 170–190, buffer occupancy elevated, backhaul normal. This indicates contention-driven queuing under load.",
+      "message_ar": "تم سحب بيانات OSS للخلية NR_URB_MACRO_1023 (ساعتان). النتائج: PRB بين 88–93% عند الذروة، BLER حوالي 5% ضمن الحدود، عدد المستخدمين النشطين 170–190، امتلاء المخازن مرتفع، الربط الخلفي طبيعي. هذا يشير إلى طوابير ناتجة عن التزاحم تحت الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Access remains open; proceed.",
+      "message_ar": "مفهوم. الوصول ما زال متاحًا؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency trend for the last 2h: p95 peaks at 110–120 ms between 19:15–20:10; median around 65–75 ms. Pattern aligns with load spikes and user complaints.",
+      "message_ar": "اتجاه الكمون لآخر ساعتين: بلغت p95 بين 110–120 مللي ثانية من 19:15 إلى 20:10؛ الوسيط حوالي 65–75 مللي ثانية. النمط يتوافق مع ارتفاعات الحمل وشكاوى المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed; complaints clustered around 19:30–20:30, mostly during streaming.",
+      "message_ar": "مؤكد؛ تركزت الشكاوى بين 19:30–20:30، أغلبها أثناء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed mitigation: tune QoS/resource allocation to favor low-latency flows within eMBB, enable active queue control, reduce buffering thresholds, and smooth per-UE bursts to shorten wait times. Approve live change?",
+      "message_ar": "الحدّ المقترح: ضبط تخصيص الموارد/QoS لإعطاء أولوية للتدفقات منخفضة الكمون ضمن eMBB، تفعيل التحكم النشط بالطوابير، خفض حدود التخزين المؤقت، وتنعيم الاندفاعات لكل مستخدم لتقليل زمن الانتظار. هل توافق على التغيير المباشر؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for live optimization on NR_URB_MACRO_1023.",
+      "message_ar": "موافق على التحسين المباشر على NR_URB_MACRO_1023."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied and committed. Early effect (5–10 min): p95 latency down to ~84–88 ms, median ~55–60 ms; PRB still ~88–91% but with reduced jitter. I will keep watching for stability.",
+      "message_ar": "تم تطبيق التحسين واعتماده. التأثير الأولي (5–10 دقائق): انخفض كمون p95 إلى ~84–88 مللي ثانية، والوسيط ~55–60 مللي ثانية؛ PRB ما زال ~88–91% لكن بتذبذب أقل. سأستمر بالمراقبة من أجل الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency spikes are easing and video stalls reduced. Action taken: site parameter tuning to reduce latency. Propose monitoring through the next busy hour.",
+      "message_ar": "نلاحظ تحسنًا: انخفاض حدّة ارتفاعات الكمون وتراجع توقّفات الفيديو. الإجراء المُتخذ: ضبط معلمات الموقع لتقليل الكمون. أقترح المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring over the next busy hour and report latency and user-experience trends. If performance regresses, we will roll back today’s tuning and apply temporary load relief; if stable or better, we will retain the settings and plan follow-up optimization.",
+      "message_ar": "سنكون مسؤولين عن المراقبة خلال ساعة الذروة التالية وسنقدم تقريرًا عن اتجاهات الكمون وتجربة المستخدم. إذا تراجع الأداء سنعود عن ضبط اليوم ونطبق تخفيفًا مؤقتًا للحمل؛ وإذا بقي مستقرًا أو تحسن سنحتفظ بالإعدادات ونخطط لتحسين لاحق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_URB_MACRO_1023",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_URB_MACRO_1023",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "QoS/resource tuning to reduce latency under high load"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA violation on an urban 5G NR macro during peak load. Confirmed high resource contention via OSS and validated prolonged high-latency periods on the time series. Mitigated by site parameter tuning for QoS/resource allocation and buffering to reduce queueing delay; monitoring the next busy hour to ensure sustained improvement.",
+    "ar": "تم تشخيص انتهاك SLA للكمون على خلية NR حضرية ماكرو أثناء ذروة الحمل. تم تأكيد تزاحم الموارد المرتفع عبر OSS والتحقق من فترات الكمون المرتفع عبر السلسلة الزمنية. جرى التخفيف عبر ضبط معلمات الموقع لتخصيص الموارد/QoS والتخزين المؤقت لتقليل تأخير الطوابير؛ تتم المراقبة خلال ساعة الذروة التالية لضمان استمرار التحسن."
+  }
+}

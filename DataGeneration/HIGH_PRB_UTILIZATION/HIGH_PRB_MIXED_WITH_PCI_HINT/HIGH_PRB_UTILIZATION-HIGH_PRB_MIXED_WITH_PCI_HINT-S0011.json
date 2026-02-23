@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0011",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm with ~90% PRB utilization over the last 3 hours, 279 users, reduced DL/UL rates (12/7 Mbps), poor RSRQ (-15 dB), and elevated handover failures.",
+    "ar": "خلية ماكرو NR حضرية تُظهر إنذار ازدحام مع استخدام PRB بنحو ~90٪ خلال آخر 3 ساعات، 279 مستخدمًا، معدلات DL/UL منخفضة (12/7 Mbps)، RSRQ ضعيف (-15 dB)، وإخفاقات تسليم مرتفعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell is raising a congestion alarm in the shoulder period. Last 3h: PRB ~90%, 279 users, DL/UL 12/7 Mbps, RSRQ -15 dB, SINR 10 dB, BLER 7%, HO fails ~10%. eMBB streaming complaints reported.",
+      "message_ar": "خلية ماكرو NR حضرية ترفع إنذار ازدحام خلال فترة الذروة الجزئية. آخر 3 ساعات: استخدام PRB ~90٪، 279 مستخدمًا، DL/UL 12/7 Mbps، RSRQ -15 dB، SINR 10 dB، BLER 7٪، وإخفاقات التسليم ~10٪. شكاوى مرتبطة ببث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull 3h stats from OSS for the cell to confirm sustained PRB load and scheduler health. Please approve access to proceed.",
+      "message_ar": "سأسترجع إحصاءات 3 ساعات من نظام الإدارة للتحقق من استدامة حمل PRB وصحة المُجدول. الرجاء الموافقة على الوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for cell NR-Cell-33211-S1. No maintenance ongoing—proceed.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NR-Cell-33211-S1. لا توجد صيانة جارية—تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS confirms sustained load: PRB 88–92% with peaks ~96%; p95 scheduling latency 75 ms; DL/UL 12/7 Mbps; RLF ~2.1%; HO fails ~10%. Logs show neighbor PCI overlap indications. I propose parameter tuning to offload to healthier neighbors and adjust scheduler/resource weights to relieve congestion. Approve?",
+      "message_ar": "يؤكد نظام الإدارة حملًا مستمرًا: PRB بين 88–92٪ مع ذروات ~96٪؛ كمون المُجدول p95 = 75 ملّي ثانية؛ DL/UL = 12/7 Mbps؛ RLF ~2.1٪؛ إخفاقات التسليم ~10٪. السجلات تُظهر مؤشرات تداخل PCI مع الجوار. أقترح ضبط بارامترات للتفريغ إلى الجيران الأصحاء وتعديل أوزان المُجدول/الموارد لتخفيف الازدحام. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize. Neighboring cells are below 70% PRB.",
+      "message_ar": "موافق على التحسين. الخلايا المجاورة تحت 70٪ استخدام PRB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization: apply load-shedding thresholds toward underutilized neighbors and adjust scheduler weighting for congestion. No service interruption expected; observing KPIs for the next 15 minutes.",
+      "message_ar": "جارٍ تنفيذ التحسين: تطبيق عتبات تفريغ الحمل نحو الجيران منخفضي الاستخدام وتعديل أوزان المُجدول لحالة الازدحام. لا يُتوقع انقطاع خدمة؛ سأراقب مؤشرات الأداء خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "10 minutes post-change: connected users down ~12%, PRB now ~82–85%, DL throughput ~18 Mbps, BLER stable.",
+      "message_ar": "بعد 10 دقائق من التغيير: عدد المستخدمين المتصلين انخفض ~12٪، استخدام PRB الآن ~82–85٪، سرعة التنزيل ~18 Mbps، وBLER مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. Given the congestion alarm and the PCI overlap hints, I will open a tracking ticket to document the mitigation and monitor residual risk. Shall I proceed?",
+      "message_ar": "تحسن جيد. نظرًا لإنذار الازدحام ومؤشرات تداخل PCI، سأفتح تذكرة متابعة لتوثيق الإجراء والمراقبة المستمرة للمخاطر المتبقية. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the ticket.",
+      "message_ar": "تفضل بفتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-LOAD-04258 summarizing the load mitigation and PCI overlap observation. We will monitor for the next 2–4 hours and the next busy hour; alert thresholds set if PRB >90% or HO failures rise.",
+      "message_ar": "تم إنشاء التذكرة DU-LOAD-04258 مع ملخص لتخفيف الحمل وملاحظة تداخل PCI. سنراقب خلال 2–4 ساعات القادمة وخلال فترة الذروة التالية؛ تم ضبط حدود تنبيه إذا تجاوز استخدام PRB 90٪ أو ارتفعت إخفاقات التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trends look positive: PRB holding in low-80s and handover failures trending down. Action taken was site parameter tuning via a config push for load shedding. Let’s monitor through the next busy hour and the next 2–4 hours, tracked under DU-LOAD-04258.",
+      "message_ar": "الاتجاهات إيجابية: استخدام PRB في أوائل الثمانينيات وإخفاقات التسليم في اتجاه هبوطي. الإجراء المنفذ كان ضبط بارامترات الموقع عبر دفع إعدادات لتفريغ الحمل. لنتابع المراقبة خلال فترة الذروة القادمة والـ 2–4 ساعات القادمة، مع التتبع ضمن DU-LOAD-04258."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for that window and update DU-LOAD-04258 afterward. If congestion returns, we will escalate to targeted neighbor balancing and interference review; if regressions appear, we will roll back to the last known good.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال تلك الفترة ونحدّث DU-LOAD-04258 بعد ذلك. إذا عاد الازدحام، سنصعّد إلى موازنة موجهة مع مراجعة التداخل؛ وإذا ظهرت تراجعات، سنعود إلى آخر حالة مستقرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a congestion condition on an urban NR macro cell with sustained ~90% PRB utilization, low throughput, and elevated handover failures. Verified via OSS and mitigated by site parameter tuning to offload users and rebalance scheduler resources, then recorded the action in a tracking ticket. Monitoring continues through the next busy hour to validate stability and catch any residual interference.",
+    "ar": "تم تشخيص حالة ازدحام على خلية ماكرو NR حضرية مع استخدام PRB مستمر بنحو ~90٪، سرعات منخفضة، وإخفاقات تسليم مرتفعة. تم التحقق عبر نظام الإدارة وتم التخفيف عبر ضبط بارامترات الموقع لتفريغ المستخدمين وإعادة موازنة موارد المُجدول، ثم توثيق الإجراء في تذكرة متابعة. ستستمر المراقبة خلال فترة الذروة التالية للتحقق من الاستقرار ورصد أي تداخل متبقٍ."
+  }
+}

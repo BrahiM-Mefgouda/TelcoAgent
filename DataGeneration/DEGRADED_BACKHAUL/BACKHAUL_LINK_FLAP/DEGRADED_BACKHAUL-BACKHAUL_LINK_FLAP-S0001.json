@@ -1,0 +1,103 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0001",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell over the last 6h shows frequent backhaul link flaps (~4/hr) with burst loss (~1.25%), elevated p95 latency 32 ms and jitter 30 ms, 313 interface errors, 331 users, and DL around 15 Mbps.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحي خلال آخر 6 ساعات تُظهر تقطعات متكررة في النقل الخلفي (~4/ساعة) مع فقدان متقطع (~1.25%) وارتفاع كمون p95 إلى 32 مللي ثانية وتذبذب 30 مللي ثانية، و313 خطأ على الواجهة، و331 مستخدمًا، ومعدل تنزيل يقارب 15 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows unstable backhaul over the last 6h: ~4 link flaps/hr, burst loss ~1.25%, p95 latency 32 ms, jitter 30 ms, and 313 interface errors; eMBB streaming complaints with DL ~15 Mbps. Please investigate.",
+      "message_ar": "خلية ماكرو NR في الضواحي غير مستقرة على النقل الخلفي خلال آخر 6 ساعات: تقطعات رابط ~4/ساعة، فقدان متقطع ~1.25%، كمون p95 = 32 مللي ثانية وتذبذب 30 مللي ثانية، و313 خطأ على الواجهة؛ شكاوى بث eMBB مع معدل تنزيل ~15 ميجابت/ث. يرجى الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking operational stats for the last 6h to validate backhaul health and correlate errors with flaps. Please share the cell ID and approve read-only diagnostics.",
+      "message_ar": "سأبدأ بالتحقق من إحصاءات التشغيل خلال 6 ساعات لتأكيد صحة النقل الخلفي وربط الأخطاء بالتقطعات. يرجى تزويدي بمعرّف الخلية والموافقة على تشخيصات قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-MACRO-217. Read-only diagnostics approved.",
+      "message_ar": "معرّف الخلية هو NR-SUB-MACRO-217. الموافقة ممنوحة لتشخيصات القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Check complete: 23 link flaps in 6h (~3.8/hr), error spikes align with burst loss; transport latency/jitter elevated. RF is stable (SINR 19 dB, PRB ~72%, 331 users). Conclusion: degraded backhaul/link flap. I propose applying backhaul traffic shaping and error-recovery tuning; minimal impact. Approve?",
+      "message_ar": "تم الفحص: 23 تقطعًا خلال 6 ساعات (~3.8/ساعة)، ارتفاعات في الأخطاء متزامنة مع فقدان متقطع؛ كمون/تذبذب النقل مرتفعان. جانب الراديو مستقر (SINR ‏19 ديسيبل، استخدام PRB ~72%، 331 مستخدمًا). الاستنتاج: تدهور في النقل الخلفي/تقطعات الرابط. أقترح تطبيق ضبط تشكيل المرور واسترداد الأخطاء؛ أثر ضئيل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the tuning.",
+      "message_ar": "موافق على الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied: enabled backhaul QoS shaping, adjusted queue depth and pacing, and improved interface error recovery within policy. Expect reduced burst loss and jitter within minutes. Next, I will open a transport ticket for link stability investigation. Approve?",
+      "message_ar": "تم تطبيق الضبط: تفعيل تشكيل QoS للنقل الخلفي، تعديل عمق الصف والإيقاع، وتحسين التعافي من أخطاء الواجهة ضمن السياسة. نتوقع انخفاض الفقد المتقطع والتذبذب خلال دقائق. بعد ذلك سأفتح بلاغًا لفريق النقل للتحقيق في استقرار الوصلة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the ticket.",
+      "message_ar": "موافق على فتح البلاغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket opened for transport to inspect the link and physical path. I will keep an eye on immediate counters. Can you confirm if streaming stabilizes over the next few minutes?",
+      "message_ar": "تم فتح البلاغ ليتحقق فريق النقل من الوصلة والمسار الفيزيائي. سأراقب المؤشرات فورًا. هل يمكنك تأكيد ما إذا كان البث يستقر خلال الدقائق القادمة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial improvement: no new flaps in the last 20 minutes and jitter is smoothing. Your backhaul parameter tuning is active. Let’s monitor through the next busy hour; I’ll track and update under DU-BH-10427.",
+      "message_ar": "تحسّن مبدئي: لا تقطعات جديدة خلال آخر 20 دقيقة والتذبذب في انخفاض. تم تفعيل ضبط معلمات النقل الخلفي. لِنرصد خلال ساعة الذروة القادمة؛ سأتابع وأحدّث ضمن DU-BH-10427."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket after the window. If flaps or loss recur, we will escalate to transport NOC for link remediation; if any adverse effects appear, we will roll back the tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث البلاغ بعد انتهاء النافذة. إذا عادت التقطعات أو الفقد فسنصعّد الأمر إلى فريق النقل لإصلاح الوصلة؛ وإذا ظهرت آثار جانبية فسنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-217",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "enable backhaul QoS shaping; adjust egress queue depth and pacing; improve interface error recovery thresholds"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul on NR-SUB-MACRO-217: ~4 flaps/hr with burst loss and high jitter/latency; applied QoS/queue/pacing tuning; request transport link stability check"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on the suburban NR macro cell: frequent link flaps with burst loss and elevated latency/jitter while RF metrics remained stable. Applied site parameter tuning for backhaul QoS shaping, queue/pacing, and error-recovery to mitigate the instability. Opened a ticket for transport follow-up and will monitor to confirm sustained stability.",
+    "ar": "تم تشخيص تدهور في النقل الخلفي على خلية ماكرو NR بالضواحي: تقطعات متكررة مع فقدان متقطع وارتفاع الكمون/التذبذب بينما بقيت مؤشرات الراديو مستقرة. تم تنفيذ ضبط معلمات الموقع لتشكيل QoS، وضبط الصف/الإيقاع، وتحسين التعافي من الأخطاء للتخفيف من عدم الاستقرار. فُتح بلاغ لمتابعة النقل وسيتم المراقبة للتأكد من الاستقرار المستدام."
+  }
+}

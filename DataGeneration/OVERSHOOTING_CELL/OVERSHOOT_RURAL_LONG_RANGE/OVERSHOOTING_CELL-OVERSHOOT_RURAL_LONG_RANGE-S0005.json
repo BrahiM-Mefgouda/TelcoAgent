@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0005",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural 5G NR macro is serving long-range with poor radio quality over the last 12h, causing slow data and interference/signal overlap—can we address overshooting and mobility errors?",
+    "ar": "موقع ماكرو 5G NR ريفي يخدم لمسافات بعيدة خلال آخر 12 ساعة مع جودة راديو ضعيفة، ما يسبب بيانات بطيئة وتداخل/تراكب إشارة—هل يمكن معالجة تجاوز التغطية وأخطاء التنقل؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural 5G NR macro showing long-range serving and poor radio quality over the last 12h; users report slow data and drops while moving between villages. KPIs: p95 TA ≈1.49 km, RSRP ≈-119 dBm, RSRQ -15 dB, SINR -2 dB, HO fails 20%, ping-pong 14%, p50 DL ≈5 Mbps; traffic is eMBB with streaming.",
+      "message_ar": "موقع ماكرو 5G NR ريفي يُظهر خدمة لمسافات بعيدة وجودة راديو ضعيفة خلال آخر 12 ساعة؛ المستخدمون يبلغون عن بيانات بطيئة وانقطاعات أثناء التنقل بين القرى. المؤشرات: TA p95 ≈1.49 كم، RSRP ≈-119 dBm، RSRQ ‎-15 dB، SINR ‎-2 dB، فشل تسليم 20%، بينغ-بونغ 14%، وسيط التنزيل ≈5 Mbps؛ الحركة eMBB مع بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "This points to an overshooting cell with interference/signal overlap impacting mobility and throughput. I will first review the coverage heatmap across the rural cluster, then verify neighbor definitions and handover thresholds for the affected macro. Please confirm access and share the exact cell name.",
+      "message_ar": "يبدو أن هناك خلية تتجاوز نطاقها مع تداخل/تراكب إشارة يؤثر على التنقل ومعدل النقل. سأبدأ بمراجعة خريطة التغطية الحرارية عبر التجمع الريفي، ثم التحقق من تعريفات الجيران وعتبات التسليم للموقع المتأثر. يرجى تأكيد الوصول ومشاركة اسم الخلية الدقيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell: NR-RURAL-MACRO-07 in the North Ridge cluster. Nearest peer macro is about 9 km away. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول. الخلية: NR-RURAL-MACRO-07 ضمن مجموعة North Ridge. أقرب موقع ماكرو مجاور يبعد حوالي 9 كم. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review over the rural North Ridge on a 500 m grid (last 12h) shows the main sector lobe extending >10 km with weak levels (-118 to -122 dBm), SINR near/under 0 dB, and distant serving around 24%. TA spread and ping-pong align with overshoot. Next, I will analyze neighbor consistency and mobility thresholds around this cell.",
+      "message_ar": "مراجعة التغطية على شبكة 500 م في منطقة North Ridge الريفية (آخر 12 ساعة) تُظهر أن حزمة القطاع الرئيسية تمتد لأكثر من 10 كم بمستويات ضعيفة (-118 إلى -122 dBm)، وSINR قريب/أقل من 0 dB، ونسبة خدمة بعيدة حوالي 24%. تشتت TA والبينغ-بونغ يتوافقان مع تجاوز التغطية. بعد ذلك، سأحلل اتساق الجيران وعتبات التنقل حول هذه الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Continue.",
+      "message_ar": "مفهوم. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor consistency around NR-RURAL-MACRO-07 within 12 km: missing bi-directional neighbor with the west macro at ~9 km; exit/entry margins toward closer sites are too conservative, delaying handovers and causing ping-pong. This aligns with the high handover failures.",
+      "message_ar": "اتساق الجيران حول NR-RURAL-MACRO-07 ضمن 12 كم: الجار الثنائي الاتجاه مع الماكرو الغربي على ~9 كم مفقود؛ وهوامش الدخول/الخروج نحو المواقع الأقرب محافظة أكثر من اللازم، مما يؤخر التسليم ويتسبب في البينغ-بونغ. هذا يتماشى مع ارتفاع فشل التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. You have approval to optimize with minimal impact.",
+      "message_ar": "تم الاستلام. لديك الموافقة على إجراء التحسين مع أقل تأثير ممكن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing targeted optimization now: modest down-tilt increase (~1.5°) to shrink far reach, slight power/beam shaping to reduce spillover, tighter mobility thresholds toward nearer macros, and adding the missing west neighbor bi-directionally. Changes applied successfully; any user impact should be negligible.",
+      "message_ar": "أقوم الآن بتنفيذ تحسين مستهدف: زيادة خفيفة في الميل الكهربائي نحو الأسفل (~1.5°) لتقليل الامتداد البعيد، وتشكيل طفيف للقدرة/الحزمة لتقليل التسرب، وتشديد عتبات التنقل نحو الماكرو الأقرب، وإضافة الجار الغربي المفقود باتجاهين. تم تطبيق التغييرات بنجاح؛ ينبغي أن يكون تأثير المستخدم ضئيلاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Monitoring KPIs.",
+      "message_ar": "تم. أراقب المؤشرات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early impact (first 10–15 min): distant-serving down to ~12%, median SINR improved from −2 dB to ~+1 dB, handover failures down by ~6 percentage points, and median downlink up to ~7 Mbps. I will keep tracking stability.",
+      "message_ar": "الأثر المبكر (أول 10–15 دقيقة): انخفضت نسبة الخدمة البعيدة إلى ~12%، تحسن وسيط SINR من −2 dB إلى ~+1 dB، وانخفضت حالات فشل التسليم بنحو ~6 نقاط مئوية، وارتفع وسيط التنزيل إلى ~7 Mbps. سأستمر بمتابعة الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing ping-pong trending down and better median throughput. The site parameter tuning and neighbor update appear effective. Let’s monitor through the next busy hour.",
+      "message_ar": "أرى انخفاضاً في البينغ-بونغ وتحسناً في وسيط معدل النقل. يبدو أن ضبط معلمات الموقع وتحديث الجيران فعّالان. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and share an update on distant serving, SINR, and mobility errors afterward. If degradation returns, we will roll back the tilt/power tweaks and revert the neighbor/mobility changes; if improvements hold, we will baseline the settings.",
+      "message_ar": "سنقوم نحن بمتابعة الأداء خلال ساعة الذروة التالية وسنشارك تحديثاً لاحقاً حول الخدمة البعيدة وSINR وأخطاء التنقل. إذا عاد التدهور، سنرجع تعديلات الميل/القدرة ونعيد تغييرات الجيران/التنقل؛ وإذا استمر التحسن، سنعتمد الإعدادات كأساس."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "rural",
+        "500m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-RURAL-MACRO-07",
+        "adjacent-macros"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "tilt/power/mobility"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis confirmed an overshooting rural NR macro with long-range serving, weak signal and interference overlap, and elevated mobility errors. We reviewed coverage and neighbor relations, then applied site parameter tuning: modest down-tilt, power/beam shaping, tighter mobility thresholds, and completion of a missing neighbor. Initial KPIs improved; we will monitor the busy hour to validate stability.",
+    "ar": "أكد التشخيص وجود خلية NR ريفية تتجاوز نطاقها مع خدمة بعيدة، إشارة ضعيفة وتراكب/تداخل، وأخطاء تنقل مرتفعة. تمت مراجعة التغطية وعلاقات الجيران، ثم تم تنفيذ ضبط معلمات الموقع: زيادة خفيفة للميل نحو الأسفل، وتشكيل للقدرة/الحزمة، وتشديد عتبات التنقل، واستكمال جار مفقود. تحسنت المؤشرات الأولية؛ سنراقب خلال ساعة الذروة للتحقق من الاستقرار."
+  }
+}

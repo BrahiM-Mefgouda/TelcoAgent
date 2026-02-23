@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0026",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows downlink throughput at 12 Mbps with 92% resource use, 234 users, SINR 9 dB, and p95 scheduling latency 82 ms over the last 3h; congestion alarm is active.",
+    "ar": "خلية NR حضرية ماكرو تُظهر سرعة تحميل 12 Mbps مع استخدام موارد 92% و234 مستخدماً وSINR = 9 dB وزمن انتظار الجدولة p95 = 82 ms خلال آخر 3 ساعات؛ تنبيه الازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a DL throughput drop on an urban NR macro sector in the last 3 hours. Congestion alarm is active. KPIs: PRB ~92%, DL ~12 Mbps, p95 scheduling latency ~82 ms, users ~234.",
+      "message_ar": "نلاحظ هبوطاً في معدل التحميل على قطاع NR حضري ماكرو خلال آخر 3 ساعات. تنبيه الازدحام نشط. المؤشرات: PRB ~92%، السرعة ~12 Mbps، زمن انتظار الجدولة p95 ~82 ms، وعدد المستخدمين ~234."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling OSS counters for the last 3 hours on the impacted cell to validate congestion and RF quality. Please confirm the cell ID and grant read-only access. Shoulder period eMBB (streaming) may be driving load.",
+      "message_ar": "سأبدأ بسحب مؤشرات التشغيل لآخر 3 ساعات على الخلية المتأثرة للتحقق من الازدحام وجودة التغطية. يرجى تأكيد معرّف الخلية ومنحي صلاحية قراءة فقط. قد يهيمن مستخدمو eMBB (البث) في فترة الكتف على الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-105. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-105. تمت الموافقة على صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected OSS KPIs (3h) for NR-URB-MACRO-105: PRB 91.8%, DL 12 Mbps, BLER 6.9%, SINR 9 dB, RSRQ -13 dB, users 234, p95 queue latency 82 ms. This is a load-driven DL bottleneck with moderate quality degradation. Next, I will fetch DL KPI time series across the 3h window to assess trend and peak timing. Proceed?",
+      "message_ar": "تم جمع مؤشرات OSS (3 ساعات) للخلية NR-URB-MACRO-105: PRB 91.8%، DL 12 Mbps، BLER 6.9%، SINR 9 dB، RSRQ -13 dB، المستخدمون 234، وزمن انتظار p95 يساوي 82 ms. المؤشرات تشير إلى اختناق تحميل مع تدهور متوسط في الجودة. التالي: سأسحب السلاسل الزمنية لمؤشرات التحميل خلال 3 ساعات لتقييم الاتجاه وتوقيت الذروة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series over 3h shows dips during shoulder peaks aligned with PRB saturation and rising queue latency; BLER stays ~7% with no outage pattern. Diagnosis: capacity-limited cell. I will optimize cell parameters to improve scheduler fairness and DL throughput under high load (non-intrusive). Approve change?",
+      "message_ar": "السلسلة الزمنية خلال 3 ساعات تُظهر هبوطاً أثناء ذروة فترة الكتف متزامناً مع تشبع PRB وارتفاع زمن الانتظار؛ BLER ثابت ~7% دون نمط انقطاع. التشخيص: الخلية محدودة بالسعة. سأقوم بتحسين معلمات الخلية لتحسين عدالة المجدول وسرعة التحميل تحت الحمل العالي (بدون تأثير تشغيلي كبير). هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate change; no feature locks on this sector.",
+      "message_ar": "موافق على التنفيذ فوراً؛ لا توجد قيود ميزات على هذا القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter optimization on NR-URB-MACRO-105: tuned DL scheduler weights, adjusted per-UE PRB allocation limits, and refined MCS adaptation to balance BLER vs throughput. Change successful. I will validate with live counters for 10–15 minutes and watch DL rate and queue latency.",
+      "message_ar": "تم تطبيق تحسين معلمات على NR-URB-MACRO-105: ضبط أوزان جدولة التحميل، تعديل حدود تخصيص PRB لكل مستخدم، وتحسين تكييف MCS لتحقيق توازن بين BLER والسرعة. تم التنفيذ بنجاح. سأتحقق عبر المؤشرات الحية لمدة 10–15 دقيقة وأراقب سرعة التحميل وزمن الانتظار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look positive: average DL throughput up from ~12 to ~19 Mbps and p95 queue latency reduced to ~58 ms. No new error spikes observed.",
+      "message_ar": "المؤشرات الأولية إيجابية: ارتفع متوسط سرعة التحميل من ~12 إلى ~19 Mbps وانخفض زمن انتظار p95 إلى ~58 ms. لا توجد ارتفاعات جديدة في الأخطاء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. We will keep the optimization active and continue monitoring through the next busy hour, tracking DL rate, PRB utilization, and latency trends.",
+      "message_ar": "تحسن جيد. سنُبقي التحسين مفعّلاً ونواصل المراقبة خلال ساعة الذروة التالية مع تتبع سرعة التحميل واستخدام PRB واتجاهات الكمون."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is holding; DL throughput trending up and queueing delay easing. Action taken: site parameter tuning on DL scheduler and allocation thresholds. Recommend monitoring through the next busy hour.",
+      "message_ar": "التحسن مستمر؛ سرعة التحميل في ارتفاع وتأخر الاصطفاف في انخفاض. الإجراء المنفذ: ضبط معلمات الموقع على مجدول التحميل وحدود التخصيص. أوصي بالمراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and report DL throughput and latency trends afterward. If performance degrades, we will roll back the change; if congestion persists, we will escalate for capacity upgrade and broader load balancing.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونوافيكم باتجاهات سرعة التحميل والكمون بعدها. إذا تدهد الأداء سنعود إلى الإعداد السابق؛ وإذا استمر الازدحام فسوف نرفع الموضوع لترقية السعة وتوسيع موازنة الحمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-105",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-105",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler and PRB tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on an urban NR macro cell as capacity-driven, evidenced by ~92% resource use, moderate quality, and rising queue latency during the shoulder period. Validated the trend over a 3-hour time series, then mitigated via site parameter tuning focused on DL scheduler and PRB allocation behavior. Post-change, throughput improved and latency decreased; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص هبوط سرعة التحميل في خلية NR حضرية ماكرو بأنه ناتج عن قيود السعة، مع استخدام موارد ~92% وجودة متوسطة وارتفاع زمن الانتظار خلال فترة الكتف. تم التحقق من الاتجاه عبر سلسلة زمنية لثلاث ساعات، ثم تمت المعالجة عبر ضبط معلمات الموقع مع التركيز على مجدول التحميل وسلوك تخصيص PRB. بعد التعديل تحسنت السرعة وانخفض الكمون؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0016",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban NR macro cell shows URLLC latency 39 ms with 11 ms jitter and 47% violations over the last 4h; 143 users with 86% PRB utilization and p50 throughput 3 Mbps indicate congestion and slow data during peak eMBB traffic.",
+    "ar": "موقع ماكرو NR حضري يظهر زمن تأخير URLLC يبلغ 39 مللي ثانية مع تذبذب 11 مللي ثانية و47% مخالفات خلال آخر 4 ساعات؛ 143 مستخدمًا مع استخدام PRB بنسبة 86% ومعدل نقل وسيط 3 ميجابت/ث يشير إلى ازدحام وبطء البيانات أثناء ذروة حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have an alarm on an urban NR macro site: URLLC slice latency breaches over the last 4 hours during peak. Median latency ~39 ms, jitter 11 ms, ~47% of requests violating; 143 users, PRB utilization ~86%, p50 throughput 3 Mbps. Traffic mix is eMBB-heavy with streaming.",
+      "message_ar": "لدينا إنذار في موقع ماكرو NR حضري: تجاوزات في زمن تأخير شريحة URLLC خلال آخر 4 ساعات أثناء الذروة. المتوسط ~39 مللي ثانية، التذبذب 11 مللي ثانية، ~47% من الطلبات مخالفة؛ 143 مستخدمًا، استخدام PRB ~86%، والنقل الوسيط 3 ميجابت/ث. مزيج الحركة ثقيل eMBB مع بث فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the diagnosis. First, I’ll check OSS stats for the impacted cell over the last 4h to validate load, admission, and queueing. Please share the cell ID and confirm read access.",
+      "message_ar": "سأتولى التشخيص. أولاً سأتحقق من إحصاءات النظام للإشراف خلال آخر 4 ساعات للتحقق من الحمل والقبول والانتظار. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-221. Read access approved for diagnostics.",
+      "message_ar": "معرّف الخلية هو NR-URB-MACRO-221. تمت الموافقة على صلاحية القراءة لأغراض التشخيص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check on NR-URB-MACRO-221 for the last 4h. Observed PRB utilization avg 86% (peaks ~92%), backhaul OK, no cell faults. URLLC slice queue growth aligns with busy hour; scheduler favors eMBB bursts. Next, I will pull URLLC QoS/latency time series to quantify the breach—proceed?",
+      "message_ar": "أقوم بفحص النظام على NR-URB-MACRO-221 لآخر 4 ساعات. لوحظ متوسط استخدام PRB 86% (قمم ~92%)، الربط الخلفي سليم، لا أعطال خلوية. نمو في طوابير URLLC يتوافق مع ساعة الذروة؛ المجدول يُفضّل دفعات eMBB. بعد ذلك سأجلب سلسلة زمنية لجودة الخدمة/الزمن لـURLLC لتحديد حجم التجاوز—هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms median URLLC latency 38–42 ms, jitter 10–14 ms, and violation rate 45–50% during 18:00–21:00 peaks; admission success is stable. This points to policy pressure under congestion. I will apply a targeted slice policy update: increase minimum guaranteed resources for URLLC, raise latency priority, and allow mild preemption of eMBB. Proceed now?",
+      "message_ar": "السلسلة الزمنية تؤكد متوسط زمن URLLC بين 38–42 مللي ثانية، التذبذب 10–14 مللي ثانية، ونسبة المخالفات 45–50% خلال ذروة 18:00–21:00؛ نجاح القبول ثابت. يشير ذلك إلى ضغط في السياسات تحت الازدحام. سأطبق تحديثًا مستهدفًا لسياسة الشريحة: زيادة الحد الأدنى للموارد المضمونة لـURLLC، رفع أولوية زمن التأخير، والسماح بإزاحة طفيفة لـeMBB. هل أمضي الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed, keeping impact on eMBB moderate.",
+      "message_ar": "تفضل، مع الحفاظ على تأثير معتدل على eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying slice policy update for URLLC: modest uplift to guaranteed resources, light preemption margin, and higher latency weighting. Change committed with a rollback checkpoint. Let’s observe for 10 minutes to stabilize.",
+      "message_ar": "أقوم بتطبيق تحديث سياسة الشريحة لـURLLC: زيادة متواضعة في الموارد المضمونة، هامش إزاحة خفيف، ورفع وزن أولوية التأخير. تم اعتماد التغيير مع نقطة رجوع. لنتابع لمدة 10 دقائق للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes: URLLC median latency ~19 ms, jitter ~6 ms; violations down to ~12%. p50 user throughput improved to ~5–6 Mbps. No complaints so far.",
+      "message_ar": "بعد ~10 دقائق: متوسط زمن URLLC حوالي 19 مللي ثانية، التذبذب ~6 مللي ثانية؛ المخالفات انخفضت إلى ~12%. تحسّن النقل الوسيط للمستخدم إلى ~5–6 ميجابت/ث. لا توجد شكاوى حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. We will hold further tuning and watch the tails and violation ratio through the next load rise to confirm stability.",
+      "message_ar": "تحسّن جيد. سنؤجل أي ضبط إضافي ونراقب الأطراف ونسبة المخالفات خلال ارتفاع الحمل التالي لتأكيد الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend remains positive: violations trending down and latency is stabilizing under load. Action taken: slice policy update for URLLC. Let’s monitor over the next busy hour.",
+      "message_ar": "الاتجاه ما زال إيجابياً: المخالفات في انخفاض وزمن التأخير يستقر تحت الحمل. الإجراء المتخذ: تحديث سياسة الشريحة لـURLLC. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and report URLLC latency, jitter, and violation rate. If degradation returns, we will strengthen the slice priority slightly; if eMBB impact appears, we will roll back to the previous settings.",
+      "message_ar": "تم الاستلام. سنراقب خلال ساعة الذروة القادمة ونبلغ بزمن URLLC والتذبذب ونسبة المخالفات. إذا عادت التدهورات سنعزز أولوية الشريحة بشكل طفيف؛ وإذا ظهر تأثير على eMBB فسنرجع إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-221",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-221",
+        "QoS cls",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC_SLICE_01",
+        "Increase URLLC min-guarantee, raise latency priority, enable mild preemption"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice QoS degradation on an urban NR macro cell under congestion, verified by OSS counters and QoS/latency time series showing high violations and latency spikes during peak. Mitigated by a slice policy update that increased URLLC minimum guaranteed resources, raised latency priority, and enabled mild preemption of eMBB. Monitoring will continue through the next busy hour to validate stability and adjust if needed.",
+    "ar": "تم تشخيص تدهور جودة خدمة شريحة URLLC في موقع ماكرو NR حضري تحت الازدحام، وتم التحقق عبر مؤشرات النظام والسلاسل الزمنية للجودة/الزمن التي أظهرت مخالفات مرتفعة وارتفاعات في التأخير خلال الذروة. تم التخفيف بتحديث سياسة الشريحة عبر زيادة الحد الأدنى للموارد المضمونة لـURRLC ورفع أولوية التأخير وتمكين إزاحة طفيفة لـeMBB. ستستمر المراقبة خلال ساعة الذروة القادمة للتحقق من الاستقرار وإجراء أي تعديلات عند الحاجة."
+  }
+}

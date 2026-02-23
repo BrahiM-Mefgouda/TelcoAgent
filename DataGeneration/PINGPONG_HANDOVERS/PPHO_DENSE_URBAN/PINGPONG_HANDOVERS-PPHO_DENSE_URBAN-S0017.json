@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0017",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro cell shows elevated ping-pong handovers (21%) during peak evening with HO success ~88% and median throughput at 8 Mbps indicating slow data.",
+    "ar": "خلية NR ماكرو في منطقة حضرية كثيفة تُظهر ارتفاعاً في عمليات التسليم ذهاباً وإياباً (21%) خلال ذروة المساء مع نجاح تسليم يقارب 88% وإنتاجية وسيطة 8 ميجابت/ث مما يدل على بطء البيانات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on a dense urban NR macro sector—we're seeing many ping-pong handovers and user reports of slow data; HO success ~88%, ping-pong ~21%, RSRP around -113 dBm, about 400 users with eMBB streaming.",
+      "message_ar": "فترة الذروة المسائية على قطاع ماكرو NR في منطقة حضرية كثيفة—نلاحظ عمليات تسليم ذهاباً وإياباً كثيرة وشكاوى من بطء البيانات؛ نجاح التسليم ~88%، معدل الذهاب والإياب ~21%، RSRP نحو -113 dBm، وحوالي 400 مستخدم مع بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll diagnose the ping-pong issue over the last 4 hours. Please confirm access so I can pull OSS mobility counters for this cell.",
+      "message_ar": "سأشخّص مشكلة الذهاب والإياب خلال آخر 4 ساعات. يرجى تأكيد الإذن كي أتمكن من سحب عدادات التنقل من نظام الإدارة لهذه الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the 4-hour window.",
+      "message_ar": "تمت الموافقة على الوصول لنافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 4h OSS stats now; reviewing HO attempts, success, ping-pong ratio, RSRP/RSRQ, and load. Early read: ~65 HO attempts per 5 min, HO success 88%, ping-pong near 21%, PRB ~67%, no active alarms. Next, I'll analyze HO time series to isolate oscillating neighbor pairs—proceed?",
+      "message_ar": "أقوم الآن بسحب إحصاءات 4 ساعات من النظام؛ أراجع محاولات التسليم، نسبة النجاح، معدل الذهاب والإياب، RSRP/RSRQ والحمل. القراءة الأولية: ~65 محاولة تسليم كل 5 دقائق، نجاح 88%، ذهاب وإياب نحو 21%، إشغال PRB ~67%، ولا إنذارات فعّالة. الخطوة التالية: تحليل السلاسل الزمنية للتسليم لعزل الأزواج المتأرجحة من الجيران—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows frequent back-and-forth between the serving sector and two neighbors to the east and north, with short dwell times (<0.5 s). Current mobility settings: TTT ~281 ms, A3 offset 1 dB, hysteresis 3 dB. This points to edge oscillations under moderate load. I propose raising TTT to 400 ms and slightly increasing A3 and hysteresis to reduce reversals. Approve optimization?",
+      "message_ar": "يُظهر التحليل الزمني تكراراً لذهاب/إياب بين القطاع الخادم وجارين إلى الشرق والشمال مع أزمنة مكوث قصيرة (<0.5 ثانية). إعدادات الحركة الحالية: TTT ~281 مللي ثانية، إزاحة A3 بمقدار 1 ديسيبل، والهيستريزيس 3 ديسيبل. هذا يشير إلى تذبذب عند الحواف مع حمل متوسط. أقترح رفع TTT إلى 400 مللي ثانية وزيادة طفيفة لـ A3 والهيستريزيس لتقليل الانعكاسات. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the mobility parameter optimization now.",
+      "message_ar": "موافَق على تطبيق تحسين معلمات الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the optimization and committing live; no service interruption expected. I'll validate counters after 15 minutes and keep watching HO reversals and median throughput.",
+      "message_ar": "أطبق التحسين وأثبته مباشرة دون توقّف للخدمة. سأتحقق من العدادات بعد 15 دقيقة وأواصل متابعة انعكاسات التسليم والإنتاجية المتوسطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, users report slightly steadier sessions; no anomalies observed.",
+      "message_ar": "بعد التغيير، المستخدمون أبلغوا عن جلسات أكثر استقراراً؛ لا توجد شذوذات ملحوظة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial check: ping-pong cycles down roughly 25–30%, HO success up about 2 points, median throughput edging above 8 Mbps. I will continue to observe during the current busy period.",
+      "message_ar": "الفحص الأولي: دورات الذهاب/الإياب انخفضت بنحو 25–30%، نجاح التسليم ارتفع بحوالي نقطتين، والإنتاجية الوسيطة تجاوزت 8 ميجابت/ث قليلاً. سأواصل المتابعة خلال فترة الانشغال الحالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: ping-pong reversals trending down and median data rate improving. Action taken was mobility parameter optimization. Let's monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: انعكاسات التسليم في اتجاه هابط ومعدل البيانات الوسيط يتحسن. الإجراء المتخذ كان تحسين معلمات الحركة. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next busy hour monitoring and share results afterward. If degradation returns, we will roll back to prior settings and escalate for neighbor plan review.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة ونشارك النتائج بعدها. إذا عاد التدهور، سنرجع إلى الإعدادات السابقة ونصعّد لمراجعة مخطط الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong handovers in a dense urban NR macro sector during the peak evening. Pulled 4-hour mobility counters and analyzed the handover time series to identify oscillating neighbor pairs. Mitigated via site parameter tuning (increased TTT with slight A3/hysteresis raise), reducing reversals and lifting median throughput; continued monitoring is in place.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم ذهاباً وإياباً في قطاع ماكرو NR حضري كثيف خلال ذروة المساء. جرى سحب عدادات الحركة لمدة 4 ساعات وتحليل السلاسل الزمنية للتسليم لتحديد الأزواج المتأرجحة مع الجيران. تم التخفيف عبر ضبط معلمات الموقع (زيادة TTT مع رفع طفيف لـ A3 والهيستريزيس)، مما خفّض الانعكاسات ورفع الإنتاجية الوسيطة؛ والمتابعة مستمرة."
+  }
+}

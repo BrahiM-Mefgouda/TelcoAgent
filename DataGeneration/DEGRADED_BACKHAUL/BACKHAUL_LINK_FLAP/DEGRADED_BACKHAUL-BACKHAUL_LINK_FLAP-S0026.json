@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0026",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell over the last 6h shows frequent backhaul link flaps (~9/h), high loss bursts (~61%), p95 latency 38 ms, and 672 interface errors with eMBB traffic and downlink near 16 Mbps.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية خلال آخر 6 ساعات تُظهر رفرفة متكررة في ربط الباكهول (~9/ساعة)، وفقداناً متقطعاً مرتفعاً (~61%)، وكمون p95 يساوي 38 مللي ثانية، و672 خطأً على الواجهة مع حركة eMBB وسرعة تنزيل تقارب 16 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell showing intermittent downlink dips and video buffering over the last 6h; field noted frequent backhaul link flaps without active alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية تُظهر هبوطاً متقطعاً في الداونلينك وتقطيع فيديو خلال آخر 6 ساعات؛ تمّت ملاحظة رفرفة متكررة في ربط الباكهول بدون إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll handle this as degraded backhaul. Please confirm the cell ID and approve diagnostics and mitigations; I will pull 6h stats, apply protective tuning if needed, and coordinate follow-up.",
+      "message_ar": "سأتعامل معها كضعف في الباكهول. يرجى تأكيد معرف الخلية والموافقة على الفحص والإجراءات؛ سأجلب إحصاءات آخر 6 ساعات، وأطبق ضبطاً وقائياً إذا لزم، وأنسّق المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-MACRO-7845; approval granted. Traffic is eMBB with streaming; about 321 users peak; current DL around 16 Mbps.",
+      "message_ar": "معرّف الخلية: NR-MACRO-7845؛ الموافقة ممنوحة. الحركة eMBB مع بث فيديو؛ حوالي 321 مستخدماً في الذروة؛ الداونلينك حالياً نحو 16 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 6h OSS counters for NR-MACRO-7845 now. Results: backhaul link flaps ~9/h, burst loss ~61%, p95 latency 38 ms, jitter 7 ms, interface errors 672. Radio is moderate (SINR 15 dB, RSRP −99 dBm, PRB ~77%). This points to backhaul impairment, not RF.",
+      "message_ar": "أجلب عدادات OSS لآخر 6 ساعات للخلية NR-MACRO-7845. النتائج: رفرفة ربط الباكهول ~9/ساعة، فقدان متقطع ~61%، كمون p95 = 38 مللي ثانية، تذبذب 7 مللي ثانية، أخطاء واجهة 672. وضع الراديو متوسط (SINR ‏15 dB، RSRP ‏−99 dBm، استخدام PRB ~77%). المؤشرات تدل على خلل في الباكهول وليس في الـRF."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood; those figures match what NOC saw. Proceed.",
+      "message_ar": "مفهوم؛ هذه الأرقام تطابق ما رآه مركز العمليات. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will apply targeted cell-side mitigation to smooth bursts and tolerate loss/jitter (conservative scheduler and buffering on NR-MACRO-7845). Rollback ready. Approve change?",
+      "message_ar": "سأطبق تخفيفاً مستهدفاً على جانب الخلية لتنعيم الاندفاعات وتحمل الفقد/الارتعاش (جدولة محافظة وتخزين مؤقت على NR-MACRO-7845). جاهز للتراجع. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. No maintenance ongoing on site.",
+      "message_ar": "موافق. لا توجد صيانة جارية في الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mitigation applied successfully; immediate counters show stabilized queuing and fewer interface errors. I’m opening a tracking ticket to engage backhaul/vendor for physical link inspection; I will include today’s metrics.",
+      "message_ar": "تم تطبيق التخفيف بنجاح؛ العدادات الفورية تشير إلى استقرار الطوابير وانخفاض أخطاء الواجهة. أقوم بفتح تذكرة متابعة لإشراك فريق الباكهول/المورّد لفحص الرابط الفيزيائي؛ سأرفق مقاييس اليوم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change check: video buffering largely gone, DL improved to ~22–24 Mbps, no link flap in last 10 minutes, but occasional small loss spikes persist.",
+      "message_ar": "فحص ما بعد التغيير: تقطيع الفيديو اختفى إلى حد كبير، تحسن الداونلينك إلى ~22–24 ميجابت/ث، لا توجد رفرفة خلال آخر 10 دقائق، لكن توجد طفرات فقدان صغيرة متفرقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We’ll continue live observation through the next busy period; expect further stabilization as buffers adapt. I’ll coordinate with transport once they review optics and errors.",
+      "message_ar": "جيد. سنستمر بالمراقبة الحية خلال فترة الانشغال القادمة؛ يُتوقع مزيد من الاستقرار مع تكيف المخازن المؤقتة. سأنسّق مع النقل بعد مراجعتهم للبصريات والأخطاء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: link flaps trending down to zero so far, and downlink is steadier. Action taken: site parameter tuning to mitigate backhaul degradation. Let’s monitor over the next 2–4 hours; tracking under DU-BH-04231.",
+      "message_ar": "تم تأكيد التحسن: رفرفة الرابط تتجه إلى الصفر حتى الآن، والداونلينك أكثر ثباتاً. الإجراء المتخذ: ضبط معلمات الموقع لتخفيف تدهور الباكهول. لنتابع المراقبة خلال الساعات 2–4 القادمة؛ المتابعة تحت DU-BH-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the 2–4 hour window and update the ticket after the window with trend lines and user-impact notes. If degradation resurfaces, we’ll escalate to transport for path restoration; if adverse effects appear, we’ll rollback the tuning immediately.",
+      "message_ar": "تم. سنتولى نافذة 2–4 ساعات وسنحدّث التذكرة بعد النافذة مع الرسوم الاتجاهية وملاحظات الأثر على المستخدم. إذا عاد التدهور سنصعّد إلى النقل لاستعادة المسار؛ وإذا ظهرت آثار سلبية سنرجع الضبط فوراً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro cell: high link flap rate, severe burst loss, elevated latency, and interface errors while RF conditions were only moderate. Pulled recent network counters, applied site parameter tuning to smooth bursts and tolerate loss/jitter, and opened a tracking ticket for backhaul/vendor inspection. Post-change, queuing stabilized and downlink steadied; continued monitoring is planned through the next hours.",
+    "ar": "تم تشخيص تدهور في الباكهول لخلية NR ماكرو في منطقة ضاحية: معدل رفرفة مرتفع، فقدان متقطع حاد، كمون مرتفع، وأخطاء واجهة بينما ظروف الراديو متوسطة فقط. تم جلب عدادات الشبكة الحديثة، وتطبيق ضبط معلمات الموقع لتنعيم الاندفاعات وتحمل الفقد/الارتعاش، وفتح تذكرة متابعة لفحص الباكهول من قبل المورّد. بعد التغيير، استقرت الطوابير وأصبح الداونلينك أكثر ثباتاً؛ وسيستمر الرصد خلال الساعات القادمة."
+  }
+}

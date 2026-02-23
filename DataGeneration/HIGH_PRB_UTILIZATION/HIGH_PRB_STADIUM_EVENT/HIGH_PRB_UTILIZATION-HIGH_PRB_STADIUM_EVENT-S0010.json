@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0010",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion over the last 2h with PRB ~96.8%, 419 users, slow data (~5 Mbps DL, 4 Mbps UL), BLER ~6%, and p95 grant latency ~86 ms during ingress eMBB traffic.",
+    "ar": "موقع 5G NR صغير في الاستاد يُظهر ازدحاماً خلال آخر ساعتين مع استخدام PRB ~96.8% و419 مستخدماً، بيانات بطيئة (~5 ميجابت/ث DL و4 ميجابت/ث UL)، BLER ~6% وزمن منح p95 ~86 مللي ثانية أثناء دخول حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress is starting. The NR micro cell is raising a congestion alarm: PRB ~96.8%, ~419 users, DL ~5 Mbps, UL ~4 Mbps, BLER ~6%, p95 grant latency ~86 ms. Need quick relief for eMBB streaming.",
+      "message_ar": "مرحلة الدخول للاستاد بدأت. الخلية الصغيرة NR تُظهر إنذار ازدحام: PRB ~96.8%، ~419 مستخدماً، تنزيل ~5 ميجابت/ث، رفع ~4 ميجابت/ث، BLER ~6%، وزمن منح p95 ~86 مللي ثانية. نحتاج تخفيفاً سريعاً لحركة eMBB (البث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; I’ll lead mitigation. First, I will check last 2h counters to confirm saturation and headroom. Please provide the cell ID and approve read access now and a minor optimization if indicated.",
+      "message_ar": "مفهوم؛ سأقود إجراءات التخفيف. أولاً سأتحقق من عدادات آخر ساعتين لتأكيد التشبع والهامش. يرجى تزويدي بمعرّف الخلية والموافقة على وصول قراءة الآن وعلى تحسين طفيف إن لزم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-03. You have read access and approval for a controlled optimization.",
+      "message_ar": "معرّف الخلية: NR-STAD-MICRO-03. لديك صلاحية القراءة وموافقة على تحسين مضبوط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 2h counters for NR-STAD-MICRO-03: DL PRB sustained 94–99% (peaks 99%), UL PRB 90–95%, control channel usage high, median DL ~5 Mbps, UL ~4 Mbps, BLER 5–7%, RLF stable. This is pure capacity saturation during ingress. I propose a targeted change: small mobility bias toward macro neighbors (+2 dB), fair-share cap for eMBB per-UE resources, and slightly higher control channel aggregation to ease contention. Approve to apply with auto-rollback if KPIs regress?",
+      "message_ar": "سحبت عدادات آخر ساعتين للخلية NR-STAD-MICRO-03: استخدام PRB للتحميل 94–99% (قمم 99%)، للرفع 90–95%، استخدام قناة التحكم مرتفع، وسطي التنزيل ~5 ميجابت/ث، الرفع ~4 ميجابت/ث، BLER بين 5–7%، وانقطاع المكالمات مستقر. المشكلة تشبع سِعَويّ أثناء الدخول. أقترح تغييراً موجهاً: انحياز تنقل بسيط نحو الماكرو المجاورة (+2 dB)، تحديد عادل لموارد eMBB لكل مستخدم، وزيادة طفيفة في تجميع قناة التحكم لتخفيف التزاحم. هل توافق على التطبيق مع تراجع تلقائي إذا تدهورت مؤشرات الأداء؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with that targeted change and rollback if needed.",
+      "message_ar": "موافق على تنفيذ هذا التغيير الموجّه مع الرجوع في حال الحاجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR-STAD-MICRO-03: +2 dB mobility bias to macro layer, enabled fair-share per-UE resource cap for eMBB, and increased control channel aggregation one step. Initial snapshot: active users dropped ~10%, DL PRB now 88–92%, median DL 7–9 Mbps, p95 grant latency 60–70 ms, BLER ~5–6%. I’ll watch stability as ingress continues.",
+      "message_ar": "تم تطبيق التغيير على NR-STAD-MICRO-03: انحياز تنقل +2 dB نحو طبقة الماكرو، تفعيل تحديد عادل لموارد eMBB لكل مستخدم، وزيادة تجميع قناة التحكم بمستوى واحد. المؤشرات الأولية: انخفاض المستخدمين النشطين ~10%، PRB للتحميل الآن 88–92%، وسطي التنزيل 7–9 ميجابت/ث، زمن منح p95 بين 60–70 مللي ثانية، BLER ~5–6%. سأتابع الاستقرار مع استمرار الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: streaming is smoother, and macro neighbors absorbed some load without alarms.",
+      "message_ar": "ملاحظات ميدانية: البث أصبح أكثر سلاسة، والماكرو المجاورة استوعبت بعض الحمل دون إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I’ll also log this intervention for traceability and post-event monitoring. Do you approve opening an ops ticket with the changes and success criteria?",
+      "message_ar": "جيد. سأقوم أيضاً بتوثيق هذا التدخل للشفافية والمتابعة بعد الحدث. هل توافق على فتح تذكرة تشغيل تتضمن التغييرات ومعايير النجاح؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the ops ticket.",
+      "message_ar": "موافق على فتح تذكرة التشغيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-LOAD-02837. Monitoring focus: sustained DL PRB < 90%, median DL ≥ 8 Mbps, BLER ≤ 6%, no abnormal drops. I’ll keep observing through the busy interval.",
+      "message_ar": "تم إنشاء التذكرة: DU-LOAD-02837. نطاق المراقبة: بقاء PRB للتحميل < 90%، وسطي التنزيل ≥ 8 ميجابت/ث، BLER ≤ 6%، وعدم وجود انقطاعات غير طبيعية. سأواصل المتابعة خلال فترة الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing PRB oscillating around 88–91% and slow data complaints reduced after the parameter optimization and offload. Let’s monitor over the next 2–4 hours; we’ll reference DU-LOAD-02837.",
+      "message_ar": "نلاحظ تذبذب PRB حول 88–91% وتراجع شكاوى بطء البيانات بعد تحسين المعلمات وتخفيف الحمل. لنراقب خلال الساعتين إلى الأربع القادمة؛ سنُشير إلى DU-LOAD-02837."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours and update the ticket after the window. If congestion returns, we’ll extend offload and tighten per-UE shaping; if side effects appear (macro strain or unstable handovers), we’ll promptly roll back to pre-change values.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال الساعتين إلى الأربع القادمتين وسنحدّث التذكرة بعد انتهاء الفترة. إذا عاد الازدحام فسنزيد التخفيف ونشدد ضبط الموارد لكل مستخدم؛ وإذا ظهرت آثار جانبية (ضغط على الماكرو أو تنقل غير مستقر)، فسنعود سريعاً إلى القيم قبل التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_bias_to_macro+fair_share_eMBB+increase_control_channel_aggregation"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium ingress congestion on NR-STAD-MICRO-03 (PRB ~97%); applied temporary offload and eMBB fair-share; monitor next busy hours"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained PRB saturation on the stadium 5G NR micro cell during ingress, causing slow data and elevated latency. Applied targeted site parameter tuning to offload users to macro neighbors and enforce fair-share for eMBB, then logged the action in an ops ticket. We will monitor through the next busy hours to confirm stability and revert if side effects emerge.",
+    "ar": "تم تشخيص تشبع مستمر في PRB على خلية 5G NR الصغيرة في الاستاد أثناء الدخول، ما أدى إلى بطء البيانات وارتفاع زمن الاستجابة. جرى تنفيذ ضبط مُوجّه لمعلمات الموقع لتخفيف الحمل نحو الماكرو المجاورة وفرض توزيع عادل لموارد eMBB، وتم توثيق الإجراء في تذكرة تشغيل. سنراقب خلال ساعات الذروة القادمة لتأكيد الاستقرار والرجوع إذا ظهرت آثار جانبية."
+  }
+}

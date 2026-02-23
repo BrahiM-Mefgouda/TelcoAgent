@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0022",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban NR macro cell shows URLLC slice latency 36 ms with jitter 14 ms over the last 4h, slow data, and a congestion alarm at peak; QoS class ~0.49 with 39% violations across ~30 requests/min and ~88 users.",
+    "ar": "خلية ماكرو NR حضرية تُظهر زمن تأخير لشريحة URLLC بمقدار 36 ملّي ثانية وتقلقل 14 ملّي ثانية خلال آخر 4 ساعات، بيانات بطيئة، وإنذار ازدحام في وقت الذروة؛ فئة جودة الخدمة ~0.49 مع 39% مخالفات عبر ~30 طلب/دقيقة وحوالي 88 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour issue on urban NR macro cell cell_5G_URBAN_MACRO_01: URLLC slice latency 36 ms, jitter 14 ms in the last 4h; QoS class ~0.49 with 39% violations at ~30 req/min; PRB util ~79%; users report slow data; a congestion alarm is active. Slice ID slice_urllc_01.",
+      "message_ar": "مشكلة وقت الذروة على خلية ماكرو NR حضرية cell_5G_URBAN_MACRO_01: زمن تأخير شريحة URLLC يبلغ 36 ملّي ثانية وتقلقل 14 ملّي ثانية خلال آخر 4 ساعات؛ فئة جودة الخدمة ~0.49 مع 39% مخالفات عند ~30 طلب/دقيقة؛ استخدام PRB ~79%؛ المستخدمون يشتكون من بيانات بطيئة؛ إنذار ازدحام نشط. معرّف الشريحة slice_urllc_01."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling last 4h cell and slice stats to validate the alarm and loading. Please confirm access to cell_5G_URBAN_MACRO_01 and slice_urllc_01.",
+      "message_ar": "سأبدأ بسحب إحصاءات الخلية والشريحة لآخر 4 ساعات للتحقق من الإنذار والحمل. يرجى تأكيد السماح بالوصول إلى cell_5G_URBAN_MACRO_01 و slice_urllc_01."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for both the cell and the URLLC slice.",
+      "message_ar": "تمت الموافقة على الوصول لكل من الخلية وشريحة URLLC."
+    },
+    {
+      "role": "agent",
+      "message_en": "Stats show no hardware faults. Load is high at peak (PRB 78–85%). URLLC requests ~30/min; QoS class ~0.48–0.50; latency P95 ~40 ms. Next, I will inspect the URLLC QoS class/latency time series for the past 4h to isolate peak patterns. Proceed?",
+      "message_ar": "الإحصاءات تشير إلى عدم وجود أعطال عتادية. الحمل مرتفع في الذروة (PRB بين 78–85%). طلبات URLLC حوالي 30/دقيقة؛ فئة جودة الخدمة ~0.48–0.50؛ زمن التأخير P95 ~40 ملّي ثانية. بعد ذلك سأفحص السلاسل الزمنية لفئة جودة الخدمة/الزمن لشريحة URLLC خلال آخر 4 ساعات لعزل أنماط الذروة. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the detailed time-series check.",
+      "message_ar": "تفضل بإجراء الفحص التفصيلي للسلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms spikes aligning with the busiest 20-minute windows; jitter ~14 ms; violation ratio peaks near :45 each hour. Backhaul delay looks normal. This indicates scheduler contention. I propose a focused slice policy change: prioritize URLLC latency and tighten preemption against non-URLLC bursts on this cell. Approve to apply now?",
+      "message_ar": "السلسلة الزمنية تؤكد قممًا تتزامن مع أكثر 20 دقيقة ازدحامًا؛ التقلقل ~14 ملّي ثانية؛ نسبة المخالفات تبلغ ذروتها قرب الدقيقة :45 من كل ساعة. تأخير الربط الخلفي طبيعي. هذا يشير إلى تنافس على الجدولة. أقترح تغييرًا مركّزًا في سياسة الشريحة: إعطاء أولوية لزمن تأخير URLLC وتشديد الأسبقية على الاندفاعات غير الخاصة بـ URLLC في هذه الخلية. هل توافق على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the slice policy change now.",
+      "message_ar": "موافَق على تطبيق تغيير سياسة الشريحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the URLLC slice policy update on cell_5G_URBAN_MACRO_01 (priority raised, minimum resources secured, preemption tightened). Post-change checks are clean; admissions are normal. Expect latency to improve within minutes under peak load.",
+      "message_ar": "تم تطبيق تحديث سياسة شريحة URLLC على cell_5G_URBAN_MACRO_01 (رفع الأولوية، تأمين حد أدنى من الموارد، تشديد الأسبقية). فحوصات ما بعد التغيير سليمة؛ القبولات طبيعية. من المتوقع تحسن زمن التأخير خلال دقائق أثناء الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: URLLC latency ~18–20 ms and jitter ~8–9 ms; the slow data symptom for critical flows is easing.",
+      "message_ar": "ملاحظة مبكرة: زمن تأخير URLLC ~18–20 ملّي ثانية والتقلقل ~8–9 ملّي ثانية؛ عرض البيانات البطيئة لتدفقات حرجة بدأ بالتحسن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I will watch violation ratio and P95 latency for the next 30 minutes and verify consistency at the next busy interval. I will rollback only if other slices show degradation.",
+      "message_ar": "إشارة جيدة. سأراقب نسبة المخالفات وزمن التأخير P95 خلال الـ30 دقيقة القادمة وأتحقق من الثبات في فترة الذروة التالية. سأقوم بالعودة عن التغيير فقط إذا ظهر تدهور في شرائح أخرى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: violations trending down and latency stable around ~16 ms. The action taken (slice policy update to prioritize URLLC latency) seems effective. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: المخالفات في اتجاه هابط وزمن التأخير مستقر حول ~16 ملّي ثانية. الإجراء المُتخذ (تحديث سياسة الشريحة لإعطاء أولوية لزمن URLLC) يبدو فعّالًا. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and report P95 latency, jitter, and violation ratio afterward. If degradation reappears, we will revert the policy or escalate to broader traffic steering as needed.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغك لاحقًا بزمن التأخير P95 والتقلقل ونسبة المخالفات. إذا عاد التدهور، سنعيد السياسة السابقة أو نصعّد إلى توجيه حركة أوسع عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_5G_URBAN_MACRO_01",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_5G_URBAN_MACRO_01",
+        "QoS cls",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_urllc_01",
+        "prioritize_latency"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice QoS degradation on an urban NR macro during peak hours by pulling cell/slice stats and confirming QoS class dips with time-series analysis. Implemented a slice policy update to prioritize latency, secure minimum resources, and tighten preemption for the URLLC slice. Immediate improvements in latency and jitter were observed; we will continue monitoring through the next busy hour.",
+    "ar": "تم تشخيص تدهور جودة خدمة شريحة URLLC على خلية ماكرو NR حضرية خلال الذروة عبر سحب إحصاءات الخلية/الشريحة وتأكيد هبوط فئة الجودة بتحليل السلاسل الزمنية. تم تنفيذ تحديث لسياسة الشريحة لإعطاء أولوية لزمن التأخير وتأمين حد أدنى من الموارد وتشديد الأسبقية لشريحة URLLC. لوحظ تحسن فوري في زمن التأخير والتقلقل؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

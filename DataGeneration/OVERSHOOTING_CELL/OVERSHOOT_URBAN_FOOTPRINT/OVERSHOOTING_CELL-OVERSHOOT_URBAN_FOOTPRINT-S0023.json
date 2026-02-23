@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_URBAN_FOOTPRINT-S0023",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_URBAN_FOOTPRINT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows far-user serving (TA p95 ~1.7 km, distant serving ~18%) with low SINR (~0 dB) indicating interference / signal overlap, plus high ping-pong (18%) and weak RSRP (~-109 dBm) over the last 12h.",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر خدمة مستخدمين بعيدين (TA p95 ~1.7 كم، نسبة الخدمة البعيدة ~18%) مع SINR منخفض (~0 ديسيبل) يشير إلى تداخل / تراكب إشارات، إضافة إلى معدل تبديل متأرجح مرتفع (18%) وRSRP ضعيف (~-109 dBm) خلال آخر 12 ساعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro sector showing far-user complaints over the last 12h, mixed hours. eMBB streaming affected. KPIs: TA p95 ~1.7 km, distant serving ~18%, SINR ~0 dB, RSRP ~-109 dBm, RSRQ -14 dB, ping-pong 18%, HO failures 8%. No alarms.",
+      "message_ar": "قطاع ماكرو 5G NR حضري يظهر شكاوى من مستخدمين بعيدين خلال آخر 12 ساعة بأوقات مختلطة. تأثر بث الفيديو (eMBB). المؤشرات: TA p95 ~1.7 كم، نسبة الخدمة البعيدة ~18%، SINR ~0 ديسيبل، RSRP ~-109 dBm، RSRQ -14 dB، تبديل متأرجح 18%، فشل التسليم 8%. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis for suspected overshooting. First, I will assess the footprint on a coverage view to confirm bleed into distant areas and overlap. Please share the cell ID and confirm I can run read-only checks on a 250 m grid.",
+      "message_ar": "سأتولى التشخيص لحالة الاشتعال المفرط. أولاً سأقيّم البصمة في عرض التغطية لتأكيد الامتداد إلى مناطق بعيدة والتراكب. الرجاء تزويدي بمعرّف الخلية والتأكيد على السماح بإجراء فحوصات قراءة فقط على شبكة 250 م."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-23211-1. You have permission to proceed with 250 m grid checks.",
+      "message_ar": "معرّف الخلية: NR-23211-1. لديك الإذن للمتابعة بفحوصات شبكة 250 متر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review completed: footprint extends beyond 1.8 km with a northeast lobe overlapping three neighbors. TA dispersion aligns with long-range serving; RSRP weak and SINR ~0 dB indicates interference / signal overlap. Next, I will review neighbor relations and handover priorities to verify dominance shifts. Proceed?",
+      "message_ar": "تمت مراجعة التغطية: البصمة تمتد لأكثر من 1.8 كم مع فص شمال شرقي يتداخل مع ثلاث خلايا مجاورة. تشتت TA يتماشى مع الخدمة بعيدة المدى؛ RSRP ضعيف وSINR ~0 ديسيبل يشيران إلى تداخل / تراكب إشارات. التالي، سأراجع العلاقات مع الجيران وأولويات التسليم للتحقق من تغيّرات الهيمنة. المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Continue with the neighbor review.",
+      "message_ar": "موافق. تابع مراجعة الجيران."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review shows close neighbors N2/N3 present but priorities favor our cell; a distant neighbor N7 remains allowed; missing closer neighbor N5 in list. This delays handover and promotes ping-pong. I propose a small electrical downtilt of -1.5°, reduce SSB/RS power by 1 dB, bias A3 toward nearer cells by +1 dB with +40 ms TTT, and update neighbors (add N5, deprioritize/remove N7). Apply?",
+      "message_ar": "مراجعة الجيران تُظهر وجود الجارين القريبين N2/N3 لكن الأولويات تُفضّل خليتنا؛ لا يزال الجار البعيد N7 مسموحًا؛ الجار الأقرب N5 مفقود. هذا يؤخر التسليم ويعزز التبديل المتأرجح. أقترح خفض الإمالة الكهربائية بمقدار -1.5°، تقليل قدرة SSB/RS بمقدار 1 dB، تحيز A3 نحو الخلايا الأقرب بمقدار +1 dB مع +40 مللي ثانية TTT، وتحديث الجيران (إضافة N5، تخفيض/إزالة N7). هل نطبق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead with those changes now.",
+      "message_ar": "تابع تنفيذ هذه التغييرات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied successfully. Quick post-checks show the serving footprint contracted by ~200–300 m, improved dominance of nearby cells, and fewer rapid handovers. Rollback is ready if any adverse effects appear.",
+      "message_ar": "تم تطبيق التغييرات بنجاح. الفحوصات السريعة بعد التنفيذ تُظهر انكماش البصمة بنحو 200–300 متر، وتحسّن هيمنة الخلايا القريبة، وتراجع عمليات التسليم السريعة. خطة التراجع جاهزة في حال ظهور آثار سلبية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early probes show about +2 dB SINR at the sector edge and ping-pong trending down. Median throughput remains around 21 Mbps.",
+      "message_ar": "الاختبارات الأولية تُظهر زيادة ~+2 ديسيبل في SINR عند حافة القطاع وتراجعًا في التبديل المتأرجح. يظل معدل الإنتاجية الوسيط حوالي 21 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will monitor the next busy hour focusing on TA distribution, ping-pong, and handover failures, and watch for residual interference/overlap.",
+      "message_ar": "جيد. سأراقب ساعة الذروة التالية مع التركيز على توزيع TA والتبديل المتأرجح وفشل التسليم، ومتابعة أي تداخل/تراكب متبقٍ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing distant serving ratio drop from 18% to ~11% after the site parameter tuning. Let’s monitor for the next 2–4 hours through the busy period.",
+      "message_ar": "أرى أن نسبة الخدمة البعيدة انخفضت من 18% إلى ~11% بعد ضبط معلمات الموقع. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة خلال فترة الانشغال."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and update with TA, handover stability, and SINR trends. If degradation appears, we will roll back the power/tilt changes and revert the handover bias; if issues persist, we will escalate for an on-site orientation check.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنزود بتحديثات حول TA واستقرار التسليم واتجاهات SINR. إذا ظهر تدهور، سنرجع تغييرات القدرة/الإمالة ونلغي تحيز التسليم؛ وإذا استمرت المشكلة، سنصعّد لإجراء فحص توجيه ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "urban",
+        "250m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-23211-1",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Apply -1.5° electrical downtilt; reduce SSB/RS power by 1 dB; adjust HO bias (A3 +1 dB to nearer cells, TTT +40 ms); update neighbors (add N5, deprioritize/remove distant N7)"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis confirmed an overshooting urban 5G NR macro sector with extended footprint, high TA, weak RSRP, and interference/signal overlap impacting mobility. Actions taken included site parameter tuning: slight electrical downtilt, minor SSB/RS power reduction, adjusted handover bias and timing, and neighbor list updates. Initial results show reduced distant serving, improved dominance, and fewer ping-pong handovers; continued monitoring is in place.",
+    "ar": "أكّد التشخيص وجود خلية ماكرو 5G NR حضرية متجاوزة النطاق مع بصمة ممتدة وTA مرتفع وRSRP ضعيف وتداخل/تراكب إشارات أثّر على التنقل. تم اتخاذ إجراءات ضبط معلمات الموقع: خفض بسيط للإمالة الكهربائية، تقليل طفيف لقدرة SSB/RS، تعديل تحيز وتوقيت التسليم، وتحديث قائمة الجيران. تُظهر النتائج الأولية انخفاض الخدمة البعيدة وتحسن الهيمنة وتراجع التبديل المتأرجح؛ ويتم الاستمرار في المراقبة."
+  }
+}

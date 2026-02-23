@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0010",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell with a congestion alarm shows interference / signal overlap after integration: self PCI 347, neighbor overlap, HO failures 18%, ping-pong 14%, SINR 2 dB, RSRQ -15 dB, median DL 13 Mbps.",
+    "ar": "خلية NR ماكرو حضرية مع إنذار ازدحام تُظهر تداخل/تراكب إشارة بعد الدمج: PCI الذاتي 347، تداخل مع الجوار، فشل التسليم 18%، بينغ-بونغ 14%، SINR ‏2 ديسيبل، RSRQ ‏-15 ديسيبل، سرعة تنزيل وسيط 13 ميغابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration issue in the urban NR macro cluster: alarm active, users report unstable service and streaming stalls. Last 8h KPIs: self PCI 347; neighbor PCI 35; overlap indicator 34; HO failures 18%; ping-pong 14%; SINR ~2 dB; RSRQ -15 dB; p50 DL 13 Mbps.",
+      "message_ar": "مشكلة بعد الدمج في عنقود ماكرو NR حضري: إنذار نشط، والمستخدمون يبلغون عن خدمة غير مستقرة وتوقفات في البث. مؤشرات آخر 8 ساعات: PCI الذاتي 347؛ PCI جار 35؛ مؤشر تداخل 34؛ فشل التسليم 18٪؛ بينغ-بونغ 14٪؛ SINR حوالي 2 ديسيبل؛ RSRQ ‏-15 ديسيبل؛ سرعة تنزيل وسيط 13 ميغابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Symptoms indicate interference/signal overlap likely from a PCI conflict after integration. I will run a neighbor audit for the serving cell (PCI 347) against adjacent macros over the last 8h. Please confirm access to proceed.",
+      "message_ar": "شكرًا. الأعراض تشير إلى تداخل/تراكب إشارة يُحتمل أن يكون بسبب تعارض PCI بعد الدمج. سأجري تدقيق الجيران للخلية الخادمة (PCI 347) مقابل الماكرو المجاورة خلال آخر 8 ساعات. يرجى تأكيد السماح بالمباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; you have access for the 8h window.",
+      "message_ar": "موافق؛ لديك صلاحية خلال نافذة 8 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit completed: detected same PCI 347 on an adjacent macro sector with overlapping footprint; ANR shows bidirectional relation and SSB collision risk. Also modulo-3/30 conflict risk aligned with overlap metric 34. This matches HO success ~83% and ping-pong 14%. Proposal: retune serving PCI from 347 to a free value 511 and refresh neighbor relations. Approve change now?",
+      "message_ar": "تم إكمال تدقيق الجيران: تم اكتشاف PCI 347 نفسه في قطاع ماكرو مجاور مع تداخل تغطية؛ تُظهر علاقات ANR علاقة ثنائية الاتجاه وخطر تصادم SSB. هناك أيضًا مخاطر تعارض من نوع modulo-3/30 متوافقة مع مؤشر التداخل 34. هذا يتماشى مع نجاح التسليم ~83% وبنغ-بونغ 14%. الاقتراح: إعادة ضبط PCI الخادم من 347 إلى قيمة متاحة 511 وتحديث علاقات الجوار. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to retune now within this window.",
+      "message_ar": "موافق على إعادة الضبط الآن ضمن هذه النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed: changed serving PCI 347 → 511, refreshed neighbor relations, cleared stale ANR, and kept power/beam unchanged. Brief SSB blip (<1s) expected and observed. Change applied; starting immediate KPI watch.",
+      "message_ar": "تم التنفيذ: تم تغيير PCI الخادم 347 → 511، تحديث علاقات الجوار، تنظيف ANR القديم، مع إبقاء القدرة/الحزم دون تغيير. حدث انقطاع SSB قصير (<1 ثانية) متوقع وتمت ملاحظته. تم التطبيق؛ أبدأ مراقبة المؤشرات فورًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Only a short blip observed; UEs reattached normally.",
+      "message_ar": "لوحظ انقطاع قصير فقط؛ عاودت الأجهزة الارتباط بشكل طبيعي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will log the change and set targeted monitoring on HO success, ping-pong, RSRQ, and SINR over the next busy hour. Confirm to document the action.",
+      "message_ar": "جيد. سأقوم بتوثيق التغيير وتعيين مراقبة مستهدفة لنجاح التسليم، والبينغ-بونغ، وRSRQ، وSINR خلال ساعة الذروة التالية. يرجى التأكيد للتوثيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed; proceed with documentation.",
+      "message_ar": "مؤكد؛ تفضل بالتوثيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change documented: PCI collision fix recorded with details of PCI retune to 511 and neighbor sync. We will monitor HO success, interference, and stability through the next busy hour and share deltas.",
+      "message_ar": "تم توثيق التغيير: تم تسجيل إصلاح تصادم PCI مع تفاصيل إعادة الضبط إلى 511 ومزامنة الجوار. سنراقب نجاح التسليم، والتداخل، والاستقرار خلال ساعة الذروة التالية ونشارك النتائج."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: handover failures trending down and interference easing. Action taken was PCI parameter retune/config push. Let’s monitor through the next busy hour, then review under DU-PCI-04231.",
+      "message_ar": "تحسّن مبكر ملحوظ: فشل التسليم في انخفاض والتداخل يتراجع. الإجراء كان إعادة ضبط معلمات PCI/دفع الإعدادات. لِنواصل المراقبة خلال ساعة الذروة التالية، ثم نراجع تحت DU-PCI-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and update the ticket after the window. If regression appears, we will roll back to PCI 347 and escalate for on-site alignment and neighbor-parameter review.",
+      "message_ar": "تم الاستلام. سنتولى مراقبة ساعة الذروة التالية ونحدّث التذكرة بعد انتهاء النافذة. إذا ظهرت انتكاسة، سنعود إلى PCI 347 ونصعّد لفحص ميداني للمحاذاة ومراجعة معلمات الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-Cell-PCI347",
+        "adjacent-macros"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Change PCI 347->511; refresh neighbor relations; clear stale ANR; keep power/beam unchanged"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision fixed on urban NR macro cell: retuned PCI to 511 and synchronized neighbors; early HO failures down and interference easing; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a PCI collision after integration: the serving NR macro and an adjacent sector were both using PCI 347, driving interference and mobility errors. We performed site parameter tuning by retuning the serving cell to PCI 511 and synchronizing neighbor relations, then documented the change. Early indicators improved; we will monitor through the next busy hour.",
+    "ar": "أكد تدقيق الجيران وجود تصادم PCI بعد الدمج: كانت الخلية الخادمة NR ماكرو وقطاع مجاور يستخدمان PCI 347، مما سبب تداخلًا وأخطاء في التنقل. أجرينا ضبطًا لمعلمات الموقع عبر إعادة ضبط الخلية الخادمة إلى PCI 511 ومزامنة علاقات الجوار، ثم وثّقنا التغيير. المؤشرات الأولية تحسنت؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

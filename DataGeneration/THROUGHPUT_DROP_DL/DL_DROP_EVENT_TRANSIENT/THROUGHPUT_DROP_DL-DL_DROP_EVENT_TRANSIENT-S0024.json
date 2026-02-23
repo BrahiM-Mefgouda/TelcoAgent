@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0024",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium 5G NR micro cell over the last 2h shows a congestion alarm with slow data: DL throughput ~6 Mbps, PRB utilization ~97%, SINR ~11 dB, RSRQ -16 dB, 519 users, and p95 scheduler latency ~102 ms.",
+    "ar": "خلية 5G NR صغيرة في الملعب خلال آخر ساعتين تُظهر إنذار ازدحام مع بطء بيانات: سرعة التحميل الهابط ~6 Mbps، إشغال الموارد ~97%، SINR ~11 dB، RSRQ -16 dB، 519 مستخدمًا، وزمن جدولة p95 نحو 102 ms."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a congestion alarm on the stadium NR micro sector over the last 2h (egress). Users report slow data and video streaming buffering.",
+      "message_ar": "يوجد إنذار ازدحام على قطاع NR صغير في الملعب خلال آخر ساعتين (خروج الجمهور). المستخدمون يشتكون من بطء البيانات وتقطّع بث الفيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling a 2h health snapshot for the impacted cell. Please share the cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب لقطة حالة لمدة ساعتين للخلية المتأثرة. الرجاء تزويدي بمعرّف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-045-MICRO-1. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-STAD-045-MICRO-1. الوصول للقراءة معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled the 2h snapshot: PRB utilization ~97%, 519 users, RSRQ -16 dB, SINR 11 dB, BLER ~4%, p95 scheduling latency ~102 ms; no hard faults. Indicates congestion during egress. Next, I will fetch the DL throughput time series for correlation. Proceed?",
+      "message_ar": "تم سحب لقطة الساعتين: إشغال الموارد ~97%، 519 مستخدمًا، RSRQ -16 dB، SINR 11 dB، BLER ~4%، زمن جدولة p95 ≈ 102 ms؛ لا أعطال صلبة. المؤشرات تشير إلى ازدحام عند الخروج. التالي: سأسحب سلسلة زمنية لمعدل التحميل الهابط للمقارنة. المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows a sustained drop to ~6 Mbps over the last 90 minutes aligned with PRB saturation; eMBB/video share spiked. No error bursts. I propose targeted tuning to improve fairness and reduce queuing on this micro cell. Approve the change with immediate rollback if needed?",
+      "message_ar": "السلسلة الزمنية تُظهر هبوطًا مستمرًا إلى ~6 Mbps خلال آخر 90 دقيقة متزامنًا مع تشبّع الموارد؛ ارتفع نصيب eMBB/الفيديو. لا طفرات أخطاء. أقترح ضبطًا مستهدفًا لتحسين الإنصاف وتقليل الطوابير على هذه الخلية الصغيرة. الموافقة على التغيير مع إمكانية الرجوع الفوري إذا لزم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied optimization: adjusted scheduler weights and bearer priorities, trimmed background resource caps, and tightened buffering; no power or neighbor changes. Change committed; running quick post-checks.",
+      "message_ar": "تم تطبيق التحسين: تعديل أوزان المُجدول وأولويات الحوامل، تقليص حدود الموارد الخلفية، وتشديد التخزين المؤقت؛ دون تغيير للطاقة أو الجيران. التغيير مُعتمد؛ أجري فحوصات لاحقة سريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing initial improvement: average DL throughput up to ~12–15 Mbps and lower latency. Crowd still heavy.",
+      "message_ar": "أرى تحسّنًا أوليًا: متوسط التحميل الهابط ارتفع إلى ~12–15 Mbps وانخفضت الكمونات. الازدحام ما زال مرتفعًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I will keep watching the KPIs for stability over the next few intervals and confirm the trend.",
+      "message_ar": "إشارة جيدة. سأواصل مراقبة مؤشرات الأداء لفترات قريبة للتأكد من الاستقرار وإثبات الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement continues: throughput trending up and queuing delay trending down after scheduler parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسّن مستمر: السرعة ترتفع وزمن الاصطفاف يتناقص بعد ضبط معلمات المُجدول. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy-hour monitoring and share an update afterward. If congestion returns, we will extend the tuning to adjacent micro sectors; if KPIs degrade, we will roll back immediately.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة ساعة الذروة القادمة ونقدم تحديثًا بعد انتهائها. إذا عاد الازدحام سنوسع الضبط إلى القطاعات المجاورة، وإذا تدهورت المؤشرات سنرجع فورًا إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an event-driven downlink throughput drop on the stadium NR micro cell: high resource utilization and queuing delay during egress caused slow data. We reviewed the health and DL time series, then applied targeted site parameter tuning to the scheduler and bearer priorities to relieve congestion. Post-change, throughput and latency improved; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص هبوط في سرعة التحميل الهابط على خلية NR صغيرة في الملعب مدفوع بالحدث: إشغال مرتفع وتأخر في الاصطفاف أثناء خروج الجمهور تسبب في بطء البيانات. تمت مراجعة الحالة والسلسلة الزمنية للتحميل الهابط ثم تطبيق ضبط مستهدف لمعلمات الموقع على المُجدول وأولويات الحوامل لتخفيف الازدحام. بعد التغيير تحسنت السرعة والكمون؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

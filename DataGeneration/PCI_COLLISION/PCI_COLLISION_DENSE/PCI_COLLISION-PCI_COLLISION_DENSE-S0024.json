@@ -1,0 +1,118 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0024",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban NR macro cell shows PCI collision symptoms over the last 6 hours with degraded handovers (HO success 80%, ping-pong 16%, RSRQ −9 dB, BLER 13%, SINR 8 dB) and an active congestion alarm.",
+    "ar": "خلية NR ماكرو حضرية تُظهر مؤشرات تعارض PCI خلال آخر 6 ساعات مع تدهور في التسليمات (نجاح HO ‏80%، بينغ‑بونغ ‏16%، RSRQ ‏‑9 dB، BLER ‏13%، SINR ‏8 dB) ومع إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell experiencing HO instability across mixed hours with heavy eMBB streaming. KPIs: neighbor PCI overlap 33, HO failure 15%, ping‑pong 16%, SINR 8 dB, RSRQ −9 dB, BLER 13%, ~445 users. Please investigate suspected PCI collision.",
+      "message_ar": "خلية NR ماكرو حضرية تعاني عدم استقرار في التسليم عبر ساعات مختلطة مع ازدحام حركة eMBB (بث). المؤشرات: تداخل PCI جار 33، فشل HO ‏15%، بينغ‑بونغ ‏16%، SINR ‏8 dB، RSRQ ‏‑9 dB، BLER ‏13%، ~445 مستخدمًا. يرجى التحقيق في احتمال تعارض PCI."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by auditing neighbor PCIs and relations for the target cell over the last 6 hours to confirm any duplicate/reused PCI on the same carrier. Please share the cell ID and approve access.",
+      "message_ar": "سأبدأ بتدقيق PCI للجيران والعلاقات للخلية خلال آخر 6 ساعات للتحقق من أي تكرار/إعادة استخدام لنفس PCI على نفس الحامل. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRU-12345. Access approved.",
+      "message_ar": "معرّف الخلية: NRU-12345. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor/PCI audit on NRU-12345. Finding: exact PCI reuse detected—another neighbor advertises PCI 233; also strong overlap with a neighbor on PCI 117. This aligns with the HO failures and ping‑pong. Request approval to retune the serving PCI and refresh neighbor relations.",
+      "message_ar": "أجري تدقيق الجيران/PCI على NRU-12345. النتيجة: تم رصد إعادة استخدام مطابقة للـPCI—جار آخر يعلن PCI 233؛ مع تداخل قوي مع جار على PCI 117. هذا يفسّر فشل التسليم والبينغ‑بونغ. أطلب الموافقة على إعادة ضبط PCI للخدمة وتحديث علاقات الجيران."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed actions: change PCI 233 to a free value in the cluster, update bidirectional neighbor entries, and slightly tighten HO thresholds to reduce ping‑pong. Estimated service impact is negligible.",
+      "message_ar": "الإجراءات المقترحة: تغيير PCI 233 إلى قيمة متاحة ضمن العنقود، تحديث علاقات الجيران باتجاهين، وتشديد بسيط لعَتبات التسليم لتقليل البينغ‑بونغ. التأثير على الخدمة ضئيل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "الموافقة على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization now: PCI retuned to an available value, neighbor relations refreshed both ways, and HO thresholds fine‑tuned for stability. Changes applied successfully; quick health checks are clean.",
+      "message_ar": "جارٍ التنفيذ: تم إعادة ضبط PCI إلى قيمة متاحة، وتحديث علاقات الجيران باتجاهين، وضبط عتبات التسليم لتحسين الاستقرار. تم تطبيق التغييرات بنجاح؛ فحوصات الصحة السريعة سليمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post‑change observation: confusion alarms cleared, handover failures trending down, and short ping‑pongs reduced; no drops observed.",
+      "message_ar": "ملاحظة بعد التغيير: اختفت إنذارات الالتباس، وفشل التسليم في اتجاه هبوطي، وانخفضت البينغ‑بونغ القصيرة؛ لم تُسجّل حالات قطع."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will open a tracking ticket documenting the PCI update and neighbor refresh, with before/after KPI snapshots, and use it for follow‑up. Please confirm.",
+      "message_ar": "سأفتح تذكرة متابعة توثّق تحديث PCI وتحديث الجيران مع لقطات مؤشرات قبل/بعد، لاستخدامها في المتابعة. الرجاء التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "تم التأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket has been created for NRU-12345 covering the PCI retune and neighbor updates; initial post‑change KPIs attached. We will keep an eye on HO success, ping‑pong, RSRQ, and BLER; please share any field notes.",
+      "message_ar": "تم إنشاء تذكرة متابعة لِـNRU-12345 وتشمل إعادة ضبط PCI وتحديثات الجيران؛ أُرفقت مؤشرات ما بعد التغيير المبدئية. سنراقب نجاح التسليم، البينغ‑بونغ، RSRQ وBLER؛ يرجى تزويدنا بأي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing continued improvement: handover failures trending down and RSRQ moving toward −8 dB. Action taken: PCI retune with neighbor relation update. Let's monitor through the next busy hour and track via DU-PCI-00157.",
+      "message_ar": "نلاحظ استمرار التحسّن: فشل التسليم في اتجاه هبوطي وRSRQ يتجه نحو −8 dB. الإجراء المُتخذ: إعادة ضبط PCI مع تحديث علاقات الجيران. لنواصل المراقبة خلال ساعة الذروة القادمة والمتابعة عبر DU-PCI-00157."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own monitoring through the next busy hour and update the ticket afterward. If degradation reappears, we will escalate to regional RF for cluster‑wide PCI planning and roll back the change if regressions are confirmed.",
+      "message_ar": "تم الاستلام؛ سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا عاد التدهور، سنصعّد إلى فريق الترددات الإقليمي لتخطيط PCI على مستوى العنقود وسنرجع التغيير إذا تأكّد حدوث تراجعات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a PCI collision on the urban NR macro cell, with duplicate PCI 233 and additional overlap contributing to HO failures and ping‑pong. Mitigation was done via site parameter tuning: the serving PCI was retuned to a free value, bidirectional neighbor relations were refreshed, and HO thresholds were fine‑tuned. A tracking ticket was created to monitor stability through the next busy hour.",
+    "ar": "أكد تدقيق الجيران وجود تعارض PCI في خلية NR الماكرو الحضرية، مع تكرار للـPCI 233 وتداخل إضافي ساهم في فشل التسليم والبينغ‑بونغ. تم التخفيف عبر ضبط معلمات الموقع: إعادة ضبط PCI إلى قيمة متاحة، وتحديث علاقات الجيران باتجاهين، وضبط عتبات التسليم بدقة. تم إنشاء تذكرة متابعة لمراقبة الاستقرار خلال ساعة الذروة القادمة."
+  }
+}

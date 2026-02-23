@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0017",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro cell shows elevated ping-pong handovers over the last 5h during the shoulder period with eMBB streaming, HO success ~89% and interference/signal overlap (SINR ~1 dB) amid weak RSRP/RSRQ.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تُظهر زيادة في عمليات التسليم المتأرجحة خلال آخر 5 ساعات في فترة الكتف مع حركة eMBB (بث)، نجاح التسليم حوالي 89% ووجود تداخل/تراكب إشارة (SINR ~1 ديسيبل) مع RSRP/RSRQ ضعيفين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro border cell NR-SUB-017 has elevated ping-pong handovers in the last 5h during the shoulder period. HO success ~89% with ~8% failures, PRB ~73% across 341 users, and weak RSRP/RSRQ. eMBB streaming sessions are bouncing between neighbors. Please investigate.",
+      "message_ar": "الخلية الحدّية NR-SUB-017 (NR ماكرو في الضواحي) تُظهر ارتفاعًا في التسليمات المتأرجحة خلال آخر 5 ساعات في فترة الكتف. نجاح التسليم ~89% مع فشل ~8%، واستخدام PRB ~73% مع 341 مستخدمًا، وRSRP/RSRQ ضعيفين. جلسات eMBB الخاصة بالبث تتنقل بين الجيران. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling last 5h mobility counters for NR-SUB-017 to baseline HO behavior and check for interference/signal overlap. Please confirm access.",
+      "message_ar": "سأبدأ بسحب عدادات التنقل لآخر 5 ساعات للخلية NR-SUB-017 لعمل خط أساس لسلوك التسليم وفحص التداخل/تراكب الإشارة. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-SUB-017 over the 5h window.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NR-SUB-017 لمدة 5 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial counters confirm high return handovers with several border neighbors and low SINR (~1 dB), indicating signal overlap. Next, I will analyze HO and ping-pong time series over the same window to quantify dwell time and return rates. Proceed?",
+      "message_ar": "العدادات الأولية تؤكد ارتفاع التسليمات العكسية مع عدة خلايا حدّية وSINR منخفض (~1 ديسيبل)، مما يشير إلى تراكب الإشارة. بعد ذلك سأحلل السلاسل الزمنية للتسليم والتأرجح في نفس النافذة لقياس زمن المكوث ومعدلات العودة. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series analysis.",
+      "message_ar": "تفضل بإجراء تحليل السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "The trend shows short dwell (<2 s) and high returns to serving, mainly with NR-SUB-018/019. Failures align with weak RSRP (-110 dBm) and poor RSRQ. To curb ping-pong, I propose a small increase to time-to-trigger and hysteresis, plus a slight offset trim toward the dominant cell. Approve optimization?",
+      "message_ar": "الاتجاه يُظهر زمن مكوث قصير (<2 ثانية) وارتفاعًا في العودة إلى الخلية الخادمة، خصوصًا مع NR-SUB-018/019. حالات الفشل تتوافق مع RSRP ضعيف (-110 dBm) وRSRQ سيئ. للحد من التأرجح، أقترح زيادة طفيفة لوقت التفعيل وعتبة التماسك مع تقليل بسيط للإزاحة باتجاه الخلية المهيمنة. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for a low-risk mobility parameter optimization.",
+      "message_ar": "موافق على تحسين منخفض المخاطر لمعاملات التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying tuning on NR-SUB-017: TTT +40 ms, hysteresis +1 dB, and a -1 dB offset adjustment on top neighbor pairs. Changes committed; no new alarms. I will watch for stability and reduced rapid returns.",
+      "message_ar": "أجري الضبط على NR-SUB-017: زيادة TTT بمقدار 40 مللي ثانية، ورفع العتبة بمقدار 1 ديسيبل، وتعديل الإزاحة بمقدار -1 ديسيبل لأزواج الجيران الرئيسية. تم تطبيق التغييرات دون ظهور إنذارات جديدة. سأراقب الاستقرار وانخفاض العودات السريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: fewer rapid returns in live traces, and streaming sessions appear steadier.",
+      "message_ar": "المؤشرات الأولية أفضل: عودات سريعة أقل في تتبعات الوقت الحقيقي، وجلسات البث تبدو أكثر استقرارًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will continue observing return rates, dwell time distribution, and mid-cell throughput across the next interval. Please share any field feedback from the area.",
+      "message_ar": "جيد. سأواصل مراقبة معدلات العودة وتوزيع زمن المكوث ومتوسط الإنتاجية في الخلية خلال الفترة القادمة. يرجى مشاركة أي ملاحظات ميدانية من المنطقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: return handovers are trending down and dwell times are lengthening. The mobility parameter tuning you applied appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: التسليمات العكسية في اتجاه هابط وزمن المكوث آخذ بالازدياد. ضبط معاملات التنقل الذي قمت به يبدو فعّالًا. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and provide an update afterward. If ping-pong or drops rise, we will roll back to the previous settings and escalate to regional RF for deeper interference mitigation.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديثًا بعدها. إذا ارتفع التأرجح أو زادت حالات الانقطاع، سنعود للإعدادات السابقة ونصعّد إلى فريق الترددات الإقليمي لمعالجة أعمق للتداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-017",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-017",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Mobility counters and HO time series over the last 5 hours showed excessive ping-pong at a suburban NR macro border, driven by low SINR and weak serving power. We mitigated by site parameter tuning, increasing time-to-trigger and hysteresis and trimming offsets toward the dominant neighbor. KPIs improved; we will continue monitoring through the next busy hour to confirm stability.",
+    "ar": "أظهرت عدادات التنقل وسلاسل التسليم الزمنية خلال آخر 5 ساعات تأرجحًا مفرطًا في حدود خلية NR ماكرو في الضواحي بسبب SINR منخفض وقدرة خادمة ضعيفة. خففنا المشكلة عبر ضبط معاملات الموقع برفع وقت التفعيل والعتبة وإجراء تقليم بسيط للإزاحة باتجاه الجار المهيمن. تحسنت مؤشرات الأداء؛ سنواصل المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+  }
+}

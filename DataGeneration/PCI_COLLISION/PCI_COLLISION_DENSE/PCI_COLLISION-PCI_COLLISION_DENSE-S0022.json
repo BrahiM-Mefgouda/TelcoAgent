@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0022",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G NR macro cell shows alarms with interference/signal overlap, elevated mobility issues, and median user throughput near 12 Mbps over the last 6h during eMBB streaming periods.",
+    "ar": "خلية ماكرو 5G NR في منطقة حضرية تظهر إنذارات مع تداخل/تراكب للإشارة ومشكلات تنقل مرتفعة، ومتوسط سرعات المستخدمين حوالي 12 ميجابت/ث خلال آخر 6 ساعات أثناء فترات بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector reporting alarms over the last 6h. Users noted buffering on eMBB streaming; SINR ~3 dB, RSRQ -16 dB, HO failures high with ping-pongs. Impacted cell: NR_URB01_S1, PCI 410.",
+      "message_ar": "القطاع الماكروي NR الحضري يظهر إنذارات خلال آخر 6 ساعات. المستخدمون أبلغوا عن تقطّع في بث eMBB؛ قيمة SINR حوالي 3 dB وRSRQ -16 dB، وفشل التسليمات اليدوية مرتفع مع ارتداديات. الخلية المتأثرة: NR_URB01_S1، PCI 410."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by auditing neighbors to verify a PCI collision within the overlap for NR_URB01_S1 over the last 6h. Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بتدقيق الجيران للتحقق من وجود تعارض PCI ضمن منطقة التداخل لخلية NR_URB01_S1 خلال آخر 6 ساعات. يرجى تأكيد معرف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed: cell NR_URB01_S1 (PCI 410), cluster URB01. Read-only access approved for 6h.",
+      "message_ar": "تم التأكيد: الخلية NR_URB01_S1 (PCI 410)، عنقود URB01. تمت الموافقة على وصول القراءة فقط لمدة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: NR_URB02_S2 is also on PCI 410 with ~65% coverage overlap to NR_URB01_S1. Elevated HO failures toward that neighbor and ping-pong ~14% align with a PCI collision. I propose retuning NR_URB01_S1 to a free PCI and refreshing neighbor relations—approve immediate change?",
+      "message_ar": "تم إنهاء تدقيق الجيران: الخلية NR_URB02_S2 تستخدم أيضاً PCI 410 مع تداخل تغطية يقارب 65% مع NR_URB01_S1. ارتفاع فشل التسليمات نحو ذلك الجار ومعدل الارتداد ~14% يتوافقان مع تعارض PCI. أقترح إعادة تعيين PCI لخلية NR_URB01_S1 إلى قيمة متاحة وتحديث علاقات الجيران—هل توافق على تنفيذ التغيير فوراً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to retune the PCI and refresh neighbor relations now.",
+      "message_ar": "موافق على إعادة تعيين PCI وتحديث علاقات الجيران الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: NR_URB01_S1 PCI reassigned 410 -> 187 and neighbor relations refreshed (no service interruption). Expecting improved SINR/RSRQ and fewer HO failures; observing counters for initial stabilization.",
+      "message_ar": "تم تنفيذ التغيير: إعادة تعيين PCI لخلية NR_URB01_S1 من 410 إلى 187 وتحديث علاقات الجيران (دون انقطاع خدمة). من المتوقع تحسن SINR/RSRQ وانخفاض فشل التسليمات؛ أراقب المؤشرات لمرحلة الاستقرار الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement: SINR median ~5 dB, RSRQ around -13 dB, and HO failures starting to drop.",
+      "message_ar": "هناك تحسّن مبكر: قيمة SINR المتوسطة ~5 dB وRSRQ حوالي -13 dB، وبدأ انخفاض في فشل التسليمات اليدوية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. For traceability, I will open a change record documenting the PCI reassignment and overlap findings. Please confirm.",
+      "message_ar": "توجّه جيد. من أجل التتبّع، سأفتح سجل تغيير يوثّق إعادة تعيين PCI ونتائج التداخل. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, proceed with the record.",
+      "message_ar": "تم التأكيد، تابع إنشاء السجل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created and linked to NR_URB01_S1. I will continue to watch mobility and interference indicators as traffic builds.",
+      "message_ar": "تم إنشاء السجل وربطه بخلية NR_URB01_S1. سأواصل متابعة مؤشرات الحركة والتداخل مع ارتفاع الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is holding: ping-pong events trending down and interference symptoms easing. Action taken was PCI reassignment with neighbor refresh; let’s monitor through the next busy hour. Reference ticket DU-PCI-00410.",
+      "message_ar": "التحسن مستمر: أحداث الارتداد في تراجع وأعراض التداخل تتخفف. الإجراء المتخذ كان إعادة تعيين PCI مع تحديث علاقات الجيران؛ لنراقب خلال ساعة الذروة القادمة. المرجع للتذكرة DU-PCI-00410."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor through the next busy hour and update the ticket after the window. If degradation returns, we will roll back the PCI change or retune the neighbor; if stable, we keep the new PCI and close out.",
+      "message_ar": "تمت الموافقة—سوف نراقب خلال ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء الفترة. إذا عاد التدهور سنقوم بإرجاع تغيير PCI أو إعادة ضبط الجار؛ وإذا استقرت الحالة سنبقي على PCI الجديد وننهي الحالة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision: a neighbor shared the same PCI with ~65% coverage overlap, driving interference and mobility issues. The cell was retuned to a free PCI and neighbor relations were refreshed to mitigate the conflict, and a tracking ticket was created for follow-up.",
+    "ar": "أكد تحليل الجيران وجود تعارض PCI: أحد الجيران يستخدم نفس PCI مع تداخل تغطية يقارب 65% ما أدى إلى تداخل ومشكلات تنقل. تم إعادة تعيين PCI إلى قيمة متاحة وتحديث علاقات الجيران لتخفيف التعارض، وتم إنشاء تذكرة متابعة لإغلاق الحالة بعد المراقبة."
+  }
+}

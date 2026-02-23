@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0007",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Suburban 5G macro shows high PRB utilization (~87%) during off-peak over the last 4h with ~171 users, BLER ~4.7%, and p95 scheduling latency ~38 ms; please investigate potential resource contention.",
+    "ar": "موقع ماكرو 5G في منطقة ضاحية يُظهر إشغال PRB مرتفعاً (~87%) خارج الذروة خلال آخر 4 ساعات مع ~171 مستخدماً، وBLER ~4.7%، وكمون جدولة p95 ~38 ms؛ يرجى التحقق من احتمال ازدحام الموارد."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows sustained high PRB utilization (~87%) in the last 4h off-peak; 171 users on eMBB (some streaming), DL/UL near 10 Mbps, BLER ~4.7%, p95 scheduling latency ~38 ms; no alarms triggered.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية تُظهر ارتفاعاً مستمراً في إشغال PRB (~87%) خلال آخر 4 ساعات خارج الذروة؛ 171 مستخدماً لحركة eMBB (بعض البث)، سرعات DL/UL نحو 10 Mbps، BLER ~4.7%، وكمون جدولة p95 ~38 ms؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll begin by pulling the last 4h performance counters to validate PRB load and user mix; please confirm the target cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب مؤشرات الأداء لآخر 4 ساعات للتحقق من حمل PRB ومزيج المستخدمين؛ يرجى تأكيد معرف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID NR-SUB-24567-S1, 4h window approved; you have access.",
+      "message_ar": "معرف الخلية NR-SUB-24567-S1، نافذة 4 ساعات مُعتمدة؛ لديك صلاحية الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm PRB 82–92% through off-peak, active UEs up to 171 with eMBB-dominant traffic; BLER steady ~5%, radio failures ~3–4%. This points to resource contention, not RF quality. I propose light tuning of resource scheduling and QoS weights to relieve PRB pressure with a safe rollback. Proceed?",
+      "message_ar": "تؤكد المؤشرات PRB بين 82–92% طوال فترة خارج الذروة، وعدد المستخدمين حتى 171 مع هيمنة eMBB؛ BLER ثابت ~5%، وإخفاقات الراديو ~3–4%. هذا يشير إلى ازدحام الموارد وليس جودة RF. أقترح ضبطاً خفيفاً للجدولة وأوزان جودة الخدمة لتخفيف ضغط PRB مع خطة تراجع آمنة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning.",
+      "message_ar": "موافَق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied minor adjustments: increased proportional fairness bias, set a gentle per-UE PRB ceiling, and slightly reduced L2 buffer thresholds; no service interruption. Initial snapshot shows PRB trending toward the mid-70s and p95 scheduling latency improving by ~6–8 ms; throughput stable or slightly higher.",
+      "message_ar": "طُبّقت تعديلات طفيفة: زيادة تحيز الإنصاف التناسبي، وضع سقف PRB لكل مستخدم، وخفض بسيط لعَتبات مخازن L2؛ دون انقطاع خدمة. تُظهر اللقطة الأولية توجه PRB نحو منتصف السبعينات وتحسّن كمون الجدولة p95 بنحو 6–8 ms؛ ومعدل النقل مستقر أو أعلى قليلاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "To ensure traceability and follow-up, I'll open a tracking ticket and continue monitoring the cell and close neighbors. Any objection?",
+      "message_ar": "لضمان التتبع والمتابعة، سأفتح تذكرة متابعة وأواصل مراقبة الخلية والجيران القريبين. أي اعتراض؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No objection to opening a ticket.",
+      "message_ar": "لا يوجد اعتراض على فتح تذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-PRB-00719 for high PRB off-peak on NR-SUB-24567-S1 with the tuning details; I'll monitor over the next 4 hours and watch for side effects.",
+      "message_ar": "تم إنشاء التذكرة DU-PRB-00719 لارتفاع PRB خارج الذروة على NR-SUB-24567-S1 مع تفاصيل الضبط؛ سأراقب خلال الساعات الأربع القادمة وأتحقق من الآثار الجانبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change 15-minute check: PRB now averaging ~78–80%, p95 scheduling latency ~30–32 ms, BLER unchanged; user throughput modestly improved.",
+      "message_ar": "فحص بعد التغيير لمدة 15 دقيقة: متوسط PRB الآن ~78–80%، وكمون الجدولة p95 ~30–32 ms، وBLER دون تغيير؛ وتحسن طفيف في سرعات المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing PRB utilization trending down and p95 scheduling latency improved around 30 ms; the site parameter tuning appears effective. Let's monitor for the next 2–4 hours and update DU-PRB-00719 accordingly.",
+      "message_ar": "أرى أن إشغال PRB يتجه للانخفاض وكمون الجدولة p95 تحسّن إلى نحو 30 ms؛ ويبدو أن ضبط معلمات الموقع فعّال. دعنا نراقب خلال الساعتين إلى الأربع القادمتين ونحدّث DU-PRB-00719 تبعاً لذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we'll own the 2–4 hour monitoring window and update the ticket after it. If PRB spikes again, we'll escalate with additional load optimization or offload; if any regressions appear, we'll roll back to the prior settings.",
+      "message_ar": "تم التأكيد—سنتولى نافذة المراقبة 2–4 ساعات ونحدّث التذكرة بعدها. إذا عاد PRB للارتفاع سنصعّد بتحسين تحميل إضافي أو تفريغ، وإن ظهرت آثار عكسية سنعود للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-24567-S1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler/QoS weights, per-UE PRB cap, L2 buffer thresholds"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB off-peak on NR-SUB-24567-S1; applied scheduler/QoS tuning; monitor 4h"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Off-peak high PRB utilization on a suburban 5G macro was confirmed via recent counters, indicating resource contention rather than RF issues. We executed light site parameter tuning to resource scheduling and QoS weights to reduce PRB pressure and created a tracking ticket for follow-up. Early readings show lower PRB and improved latency; we will continue monitoring and adjust if needed.",
+    "ar": "تَمَّ تأكيد ارتفاع إشغال PRB خارج الذروة على موقع ماكرو 5G في منطقة ضاحية عبر مؤشرات حديثة، مما يشير إلى ازدحام موارد بدلاً من مشاكل RF. نَفَّذنا ضبطاً خفيفاً لمعلمات الموقع في الجدولة وأوزان جودة الخدمة لتقليل ضغط PRB وأنشأنا تذكرة متابعة. تُظهر القراءات الأولية انخفاضاً في PRB وتحسناً في الكمون؛ وسنواصل المراقبة وإجراء التعديلات عند الحاجة."
+  }
+}

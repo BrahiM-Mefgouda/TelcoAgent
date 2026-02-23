@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0016",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro over the last 6h shows frequent backhaul link flaps (~9/h), burst loss ~1.75%, high latency (p95 88 ms), and 713 interface errors with DL throughput ~10 Mbps impacting FWA users.",
+    "ar": "موقع ماكرو NR في منطقة ضواحٍ خلال آخر 6 ساعات يظهر تقلبات متكررة في الربط الخلفي (~9/ساعة)، فقداناً متقطعاً ~1.75%، زمناً مرتفعاً للحزمة p95 عند 88 مللي ثانية، و713 خطأً على الواجهة مع سرعات تنزيل ~10 ميجابت/ث تؤثر على مستخدمي FWA."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro site, last 6h mixed hours with FWA load: backhaul link flaps around 9 per hour, burst loss ~1.75%, p95 latency 88 ms, jitter 23 ms, interface errors 713, DL ~10 Mbps. No active alarms; need assistance.",
+      "message_ar": "موقع ماكرو NR في منطقة ضواحٍ، خلال آخر 6 ساعات (ساعات مختلطة) مع حمل FWA: تقلبات في الربط الخلفي حوالي 9 في الساعة، فقدان متقطع ~1.75%، p95 للكمون 88 مللي ثانية، التذبذب 23 مللي ثانية، 713 خطأ على الواجهة، والتنزيل ~10 ميجابت/ث. لا توجد إنذارات نشطة؛ نحتاج للمساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling OSS health for the last 6h to separate backhaul from radio impacts. Please confirm the target cell ID and authorize access.",
+      "message_ar": "تم الفهم. سأبدأ بسحب حالة النظام من OSS لآخر 6 ساعات لعزل تأثيرات الربط الخلفي عن الراديو. يرجى تأكيد معرّف الخلية وتفويض الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-MACRO-7821; access approved.",
+      "message_ar": "معرّف الخلية هو NR-SUB-MACRO-7821؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review for NR-SUB-MACRO-7821 (6h) confirms: link flaps ≈9/h, burst loss 1.75%, p95 latency 88 ms, jitter 23 ms, interface errors 713; radio load moderate (PRB 46%), RF fair (SINR 8 dB, RSRP -99 dBm), users 155, DL ~10 Mbps. This indicates backhaul degradation. I propose applying a conservative backhaul resiliency/queuing profile on the DU to dampen flaps and jitter—please approve.",
+      "message_ar": "مراجعة OSS للخلية NR-SUB-MACRO-7821 (6 ساعات) تؤكد: تقلبات ربط ≈9/ساعة، فقدان متقطع 1.75%، p95 للكمون 88 مللي ثانية، تذبذب 23 مللي ثانية، و713 خطأ واجهة؛ حمل الراديو معتدل (PRB 46%)، وجودة RF مقبولة (SINR 8 dB، RSRP -99 dBm)، عدد المستخدمين 155، والتنزيل ~10 ميجابت/ث. هذا يشير إلى تدهور في الربط الخلفي. أقترح تطبيق ملف مرونة/صفوف محافظ على DU لتخفيف التقلبات والتذبذب—يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR-SUB-MACRO-7821: enabled backhaul resiliency with interface error dampening and mild buffer/QoS shaping. No service interruption observed. I will watch live counters for 10 minutes and compare latency tail and flap increments.",
+      "message_ar": "تم تطبيق التغيير على NR-SUB-MACRO-7821: تفعيل مرونة الربط الخلفي مع تخفيف أخطاء الواجهة وضبط طفيف للمخازن/الجودة. لم تُلاحظ أي انقطاعات. سأراقب العدّادات الحية لمدة 10 دقائق وأقارن ذيل الكمون وزيادات التقلب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: flap count is steady, p95 latency trending down to ~62 ms, and DL improving to ~14 Mbps on FWA CPEs.",
+      "message_ar": "المؤشرات الأولية إيجابية: عدد التقلبات مستقر، p95 للكمون يتجه إلى ~62 مللي ثانية، والتنزيل يتحسن إلى ~14 ميجابت/ث على أجهزة FWA."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. To address the root cause beyond RAN, I will open a transport ticket for the backhaul path showing errors and flaps, referencing today’s counters and the mitigation in place. Please confirm.",
+      "message_ar": "جيد. لمعالجة السبب الجذري خارج شبكة الراديو، سأفتح تذكرة لقسم النقل لمسار الربط الخلفي الذي يظهر أخطاء وتقلبات، مع الإشارة إلى عدّادات اليوم والإجراء التخفيفي المطبق. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—proceed and share the reference.",
+      "message_ar": "تم التأكيد—تابع وشارك المرجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-04219 opened for NR-SUB-MACRO-7821 citing link flaps, burst loss, and interface errors; included the DU-side mitigation and requested transport/vendor checks.",
+      "message_ar": "تم فتح التذكرة DU-BH-04219 للخلية NR-SUB-MACRO-7821 مع الإشارة إلى تقلبات الربط، الفقدان المتقطع، وأخطاء الواجهة؛ تم تضمين الإجراء التخفيفي على جهة DU وطلب فحوصات النقل/المورّد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We now see link flaps trending down and the latency tail improved (p95 near 60 ms) after the site parameter tuning. Let’s monitor through the next busy hour; we’ll track under DU-BH-04219.",
+      "message_ar": "نرى الآن انخفاضاً في تقلبات الربط وتحسناً في ذيل الكمون (p95 قريب من 60 مللي ثانية) بعد ضبط معلمات الموقع. دعنا نراقب خلال ساعة الذروة القادمة؛ سنتابع تحت DU-BH-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and update the ticket after the window. If flaps recur or latency worsens, we will escalate to transport NOC; if any adverse effects appear, we will roll back the tuning to baseline.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء الفترة. إذا عادت التقلبات أو ساء الكمون، سنصعّد إلى مركز عمليات النقل؛ وإذا ظهرت آثار سلبية، سنرجع الضبط إلى الوضع الأساسي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-7821",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul resiliency + interface error dampening + mild buffer/QoS shaping"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul with frequent link flaps, burst loss, high latency/jitter, and interface errors; DU-side mitigation applied; request transport/vendor investigation."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro serving FWA: OSS showed frequent link flaps, burst loss, high latency/jitter, and interface errors while radio load/quality were moderate. Mitigated by site parameter tuning to add backhaul resiliency and QoS buffering, then opened ticket DU-BH-04219 for transport/vendor investigation.",
+    "ar": "تم تشخيص تدهور في الربط الخلفي بموقع ماكرو NR في الضواحي يخدم FWA: أظهر OSS تقلبات متكررة، فقداناً متقطعاً، زمناً عالياً وتذبذباً، وأخطاء في الواجهة بينما كان حمل وجودة الراديو معتدلين. تم التخفيف عبر ضبط معلمات الموقع لإضافة مرونة في الربط الخلفي وتوسيط QoS، ثم فتح التذكرة DU-BH-04219 للتحقيق من قِبل النقل/المورّد."
+  }
+}

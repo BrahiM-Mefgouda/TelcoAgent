@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0023",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows congestion alerts over the last 3 hours with PRB ~95%, p95 scheduling latency 35 ms, ~244 users, BLER ~7%, SINR 9 dB, RSRQ −14 dB, and downlink throughput around 15 Mbps.",
+    "ar": "خلية NR حضرية (ماكرو) لديها تنبيهات ازدحام خلال آخر 3 ساعات مع استهلاك PRB ~95%، كمون الجدولة p95=35 مللي ثانية، ~244 مستخدمًا، BLER ~7%، SINR=9 dB، RSRQ=−14 dB، ومعدل تنزيل يقارب 15 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has congestion alarms over the last 3h; PRB ~95%, p95 scheduling latency 35 ms, ~244 users, DL 15 Mbps / UL 5 Mbps, SINR 9 dB, RSRQ −14 dB, BLER ~7%. Shoulder hour with eMBB streaming; neighbor PCI overlap count observed at 13.",
+      "message_ar": "الخلية NR حضرية (ماكرو) لديها تنبيهات ازدحام خلال آخر 3 ساعات؛ استهلاك PRB ~95%، كمون الجدولة p95=35 مللي ثانية، ~244 مستخدمًا، DL 15 ميجابت/ث وUL 5 ميجابت/ث، SINR=9 dB، وRSRQ=−14 dB، وBLER ~7%. فترة الكتف مع حركة eMBB (بث فيديو)، وتم رصد تداخل PCI لدى 13 جارًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull last 3h OSS counters for the impacted cell to confirm the resource bottleneck; please share the cell ID and approve access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات OSS لآخر 3 ساعات للخلية المتأثرة لتأكيد عنق الزجاجة في الموارد؛ يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-1123; access approved for the last 3h window.",
+      "message_ar": "معرّف الخلية NR-URB-1123؛ الوصول مُعتمد لفترة 3 ساعات الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS query for NR-URB-1123 (3h) shows sustained PRB 93–97%, high queueing (p95 ~35 ms), capped rates (~15/5 Mbps), BLER 6–8%, users peaking ~250; clear contention, with a neighbor PCI overlap hint contributing interference. Proposal: apply resource optimization—enable capacity boost, refine QoS/PRB allocation, and ease offload thresholds to neighboring cells. Approve to proceed?",
+      "message_ar": "استعلام OSS للخلية NR-URB-1123 (3 ساعات) يُظهر استهلاك PRB ثابت 93–97%، تزايد الصفوف (p95≈35 مللي ثانية)، سقف في المعدلات (~15/5 ميجابت/ث)، BLER بين 6–8%، وقمة مستخدمين ~250؛ تنافس واضح على الموارد مع تلميح تداخل من الجيران (تداخل PCI). الاقتراح: تطبيق تحسين للموارد — تفعيل تعزيز السعة، تنقيح توزيع PRB وأوزان QoS، وتلطيف عتبات تفريغ الحمل إلى الخلايا المجاورة. هل توافق على المضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the optimization.",
+      "message_ar": "موافَق على المضي في التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-URB-1123: activated scheduler capacity boost, refined PRB/QoS weights, and relaxed inter-cell offload thresholds. Change successful; starting post-change watch on PRB, latency, and BLER.",
+      "message_ar": "تم تطبيق التحسين على NR-URB-1123: تفعيل تعزيز سعة المُجدول، تنقيح أوزان PRB/QoS، وتخفيف عتبات التفريغ بين الخلايا. التغيير ناجح؛ أبدأ مراقبة ما بعد التغيير لِـ PRB والكمون وBLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after 10 minutes: PRB now ~86–89%, p95 latency ~22 ms, DL throughput ~22 Mbps; drops and failures look stable.",
+      "message_ar": "ملاحظة أولية بعد 10 دقائق: PRB الآن ~86–89%، وكمون p95 حوالي 22 مللي ثانية، ومعدل التنزيل ~22 ميجابت/ث؛ السقوط والإخفاقات تبدو مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend is positive. I will create a tracking record to document the change and monitor ongoing performance. Please confirm to open it.",
+      "message_ar": "الاتجاه إيجابي. سأُنشئ سجل متابعة لتوثيق التغيير ومراقبة الأداء المستمر. يرجى تأكيد الفتح."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—open the record.",
+      "message_ar": "تم التأكيد—افتح السجل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created: DU-LOAD-04217 with pre/post KPIs and optimization summary. I will continue observation through the current shoulder period and into the next peak.",
+      "message_ar": "تم إنشاء السجل: DU-LOAD-04217 مع مؤشرات قبل/بعد وملخص التحسين. سأواصل المراقبة خلال فترة الكتف الحالية وحتى الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency is trending down and PRB is holding below 90%. The resource parameter optimization you applied is helping; monitor through the next busy hour and track under DU-LOAD-04217.",
+      "message_ar": "نرى تحسنًا: الكمون في اتجاه هابط وPRB يبقى دون 90%. تحسين معلمات الموارد الذي طبقتَه مفيد؛ راقب خلال ساعة الذروة القادمة وتابع تحت DU-LOAD-04217."
+    },
+    {
+      "role": "agent",
+      "message_en": "We'll own monitoring through the next busy hour and update the ticket after the window with KPIs and any follow-ups. If congestion resurges, we will escalate to broader load balancing; if regressions appear, we will roll back the optimization in a controlled manner.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدث التذكرة بعد نهاية الفترة بالمؤشرات وأي إجراءات لاحقة. إذا عاد الازدحام سنصعّد إلى توازن حمل أوسع؛ وإذا ظهرت انتكاسات سنرجع التحسين بشكل مُتحكَّم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed sustained PRB congestion on the urban NR macro cell over the last 3 hours via OSS, with high queueing and capped throughput. Applied site parameter tuning to boost scheduler capacity, refine PRB/QoS weighting, and ease offload thresholds to relieve contention. Opened a tracking ticket for traceability and will monitor through the next busy hour to validate stability.",
+    "ar": "تم تأكيد ازدحام PRB المستمر في خلية NR الحضرية (ماكرو) خلال آخر 3 ساعات عبر OSS، مع صفوف عالية ومعدلات محدودة. تم تنفيذ ضبط معلمات بالموقع لتعزيز سعة المُجدول، وتنقيح أوزان PRB/QoS، وتخفيف عتبات التفريغ لتقليل التزاحم. تم فتح تذكرة متابعة للتوثيق وسيجري الرصد خلال ساعة الذروة القادمة للتحقق من الاستقرار."
+  }
+}

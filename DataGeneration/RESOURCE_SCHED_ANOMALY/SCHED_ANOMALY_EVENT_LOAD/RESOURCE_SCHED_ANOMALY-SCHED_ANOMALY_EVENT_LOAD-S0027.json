@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0027",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell during ingress shows congestion with slow data and interference/signal overlap: PRB ~96%, low fairness, p50 7 Mbps, p95 latency 47 ms, 593 users.",
+    "ar": "خلية NR ميكرو في الاستاد خلال الدخول تظهر ازدحاماً مع بطء البيانات وتداخل/تراكب للإشارة: استهلاك الموارد ~96%، عدالة منخفضة، وسيط السرعة 7 ميجابت/ث، كمون p95 عند 47 مللي ثانية، و593 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a congestion alarm on the stadium NR micro cell during ingress; users report slow data and streaming stalls. Can you investigate?",
+      "message_ar": "لدينا إنذار ازدحام على خلية NR ميكرو في الاستاد خلال الدخول؛ هناك شكاوى من بطء البيانات وتوقف البث. هل يمكنك التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. KPIs indicate heavy load (PRB ~96%), low fairness, and interference/signal overlap (SINR ~2 dB). I will first pull the last 3h OSS stats for the affected cell; please share the cell ID and approve read access.",
+      "message_ar": "تم الاستلام. المؤشرات تظهر حملاً عالياً (PRB ~96%) وعدالة منخفضة وتداخل/تراكب للإشارة (SINR ~2 dB). سأبدأ بسحب إحصاءات OSS لآخر 3 ساعات للخلية المتأثرة؛ يرجى تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_STAD_A03_MIC01, window 3h is fine. Read access approved.",
+      "message_ar": "معرّف الخلية هو NR_STAD_A03_MIC01، نافذة 3 ساعات مناسبة. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h OSS counters for NR_STAD_A03_MIC01: PRB utilization 95–97%, best-effort share ~65%, allocation skew 31, active users peaked ~590; RSRQ -14 dB. Confirms congestion with interference. Next, I’ll review PRB scheduling time series to correlate with ingress surge—proceed?",
+      "message_ar": "تم سحب عدادات OSS لآخر 3 ساعات للخلية NR_STAD_A03_MIC01: استهلاك PRB بين 95–97%، حصة الحركة منخفضة الأولوية ~65%، انحراف التخصيص 31، عدد المستخدمين النشطين بلغ ~590؛ قيمة RSRQ هي -14 dB. هذا يؤكد الازدحام مع وجود تداخل. التالي، سأراجع السلاسل الزمنية لمقاييس PRB للارتباط بذروة الدخول—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows PRB saturation aligned with gates opening; fairness index dips to ~0.36 and p95 scheduler latency ~47 ms; median DL throughput ~7 Mbps. No backhaul or outage flags. This is a resource scheduler anomaly under event load. I will apply targeted site parameter tuning to rebalance QoS weights and limit best-effort to restore fairness—approve change?",
+      "message_ar": "السلاسل الزمنية تُظهر تشبع PRB بالتزامن مع فتح البوابات؛ مؤشر العدالة ينخفض إلى ~0.36 وكمون p95 للمُجدول ~47 مللي ثانية؛ وسيط سرعة التنزيل ~7 ميجابت/ث. لا توجد مؤشرات على مشاكل الربط الخلفي أو انقطاع. هذه حالة شذوذ في مُجدول الموارد تحت حمل الحدث. سأطبق ضبطاً انتقائياً لمعلمات الموقع لإعادة موازنة أوزان QoS وتقييد الحركة منخفضة الأولوية لاستعادة العدالة—هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. You can implement the tuning now.",
+      "message_ar": "موافق. يمكنك تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied scheduler/QoS weighting adjustments on NR_STAD_A03_MIC01 with conservative limits; no service interruption. Starting immediate monitoring and short-term verification over the next 10–15 minutes.",
+      "message_ar": "تم تطبيق تعديلات أوزان المُجدول/جودة الخدمة على NR_STAD_A03_MIC01 بحدود تحفظية؛ دون انقطاع خدمة. أبدأ المراقبة الفورية والتحقق القصير خلال 10–15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: PRB utilization dipping to ~88–90%, fairness index up to ~0.55, median throughput trending 9–10 Mbps; user complaints are decreasing.",
+      "message_ar": "ملاحظة مبكرة: استهلاك PRB انخفض إلى ~88–90%، ومؤشر العدالة ارتفع إلى ~0.55، والسرعة الوسيطة تتجه نحو 9–10 ميجابت/ث؛ الشكاوى تتناقص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll keep best-effort shaping active through ingress and watch for regressions or spikes; also tracking SINR to gauge interference impact.",
+      "message_ar": "تحسن جيد. سأبقي تشكيل الحركة منخفضة الأولوية فعالاً خلال فترة الدخول وأراقب أي انتكاسات أو ارتفاعات؛ كما أتابع SINR لتقييم أثر التداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: slow data reports reduced and median throughput improved, with latency tails easing. Action taken: site parameter tuning on the resource scheduler. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: تقارير بطء البيانات انخفضت وتحسنت السرعة الوسيطة، مع تراجع أطراف الكمون. الإجراء المتخذ: ضبط معلمات الموقع على مُجدول الموارد. فلنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and provide an update afterward. If metrics regress, we will roll back the tuning; if interference worsens, we will escalate to assess neighboring cells.",
+      "message_ar": "سنُدير المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً بعدها. إذا تراجعت المؤشرات فسنقوم بالتراجع عن الضبط؛ وإذا تفاقم التداخل فسوف نصعّد للتحقق من الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on the stadium NR micro cell during ingress by reviewing OSS counters and PRB time series, showing PRB saturation, low fairness, and interference impact. Applied site parameter tuning to rebalance QoS weights and limit best-effort usage to restore fairness and reduce latency. Post-change, PRB utilization and median throughput improved; continued monitoring through the next busy hour is planned.",
+    "ar": "تم تشخيص شذوذ في مُجدول الموارد على خلية NR ميكرو في الاستاد خلال الدخول عبر مراجعة عدادات OSS والسلاسل الزمنية لـ PRB، والتي أظهرت تشبع PRB وعدالة منخفضة وتأثير التداخل. تم تنفيذ ضبط لمعلمات الموقع لإعادة موازنة أوزان جودة الخدمة وتقييد الحركة منخفضة الأولوية لاستعادة العدالة وتقليل الكمون. بعد التغيير تحسن استهلاك PRB والسرعة الوسيطة؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

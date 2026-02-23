@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_EMBB_THROUGHPUT-S0006",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_EMBB_THROUGHPUT",
+  "query": {
+    "en": "Urban NR macro over the last 4h shoulder window shows eMBB slice QoS degradation: 31% violations, median throughput 9 Mbps, latency 50 ms, PRB utilization 84%, 407 users, with a URLLC-heavy mix.",
+    "ar": "في منطقة حضرية وعلى خلية ماكرو NR خلال آخر 4 ساعات (فترة بينية) يظهر تدهور QoS لشريحة eMBB: انتهاكات 31%، وسيط السرعة 9 Mbps، كمون 50 ms، إشغال PRB 84%، 407 مستخدمين، مع مزيج حركة URLLC مرتفع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell shows eMBB slice QoS degradation in the last 4h shoulder window: violations 31%, p50 9 Mbps, p95 40 Mbps, latency ~50 ms, PRB ~84%, users 407. Please investigate.",
+      "message_ar": "لدينا على خلية ماكرو NR في منطقة حضرية خلال آخر 4 ساعات (فترة بينية) تدهور في QoS لشريحة eMBB: الانتهاكات 31%، وسيط السرعة 9 Mbps، p95=40 Mbps، الكمون ~50 ms، إشغال PRB ~84%، عدد المستخدمين 407. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull 4h cell stats, then review the slice QoS time series; if confirmed, I’ll apply a controlled eMBB slice policy update. Share the cell ID and slice ID, and confirm read access plus approval for a limited policy change if needed.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب إحصاءات الخلية لآخر 4 ساعات ثم مراجعة سلسلة QoS للشريحة؛ وإذا تأكدت المشكلة سأجري تحديثاً محدوداً لسياسة شريحة eMBB. يرجى تزويدي بمعرّف الخلية ومعرّف الشريحة وتأكيد صلاحية القراءة والموافقة على تغيير مُتحفّظ للسياسة إذا لزم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NRU-12345 (sector A). Slice: eMBB-01. Read access approved; controlled policy change allowed if low risk. URLLC traffic was higher than usual during shoulder. No active alarms.",
+      "message_ar": "الخلية: NRU-12345 (القطاع A). الشريحة: eMBB-01. تم اعتماد صلاحية القراءة؛ يُسمح بتغيير سياسة مُتحفّظ إذا كان منخفض المخاطر. حركة URLLC كانت أعلى من المعتاد خلال الفترة البينية. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected last-4h stats for NRU-12345: PRB peaks 80–90%; no radio faults; backhaul normal; frequent URLLC preemption events; scheduler weighting favors URLLC; intermittent eMBB buffer build-up. Proceeding to analyze the slice QoS trend.",
+      "message_ar": "تم تجميع إحصاءات آخر 4 ساعات للخلية NRU-12345: ذروات إشغال PRB بين 80–90%؛ لا أعطال راديوية؛ الوصلة الخلفية طبيعية؛ أحداث استباق URLLC متكررة؛ الأوزان الجدولية تُفضّل URLLC؛ تراكم مؤقت في مخازن eMBB. سأنتقل لتحليل اتجاه QoS للشريحة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood, you can proceed. We had some streaming user complaints downtown earlier.",
+      "message_ar": "مفهوم، يمكنك المتابعة. وردت شكاوى من مستخدمي البث في وسط المدينة سابقاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzed eMBB QoS series over 4h: violations spiked to 35–38% at 11:00–12:00; median throughput dipped to 8–10 Mbps; latency up to ~55 ms at peaks; concurrent URLLC PRB share ~30%. Diagnosis: eMBB under-provisioned during shoulder due to URLLC bursts. Proposal: apply a mild slice policy update—raise eMBB minimum share by ~5% and slightly soften URLLC burst ceiling—to balance without harming URLLC latency. Approve?",
+      "message_ar": "تم تحليل سلسلة QoS لشريحة eMBB خلال 4 ساعات: ارتفعت الانتهاكات إلى 35–38% بين 11:00–12:00؛ انخفض وسيط السرعة إلى 8–10 Mbps؛ ارتفع الكمون إلى ~55 ms عند الذروة؛ حصة PRB لـ URLLC متزامنة ~30%. التشخيص: تخصيص eMBB غير كافٍ خلال الفترة البينية بسبب اندفاعات URLLC. الاقتراح: تطبيق تحديث بسيط لسياسة الشريحة—رفع الحد الأدنى لحصة eMBB بنحو 5% وتخفيف بسيط لسقف اندفاع URLLC—للموازنة دون التأثير على كمون URLLC. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Keep the change conservative and within safety margins.",
+      "message_ar": "موافق. اجعل التغيير متحفظاً وضمن هوامش الأمان."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the slice policy update on eMBB-01 for NRU-12345; commit successful. Early effect (10 min): PRB headroom improved ~3%, eMBB violation ratio trending down by ~10% relative; URLLC latency unchanged. Will keep observing.",
+      "message_ar": "تم تطبيق تحديث سياسة الشريحة على eMBB-01 للخلية NRU-12345؛ تم التنفيذ بنجاح. الأثر المبكر (10 دقائق): تحسن الهامش في PRB بنحو 3%، وانخفاض نسبي ~10% في نسبة الانتهاكات لشريحة eMBB؛ كمون URLLC دون تغيير. سأواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing p50 up to ~12 Mbps and violations around 22–24% in the last 10 minutes; no new alerts.",
+      "message_ar": "أرى ارتفاع وسيط السرعة إلى ~12 Mbps وانخفاض الانتهاكات إلى حوالي 22–24% خلال آخر 10 دقائق؛ لا توجد تنبيهات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. Let’s monitor through the next busy hour; if degradation returns or URLLC indicators regress, we will roll back the change. Otherwise, we’ll keep it and consider gradual tuning for adjacent sectors.",
+      "message_ar": "إشارة جيدة. لنتابع المراقبة خلال ساعة الذروة القادمة؛ إذا عادت التدهورات أو تراجعت مؤشرات URLLC سنقوم بالرجوع عن التغيير. بخلاف ذلك سنُبقيه ونفكر في ضبط تدريجي للقطاعات المجاورة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: violations trending near 20% and mid-user speeds improved. Action taken was a slice policy update. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: الانتهاكات تقترب من 20% وتحسنت سرعات المستخدمين المتوسطة. الإجراء كان تحديث سياسة الشريحة. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and update you with the trend. If URLLC latency worsens or violations rise, we will revert the change; if performance remains stable or better, we’ll retain the policy and plan cautious tuning for nearby cells.",
+      "message_ar": "سنتولى متابعة الساعتين إلى الأربع ساعات القادمة ونوافيك بالاتجاه. إذا ساء كمون URLLC أو ارتفعت الانتهاكات سنعيد التغيير؛ وإن بقي الأداء مستقراً أو أفضل فسنُبقي السياسة ونخطط لضبط حذر للخلايا القريبة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRU-12345",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRU-12345",
+        "QoS cls",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "eMBB-01",
+        "fair-share+min-guarantee"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed eMBB slice QoS degradation on an urban NR macro during the shoulder hour, driven by high PRB utilization and URLLC preemption. Validated with 4h cell statistics and QoS time series, then applied a targeted slice policy update to increase eMBB minimum share and temper URLLC bursts without impacting latency. Monitoring continues for 2–4 hours to confirm stability.",
+    "ar": "تم تشخيص تدهور QoS لشريحة eMBB على خلية ماكرو NR حضرية خلال الفترة البينية، نتيجة إشغال PRB مرتفع واستباق URLLC. تم التحقق باستخدام إحصاءات الخلية لآخر 4 ساعات وسلسلة QoS، ثم تطبيق تحديث مُحدّد لسياسة الشريحة لزيادة الحد الأدنى لحصة eMBB وتخفيف اندفاع URLLC دون التأثير على الكمون. ستستمر المراقبة لمدة 2–4 ساعات للتأكد من الاستقرار."
+  }
+}

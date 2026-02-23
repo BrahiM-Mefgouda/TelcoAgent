@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0003",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell shows downlink throughput at 9 Mbps over the last 3h with ~243 users; congestion alarm is active and signal quality is moderate (SINR 8 dB, RSRQ -9 dB).",
+    "ar": "خلية ماكرو NR حضرية تُظهر سرعة تحميل 9 Mbps خلال آخر 3 ساعات مع حوالي 243 مستخدماً؛ يوجد تنبيه ازدحام نشط وجودة إشارة متوسطة (SINR 8 dB و RSRQ -9 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell experiencing DL throughput drop to ~9 Mbps over the last 3h during peak evening; congestion alarm is active with ~243 users on eMBB streaming.",
+      "message_ar": "خلية ماكرو NR حضرية تعاني من هبوط سرعة التحميل إلى ~9 Mbps خلال آخر 3 ساعات في ذروة المساء؛ يوجد تنبيه ازدحام نشط مع ~243 مستخدماً (حركة eMBB وبث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling OSS stats for the last 3 hours to validate load, quality, and error trends. Please share the cell ID and confirm read access.",
+      "message_ar": "سأبدأ بجلب إحصاءات من نظام الإدارة لآخر 3 ساعات للتحقق من الحمل والجودة والأخطاء. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRU-2457. Read access approved.",
+      "message_ar": "معرّف الخلية: NRU-2457. تم اعتماد الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check on NRU-2457 over 3h: PRB utilization avg ~76% (peaks >85%), active users 240–260, DL user throughput p50 ~9–10 Mbps, BLER ~6–7%, p95 scheduler latency ~64 ms, RSRQ -9 dB, SINR 8 dB. This is load-driven congestion with moderate RF quality.",
+      "message_ar": "نتائج نظام الإدارة لِـ NRU-2457 خلال 3 ساعات: إشغال PRB بمتوسط ~76% (قمم >85%)، المستخدمون النشطون 240–260، وسيط سرعة التحميل للمستخدم ~9–10 Mbps، BLER ~6–7%، وزمن انتظار المجدول p95 ~64 ms، وRSRQ -9 dB وSINR 8 dB. النمط يدل على ازدحام ناتج عن الحمل مع جودة راديوية متوسطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I'll run a downlink KPI time series to correlate throughput, PRB load, BLER, and latency over the same 3h window. Proceed?",
+      "message_ar": "بعد ذلك سأجري سلسلة زمنية لمؤشرات التحميل لربط السرعة مع حمل PRB وBLER وزمن التأخير ضمن نفس نافذة 3 ساعات. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead.",
+      "message_ar": "موافق. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series for NRU-2457: from 18:35–21:10, PRB >80% sustained, DL user rates dip to 7–10 Mbps, p95 latency rises to 60–70 ms, while BLER stays ≤7%. Pattern matches scheduler congestion rather than radio interference.",
+      "message_ar": "السلسلة الزمنية للتحميل في NRU-2457: من 18:35 حتى 21:10، حمل PRB أعلى من 80% بشكل مستمر، وسرعات التحميل للمستخدم تنخفض إلى 7–10 Mbps، وزمن p95 يرتفع إلى 60–70 ms، بينما BLER يبقى ≤7%. النمط يتوافق مع ازدحام في المجدول وليس تداخلاً راديوياً."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose targeted site parameter tuning on NRU-2457 to optimize DL scheduling and congestion control (fairness/priority and queue thresholds) to improve eMBB experience. Low risk with immediate effect. Approve?",
+      "message_ar": "أقترح ضبطاً مستهدفاً لمعلمات الموقع على NRU-2457 لتحسين جدولة التحميل والتحكم في الازدحام (الإنصاف/الأولوية وحدود الطوابير) لتحسين تجربة eMBB. المخاطر منخفضة والتأثير فوري. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the parameter optimization now.",
+      "message_ar": "موافَق على تنفيذ ضبط المعلمات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: NRU-2457 DL scheduler/congestion tuning committed successfully with no errors. Expected: better resource allocation, ~15–30% DL user throughput gain under load and lower p95 latency. Please observe live KPIs for a few minutes.",
+      "message_ar": "تم التطبيق: ضبط جدولة التحميل/التحكم بالازدحام على NRU-2457 نُفِّذ بنجاح دون أخطاء. المتوقع: تخصيص موارد أفضل، وتحسن ~15–30% في سرعة التحميل للمستخدم تحت الحمل، وانخفاض زمن p95. يرجى متابعة المؤشرات لبضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: user DL rates trending up (~16–18 Mbps) and p95 latency dropping toward ~40 ms after the site parameter tuning. Let's monitor through the next busy hour.",
+      "message_ar": "هناك تحسن: سرعات التحميل للمستخدم ترتفع (~16–18 Mbps) وزمن p95 ينخفض نحو ~40 ms بعد ضبط معلمات الموقع. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update on throughput and latency. If congestion persists, we will escalate for capacity relief; if any adverse impact appears, we will roll back the change.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بتحديثات عن السرعة والزمن. إذا استمر الازدحام سنصعّد لزيادة السعة؛ وإذا ظهر أي تأثير سلبي فسنُرجِع التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRU-2457",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRU-2457",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler congestion tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a peak-evening downlink throughput drop on an urban NR macro cell driven by sustained PRB saturation and scheduler congestion, confirmed via OSS stats and DL time series. Mitigated by site parameter tuning to optimize downlink scheduling and congestion control. Post-change KPIs improved, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص هبوط سرعة التحميل في ذروة المساء على خلية NR حضرية نتيجة تشبع PRB المستمر وازدحام المجدول، وقد تم تأكيد ذلك عبر إحصاءات النظام والسلسلة الزمنية للتحميل. تمت المعالجة عبر ضبط معلمات الموقع لتحسين جدولة التحميل والتحكم في الازدحام. تحسنت المؤشرات بعد التغيير وسيتم مراقبة الخلية خلال ساعة الذروة القادمة."
+  }
+}

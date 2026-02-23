@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0017",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural NR macro cell shows long‑range attachments (TA p95 ~2.3 km, 20% distant serving) with weak signal and slow data (3 Mbps median), plus ping‑pong 16% and HO failures 11% over the last 12h—suspected overshooting.",
+    "ar": "خلية NR ماكرو ريفية تُظهر ارتباطات بعيدة (TA p95 ~2.3 كم، نسبة خدمة بعيدة 20%) مع إشارة ضعيفة وبيانات بطيئة (وسيط 3 Mbps)، إضافةً إلى 16% تبديل خلايا متأرجح و11% فشل تسليم خلال آخر 12 ساعة—يُشتبه في تجاوز التغطية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector NR-RU-12345-S1 over the last 12h: TA p95 ~2312 m, distant serving 20%, RSRP -121 dBm, RSRQ -13 dB, SINR 6 dB. Mobility is unstable—ping-pong 16%, HO failures 11%. PRB ~64%, 152 users, DL p50 ~3 Mbps; users report slow data during eMBB streaming. No alarms.",
+      "message_ar": "القطاع NR-RU-12345-S1 (ماكرو NR ريفي) خلال آخر 12 ساعة: TA p95 ~2312 م، نسبة خدمة بعيدة 20%، RSRP -121 dBm، RSRQ -13 dB، وSINR 6 dB. تنقّل غير مستقر—تبديل خلايا متأرجح 16% وفشل تسليم 11%. استخدام PRB ~64%، 152 مستخدمًا، ومعدل تنزيل وسيط ~3 Mbps؛ شكاوى من بطء البيانات أثناء بث eMBB. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. This suggests an overshooting macro. I will first review coverage patterns and dominance around NR-RU-12345-S1 to confirm the footprint versus nearby sites. Please approve pulling coverage data.",
+      "message_ar": "تم الاستلام. المؤشرات تدل على تجاوز تغطية من موقع ماكرو. سأبدأ بمراجعة أنماط التغطية والسيطرة حول NR-RU-12345-S1 لتأكيد البصمة مقابل المواقع القريبة. يرجى الموافقة على سحب بيانات التغطية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—go ahead.",
+      "message_ar": "موافق—تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review shows the main lobe extending >4 km along the highway; the cell serves UEs 2–4 km away with edge RSRP around -120 to -125 dBm and weak dominance near closer sites. This confirms overshoot. Next, I’ll audit neighbor relations and priorities with adjacent NR cells (~6–8 km). Approve?",
+      "message_ar": "مراجعة التغطية تُظهر أن الحزمة الرئيسية تمتد لأكثر من 4 كم بمحاذاة الطريق؛ الخلية تخدم مستخدمين على بُعد 2–4 كم مع RSRP على الحافة بين -120 و-125 dBm وسيطرة ضعيفة قرب مواقع أقرب. هذا يؤكد التجاوز. بعد ذلك سأدقق العلاقات والأولويات مع الخلايا المجاورة NR (~6–8 كم). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit findings: two nearer NR cells are not prioritized; late HO bias inferred (low offset/hysteresis) and a 6 km neighbor over-selected, aligning with ping-pong and HO failures. I propose: +1.5° down-tilt, -1 dB broadcast power, add/prioritize the two closer neighbors, and tighten HO offset/hysteresis by +1 dB. Approve optimization?",
+      "message_ar": "نتائج تدقيق الجوار: خليتان NR أقرب غير مُعطاة أولوية؛ انحياز تسليم متأخر (تعويض/هيسترة منخفضة) وجار على بُعد 6 كم يتم تفضيله، بما يتماشى مع التبديل المتأرجح وفشل التسليم. أقترح: زيادة الميل الكهربائي +1.5°، خفض قدرة البث -1 dB، إضافة/أولوية الجارين الأقرب، وتشديد تعويض/هيسترة التسليم +1 dB. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement these changes.",
+      "message_ar": "موافق على تنفيذ هذه التغييرات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization now: set +1.5° electrical down-tilt, reduced SSB/common power by 1 dB, tightened HO offset/hysteresis by +1 dB, and updated neighbor priorities to favor the two closer cells. Changes committed; beginning short-term observation.",
+      "message_ar": "أقوم بالتنفيذ الآن: ضبط ميل كهربائي +1.5°، خفض قدرة SSB/المشترك بمقدار 1 dB، تشديد تعويض/هيسترة التسليم +1 dB، وتحديث أولويات الجوار لصالح الخليتين الأقرب. تم اعتماد التغييرات؛ أبدأ المراقبة القصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: rapid handbacks are fewer, and near-site RSRP is ~2 dB better on quick checks. Throughput locally seems steadier.",
+      "message_ar": "ملاحظة أولية: حالات العودة السريعة أقل، وRSRP قرب الموقع أفضل بحوالي 2 dB في فحوصات سريعة. معدل التنزيل محليًا يبدو أكثر استقرارًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early signs. Counters indicate ping-pong easing and mid-cell SINR slightly up. I recommend continued observation for stability and throughput uplift. Shall we track through the next busy period?",
+      "message_ar": "مؤشرات مبكرة جيدة. العدادات تُظهر تراجع التبديل المتأرجح وارتفاعًا طفيفًا في SINR بمنتصف الخلية. أوصي بالاستمرار في المراقبة للتحقق من الاستقرار وتحسن السعة. هل نتابع خلال ساعة الذروة القادمة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed—ping-pong is trending down and handover failures are easing after the parameter optimization. Let’s monitor for the next busy hour.",
+      "message_ar": "متفق—التبديل المتأرجح في تراجع وإخفاقات التسليم تتحسن بعد تحسين المعلمات. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and share an update afterward. If KPIs regress, we will roll back the tilt/power change and revisit neighbor priorities; if issues persist, we will escalate to field for physical alignment checks.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا تراجعت مؤشرات الأداء، سنعيد ضبط تغييرات الميل/القدرة ونراجع أولويات الجوار؛ وإذا استمرت المشكلات، سنصعد الأمر إلى الفريق الميداني لفحوصات المحاذاة الفيزيائية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "rural",
+        "1km"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-RU-12345-S1",
+        "all"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "tilt_power_HO_neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural NR macro overshooting issue using coverage evidence (extended timing advance, distant serving) and weak RSRP/RSRQ with mobility instability. Performed coverage assessment and a neighbor audit, then applied site parameter tuning—added/prioritized nearer neighbors, increased down-tilt, slightly reduced broadcast power, and tightened handover offsets—to shrink the footprint and stabilize mobility. Early results show reduced ping‑pong and improved local signal; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص مشكلة تجاوز التغطية في موقع ماكرو NR ريفي بالاستناد إلى أدلة التغطية (TA ممتد وخدمة بعيدة) وضعف RSRP/RSRQ مع عدم استقرار في التنقّل. تم إجراء تقييم للتغطية وتدقيق للجيران، ثم تنفيذ ضبط لمعلمات الموقع—إضافة/أولوية الجيران الأقرب، زيادة الميل، خفض طفيف لقدرة البث، وتشديد عتبات التسليم—لتقليص البصمة وتحسين الاستقرار. النتائج المبكرة تُظهر انخفاض التبديل المتأرجح وتحسن الإشارة المحلية؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

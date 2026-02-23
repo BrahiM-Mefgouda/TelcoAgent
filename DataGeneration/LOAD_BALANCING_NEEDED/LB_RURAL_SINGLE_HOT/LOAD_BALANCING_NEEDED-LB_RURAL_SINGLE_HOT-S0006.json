@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0006",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell shows high PRB utilization (~88%) with ~180 FWA users and median downlink ~16 Mbps, neighbors at ~31% load and handover out>in, indicating load imbalance without active alarms.",
+    "ar": "خلية ماكرو NR ريفية تُظهر إشغال PRB مرتفعًا (~88%) مع ~180 مستخدم FWA ومتوسط تحميل ~16 ميجابت/ث، والجيران عند ~31% وحالات تسليم للخارج أعلى من الداخل، ما يشير إلى عدم توازن الحمل دون وجود إنذارات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell over the last 6h shows sustained high PRB (~88%) with ~180 FWA users; neighbors average ~31% load; handover out > in (21 vs 14 per 5 min); median DL ~16 Mbps; no alarms.",
+      "message_ar": "خلية ماكرو NR ريفية خلال آخر 6 ساعات تُظهر إشغال PRB مرتفعًا (~88%) مع ~180 مستخدم FWA؛ الجيران بمتوسط حمل ~31%؛ التسليم للخارج أعلى من الداخل (21 مقابل 14 لكل 5 دقائق)؛ الوسيط للتحميل ~16 ميجابت/ث؛ بدون إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by running a neighbor audit on cell NR-Cell-48213-S1 for the last 6h to verify relations and steering margins for load balancing; please confirm access.",
+      "message_ar": "سأبدأ بإجراء تدقيق للجيران على الخلية NR-Cell-48213-S1 لآخر 6 ساعات للتحقق من العلاقات وهوامش التوجيه لتحقيق الموازنة؛ يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-Cell-48213-S1, 6h window. No planned work nearby.",
+      "message_ar": "تم منح الوصول للخلية NR-Cell-48213-S1، نافذة 6 ساعات. لا أعمال مخططة بالجوار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit indicates target PRB ~88% while N1/N2 are at 28–36% and 33–34%; HO asymmetry aligns (out 21, in 14). I propose conservative load-balance tuning (adjust selection/HO bias toward underutilized neighbors) to offload ~10–15%. Approve to proceed?",
+      "message_ar": "يبين التدقيق أن PRB في الخلية الهدف ~88% بينما الخلايا N1/N2 عند 28–36% و33–34%؛ عدم التماثل في التسليم يتطابق (خارج 21، داخل 14). أقترح ضبطًا محافظًا للموازنة (تعديل انحياز الاختيار/التسليم نحو الجيران منخفضي الحمل) لتحويل ~10–15% من الحمل. الموافقة على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now; neighbors are in the same cluster and backhaul is healthy.",
+      "message_ar": "موافق على تطبيق الضبط الآن؛ الجيران في نفس التجمع والربط الخلفي بحالة جيدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing parameter optimization: increasing offload bias toward N1/N2 within safe limits and tightening congestion-based steering; change applied. I will watch PRB, HO in/out, and median throughput for early impact.",
+      "message_ar": "أقوم بتنفيذ تحسين المعلمات: زيادة انحياز التحويل نحو N1/N2 ضمن حدود آمنة وتشديد التوجيه المبني على الازدحام؛ تم تطبيق التغيير. سأتابع PRB وتسليم الداخل/الخارج والوسيط للسرعة لملاحظة الأثر المبكر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 15 minutes look stable; PRB seems slightly down and no error spikes; RF quality around RSRQ -9 dB and SINR 11 dB.",
+      "message_ar": "أول 15 دقيقة مستقرة؛ يظهر PRB أقل قليلًا ولا ارتفاع في الأخطاء؛ جودة RF حول RSRQ ‏-9 dB وSINR ‏11 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early counters show PRB trending 74–76% on the target; neighbors up to ~45–50%; HO in/out closer to balance; p50 DL improving to ~20 Mbps. I’ll continue to observe as load fluctuates.",
+      "message_ar": "المؤشرات المبكرة تُظهر PRB عند 74–76% على الخلية الهدف؛ الجيران ارتفعوا إلى ~45–50%؛ توازن أفضل في تسليم الداخل/الخارج؛ تحسن الوسيط للتحميل إلى ~20 ميجابت/ث. سأواصل المتابعة مع تغير الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged—local dashboard reflects similar trends; FWA sessions steady, no complaints from care so far.",
+      "message_ar": "تم التأكيد—لوحة المتابعة المحلية تعكس اتجاهات مشابهة؛ جلسات FWA مستقرة، ولا شكاوى حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "No further actions planned now; I’ll keep the tuning in place while tracking utilization distribution and HO symmetry through the next peak.",
+      "message_ar": "لا إجراءات إضافية الآن؛ سأُبقي الضبط قائمًا مع تتبع توزيع الإشغال وتماثل التسليم عبر الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement sustained: PRB utilization down by ~12–14 points and handover asymmetry reduced. The site parameter optimization appears effective; propose monitoring through the next busy hour.",
+      "message_ar": "التحسن مستمر: انخفض إشغال PRB بحوالي 12–14 نقطة وتقلص عدم التماثل في التسليم. يبدو أن تحسين معلمات الموقع فعّال؛ أقترح المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy hour monitoring and share an update afterward. If load drifts back or instability appears, we will revert the bias change and escalate to RF design for alternatives; otherwise we keep the tuning.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا عاد الحمل أو ظهرت عدم استقرار، سنُرجع تغيير الانحياز ونصعّد إلى فريق التصميم الراديوي لخيارات بديلة؛ وإلا سنُبقي الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-Cell-48213-S1",
+        "configured_neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_balancing_bias"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "The rural 5G macro site showed high resource use and HO asymmetry while adjacent cells were underutilized, indicating load imbalance. We assessed neighbor relations and then applied site parameter tuning to bias selection/handover toward lower-load neighbors. Early results reduced PRB from ~88% to mid-70s with improved median throughput; we will monitor through the next busy hour.",
+    "ar": "أظهرت محطة ماكرو 5G ريفية استخدامًا مرتفعًا للموارد وعدم تماثل في التسليم بينما كانت الخلايا المجاورة منخفضة الاستخدام، مما يشير إلى عدم توازن في الحمل. قمنا بتقييم علاقات الجيران ثم طبقنا ضبط معلمات الموقع لتحيز الاختيار/التسليم نحو الجيران الأقل حملاً. النتائج المبكرة خفّضت PRB من ~88% إلى منتصف السبعينيات مع تحسن في الوسيط للسرعة؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

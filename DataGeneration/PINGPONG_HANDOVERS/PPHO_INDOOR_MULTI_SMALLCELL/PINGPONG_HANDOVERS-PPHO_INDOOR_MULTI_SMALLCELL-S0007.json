@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0007",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office wing 5G micro cell shows high ping‑pong handovers (~29%) over the last 3h peak with handover success ~80%, moderate load, and SINR ~9 dB/RSRP ~‑96 dBm.",
+    "ar": "خلية 5G صغيرة في جناح مكتبي داخلي تُظهر معدل Ping‑Pong مرتفعاً (~29%) خلال آخر 3 ساعات وقت الذروة مع نجاح تسليم ~80%، حمل متوسط، وSINR ~9 dB وRSRP ~‑96 dBm."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "In the indoor office wing, our NR micro cell shows frequent ping‑pong handovers over the last 3 hours during peak; HO success ~80% and ping‑pong ~29%. Please investigate.",
+      "message_ar": "في جناح المكتب الداخلي، الخلية NR الصغيرة تُظهر تبديلات متكررة من نوع Ping‑Pong خلال آخر 3 ساعات وقت الذروة؛ نجاح التسليم ~80% ومعدل الـPing‑Pong ~29%. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling last‑3h mobility counters for the target cell and its neighbors to quantify ping‑pong and failures. Please confirm the cell ID and approve stats access.",
+      "message_ar": "سأبدأ بجلب مؤشرات الحركة لآخر 3 ساعات للخلية المستهدفة وجيرانها لقياس الـPing‑Pong والإخفاقات. فضلاً أكد معرّف الخلية ووافق على الوصول للبيانات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_SMC_INDOOR_07; access approved. Traffic is eMBB with heavy streaming.",
+      "message_ar": "معرّف الخلية NR_SMC_INDOOR_07؛ الوصول مُعتمَد. نوع الحركة eMBB مع بث مكثّف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h stats: HO attempts per 5‑min ≈88, ping‑pong 29%, HO success 80%, failures 9%. Current thresholds show A3 offset 3 dB, TTT 196 ms, hysteresis 2 dB—aggressive for an indoor small site with overlapping coverage. Next, I’ll analyze HO time series per neighbor to isolate rapid back‑and‑forth events; proceed?",
+      "message_ar": "تم جلب إحصاءات 3 ساعات: محاولات التسليم لكل 5 دقائق ≈88، معدل الـPing‑Pong 29%، نجاح التسليم 80%، الإخفاقات 9%. العتبات الحالية: A3=3 dB، TTT=196 ms، Hyst=2 dB—إعدادات هجومية لموقع داخلي صغير مع تغطية متداخلة. التالي، سأحلّل سلسلة الزمن للتسليم لكل جار لعزل التنقلات السريعة ذهاباً وإياباً؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms peaks at busy minutes; >60% of ping‑pongs occur within 60 s between adjacent small cells on the same floor. Load is moderate (PRB ~55%, 205 users), so root cause is tight mobility thresholds. Proposal: increase TTT to 320 ms, raise hysteresis to 3 dB, and add +1 dB to A3 for intra‑floor neighbors. Approve a controlled change?",
+      "message_ar": "تحليل السلسلة الزمنية يؤكد قمماً وقت الذروة؛ أكثر من 60% من حالات الـPing‑Pong تحدث خلال 60 ثانية بين خلايا صغيرة متجاورة في نفس الطابق. الحمل متوسط (PRB ~55%، 205 مستخدمين)، لذا السبب الجذري هو عتبات حركة صارمة. الاقتراح: رفع TTT إلى 320 ms، وزيادة الهسترة إلى 3 dB، وإضافة +1 dB إلى A3 لجيران نفس الطابق. هل توافق على تغيير مضبوط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for change; write access granted.",
+      "message_ar": "موافق على التغيير؛ صلاحية الكتابة مُنحت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR_SMC_INDOOR_07 for intra‑floor neighbor relations: TTT set to 320 ms, hysteresis to 3 dB, and A3 increased by +1 dB. I’ll observe counters for the next 15 minutes and share the early trend.",
+      "message_ar": "تم تطبيق التحسين على NR_SMC_INDOOR_07 لعلاقات الجيران ضمن نفس الطابق: TTT إلى 320 ms، الهسترة إلى 3 dB، ورفع A3 بمقدار +1 dB. سأراقب المؤشرات خلال 15 دقيقة القادمة وأشارك الاتجاه الأولي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: back‑and‑forth handovers are trending down (ping‑pong ~17% now) and handover success heading toward ~88%.",
+      "message_ar": "ملاحظة مبكرة: التنقلات ذهاباً وإياباً في انخفاض (الـPing‑Pong ~17% الآن) ونجاح التسليم يتجه نحو ~88%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I’ll continue watching through the current peak; advise if you see any user throughput or call‑stability degradation.",
+      "message_ar": "إشارة جيدة. سأواصل المتابعة خلال الذروة الحالية؛ أبلغني إن لاحظت تدهوراً في سرعة المستخدمين أو استقرار المكالمات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: back‑and‑forth handovers continue to decline and handover success is up. The site parameter tuning you applied is effective; let’s monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: التنقلات ذهاباً وإياباً مستمرة في الانخفاض ونجاح التسليم ارتفع. ضبط معلمات الموقع الذي قمت به فعّال؛ لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring for the next busy hour and share a status update afterward. If issues reappear, we’ll roll back the change; if neighbor impact emerges, we’ll escalate to the cluster optimization team.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديث الحالة بعدها. إذا عادت المشاكل سنرجع التغيير؛ وإذا ظهرت آثار على الجيران سنصعّد إلى فريق تحسين العنقود."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_SMC_INDOOR_07",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_SMC_INDOOR_07",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TTT=320ms; Hysteresis=3dB; A3=+1dB (intra-floor)"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping‑pong handovers on the indoor NR micro cell during the last 3 hours. Mobility counters and HO time series confirmed rapid back‑and‑forth between adjacent small cells without congestion pressure. Applied site parameter tuning (TTT 320 ms, hysteresis 3 dB, A3 +1 dB) to reduce oscillations; early results show ping‑pong down and handover success up, with monitoring continuing through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع الـPing‑Pong في التسليم على خلية NR داخلية صغيرة خلال آخر 3 ساعات. أكدت مؤشرات الحركة والسلسلة الزمنية للتسليم حدوث تنقلات سريعة ذهاباً وإياباً بين خلايا صغيرة متجاورة دون ضغط ازدحام. تم تنفيذ ضبط لمعلمات الموقع (TTT 320 ms، هسترة 3 dB، وA3 +1 dB) للحد من التأرجح؛ النتائج الأولية تُظهر انخفاض الـPing‑Pong وارتفاع نجاح التسليم، مع استمرار المراقبة خلال ساعة الذروة القادمة."
+  }
+}

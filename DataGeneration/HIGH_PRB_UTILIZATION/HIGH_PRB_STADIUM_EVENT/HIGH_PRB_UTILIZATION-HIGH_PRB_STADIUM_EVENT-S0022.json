@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0022",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium 5G NR micro cell shows extreme PRB usage (~98%) during ingress with 532 users, slow data, and a congestion alert; BLER ~9% and p95 scheduling latency 80 ms.",
+    "ar": "خلية 5G NR ميكرو في الملعب تُظهر استخدام PRB مرتفعاً جداً (~98%) خلال مرحلة الدخول مع 532 مستخدماً، بيانات بطيئة وتنبيه ازدحام؛ BLER ~9% وزمن انتظار الجدولة p95 = 80 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium 5G NR micro cell NR_STAD_2103_MICRO_S2 over the last 2h shows ~98% PRB, 532 users, slow data, BLER ~9%, RLF ~4%, and p95 scheduling latency 80 ms during ingress (heavy eMBB streaming). Need help stabilizing.",
+      "message_ar": "خلية 5G NR ميكرو في الملعب NR_STAD_2103_MICRO_S2 خلال آخر ساعتين تُظهر ~98% PRB، 532 مستخدماً، بيانات بطيئة، BLER ~9%، RLF ~4%، وزمن انتظار الجدولة p95 = 80 مللي ثانية أثناء مرحلة الدخول (بث eMBB كثيف). نحتاج للمساعدة في الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an OSS health/utilization check for the past 2h on NR_STAD_2103_MICRO_S2 to confirm PRB saturation and related KPIs. Please confirm access approval.",
+      "message_ar": "سأبدأ بفحص الحالة والاستخدام عبر نظام الإدارة للآخر ساعتين على NR_STAD_2103_MICRO_S2 لتأكيد تشبع PRB والمؤشرات المرتبطة. الرجاء تأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR_STAD_2103_MICRO_S2, 2h window.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR_STAD_2103_MICRO_S2 لفترة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing OSS check now. Findings: PRB utilization 97–98%; active users 520–540; median DL/UL ~4 Mbps; BLER 8–10%; RLF ~4.1%; p95 scheduling latency 80 ms; RF/VSWR normal; backhaul headroom OK. This is capacity saturation. I propose a rapid, temporary capacity optimization (scheduler/admission tuning) to relieve PRB load while keeping streaming usable. Approve?",
+      "message_ar": "أقوم الآن بفحص النظام. النتائج: استخدام PRB بين 97–98%؛ عدد المستخدمين النشطين 520–540؛ متوسط تنزيل/رفع ~4 Mbps؛ BLER بين 8–10%؛ RLF ~4.1%؛ زمن انتظار الجدولة p95 = 80 مللي ثانية؛ مؤشرات RF/VSWR طبيعية؛ السعة الخلفية جيدة. هذا تشبع سِعَوي. أقترح تحسيناً مؤقتاً وسريعاً لسعة الخلية (تهيئة الجدولة/القبول) لتخفيف حمل PRB مع الحفاظ على قابلية البث. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with temporary capacity optimization; event ingress is ongoing.",
+      "message_ar": "موافَق. تابع تحسين السعة المؤقت؛ مرحلة الدخول للفعالية مستمرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter tuning: increased scheduler fairness for cell-edge users, tightened new best-effort admissions, slightly lowered target CQI to reduce retransmissions, and enabled soft offload to adjacent layers. Change committed. Observing for impact over the next minutes.",
+      "message_ar": "أجري ضبطاً للمعلمات: زيادة عدالة المُجَدْوِل لمستخدمي حافة الخلية، تشديد قبول الجلسات ذات الأفضلية المنخفضة، خفض طفيف لهدف CQI لتقليل الإعادات، وتفعيل التفريغ الخفيف إلى الطبقات المجاورة. تم تنفيذ التغيير. سأراقب الأثر خلال الدقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early results: PRB around 88–90%, median DL up to ~10 Mbps, p95 latency easing, and RLF trending down. Users steady.",
+      "message_ar": "نتائج أولية: PRB حوالي 88–90%، ارتفع متوسط التحميل إلى ~10 Mbps، زمن الانتظار p95 يتحسن، وRLF في اتجاه هبوطي. عدد المستخدمين مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. For traceability and follow-up, I will open an ops ticket documenting the ingress context and parameter changes. Do I have your approval?",
+      "message_ar": "تحسن جيد. لأغراض التتبع والمتابعة، سأفتح تذكرة عمليات توثق سياق مرحلة الدخول والتغييرات على المعلمات. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; include the ingress context and that changes are temporary.",
+      "message_ar": "موافَق؛ ضمِّن سياق مرحلة الدخول وأن التغييرات مؤقتة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created and notes added. I will continue watching the cell through the peak.",
+      "message_ar": "تم إنشاء التذكرة وإضافة الملاحظات. سأستمر في مراقبة الخلية خلال فترة الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: slow data complaints abated and PRB now ~85–88%. Resource parameter tuning is active; let’s monitor through the next busy hour (2–4 hours). Referencing ticket DU-LOAD-00157.",
+      "message_ar": "التحسن مستمر: انخفضت شكاوى بطء البيانات وPRB الآن ~85–88%. ضبط معلمات الموارد مفعّل؛ لنتابع المراقبة خلال ساعة الانشغال التالية (2–4 ساعات). بالإشارة إلى التذكرة DU-LOAD-00157."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the monitoring window and update the ticket after the window with KPI deltas and any user-impact notes. If load spikes again, we will roll back the tuning or escalate to enable additional relief on neighboring cells.",
+      "message_ar": "تم التأكيد—سنتولى نافذة المراقبة وسنحدّث التذكرة بعد انتهاء النافذة بفروقات المؤشرات وأي ملاحظات عن أثر المستخدمين. إذا ارتفع الحمل مجدداً، سنُرجِع الضبط أو نصعّد لتمكين تخفيف إضافي على الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed stadium ingress capacity saturation on a 5G NR micro cell with PRB utilization near 98%, low throughput, and elevated latency. After confirming via OSS, temporary site parameter tuning was applied (resource scheduler fairness, admission tightening, soft offload) to relieve PRB load, improving throughput and lowering latency. An operations ticket was created for traceability and continued monitoring.",
+    "ar": "تم تشخيص تشبع السعة أثناء مرحلة الدخول في خلية 5G NR ميكرو بالملعب مع استخدام PRB يقارب 98% وانخفاض في السرعة وارتفاع في زمن الانتظار. بعد التأكيد عبر نظام الإدارة، تم تطبيق ضبط مؤقت لمعلمات الموقع (عدالة المُجَدْوِل، تشديد القبول، والتفريغ الخفيف) لتخفيف حمل PRB مما حسّن السرعة وخفّض زمن الانتظار. تم إنشاء تذكرة عمليات للتتبع واستمرار المراقبة."
+  }
+}

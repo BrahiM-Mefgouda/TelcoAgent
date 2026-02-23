@@ -1,0 +1,105 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0018",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows elevated latency over the last 2 hours during peak evening (latency ~55 ms, p95 scheduling latency 50 ms) with 95% PRB utilization and 245 users; a congestion alarm is active affecting eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية تظهر ارتفاعًا في الكمون خلال آخر ساعتين أثناء ذروة المساء (الكمون ~55 مللي ثانية، p95 لزمن الجدولة 50 مللي ثانية) مع إشغال موارد 95% و245 مستخدمًا؛ إنذار الازدحام نشط ويؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell over the last 2 hours during peak evening is breaching latency targets (end-to-end ~55 ms, p95 scheduling latency 50 ms). PRB ~95% with ~245 users; a congestion alarm is active and we had eMBB streaming buffering.",
+      "message_ar": "خلية ماكرو NR حضرية خلال آخر ساعتين في ذروة المساء تتجاوز أهداف الكمون (الطرف إلى الطرف ~55 مللي ثانية، p95 لزمن الجدولة 50 مللي ثانية). إشغال الموارد ~95% مع ~245 مستخدمًا؛ إنذار الازدحام نشط وحدث تقطيع في بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the fix: first pull OSS counters for the last 2h, then review the latency time series, and if congestion-driven, apply targeted site parameter tuning to reduce queuing. Please confirm access.",
+      "message_ar": "سأتولى المعالجة: سأستخرج أولًا مؤشرات OSS لآخر ساعتين، ثم أراجع سلسلة زمنية للكمون، وإن كان السبب ازدحامًا سأطبّق ضبطًا انتقائيًا لمعاملات الموقع لتقليل الطوابير. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the cell and last 2h window. No planned work on site. Proceed.",
+      "message_ar": "الوصول مُعتمَد لهذه الخلية ولنطاق الساعتين الأخيرتين. لا أعمال مجدولة على الموقع. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review (last 2h): sustained PRB 94–96%, users 240–255, BLER ~3%. Queuing and scheduling delay elevated; no backhaul faults detected. Next, I will analyze the latency timeline to isolate peak periods.",
+      "message_ar": "مراجعة OSS لآخر ساعتين: إشغال PRB مستمر 94–96%، المستخدمون 240–255، BLER ~3%. الطوابير وزمن الجدولة مرتفعان؛ لا أعطال في الربط الخلفي. بعد ذلك سأحلل الخط الزمني للكمون لتحديد فترات الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Customer reports indicated buffering spikes around 18:45. Continue.",
+      "message_ar": "مفهوم. تقارير العملاء أشارت إلى ذروة في التقطيع حوالي 18:45. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series (2h) shows p95 spikes 60–70 ms between 18:30–19:30, aligned with PRB saturation; median DL throughput ~14 Mbps; jitter elevated. Root cause: contention-driven scheduling delay. I recommend QoS/scheduler tuning to favor lower latency under load. Approve change?",
+      "message_ar": "السلسلة الزمنية للكمون (ساعتان) تُظهر ارتفاعات p95 بين 60–70 مللي ثانية من 18:30 إلى 19:30 متزامنة مع تشبع PRB؛ الوسيط في معدل التحميل ~14 ميجابت/ث؛ تذبذب مرتفع. السبب الجذري: تأخير جدولة ناتج عن التزاحم. أوصي بضبط QoS/الجدولة لتفضيل الكمون المنخفض تحت الحمل. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Implement the optimization now.",
+      "message_ar": "موافق. نفّذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: tuned site parameters to reduce queue depth and increase latency-sensitive priority within policy; no service interruption. Baseline captured and rollback ready. We’ll observe for 15–30 minutes for impact.",
+      "message_ar": "تم التطبيق: تم ضبط معاملات الموقع لتقليل عمق الطابور وتعزيز أولوية الحركة الحساسة للكمون ضمن السياسات؛ دون انقطاع خدمة. تم حفظ الأساس وجهوزية التراجع. سنراقب لمدة 15–30 دقيقة لتقييم الأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial improvement: p95 scheduling latency trending to ~42–45 ms and buffering complaints are tapering. Action taken: site parameter tuning for QoS/scheduler. Suggest monitoring through the next busy hour.",
+      "message_ar": "تحسن أولي: p95 لزمن الجدولة يتجه إلى ~42–45 مللي ثانية وتناقصت شكاوى التقطيع. الإجراء المتخذ: ضبط معاملات الموقع لـQoS/الجدولة. أقترح المراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and report updated latency and user-experience metrics. If performance regresses, we will roll back; if congestion persists, we will escalate for additional capacity or load balancing.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الانشغال التالية وسنقدم تقريرًا بمقاييس الكمون وتجربة المستخدم. إن تراجعت الأداء، سنُرجع التعديل؛ وإن استمر الازدحام، سنصعّد لزيادة السعة أو توزيع الحمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on an urban NR macro cell during the peak evening. Pulled OSS counters and analyzed the latency time series, confirming congestion-driven scheduling delay with PRB saturation; applied site parameter tuning to reduce queuing and prioritize latency under load. Post-change, p95 scheduling latency improved and a busy-hour monitoring window was initiated.",
+    "ar": "تم تشخيص انتهاك QoS للكمون في خلية ماكرو NR حضرية أثناء ذروة المساء. جرى سحب مؤشرات OSS وتحليل السلسلة الزمنية للكمون، مما أكد تأخر الجدولة الناتج عن الازدحام مع تشبع PRB؛ وتم تطبيق ضبط معاملات الموقع لتقليل الطوابير وإعطاء أولوية للكمون المنخفض تحت الحمل. بعد التغيير تحسن p95 لزمن الجدولة وتم بدء نافذة مراقبة خلال ساعة الانشغال."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0025",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium 5G NR micro over the last 2h shows congestion with ~94% PRB, 543 users, slow data (DL ~4 Mbps), UL ~7 Mbps, BLER ~6–7%, and p95 radio scheduler latency ~47 ms during ingress with heavy eMBB streaming.",
+    "ar": "تعاني خلية 5G NR الميكرو في الملعب خلال آخر ساعتين من ازدحام مع PRB ~94% و543 مستخدمًا وبيانات بطيئة (تنزيل ~4 ميجابت/ث)، ورفع ~7 ميجابت/ث وBLER ~6–7% وكمون المُجدول p95 ~47 مللي ثانية أثناء مرحلة الدخول مع بث eMBB كثيف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 2h triggered a congestion alarm on the 5G NR micro; we see ~543 users, DL ~4 Mbps, UL ~7 Mbps, PRB ~94%, BLER ~6–7%, and p95 radio scheduler latency ~47 ms with heavy eMBB streaming.",
+      "message_ar": "خلال ساعتين من مرحلة الدخول إلى الملعب، ظهرت حالة ازدحام على خلية 5G NR الميكرو؛ لدينا نحو 543 مستخدمًا، تنزيل ~4 ميجابت/ث، رفع ~7 ميجابت/ث، إشغال PRB ~94%، BLER ~6–7%، وكمون المُجدول p95 ~47 مللي ثانية مع بث eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion. I will pull 2h OSS stats for the impacted micro cell to verify load, queuing, and error trends. Please confirm the exact cell ID and approve read access.",
+      "message_ar": "تم تأكيد الازدحام. سأستخرج إحصاءات OSS لآخر ساعتين للخلية المتأثرة للتحقق من الحمل والاصطفاف والأخطاء. يرجى تأكيد معرف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MICRO-S0025; read access approved.",
+      "message_ar": "معرف الخلية NR-STAD-MICRO-S0025؛ تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS confirms sustained DL PRB >90% for 85% of the window; active UEs peaked ~560; queue depth elevated; DL MCS median ~9; BLER stable 6–8%; no faults. This is ingress load on the micro. I propose targeted tuning: increase multi-user scheduler fairness, set a per-UE DL peak cap, enable a +3 dB load-based reselection offset to nearby macros, and slightly shorten offload timers. Approve to proceed?",
+      "message_ar": "تؤكد بيانات OSS إشغال DL PRB أعلى من 90% لمدة 85% من الفترة؛ بلغ المستخدمون النشطون ذروتهم ~560؛ تراكم في قوائم الانتظار؛ وسيط MCS للتنزيل ~9؛ BLER مستقر 6–8%؛ ولا أعطال. السبب حمل مرحلة الدخول على خلية الميكرو. أقترح ضبطًا مستهدفًا: زيادة إنصاف المُجدول متعدد المستخدمين، وضع حد أقصى لذروة التنزيل لكل مستخدم، تفعيل إزاحة إعادة اختيار قائمة على الحمل +3 dB نحو الماكرو المجاورة، وتقليصًا طفيفًا لمؤقتات الإزاحة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافَق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the tuning now; change completed successfully. Expected: ~10–20% PRB relief and higher median DL throughput. Let’s observe for 10 minutes—please share quick post-change stats.",
+      "message_ar": "أُطبق الضبط الآن؛ تم تنفيذ التغيير بنجاح. المتوقع: تخفيف PRB بنحو 10–20% وتحسن وسيط سرعة التنزيل. لنراقب 10 دقائق—يرجى مشاركة إحصاءات ما بعد التغيير سريعًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 8 minutes, active users on the micro dropped to ~480 with more on neighbors; DL PRB is ~83–85%; median DL throughput ~6.8–7.2 Mbps; p95 radio scheduler latency down to ~36–39 ms.",
+      "message_ar": "بعد 8 دقائق، انخفض عدد المستخدمين على خلية الميكرو إلى ~480 مع انتقال المزيد إلى الجوار؛ DL PRB ~83–85%؛ وسيط التنزيل ~6.8–7.2 ميجابت/ث؛ كمون المُجدول p95 انخفض إلى ~36–39 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. Keep watching as ingress continues; another 10-minute stability check should confirm. No further action unless PRB rises above 90% again.",
+      "message_ar": "ممتاز. واصل المراقبة مع استمرار الدخول؛ تحقق ثبات لمدة 10 دقائق إضافية سيؤكد النتائج. لا إجراء إضافيًا ما لم يرتفع PRB فوق 90% مرة أخرى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Additional 10-minute sample: PRB holding at 80–83%, DL median ~7.5 Mbps, RLF trending down; no new alarms.",
+      "message_ar": "عيّنة إضافية لمدة 10 دقائق: PRB ثابت عند 80–83%، وسيط التنزيل ~7.5 ميجابت/ث، معدّل الانقطاعات يتجه للانخفاض؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will document the change and open a follow-up for event monitoring and post-action validation, including before/after stats and offload rationale.",
+      "message_ar": "سأوثّق التغيير وأفتح متابعة لمراقبة الحدث والتحقق بعد الإجراء، بما في ذلك إحصاءات ما قبل/بعد وأسباب الإزاحة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained—slow data complaints reduced and queueing delays trending down. The action taken was site parameter tuning to ease PRB load and offload edge users; propose monitoring through the next busy hour. Ticket DU-PRB-10273 can be updated with final results.",
+      "message_ar": "التحسّن مستمر—انخفضت شكاوى بطء البيانات وتأخيرات الاصطفاف تتراجع. الإجراء الذي تم هو ضبط معلمات الموقع لتخفيف حمل PRB وإزاحة المستخدمين على الحافة؛ أقترح المراقبة خلال ساعة الذروة التالية. يمكن تحديث التذكرة DU-PRB-10273 بالنتائج النهائية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own the next busy-hour monitoring and update the ticket afterward with PRB, throughput, and latency deltas. If congestion resurges, we will escalate with temporary capacity capping across adjacent cells; if any negative impact is observed, we will roll back to prior settings.",
+      "message_ar": "متفقون—سنتولى مراقبة ساعة الذروة التالية ونحدّث التذكرة بعدها بفروقات PRB وسرعة النقل والكمون. إذا عاد الازدحام، سنصعّد عبر تقييد سعة مؤقت عبر الخلايا المجاورة؛ وإذا ظهر تأثير سلبي سنُعيد الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-S0025",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler fairness + per-UE peak cap; +3 dB load-based reselection offset to macros; slightly shorter offload timers; tighter admission threshold"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium NR micro high PRB during ingress; applied scheduler/offload tuning; monitor next busy hour for stability and QoE"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed the stadium 5G NR micro with sustained high PRB and queueing during ingress, confirming a load-driven condition. Executed site parameter tuning to improve scheduler fairness, cap per-UE peaks, and offload marginal users to nearby macros, reducing PRB and improving throughput/latency. A follow-up ticket was created for continued monitoring through the next busy hour.",
+    "ar": "تم تشخيص خلية 5G NR الميكرو في الملعب بارتفاع مستمر في PRB واصطفاف خلال مرحلة الدخول، مما يؤكد أن الحالة ناجمة عن الحمل. نُفِّذ ضبط لمعلمات الموقع لتحسين إنصاف المُجدول وتحديد ذروة لكل مستخدم وإزاحة المستخدمين الهامشيين نحو الماكرو المجاورة، ما خفّض PRB وحسّن السرعة والكمون. تم إنشاء تذكرة متابعة للمراقبة المستمرة خلال ساعة الذروة التالية."
+  }
+}

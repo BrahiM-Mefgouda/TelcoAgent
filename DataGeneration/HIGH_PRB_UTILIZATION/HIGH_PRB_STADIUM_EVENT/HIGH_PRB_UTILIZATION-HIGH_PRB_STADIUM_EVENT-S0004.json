@@ -1,0 +1,123 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0004",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows sustained PRB ~93% over the last 2h with slow data (~5 Mbps DL) and a congestion alarm during an in-event eMBB streaming period.",
+    "ar": "خلية NR ميكرو في الملعب تُظهر PRB مستمرًا ~93% خلال آخر ساعتين مع بيانات بطيئة (~5 Mbps تنزيل) وإنذار ازدحام أثناء الحدث لفترة بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell under event load for the last 2h shows a congestion alarm: PRB ~93%, 377 users, DL ~5 Mbps, UL ~7 Mbps, BLER ~6%, p95 scheduler latency 36 ms, RLF ~2.5%. Please assist.",
+      "message_ar": "خلية NR ميكرو في الملعب تحت حمل الحدث خلال آخر ساعتين تُظهر إنذار ازدحام: حمل PRB ~93%، 377 مستخدمًا، تنزيل ~5 Mbps، رفع ~7 Mbps، BLER ~6%، كمون المجدول p95 يساوي 36 ms، وRLF ~2.5%. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by checking performance counters for the last 2h on the impacted cell. Please share the exact cell ID and confirm read access.",
+      "message_ar": "تم الاستلام. سأبدأ بفحص عدادات الأداء لآخر ساعتين على الخلية المتأثرة. يرجى تزويدي بمعرّف الخلية والتأكيد على صلاحية الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-μCell-12. Read access approved.",
+      "message_ar": "معرّف الخلية هو NR-STAD-μCell-12. الوصول للقراءة مُوافق عليه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm sustained high load: PRB 90–95% over the 2h window, active UEs ~370–380, DL user throughput ~5 Mbps, p95 scheduler latency mid-30 ms, BLER ~6%. This aligns with event-driven congestion and eMBB streaming.",
+      "message_ar": "العدادات تؤكد حملًا مرتفعًا مستمرًا: PRB بين 90–95% خلال نافذة الساعتين، أجهزة نشطة ~370–380، سرعة تنزيل المستخدم ~5 Mbps، كمون المجدول p95 في منتصف 30 ms، وBLER ~6%. وهذا يتماشى مع ازدحام ناتج عن الحدث وبث eMBB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood; field feedback also reports slow data in the stands.",
+      "message_ar": "مفهوم؛ تقارير الميدان تُفيد أيضًا ببطء البيانات في المدرجات."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate, I propose enabling a high-load scheduler profile, prioritizing eMBB traffic weights, and applying temporary admission control for background flows on NR-STAD-μCell-12. Approve a fast change now?",
+      "message_ar": "للتخفيف، أقترح تفعيل ملف جدولة عالي الحمل، وترجيح أوزان حركة eMBB، وتطبيق تحكم قبول مؤقت لحركة الخلفية على NR-STAD-μCell-12. هل توافق على تنفيذ تغيير سريع الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the change.",
+      "message_ar": "موافق. امضِ بالتغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: high-load scheduler profile enabled, QoS weights adjusted to favor downlink, and temporary admission control activated for non-critical traffic. Expect reduced queuing and DL improving toward ~8–12 Mbps during peaks.",
+      "message_ar": "تم التطبيق: تم تفعيل ملف جدولة عالي الحمل، وضبط أوزان QoS لصالح التنزيل، وتفعيل تحكم قبول مؤقت للحركة غير الحرجة. المتوقع تقليل الطوابير وتحسن التنزيل نحو ~8–12 Mbps أثناء الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: download speeds now around 8–9 Mbps and queues feel lighter; user count remains high.",
+      "message_ar": "فحص أولي: سرعة التنزيل الآن حوالي 8–9 Mbps والطوابير أخف؛ وعدد المستخدمين ما زال مرتفعًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will log a tracking ticket with the actions and event context, and set continued monitoring. Do you approve?",
+      "message_ar": "سأُنشئ تذكرة تتبع تتضمن الإجراءات وسياق الحدث مع متابعة المراقبة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; include the 2h window and the event note.",
+      "message_ar": "موافق؛ ضُمّن نافذة الساعتين وملاحظة الحدث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket created with summary: stadium event congestion, parameters tuned, ongoing monitoring.",
+      "message_ar": "تم إنشاء تذكرة تتبع بملخص: ازدحام حدث في الملعب، تم ضبط المعلمات، ومراقبة مستمرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: download speed is up compared to earlier. Action taken: site parameter tuning on the cell. Let’s monitor through the next busy hour; reference DU-LOAD-04219.",
+      "message_ar": "تحسّن ملحوظ: سرعة التنزيل ارتفعت مقارنة بالسابق. الإجراء المتخذ: ضبط معلمات الموقع على الخلية. لنراقب حتى ساعة الانشغال التالية؛ المرجع DU-LOAD-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket afterward. If congestion persists, we will extend mitigation to adjacent cells; if side effects appear, we will roll back the tuning.",
+      "message_ar": "سنقوم بمتابعة المراقبة حتى ساعة الانشغال التالية وسنحدّث التذكرة بعدها. إذا استمر الازدحام فسنوسّع التخفيف إلى الخلايا المجاورة؛ وإن ظهرت آثار جانبية فسنُعيد الضبط إلى الحالة الأساسية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-μCell-12",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "High-load scheduler enabled; QoS weights favor DL eMBB; temporary admission control for background traffic"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium event high PRB; parameters tuned; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 12,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During a stadium event, the NR micro cell was impacted by sustained PRB congestion leading to slow data. We validated the condition via network counters and applied site parameter tuning (high-load scheduler, QoS weighting toward eMBB, temporary admission control) to relieve the load. A tracking ticket was created and the cell will be monitored through the next busy hour.",
+    "ar": "خلال حدث في الملعب، تأثرت خلية NR الميكرو بازدحام PRB مستمر أدى إلى بطء البيانات. تم التحقق عبر عدادات الشبكة ثم تنفيذ ضبط معلمات الموقع (ملف جدولة عالي الحمل، ترجيح QoS لصالح eMBB، وتحكم قبول مؤقت) لتخفيف الحمل. تم إنشاء تذكرة متابعة وسيتم مراقبة الخلية حتى ساعة الانشغال التالية."
+  }
+}

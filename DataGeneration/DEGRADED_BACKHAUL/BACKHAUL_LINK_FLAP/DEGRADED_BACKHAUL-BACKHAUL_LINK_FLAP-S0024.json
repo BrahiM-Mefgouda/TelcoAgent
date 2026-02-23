@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0024",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell shows backhaul instability over 6h: ~5 link flaps/hr, burst loss ~62%, p95 latency 25 ms with 26 ms jitter, ~60 interface errors; ~247 users and downlink ~16 Mbps impacting eMBB streaming.",
+    "ar": "موقع ماكرو NR في منطقة شبه حضرية يعاني من عدم استقرار في الربط الخلفي خلال 6 ساعات: نحو 5 انقطاعات/ساعة، فقدان متقطع ~62%، كمون p95 يبلغ 25 مللي ثانية وتذبذب 26 مللي ثانية، مع ~60 خطأ على الواجهة؛ ~247 مستخدمًا ومعدل تنزيل ~16 ميجابت/ث يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Over the last 6 hours the suburban NR macro has unstable backhaul: frequent link flaps (~5/hr), burst loss, p95 latency ~25 ms, jitter ~26 ms, ~60 interface errors, and downlink ~16 Mbps with ~247 users. Streaming complaints reported; no alarm raised.",
+      "message_ar": "خلال آخر 6 ساعات يعاني موقع NR الماكرو في منطقة شبه حضرية من عدم استقرار في الربط الخلفي: انقطاعات متكررة (~5/ساعة)، فقدان متقطع، كمون p95 ~25 مللي ثانية، تذبذب ~26 مللي ثانية، ~60 خطأ على الواجهة، ومعدل تنزيل ~16 ميجابت/ث مع ~247 مستخدمًا. وُجدت شكاوى بث؛ دون إنذار نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. This points to backhaul degradation rather than radio load (PRB ~52%, SINR 19 dB). I will review the last 6h events and counters from the management system. Please share the cell ID and confirm access.",
+      "message_ar": "مفهوم. يبدو أن المشكلة من الربط الخلفي وليس الحمل الراديوي (استغلال الموارد ~52%، نسبة إشارة إلى ضجيج 19 ديسيبل). سأراجع أحداث وعدّادات آخر 6 ساعات من نظام الإدارة. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR1234A; access approved. No local changes from our side.",
+      "message_ar": "معرّف الخلية هو NR1234A؛ الوصول مُعتمَد. لا تغييرات محلية من جانبنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 6h stats for NR1234A now. Findings: repeated link state flaps, rising CRC/interface errors, bursty packet loss, and latency spikes aligned with throughput dips. This confirms degraded backhaul. I propose targeted tuning on the cell’s backhaul handling (queuing and error-recovery) to stabilize service. Approve?",
+      "message_ar": "أقوم الآن بسحب إحصاءات 6 ساعات للخلية NR1234A. النتائج: انقطاعات متكررة لحالة الرابط، ارتفاع أخطاء CRC/الواجهة، فقدان حِزَمي متقطع، وارتفاعات في الكمون تتزامن مع هبوط معدل التنزيل. هذا يؤكد تدهور الربط الخلفي. أقترح ضبطاً انتقائياً لمعالجة الربط الخلفي على مستوى الخلية (الاصطفاف واستعادة الأخطاء) لاستقرار الخدمة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying tuning on NR1234A: adjusted backhaul queue weights, pacing, and retry timers to reduce jitter and loss impact. Change completed successfully. Please observe for 10–15 minutes and report if flaps or latency spikes persist.",
+      "message_ar": "جاري تطبيق الضبط على NR1234A: تعديل أوزان الاصطفاف في الربط الخلفي والإيقاع ومؤقتات إعادة المحاولة لتقليل التذبذب وتأثير الفقد. تم تنفيذ التغيير بنجاح. يرجى المراقبة لمدة 10–15 دقيقة وإبلاغي إذا استمرت الانقطاعات أو قمم الكمون."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~12 minutes, downlink improved to ~24–28 Mbps, jitter down to ~14–16 ms, and no new interface errors so far; still an occasional flap.",
+      "message_ar": "بعد حوالي 12 دقيقة، تحسّن التنزيل إلى ~24–28 ميجابت/ث، وانخفض التذبذب إلى ~14–16 مللي ثانية، ولا توجد أخطاء واجهة جديدة حتى الآن؛ ما زال يحدث انقطاع عرضي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good partial recovery. Since physical instability remains, I will open a transport ticket summarizing flaps, burst loss, and residual impact, and note our interim tuning. Proceed?",
+      "message_ar": "تحسّن جزئي جيد. بما أن عدم الاستقرار الفيزيائي مستمر، سأفتح تذكرة لفريق النقل تتضمن الانقطاعات، الفقد المتقطع، والتأثير المتبقي، مع ذكر الضبط المؤقت الذي قمنا به. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-BH-04219 for transport follow-up on NR1234A backhaul flapping and loss, with evidence and post-change metrics attached. I will continue short-term monitoring.",
+      "message_ar": "تم إنشاء التذكرة: DU-BH-04219 لمتابعة فريق النقل بشأن انقطاعات وفقد الربط الخلفي للخلية NR1234A، مع إرفاق الأدلة ومؤشرات ما بعد التغيير. سأواصل المراقبة على المدى القصير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We’re now seeing flaps trending down and p95 jitter near ~12 ms after your parameter optimization; monitor through the next busy hour and update DU-BH-04219.",
+      "message_ar": "نلاحظ الآن انخفاضًا في وتيرة الانقطاعات واقتراب تذبذب p95 من ~12 مللي ثانية بعد تحسين المعلمات؛ راقب خلال ساعة الذروة التالية وحدث التذكرة DU-BH-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We analyzed the 6h stats, applied backhaul handling tuning, and opened a transport ticket. We will own monitoring through the next busy hour and update the ticket after the window with stability, jitter, and throughput trends. If flaps recur, we will escalate to transport; if any adverse effects appear, we will roll back the tuning.",
+      "message_ar": "تم. قمنا بتحليل إحصاءات 6 ساعات، وتطبيق ضبط لمعالجة الربط الخلفي، وفتح تذكرة لدى فريق النقل. سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعد الفترة ببيانات الاستقرار والتذبذب ومعدل التنزيل. إذا عادت الانقطاعات سنصعّد إلى فريق النقل؛ وإذا ظهرت آثار جانبية سنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR1234A",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul queuing and error-recovery tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "NR1234A backhaul flaps/loss; interim tuning applied; transport investigation required"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Backhaul degradation was confirmed by frequent link flaps, burst loss, latency/jitter spikes, and interface errors that depressed downlink throughput. We reviewed recent network stats, applied site parameter tuning to improve backhaul handling and stabilize service, and created a transport ticket for residual physical instability. We will monitor and update with post-change performance.",
+    "ar": "تأكد تدهور الربط الخلفي من خلال انقطاعات متكررة وفقد متقطع وارتفاعات في الكمون/التذبذب وأخطاء الواجهة التي خفّضت معدل التنزيل. قمنا بمراجعة إحصاءات الشبكة الحديثة، وتطبيق ضبط على معلمات الموقع لتحسين معالجة الربط الخلفي واستقرار الخدمة، وإنشاء تذكرة لفريق النقل لمعالجة عدم الاستقرار الفيزيائي المتبقي. سنراقب ونحدّث بالأداء بعد التغيير."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0006",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban 5G macro shows timing advance drift over the last 6h (50th ≈246 m, 95th ≈412 m, distant serving 24%) with low SINR (~2 dB) indicating interference / signal overlap.",
+    "ar": "موقع ماكرو 5G في منطقة ضاحية يُظهر انحرافاً في توزيع زمن الوصول خلال آخر 6 ساعات (المئين 50 ≈246 م، المئين 95 ≈412 م، الخدمة البعيدة 24%) مع SINR منخفض (~2 dB) دالّ على تداخل / تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Over the last 6h on a suburban NR macro, timing advance distribution drifted: 50th ≈246 m, 95th ≈412 m; distant serving ~24%. SINR ≈2 dB, RSRP -107 dBm, RSRQ -13 dB. Mixed hours; users report edge stalls during streaming.",
+      "message_ar": "خلال آخر 6 ساعات في موقع ماكرو 5G بضاحية، انحرف توزيع زمن الوصول: المئين 50 ≈246 م، المئين 95 ≈412 م؛ نسبة الخدمة البعيدة ~24%. قيمة SINR ≈2 dB، وRSRP -107 dBm، وRSRQ -13 dB. أوقات مختلطة؛ توجد بلاغات عن تعثر عند الحافة أثناء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a 6h health and configuration read to baseline footprint, load, and mobility. Please confirm the cell ID and approve execution.",
+      "message_ar": "تم الاستلام. سأبدأ بقراءة الحالة والتكوين لآخر 6 ساعات لعمل خط أساس للبصمة والحمل والحركية. الرجاء تأكيد مُعرّف الخلية والموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR12345A, macro sector; window 6h. Approved to proceed.",
+      "message_ar": "مُعرّف الخلية: NR12345A، قطاع ماكرو؛ النافذة 6 ساعات. تمت الموافقة على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetched 6h stats for NR12345A: PRB peaks ~75%, no active alarms, neighbor definitions intact. TA bins skew long-range; HO failures cluster toward north/east neighbors. Footprint looks slightly wide. Next, I will pull the TA trend to validate drift versus busy hours—please approve.",
+      "message_ar": "تم جلب إحصاءات 6 ساعات للخلية NR12345A: تبلغ ذروة استخدام PRB نحو 75%، لا توجد إنذارات نشطة، تعريفات الجيران سليمة. صناديق TA منحازة للمسافات البعيدة؛ تتجمع حالات فشل التسليم نحو الجيران الشمال/الشرق. البصمة تبدو عريضة قليلاً. سأجلب الآن منحنى TA للتحقق من الانحراف مقابل ساعات الانشغال—يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the TA trend.",
+      "message_ar": "تمت الموافقة على جلب منحنى TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series confirms drift: median climbs ~210→260 m during busy periods; 95th remains 400–420 m. Distant serving rises synchronously; interference indicators worsen with higher user counts. This suggests mis-association/overshoot under interference. I propose a minor footprint tightening and mobility margin retune; approve to implement?",
+      "message_ar": "تؤكد سلسلة TA الزمنية وجود انحراف: يرتفع الوسيط من ~210 إلى ~260 متر خلال الفترات المزدحمة؛ يبقى المئين 95 بين 400–420 متر. ترتفع الخدمة البعيدة بالتزامن؛ وتزداد مؤشرات التداخل سوءاً مع زيادة عدد المستخدمين. يشير ذلك إلى سوء اقتران/تجاوز تغطية تحت تأثير التداخل. أقترح تضييقاً طفيفاً للبصمة وإعادة ضبط هوامش الحركية؛ هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization.",
+      "message_ar": "تمت الموافقة على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: gentle coverage tightening and mobility bias toward closer neighbors; no service interruption. Initial 15-min effects: TA 95th ≈360 m, distant serving ~16%, short-term HO success ~92%; SINR slightly up. I will continue observing through the next busy hour.",
+      "message_ar": "تم تطبيق التغيير: تضييق طفيف للتغطية وانحياز الحركية نحو الجيران الأقرب؛ بدون انقطاع خدمة. نتائج أول 15 دقيقة: المئين 95 لـ TA ≈360 م، الخدمة البعيدة ~16%، نجاح التسليم قصير المدى ~92%؛ تحسن طفيف في SINR. سأستمر في المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early field checks show fewer edge stalls and smoother streaming; the RSRP distribution looks more compact.",
+      "message_ar": "الفحوصات الميدانية الأولية تُظهر تعثراً أقل عند الحافة وبثاً أكثر سلاسة؛ توزيع RSRP يبدو أكثر تماسكاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good to hear. I will watch TA tails, handover outcomes, and interference indicators, and verify no adverse impact on neighbors.",
+      "message_ar": "جيد. سأتابع ذيول TA ونتائج التسليم ومؤشرات التداخل، وأتحقق من عدم تأثر الجيران سلباً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: timing advance tails trimmed and handover failures trending down. Action taken was site parameter tuning to tighten footprint and adjust mobility margins. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسناً: ذيول زمن الوصول تقلصت وإخفاقات التسليم تتجه للانخفاض. تم تنفيذ ضبط معلمات الموقع لتضييق البصمة وضبط هوامش الحركية. لنتابع المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring through the next busy hour and share an update on TA distribution, distant serving, and handover success afterwards. If degradation returns, we will roll back the change or escalate to a deeper RF survey.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الانشغال القادمة وسنشارك تحديثاً حول توزيع TA والخدمة البعيدة ونجاح التسليم بعد ذلك. إذا عاد التدهور، سنرجع التغيير أو نصعّد إلى فحص لاسلكي أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR12345A",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR12345A",
+        "TA",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility and coverage parameters tuned to reduce distant serving and TA tail"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "TA distribution drift on a suburban NR macro was validated by a 6h health read and a TA time series, showing long-range serving under low SINR. We mitigated by site parameter tuning to tighten the footprint and adjust mobility margins, which immediately reduced the TA tail, distant serving, and improved handovers. We will continue monitoring through the next busy hour.",
+    "ar": "تم التحقق من انحراف توزيع زمن الوصول في موقع ماكرو 5G بضاحية عبر قراءة حالة لمدة 6 ساعات وسلسلة زمنية لـ TA، وأظهرت خدمة بعيدة تحت SINR منخفض. تمت المعالجة عبر ضبط معلمات الموقع لتضييق البصمة وضبط هوامش الحركية، مما خفّض مباشرة ذيل TA والخدمة البعيدة وحسّن التسليمات. سنستمر في المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

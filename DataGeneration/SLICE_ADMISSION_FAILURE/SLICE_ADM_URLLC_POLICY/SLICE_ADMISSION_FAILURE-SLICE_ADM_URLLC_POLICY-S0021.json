@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0021",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro cell over the last 24h shows ~25% URLLC slice admission denials with ~47 requests/min despite moderate PRB load (~64%), ~77% slice use, and ~10 ms latency.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 24 ساعة تُظهر ~25% رفض قبول لشريحة URLLC مع ~47 طلب/دقيقة رغم حمل PRB متوسط (~64%)، استخدام شريحة ~77%، وكمون ~10 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro, last 24h: URLLC slice admission denials ~25% with ~47 requests/min. Slice utilization ~77%, PRB ~64%, latency ~10 ms. Mixed hours with heavy eMBB streaming.",
+      "message_ar": "موقع ماكرو NR حضري خلال آخر 24 ساعة: رفض قبول شريحة URLLC حوالي 25% مع ~47 طلب/دقيقة. استخدام الشريحة ~77%، حمل PRB ~64%، والكمون ~10 مللي ثانية. ساعات مختلطة مع بث eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling live KPIs and the current slice policy for the last 24h. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بجلب مؤشرات الأداء الحية والسياسة الحالية للشريحة لآخر 24 ساعة. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Macro-UBN-1123. Access approved.",
+      "message_ar": "معرّف الخلية: NR-Macro-UBN-1123. الوصول معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled data: URLLC admission guard is set at 92%; denials spike when slice utilization bursts above ~75% despite moderate radio load and stable latency. Root cause is an overly tight admission policy. I propose a controlled URLLC policy tune to admit short bursts while protecting latency; proceed?",
+      "message_ar": "تم جلب البيانات: حد حراسة قبول URLLC مضبوط على 92%؛ ترتفع حالات الرفض عند ارتفاع استخدام الشريحة فوق ~75% رغم حمل راديو متوسط وكمون مستقر. السبب هو سياسة قبول متشددة. أقترح ضبطاً محدوداً لسياسة URLLC لتمكين دفعات قصيرة مع الحفاظ على الكمون؛ هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with a small policy adjustment now.",
+      "message_ar": "تابع بضبط بسيط للسياسة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied URLLC slice policy update on NR-Macro-UBN-1123 (reduced admission guard and enabled burst headroom). Change successful; observing for 10–15 minutes.",
+      "message_ar": "تم تطبيق تحديث سياسة شريحة URLLC على NR-Macro-UBN-1123 (تقليل حد القبول وتمكين هامش للدفعات). التغيير ناجح؛ نراقب لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial response: admission denials down to ~12% and acceptance rate improving; latency unchanged.",
+      "message_ar": "الاستجابة الأولية: انخفاض رفض القبول إلى ~12% وتحسن معدل القبول؛ الكمون دون تغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. To ensure traceability and continued follow-up, I will open an operations ticket documenting the policy update and early results. OK to proceed?",
+      "message_ar": "جيد. لضمان التتبع والمتابعة المستمرة، سأفتح تذكرة عمليات توثق تحديث السياسة والنتائج الأولية. هل الموافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket opened and documented; ongoing monitoring in place for peak periods. Please continue to watch user experience and note any anomalies.",
+      "message_ar": "تم فتح التذكرة وتوثيقها؛ توجد مراقبة مستمرة للفترات المزدحمة. يرجى متابعة تجربة المستخدم وتدوين أي شذوذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: admission denials trending near 5% at the busiest minute, with stable 9–10 ms latency after the slice policy update; let's monitor through the next busy hour and track in DU-SLICE-01827.",
+      "message_ar": "تحسن ملحوظ: حالات رفض القبول تتجه نحو 5% عند أكثر دقيقة ازدحاماً، مع كمون ثابت 9–10 مللي ثانية بعد تحديث سياسة الشريحة؛ لنراقب خلال ساعة الذروة القادمة ونتابع ضمن DU-SLICE-01827."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will monitor through the next busy hour and update the ticket afterward. If denials rise or latency degrades, we'll roll back the policy change and escalate to slicing engineering; otherwise we keep the optimized policy.",
+      "message_ar": "تم التأكيد—سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا ارتفع الرفض أو تدهور الكمون سنرجع التغيير ونصعّد إلى فريق تقنيات الشرائح؛ وإلا فسنحافظ على السياسة المحسّنة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Macro-UBN-1123",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC-1",
+        "admission_policy_tune"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC slice admission denials on NR-Macro-UBN-1123; policy tuned and monitoring"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated URLLC slice admission denials on an urban NR macro cell as a policy issue: an aggressive 92% admission guard was causing rejections despite moderate radio load. Executed a targeted slice policy update to allow short bursts while preserving latency and opened a tracking ticket. Post-change, denials decreased and latency remained stable; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع رفض قبول شريحة URLLC في خلية NR ماكرو حضرية على أنه مشكلة في السياسة: حد قبول عدواني بنسبة 92% تسبب في الرفض رغم حمل الراديو المتوسط. جرى تنفيذ تحديث موجّه لسياسة الشريحة للسماح بالدفعات القصيرة مع الحفاظ على الكمون وفتح تذكرة متابعة. بعد التغيير انخفضت حالات الرفض وبقي الكمون ثابتاً؛ وتستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

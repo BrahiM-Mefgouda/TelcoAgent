@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0029",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium 5G NR microcell shows a congestion alarm over the last 3h with ~732 users, high PRB utilization (~89%), uneven PRB allocation (fairness 0.57, skew 39), and elevated scheduling latency (p95 106 ms) impacting eMBB streaming.",
+    "ar": "خلية NR صغيرة في الملعب تُظهر إنذار ازدحام خلال آخر 3 ساعات مع ~732 مستخدمًا، استخدام PRB مرتفع (~89%)، تخصيص غير متوازن (مؤشر العدالة 0.57، انحياز 39)، وتأخر جدولة مرتفع (p95 106 مللي ثانية) مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR microcell is in alarm for congestion during egress; users ~732, PRB ~89%, high scheduling latency (p95 ~106 ms) and uneven PRB distribution hurting eMBB streaming.",
+      "message_ar": "خلية NR صغيرة في الملعب عليها إنذار ازدحام أثناء الخروج؛ حوالي 732 مستخدمًا، استخدام PRB ~89%، تأخر الجدولة p95 ~106 مللي ثانية وتوزيع PRB غير متوازن يؤثر على بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll diagnose a scheduling anomaly: first pull last 3h OSS counters for the cell; share the exact cell ID and approve read access.",
+      "message_ar": "سأشخّص شذوذ الجدولة: أولًا سأسحب مؤشرات آخر 3 ساعات من OSS للخلية؛ الرجاء تزويدي بمعرّف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-07. Read access approved for the last 3h.",
+      "message_ar": "معرّف الخلية: NR-STAD-MICRO-07. تمت الموافقة على وصول القراءة لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "From OSS (3h): PRB utilization sustained 85–95%, fairness index ~0.57, allocation skew 39, high-priority share 15% vs best-effort 69%, p95 scheduling latency 106 ms, RSRQ -11 dB, SINR 10 dB. Next I will inspect PRB time series to pinpoint contention patterns across the window.",
+      "message_ar": "من OSS (3 ساعات): استخدام PRB مستمر 85–95%، مؤشر العدالة ~0.57، انحياز التخصيص 39، حصة الأولوية العالية 15% مقابل أفضل جهد 69%، تأخر الجدولة p95 = 106 مللي ثانية، RSRQ -11 dB، وSINR 10 dB. التالي سأفحص السلاسل الزمنية لـ PRB لتحديد أنماط التزاحم عبر النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceed to pull PRB time series for the same 3h window to confirm imbalance and burstiness?",
+      "message_ar": "هل أمضي لسحب السلاسل الزمنية لـ PRB لنفس نافذة 3 ساعات لتأكيد عدم التوازن والتقلبات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "PRB series shows saturation >90% for 72% of intervals, pronounced skew during egress, compressed user throughput percentiles, and spikes in scheduler latency aligned with best-effort surges—consistent with a scheduling anomaly. I recommend tuning scheduler fairness and QoS weights to raise high-priority share and smooth allocation.",
+      "message_ar": "السلاسل الزمنية لـ PRB تُظهر تشبعًا >90% في 72% من الفترات، انحيازًا واضحًا أثناء الخروج، انضغاطًا في معياريات سرعات المستخدمين، وارتفاعات في تأخر الجدولة متزامنة مع اندفاع حركة أفضل جهد—وهو نمط متوافق مع شذوذ الجدولة. أوصي بضبط أوزان العدالة وأوزان QoS لزيادة حصة الأولوية العالية وتنعيم التخصيص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to adjust parameters.",
+      "message_ar": "موافَق على ضبط المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted parameter tuning now (scheduler fairness/QoS weights and burst pacing). Change committed; begin live observation for 10–15 minutes focusing on fairness, high-priority share, and p95 scheduling latency.",
+      "message_ar": "أطبّق الآن ضبطًا مستهدفًا للمعلمات (عدالة المُجدول/أوزان QoS وتنعيم الاندفاع). تم اعتماد التغيير؛ سنبدأ المراقبة الحية لمدة 10–15 دقيقة مع التركيز على العدالة، حصة الأولوية العالية، وتأخر الجدولة p95."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged; I’ll watch UE stats and notify with early observations.",
+      "message_ar": "تم، سأتابع إحصاءات الأجهزة وسأبلغ بالملاحظات الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check: allocation is more even and high-priority share is up; scheduling latency at the 95th percentile is trending down. With the site parameter tuning applied, let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "فحص مبكر: التخصيص أصبح أكثر توازنًا وارتفعت حصة الأولوية العالية؛ وتأخر الجدولة عند المئين 95 يتجه للانخفاض. بعد ضبط معلمات الموقع، لنراقب خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we’ll own the next busy hour watch and update you on fairness, high-priority share, and p95 latency afterward. If metrics regress, we will revert the parameter changes; if issues persist under load, we will escalate to broaden capacity relief.",
+      "message_ar": "مفهوم—سنتولى متابعة ساعة الذروة القادمة وسنوافيك بتحديث عن العدالة، وحصة الأولوية العالية، وتأخر p95 بعدها. إن تراجعت المؤشرات سنعيد التغييرات، وإن استمرت المشكلة تحت الحمل فسنتصعّد لدعم السعة بشكل أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness_qos_weights"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on the stadium NR microcell during egress: high PRB load with low fairness, skewed allocation, and elevated queueing delay. Pulled OSS counters and PRB time series to confirm saturation and imbalance, then mitigated with site parameter tuning to adjust scheduler fairness and QoS weights. Early results show more even allocation, higher high-priority share, and improving latency.",
+    "ar": "تم تشخيص شذوذ في جدولة الموارد على خلية NR في الملعب أثناء الخروج: حمل PRB مرتفع مع عدالة منخفضة وانحياز في التخصيص وارتفاع في التأخير. تم سحب مؤشرات OSS وسلاسل PRB الزمنية لتأكيد التشبع وعدم التوازن، ثم جرى التخفيف عبر ضبط معلمات الموقع لضبط عدالة المُجدول وأوزان QoS. تظهر النتائج المبكرة تخصيصًا أكثر توازنًا وارتفاعًا في حصة الأولوية العالية وتحسنًا في التأخير."
+  }
+}

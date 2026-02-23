@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0017",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Suburban NR macro cell shows off-peak PRB utilization near 90% with 152 users, DL/UL throughput 11/12 Mbps, BLER ~2.7%, and p95 scheduler latency 53 ms; investigate resource saturation affecting eMBB streaming.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تسجّل استهلاك PRB يقارب 90% خارج أوقات الذروة مع 152 مستخدمًا، ومعدل نقل DL/UL عند 11/12 ميجابت/ث، وBLER نحو 2.7%، وكمون المجدول p95 بمقدار 53 مللي ثانية؛ نحتاج للتحقق من تشبّع الموارد وتأثيره على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro shows sustained PRB ~90% off-peak; p95 scheduler latency 53 ms, ~152 users, and some streaming buffering. Please investigate.",
+      "message_ar": "خلية NR ماكرو في الضواحي تسجل استهلاك PRB ثابتًا يقارب 90% خارج أوقات الذروة؛ كمون المجدول p95 عند 53 مللي ثانية، حوالي 152 مستخدمًا، وهناك تقطّع في البث. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first pull last 4h OSS stats to confirm utilization and related KPIs. Please share the exact cell ID and approve read access.",
+      "message_ar": "مفهوم. سأبدأ باستخراج إحصاءات آخر 4 ساعات من OSS لتأكيد الاستهلاك وباقي المؤشرات. يرجى تزويدي بمعرّف الخلية الدقيق والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR1234-1. Read access approved for the 4h window.",
+      "message_ar": "معرّف الخلية: NR1234-1. موافقة على وصول القراءة لنافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS: PRB 88–95% over last 4h; users peaked 160 (now 150+); DL/UL ~10–13/11–13 Mbps; BLER ~2.7%; RLF ~2.7%; no alarms. This indicates resource saturation on a suburban macro off-peak with eMBB traffic. I propose targeted site parameter tuning: rebalance eMBB scheduler weights and enable load-based handover bias to offload to neighbors. Approve to proceed?",
+      "message_ar": "تم سحب بيانات OSS: استهلاك PRB بين 88–95% خلال آخر 4 ساعات؛ ذروة المستخدمين 160 (حاليًا 150+); معدل DL/UL نحو 10–13/11–13 ميجابت/ث؛ BLER حوالي 2.7%؛ RLF حوالي 2.7%؛ لا توجد إنذارات. هذا يشير إلى تشبّع موارد في خلية ماكرو في الضواحي خارج الذروة مع حركة eMBB. أقترح ضبطًا مستهدفًا لمعلمات الموقع: إعادة موازنة أوزان المجدول لـeMBB وتفعيل انحياز التسليم المبني على الحمل لتخفيفه نحو الجيران. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the proposed tuning on NR1234-1.",
+      "message_ar": "موافَق على تطبيق الضبط المقترح على NR1234-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization now: updated scheduler weights for eMBB fairness/throughput and enabled conservative load-based handover bias. Change committed; expect PRB relief within minutes. I will watch key counters for immediate impact.",
+      "message_ar": "أقوم الآن بالتنفيذ: تم تحديث أوزان المجدول لتحقيق توازن/سعة أفضل لـeMBB وتفعيل انحياز التسليم المبني على الحمل بعتبات محافظة. تم اعتماد التغيير؛ يُتوقع انخفاض في استهلاك PRB خلال دقائق. سأتابع المؤشرات الرئيسية للأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: PRB dipping to ~72–78%, DL throughput ~15 Mbps, buffering subsided.",
+      "message_ar": "ملاحظة أولية: انخفض استهلاك PRB إلى نحو 72–78%، ومعدل DL حوالي 15 ميجابت/ث، وتراجع تقطع البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. For traceability and continued tracking through off-peak and the next busy hour, I recommend opening an ops ticket summarizing the change and monitoring plan. Shall I proceed?",
+      "message_ar": "جيد. لضمان التتبع والمتابعة خلال خارج الذروة وساعة الانشغال القادمة، أوصي بفتح تذكرة تشغيل تلخص التغيير وخطة المراقبة. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, proceed with creating the ticket.",
+      "message_ar": "مؤكد، تفضل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PRB-04219 created: High PRB on NR1234-1 mitigated via site parameter tuning (scheduler and load-based handover). We will monitor for the next 4 hours and compare against baseline.",
+      "message_ar": "تم إنشاء التذكرة DU-PRB-04219: تم تخفيف ارتفاع PRB على NR1234-1 عبر ضبط معلمات الموقع (المجدول وتسليم مبني على الحمل). سنراقب خلال الساعات الأربع القادمة ونقارن بالأساس."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: PRB trending near 70–75% and scheduling latency easing. The site parameter tuning you pushed is effective; monitor over the next 2–4 hours and track stability. Reference DU-PRB-04219.",
+      "message_ar": "تم تأكيد التحسن: يتجه استهلاك PRB إلى نحو 70–75% ويتراجع كمون الجدولة. ضبط معلمات الموقع الذي تم دفعه فعّال؛ راقب خلال الساعتين إلى الأربع القادمتين وتابع الاستقرار. المرجع DU-PRB-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the 2–4 hour monitoring window and update DU-PRB-04219 with PRB, throughput, and latency results. If metrics regress, we'll escalate by increasing offload bias and, if needed, roll back the last tuning to previous values.",
+      "message_ar": "مفهوم—سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث DU-PRB-04219 بنتائج PRB ومعدل النقل والكمون. إذا تراجعت المؤشرات، سنصعّد عبر زيادة انحياز التفريغ، وإن لزم الأمر سنعود إلى القيم السابقة للضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR1234-1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PRB relief: scheduler weight rebalance + load-based HO bias"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB on NR1234-1; tuning applied; monitor 4h"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Sustained high PRB utilization (~90%) was confirmed on a suburban NR macro during off-peak, driving elevated scheduling delay and impacting eMBB streaming. After reviewing OSS stats, we mitigated by site parameter tuning to rebalance scheduler weights and enable load-based handover offload, then opened a ticket for continued tracking. Early results show PRB relief and improved downlink throughput.",
+    "ar": "تم تأكيد ارتفاع مستمر في استهلاك PRB (~90%) على خلية NR ماكرو في الضواحي خارج أوقات الذروة مما رفع كمون الجدولة وأثر على بث eMBB. بعد مراجعة إحصاءات OSS، تمت المعالجة عبر ضبط معلمات الموقع لإعادة موازنة أوزان المجدول وتفعيل التفريغ المبني على الحمل، ثم فتح تذكرة للمتابعة المستمرة. تظهر النتائج الأولية انخفاضًا في استهلاك PRB وتحسنًا في معدل التحميل."
+  }
+}

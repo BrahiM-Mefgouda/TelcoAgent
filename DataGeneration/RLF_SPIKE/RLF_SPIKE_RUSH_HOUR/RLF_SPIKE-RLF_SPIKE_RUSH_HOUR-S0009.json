@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0009",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban NR macro shows rising dropped connections during peak evening over the last 2h with slow data (median 5 Mbps) and a congestion alarm active.",
+    "ar": "موقع ماكرو NR حضري يظهر ارتفاعاً في انقطاعات الاتصال خلال ذروة المساء في آخر ساعتين مع بطء في البيانات (وسيط 5 Mbps) ووجود إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing rush-hour instability on the urban NR macro (downtown sector) over the last 2h: RLF ~5.5%, HO success ~84%, PRB ~79%, SINR ~7 dB, users ~381. Heavy enterprise-private traffic and a congestion alarm fired.",
+      "message_ar": "نرصد عدم استقرار في ساعة الذروة على موقع ماكرو NR حضري (قطاع وسط المدينة) خلال آخر ساعتين: RLF ~5.5%، نجاح التسليم ~84%، استخدام PRB ~79%، SINR ~7 dB، وعدد المستخدمين ~381. حركة مؤسسية كثيفة مع إنذار ازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will initiate an OSS health snapshot for the affected sector over the last 2h to validate RLF/HO/PRB and radio quality. Please confirm access to proceed.",
+      "message_ar": "سأبدأ بأخذ لقطة حالة من نظام الإدارة للقطاع المتأثر لآخر ساعتين للتحقق من RLF/HO/PRB وجودة الإشارة. يرجى تأكيد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. The cell is the downtown NR macro sector A; proceed.",
+      "message_ar": "تمت الموافقة. الخلية هي قطاع ماكرو NR وسط المدينة A؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot confirms: RLF 5.5%, HO fail 13%, HO success 84%, T310 expiries elevated, PRB 79%, RSRQ -12 dB, p95 sched latency 76 ms, users 381. Next, I will chart RLF vs time for the 2h window and correlate with HO and PRB peaks—okay to run?",
+      "message_ar": "لقطة النظام تؤكد: RLF 5.5%، فشل التسليم 13%، نجاح التسليم 84%، ارتفاع انتهاء T310، استخدام PRB 79%، RSRQ -12 dB، تأخر الجدولة p95 بمقدار 76 مللي ثانية، وعدد المستخدمين 381. بعد ذلك سأرسم RLF زمنياً خلال نافذة الساعتين وأربطه بذروات HO وPRB—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to run the time-series correlation.",
+      "message_ar": "موافق على تشغيل التحليل الزمني والارتباط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows a spike between 18:20–19:40 aligned with PRB >80% and rising T310 expiries; neighboring sectors have spare headroom. Likely late handovers under load. I propose targeted mobility tuning to bias earlier HO toward underloaded neighbors and add failure guard—apply now?",
+      "message_ar": "السلاسل الزمنية تُظهر ذروة بين 18:20–19:40 متزامنة مع PRB >80% وارتفاع انتهاء T310؛ القطاعات المجاورة لديها سعة احتياطية. السبب المحتمل هو تأخير التسليم تحت الحمل. أقترح ضبطاً مستهدفاً لمعاملات الحركة لترجيح تسليم أبكر نحو الجيران الأقل حملاً مع هامش حماية للفشل—هل نطبّق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—apply minimal, safe tuning now.",
+      "message_ar": "موافق—طبّق ضبطاً بسيطاً وآمناً الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mobility optimization applied and committed. Immediate post-check (10–15 min): RLF ~3.7%, HO success ~89%, PRB ~72%, p95 sched latency ~60 ms. No new alarms. I will continue short-term observation.",
+      "message_ar": "تم تطبيق تحسينات الحركة وتثبيتها. فحص فوري (10–15 دقيقة): RLF ~3.7%، نجاح التسليم ~89%، PRB ~72%، تأخر الجدولة p95 ~60 مللي ثانية. لا توجد إنذارات جديدة. سأستمر في المراقبة القصيرة الأمد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial feedback from the floor: fewer drops and steadier sessions after the change.",
+      "message_ar": "ملاحظات أولية من الميدان: انقطاعات أقل وجلسات أكثر استقراراً بعد التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will watch HO event distribution and neighbor load to confirm stability through the next busy period.",
+      "message_ar": "تم. سأراقب توزيع أحداث التسليم وحِمل الجيران للتأكد من الاستقرار خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "RLF is trending down and handovers are cleaner post-change. The action taken was mobility parameter tuning. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "RLF في اتجاه انخفاض وتسليمات أنظف بعد التغيير. الإجراء كان ضبط معاملات الحركة. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and share an update afterward. If degradation returns, we will roll back the change and escalate to on-site RF checks and capacity review.",
+      "message_ar": "سنتولى مراقبة نافذة الساعتين إلى الأربع ساعات ونشارك تحديثاً بعد ذلك. إذا عاد التدهور، سنرجع التغيير ونصعّد لإجراء فحوصات RF ميدانية ومراجعة السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A rush-hour RLF spike on an urban NR macro was confirmed via OSS checks and time-series analysis, correlating with high load and elevated handover failures, indicating late handovers. We applied site parameter tuning to mobility thresholds/timers to bias earlier handover to underloaded neighbors and strengthen failure recovery, improving RLF and HO success immediately. We will monitor over the next hours to ensure stability.",
+    "ar": "تم تأكيد ذروة RLF في ساعة الذروة على موقع ماكرو NR حضري عبر فحوصات النظام والتحليل الزمني، مع ارتباط بارتفاع الحمل وزيادة فشل التسليم مما يشير إلى تأخير التسليم. قمنا بضبط معاملات الموقع الخاصة بالحركة لتقديم التسليم نحو الجيران الأقل حملاً وتقوية التعافي من الفشل، مما حسّن RLF ونجاح التسليم فوراً. سنواصل المراقبة خلال الساعات القادمة لضمان الاستقرار."
+  }
+}

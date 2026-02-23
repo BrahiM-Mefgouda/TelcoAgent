@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0015",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm: backhaul utilization ~90%, latency ~103 ms, jitter 17 ms, packet loss 2.4%, queue 85%, 188 users, and downlink throughput ~14 Mbps during peak hours.",
+    "ar": "خلية NR ماكرو حضرية تُظهر إنذار ازدحام: استهلاك الربط الخلفي ~90%، الكمون ~103 ملّي ثانية، تذبذب التأخير 17 ملّي ثانية، فقد الحزم 2.4%، امتلاء الطابور 85%، 188 مستخدمًا، ومعدل تنزيل ~14 ميجابت/ث خلال ساعات الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro site shows a congestion alarm during peak. Backhaul util ~90%, latency 103 ms, jitter 17 ms, loss 2.4%, queues 85%. PRB ~66%, SINR 8 dB, RSRP -98 dBm. 188 users; DL ~14 Mbps; eMBB video streaming buffering reported.",
+      "message_ar": "موقع 5G NR ماكرو حضري يظهر إنذار ازدحام خلال الذروة. استهلاك الربط الخلفي ~90%، الكمون 103 ملّي ثانية، تذبذب التأخير 17 ملّي ثانية، فقد 2.4%، الطوابير 85%. استخدام PRB ~66%، قيمة SINR ‏8 dB، و RSRP ‏-98 dBm. 188 مستخدمًا؛ معدل تنزيل ~14 ميجابت/ث؛ تم الإبلاغ عن تقطيع في بث فيديو eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling OSS stats for the last 3 hours to confirm a backhaul bottleneck versus radio. Please share the cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب إحصاءات OSS لآخر 3 ساعات لتأكيد ما إذا كان الاختناق من الربط الخلفي وليس من الراديو. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-UGB-1123; read-only access approved for the 3-hour window.",
+      "message_ar": "معرّف الخلية هو NR-UGB-1123؛ تمت الموافقة على صلاحية القراءة لنافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check (3h) for NR-UGB-1123: backhaul p95 utilization 92%, p95 latency 110 ms, loss 2.6%, queue depth >80%. Radio load moderate (PRB 65–70%), SINR ~8 dB. This confirms backhaul congestion at peak. I propose targeted site parameter tuning on backhaul QoS/queueing to reduce buffering and prioritize control/VoNR while smoothing eMBB bursts. Proceed?",
+      "message_ar": "فحص OSS (3 ساعات) للخلية NR-UGB-1123: استهلاك p95 للربط الخلفي 92%، p95 للكمون 110 ملّي ثانية، فقد 2.6%، عمق الطابور >80%. حمل الراديو متوسط (PRB ‏65–70%)، وقيمة SINR ~8 dB. هذا يؤكد ازدحام الربط الخلفي في الذروة. أقترح ضبط معلمات الموقع لسياسات QoS والطوابير على الربط الخلفي لتقليل التخزين المؤقت وإعطاء أولوية للتحكم/VoNR مع تسكين اندفاعات eMBB. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-UGB-1123 transport: conservative queue thresholds, priority mapping for control/VoNR, active queue management, and rate smoothing for eMBB; change committed successfully. Expect latency and loss to improve within minutes; no radio parameters changed.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على نقل NR-UGB-1123: عتبات طوابير محافظة، تعيين أولويات للتحكم/VoNR، إدارة نشطة للطوابير، وتنعيم المعدل لحركة eMBB؛ تم اعتماد التغيير بنجاح. يُتوقّع تحسّن الكمون والفقد خلال دقائق؛ لم يتم تغيير معلمات الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: latency trending ~78 ms, loss ~1.3%, jitter ~10 ms; downlink throughput improving to ~21 Mbps; user count steady.",
+      "message_ar": "ملاحظة أولية: الكمون يتجه إلى ~78 ملّي ثانية، الفقد ~1.3%، تذبذب التأخير ~10 ملّي ثانية؛ معدل التنزيل يتحسن إلى ~21 ميجابت/ث؛ عدد المستخدمين ثابت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will continue to watch counters over the next hour and document the change. I also plan to open an operations ticket to track this backhaul tuning and any residual congestion. Please confirm.",
+      "message_ar": "جيد. سأواصل متابعة العدّادات خلال الساعة القادمة وتوثيق التغيير. كما أنوي فتح تذكرة عمليات لمتابعة هذا الضبط على الربط الخلفي وأي ازدحام متبقٍ. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, proceed with documentation.",
+      "message_ar": "مؤكّد، تفضّل بالتوثيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Operations ticket created and linked to NR-UGB-1123. Post-change snapshot: p95 utilization ~82%, latency 70–80 ms, loss ~1.1%, queues ~55%; eMBB throughput 22–25 Mbps during ongoing peak.",
+      "message_ar": "تم فتح تذكرة عمليات وربطها بالخلية NR-UGB-1123. لقطة ما بعد التغيير: استهلاك p95 ~82%، الكمون 70–80 ملّي ثانية، الفقد ~1.1%، الطوابير ~55%؛ معدل نقل eMBB بين 22–25 ميجابت/ث خلال الذروة الجارية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: backhaul latency holding near 75 ms and packet loss ~1%. The backhaul QoS/queue parameter tuning appears effective; let’s monitor through the next busy hour. Referencing ticket DU-BH-04127.",
+      "message_ar": "تم رصد تحسّن: الكمون على الربط الخلفي مستقر قرب 75 ملّي ثانية وفقد الحزم ~1%. يبدو أن ضبط معلمات QoS والطوابير على الربط الخلفي فعّال؛ لنتابع خلال ساعة الذروة التالية. الإشارة إلى التذكرة DU-BH-04127."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring through the next busy hour and update the ticket after the window. If congestion resurges, we will roll back to the prior QoS/queue profile and escalate to transport for capacity investigation; otherwise we keep the tuning.",
+      "message_ar": "مفهوم—سنتولى المتابعة خلال ساعة الذروة التالية وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد الازدحام سنعيد الإعدادات السابقة لملف QoS/الطوابير ونصعّد إلى فريق النقل للتحقق من السعة؛ وإلّا سنبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-hour degraded backhaul: OSS showed high utilization, elevated latency, packet loss, and deep queues while radio load was moderate, confirming a transport bottleneck. Performed site parameter tuning to backhaul QoS and queueing to reduce buffering and prioritize critical traffic, improving latency and loss. Opened an operations ticket for follow-up and will monitor through the next busy hour.",
+    "ar": "تم تشخيص تدهور الربط الخلفي أثناء ساعة الذروة: أظهرت بيانات OSS استهلاكًا مرتفعًا وكمونًا متزايدًا وفقد حزم وطوابير عميقة بينما كان حمل الراديو متوسطًا، ما يؤكد عنق زجاجة في النقل. تم إجراء ضبط لمعلمات الموقع على QoS والطوابير في الربط الخلفي لتقليل التخزين المؤقت وإعطاء أولوية للحركة الحرجة، مما حسّن الكمون والفقد. فُتحت تذكرة عمليات للمتابعة وسيستمر الرصد خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0020",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the past 2h during evening peak with slow data; median throughput 4 Mbps and 95th percentile scheduling latency 56 ms.",
+    "ar": "خلية NR ماكرو حضرية تظهر إنذار ازدحام خلال آخر ساعتين في ذروة المساء مع بيانات بطيئة؛ وسيط السرعة 4 ميغابت/ث وكمون الجدولة p95 عند 56 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro site, evening peak. Congestion alarm active for ~2h with customer reports of slow data and streaming stalls. Current snapshot: PRB ~95%, users ~324, p95 scheduling latency ~56 ms.",
+      "message_ar": "موقع ماكرو NR حضري خلال ذروة المساء. إنذار ازدحام نشط منذ نحو ساعتين مع شكاوى العملاء من بطء البيانات وتوقف البث. لقطة حالية: استهلاك PRB ~95%، المستخدمون ~324، كمون جدولة p95 ~56 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics. Please confirm the cell ID and approve an OSS health check over the last 2h to verify load, errors, and counters.",
+      "message_ar": "سأتولى التشخيص. يرجى تأكيد معرّف الخلية والموافقة على فحص صحة عبر نظام الإدارة خلال آخر ساعتين للتحقق من الحمل والأخطاء والعدادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-7A-011. Approved for the 2h check.",
+      "message_ar": "معرّف الخلية: NR-Cell-7A-011. الموافقة على فحص الساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR-Cell-7A-011 shows cell on-air, no active faults; PRB 94–97%, users peak ~330, BLER ~6–7%. Scheduler queues saturated during peak. Next, I will pull the last 2h latency time series to isolate the pattern. Proceed?",
+      "message_ar": "فحص نظام الإدارة لخلية NR-Cell-7A-011 يُظهر أن الخلية تعمل دون أعطال نشطة؛ استهلاك PRB بين 94–97%، ذروة المستخدمين ~330، وBLER نحو 6–7%. توجد تشبعات في طوابير المجدول أثناء الذروة. بعد ذلك سأجلب سلسلة زمنية للكمون لآخر ساعتين لتحديد النمط. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency trend confirms evening surge: p95 scheduling latency peaking ~60 ms, median ~42 ms; queueing delay aligns with high load and eMBB traffic. This is a QoS latency breach under heavy load. I will apply targeted parameter tuning to prioritize low-latency flows and reduce buffer depth to cut queueing. Approve the optimization with rollback if any regression?",
+      "message_ar": "اتجاه الكمون يؤكد ارتفاع المساء: كمون جدولة p95 يصل ~60 مللي ثانية، والوسيط ~42 مللي ثانية؛ تأخر الطوابير يتماشى مع الحمل العالي وحركة eMBB. هذا خرق في جودة الخدمة للكمون تحت الحمل العالي. سأطبق ضبطاً انتقائياً للمعلمات لإعطاء أولوية للتدفقات منخفضة الكمون وتقليل عمق المخزن لتقليل الطوابير. هل توافق على التحسين مع إمكانية الرجوع عند أي تراجع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-Cell-7A-011: tuned scheduler weighting toward low-latency classes and trimmed buffer thresholds. Change is reversible. Beginning 10-minute post-change observation of latency, throughput, and BLER.",
+      "message_ar": "تم تطبيق التحسين على NR-Cell-7A-011: تم ضبط أوزان المجدول نحو الفئات منخفضة الكمون وتقليص عتبات المخازن. التغيير قابل للعكس. أبدأ مراقبة لمدة 10 دقائق بعد التغيير للكمون، ومعدل النقل، وBLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~8 minutes, p95 scheduling latency down to ~44 ms, median ~36 ms; median throughput improved to ~5.8–6 Mbps; BLER steady ~6%. No new alarms.",
+      "message_ar": "بعد حوالي 8 دقائق، انخفض كمون الجدولة p95 إلى ~44 مللي ثانية، والوسيط ~36 مللي ثانية؛ تحسن وسيط معدل النقل إلى ~5.8–6 ميغابت/ث؛ BLER ثابت ~6%. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good response. I will keep the optimization in place and continue watching queueing and PRB during the current peak. Any fresh user complaints?",
+      "message_ar": "استجابة جيدة. سأبقي التحسين مفعّلاً وأواصل متابعة الطوابير وPRB خلال الذروة الحالية. هل توجد شكاوى حديثة من المستخدمين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Customer buffering reports have eased and latency is trending down. Action taken was site parameter tuning for QoS scheduling. Recommend monitoring through the next busy hour.",
+      "message_ar": "تراجعت تقارير توقف البث من العملاء والكمون في اتجاه هبوطي. الإجراء كان ضبط معلمات الموقع لجدولة جودة الخدمة. أوصي بالمراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and update you on latency, throughput, and user experience. If latency climbs again, we will extend optimization to adjacent cells and apply temporary traffic relief; if any adverse effects appear, we will roll back to baseline immediately.",
+      "message_ar": "تم. سنراقب خلال ساعة الانشغال التالية ونوافيكم بتحديث حول الكمون ومعدل النقل وتجربة المستخدم. إذا ارتفع الكمون مجدداً سنوسع التحسين إلى الخلايا المجاورة مع تخفيف مؤقت للحمل، وإن ظهرت آثار سلبية سنعود فوراً إلى الإعدادات الأساسية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on an urban NR macro cell during evening peak: high PRB utilization and queue buildup drove p95 scheduling latency above target and slow data. Verified with an OSS health check and latency trend analysis over the last 2 hours. Mitigated by site parameter tuning to prioritize low-latency traffic and reduce buffer depth; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص خرق جودة الخدمة للكمون في خلية NR ماكرو حضرية خلال ذروة المساء: استهلاك PRB مرتفع وتراكم الطوابير رفع كمون الجدولة p95 فوق الهدف وتسبب في بطء البيانات. تم التحقق عبر فحص نظام الإدارة وتحليل اتجاه الكمون لآخر ساعتين. تم التخفيف من خلال ضبط معلمات الموقع لإعطاء أولوية للترافيك منخفض الكمون وتقليل عمق المخزن؛ وستستمر المراقبة خلال ساعة الانشغال التالية."
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_EMBB_CAPACITY-S0020",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_EMBB_CAPACITY",
+  "query": {
+    "en": "Stadium NR micro layer over the last 4h shows congestion with ~94% radio resource use, 44% eMBB slice admission denials at ~95 requests/min, latency 109 ms, and median downlink 12 Mbps.",
+    "ar": "طبقة NR الميكرو في الاستاد خلال آخر 4 ساعات تُظهر ازدحاماً مع استخدام موارد الراديو ~94% ورفض قبول لشريحة eMBB بنسبة 44% عند ~95 طلب/دقيقة، وزمن وصول 109 مللي ثانية، ومعدل تنزيل وسيط 12 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Ingress at the stadium over the last 4h shows congestion on the NR micro layer: eMBB slice admission denials ~44% at ~95 req/min, PRB ~93–96%, latency ~109 ms, p50 DL 12 Mbps, ~995 users.",
+      "message_ar": "مرحلة الدخول في الاستاد خلال آخر 4 ساعات تُظهر ازدحاماً على طبقة NR الميكرو: رفض قبول لشريحة eMBB ~44% عند ~95 طلب/دقيقة، استخدام PRB ~93–96%، زمن وصول ~109 مللي ثانية، معدل تنزيل وسيط 12 ميجابت/ث، وعدد المستخدمين ~995."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will retrieve last-4h cell and slice counters for NR_STADIUM_MICRO to separate admission control effects from resource pressure. Please confirm read access.",
+      "message_ar": "تم. سأقوم بجلب عدادات الخلية والشريحة لآخر 4 ساعات لـ NR_STADIUM_MICRO لعزل تأثيرات القبول عن ضغط الموارد. يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved for NR_STADIUM_MICRO, same 4h window.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة لـ NR_STADIUM_MICRO لنفس نافذة الأربع ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot: sustained PRB 94–96%, eMBB slice utilization 88–90%, admission denials peaking during ingress; latency elevated. Policy shows 75 Mbps minimum with priority 2. I propose a targeted eMBB slice policy update: slightly increase temporary admission headroom and relax the reject threshold with a cap to protect other slices. Proceed?",
+      "message_ar": "النتيجة: استخدام PRB ثابت 94–96%، واستغلال شريحة eMBB عند 88–90%، وذروة في رفض القبول خلال الدخول؛ وزمن الوصول مرتفع. السياسة الحالية: حد أدنى 75 ميجابت/ث وأولوية 2. أقترح تحديثاً مستهدفاً لسياسة شريحة eMBB: زيادة بسيطة في سماحية القبول المؤقتة وتخفيف عتبة الرفض مع حد أقصى لحماية الشرائح الأخرى. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with a controlled eMBB slice policy change with safeguards for other slices.",
+      "message_ar": "موافق على تنفيذ تغيير مضبوط في سياسة شريحة eMBB مع ضمانات لحماية الشرائح الأخرى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied: +10% admission burst allowance, relaxed reject threshold to 92% load, retained hard cap at 65% cell share, priority unchanged. Monitoring stabilization for the next 10 minutes.",
+      "message_ar": "تم التطبيق: زيادة 10% في سماحية الاندفاع للقبول، وتخفيف عتبة الرفض إلى حمل 92%، والإبقاء على حد أقصى صارم عند 65% من حصة الخلية، دون تغيير في الأولوية. أراقب الاستقرار خلال 10 دقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~8 minutes: admission denials dropped to ~18–22%, PRB ~90–92%, latency ~95–100 ms; streaming demand remains dominant.",
+      "message_ar": "بعد ~8 دقائق: انخفض رفض القبول إلى ~18–22%، وPRB ~90–92%، وزمن الوصول ~95–100 مللي ثانية؛ والطلب على البث ما يزال مسيطراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. For traceability, I will log a change and incident note referencing the slice and sector. Do you approve creating a ticket?",
+      "message_ar": "تحسن جيد. من أجل التتبع، سأقوم بتوثيق تغيير وملاحظة حادثة مع الإشارة إلى الشريحة والقطاع. هل توافق على إنشاء تذكرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; include the stadium NR micro context and ingress period.",
+      "message_ar": "موافق؛ الرجاء تضمين سياق طبقة NR الميكرو في الاستاد وفترة الدخول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-SLICE-04231. We will continue observing admission denials and latency as load shifts.",
+      "message_ar": "تم إنشاء التذكرة: DU-SLICE-04231. سنواصل مراقبة رفض القبول وزمن الوصول مع تغير الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Further improvement observed: denials trending near ~15% after the slice policy update. Let’s monitor through the next busy hour and track via DU-SLICE-04231.",
+      "message_ar": "تحسن إضافي: رفض القبول يتجه نحو ~15% بعد تحديث سياسة الشريحة. لنتابع المراقبة خلال ساعة الذروة القادمة والمتابعة عبر DU-SLICE-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next busy hour and update the ticket after the window. If denials rise above 30% or latency exceeds 110 ms, we will roll back the change; otherwise we’ll keep it and consider fine-tuning.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا ارتفع رفض القبول فوق 30% أو تجاوز زمن الوصول 110 مللي ثانية فسنُرجع التغيير؛ وإلا سنثبته وننظر في تحسينات إضافية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STADIUM_MICRO",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "eMBB_STADIUM",
+        "admission_burst_relief_v1"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium NR micro eMBB slice admission failures; applied controlled policy relief; monitor next BH"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed eMBB slice admission failures driven by sustained high PRB load on the stadium NR micro layer and tight admission policy thresholds. Pulled live stats, then applied a targeted slice policy update to increase admission headroom and relax the reject threshold while keeping a cap to protect other slices, and logged a ticket for traceability. Early results show denials dropping and latency easing; we will monitor through the next busy hour and adjust or roll back if regressions appear.",
+    "ar": "تم تشخيص حالات رفض القبول لشريحة eMBB بسبب حمل PRB المرتفع باستمرار على طبقة NR الميكرو في الاستاد وتشدّد عتبات سياسة القبول. تم سحب الإحصاءات الحية ثم تطبيق تحديث مستهدف لسياسة الشريحة لزيادة سماحية القبول وتخفيف عتبة الرفض مع الحفاظ على حد أقصى لحماية الشرائح الأخرى، وتم توثيق ذلك بتذكرة. تظهر النتائج المبكرة انخفاضاً في الرفض وتحسناً في زمن الوصول؛ سنراقب خلال ساعة الذروة القادمة ونُعدّل أو نُرجع التغيير إذا ظهرت انتكاسات."
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0007",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro site over the last 24h shows 23% URLLC slice admission denials, 48% slice utilization, ~36 requests/min, and ~23 ms latency; please investigate admission policy thresholds.",
+    "ar": "موقع ماكرو NR حضري خلال آخر 24 ساعة يظهر 23% رفض قبول لشريحة URLLC مع استغلال 48% للشريحة وقرابة 36 طلب/دقيقة وزمن وصول ~23 ملّي ثانية؛ يرجى التحقق من عتبات سياسة القبول."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector, last 24h: URLLC slice admission denials at 23%, slice utilization ~48%, PRB ~65%, latency ~23 ms, about 36 requests/min. Please review.",
+      "message_ar": "قطاع ماكرو NR حضري خلال آخر 24 ساعة: رفض قبول لشريحة URLLC بنسبة 23%، استغلال الشريحة ~48%، استخدام PRB ~65%، زمن الوصول ~23 ملّي ثانية، حوالي 36 طلب/دقيقة. الرجاء المراجعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first check admission states and policies for the target cell across 24h; if policy is too restrictive, I’ll adjust the URLLC admission policy and then open a tracking record. Please share the cell ID and approve read/write access.",
+      "message_ar": "مفهوم. سأتحقق أولاً من حالات القبول والسياسات للخلية المستهدفة خلال 24 ساعة؛ وإن كانت السياسة مُقيّدة أكثر من اللازم سأعدّل سياسة قبول URLLC ثم أفتح سجل متابعة. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحيات القراءة/الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-310-260-12345-1, window 24h. Read/write approved.",
+      "message_ar": "معرّف الخلية: NR-Cell-310-260-12345-1، نافذة 24 ساعة. صلاحيات القراءة/الكتابة معتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled admission counters and policy data for NR-Cell-310-260-12345-1 over 24h. Findings: URLLC denials peak near mixed hours; aggregate 23%. The admission headroom trigger is set at 92%, causing premature rejections despite moderate radio load (PRB mid-60s) and 48% slice utilization. No faults noted. Request approval to relax URLLC headroom to 80% and allow short burst admission; change is reversible.",
+      "message_ar": "تم جلب عدادات القبول وبيانات السياسة للخلية NR-Cell-310-260-12345-1 على مدى 24 ساعة. النتائج: رفضات URLLC تبلغ ذروتها خلال فترات مختلطة؛ الإجمالي 23%. تم ضبط مشغل هامش القبول عند 92% مما يسبب رفضات مبكرة رغم أن الحمل الراديوي متوسط (PRB في منتصف الستينيات) واستغلال الشريحة 48%. لا توجد أعطال. أطلب الموافقة على تخفيف الهامش إلى 80% والسماح باندفاعات قصيرة؛ التغيير قابل للرجوع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the URLLC policy relaxation on this cell.",
+      "message_ar": "تمت الموافقة على المضي بتخفيف سياسة URLLC على هذه الخلية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied URLLC slice policy update on NR-Cell-310-260-12345-1: lowered admission headroom to 80% and enabled short burst allowance. Commit successful. Quick validation: last 5 minutes show denials down to ~9% with latency steady near 23 ms. Please confirm from field view.",
+      "message_ar": "تم تطبيق تحديث سياسة شريحة URLLC على الخلية NR-Cell-310-260-12345-1: خُفِّض هامش القبول إلى 80% وتم تمكين السماح بالاندفاعات القصيرة. تم تطبيق التعديل بنجاح. تحقق سريع: آخر 5 دقائق تُظهر انخفاض الرفضات إلى ~9% مع ثبات زمن الوصول قرب 23 ملّي ثانية. يرجى التأكيد من جهة الميدان."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field confirms more URLLC sessions are admitted, no latency regression observed. Denial ratio is dropping.",
+      "message_ar": "يؤكد الميدان قبول عدد أكبر من جلسات URLLC دون تدهور في زمن الوصول. نسبة الرفض في انخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created tracking ticket DU-SLICE-04527 for traceability and ongoing notes. I will keep watching counters for side effects.",
+      "message_ar": "تم إنشاء تذكرة متابعة DU-SLICE-04527 لتتبع الحالة وتدوين الملاحظات. سأستمر في مراقبة العدادات لأي آثار جانبية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Current snapshot: admission denials around 7–10%, slice utilization trending toward mid‑50s; request rate steady. No adverse impact noted.",
+      "message_ar": "اللقطة الحالية: رفض القبول حوالي 7–10%، واستغلال الشريحة يتجه نحو منتصف الخمسينيات؛ معدل الطلب ثابت. لا آثار سلبية ملحوظة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Actions completed: diagnosis pointed to an overly strict admission policy; we updated the policy and opened a record. Please state your preferred monitoring window so we can own updates.",
+      "message_ar": "تمت الإجراءات: التشخيص أشار إلى سياسة قبول صارمة؛ قمنا بتحديث السياسة وفتحنا سجل متابعة. يرجى تحديد نافذة المراقبة المفضلة لديكم لكي نتولى التحديثات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: admission denials trending down from 23% to about 8–10%, with URLLC requests admitted and latency stable. Action taken: slice policy update on the affected NR macro cell. Let’s monitor for the next 2–4 hours; reference DU-SLICE-04527.",
+      "message_ar": "تحسّن ملحوظ: رفض القبول انخفض من 23% إلى حوالي 8–10% مع قبول طلبات URLLC وثبات زمن الوصول. الإجراء المتخذ: تحديث سياسة الشريحة على خلية NR الماكرو المتأثرة. لنتابع خلال الساعتين إلى الأربع ساعات القادمة؛ المرجع DU-SLICE-04527."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next 2–4 hours and update DU-SLICE-04527 with results. If any issues appear, we will escalate to the slicing domain team and revert the policy change; otherwise we’ll keep the optimized settings and close out.",
+      "message_ar": "تم. سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونحدّث DU-SLICE-04527 بالنتائج. إن ظهرت مشاكل سنصعّد للفريق المختص بالتقسيم ونعيد التغيير، وإلا سنحافظ على الإعدادات المُحسّنة ونُغلق المتابعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-310-260-12345-1",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC-01",
+        "lower admission threshold to 80% and enable short-burst grant"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC slice admission denials due to strict threshold; policy updated on NR-Cell-310-260-12345-1; monitor 2–4h"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated URLLC admission behavior on the urban NR macro cell and found high denials driven by an overly strict admission headroom (92%) despite moderate load. The URLLC slice policy was updated to a less restrictive threshold with burst allowance, and a tracking ticket was created. We will monitor for stability and improved admissions in the next hours.",
+    "ar": "تم التحقيق في سلوك قبول URLLC على خلية NR حضرية ماكرو وتبيّن أن الرفضات المرتفعة ناتجة عن هامش قبول صارم (92%) رغم الحمل المتوسط. تم تحديث سياسة الشريحة إلى عتبة أقل تقييداً مع السماح بالاندفاعات، وإنشاء تذكرة متابعة. سنراقب الاستقرار وتحسن القبول خلال الساعات القادمة."
+  }
+}

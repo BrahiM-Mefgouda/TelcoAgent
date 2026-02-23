@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0028",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban NR macro cell shows interference / signal overlap with SINR ~4 dB, handover failures ~14%, ping‑pong ~12%, and p50 downlink ~21 Mbps over the last 12h.",
+    "ar": "موقع NR ماكرو في منطقة ضاحية يظهر تداخل / تراكب الإشارة مع SINR حوالي 4 dB، وفشل تسليم ~14%، وتذبذب تسليم ~12%، وسرعة تنزيل متوسطة ~21 Mbps خلال آخر 12 ساعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SUB-123 shows rising handover failures (~14%) and ping‑pong (~12%) over the last 12h; streaming users report inconsistent 5G; no active alarms.",
+      "message_ar": "الموقع الضاحي NR (ماكرو) NR-SUB-123 يظهر ارتفاعاً في فشل التسليم (~14%) وتذبذب التسليم (~12%) خلال آخر 12 ساعة؛ مستخدمو البث يشتكون من 5G غير ثابت؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Low SINR (~4 dB) and RSRQ (−10 dB) indicate interference / signal overlap; with PCI 277 and high overlap (13), PCI collision/confusion is likely. I will run a neighbor audit on NR-SUB-123 for the last 12h to confirm—approve?",
+      "message_ar": "تم الاستلام. قيم SINR المنخفضة (~4 dB) وRSRQ (−10 dB) تشير إلى تداخل / تراكب الإشارة؛ ومع PCI 277 وتداخل عالٍ (13)، فمن المحتمل وجود تصادم/التباس PCI. سأجري تدقيق الجوار على NR-SUB-123 لآخر 12 ساعة للتأكيد—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for NR-SUB-123 with a 12h window; access granted.",
+      "message_ar": "موافق لـ NR-SUB-123 ضمن نافذة 12 ساعة؛ تم منح الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: detected a same-PCI collision with neighbor NR-SUB-118 (sector B) also using PCI 277 over an overlapping footprint; short reuse in the cluster increases confusion. This aligns with BLER ~11% and HO issues. I recommend retuning NR-SUB-123 to PCI 279 and updating neighbor relations—proceed?",
+      "message_ar": "اكتمل تدقيق الجوار: تم رصد تصادم PCI مع الجار NR-SUB-118 (القطاع B) الذي يستخدم أيضاً PCI 277 مع تداخل تغطية؛ كما أن قصر مسافة إعادة الاستخدام في العنقود يزيد الالتباس. يتوافق ذلك مع BLER ~11% ومشاكل التسليم. أوصي بإعادة ضبط PCI لـ NR-SUB-123 إلى 279 وتحديث علاقات الجوار—هل نمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed with the PCI change now.",
+      "message_ar": "موافق؛ نفّذ تغيير الـ PCI الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: NR-SUB-123 retuned PCI 277→279; neighbor relations refreshed and consistency checks passed; no service interruption. Early deltas show SINR +2 dB and HO success improving; please observe.",
+      "message_ar": "تم التنفيذ: تمت إعادة ضبط PCI لـ NR-SUB-123 من 277 إلى 279؛ تم تحديث علاقات الجوار واجتازت فحوص الاتساق؛ دون انقطاع خدمة. المؤشرات الأولية تُظهر زيادة SINR بمقدار ~2 dB وتحسن نجاح التسليم؛ يرجى المتابعة بالملاحظة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer ping‑pong events and handover failures trending down; RSRQ improved about 1–2 dB. Looks better.",
+      "message_ar": "أرى انخفاضاً في أحداث التذبذب وانخفاضاً في فشل التسليم؛ تحسّن RSRQ بحوالي 1–2 dB. الوضع أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and follow-up across the suburban cluster, I will create a ticket documenting the PCI retune and post-change KPIs—ok to proceed?",
+      "message_ar": "لأغراض التتبع والمتابعة عبر عنقود الضاحية، سأقوم بإنشاء تذكرة توثّق إعادة ضبط PCI ومؤشرات ما بعد التغيير—هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-PCI-04172 capturing the neighbor audit, the PCI retune on NR-SUB-123, and initial improvements; we will append further observations.",
+      "message_ar": "تم إنشاء التذكرة: DU-PCI-04172 وتحتوي على تدقيق الجوار، وإعادة ضبط PCI على NR-SUB-123، والتحسينات الأولية؛ سنضيف الملاحظات اللاحقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, interference indicators are down and handovers are stabilizing; median downlink remains ~21 Mbps. Action taken was PCI parameter tuning on NR-SUB-123; let’s monitor through the next busy hour and update DU-PCI-04172.",
+      "message_ar": "بعد التغيير، انخفضت مؤشرات التداخل واستقرت عمليات التسليم؛ سرعة التنزيل الوسيطة ~21 Mbps. الإجراء كان ضبط معلمات PCI على NR-SUB-123؛ لنتابع المراقبة خلال ساعة الذروة القادمة وتحديث DU-PCI-04172."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket afterward. If performance degrades, we will roll back the PCI change and reassess neighbors; if stable, we will keep the new PCI and review cluster reuse.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا تدهور الأداء فسنرجع تغيير PCI ونعيد تقييم الجوار؛ وإذا استقر الأداء فسنُبقي على PCI الجديد ونراجع إعادة الاستخدام في العنقود."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-SUB-123",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI retune 277->279; refresh neighbor relations; verify mobility thresholds"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision resolved on NR-SUB-123 via retune; track post-change KPIs over next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision on suburban NR macro cell NR-SUB-123 with an overlapping neighbor. We mitigated by site parameter tuning—retuned the PCI to avoid the conflict and refreshed neighbor relations—and opened a follow-up ticket for tracking. Initial indicators show improved signal quality and more stable handovers; monitoring will continue through the next busy hour.",
+    "ar": "أكد تحليل الجوار وجود تصادم PCI على موقع NR ماكرو في الضاحية NR-SUB-123 مع جار متداخل. تم التخفيف عبر ضبط معلمات الموقع بإعادة ضبط PCI لتفادي التعارض وتحديث علاقات الجوار، كما تم فتح تذكرة متابعة للتتبع. تشير المؤشرات الأولية إلى تحسن جودة الإشارة واستقرار عمليات التسليم؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

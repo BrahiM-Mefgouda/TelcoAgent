@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0003",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell over 6h shows PRB ~71%, fairness ~0.73 with allocation skew 22, and p95 scheduler latency 105 ms; investigate a resource scheduling anomaly during shoulder hours with eMBB traffic.",
+    "ar": "خلية NR ماكرو حضرية خلال نافذة 6 ساعات تُظهر استخدام PRB ~71%، مؤشر إنصاف ~0.73 مع انحياز توزيع 22، وزمن انتظار p95 للمُجدِّل 105 مللي ثانية؛ نتحقق من شذوذ في تخصيص الموارد خلال ساعات الكتف مع حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-12345 over the last 6h (shoulder hours) shows PRB ~71%, fairness ~0.73, allocation skew 22, and p95 scheduler latency 105 ms. eMBB streaming users report dips. Please check resource scheduling behavior.",
+      "message_ar": "الخلية NR-12345 (ماكرو حضرية) خلال آخر 6 ساعات (ساعات الكتف) تُظهر PRB ~71%، إنصاف ~0.73، انحياز توزيع 22، وزمن انتظار p95 للمُجدِّل 105 مللي ثانية. مستخدمو eMBB (البث) يبلغون عن هبوط. الرجاء فحص سلوك تخصيص الموارد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will: 1) pull OSS KPIs for NR-12345 over 6h, 2) review PRB allocation and latency time series, and 3) if skew is confirmed, apply light-weight scheduler tuning to improve fairness and high-priority share. Please confirm access.",
+      "message_ar": "مفهوم. سأقوم بـ: 1) جلب مؤشرات من النظام لـ NR-12345 خلال 6 ساعات، 2) مراجعة السلاسل الزمنية لتوزيع PRB وزمن الانتظار، و3) إن تأكد الانحياز سأطبّق ضبطاً خفيفاً للمُجدِّل لتحسين الإنصاف وحصة الحركة ذات الأولوية العالية. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-12345. Read and change permissions are available.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-12345. صلاحيات القراءة وإجراء التغييرات متاحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching 6h OSS snapshot for NR-12345 now: PRB utilization averages 71%, high-priority QCI share 20% vs best-effort 58%, fairness index 0.73, p95 scheduler latency 105 ms. This points to allocator bias. Proceeding to detailed PRB/latency trends unless you object.",
+      "message_ar": "أجري الآن سحباً لبيانات 6 ساعات لـ NR-12345: متوسط استخدام PRB 71%، حصة QCI عالية الأولوية 20% مقابل 58% لـ best-effort، مؤشر الإنصاف 0.73، وزمن انتظار p95 للمُجدِّل 105 مللي ثانية. هذا يشير إلى انحياز في المُخصِّص. سأتقدم لتحليل السلاسل الزمنية لتوزيع PRB وزمن الانتظار ما لم تمانع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "6h time series reviewed: allocation skew peaks near 25 during shoulder hours; latency spikes coincide with best-effort dominance while SINR ~12 dB and RSRQ -11 dB stay stable. Pattern indicates scheduler drift reducing fairness for high-priority flows, including streaming control bursts. I propose a low-risk tuning to rebalance QCI weights and tighten latency guardrails. Approve change?",
+      "message_ar": "تمت مراجعة السلاسل الزمنية لآخر 6 ساعات: يصل انحياز التوزيع إلى ~25 خلال ساعات الكتف؛ ارتفاعات زمن الانتظار تتزامن مع هيمنة best-effort بينما تبقى قيم SINR ~12 dB و RSRQ -11 dB مستقرة. النمط يدل على انجراف في المُجدِّل يقلل الإنصاف للتدفقات عالية الأولوية، بما في ذلك دفعات التحكم للبث. أقترح ضبطاً منخفض المخاطر لإعادة موازنة أوزان QCI وتشديد حدود زمن الانتظار. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning on NR-12345. No active alarms.",
+      "message_ar": "موافق على تنفيذ الضبط على NR-12345. لا توجد إنذارات فعّالة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted scheduler parameter tuning on NR-12345 now; minimal-impact change. Change committed; observing counters for 5–10 minutes.",
+      "message_ar": "أطبّق الآن ضبطاً مستهدفاً لمعاملات المُجدِّل على NR-12345؛ تغيير ذو تأثير ضئيل. تم اعتماد التغيير؛ سأراقب المؤشرات لمدة 5–10 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early results (8 min post-change): high-priority share 20% -> 28%, fairness 0.73 -> 0.79, p95 scheduler latency 105 ms -> 88 ms; PRB stays ~70%. Test traffic shows fewer dips. Can you confirm from your side?",
+      "message_ar": "نتائج أولية (بعد 8 دقائق من التغيير): حصة الأولوية العالية 20% -> 28%، الإنصاف 0.73 -> 0.79، p95 زمن انتظار المُجدِّل 105 مللي ثانية -> 88 مللي ثانية؛ يبقى PRB ~70%. حركة الاختبار تُظهر تقطعات أقل. هل تؤكد من جهتك؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed similar improvement: latency tail easing and fairness rising; median throughput nudged up.",
+      "message_ar": "تم التأكيد على تحسن مماثل: ذيل زمن الانتظار يتراجع والإنصاف يرتفع؛ المتوسّط الوسيط لمعدل النقل ارتفع قليلاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: latency tail down and resource skew moderating. Action taken: site parameter tuning on the NR scheduler. Let's monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: انخفاض ذيل زمن الانتظار وتراجع انحياز الموارد. الإجراء المتخذ: ضبط معلمات المُجدِّل على الموقع NR. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update on fairness, latency, and QCI shares. If degradation returns, we will roll back the change; if stable, we will keep the tuning and consider minor refinements on adjacent cells if needed.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونوافيك بتحديث حول الإنصاف وزمن الانتظار وحصص QCI. إذا عادت المشكلة سنرجع التغيير؛ وإن بقي الأداء مستقراً سنُبقي الضبط وقد ننظر في تحسينات طفيفة على الخلايا المجاورة عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-12345",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-12345",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A resource scheduling anomaly on urban NR macro cell NR-12345 was diagnosed by querying the OSS and reviewing PRB and latency trends over the past 6 hours. Allocation skew and elevated latency were confirmed under stable RF, so site parameter tuning was applied to rebalance QCI weighting and improve fairness. Early results show higher high-priority share and reduced latency; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص شذوذ في تخصيص الموارد على الخلية NR-12345 (ماكرو حضرية) عبر سحب مؤشرات من النظام ومراجعة اتجاهات PRB وزمن الانتظار خلال آخر 6 ساعات. تم تأكيد انحياز التوزيع وارتفاع زمن الانتظار مع ثبات ظروف الراديو، لذلك تم تطبيق ضبط معلمات على الموقع لإعادة موازنة أوزان QCI وتحسين الإنصاف. النتائج الأولية تُظهر زيادة في حصة الأولوية العالية وانخفاضاً في زمن الانتظار؛ وستستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

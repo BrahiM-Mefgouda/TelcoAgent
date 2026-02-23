@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0017",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "In the indoor office wing, 5G micro cells show high ping-pong handovers (~24%) and moderate handover success (~86%) over the last 3h, with weak signal levels (RSRP −111 dBm, RSRQ −9 dB) during peak eMBB streaming hours.",
+    "ar": "في جناح المكاتب الداخلي، تُظهر خلايا 5G الصغيرة معدل تأرجح عالياً (~24%) ونجاح تسليم متوسطاً (~86%) خلال آخر 3 ساعات، مع ضعف في مستوى الإشارة (RSRP −111 dBm، RSRQ −9 dB) أثناء ساعات ذروة بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro site in the office wing shows elevated ping-pong handovers during peak eMBB hours; users report frequent cell flips and some buffering while streaming.",
+      "message_ar": "موقع داخلي صغير بتقنية NR في جناح المكاتب يظهر زيادة في عمليات التسليم المتأرجحة خلال ساعات الذروة لخدمات eMBB؛ المستخدمون يبلغون عن تبديل متكرر بين الخلايا وبعض التقطعات أثناء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnostics: first I'll fetch last 3h mobility counters for the impacted indoor small site cell. Please share the cell ID and approve access.",
+      "message_ar": "سأقود التشخيص: سأجلب مؤشرات التنقل لآخر 3 ساعات لخلية الموقع الداخلي الصغير المتأثرة. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_SM_Indoor_12_S3; access approved.",
+      "message_ar": "معرّف الخلية NR_SM_Indoor_12_S3؛ الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h mobility stats: ping-pong rate ~24%, handover success ~86%, failures ~13%. RSRP around −111 dBm with RSRQ −9 dB. Neighbor churn is mostly within the indoor cluster. I will analyze HO temporal patterns next.",
+      "message_ar": "تم جلب إحصاءات التنقل لآخر 3 ساعات: معدل التأرجح ~24%، نجاح التسليم ~86%، الفشل ~13%. RSRP حوالي −111 dBm مع RSRQ −9 dB. تبدّل الجيران يحدث غالباً داخل المجموعة الداخلية. سأحلل الأنماط الزمنية لعمليات التسليم تالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood; that matches movement between rooms during peak.",
+      "message_ar": "مفهوم؛ هذا يتماشى مع الحركة بين الغرف خلال الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewed HO time series for the last 3h: spikes cluster at peak with short dwell times (<3 s). No resource saturation observed (~58% utilization). This points to aggressive mobility thresholds as the primary cause of oscillations.",
+      "message_ar": "تمت مراجعة السلسلة الزمنية لعمليات التسليم لآخر 3 ساعات: الارتفاعات تتجمع عند الذروة مع أزمنة مكوث قصيرة (<3 ثوانٍ). لا توجد مؤشرات ازدحام في الموارد (~58% استخدام). يشير ذلك إلى عتبات تنقل حادة كسبب رئيسي للتذبذبات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged; no notable complaints outside peak.",
+      "message_ar": "تم؛ لا شكاوى ملحوظة خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "To reduce ping-pong while preserving HO success, I propose a minimal mobility retune: slightly increase time-to-trigger and hysteresis, and nudge A3 offset by +1 dB within safe indoor bounds. Expect fewer oscillations with negligible edge impact. Approve implementation now?",
+      "message_ar": "للحد من التأرجح مع الحفاظ على نجاح التسليم، أقترح ضبطاً بسيطاً لمعايير التنقل: زيادة طفيفة لوقت التحفيز والهسترة، ورفع إزاحة A3 بمقدار +1 dB ضمن حدود آمنة داخلية. نتوقع تقليل التذبذبات مع تأثير ضئيل على الأطراف. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed.",
+      "message_ar": "موافق؛ تفضل بالتنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied and validated—parameters updated with no alarms; neighbor relations refreshed. I will watch immediate KPIs for 15–30 minutes and compare ping-pong and HO success against baseline.",
+      "message_ar": "تم تطبيق التغييرات والتحقق منها—تم تحديث المعايير دون إنذارات؛ تم تحديث علاقات الجيران. سأراقب المؤشرات الفورية لمدة 15–30 دقيقة وأقارن معدل التأرجح ونجاح التسليم مع الأساس."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial trend looks better: ping-pong attempts are trending down and handover success is inching up. The handover parameter optimization seems effective; let's monitor through the next busy hour.",
+      "message_ar": "الاتجاه الأولي أفضل: محاولات التأرجح في انخفاض ونجاح التسليم يتحسن تدريجياً. يبدو أن تحسين معايير التسليم فعّال؛ لنراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will monitor through the next busy hour and share an update on ping-pong rate, dwell times, and handover success. If degradation resurfaces, we will escalate with a finer mobility retune; if adverse effects appear, we will roll back to the previous setting.",
+      "message_ar": "متفق—سوف نراقب خلال ساعة الانشغال التالية ونشارك تحديثاً عن معدل التأرجح وأزمنة المكوث ونجاح التسليم. إذا عاد التدهور سنصعّد بضبط أدق لمعايير التنقل؛ وإذا ظهرت آثار سلبية سنعود إلى الإعداد السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_SM_Indoor_12_S3",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_SM_Indoor_12_S3",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility tuning: slight increase to TTT and hysteresis, A3 offset +1 dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high indoor ping-pong handovers by reviewing OSS mobility counters and handover time series, which showed peak-hour oscillations without resource saturation, indicating aggressive mobility thresholds. Applied site parameter tuning by slightly increasing time-to-trigger and hysteresis and nudging A3 offset to stabilize dwell times. Monitoring through the next busy hour to confirm sustained reduction in ping-pong and improved handover success.",
+    "ar": "تم تشخيص ارتفاع التأرجح الداخلي عبر مراجعة مؤشرات التنقل من منصة الإدارة والسلسلة الزمنية لعمليات التسليم، والتي أظهرت تذبذبات في ساعات الذروة دون ازدحام في الموارد، ما يشير إلى عتبات تنقل حادة. تم تنفيذ ضبط لمعايير الموقع بزيادة طفيفة لوقت التحفيز والهسترة ورفع إزاحة A3 لتحسين استقرار زمن المكوث. ستتم المتابعة خلال ساعة الانشغال التالية للتأكد من استمرار انخفاض التأرجح وتحسن نجاح التسليم."
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0015",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural 5G macro cell shows 88% radio resource use with 215 users while neighbors average 48% and handovers skew out (25) vs in (7); load balancing across nearby sites appears needed.",
+    "ar": "خلية 5G ماكرو ريفية تُظهر استخدام موارد راديو 88% مع 215 مستخدماً بينما متوسط الجيران 48% وتحوّلات للخارج (25) مقابل الداخل (7)؛ يبدو أن توازن الحمل بين المواقع القريبة مطلوب."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NRRUR123-1 is hot over the last 6h: radio utilization ~88%, 215 users, median throughput 17 Mbps; neighbors average ~48%. HO out 25/5min vs in 7/5min, RSRQ -12 dB, SINR 13 dB. eMBB streaming dominates.",
+      "message_ar": "خلية NR ماكرو ريفية NRRUR123-1 مرتفعة الحمل خلال آخر 6 ساعات: استخدام الراديو ~88%، 215 مستخدماً، متوسط سرعة 17 ميجابت/ث؛ متوسط الجيران ~48%. تحويلات للخارج 25/5 دقائق مقابل الداخل 7/5 دقائق، RSRQ -12 dB وSINR 13 dB. حركة eMBB مع البث هي السائدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a neighbor load audit to confirm imbalance and identify offload targets. Please confirm the serving cell ID and approve read access for the last 6h.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق حمل الجيران لتأكيد عدم التوازن وتحديد أهداف التفريغ. يرجى تأكيد معرف الخلية الخادمة والموافقة على وصول قراءة لآخر 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Serving cell: NRRUR123-1. Read access approved for the last 6h. Neighbors are roughly 2.6 km away.",
+      "message_ar": "الخلية الخادمة: NRRUR123-1. تم اعتماد وصول القراءة لآخر 6 ساعات. الجيران يبعدون حوالي 2.6 كم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit findings: NRRUR123-1 peaks 88–92% with ~215 users; NRRUR124-1 and NRRUR125-1 sit ~40–55% with comparable radio quality. HO out >> in indicates stickiness. I propose small load‑balancing tuning (slightly lower serving thresholds and mild neighbor bias to those two). Approve?",
+      "message_ar": "نتائج التدقيق: NRRUR123-1 تبلغ ذروتها 88–92% مع ~215 مستخدماً؛ الخلايا NRRUR124-1 وNRRUR125-1 عند ~40–55% بجودة راديو مماثلة. تفوق التحويلات للخارج على الداخل يدل على لزوجة. أقترح ضبطاً طفيفاً لتوازن الحمل (خفض بسيط للعتبات في الخلية الخادمة وتح偏 بسيط لصالح الجارين المذكورين). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed; no planned work nearby.",
+      "message_ar": "موافق على المتابعة؛ لا توجد أعمال مخططة بالقرب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: adjust handover/reselection slightly for NRRUR123-1 toward NRRUR124-1/125-1 (lower trigger margin, modestly shorter delay, small positive bias to neighbors). Change is low risk and reversible. Proceed now?",
+      "message_ar": "الخطة: ضبط طفيف لتحويل/إعادة اختيار لـ NRRUR123-1 باتجاه NRRUR124-1/125-1 (خفض هامش التحفيز، تقصير بسيط للتأخير، انحياز إيجابي بسيط لصالح الجيران). التغيير منخفض المخاطر وقابل للتراجع. هل أمضي الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead now.",
+      "message_ar": "تفضل الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed load‑balancing tuning on NRRUR123-1 toward NRRUR124-1/125-1. Expect serving PRB near 70–75% and better HO balance. I will monitor counters for 30–60 minutes and the next busy period.",
+      "message_ar": "تم تنفيذ ضبط توازن الحمل على NRRUR123-1 باتجاه NRRUR124-1/125-1. التوقع: نزول استخدام الموارد إلى 70–75% وتحسن توازن التحويلات. سأتابع المؤشرات لمدة 30–60 دقيقة وخلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check (20 min): serving users ~178, PRB ~73%; NRRUR124-1 users increased and PRB ~58%. RSRQ improved to -10 dB. Service looks steadier.",
+      "message_ar": "فحص مبكر (20 دقيقة): المستخدمون على الخلية الخادمة ~178، استخدام الموارد ~73%؛ ارتفع عدد مستخدمي NRRUR124-1 واستخدامها ~58%. تحسن RSRQ إلى -10 dB. الخدمة أكثر استقراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good initial response. I’ll keep watching user distribution, PRB occupancy, and HO symmetry for the next hour and hold parameters steady unless regressions appear.",
+      "message_ar": "استجابة أولية جيدة. سأواصل متابعة توزيع المستخدمين، إشغال الموارد، وتوازن التحويلات خلال الساعة القادمة وسأُبقي المعلمات كما هي ما لم تظهر انتكاسات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: PRB occupancy trending lower and handovers more balanced. Action taken was load balancing parameter tuning. Suggest monitoring through the next busy hour.",
+      "message_ar": "التحسن مستمر: إشغال الموارد يتجه للانخفاض والتحويلات أصبحت أكثر توازناً. الإجراء المتخذ كان ضبط معلمات توازن الحمل. أقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We will own monitoring through the next busy hour and update on PRB levels, user distribution, and handover balance. If congestion returns, we will gently increase neighbor bias; if adverse effects appear, we will roll back to prior settings.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونحدثكم بمستويات الإشغال، توزيع المستخدمين، وتوازن التحويلات. إذا عاد الازدحام سنزيد الانحياز للجيران بشكل طفيف؛ وإن ظهرت آثار سلبية فسنعود للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 12,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor load audit confirmed a hot rural NR macro cell with significantly lighter nearby cells and skewed handovers. We executed site parameter tuning for load balancing by slightly lowering serving thresholds and adding mild neighbor bias to shift traffic. Initial KPIs improved; we will monitor through the next busy hour and adjust or roll back if needed.",
+    "ar": "أكد تدقيق حمل الجيران وجود خلية NR ماكرو ريفية ساخنة مع جيران أخف بكثير وتوازن تحويلات منحرف. قمنا بضبط معلمات الموقع لتوازن الحمل عبر خفض طفيف لعتبات الخلية الخادمة وإضافة انحياز بسيط للجيران لتحويل جزء من الحركة. تحسنت المؤشرات الأولية؛ سنراقب خلال ساعة الذروة القادمة ونعدل أو نتراجع إذا لزم الأمر."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0019",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Investigate high ping-pong handovers on an urban 5G NR macro cell over the last 4h: ping-pong 22%, HO success 87%, ~40 HO/5min, PRB utilization 89%, median downlink 15 Mbps.",
+    "ar": "التحقق من ارتفاع انتقالات الذهاب‑إياب في خلية ماكرو NR حضرية خلال آخر 4 ساعات: 22%، نجاح التسليم 87%، ~40 تسليم/5 دقائق، إشغال PRB 89%، وسيط التنزيل 15 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Dense urban 5G NR macro cell shows high ping-pong during the shoulder period over the last 4h: ping-pong 22%, HO success 87%, ~40 HO/5min, p50 DL 15 Mbps, PRB 89%. Please review.",
+      "message_ar": "خلية ماكرو NR حضرية كثيفة تُظهر انتقالات ذهاب‑إياب مرتفعة خلال فترة الكتف في آخر 4 ساعات: 22%، نجاح التسليم 87%، ~40 تسليم/5 دقائق، وسيط التنزيل 15 ميجابت/ث، إشغال PRB 89%. يرجى المراجعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will initiate diagnostics by pulling last 4h counters and current handover settings. Please share the cell ID and confirm access approval.",
+      "message_ar": "سأبدأ التشخيص بسحب عدادات آخر 4 ساعات وإعدادات التسليم الحالية. يرجى تزويدي بمعرّف الخلية وتأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-31045-S1. Access approved. Traffic is mainly eMBB with streaming during this shoulder period.",
+      "message_ar": "معرّف الخلية: NR-Cell-31045-S1. الوصول مُعتمد. الحركة أساسًا eMBB مع بث فيديو خلال فترة الكتف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 4h OSS counters for NR-Cell-31045-S1. Findings: ~40 HO attempts/5min, ping-pong 22%, HO fail 8%. Radio metrics: RSRP −99 dBm, RSRQ −10 dB, SINR 13 dB. Mobility settings: A3 offset 2 dB, TTT 113 ms, hysteresis 3 dB. Proceed to HO time-series breakdown?",
+      "message_ar": "تم سحب عدادات OSS لآخر 4 ساعات للخلية NR-Cell-31045-S1. النتائج: ~40 محاولة تسليم/5 دقائق، ذهاب‑إياب 22%، فشل تسليم 8%. مقاييس الراديو: RSRP −99 dBm، RSRQ −10 dB، SINR ‏13 dB. إعدادات الحركة: إزاحة A3 بمقدار 2 dB، زمن التحفيز TTT ‏113 ms، الهسترة 3 dB. هل أمضي إلى تحليل السلسلة الزمنية للتسليمات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time-series over 4h shows oscillations peaking in the shoulder window; ~65% of returns occur within 60s, correlating with PRB >85%. Proposal: minor mobility tuning—raise A3 offset to 3 dB, increase TTT to 160 ms, and hysteresis to 4 dB to suppress premature triggers while preserving HO success. Approve change now?",
+      "message_ar": "السلسلة الزمنية للتسليم خلال 4 ساعات تُظهر تذبذبات تبلغ ذروتها في فترة الكتف؛ حوالي 65% من العودة تحدث خلال 60 ثانية، ومتزامنة مع إشغال PRB >85%. الاقتراح: ضبط طفيف لمعلمات الحركة—رفع إزاحة A3 إلى 3 dB، زيادة TTT إلى 160 ms، والهسترة إلى 4 dB للحد من التحفيز المبكر مع الحفاظ على نجاح التسليم. هل توافق على تنفيذ التعديل الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the parameter changes.",
+      "message_ar": "موافق على تنفيذ تعديلات المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-Cell-31045-S1: A3 offset 3 dB, TTT 160 ms, hysteresis 4 dB. Change committed; starting observation. Please share quick user/traffic feedback after ~10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين على NR-Cell-31045-S1: إزاحة A3 = 3 dB، TTT = 160 ms، الهسترة = 4 dB. تم اعتماد التغيير؛ نبدأ بالمراقبة. يرجى مشاركة ملاحظات سريعة عن المستخدمين/الحركة بعد ~10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 minutes: ping-pong returns per 5 min dropped from ~40 to ~28; HO success trending toward ~90%. Streaming looks stable; PRB still ~88–90%.",
+      "message_ar": "بعد 15 دقيقة: انخفضت عودة الذهاب‑إياب لكل 5 دقائق من ~40 إلى ~28؛ نجاح التسليم يتجه نحو ~90%. البث مستقر؛ إشغال PRB ما زال ~88–90%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early trend. We will keep the new settings and watch stability through the next busy hour; no further changes now. Please confirm if any coverage complaints arise from the area.",
+      "message_ar": "مؤشر مبكر جيد. سنبقي الإعدادات الجديدة ونراقب الاستقرار خلال ساعة الانشغال التالية؛ لا تغييرات إضافية الآن. يرجى تأكيد إن ظهرت أي بلاغات تغطية من المنطقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: rapid ping-pong returns trending down and HO success edging up; the mobility parameter optimization is in place. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: انخفاض في عودة الذهاب‑إياب السريعة وارتفاع طفيف في نجاح التسليم؛ تم تطبيق تحسين معلمات الحركة. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next 2–4 hours of monitoring and update you on handover stability and user experience afterward. If ping-pong rebounds or failures rise, we will roll back the last deltas and escalate to a focused mobility/neighbor review. Summary: confirmed load-linked ping-pong via counters and time-series, applied targeted handover parameter tuning, and commenced short-term monitoring.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنوافيك بتحديث حول استقرار التسليم وتجربة المستخدم بعد ذلك. إذا عاد الذهاب‑إياب للارتفاع أو زادت حالات الفشل، سنرجع عن التعديلات الأخيرة ونصعّد إلى مراجعة مركزة للحركة والجوار. الملخص: تأكدنا من ذهاب‑إياب مرتبط بالحمل عبر العدادات والسلسلة الزمنية، وطبقنا ضبطًا موجهًا لمعلمات التسليم، وبدأنا المراقبة القصيرة الأمد."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-31045-S1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-31045-S1",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset=3 dB; TTT=160 ms; hysteresis=4 dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Ping-pong handovers on the dense urban 5G NR macro cell were confirmed via counters and handover time-series showing short-dwell oscillations aligned with high load. Mitigation was applied through site parameter tuning—raising the A3 threshold, increasing time-to-trigger, and adding hysteresis to stabilize mobility. Early indicators show fewer rapid returns; continued monitoring is underway.",
+    "ar": "تم تأكيد انتقالات الذهاب‑إياب في خلية ماكرو NR حضرية كثيفة عبر العدادات والسلسلة الزمنية للتسليم، مع تذبذبات قصيرة المكوث مرتبطة بارتفاع الحمل. تم التخفيف عبر ضبط معلمات الموقع برفع عتبة A3 وزيادة زمن التحفيز وإضافة الهسترة لاستقرار الحركة. المؤشرات المبكرة تُظهر انخفاض العودات السريعة؛ والمتابعة جارية."
+  }
+}

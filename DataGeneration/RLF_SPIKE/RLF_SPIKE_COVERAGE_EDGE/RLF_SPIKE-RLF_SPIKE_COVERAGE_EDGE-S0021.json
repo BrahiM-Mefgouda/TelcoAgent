@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0021",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G macro cell shows slow data and interference/signal overlap with a recent rise in call drops over the last 6 hours.",
+    "ar": "خلية ماكرو 5G ريفية تُظهر بيانات بطيئة وتداخل/تراكب إشاراة مع زيادة حديثة في انقطاعات الاتصال خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We're seeing a spike in call drops on a rural NR macro sector over the last 6h. Users report slow data at the edge; SINR is around 4 dB, RSRP near -122 dBm. No active alarms. Mixed times, eMBB streaming impacted.",
+      "message_ar": "نرصد ارتفاعاً في انقطاعات المكالمات على قطاع ماكرو NR ريفي خلال آخر 6 ساعات. المستخدمون يبلغون عن بطء في البيانات عند الحافة؛ نسبة SINR حوالي 4 ديسيبل وRSRP قرب -122 dBm. لا توجد إنذارات نشطة. الأوقات مختلطة، وتأثرت خدمات eMBB للبث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking OSS health and counters for the affected cell over 6h, then review the call-drop trend. Please confirm the cell ID and access.",
+      "message_ar": "سأبدأ بفحص الحالة والمؤشرات عبر نظام التشغيل للشبكة خلال 6 ساعات، ثم أراجع اتجاه انقطاعات المكالمات. الرجاء تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-RURAL-SEC-045; access approved. Current load ~56 users; HO success ~79.6%.",
+      "message_ar": "معرف الخلية هو NR-RURAL-SEC-045؛ الوصول مُعتمد. الحمل الحالي حوالي 56 مستخدمًا؛ نجاح التسليم بين الخلايا ~79.6%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS health check for NR-RURAL-SEC-045 (6h). No outages; RLF counts spike during busy periods, neighbors defined, TA spread ~100 m. Patterns suggest edge mobility instability under low SINR. Next, I’ll pull the call-drop time series.",
+      "message_ar": "أجري فحص الحالة عبر النظام لـ NR-RURAL-SEC-045 (6 ساعات). لا توجد أعطال؛ ارتفاع في عدادات الانقطاع خلال الفترات المزدحمة، الجيران معرّفون، وتشتت زمن الوصول ~100 م. الأنماط تشير إلى عدم استقرار التنقل عند الحافة مع SINR منخفض. بعد ذلك سأستخرج السلسلة الزمنية لانقطاعات الاتصال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "The 6h call-drop trend shows spikes aligned with SINR dips and handover failures; PRB ~60% so load isn’t the driver. Diagnosis: late/unstable edge handovers in weak coverage. I propose targeted mobility tuning to trigger earlier and stabilize handovers.",
+      "message_ar": "اتجاه انقطاعات الاتصال خلال 6 ساعات يظهر ارتفاعات متزامنة مع انخفاضات SINR وإخفاقات التسليم؛ استخدام الموارد ~60% لذا الحمل ليس السبب. التشخيص: تسليمات متأخرة/غير مستقرة عند الحافة في تغطية ضعيفة. أقترح ضبطًا مستهدفًا لمعاملات التنقل لتفعيل التسليم مبكرًا وتثبيته."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize.",
+      "message_ar": "موافَق على التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying mobility edge tuning on NR-RURAL-SEC-045: slightly lower handover threshold, shorter trigger time, and a minor hysteresis increase to reduce ping‑pong. Change committed; monitoring counters for the next 15 minutes with rollback ready if needed.",
+      "message_ar": "أقوم بتطبيق ضبط لحافة التنقل على NR-RURAL-SEC-045: خفض طفيف لعتبة التسليم، تقصير وقت التفعيل، وزيادة طفيفة للهسترة لتقليل التذبذب. تم اعتماد التغيير؛ سأراقب العدادات خلال 15 دقيقة قادمة مع جاهزية للتراجع إذا لزم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No planned activities on this site; okay to proceed now.",
+      "message_ar": "لا توجد أعمال مخططة على هذا الموقع؛ يمكن المتابعة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial post-change snapshot: call drops are trending down, handover success improving, and median throughput is up slightly. Please confirm if you observe the same on your side.",
+      "message_ar": "اللقطة الأولية بعد التغيير: انقطاعات الاتصال تتناقص، ونسبة نجاح التسليم تتحسن، ومتوسط الإنتاجية ارتفع قليلاً. يرجى التأكيد إن كانت الملاحظات مماثلة لديكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed improvement: drop events decreasing and handover failures trending down. The action was mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: أحداث الانقطاع في انخفاض وإخفاقات التسليم تتراجع. الإجراء كان تحسين معاملات التنقل. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We’ll own monitoring through the next busy hour and report on call drops, handover success, and edge SINR. If degradation returns, we will roll back the change and escalate for field checks on coverage/antenna alignment.",
+      "message_ar": "تم الفهم. سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ عن الانقطاعات ونجاح التسليم وSINR عند الحافة. إذا عاد التدهور، سنرجع التغيير ونصعّد لإجراء فحوصات ميدانية للتغطية/محاذاة الهوائي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-RURAL-SEC-045",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-RURAL-SEC-045",
+        "RLF",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_edge_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "RLF spikes on the rural 5G macro sector were diagnosed by checking OSS health and analyzing the 6-hour call-drop time series, which correlated with low SINR and late/unstable edge handovers. The issue was mitigated through site parameter tuning to favor earlier and more stable handovers. Initial results show fewer drops and improved handover success; continued monitoring will validate stability through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع انقطاعات الاتصال في قطاع ماكرو 5G الريفي عبر فحص الحالة في النظام وتحليل السلسلة الزمنية لانقطاعات الـ6 ساعات، والتي ارتبطت بـ SINR منخفض وتسليمات متأخرة/غير مستقرة عند الحافة. تم التخفيف عبر ضبط معاملات الموقع لتمكين تسليمات أبكر وأكثر استقرارًا. تُظهر النتائج الأولية انخفاض الانقطاعات وتحسن نجاح التسليم؛ ستؤكد المراقبة المستمرة الاستقرار خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0002",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban NR macro cell is heavily loaded: 88% resource use with 283 users while neighbors average 49% and imbalance index is 0.32 during shoulder hours; assess load balancing within the 4h window.",
+    "ar": "موقع ماكرو NR حضري يعاني حملاً مرتفعاً: استخدام الموارد 88% مع 283 مستخدماً بينما متوسط الجيران 49% ومؤشر عدم التوازن 0.32 خلال فترة الكتف؛ نرجو تقييم موازنة التحميل ضمن نافذة 4 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell feels hot during shoulder hours with heavy eMBB streaming. PRB ~88%, 283 users; neighbors ~49% average; imbalance index ~0.32. No alarms. We have a 4h window—can you assess?",
+      "message_ar": "الموقع الماكرو NR الحضري يبدو ساخناً خلال فترة الكتف مع بث eMBB كثيف. استخدام الموارد ~88%، 283 مستخدماً؛ متوسط الجيران ~49%؛ مؤشر عدم التوازن ~0.32. لا توجد إنذارات. لدينا نافذة 4 ساعات—هل يمكنك التقييم؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a neighbor relation and load-balance audit over the last 4h, then apply targeted mobility bias and load-based handover tuning if imbalance is confirmed. Please provide the serving cell ID and approval to proceed.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجوار وموازنة التحميل لآخر 4 ساعات، ثم أطبق ضبط الانحياز وحساسية التسليم المبني على الحمل إذا تأكد عدم التوازن. يرجى تزويدي بمعرّف الخلية وخاصية الموافقة للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRCell-41023 (macro). Approval granted for checks and non-service-impacting optimization within the window.",
+      "message_ar": "معرّف الخلية: NRCell-41023 (ماكرو). الموافقة ممنوحة لإجراء الفحوصات وتحسينات غير مؤثرة على الخدمة ضمن النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor audit on NRCell-41023 versus active neighbors, focusing on utilization skew, HO shares, offsets/bias, and load-based thresholds. I will target an 8–12% offload if feasible and report findings shortly.",
+      "message_ar": "أجري تدقيق الجيران على NRCell-41023 مقابل الجيران النشطين، مع التركيز على انحراف الاستهلاك، حصص التسليم بين الخلايا، الانحيازات، وعَتبات موازنة التحميل. سأستهدف تفريغاً بنسبة 8–12% إن أمكن وسأشارك النتائج قريباً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "FYI: HO out/in per 5 min are ~24/27; RSRQ is -7 dB; SINR is 14 dB.",
+      "message_ar": "للعلم: معدلات التسليم للخارج/للداخل لكل 5 دقائق حوالي 24/27؛ قيمة RSRQ تساوي -7 dB؛ وSINR يساوي 14 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: neighbors NRCell-41021 and NRCell-41019 are at 45–52% PRB; serving cell has a +2 dB bias relative to them; load-based trigger is high and admission is effectively open until >95%. Proposal: reduce bias by 2 dB toward those neighbors, slightly lower the load trigger, and set a soft admission cap at 95% to encourage offload. Confirm to implement.",
+      "message_ar": "النتائج: الجاران NRCell-41021 وNRCell-41019 عند 45–52% من استخدام الموارد؛ لدى الخلية الخادمة انحياز +2 dB مقارنةً بهما؛ عتبة التحميل مرتفعة والقبول شبه مفتوح حتى >95%. المقترح: خفض الانحياز بمقدار 2 dB باتجاه هذين الجارين، خفض طفيف لعتبة التحميل، ووضع حد قبول مرن عند 95% لتعزيز التفريغ. يرجى التأكيد للتنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—proceed with the parameter tuning within the change window.",
+      "message_ar": "تم التأكيد—تابع ضبط المعلمات ضمن نافذة التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization on NRCell-41023: applying -2 dB neighbor-specific bias toward NRCell-41021/41019, easing the load-based trigger, and enabling a soft admission cap at 95%. Changes are committed; starting live checks every 5 minutes.",
+      "message_ar": "تنفيذ التحسين على NRCell-41023: تطبيق انحياز -2 dB باتجاه NRCell-41021/41019، تيسير عتبة موازنة التحميل، وتفعيل حد قبول مرن عند 95%. تم اعتماد التغييرات؛ أبدأ المتابعة الحية كل 5 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes: serving PRB ~78%, neighbors ~55–58%. User distribution looks more even; radio quality stable; no alarms.",
+      "message_ar": "بعد 10 دقائق: استخدام الخلية الخادمة ~78% والجيران ~55–58%. توزيع المستخدمين أكثر توازناً؛ جودة الراديو مستقرة؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. Target is 70–80% on the serving cell; I’ll watch HO shares, utilization skew, and mid-percentile throughput. No further changes now unless utilization drifts.",
+      "message_ar": "استجابة أولية جيدة. الهدف 70–80% على الخلية الخادمة؛ سأراقب حصص التسليم، انحراف الاستهلاك، ومتوسطات السرعة. لا تغييرات إضافية الآن ما لم يحدث انحراف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: utilization holding ~76–79% with healthier offload to neighbors. Action taken: neighbor-based load balancing parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: الاستهلاك ثابت عند ~76–79% مع تفريغ أفضل نحو الجيران. الإجراء المتخذ: ضبط معلمات موازنة التحميل عبر الجيران. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update on utilization, HO shares, and user distribution. If congestion resurges, we will roll back the bias by 1–2 dB; if offload is insufficient, we will increase the bias by 1 dB and reassess after the window.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة القادمة وسنشارك تحديثاً عن الاستهلاك، حصص التسليم، وتوزيع المستخدمين. إذا عاد الازدحام سنرجع الانحياز بمقدار 1–2 dB؛ وإذا كان التفريغ غير كافٍ سنزيد الانحياز بمقدار 1 dB ونعيد التقييم بعد انتهاء النافذة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on urban NR macro NRCell-41023: serving PRB at 88% with underutilized neighbors averaging ~49%. Performed a neighbor audit and then applied site parameter tuning (bias and load-based handover thresholds) to shift traffic toward NRCell-41021/41019. Utilization reduced to ~78% with stable radio quality; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص عدم توازن في التحميل على خلية ماكرو NR حضرية NRCell-41023: استخدام الخلية الخادمة 88% مع جيران منخفضي الاستهلاك بمتوسط ~49%. أجرينا تدقيق الجيران ثم طبّقنا ضبط معلمات الموقع (الانحياز وعتبات التسليم المبني على الحمل) لتحويل الحركة نحو NRCell-41021/41019. انخفض الاستهلاك إلى ~78% مع ثبات جودة الراديو؛ ستستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

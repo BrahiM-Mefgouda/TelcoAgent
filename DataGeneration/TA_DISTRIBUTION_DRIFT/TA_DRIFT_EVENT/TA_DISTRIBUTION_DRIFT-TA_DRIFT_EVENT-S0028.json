@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0028",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "In the stadium over the last 3h on the NR micro cell, timing advance distribution is drifting with 25% distant serving, weak signal (~-104 dBm), slow data (p50 ~8 Mbps), and higher handover failures (~16%).",
+    "ar": "خلال آخر 3 ساعات في الملعب على خلية NR مايكرو، يوجد انحراف في توزيع تقدم التوقيت مع 25% مستخدمين مخدومين من بعيد وإشارة ضعيفة (~-104 dBm) وبيانات بطيئة (p50 ~8 Mbps) وارتفاع في فشل عمليات التسليم (~16%)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell NR-STAD-MICRO-01 is showing TA drift during the live event (last 3h). Users report slow data and some streaming buffering. Please investigate.",
+      "message_ar": "خلية NR مايكرو في الملعب NR-STAD-MICRO-01 تُظهر انحرافاً في TA أثناء الحدث المباشر (آخر 3 ساعات). المستخدمون يبلغون عن بطء في البيانات وبعض التقطيع في البث. يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will baseline mobility/coverage by pulling OSS counters for the last 3h on NR-STAD-MICRO-01. Please confirm the target cell and allow read-only access.",
+      "message_ar": "تم. سأقوم بعمل قياس مرجعي للتنقل/التغطية عبر سحب مؤشرات OSS لآخر 3 ساعات على NR-STAD-MICRO-01. يرجى تأكيد الخلية المستهدفة والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed: NR-STAD-MICRO-01. Read-only access approved.",
+      "message_ar": "تم التأكيد: NR-STAD-MICRO-01. الموافقة على وصول القراءة فقط متاحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS baseline shows wide TA spread (p50 228, p95 468, std 72), PRB ~85%, RSRP ~-104 dBm, HO failures ~16%, and ~25% distant serving. Next, I will plot TA over the last 3h to pinpoint peaks around crowd surges; approve?",
+      "message_ar": "القياس المرجعي من OSS يُظهر تشتتاً واسعاً في TA (الوسيط 228، p95=468، الانحراف المعياري 72)، واستغلال PRB ~85%، وRSRP ~-104 dBm، وفشل تسليم ~16%، ونسبة مستخدمين مخدومين من بعيد ~25%. التالي: سأرسم سلسلة زمنية لـ TA لآخر 3 ساعات لتحديد الذروات مع تحركات الجمهور؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Note there was significant movement at halftime across the concourses.",
+      "message_ar": "موافق. للتنويه: حدثت حركة كبيرة في فترة الاستراحة عبر الممرات."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA timeseries confirms drift index ~0.48 with spikes around halftime; DL median throughput ~8 Mbps aligns with slow data reports. This suggests overshoot/beam spread and suboptimal mobility bias causing users to camp on non-dominant cells. I propose targeted parameter optimization on the micro (minor down-tilt, favor local cell, tighten HO triggers). Proceed now?",
+      "message_ar": "السلسلة الزمنية لـ TA تؤكد مؤشر انحراف ~0.48 مع ذروات قرب فترة الاستراحة؛ وسرعة تنزيل وسيطة ~8 Mbps تتماشى مع تقارير البطء. هذا يشير إلى تمدد/تجاوز تغطية واتجاه حزم غير مثالي مع تحيز تنقل غير مناسب يجعل المستخدمين يتمسكون بخلايا غير مهيمنة. أقترح تحسيناً مستهدفاً للمعلمات على الخلية المايكرو (ميل بسيط للأسفل، تفضيل الخلية المحلية، تشديد محفزات التسليم بين الخلايا). هل نتابع الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the change; keep impact minimal during the event.",
+      "message_ar": "تابع التغيير؛ حافظ على أقل تأثير ممكن أثناء الحدث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: small beam down-tilt and mobility thresholds/offsets adjusted to reinforce local dominance. Change committed successfully; starting live monitoring for TA distribution, distant-serving share, and HO outcomes.",
+      "message_ar": "تم تطبيق التحسين: ميل بسيط للحزمة للأسفل وتعديل عتبات/انحيازات التنقل لتعزيز الهيمنة المحلية. تم اعتماد التغيير بنجاح؛ أبدأ المراقبة الحية لتوزيع TA ونسبة الخدمة البعيدة ونتائج التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 15 minutes look better: median TA down ~18%, distant-serving events lower, HO failures trending down, and median throughput at ~11–12 Mbps.",
+      "message_ar": "أول 15 دقيقة تبدو أفضل: انخفاض وسيط TA بنحو ~18%، وانخفاض أحداث الخدمة البعيدة، وتوجه انخفاض في فشل التسليم، وارتفاع السرعة الوسيطة إلى ~11–12 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will keep watching mobility KPIs and capacity (PRB) as the stands refill; please share any spot observations from the lower tiers.",
+      "message_ar": "تحسن جيد. سأواصل متابعة مؤشرات التنقل والسعة (PRB) مع امتلاء المدرجات؛ يرجى مشاركة أي ملاحظات ميدانية من الدرجات السفلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures are trending down and slow data complaints have eased after the parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة التحسن: حالات فشل التسليم تتجه للانخفاض وشكاوى بطء البيانات انخفضت بعد تحسين المعلمات. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and update with TA distribution, distant-serving share, and user experience. If any degradation appears, we will roll back the tuning and escalate for on-site RF checks if needed.",
+      "message_ar": "مفهوم. سنقوم بمتابعة المراقبة في ساعة الذروة القادمة وتحديثكم بتوزيع TA ونسبة الخدمة البعيدة وتجربة المستخدم. إذا ظهر أي تدهور، سنقوم بالتراجع عن الضبط والتصعيد لفحصات RF ميدانية عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the cell showed timing advance drift with high distant serving, weak signal, high load, and elevated handover failures. We baselined OSS and reviewed TA time series over 3 hours, then executed site parameter tuning (minor beam down-tilt and mobility offsets) to reinforce local dominance and reduce overshoot. Early results indicate lower TA median, fewer handover failures, and improved median throughput; continued monitoring is in place for the next busy hour.",
+    "ar": "خلال الحدث في الملعب، أظهرت الخلية انحرافاً في تقدم التوقيت مع ارتفاع الخدمة من بعيد وضعف الإشارة وارتفاع الحمل وزيادة في فشل التسليم. قمنا بعمل قياس مرجعي عبر OSS ومراجعة السلسلة الزمنية لـ TA خلال 3 ساعات، ثم نفذنا ضبطاً لمعلمات الموقع (ميل طفيف للحزمة وضبط انحيازات التنقل) لتعزيز الهيمنة المحلية وتقليل التجاوز. تشير النتائج الأولية إلى انخفاض وسيط TA، وتراجع في فشل التسليم، وتحسن في السرعة الوسيطة؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

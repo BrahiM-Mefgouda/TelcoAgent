@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0023",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Over the last 6h on a suburban NR macro cell, TA distribution drift and distant serving increased (drift index 0.42, p95 484 m, distant associations 18%) with weak signal (-106 dBm) and interference/signal overlap (SINR 2 dB) impacting HO success (~83%) while median throughput is 17 Mbps—please investigate.",
+    "ar": "خلال آخر 6 ساعات في خلية NR ماكرو بضواحي المدينة، ازداد انجراف توزيع تقدّم التوقيت وخدمة المستخدمين من بعيد (مؤشر 0.42، p95=484 م، ارتباطات بعيدة 18%) مع إشارة ضعيفة (-106 dBm) وتداخل/تراكب إشارات (SINR 2 dB) يؤثر على نجاح التسليم (~83%) بينما المعدل الوسطي 17 Mbps—يرجى التحقيق."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows TA drift and distant serving: TA p95 484 m, std 96; SINR ~2 dB indicates interference/signal overlap. HO success ~83% and median throughput ~17 Mbps across mixed hours. Please investigate the last 6h.",
+      "message_ar": "خلية NR ماكرو في الضواحي تُظهر انجرافاً في توزيع تقدّم التوقيت وخدمة بعيدة: p95=484 م والانحراف المعياري 96؛ وSINR≈2 dB يدل على تداخل/تراكب إشارات. نجاح التسليم ~83% والمعدل الوسطي ~17 Mbps عبر أوقات مختلطة. الرجاء التحقيق خلال آخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull last-6h network counters for the serving cell to validate the drift and mobility symptoms. Please confirm access and share the cell identifier.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات الشبكة لآخر 6 ساعات للخلية للتحقق من الانجراف وأعراض التنقل. يرجى تأكيد صلاحية الوصول وتزويدي بمعرّف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; the cell is NR-SUB-TA0023.",
+      "message_ar": "تمت الموافقة على الوصول؛ المعرّف هو NR-SUB-TA0023."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters retrieved for NR-SUB-TA0023 (6h): distant-serving users ~18%, HO failures 8%, median RSRP -106 dBm, SINR 2 dB; load moderate (PRB ~52%, 333 users). Next, I will analyze the TA distribution over time to confirm drift patterns.",
+      "message_ar": "تم جلب المؤشرات لـ NR-SUB-TA0023 (6 ساعات): مستخدمون مخدومون من بعيد ~18%، فشل التسليم 8%، RSRP وسيطي -106 dBm، وSINR 2 dB؛ الحمولة متوسطة (PRB ~52%، 333 مستخدماً). الخطوة التالية: تحليل السلسلة الزمنية لتوزيع تقدّم التوقيت لتأكيد نمط الانجراف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time-series (6h) shows p50 ~311 m with spikes and p95 480–500 m; histogram skews to larger bins during mixed hours. Correlation with weak edge signal suggests beam/HO biasing causing mis-association. I propose a low-risk optimization: slight beam steering down-tilt, reduced edge HO bias, and tighter TA compensation. Approve?",
+      "message_ar": "السلاسل الزمنية لتقدّم التوقيت (6 ساعات) تُظهر p50≈311 م مع ارتفاعات وp95 بين 480–500 م؛ التوزيع منحاز لمسافات أبعد خلال الأوقات المختلطة. الارتباط بضعف الحافة يوحي بانحياز الشعاع/التسليم مسبباً سوء ارتباط. أقترح تحسيناً منخفض المخاطر: إمالة بسيطة لتوجيه الشعاع للأسفل، تقليل انحياز التسليم عند الحافة، وتشديد تعويض تقدّم التوقيت. موافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied controlled parameter tuning on NR-SUB-TA0023: minor beam steering down-tilt, slight reduction of edge HO bias, and tighter TA compensation. No service interruption; fully reversible. I will observe counters for the next 15–30 minutes.",
+      "message_ar": "تم تطبيق ضبط معلمات مضبوط على NR-SUB-TA0023: إمالة رقمية بسيطة للشعاع للأسفل، تقليل طفيف لانحياز التسليم عند الحافة، وتشديد تعويض تقدّم التوقيت. دون انقطاع وبإمكانية رجوع كاملة. سأراقب المؤشرات خلال 15–30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: distant-serving ratio is dropping and HO success is trending up; edge SINR improved by about 1 dB.",
+      "message_ar": "ملاحظة أولية: نسبة الارتباطات البعيدة تتراجع ونجاح التسليم يتحسن؛ تحسن SINR عند الحافة بنحو 1 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep spot-checking TA p50/p95 and HO outcomes while eMBB streaming traffic continues. Please share any field notes if anomalies appear.",
+      "message_ar": "جيد. سأواصل التحقق الموضعي لـ p50/p95 لتقدّم التوقيت ونتائج التسليم أثناء استمرار حركة بث eMBB. يرجى مشاركة أي ملاحظات ميدانية إذا ظهرت شذوذات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing improvement: TA distribution is narrowing and distant-serving users decreased. Site parameter tuning was applied. Let’s monitor over the next busy hour.",
+      "message_ar": "نرى تحسناً: توزيع تقدّم التوقيت يتقلص وانخفضت الارتباطات البعيدة. تم تنفيذ ضبط معلمات الموقع. أقترح المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will monitor through the next busy hour and report TA distribution, handover success, and interference trend. If drift returns or KPIs regress, we will roll back the tuning and escalate to RF for on-site alignment or neighbor plan review.",
+      "message_ar": "مفهوم—سنتابع خلال ساعة الذروة التالية ونوافيك بتحديث حول توزيع تقدّم التوقيت، نجاح التسليم، واتجاه التداخل. إذا عاد الانجراف أو تراجعت المؤشرات، سنرجع الضبط السابق ونصعّد إلى فريق الترددات للمعايرة الميدانية أو مراجعة مخطط الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-TA0023",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-TA0023",
+        "TA",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TA/HO/beam micro-tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated timing advance drift on the suburban NR macro by reviewing last-6h counters and TA time series, which showed elevated distant-serving users and low edge SINR. Executed site parameter tuning—minor beam steering adjustment, reduced edge handover bias, and tighter TA compensation—to mitigate mis-association. We will monitor TA distribution and handover success over the next busy hour.",
+    "ar": "تم تأكيد انجراف تقدّم التوقيت على خلية NR في الضواحي عبر مؤشرات آخر 6 ساعات وتحليل السلاسل الزمنية، والتي أظهرت ارتفاع الارتباطات البعيدة وضعف SINR عند الحافة. نُفّذ ضبط لمعلمات الموقع—تعديل طفيف لتوجيه الشعاع، تقليل انحياز التسليم عند الحافة، وتشديد تعويض التقدّم—للحد من سوء الارتباط. سنراقب توزيع التقدّم ونجاح التسليم خلال ساعة الذروة التالية."
+  }
+}

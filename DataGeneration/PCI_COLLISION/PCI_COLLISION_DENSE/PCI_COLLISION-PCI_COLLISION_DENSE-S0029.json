@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0029",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G NR macro cell over the last 6h shows an active congestion alarm with slow data and interference / signal overlap, plus unstable handovers under mixed-time eMBB streaming load.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات تُظهر إنذار ازدحام نشطاً مع بيانات بطيئة وتداخل/تراكب إشارة، إضافة إلى عمليات تسليم غير مستقرة تحت حمل بث eMBB في أوقات مختلطة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro, last 6h: congestion alarm active; users report slow data and unstable mobility during mixed hours with heavy eMBB streaming. KPIs show SINR ≈ 2 dB, RSRQ ≈ -17 dB, HO success ~72%, ping‑pong high; please investigate.",
+      "message_ar": "بيئة حضرية NR ماكرو خلال آخر 6 ساعات: إنذار ازدحام نشط؛ المستخدمون يبلغون عن بيانات بطيئة وعدم استقرار في التنقل خلال أوقات مختلطة مع بث eMBB كثيف. المؤشرات تُظهر SINR ≈ 2 dB و RSRQ ≈ ‎-17 dB ونسبة نجاح التسليم ~72% مع معدل ارتداد مرتفع؛ الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Symptoms point to interference / signal overlap and a likely PCI collision. I will start with a neighbor and PCI consistency audit across first‑tier neighbors for this cell over the 6h window; approve read‑only access?",
+      "message_ar": "الأعراض تشير إلى تداخل/تراكب إشارة واحتمال قوي لتصادم PCI. سأبدأ بتدقيق الاتصالات المجاورة واتساق PCI عبر الجوار من المستوى الأول لهذه الخلية ضمن نافذة 6 ساعات؛ هل توافق على وصول قراءة فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read-only checks on NR macro sector; cell ID: NR-Cell-153-Macro-01.",
+      "message_ar": "موافَق على فحوصات القراءة فقط لقطاع NR ماكرو؛ معرّف الخلية: NR-Cell-153-Macro-01."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit result: duplicate PCI observed—our sector uses 153 and an adjacent sector advertises the same PCI over ~60% overlapping footprint; another neighbor with PCI 320 lacks a prioritized relation, driving ping‑pong. I propose a PCI retune to a free value and a quick neighbor relation refresh; proceed?",
+      "message_ar": "نتيجة التدقيق: تم رصد تكرار PCI — قطاعنا يستخدم 153 وقطاع مجاور يعلن نفس PCI مع تداخل يقارب 60%؛ كما أن جاراً آخر بـ PCI 320 يفتقر إلى علاقة مُفضّلة مما يزيد الارتداد. أقترح إعادة ضبط PCI إلى قيمة خالية وتحديثاً سريعاً لعلاقات الجوار؛ هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the change now.",
+      "message_ar": "موافَق على تنفيذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: PCI retuned to a non‑colliding value and neighbor relations refreshed with minimal impact; mobility thresholds aligned. No new alarms raised. Shall I create a tracking ticket and continue monitoring?",
+      "message_ar": "تم التنفيذ: إعادة ضبط PCI إلى قيمة غير متصادمة وتحديث علاقات الجوار بتأثير طفيف؛ تمت مواءمة عتبات الحركة. لم تظهر إنذارات جديدة. هل أنشئ تذكرة تتبّع وأتابع المراقبة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create a tracking ticket.",
+      "message_ar": "موافَق على إنشاء تذكرة تتبّع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PCI-04321 created. Early signs are positive: SINR up to ~4 dB, RSRQ improving toward −14 dB, handover failures easing, ping‑pong trending down, and median throughput moving toward 6–7 Mbps. I will keep watching for stability as load varies.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-04321. المؤشرات الأولية إيجابية: ارتفاع SINR إلى نحو 4 dB وتحسّن RSRQ إلى قرابة −14 dB وتراجع إخفاقات التسليم وانخفاض الارتداد، وارتفاع المتوسط الوسيط للسرعة نحو 6–7 Mbps. سأستمر بالمراقبة مع تغيّر الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field checks show fewer rapid re‑selections and smoother streaming; no user complaints so far.",
+      "message_ar": "الفحوصات الميدانية تُظهر انخفاضاً في عمليات إعادة الاختيار السريعة وبثاً أكثر سلاسة؛ لا شكاوى من المستخدمين حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good to hear. I will observe performance through the next busy period and validate mobility stability; if any drift appears, we can fine‑tune neighbor priorities without service impact.",
+      "message_ar": "سعيد بسماع ذلك. سأراقب الأداء خلال فترة الذروة القادمة وأتحقق من استقرار التنقل؛ وإذا ظهر أي انحراف يمكننا ضبط أولوية الجيران دون تأثير على الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement sustained: ping‑pong rate trending down and slow data easing. Action taken was PCI retune with neighbor parameter optimization; let’s monitor through the next busy hour and the next 2–4 hours overall. Please keep DU-PCI-04321 updated.",
+      "message_ar": "التحسّن مستمر: انخفاض اتجاه معدل الارتداد وتراجع بطء البيانات. الإجراء الذي تم هو إعادة ضبط PCI مع تحسين معلمات الجوار؛ لنتابع المراقبة خلال ساعة الذروة القادمة وخلال الساعتين إلى الأربع ساعات المقبلة إجمالاً. يرجى تحديث DU-PCI-04321."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed: PCI retune and neighbor refresh are in place; we will own the monitoring window and update DU-PCI-04321 after it. If degradation returns, we will escalate to regional RF for on‑site checks and, if needed, roll back to the prior PCI.",
+      "message_ar": "تم التأكيد: تمت إعادة ضبط PCI وتحديث الجوار؛ سنتولى نافذة المراقبة وسنحدّث DU-PCI-04321 بعد انتهائها. إذا ظهرت تدهورات سنصعّد إلى فريق الترددات الإقليمي لفحوصات ميدانية، وعند الحاجة سنرجع إلى قيمة PCI السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a PCI collision with a first‑tier neighbor, driving interference and unstable mobility. We mitigated it via site parameter tuning: PCI retune to a non‑colliding value and a neighbor relation refresh, and created a tracking ticket. Early KPIs improved (higher SINR/RSRQ, reduced ping‑pong, better median throughput) and we will monitor through the next busy hour.",
+    "ar": "أكد تدقيق الجيران وجود تصادم PCI مع جار من المستوى الأول ما تسبب في تداخل وعدم استقرار في التنقل. تمت المعالجة عبر ضبط معلمات الموقع: إعادة ضبط PCI إلى قيمة غير متصادمة وتحديث علاقات الجوار، مع إنشاء تذكرة تتبّع. تحسنت المؤشرات الأولية (ارتفاع SINR/RSRQ، انخفاض الارتداد، تحسن السرعة الوسيطة) وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0016",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural 5G macro cell is heavily loaded over the last 6 hours (PRB ~93%, 220 users) with neighbors around 54% and median throughput at 8 Mbps indicating slow data.",
+    "ar": "موقع ماكرو 5G ريفي يعاني من حمل عالٍ خلال آخر 6 ساعات (استخدام الموارد ~93% مع 220 مستخدماً)، بينما الجيران عند ~54% ومتوسط سرعة 8 ميجابت/ث يشير إلى بطء في البيانات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell has been hot for the last 6 hours: PRB ~93%, 220 users (mostly FWA). Neighbors average ~54% utilization; median DL is 8 Mbps (slow data). Please investigate.",
+      "message_ar": "خلية ماكرو NR ريفية كانت ساخنة خلال آخر 6 ساعات: استخدام الموارد ~93% مع 220 مستخدماً (معظمهم FWA). متوسط استخدام الجيران ~54%؛ ومعدل التنزيل الوسيط 8 ميجابت/ث (بطء في البيانات). الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first review neighbor relations and load distribution for this cell, then apply targeted load-balancing offsets if justified. Please share the cell ID and confirm use of the last 6 hours.",
+      "message_ar": "مفهوم. سأقوم أولاً بمراجعة علاقات الجيران وتوزيع الحمل لهذه الخلية، ثم أطبق انحيازات موجهة لتوازن الحمل إذا لزم الأمر. يرجى مشاركة معرف الخلية وتأكيد استخدام نافذة الـ6 ساعات الماضية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-78321. You have approval to use the last 6 hours.",
+      "message_ar": "معرف الخلية: NR-Cell-78321. لديك الموافقة لاستخدام آخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Review complete: two NR macro neighbors ~4 km away show PRB 45–60%. Current mobility biases keep users on the serving cell; HO out is ~32/5min vs HO in ~5/5min, imbalance index ~0.38. This supports offloading. Approve applying conservative load-balancing tuning to favor those neighbors under congestion?",
+      "message_ar": "اكتملت المراجعة: هناك جاران ماكرو NR يبعدان ~4 كم ويظهران استخدام موارد 45–60%. انحيازات التنقل الحالية تُبقي المستخدمين على الخلية الخادمة؛ معدّل التسليم للخارج ~32/5 دقائق مقابل الداخل ~5/5 دقائق، ومؤشر عدم الاتزان ~0.38. هذا يدعم التفريغ نحو الجيران. هل توافق على تطبيق ضبط محافظ لتوازن الحمل لصالح هؤلاء الجيران عند الازدحام؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with conservative load-balancing tuning.",
+      "message_ar": "موافق على المضي قدماً بضبط محافظ لتوازن الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied small bias toward the two underutilized neighbors, enabling earlier handover when PRB is high and slightly tightening admission on the serving cell. Changes are live; expect 10–20% offload. I will watch early KPIs over the next 10–15 minutes.",
+      "message_ar": "تم تطبيق انحياز بسيط باتجاه الجارين الأقل استخداماً، مع تمكين التسليم المبكر عند ارتفاع استخدام الموارد وتشديد طفيف للقبول على الخلية الخادمة. التغييرات فعّالة الآن؛ نتوقع تفريغاً بنسبة 10–20%. سأراقب المؤشرات الأولية خلال 10–15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: active users dropped from ~220 to ~185, PRB trending ~78–80%; handover in/out more balanced, median throughput up to ~12 Mbps.",
+      "message_ar": "ملاحظة أولية: انخفض عدد المستخدمين النشطين من ~220 إلى ~185، واستخدام الموارد يتجه إلى ~78–80%؛ التسليم للداخل/للخارج أصبح أكثر توازناً، والسرعة الوسيطة ارتفعت إلى ~12 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good response. I will keep an eye on this cell and its two neighbors to ensure none becomes hot, considering mixed-time FWA peaks. If I see drift, I will fine-tune the bias within safe limits.",
+      "message_ar": "استجابة جيدة. سأواصل متابعة هذه الخلية والجارتين للتأكد من أن أياً منهما لا يصبح ساخناً، مع أخذ ذروات FWA المتغيرة بعين الاعتبار. إذا لاحظت انحرافاً، سأدقق الانحياز ضمن الحدود الآمنة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No planned site work today; backhaul looks stable.",
+      "message_ar": "لا أعمال موقع مخطط لها اليوم؛ الربط الخلفي مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will continue short-term checks for PRB stability and user distribution across the three cells and watch that median throughput remains above 10 Mbps.",
+      "message_ar": "تم. سأواصل الفحوصات القصيرة المدى لاستقرار استخدام الموارد وتوزيع المستخدمين عبر الخلايا الثلاث وأراقب بقاء السرعة الوسيطة فوق 10 ميجابت/ث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Sustained improvement observed: PRB is holding around 77% and slow data complaints have eased. The action was load-balancing parameter tuning after auditing neighbors. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن مستمر: استخدام الموارد مستقر حول 77% وشكاوى بطء البيانات انخفضت. الإجراء كان ضبط معلمات توازن الحمل بعد مراجعة الجيران. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If congestion returns, we will roll back the bias and escalate to capacity planning; if neighbors heat up, we will rebalance the offsets.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا عاد الازدحام فسنقوم بالتراجع عن الانحياز والتصعيد إلى تخطيط السعة؛ وإذا سخنت الخلايا المجاورة فسنُعيد موازنة الانحياز."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Load imbalance was confirmed on a rural 5G NR macro cell with very high PRB utilization and many FWA users while nearby cells had spare capacity. After auditing neighbor relations, we tuned site parameters to bias handovers toward underutilized neighbors, reducing load and improving median throughput. We will monitor through the next busy hour and adjust or roll back if needed.",
+    "ar": "تم تأكيد عدم توازن الحمل على خلية ماكرو 5G NR ريفية مع استخدام موارد عالٍ وعدد كبير من مستخدمي FWA بينما كانت الخلايا المجاورة تملك سعة احتياطية. بعد مراجعة الجيران، قمنا بضبط معلمات الموقع لتحفيز التسليم نحو الجيران الأقل استخداماً، مما خفّض الحمل وحسّن السرعة الوسيطة. سنراقب خلال ساعة الذروة القادمة ونقوم بالتعديل أو التراجع عند الحاجة."
+  }
+}

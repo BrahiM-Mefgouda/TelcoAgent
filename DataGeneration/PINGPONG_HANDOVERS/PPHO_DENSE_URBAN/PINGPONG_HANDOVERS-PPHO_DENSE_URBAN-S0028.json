@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0028",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Urban NR macro sector shows ping-pong handovers at 26% over the last 4h with high load (PRB 86%) and HO success 86.6% during shoulder hours.",
+    "ar": "قطاع ماكرو NR حضري يسجل تأرجح تسليم بنسبة 26% خلال آخر 4 ساعات مع حمل مرتفع (PRB 86%) ونجاح تسليم 86.6% خلال فترة انتقالية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector shows ping-pong handovers ~26% over the last 4h; HO success 86.6%, attempts ~79/5 min, failures 14%. Load high (PRB 86%), 334 users, RSRP ~-96 dBm, RSRQ -10 dB, SINR 11 dB, median DL ~20 Mbps. Shoulder period with some streaming, no alarms.",
+      "message_ar": "قطاع ماكرو NR حضري يظهر عمليات تسليم متأرجحة (~26%) خلال آخر 4 ساعات؛ نجاح التسليم 86.6%، المحاولات ~79/5 دقائق، الإخفاقات 14%. الحمل مرتفع (PRB 86%)، 334 مستخدمًا، RSRP ≈‑96 dBm، RSRQ ‑10 dB، SINR 11 dB، متوسط التحميل ~20 Mbps. فترة انتقالية مع بث eMBB، دون إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: 1) pull current mobility/load counters for the last 4h, 2) analyze handover time series by neighbor pairs, 3) if confirmed, tune mobility thresholds to reduce ping-pong. Approve access to query the sector now?",
+      "message_ar": "الخطة: 1) سحب عدادات الحركة/الحمل لآخر 4 ساعات، 2) تحليل سلسلة زمنية لعمليات التسليم حسب الجيران، 3) عند التأكد، ضبط عتبات الحركة لتقليل التأرجح. هل توافق على الوصول للاستعلام عن القطاع الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Target: NR_MACRO_URBAN_SECTOR_1.",
+      "message_ar": "موافق. الهدف: NR_MACRO_URBAN_SECTOR_1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected last-4h counters for NR_MACRO_URBAN_SECTOR_1: ping-pong 26% concentrated on N2/N3; HO success 86.6%, failures 14%; PRB 86%; parameters: A3 offset 0 dB, TTT 312 ms, hysteresis 2 dB. Proceed to handover time-series drill-down per neighbor?",
+      "message_ar": "تم جمع عدادات آخر 4 ساعات للقطاع NR_MACRO_URBAN_SECTOR_1: التأرجح 26% يتركز بين N2/N3؛ نجاح التسليم 86.6%، الإخفاقات 14%؛ PRB 86%؛ المعلمات الحالية: A3 offset 0 dB، TTT 312 ms، hysteresis 2 dB. هل نتابع بتحليل السلسلة الزمنية للتسليم حسب الجيران؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows spikes at shoulder minutes (:20/:50); short dwell loops between serving↔N2/N3 within 30–60 s; no interference signature (SINR ~11 dB). Root cause: permissive mobility under high load. Proposal: raise A3 TTT to ~512 ms, hysteresis to 3 dB, add +2 dB A3 offset towards serving, and enable a load-aware handover guard (>80% PRB). Approve optimization?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاعات في دقائق الفترة الانتقالية (:20/:50)؛ دورات إقامة قصيرة بين الخادم↔N2/N3 خلال 30–60 ثانية؛ لا مؤشرات تداخل (SINR ~11 dB). السبب المرجح: معلمات حركة متساهلة مع حمل مرتفع. المقترح: رفع TTT لـ A3 إلى ~512 ms، زيادة hysteresis إلى 3 dB، إضافة +2 dB A3 offset باتجاه الخادم، وتفعيل حماية للتسليم تعتمد على الحمل (>80% PRB). هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement on the sector and its top neighbors.",
+      "message_ar": "موافق على التنفيذ على القطاع وأهم الجيران."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to NR_MACRO_URBAN_SECTOR_1 with aligned settings on N2/N3; commit verified. Starting a 15-minute post-change watch for ping-pong and HO failures.",
+      "message_ar": "تم تطبيق التحسين على NR_MACRO_URBAN_SECTOR_1 مع ضبط مماثل على N2/N3؛ تم تأكيد الاعتماد. نبدأ مراقبة لمدة 15 دقيقة بعد التغيير لمعدل التأرجح وإخفاقات التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, ping-pong has dropped to ~16–17%; HO success ~91%, failures trending down. Throughput looks stable.",
+      "message_ar": "بعد ~15 دقيقة، انخفض التأرجح إلى ~16–17%؛ نجاح التسليم ~91%، والإخفاقات في اتجاه هبوطي. معدل التحميل مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good initial response. I’ll continue observing neighbor-pair churn and edge dwell times; if stable, we can refine by ±1 dB later. Recommend monitoring through the next busy hour.",
+      "message_ar": "استجابة أولية جيدة. سأواصل مراقبة تبدّل الجيران وأزمنة الإقامة على الحافة؛ وإذا استقر الأداء يمكننا تحسينًا طفيفًا ±1 dB لاحقًا. أوصي بالمتابعة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged—ping-pong rate is trending down (~16%) and failures are decreasing after the mobility parameter optimization. Let’s monitor over the next busy hour (next 2–4 hours) to confirm stability.",
+      "message_ar": "تم التأكيد—معدل التأرجح في اتجاه هبوطي (~16%) والإخفاقات تتناقص بعد تحسين معلمات الحركة. لنتابع المراقبة خلال ساعة الانشغال القادمة (خلال 2–4 ساعات) للتحقق من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next 2–4 hours and share an update afterward. If degradation returns, we will roll back the mobility changes and escalate to field for a coverage check; otherwise we will keep the tuning and close the action.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنزودك بتحديث بعدها. إذا عاد التدهور سنرجع تغييرات الحركة ونصعّد إلى الفريق الميداني لفحص التغطية؛ وإلا سنبقي الضبط ونغلق الإجراء."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_MACRO_URBAN_SECTOR_1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_MACRO_URBAN_SECTOR_1",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase A3 TTT to ~512 ms; raise hysteresis to 3 dB; apply +2 dB A3 offset; enable load-aware HO guard when PRB >80% for top neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on an urban 5G macro sector during shoulder hours with high load. Pulled recent counters and handover time series confirming short dwell loops between top neighbors, then mitigated via site parameter tuning (TTT, hysteresis, A3 offset) with a load-aware handover guard. Initial results show ping-pong and failures down; monitoring through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم المتأرجحة على قطاع ماكرو 5G حضري خلال فترة انتقالية مع حمل مرتفع. تم سحب العدادات الأخيرة وسلسلة الزمن لعمليات التسليم التي أكدت دورات إقامة قصيرة بين أهم الجيران، ثم تمت المعالجة عبر ضبط معلمات الموقع (TTT وhysteresis وA3 offset) مع حماية للتسليم تعتمد على الحمل. النتائج الأولية تُظهر انخفاضًا في التأرجح والإخفاقات؛ وسيستمر الرصد خلال ساعة الانشغال القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0030",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G macro cell shows a 2h rush-hour radio link failure spike (~6.6%) with HO success ~76%, 335 users, low SINR 1 dB indicating interference / signal overlap; congestion alarm active.",
+    "ar": "خلية ماكرو 5G حضرية تسجل ارتفاعاً لمدة ساعتين في فشل رابط الراديو (~6.6%) مع نجاح التسليم ~76% و335 مستخدماً، وSINR منخفض 1 dB يدل على تداخل/تراكب الإشارة؛ إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing evening RLF spikes on NR macro cell NR-URB-MAC-073 over the last 2 hours; RLF ~6.6%, HO success ~76%, link expiry events ~7%, SINR ~1 dB, RSRQ ~-15 dB, PRB ~74%, p95 scheduler latency 63 ms; eMBB streaming complaints align with peak-evening, and there is a congestion alarm.",
+      "message_ar": "نلاحظ ارتفاعات في فشل رابط الراديو مساءً على خلية NR ماكرو NR-URB-MAC-073 خلال آخر ساعتين؛ RLF ~6.6%، نجاح التسليم ~76%، أحداث انتهاء المراقبة ~7%، SINR ~1 dB، RSRQ ~-15 dB، إشغال PRB ~74%، وزمن انتظار المجدول p95 حوالي 63 مللي ثانية؛ شكاوى بث eMBB تتزامن مع فترة الذروة ومع وجود إنذار ازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the diagnosis: first, I’ll pull management counters for NR-URB-MAC-073 over the last 2 hours to validate drops, HO outcomes, and link expiry by neighbor; please confirm read access.",
+      "message_ar": "سأتولى التشخيص: أولاً سأستخرج عدادات نظام الإدارة لخلية NR-URB-MAC-073 لآخر ساعتين للتحقق من حالات الانقطاع، نتائج التسليم، وانتهاء المراقبة حسب الجار؛ الرجاء تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; proceed on NR-URB-MAC-073 with the last 2 hours.",
+      "message_ar": "تمت الموافقة على الوصول؛ تفضل بالمتابعة على NR-URB-MAC-073 لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for 2h: RLF 6.6% vs baseline ~2%, HO failures 24% with most at edge neighbors, link expiry events ~7%; load moderate-high (PRB ~74%), p95 scheduler latency 63 ms; this aligns with low SINR (~1 dB) and poor RSRQ (-15 dB), indicating interference/signal overlap at rush hour. Next, I will chart the RLF trend and event breakdown for the same window to isolate timing; ok to proceed?",
+      "message_ar": "تم سحب العدادات لمدة ساعتين: RLF 6.6% مقابل خط أساس ~2%، فشل التسليم 24% ومعظمها عند حدود الجيران، أحداث انتهاء المراقبة ~7%؛ الحمل متوسط‑عالٍ (PRB ~74%) وزمن انتظار المجدول p95 يساوي 63 مللي ثانية؛ هذا يتوافق مع SINR منخفض (~1 dB) وRSRQ سيئ (-15 dB) ما يشير إلى تداخل/تراكب الإشارة في ساعة الذروة. بعد ذلك سأعرض اتجاه RLF وتفصيل الأحداث لنفس النافذة لعزل التوقيت؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend shows a sharp RLF rise between 18:30–20:00, coincident with HO success dipping to ~75% and link expiry peaking; failures concentrate on a few neighbor boundaries, consistent with interference under load. I recommend targeted mobility tuning now (handover thresholds and timers slightly more aggressive, with conservative limits) to reduce time-to-handover and avoid drops; approve live change with rollback?",
+      "message_ar": "يبين الاتجاه ارتفاعاً حاداً في RLF بين 18:30–20:00 بالتزامن مع هبوط نجاح التسليم إلى ~75% وذروة في انتهاء المراقبة؛ تتركز الإخفاقات عند حدود بعض الجيران، ما يتسق مع التداخل تحت الحمل. أوصي بضبط حركية مستهدف الآن (عتبات وتسلسلات التوقيت للتسليم أكثر جرأة بشكل طفيف مع حدود محافظة) لتقليل زمن الانتقال وتجنب الانقطاعات؛ هل توافق على تطبيق التغيير الحي مع إمكانية الرجوع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility tuning with rollback.",
+      "message_ar": "موافق على تنفيذ ضبط الحركية مع إمكانية الرجوع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning for mobility and RLF recovery; commit succeeded. Early 10‑minute readings: RLF down to ~4.1%, HO success up to ~83%, link expiry down to ~4.5%; no new alarms. I’ll keep watching for stabilization and secondary effects.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع للحركية واستعادة الرابط؛ تم التنفيذ بنجاح. قراءات أولية خلال 10 دقائق: انخفض RLF إلى ~4.1%، ارتفع نجاح التسليم إلى ~83%، وانخفضت أحداث الانتهاء إلى ~4.5%؛ لا إنذارات جديدة. سأستمر بالمراقبة لاستقرار الوضع والتأثيرات الثانوية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: streaming is smoother and fewer calls drop around the sector edge.",
+      "message_ar": "ملاحظات ميدانية: البث أصبح أكثر سلاسة وانخفضت حالات الانقطاع قرب حافة القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good to hear; please observe the cell through the remainder of the rush period and confirm if drops continue trending down; I’ll track counters in parallel.",
+      "message_ar": "جيد؛ الرجاء متابعة الخلية خلال بقية فترة الذروة وتأكيد ما إذا كانت الانقطاعات مستمرة بالانخفاض؛ سأتابع العدادات بالتوازي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 30 more minutes, drops are trending down and handovers are cleaner; the site parameter optimization you pushed is helping. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "بعد 30 دقيقة إضافية، الانقطاعات في انخفاض واضح وتسليمات أنظف؛ ضبط معلمات الموقع الذي قمت بدفعه أدى للتحسن. لنتابع المراقبة خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next 2–4 hours, updating with RLF rate, handover success, and link expiry trends at the end. If degradation reappears, we will roll back the change and escalate for interference mitigation across the affected neighbors.",
+      "message_ar": "تم التأكيد—سنتولى الساعات 2–4 القادمة ونقدم تحديثاً بنهاية النافذة يشمل معدل RLF ونجاح التسليم واتجاهات انتهاء المراقبة. إذا عاد التدهور سنقوم بالرجوع عن التغيير والتصعيد لمعالجة التداخل عبر الجيران المتأثرين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MAC-073",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MAC-073",
+        "RLF",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rush-hour radio link failure spike on an urban NR macro cell driven by low SINR and mobility stress under load, confirmed via recent counters and an RLF time series. Executed site parameter tuning to make handovers more responsive and improve link recovery. Early results show reduced RLF and higher handover success; we will continue monitoring and refine if needed.",
+    "ar": "تم تشخيص ارتفاع في فشل رابط الراديو خلال ساعة الذروة على خلية NR ماكرو حضرية ناجم عن SINR منخفض وإجهاد الحركية تحت الحمل، وتم التأكيد عبر عدادات حديثة وسلسلة زمنية لـRLF. نُفذ ضبط معلمات الموقع لجعل التسليمات أكثر استجابة وتحسين استعادة الرابط. تظهر النتائج الأولية انخفاض RLF وارتفاع نجاح التسليم؛ سنواصل المراقبة وإجراء تحسينات عند الحاجة."
+  }
+}

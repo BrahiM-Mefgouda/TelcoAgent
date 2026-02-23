@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0020",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro cell shows high PRB load (~89%) with URLLC slice admission denials (~23%) over the last 24h amid mixed hours and eMBB streaming, latency ~22 ms, and ~44 slice requests/min.",
+    "ar": "موقع ماكرو NR حضري يظهر حملاً عالياً على الموارد (~89%) مع رفض قبول لشريحة URLLC (~23%) خلال آخر 24 ساعة مع فترات مختلطة وحركة eMBB للبث، زمن تأخير ~22 مللي ثانية، وحوالي 44 طلب شريحة/دقيقة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has rising URLLC slice admission denials over the last 24h—denial ~23%, PRB ~89%, slice utilization ~80%, latency ~22 ms, ~44 slice requests/min; mixed hours with heavy eMBB streaming. Please assess.",
+      "message_ar": "موقع ماكرو NR حضري يعاني من ارتفاع رفض قبول شريحة URLLC خلال آخر 24 ساعة—الرفض ~23%، استخدام الموارد ~89%، استخدام الشريحة ~80%، التأخير ~22 مللي ثانية، ~44 طلب شريحة/دقيقة؛ فترات زمنية مختلطة مع بث eMBB كثيف. الرجاء التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by querying the last 24h for the affected cell to correlate URLLC admissions with policy gates. Please provide the cell ID and approve access.",
+      "message_ar": "سأبدأ بالاستعلام عن آخر 24 ساعة للخلية المتأثرة لربط قبول URLLC مع بوابات السياسات. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-3321-S1. Access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-3321-S1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: high downlink load (PRB 88–90%); URLLC admissions blocked when latency >20 ms and the admission threshold is set at 99; no radio faults. Root cause points to an overly strict URLLC admission policy under eMBB load. I propose tuning the URLLC slice policy (lower the gate and enable stronger pre-emption against eMBB). Approve?",
+      "message_ar": "النتائج: حمل تنزيل مرتفع (PRB 88–90%)؛ يتم حجب قبول URLLC عند تجاوز التأخير 20 مللي ثانية ومع ضبط عتبة القبول على 99؛ لا توجد أعطال لاسلكية. السبب الجذري يرجّح سياسة قبول URLLC صارمة أكثر من اللازم تحت حمل eMBB. أقترح ضبط سياسة الشريحة (خفض العتبة وتمكين استباق أقوى مقابل eMBB). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the policy change.",
+      "message_ar": "موافق. تفضل بتنفيذ تغيير السياسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied URLLC policy update on NR-URB-3321-S1: reduced admission guard from 99 to 94, enabled stronger pre-emption over eMBB, and widened the latency gate to 24 ms with a small reserved floor. Change committed; observing immediate effects.",
+      "message_ar": "تم تطبيق تحديث سياسة URLLC على NR-URB-3321-S1: خفض عتبة القبول من 99 إلى 94، تمكين استباق أقوى مقابل eMBB، وتوسيع بوابة التأخير إلى 24 مللي ثانية مع حد أدنى محجوز صغير. تم اعتماد التغيير؛ نراقب التأثيرات الفورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation (10 min): admission denials trending down to single digits; latency around 18–20 ms; traffic stable and no alarms.",
+      "message_ar": "ملاحظة مبكرة (10 دقائق): رفض القبول يتجه للانخفاض إلى أرقام أحادية؛ التأخير حوالي 18–20 مللي ثانية؛ الحركة مستقرة ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. For traceability, I will log this change with before/after metrics. Please confirm.",
+      "message_ar": "الاتجاه جيد. لأغراض التتبع، سأوثّق هذا التغيير مع مؤشرات قبل/بعد. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "مؤكّد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change documented; a record has been created for the URLLC slice policy update on NR-URB-3321-S1. Continuing live checks.",
+      "message_ar": "تم توثيق التغيير؛ تم إنشاء سجل لتحديث سياسة شريحة URLLC على NR-URB-3321-S1. سنواصل المتابعة الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: URLLC admission denials are trending down and requests are being admitted while latency holds. Action taken was a slice policy update. Let’s monitor through the next busy hour; reference ticket DU-SLICE-04219.",
+      "message_ar": "التحسن مستمر: رفض قبول URLLC في اتجاه هابط والطلبات تُقبل مع ثبات التأخير. الإجراء المتخذ كان تحديث سياسة الشريحة. دعنا نراقب خلال ساعة الذروة القادمة؛ المرجع DU-SLICE-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring during the next busy hour and update the ticket after the window. If denials rise, we will escalate by temporarily increasing URLLC priority and limiting non‑critical eMBB; if side effects appear, we will roll back to the previous policy.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا ارتفع الرفض، سنصعّد مؤقتاً برفع أولوية URLLC وتقييد eMBB غير الحرج؛ وإذا ظهرت آثار جانبية، سنعيد السياسة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice admission failures on an urban NR macro cell caused by an overly strict admission policy (threshold at 99) under high PRB load and eMBB traffic. Queried the network, updated the URLLC slice policy (lower admission gate, stronger pre-emption, relaxed latency guard), and documented the change with a ticket. Post-change, admission denials decreased and latency improved; ongoing monitoring is in place.",
+    "ar": "تم تشخيص حالات رفض قبول شريحة URLLC في موقع ماكرو NR حضري بسبب سياسة قبول صارمة جداً (العتبة عند 99) مع حمل موارد عالٍ وحركة eMBB. تم الاستعلام عن الشبكة، وتحديث سياسة الشريحة (خفض عتبة القبول، استباق أقوى، تخفيف بوابة التأخير)، وتوثيق التغيير بتذكرة. بعد التغيير انخفض الرفض وتحسن التأخير؛ المراقبة مستمرة."
+  }
+}

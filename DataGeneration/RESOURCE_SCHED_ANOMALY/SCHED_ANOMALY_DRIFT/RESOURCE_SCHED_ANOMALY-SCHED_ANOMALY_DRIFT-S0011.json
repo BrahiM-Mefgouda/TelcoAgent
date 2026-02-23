@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0011",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6h during peak eMBB streaming shows slow data, high scheduler latency, and uneven PRB allocation—investigate a resource scheduling anomaly.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات وخلال ذروة بث eMBB تُظهر بيانات بطيئة وارتفاع كمون المجدول وتوزيعاً غير متوازن لـPRB—نحتاج للتحقق من شذوذ في جدولة الموارد."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour user reports on the urban NR macro cell show slow data and uneven throughput; internal stats over ~6h indicate PRB fairness ~0.46 and p95 scheduler latency ~70 ms during eMBB streaming.",
+      "message_ar": "بلاغات المستخدمين خلال ساعة الذروة على خلية NR ماكرو حضرية تشير إلى بيانات بطيئة وتذبذب في السرعات؛ إحصاءات داخلية خلال نحو 6 ساعات تُظهر عدالة PRB ≈0.46 وكمون المجدول p95 ≈70 مللي ثانية أثناء بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling a 6h health snapshot to baseline PRB use, QoS class shares, and scheduler stats. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بجلب لقطة حالة لمدة 6 ساعات لقياس استخدام PRB وحصص فئات الجودة وإحصاءات المجدول. الرجاء تزويدي بمعرف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Urb-Macro-0441. Access approved for read/write during this window.",
+      "message_ar": "معرف الخلية: NR-Urb-Macro-0441. تم اعتماد الوصول قراءة/كتابة خلال هذه النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check (last 6h) for NR-Urb-Macro-0441: PRB ~75.5%, fairness 0.465, allocation skew 35, high-priority share 39%, best-effort 49%, p95 scheduler latency 70 ms; SINR ~5 dB; no active alarms. Next, I will pull time series for PRB distribution and related latency to confirm drift—proceed?",
+      "message_ar": "فحص OSS (آخر 6 ساعات) للخلية NR-Urb-Macro-0441: استخدام PRB ~75.5%، عدالة 0.465، انحراف تخصيص 35، حصة أولوية عالية 39%، أفضل جهد 49%، كمون المجدول p95 = 70 مللي ثانية؛ SINR ~5 dB؛ لا إنذارات نشطة. التالي، سأجلب سلسلة زمنية لتوزيع PRB والكمون المرتبط للتأكد من الانحراف—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms busy-hour drift: fairness dips to 0.42 around 19:10, allocation skew peaks 38, best-effort spikes 55%, p50 DL throughput 7–8 Mb/s with a 29 Mb/s tail gap; scheduler p95 reaches 80–85 ms. RF is stable for an urban macro. This points to a scheduler weighting imbalance. I propose low-risk parameter tuning to rebalance QoS weights and fairness—approve?",
+      "message_ar": "السلسلة الزمنية تؤكد انحراف فترة الذروة: تنخفض العدالة إلى 0.42 حوالي 19:10، ويبلغ انحراف التخصيص 38، وترتفع حصة أفضل جهد إلى 55%، ويكون وسيط سرعة التنزيل 7–8 ميجابت/ث مع فجوة ذيل 29 ميجابت/ث؛ يصل p95 لكمون المجدول إلى 80–85 مللي ثانية. جانب RF مستقر لبيئة حضرية ماكرو. هذا يشير إلى اختلال أوزان المجدول. أقترح ضبطاً منخفض المخاطر لإعادة موازنة أوزان الجودة والعدالة—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for change.",
+      "message_ar": "موافق على التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning: increased weight for high-priority classes, fair-share adjustment, and a small minimum grant to reduce starvation. Changes committed successfully; counters healthy, no drops. We will observe short-term effects against the baseline.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع: زيادة وزن الفئات ذات الأولوية العالية، تعديل الحصص العادلة، ومنح حد أدنى صغير لتقليل حرمان الجلسات. تم تنفيذ التغييرات بنجاح؛ العدادات طبيعية ولا فقد للحزم. سنراقب التأثيرات قصيرة المدى مقابل خط الأساس."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: streaming complaints eased, median throughput rose to ~11 Mb/s, and high-delay bursts are fewer.",
+      "message_ar": "ملاحظة مبكرة: شكاوى البث انخفضت، وارتفع الوسيط إلى ~11 ميجابت/ث، ونوبات الكمون العالي أصبحت أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Initial post-change view shows fairness ~0.56–0.60 and p95 scheduler latency trending down. I will continue watching KPIs through the next busy period.",
+      "message_ar": "تم. العرض الأولي بعد التغيير يُظهر العدالة ~0.56–0.60 وكمون المجدول p95 في اتجاه هابط. سأواصل متابعة مؤشرات الأداء خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: fewer slow-data reports and lower high-percentile delay; after the site parameter tuning, let's monitor for the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن: شكاوى البيانات البطيئة أقل وانخفضت القيم المئوية العليا للكمون؛ بعد ضبط معلمات الموقع، لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will monitor for the next 2–4 hours and share KPI deltas afterward. If performance regresses, we will roll back to prior values and escalate to a load-balancing review. Summary: baseline checks and time-series validation identified scheduling imbalance; site parameter tuning was applied; ongoing monitoring is in place.",
+      "message_ar": "تم—سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونشارك فروقات مؤشرات الأداء بعدها. إذا تراجعت الجودة سنعود إلى القيم السابقة ونصعّد لمراجعة موازنة الحمل. الملخص: كشوف خط الأساس والتحقق بالسلاسل الزمنية حدّدت اختلالاً في الجدولة؛ تم تطبيق ضبط معلمات الموقع؛ والمراقبة جارية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A resource scheduling anomaly was diagnosed on an urban NR macro cell: baseline checks and time-series data showed uneven PRB allocation, low fairness, and elevated high-percentile delay during peak eMBB usage causing slow data. Site parameter tuning rebalanced QoS weights and fairness, reducing scheduler latency. We will monitor during the next busy hours and adjust if needed.",
+    "ar": "تم تشخيص شذوذ في جدولة الموارد على خلية NR ماكرو حضرية: كشوف خط الأساس والبيانات الزمنية أظهرت توزيعاً غير متوازن لـPRB وعدالة منخفضة وارتفاعاً في القيم المئوية العليا للكمون أثناء ذروة eMBB ما أدى إلى بيانات بطيئة. تم تنفيذ ضبط معلمات الموقع لإعادة موازنة أوزان الجودة والعدالة مما خفّض كمون المجدول. سنواصل المراقبة خلال ساعات الانشغال القادمة وإجراء التعديلات إذا لزم الأمر."
+  }
+}

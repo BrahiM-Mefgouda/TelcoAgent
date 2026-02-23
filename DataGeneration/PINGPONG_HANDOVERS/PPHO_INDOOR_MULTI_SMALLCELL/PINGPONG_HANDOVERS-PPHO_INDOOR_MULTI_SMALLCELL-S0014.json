@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0014",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "In the indoor office wing, users on the 5G micro cells report slow data and frequent ping‑pong handovers during peak eMBB streaming, with signs of signal overlap.",
+    "ar": "في الجناح المكتبي الداخلي، يبلّغ المستخدمون على خلايا 5G الصغيرة عن بطء في البيانات وتسليمات ذهاب وإياب متكررة خلال ذروة استخدام eMBB، مع مؤشرات على تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing frequent ping‑pong handovers and slow data in the indoor office wing on NR micro cells during peak eMBB. Please investigate.",
+      "message_ar": "نلاحظ تسليمات ذهاب وإياب متكررة وبطء بيانات في الجناح المكتبي الداخلي على خلايا NR الصغيرة أثناء فترة الذروة لـ eMBB. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I’ll start by pulling last 3h mobility counters for the indoor small site cluster. Share the primary cell ID(s) and confirm read access.",
+      "message_ar": "تم. سأبدأ بسحب عدادات الحركة لآخر 3 ساعات لمجموعة الموقع الداخلي الصغير. يرجى مشاركة مُعرّف/مُعرّفات الخلية الأساسية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Primary cell: NR-SMALLCELL-125A with neighbors 125B and 125C. Read access approved for 3h window.",
+      "message_ar": "الخلايا الأساسية: NR-SMALLCELL-125A مع الجارتين 125B و125C. تمت الموافقة على الوصول لفترة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters: HO attempts ~94/5min, HO success ~84%, ping‑pong ~19%. RF shows RSRP ≈ -103 dBm, RSRQ ≈ -9 dB, SINR ≈ 4 dB indicating signal overlap. Next, I’ll extract HO time series to isolate oscillating pairs over the window.",
+      "message_ar": "تم سحب العدادات: محاولات التسليم ~94/5 دقائق، نجاح التسليم ~84%، الذهاب والإياب ~19%. مؤشرات RF: RSRP ≈ -103 dBm، RSRQ ≈ -9 dB، وSINR ≈ 4 dB ما يشير إلى تراكب الإشارة. بعد ذلك سأستخرج سلسلة زمنية للتسليمات لعزل الأزواج المتذبذبة خلال النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series points to repetitive 125A↔125B oscillations peaking at busy hour. Load ~77% PRB and ~200+ users align with spikes. The margins look tight. I propose tuning mobility: raise A3 by +2 dB on 125A/125B, extend TTT from 233→320 ms, and increase hysteresis to 2 dB for that pair to damp ping‑pong.",
+      "message_ar": "السلسلة الزمنية تُظهر تذبذبات متكررة بين 125A↔125B تبلغ ذروتها خلال ساعة الذروة. الحمل ~77% PRB وحوالي +200 مستخدم يتوافقان مع الارتفاعات. الهوامش تبدو ضيقة. أقترح ضبط الحركة: رفع حدث A3 بمقدار +2 dB على 125A/125B، تمديد TTT من 233 إلى 320 مللي ثانية، وزيادة الهسترة إلى 2 dB لهذا الزوج للحد من الذهاب والإياب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement on 125A/125B.",
+      "message_ar": "تمت الموافقة على التنفيذ على 125A/125B."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter optimization on 125A/125B (A3 +2 dB, TTT 320 ms, hysteresis 2 dB). Changes are active. I’ll monitor short‑term KPIs for 30–60 minutes and keep rollback ready if any regressions appear.",
+      "message_ar": "تم تطبيق تحسين المعايير على 125A/125B (A3 +2 dB، TTT إلى 320 مللي ثانية، الهسترة 2 dB). التغييرات فعّالة. سأراقب مؤشرات الأداء القصيرة لمدة 30–60 دقيقة مع جاهزية التراجع إذا ظهرت تراجعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "15 minutes after change: ping‑pong counters are dropping and fewer complaints are coming in. Please validate with the latest stats.",
+      "message_ar": "بعد 15 دقيقة من التغيير: عدادات الذهاب والإياب في انخفاض وتراجعت الشكاوى. يرجى التحقق بأحدث الإحصاءات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Quick check shows ping‑pong trending ~9–11%, HO success ~90%, and median user throughput ~10 Mbps. No error spikes observed. Looks stable so far.",
+      "message_ar": "التحقق السريع يُظهر أن الذهاب والإياب يتجه إلى ~9–11%، ونسبة نجاح التسليم ~90%، ومتوسط سرعة المستخدم ~10 ميجابت/ث. لم تُلاحظ طفرات أخطاء. الأمور مستقرة حتى الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—oscillations between 125A–125B trending down and slow data easing. Action taken: site parameter tuning on mobility thresholds. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن—انخفاض التذبذبات بين 125A–125B وتراجع بطء البيانات. الإجراء المتخذ: ضبط معايير الموقع لعتبات الحركة. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We’ll own the next 2–4 hours of monitoring and share an update after the window. If degradation returns, we’ll roll back the change set or widen only one parameter stepwise; if issues persist, we’ll escalate to on‑site RF for further interference mitigation.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنشارك تحديثاً بعد انتهاء النافذة. إذا عاد التدهور سنقوم بالتراجع عن مجموعة التغييرات أو توسيع معلمة واحدة تدريجياً؛ وإذا استمرت المشكلات سنصعّد إلى فريق RF الميداني للتخفيف من التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping‑pong handovers in an indoor 5G micro cluster driven by tight mobility thresholds and signal overlap. Pulled recent counters and HO time series to isolate the 125A↔125B pair, then applied site parameter tuning (A3 offset, TTT, hysteresis). Post‑change, ping‑pong decreased and HO success improved; we will monitor through the next busy hours.",
+    "ar": "تم تشخيص تسليمات ذهاب وإياب مرتفعة في مجموعة 5G داخلية صغيرة بسبب ضيق عتبات الحركة وتراكب الإشارة. تم سحب العدادات الحديثة والسلسلة الزمنية للتسليمات لعزل الزوج 125A↔125B، ثم تطبيق ضبط معايير الموقع (إزاحة A3، زمن الانتظار TTT، الهسترة). بعد التغيير انخفضت الذهاب والإياب وتحسنت نسبة نجاح التسليم؛ سنواصل المراقبة خلال ساعات الذروة القادمة."
+  }
+}

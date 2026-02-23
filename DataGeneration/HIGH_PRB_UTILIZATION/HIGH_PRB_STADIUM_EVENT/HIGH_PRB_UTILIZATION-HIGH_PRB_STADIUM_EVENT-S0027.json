@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0027",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion over the last 2h with ~97% PRB, ~463 users, slow data, and high scheduling delay during ingress eMBB traffic.",
+    "ar": "خلية NR صغيرة في الاستاد تُظهر ازدحاماً خلال آخر ساعتين مع استخدام PRB ~97% ونحو 463 مستخدماً وبيانات بطيئة وتأخر جدولة مرتفع أثناء مرحلة الدخول وحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is alarming for congestion over the last 2h: PRB ~97%, ~463 users, DL 3 Mbps, UL 2 Mbps, BLER ~5%, p95 scheduling latency 52 ms, and RLF ~2.6%. Please assist.",
+      "message_ar": "خلية NR صغيرة في الاستاد تُطلق إنذار ازدحام خلال آخر ساعتين: استخدام PRB ~97%، ~463 مستخدماً، تنزيل 3 ميغابت/ث، رفع 2 ميغابت/ث، BLER ~5%، تأخر الجدولة p95 = 52 مللي ثانية، وفشل اتصال ~2.6%. الرجاء المساندة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion during ingress with heavy eMBB streaming. I will start by pulling the last 2h counters for the target cell; please confirm the cell ID and approve read-only access.",
+      "message_ar": "تم تأكيد الازدحام أثناء مرحلة الدخول مع حركة eMBB (بث). سأبدأ بسحب عدادات آخر ساعتين للخلية المستهدفة؛ يرجى تأكيد معرف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-03. Approved for read-only data pull for the past 2h.",
+      "message_ar": "معرف الخلية: NR-STAD-MICRO-03. موافق على سحب بيانات للقراءة فقط لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm extreme PRB saturation (97–98%), 463 active users, DL ~3 Mbps, UL ~2 Mbps, BLER ~5%, p95 scheduling delay 52 ms, RLF ~2.6%. Diagnosis: scheduler saturation on the micro during event ingress. Proposal: apply a temporary load‑shedding optimization—raise scheduler fairness, cap per‑UE PRB share, enable congestion‑based admission, and a slight mobility bias to spread load. Approve?",
+      "message_ar": "تؤكد العدادات تشبع PRB شديداً (97–98%)، 463 مستخدماً نشطاً، تنزيل ~3 ميغابت/ث، رفع ~2 ميغابت/ث، BLER ~5%، تأخر جدولة p95 = 52 مللي ثانية، وفشل اتصال ~2.6%. التشخيص: تشبع المُجدول على الخلية الصغيرة أثناء الدخول. الاقتراح: تطبيق تحسين مؤقت لتخفيف الحمل—زيادة عدالة المُجدول، وضع حد PRB لكل مستخدم، تفعيل قبول مبني على الازدحام، وانحياز حركي بسيط لتوزيع الحمل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the temporary optimization.",
+      "message_ar": "موافَق على تطبيق التحسين المؤقت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to NR-STAD-MICRO-03: fairness increased, per‑UE PRB cap set, congestion‑based admission enabled, light mobility bias added. Rollback prepared. Observing for 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين على NR-STAD-MICRO-03: زيادة العدالة، ضبط حد PRB لكل مستخدم، تفعيل قبول مبني على الازدحام، إضافة انحياز حركي بسيط. التراجع جاهز. سنراقب لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 5 minutes: PRB now ~89–92%, DL throughput ~5.8 Mbps, p95 scheduling delay ~34 ms; BLER stable. Improvement noted.",
+      "message_ar": "بعد 5 دقائق: استخدام PRB الآن ~89–92%، معدل تنزيل ~5.8 ميغابت/ث، تأخر الجدولة p95 ~34 مللي ثانية؛ BLER مستقر. يوجد تحسن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. For traceability and capacity follow‑up, I will open an ops ticket summarizing the change and monitoring plan. Please confirm.",
+      "message_ar": "جيد. من أجل التتبع والمتابعة السعوية، سأفتح تذكرة عمليات تلخص التغيير وخطة المراقبة. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, proceed with ticket creation.",
+      "message_ar": "تم التأكيد، تفضّل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-LOAD-04217 opened: recorded pre/post metrics and the temporary load optimization on NR-STAD-MICRO-03 during stadium ingress; plan to monitor through the busy period and review post‑event. Continuing to watch KPIs.",
+      "message_ar": "تم فتح التذكرة DU-LOAD-04217: توثيق مؤشرات ما قبل/بعد وتطبيق تحسين التحميل المؤقت على NR-STAD-MICRO-03 أثناء دخول الاستاد؛ خطة المراقبة خلال فترة الذروة مع مراجعة بعد الحدث. سنواصل متابعة مؤشرات الأداء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "KPIs continue improving—throughput up and scheduling delays trending down after the site parameter tuning. Let us monitor over the next 2–4 hours; reference DU-LOAD-04217.",
+      "message_ar": "تستمر المؤشرات بالتحسن—السرعة أعلى وتأخر الجدولة في اتجاه هبوطي بعد ضبط معلمات الموقع. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة؛ المرجع DU-LOAD-04217."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and update the ticket afterward. If congestion resurges, we will escalate with additional capacity/offload actions; if adverse effects appear, we will roll back to the prior settings.",
+      "message_ar": "سنتولى نافذة المراقبة القادمة (2–4 ساعات) وسنحدّث التذكرة بعدها. إذا عاد الازدحام سنصعّد بإجراءات سعة/تفريغ إضافية؛ وإذا ظهرت آثار سلبية سنرجع للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Load-shedding profile: increase scheduler fairness, set per-UE PRB cap, enable congestion-based admission, add light mobility bias"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium ingress PRB saturation; temporary load optimization applied; monitor 2–4h and review post-event"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During stadium ingress, the NR micro cell was diagnosed with extreme PRB saturation causing slow data and high scheduling delay. We pulled recent counters, then executed site parameter tuning for load‑shedding (scheduler fairness, per‑UE PRB cap, congestion‑based admission, light mobility bias) and created an ops ticket for follow‑up. KPIs improved, and we will monitor through the busy period and review post‑event.",
+    "ar": "خلال دخول الاستاد، تم تشخيص تشبع شديد في استخدام PRB على الخلية الصغيرة NR مما سبب بيانات بطيئة وتأخر جدولة مرتفع. تم سحب العدادات الحديثة ثم تنفيذ ضبط لمعلمات الموقع لتخفيف الحمل (زيادة عدالة المُجدول، حد PRB لكل مستخدم، قبول مبني على الازدحام، وانحياز حركي بسيط) وإنشاء تذكرة للمتابعة. تحسنت مؤشرات الأداء وسنواصل المراقبة خلال فترة الذروة مع مراجعة بعد الحدث."
+  }
+}

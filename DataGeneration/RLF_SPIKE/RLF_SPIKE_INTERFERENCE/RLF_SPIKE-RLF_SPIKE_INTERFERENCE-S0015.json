@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0015",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "Suburban NR macro cell shows an RLF spike over the last 3h shoulder window with BLER 13.3%, SINR 3 dB indicating interference / signal overlap, HO success 86%, median throughput 17 Mbps across 171 users.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر ارتفاعاً في حالات انقطاع الارتباط خلال آخر 3 ساعات (فترة الكتف) مع BLER ‏13.3% وSINR ‏3 dB ما يدل على تداخل/تراكب إشارة، ونسبة نجاح التسليم 86% ومتوسط سرعة تنزيل 17 Mbps عبر 171 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing elevated RLF on a suburban 5G NR macro sector over the last ~3h shoulder window; video streaming users reported buffering. SINR ~3 dB, RSRQ -13 dB, HO success ~86%, no alarms. Can you check?",
+      "message_ar": "نرى ارتفاعاً في حالات انقطاع الارتباط (RLF) على قطاع ماكرو 5G NR في منطقة ضاحية خلال آخر ~3 ساعات (فترة الكتف)؛ مستخدمو البث ذكروا تقطّعاً/تخزيناً مؤقتاً. SINR نحو 3 dB وRSRQ -13 dB ونسبة نجاح التسليم ~86%، دون إنذارات. هل يمكنك الفحص؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely interference-driven drops. I will first check network counters/events for the last 3 hours to baseline RLF/HO/BLER. Please confirm the cell ID and approve access.",
+      "message_ar": "تم الاستلام. على الأرجح انقطاعات ناتجة عن تداخل. سأتحقق أولاً من العدادات/الأحداث لآخر 3 ساعات لقياس RLF/HO/BLER. يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-34567-S1. Access approved.",
+      "message_ar": "المعرّف: NR-34567-S1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: RLF 6.1% (baseline ~2%), BLER 13.3%, median SINR ~3 dB, RSRQ -13 dB. HO failures 16% toward west neighbors. PRB ~55%. No site alarms. Next, I will pull the RLF time series for this window to isolate peaks and correlate with HO legs; approve?",
+      "message_ar": "تم فحص مؤشرات الشبكة: RLF ‏6.1% (المرجع ~2%)، BLER ‏13.3%، SINR وسيطي ~3 dB وRSRQ ‏-13 dB. فشل التسليم 16% نحو الجيران الغربيين. إشغال PRB ~55%. لا إنذارات. الخطوة التالية: سأسحب سلسلة RLF الزمنية لهذه النافذة لعزل القمم وربطها بمسارات التسليم؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows RLF peaks at ~17:30–18:15 aligning with SINR dips; failures cluster on specific neighbors. Mobility timers/thresholds look a bit aggressive under interference. I propose a light mobility parameter optimization (handover triggers and timers) to harden against drops. Proceed?",
+      "message_ar": "السلاسل الزمنية تُظهر قمماً ~17:30–18:15 متزامنة مع هبوط SINR؛ الإخفاقات تتركز مع جيران محددين. مؤقتات/عتبات الحركة تبدو حادة نسبياً مع وجود تداخل. أقترح تحسيناً خفيفاً لمعاملات الحركة (محفزات ومؤقتات التسليم) لتقليل الانقطاعات. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed now; low risk accepted.",
+      "message_ar": "نفّذ الآن؛ المخاطر منخفضة ومقبولة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: slightly relaxed handover thresholds toward dominant neighbors and modestly extended drop protection timers; no power changes. Change committed. I will monitor for 15 minutes for immediate effect. Please share any live observations.",
+      "message_ar": "تم تطبيق التحسين: إرخاء طفيف لعتبات التسليم نحو الجيران المهيمنين وتمديد بسيط لمؤقتات حماية الانقطاع؛ دون تغيير للطاقة. تم اعتماد التغيير. سأراقب لمدة 15 دقيقة للأثر الفوري. يرجى مشاركة أي ملاحظات مباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes: fewer user complaints, RLF counters trending down; HO success up ~3 points. No new alarms.",
+      "message_ar": "بعد ~15 دقيقة: شكاوى أقل من المستخدمين، مؤشرات RLF في انخفاض؛ نجاح التسليم ارتفع بنحو 3 نقاط. لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. We'll continue observing as load builds. If micro-spikes persist, we can consider minor neighbor-side alignment next. For now, keep current settings; I'll watch for regression into the next busy hour. OK?",
+      "message_ar": "استجابة أولية جيدة. سنواصل المتابعة مع ازدياد الحمل. إذا ظهرت قمم صغيرة مستمرة، يمكن النظر في ضبط بسيط على جانب الجيران لاحقاً. حالياً نحافظ على الإعدادات الحالية؛ سأتابع أي ارتداد خلال ساعة الذروة القادمة. موافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: RLF and drop events trending down; BLER also lower. Action taken: mobility parameter optimization on the sector. Suggest monitoring over the next 2–4 hours.",
+      "message_ar": "لوحظ تحسن: أحداث الانقطاع وRLF في انخفاض؛ وBLER أقل أيضاً. الإجراء المنفذ: تحسين معاملات الحركة على القطاع. أقترح المتابعة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next 2–4 hours and update you on RLF, HO success, and BLER. If deterioration appears, we will roll back to prior settings and escalate to an on-air interference check with neighbor retune.",
+      "message_ar": "سنقوم بالمتابعة خلال الساعتين إلى الأربع القادمة ونزوّدك بتحديث عن RLF ونجاح التسليم وBLER. إذا ظهر تدهور، سنعود إلى الإعدادات السابقة ونصعّد لفحص تداخل على الهواء مع ضبط الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an RLF spike on a suburban NR macro during the 3-hour shoulder window. Counters and RLF time series aligned peaks with SINR dips and elevated BLER, indicating interference and unstable mobility. Mitigated by site parameter tuning on mobility thresholds and timers; early KPIs improved and monitoring continues.",
+    "ar": "تم تشخيص ارتفاع RLF على موقع NR ماكرو في منطقة ضاحية خلال نافذة 3 ساعات. توافقت قمم السلاسل الزمنية مع هبوط SINR وارتفاع BLER، ما يشير إلى تداخل وحركة غير مستقرة. تم التخفيف عبر ضبط معاملات الموقع لعتبات ومؤقتات الحركة؛ تحسن مبكر في المؤشرات مع استمرار المتابعة."
+  }
+}

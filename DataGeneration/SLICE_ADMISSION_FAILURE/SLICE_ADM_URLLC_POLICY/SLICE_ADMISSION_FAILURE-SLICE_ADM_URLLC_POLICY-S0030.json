@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0030",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro cell shows ~10% URLLC admission denials over 24h with ~53 requests/min, ~49% slice utilization, ~80% PRB use, and ~11 ms latency; threshold near 87 may be too strict.",
+    "ar": "خلية ماكرو NR حضرية تُظهر نحو 10% رفض قبول URLLC خلال 24 ساعة مع ~53 طلب/دقيقة، واستغلال الشريحة ~49%، واستخدام PRB ~80%، وزمن تأخير ~11 مللي ثانية؛ يبدو أن العتبة قرب 87 صارمة جداً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-Cell-41023 over the last 24h shows URLLC slice admission denials around 10%. Requests ≈53/min, slice utilization ~49%, PRB ~80%, latency ~11 ms. Traffic is mostly eMBB (streaming).",
+      "message_ar": "خلية ماكرو NR حضرية NR-Cell-41023 خلال آخر 24 ساعة تُظهر رفض قبول URLLC بحوالي 10%. الطلبات ≈53/دقيقة، استغلال الشريحة ~49%، استخدام PRB ~80%، وزمن التأخير ~11 مللي ثانية. حركة المرور أغلبها eMBB (بث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull 24h cell stats and slice counters for NR-Cell-41023 to confirm the admission pattern and current policy. Please confirm access.",
+      "message_ar": "سأستخرج إحصاءات الخلية ومؤشرات الشريحة لمدة 24 ساعة لـ NR-Cell-41023 لتأكيد نمط القبول والسياسة الحالية. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-Cell-41023, 24h window.",
+      "message_ar": "تمت الموافقة على الوصول لـ NR-Cell-41023، نافذة 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: URLLC admission rejections spike when PRB exceeds ~78–82%. Slice utilization ~49%. Current admission threshold is ~87, causing blocking despite headroom; latency steady ~11 ms. I propose relaxing the URLLC admission threshold to 75 and enabling short-burst priority. Please provide the URLLC slice ID and approval.",
+      "message_ar": "النتائج: ترتفع حالات رفض قبول URLLC عندما يتجاوز استخدام PRB حوالي 78–82%. استغلال الشريحة ~49%. عتبة القبول الحالية ~87 مما يسبب الحجب رغم وجود هامش؛ زمن التأخير مستقر ~11 مللي ثانية. أقترح تخفيف عتبة قبول URLLC إلى 75 وتمكين أولوية للدفعات القصيرة. يرجى تزويدي بمعرّف الشريحة والموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. URLLC slice ID is URLLC-101.",
+      "message_ar": "تمت الموافقة. معرّف شريحة URLLC هو URLLC-101."
+    },
+    {
+      "role": "agent",
+      "message_en": "Policy updated on URLLC-101 for NR-Cell-41023: lowered admission threshold to 75 and enabled short-burst priority. Change applied successfully. Please verify live admissions for a few minutes.",
+      "message_ar": "تم تحديث السياسة على URLLC-101 لخلية NR-Cell-41023: خفض عتبة القبول إلى 75 وتم تمكين أولوية الدُفعات القصيرة. تم تطبيق التغيير بنجاح. يرجى التحقق من القبولات مباشرة لبضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: new URLLC requests are being admitted and latency remains ~10–11 ms. Please open a change record for tracking.",
+      "message_ar": "التحقق الأولي: يتم قبول طلبات URLLC الجديدة وزمن التأخير يبقى ~10–11 مللي ثانية. يرجى فتح سجل تغيير للتتبع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will create a change record linked to this cell and slice, then continue monitoring.",
+      "message_ar": "تم. سأقوم بإنشاء سجل تغيير مرتبط بهذه الخلية وهذه الشريحة ثم أواصل المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change record created; starting post-change monitoring of admissions, PRB, and latency.",
+      "message_ar": "تم إنشاء سجل التغيير؛ أبدأ مراقبة ما بعد التغيير لمعدلات القبول وPRB وزمن التأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please confirm a preferred monitoring window (e.g., the next busy hour) for follow-up.",
+      "message_ar": "يرجى تأكيد نافذة المتابعة المفضلة (مثل ساعة الذروة التالية) للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: admission denials trending down and URLLC requests are passing; action taken was a slice policy update. Let’s monitor through the next busy hour and 2 hours after. Reference ticket DU-URLLC-04567.",
+      "message_ar": "تمت ملاحظة تحسن: حالات رفض القبول في انخفاض والطلبات تمر؛ الإجراء كان تحديث سياسة الشريحة. لنتابع خلال ساعة الذروة التالية وساعتين بعدها. رقم التذكرة DU-URLLC-04567."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for that window and update the ticket after it. If denials rise or latency worsens, we will escalate and either tighten priority or roll back to the previous threshold; otherwise we keep the current settings. Summary: validated counters, tuned the URLLC admission policy from 87 to 75, and opened a change record; we will report results after the next busy hour.",
+      "message_ar": "سنقوم بمتابعة المراقبة خلال تلك النافذة وسنحدّث التذكرة بعدها. إذا ارتفعت حالات الرفض أو ساء زمن التأخير سنصعّد ونعيد ضبط الأولوية أو نرجع إلى العتبة السابقة؛ وإلا سنبقي الإعدادات الحالية. الملخص: تم التحقق من المؤشرات، وضبط سياسة قبول URLLC من 87 إلى 75، وفتح سجل تغيير؛ سنبلغ بالنتائج بعد ساعة الذروة التالية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-41023",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC-101",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC admission denials on NR-Cell-41023; relaxed threshold from 87 to 75 with short-burst priority; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice admission failures on an urban NR macro where denials correlated with a strict admission threshold (~87%) despite moderate slice utilization and ~80% PRB. Applied a slice policy update lowering the threshold to 75 with short-burst priority and created a change record for traceability. Post-change monitoring is underway through the next busy hour with rollback if regressions appear.",
+    "ar": "تم تشخيص حالات فشل قبول URLLC على خلية NR حضرية حيث ارتبطت حالات الرفض بعتبة قبول صارمة (~87%) رغم استغلال شريحة معتدل واستخدام PRB ~80%. تم تنفيذ تحديث لسياسة الشريحة بخفض العتبة إلى 75 مع أولوية للدفعات القصيرة وإنشاء سجل تغيير للتتبع. تتم مراقبة ما بعد التغيير خلال ساعة الذروة التالية مع الرجوع عن التعديل إذا ظهرت تراجعات."
+  }
+}

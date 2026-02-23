@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0008",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell has an active congestion alarm with interference/signal overlap and slow data (p50 6 Mbps); SINR 0 dB, RSRQ -15 dB, and HO success ~80% with ping‑pong 24% point to a PCI issue impacting eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية عليها إنذار ازدحام نشط مع تداخل/تراكب إشارة وبطء في البيانات (p50 6 Mbps)؛ قيمة SINR 0 dB و RSRQ -15 dB ونجاح التسليم ~80% مع ارتداد 24% تشير إلى مشكلة PCI تؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration urban NR macro cell is alarming; users report slow data and unstable mobility across mixed hours (SINR 0 dB, RSRQ -15 dB, HO success ~80%, ping‑pong 24%, BLER ~10%).",
+      "message_ar": "بعد الدمج، الخلية الماكرو NR الحضرية تعطي إنذاراً؛ المستخدمون يشتكون من بطء البيانات وعدم استقرار التنقل عبر أوقات مختلطة (SINR 0 dB، RSRQ −15 dB، نجاح التسليم ~80%، ارتداد 24%، BLER ~10%)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion alarm. To isolate interference/signal overlap, please share the cell ID and approve a neighbor/PCI consistency review over the last 8 hours.",
+      "message_ar": "تم تأكيد إنذار الازدحام. لعزل التداخل/تراكب الإشارة، الرجاء مشاركة معرّف الخلية والموافقة على مراجعة اتساق الجوار وPCI لآخر 8 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-UMacro-110A; approval granted for an 8h review. Current load ~316 users, PRB utilization ~61%.",
+      "message_ar": "معرّف الخلية NR-UMacro-110A؛ الموافقة ممنوحة لمراجعة 8 ساعات. الحمل الحالي ~316 مستخدمًا، واستغلال PRB ~61%."
+    },
+    {
+      "role": "agent",
+      "message_en": "The review indicates a PCI reuse conflict: serving PCI 110 intersects a strong neighbor (PCI 295) with an overlap footprint around 32, correlating with ~16% handover failures and median DL 6 Mbps.",
+      "message_ar": "تظهر المراجعة تعارض إعادة استخدام PCI: PCI الخلية 110 يتقاطع مع جار قوي (PCI 295) مع بصمة تداخل تقارب 32، ويتطابق ذلك مع ~16% فشل تسليم ومعدل تنزيل وسيط 6 Mbps."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. What corrective action do you suggest?",
+      "message_ar": "مفهوم. ما الإجراء التصحيحي الذي تقترحه؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposing a PCI reassignment to a non‑conflicting value (62) for NR-UMacro-110A, with neighbor relations refreshed. Change expected to be hitless. Please approve.",
+      "message_ar": "أقترح إعادة تعيين PCI إلى قيمة غير متضاربة (62) لخلية NR-UMacro-110A مع تحديث علاقات الجوار. من المتوقع أن يكون التغيير دون تأثير. الرجاء الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed now.",
+      "message_ar": "موافق. نفّذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: PCI updated to 62 and adjacency refreshed. Quick checks show SINR improving by ~2–3 dB and RSRQ stabilizing; mobility counters are normalizing. Please confirm from live traces.",
+      "message_ar": "تم التطبيق: تم تحديث PCI إلى 62 وتحديث المجاورات. الفحوصات السريعة تُظهر تحسّن SINR بنحو 2–3 dB واستقرار RSRQ؛ عدادات التنقل تتجه نحو التحسن. يرجى التأكيد من القراءات الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Live traces confirm fewer ping‑pong events and p50 throughput rising toward ~9 Mbps; user complaints are subsiding.",
+      "message_ar": "القراءات الحية تؤكد انخفاض أحداث الارتداد وارتفاع وسيط السرعة إلى نحو 9 Mbps؛ شكاوى المستخدمين تتراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Logging the change and monitoring: created follow‑up ticket DU-PCI-10427 for traceability and observation over the near term.",
+      "message_ar": "سأوثّق التغيير والمراقبة: تم إنشاء تذكرة متابعة DU-PCI-10427 لأغراض التتبع والملاحظة على المدى القريب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: handover failures trending down. Action taken was PCI retune with a config push. Let's monitor through the next busy hour; reference DU-PCI-10427.",
+      "message_ar": "تم تأكيد التحسن: إخفاقات التسليم تتجه للانخفاض. الإجراء كان إعادة ضبط PCI مع دفع التهيئة. فلنراقب خلال ساعة الذروة القادمة؛ المرجع DU-PCI-10427."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket after the window. If degradation returns, we will rollback the PCI change and consider neighbor tuning; if stable, we will close out.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونحدّث التذكرة بعد انتهاء الفترة. إذا عادت المشكلة فسنعيد تغيير PCI وننظر في ضبط الجوار؛ وإذا استقر الأداء فسنغلق القضية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-UMacro-110A",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI reassignment from 110 to 62; refresh neighbor relations"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI overlap via reassignment; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision/overlap on the urban NR macro cell after integration, evidenced by low SINR, degraded RSRQ, and mobility instability. Executed site parameter tuning by reassigning the PCI to a non‑conflicting value and refreshing neighbor relations, then opened a follow‑up ticket for monitoring.",
+    "ar": "تم تشخيص تعارض/تراكب PCI في خلية NR ماكرو حضرية بعد الدمج، وكان ذلك واضحًا من انخفاض SINR وتدهور RSRQ وعدم استقرار الحركة. تم تنفيذ ضبط معلمات الموقع عبر إعادة تعيين PCI إلى قيمة غير متضاربة وتحديث علاقات الجوار، ثم فتح تذكرة متابعة للمراقبة."
+  }
+}

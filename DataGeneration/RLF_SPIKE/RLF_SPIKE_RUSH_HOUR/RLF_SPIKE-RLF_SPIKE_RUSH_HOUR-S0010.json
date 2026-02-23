@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0010",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G macro cell shows a rush-hour RLF spike over the last 2h with congestion; interference / signal overlap suspected given SINR ~4 dB, handovers ~76% success, PRB ~77%, and 304 users.",
+    "ar": "خلية 5G ماكرو حضرية تُظهر ارتفاعاً في انقطاعات الرابط خلال آخر ساعتين مع ازدحام؛ يُشتبه بوجود التداخل/تراكب الإشارات نظراً لـ SINR ~4 dB ونجاح التسليم ~76% وإشغال الموارد ~77% و304 مستخدمين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on the urban 5G macro: RLF about 6.6% with an alarm, HO success ~76%, PRB ~77%, SINR ~4 dB. 304 users, mostly eMBB streaming. Need stabilization.",
+      "message_ar": "خلال ذروة المساء على خلية 5G ماكرو حضرية: انقطاع الرابط حوالي 6.6% مع إنذار، نجاح التسليم ~76%، إشغال الموارد ~77%، وSINR ~4 dB. 304 مستخدمين أغلبهم بث eMBB. نحتاج إلى الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling last 2h counters for the target cell to confirm RLF/HO/quality/load, then review the RLF time trend; if confirmed, I’ll perform a focused mobility parameter tune. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب عدادات آخر ساعتين للخلية للتحقق من الانقطاع/التسليم/الجودة/الحمل، ثم مراجعة اتجاه الانقطاع زمنياً؛ وإذا تأكدت المشكلة سأجري ضبطاً مركزاً لمعلمات الحركة. يرجى تأكيد معرف الخلية والموافقة على القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-MACRO-URB-104; read access approved.",
+      "message_ar": "معرف الخلية NR-MACRO-URB-104؛ الموافقة على القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters (last 2h) show RLF 6.6% vs baseline ~2%, HO success 76%, elevated T310 expiries, PRB 76–80%, RSRQ -10 dB, SINR ~4 dB—pointing to rush-hour congestion and interference / signal overlap. Moving to time trend analysis.",
+      "message_ar": "العدادات (آخر ساعتين) تُظهر انقطاع 6.6% مقابل خط أساس ~2%، نجاح التسليم 76%، ارتفاع انتهاء T310، إشغال PRB بين 76–80%، RSRQ -10 dB وSINR ~4 dB—ما يشير إلى ازدحام ساعة الذروة ووجود التداخل/تراكب الإشارات. أنتقل لتحليل الاتجاه الزمني."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Field team observed brief streaming buffering around 19:00.",
+      "message_ar": "تم. الفريق الميداني لاحظ تقطّعاً بسيطاً في البث حوالي 19:00."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time trend confirms an RLF peak from 18:40–19:30 coinciding with PRB >78% and SINR dips; dominant cause is quality-driven drops with late/failed handovers near sector edges. Diagnosis: rush-hour interference plus load increasing T310 expiries.",
+      "message_ar": "الاتجاه الزمني يؤكد ذروة انقطاعات بين 18:40–19:30 بالتزامن مع PRB >78% وهبوط SINR؛ السبب الغالب هو انقطاعات ناجمة عن الجودة مع عمليات تسليم متأخرة/فاشلة قرب حواف القطاع. التشخيص: تداخل ساعة الذروة مع الحمل يرفع حالات انتهاء T310."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood.",
+      "message_ar": "مفهوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose a targeted mobility retune to trigger earlier handovers to better-quality neighbors and reduce drop risk (minor adjustments to margins and timers). Please approve write access for a minimal, reversible change.",
+      "message_ar": "أقترح ضبطاً مستهدفاً لمعلمات الحركة لتفعيل عمليات تسليم أبكر نحو الجيران ذوي الجودة الأفضل وتقليل مخاطر الانقطاع (تعديلات طفيفة على الهوامش والمُدد). يرجى الموافقة على الكتابة لتغيير بسيط قابل للإرجاع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Write approved for NR-MACRO-URB-104.",
+      "message_ar": "تمت الموافقة على الكتابة للخلية NR-MACRO-URB-104."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied and verified. Immediate post-check (10 min): RLF trending ~4.2%, HO success ~82%, T310 expiries down, and p95 scheduling latency ~28 ms; no new alarms. I will continue monitoring through the next busy interval.",
+      "message_ar": "تم تطبيق التحسين والتحقق. فحص فوري (10 دقائق): الانقطاع يتجه إلى ~4.2%، نجاح التسليم ~82%، انخفاض حالات انتهاء T310، وكمون الجدولة p95 ~28 مللي ثانية؛ لا إنذارات جديدة. سأستمر بالمراقبة خلال فترة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer drops and smoother handovers; the mobility parameter optimization is helping. Let’s monitor for the next 2–4 hours during evening traffic.",
+      "message_ar": "نلاحظ انخفاضاً في الانقطاعات وتسليمات أكثر سلاسة؛ يبدو أن تحسين معلمات الحركة مفيد. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة أثناء حركة المساء."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and share an update afterward. If RLF rises or side effects appear, we will rollback the change; if congestion persists, we will coordinate a wider optimization on adjacent sectors.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنشارك تحديثاً بعدها. إذا ارتفع الانقطاع أو ظهرت آثار جانبية فسنُرجع التغيير؛ وإن استمر الازدحام فسننسّق تحسيناً أوسع على القطاعات المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-MACRO-URB-104",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-MACRO-URB-104",
+        "RLF",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_params_rush_hour_tune"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rush-hour RLF spike on an urban 5G macro: counters and time trends showed elevated T310 expiries, low SINR, and high PRB, indicating interference and congestion driving quality-related drops. Executed a targeted site parameter tuning for mobility to trigger earlier, more reliable handovers. Post-change checks show improved RLF and handover success; continued monitoring is in place for the next busy interval.",
+    "ar": "تم تشخيص ارتفاع في انقطاعات الرابط خلال ساعة الذروة على خلية 5G ماكرو حضرية: العدادّات والاتجاه الزمني أظهرت ارتفاع انتهاء T310 وانخفاض SINR وارتفاع PRB، ما يشير إلى تداخل وازدحام يؤديان إلى انقطاعات مرتبطة بالجودة. نُفِّذ ضبط مُستهدف لمعلمات الحركة بالموقع لتفعيل عمليات تسليم أبكر وأكثر موثوقية. فحوصات ما بعد التغيير أظهرت تحسناً في الانقطاع ونجاح التسليم؛ المراقبة مستمرة خلال فترة الانشغال التالية."
+  }
+}

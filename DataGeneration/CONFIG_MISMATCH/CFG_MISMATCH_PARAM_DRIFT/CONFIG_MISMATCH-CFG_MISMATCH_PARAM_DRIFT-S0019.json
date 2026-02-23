@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0019",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell shows 8 configuration mismatches with a 0.63 drift score aged ~6h over the last 12h, p50 downlink 29 Mbps, BLER ~10%, and HO failures ~4%, with an active alarm indicating possible congestion.",
+    "ar": "تعرض خلية NR ماكرو حضرية 8 حالات عدم تطابق في الإعدادات بدرجة انجراف 0.63 منذ نحو 6 ساعات خلال آخر 12 ساعة، والوسيط للتحميل الهابط 29 ميجابت/ث، وBLER ~10%، وفشل التسليم ~4%، مع إنذار نشط يشير إلى احتمال وجود ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-UGB-31021-1 has an active alarm and shoulder-period complaints from eMBB streaming users (buffering). Last 12h KPIs: config mismatch count 8, drift started ~6h ago (score 0.63); p50 DL 29 Mbps, BLER ~10%, HO failures ~4%.",
+      "message_ar": "الخلية NR الماكرو الحضرية NR-UGB-31021-1 لديها إنذار نشط وشكاوى خلال فترة الكتف من مستخدمي eMBB (تقطّع في البث). مؤشرات آخر 12 ساعة: عدد عدم التطابق 8، بدأ الانحراف منذ ~6 ساعات (درجة 0.63)؛ الوسيط للتحميل الهابط 29 ميجابت/ث، BLER ~10%، وفشل التسليم ~4%."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnosis and fix. Plan: compare OSS vs live configs over the last 12h, validate impacted functions, and if misaligned, push the correct baseline then document the change. Please confirm access and that no intentional edits were made.",
+      "message_ar": "سأتولى التشخيص والمعالجة. الخطة: مقارنة إعدادات منظومة الإدارة مع الحالة الحية لآخر 12 ساعة، تأكيد الوظائف المتأثرة، وإذا وُجد انحراف سأدفع الخط الأساسي الصحيح ثم أوثّق التغيير. يرجى تأكيد صلاحية الوصول وعدم وجود تعديلات مقصودة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; no planned or intentional changes today.",
+      "message_ar": "الوصول مُعتمد؛ لا تغييرات مخططة أو مقصودة اليوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running a configuration comparison for NR-UGB-31021-1 (12h). Findings: 8 drifted settings since ~T-6h across beam/SSB timing, mobility thresholds, scheduler weights, and UL power control—consistent with BLER/HO symptoms. I propose restoring the OSS baseline. Approve a brief change window (<1 min control-plane blip)?",
+      "message_ar": "أجري مقارنة للإعدادات لـ NR-UGB-31021-1 (12 ساعة). النتائج: 8 بنود انجرفت منذ ~6 ساعات تشمل توقيت SSB/الحزم، عتبات التنقل، أوزان المُجدول، وضبط طاقة الرفع—متسقة مع أعراض BLER وفشل التسليم. أقترح استعادة الخط الأساسي الخاص بالمنظومة. هل توافق على نافذة تغيير قصيرة (<1 دقيقة وقد يحدث أثر بسيط على طبقة التحكم)؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the short change window.",
+      "message_ar": "موافَق على المضي قدمًا بالنافذة القصيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing baseline restoration now. Push completed; post-check shows mismatch count = 0. Immediate trends: BLER 10% → ~6.5%, HO failures trending down, p50 DL ~29 → ~33 Mbps. Please observe streaming and mobility locally for a few minutes.",
+      "message_ar": "تنفيذ استعادة الخط الأساسي الآن. اكتمل الدفع؛ فحص ما بعد التنفيذ يُظهر عدم التطابق = 0. الاتجاهات الفورية: BLER من 10% إلى ~6.5%، وفشل التسليم يتجه للانخفاض، والوسيط للتحميل الهابط من ~29 إلى ~33 ميجابت/ث. يرجى متابعة البث والتنقل محليًا لبضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Buffering has reduced and handovers look cleaner on our side.",
+      "message_ar": "التقطّع انخفض وتسليمات الحركة تبدو أنظف لدينا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change recorded as DU-CFG-04573 with details of the drift and baseline restoration. I will continue short-term observation. Any residual symptoms noted?",
+      "message_ar": "تم توثيق التغيير بالمعرّف DU-CFG-04573 مع تفاصيل الانجراف واستعادة الخط الأساسي. سأواصل المراقبة القصيرة. هل ظهرت أي أعراض متبقية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No further complaints so far.",
+      "message_ar": "لا توجد شكاوى إضافية حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will keep watching error/drop counters and neighbor interactions while load stabilizes.",
+      "message_ar": "مفهوم. سأستمر في مراقبة عدادات الأخطاء/السقوط وتفاعل الجوار أثناء استقرار الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Metrics show improvement: BLER continues to fall and handover failures trending down. Action taken was a configuration push to align OSS with live. Let’s monitor over the next 2–4 hours and track under DU-CFG-04573.",
+      "message_ar": "تظهر المؤشرات تحسنًا: BLER مستمر بالانخفاض وفشل التسليم يتجه للهبوط. الإجراء كان دفع الإعدادات لمواءمة المنظومة مع الحالة الحية. لِنراقب خلال الساعتين إلى الأربع ساعات القادمة مع التتبع تحت DU-CFG-04573."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own the 2–4 hour monitoring window and update the ticket after the window. If regression appears, we will roll back the change and escalate to field for on-site verification.",
+      "message_ar": "متفق—سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث التذكرة بعد انتهائها. إذا ظهرت انتكاسة سنُعيد التغيير ونتصاعد إلى الفريق الميداني للتحقق الموقعي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-UGB-31021-1",
+        "12h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG_BASELINE_NR-UGB-31021-1"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config drift corrected on NR-UGB-31021-1; 8 params aligned; post-check stable"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a configuration mismatch on an urban NR macro cell: 8 drifted settings over the last 12h correlated with elevated BLER and handover issues. Restored the correct baseline via a configuration push and verified the mismatch cleared with immediate KPI improvement. The change was logged (DU-CFG-04573), and short-term monitoring is underway.",
+    "ar": "تم تشخيص عدم تطابق في الإعدادات على خلية NR ماكرو حضرية: 8 بنود انجرفت خلال آخر 12 ساعة تزامنت مع ارتفاع BLER ومشكلات التسليم. تمت استعادة الخط الأساسي الصحيح عبر دفع الإعدادات والتحقق من زوال عدم التطابق مع تحسن فوري في المؤشرات. تم توثيق التغيير (DU-CFG-04573)، وتتم متابعة المراقبة القصيرة."
+  }
+}

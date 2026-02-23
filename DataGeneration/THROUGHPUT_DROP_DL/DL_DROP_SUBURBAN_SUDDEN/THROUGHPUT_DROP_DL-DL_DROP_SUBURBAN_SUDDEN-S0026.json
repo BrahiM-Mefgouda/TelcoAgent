@@ -1,0 +1,118 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0026",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows a sudden 2h downlink throughput drop to ~15 Mbps during peak with ~255 users, PRB utilization ~81%, SINR ~11 dB, BLER ~5.8%, and no active alarms, affecting eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحي تشهد هبوطًا مفاجئًا خلال ساعتين في سرعات التنزيل إلى ~15 ميجابت/ث وقت الذروة مع ~255 مستخدمًا، وإشغال PRB ~81%، وSINR ~11 ديسيبل، وBLER ~5.8%، ولا توجد إنذارات نشطة، مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell SB-117-1 shows a sudden downlink throughput drop over the last 2 hours during peak. Average DL user rate is around 15 Mbps with ~255 users; PRB ~81%, BLER ~5.8%, SINR ~11 dB, and no alarms.",
+      "message_ar": "خلية NR ماكرو في الضواحي SB-117-1 تُظهر هبوطًا مفاجئًا في سرعات التنزيل خلال آخر ساعتين وقت الذروة. متوسط معدل التنزيل نحو 15 ميجابت/ث مع ~255 مستخدمًا؛ إشغال PRB ~81%، وBLER ~5.8%، وSINR ~11 ديسيبل، ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 2h OSS counters for SB-117-1 to baseline load and errors. Please confirm access.",
+      "message_ar": "سأبدأ بجلب عدّادات آخر ساعتين من نظام الإدارة للخلية SB-117-1 لتثبيت خط أساس للحمل والأخطاء. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for SB-117-1.",
+      "message_ar": "الوصول مُعتمد لـ SB-117-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled: PRB utilization 80–85%, users 240–260, BLER 5–7%, median SINR 11 dB, no faults or backhaul issues. This indicates load-driven DL degradation during peak eMBB streaming. Next, I will chart DL throughput over the same 2h window to pinpoint onset.",
+      "message_ar": "تم جلب العدّادات: إشغال PRB بين 80–85%، المستخدمون 240–260، BLER بين 5–7%، ووسيط SINR عند 11 ديسيبل، ولا أعطال أو مشاكل في النقل الخلفي. هذا يوحي بتدهور السرعة بسبب الحمل وقت ذروة حركة eMBB. بعد ذلك سأرسم سلسلة زمنية لسرعات DL خلال الساعتين نفسهما لتحديد نقطة البدء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the DL throughput chart.",
+      "message_ar": "تابع برسم السلسلة الزمنية لسرعات التنزيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows DL median falling from ~35–40 Mbps earlier to ~15 Mbps starting ~90 minutes ago, aligned with a user spike; no error storms, handover success ~83%. I propose targeted tuning: adjust DL scheduler fairness toward throughput, slightly tighten MCS BLER target, and apply a small PDSCH power bias within limits. Approve to implement?",
+      "message_ar": "تُظهر السلسلة الزمنية انخفاض الوسيط من ~35–40 ميجابت/ث سابقًا إلى ~15 ميجابت/ث بدءًا من ~90 دقيقة مضت، متزامنًا مع زيادة المستخدمين؛ لا طفرات أخطاء، ونسبة نجاح التسليم ~83%. أقترح ضبطًا انتقائيًا: تعديل إنصاف مجدول DL باتجاه الإنتاجية، وتشديدًا طفيفًا لهدف BLER لمخطط MCS، وإضافة انحياز صغير لطاقة PDSCH ضمن الحدود. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on SB-117-1 with guardrails; no resets. Immediate view: PRB 78–80%, BLER 4–5%, SINR unchanged; DL p50 up to ~22–24 Mbps. I will watch live counters for a few minutes—please share any field observations.",
+      "message_ar": "تم تطبيق التحسين على SB-117-1 مع ضوابط أمان وبدون أي إعادة تشغيل. العرض الفوري: PRB عند 78–80%، وBLER عند 4–5%، وSINR دون تغيير؛ وارتفع وسيط DL إلى ~22–24 ميجابت/ث. سأراقب العدّادات لبضع دقائق—يرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: fewer buffering events and faster page loads; no adverse mobility effects.",
+      "message_ar": "ملاحظة مبكرة: حالات التقطيع أقل وتحميل الصفحات أسرع؛ ولا آثار سلبية على التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will continue tracking DL rate and error trends for stability and ensure neighboring cells are unaffected. Confirm if the user experience remains steady.",
+      "message_ar": "تم. سأواصل تتبّع معدل DL واتجاه الأخطاء للتأكد من الاستقرار وضمان عدم تأثر الخلايا المجاورة. يرجى تأكيد استمرار ثبات تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Looks stable: median downlink now ~25 Mbps with block errors trending down after the site parameter tuning. Let's monitor through the next busy hour.",
+      "message_ar": "يبدو مستقرًا: الوسيط الآن ~25 ميجابت/ث مع انخفاض في أخطاء الكتل بعد ضبط معلمات الموقع. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and provide an update afterward. If degradation returns, we will escalate to deeper interference/load analysis and roll back the tuning if needed.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة ونقدم تحديثًا بعدها. إذا عادت المشكلة، سنصعّد إلى تحليل أعمق للتداخل/الحمل وسنرجع الضبط عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "SB-117-1",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "SB-117-1",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL_scheduler_fairness",
+        "eMBB_qos_weights",
+        "MCS_target_BLER",
+        "PDSCH_power_bias"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated the suburban 5G NR macro cell’s downlink throughput drop by reviewing counters and analyzing the last 2h DL time series. The degradation aligned with peak-hour load (high PRB and many users) without faults. Applied site parameter tuning to the DL scheduler, target BLER, and power allocation, improving median DL from ~15 Mbps to ~25 Mbps with lower block errors; we will monitor through the next busy hour.",
+    "ar": "تم التحقيق في هبوط سرعات التنزيل لخلية ماكرو 5G NR في الضواحي بمراجعة العدّادات وتحليل سلسلة زمنية لآخر ساعتين. ارتبط التدهور بحمل ساعة الذروة (إشغال PRB مرتفع وعدد مستخدمين كبير) دون أعطال. تم تنفيذ ضبط معلمات الموقع لمجدول DL وهدف BLER وتوزيع القدرة، مما حسّن الوسيط من ~15 إلى ~25 ميجابت/ث مع أخطاء كتل أقل؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

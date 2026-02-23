@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0030",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows a spike in radio link failures with weak signal and slow data over the past 6 hours; investigate mobility at the coverage edge.",
+    "ar": "خلية NR ماكرو ريفية تُظهر ارتفاعاً في فشل روابط الراديو مع إشارة ضعيفة وبيانات بطيئة خلال آخر 6 ساعات؛ الرجاء التحقق من الحركة عند حافة التغطية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NRR-12345-1 shows rising radio link failures over the last 6h with weak edge signal: RSRP -113 dBm, RSRQ -17 dB, SINR 5 dB; HO success ~80%, BLER 4.5%, PRB ~39%, ~78 users, and p50 throughput 4 Mbps impacting eMBB streaming. No alarms. Please check.",
+      "message_ar": "الخلية NR الماكرو الريفية NRR-12345-1 تُظهر ارتفاعاً في فشل روابط الراديو خلال آخر 6 ساعات مع إشارة ضعيفة عند الحافة: RSRP -113 dBm، RSRQ -17 dB، وSINR 5 dB؛ نجاح التسليم ~80%، BLER 4.5%، استخدام PRB ~39%، ~78 مستخدماً، وإنتاجية وسيطة 4 Mbps مما يؤثر على بث eMBB. لا توجد إنذارات. يرجى الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 6h OSS counters and mobility logs for the cell. Please confirm the cell ID and grant access for this window.",
+      "message_ar": "سأبدأ بسحب عدادات OSS وسجلات الحركة لآخر 6 ساعات للخلية. يرجى تأكيد معرف الخلية ومنحي الموافقة على الوصول لهذه النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NRR-12345-1, access approved for the 6h window.",
+      "message_ar": "معرف الخلية هو NRR-12345-1، والوصول مُعتمد لنافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot retrieved: RLF is elevated vs baseline, edge-heavy distribution (TA std ~139 m), moderate load, no faults. Next, I will analyze the RLF time series and HO correlation over the same window to isolate peaks and suspect neighbors. Proceed?",
+      "message_ar": "تم الحصول على لقطة OSS: زيادة في فشل الروابط مقارنة بالأساس، توزيع مُتركّز على الحافة (انحراف معياري لـ TA ~139 م)، وحمل متوسط، ولا أعطال. التالي، سأحلل السلسلة الزمنية لفشل الروابط وارتباطها بمحاولات التسليم ضمن نفس النافذة لعزل الذروات والجيران المشتبهين. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows RLF peaks during mixed hours aligning with HO attempts toward neighbors NRR-12346-2 and NRR-12347-3; HO success dips to ~80% then. With weak edge signal, this indicates tight HO margins/timers. I propose a low-risk mobility tune to relax margins and timers toward those neighbors for earlier HO and fewer drops. Approve the parameter push?",
+      "message_ar": "تُظهر السلاسل الزمنية ذروات لفشل الروابط خلال ساعات مختلطة وتتزامن مع محاولات التسليم نحو الجارين NRR-12346-2 وNRR-12347-3؛ نجاح التسليم يهبط إلى ~80% حينها. مع ضعف الإشارة عند الحافة، يشير ذلك إلى هوامش/مؤقتات تسليم ضيقة. أقترح ضبطاً خفيف المخاطر للحركة لإرخاء الهوامش والمُؤقتات نحو هذين الجارين لتمكين التسليم المبكر وتقليل السقوط. هل توافق على دفع المعلمات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the optimization.",
+      "message_ar": "موافقة على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: mobility parameters adjusted for the target neighbors and edge cases; changes committed. Immediate monitoring started for RLF rate, HO success, and user throughput over the next 2 hours.",
+      "message_ar": "تم تطبيق التحسين: تم تعديل معلمات الحركة للجيران المستهدفين وحالات الحافة؛ وتم اعتماد التغييرات. بدأنا مراقبة فورية لمعدل فشل الروابط، ونجاح التسليم، وإنتاجية المستخدمين خلال الساعتين المقبلتين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 20 minutes post-change: radio link failures trending down and median edge throughput up to ~5–6 Mbps on probes. No new alarms.",
+      "message_ar": "أول 20 دقيقة بعد التغيير: فشل روابط الراديو في اتجاه هبوطي والإنتاجية الوسيطة عند الحافة ارتفعت إلى ~5–6 Mbps على القياسات. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will keep the new settings and watch stability through the next busy period; if any regressions appear, we will revert to prior values.",
+      "message_ar": "تم. سنبقي الإعدادات الجديدة ونراقب الاستقرار عبر فترة الانشغال القادمة؛ وإذا ظهرت تراجعات سنعود إلى القيم السابقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement persists: radio link failures trending down and handovers cleaner. After the mobility parameter optimization/config push, let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: فشل روابط الراديو في انخفاض وتسليمات أنظف. بعد تحسين معلمات الحركة/دفع التهيئة، لِنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If RLF rises or neighbor KPIs degrade, we will roll back the change or coordinate broader coverage tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونوافيك بتحديث بعد ذلك. إذا ارتفع فشل الروابط أو تدهورت مؤشرات الجيران، فسنقوم بإرجاع التغيير أو تنسيق ضبط تغطية أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a mobility-related radio link failure spike at a rural NR macro: OSS review and RLF time series indicated edge-driven drops coinciding with handovers to two neighbors. Mitigated by site parameter tuning of mobility margins and timers, then began monitoring RLF rate, handover success, and user throughput through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع في فشل روابط الراديو متعلق بالحركة في خلية NR ماكرو ريفية: راجعت OSS وأظهرت السلاسل الزمنية لفشل الروابط أن السقوط يحدث عند الحافة ويتزامن مع التسليم إلى جارَين. تم التخفيف عبر ضبط معلمات الموقع لهوامش ومؤقتات الحركة، وبدأت المراقبة لمعدل فشل الروابط ونجاح التسليم وإنتاجية المستخدمين خلال ساعة الذروة التالية."
+  }
+}

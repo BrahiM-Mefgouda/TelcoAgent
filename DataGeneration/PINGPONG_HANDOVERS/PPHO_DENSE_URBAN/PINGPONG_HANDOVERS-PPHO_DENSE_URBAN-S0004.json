@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0004",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro cell shows ping-pong handovers during peak evening eMBB streaming: handover success ~82%, ping-pong ~12%, attempts ~53/5min, SINR ~5 dB.",
+    "ar": "خلية NR ماكرو حضرية كثيفة تعاني من تسليمات متأرجحة خلال ذروة المساء مع حركة eMBB (بث): نجاح التسليم ~82%، التأرجح ~12%، المحاولات ~53/5د، وSINR ~5 dB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During peak evening on dense urban NR macro NRD-41023 we see rising ping-pong handovers; HO success ~82%, ping-pong ~12%, attempts ~53/5min, ~420 users, RSRP −99 dBm, RSRQ −9 dB, SINR ~5 dB; no alarms.",
+      "message_ar": "خلال ذروة المساء على خلية NR ماكرو حضرية كثيفة NRD-41023 نلاحظ ارتفاعاً في التسليمات المتأرجحة؛ نجاح التسليم ~82%، معدل التأرجح ~12%، المحاولات ~53/5د، ~420 مستخدم، RSRP −99 dBm، RSRQ −9 dB، وSINR ~5 dB؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Plan: 1) fetch last 4h stats for NRD-41023, 2) review HO time series to isolate ping-pong pairs during the eMBB streaming peak, 3) if confirmed, apply light mobility tuning (increase time-to-trigger, add small hysteresis, refine A3 offset). Please confirm access for the 4h window.",
+      "message_ar": "شكراً. الخطة: 1) سحب إحصاءات آخر 4 ساعات لـ NRD-41023، 2) مراجعة سلسلة زمنية للتسليم لتحديد الأزواج المتأرجحة خلال ذروة بث eMBB، 3) إذا تأكدت المشكلة، تطبيق ضبط خفيف للتنقل (رفع زمن الانتظار، إضافة هامش هسترة صغير، وضبط إزاحة A3). يرجى تأكيد السماح بالوصول لنافذة 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NRD-41023 over the last 4 hours; proceed.",
+      "message_ar": "الوصول معتمد لـ NRD-41023 لآخر 4 ساعات؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 4h counters for NRD-41023 and summarizing HO attempts/failures, ping-pong, load, and radio quality; I will share key findings next.",
+      "message_ar": "أقوم بسحب عدادات آخر 4 ساعات لـ NRD-41023 وتلخيص محاولات/فشل التسليم، التأرجح، الحمل، وجودة الراديو؛ سأشارك النتائج الأساسية لاحقاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted; traffic this hour is mostly eMBB streaming.",
+      "message_ar": "تم؛ الحركة في هذه الساعة أغلبها بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: HO failures ~12%, ping-pong concentrated on a few neighbor pairs, attempts high at ~53/5min, PRB utilization ~68%, radio marginal (RSRP −99, RSRQ −9). No outages. Next, I will analyze HO time series over 4h to pinpoint spikes and loop durations. Proceed?",
+      "message_ar": "النتائج: فشل التسليم ~12%، التأرجح متركز على بضع أزواج جيران، المحاولات مرتفعة ~53/5د، استخدام PRB ~68%، الراديو حدي (RSRP −99، RSRQ −9). لا انقطاعات. التالي سأحلل السلسلة الزمنية للتسليم خلال 4 ساعات لتحديد الذروات وأزمنة العودة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series review shows evening spikes 18:30–21:00 with rapid A↔B returns within ~100 ms. This suggests thresholds are too sensitive in areas of close coverage. I recommend a mobility optimization: slightly raise time-to-trigger, add 1–2 dB hysteresis, and nudge A3 offset. Approve change?",
+      "message_ar": "تُظهر السلاسل الزمنية ذروات 18:30–21:00 مع عودة A↔B سريعة خلال ~100 مللي ثانية. هذا يشير إلى حساسية مفرطة للعتبات في مناطق تغطية متقاربة. أوصي بتحسين للتنقل: رفع بسيط لزمن الانتظار، إضافة 1–2 dB هسترة، وتعديل طفيف لإزاحة A3. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; implement now.",
+      "message_ar": "موافق؛ نفّذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NRD-41023 relations: modest time-to-trigger increase, small hysteresis added, and A3 offset adjusted. Post-change checks started; tracking HO success, ping-pong rate, and radio quality.",
+      "message_ar": "تم تطبيق تحسينات على علاقات NRD-41023: زيادة طفيفة لزمن الانتظار، إضافة هسترة صغيرة، وضبط إزاحة A3. بدأ فحص ما بعد التغيير؛ نتابع نجاح التسليم، معدل التأرجح، وجودة الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early results look better: ping-pong trending down toward ~6% and handover success up to ~87%. The mobility parameter optimization appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "النتائج الأولية أفضل: معدل التأرجح يتجه نحو ~6% ونجاح التسليم ارتفع إلى ~87%. يبدو أن تحسين معلمات التنقل فعّال. دعنا نراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring for the next busy hour and share an update afterward. If metrics regress, we will roll back the changes; if ping-pong persists, we will escalate to RF for deeper neighbor and coverage tuning.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الانشغال التالية ونشارك تحديثاً بعدها. إذا تراجعت المؤشرات سنرجع التغييرات؛ وإذا استمر التأرجح سنصعّد إلى فريق RF لتحسين أعمق للجيران والتغطية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRD-41023",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRD-41023",
+        "HO",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility parameters: increase TTT, add hysteresis, adjust A3 offset"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "We examined 4h network statistics and handover time series for the urban NR macro, confirming evening ping-pong loops with high attempts and marginal radio quality. We performed site parameter tuning on mobility (increasing time-to-trigger, adding hysteresis, and adjusting A3 offset) and observed immediate improvement in ping-pong rate and handover success. We will continue monitoring through the next busy hour.",
+    "ar": "قمنا بفحص إحصاءات الشبكة لمدة 4 ساعات والسلاسل الزمنية للتسليم في خلية NR الحضرية الماكرو، وتأكدت حلقات التأرجح المسائية مع محاولات مرتفعة وجودة راديو حدّية. نفذنا ضبطاً لمعلمات الموقع الخاصة بالتنقل (زيادة زمن الانتظار، إضافة هسترة، وضبط إزاحة A3) ولوحظ تحسن فوري في معدل التأرجح ونجاح التسليم. سنواصل المراقبة خلال ساعة الانشغال التالية."
+  }
+}

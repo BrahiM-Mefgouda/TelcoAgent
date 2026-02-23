@@ -1,0 +1,123 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0009",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows sustained >91% PRB use over the last 3h during peak evening with 226 users, RSRQ -13 dB and DL 12 Mbps; congestion alarm is active.",
+    "ar": "يعرض موقع ماكرو 5G NR حضري استخدام PRB يتجاوز 91% خلال آخر 3 ساعات في ذروة المساء مع 226 مستخدمًا وRSRQ -13 dB وسرعة تنزيل 12 Mbps؛ إنذار الازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Evening congestion alarm on the urban NR macro cell; users on enterprise private traffic report slow sessions. Current stats: PRB ~92%, DL ~12 Mbps, RSRQ -13 dB, 226 users, some HO failures. Please investigate; access is approved.",
+      "message_ar": "يوجد إنذار ازدحام مسائي على خلية NR ماكرو في منطقة حضرية؛ يشتكي المستخدمون ضمن حركة مؤسسة خاصة من بطء الجلسات. الإحصاءات الحالية: PRB ~92%، تنزيل ~12 Mbps، RSRQ -13 dB، 226 مستخدمًا، وبعض فشل التسليم بين الخلايا. الرجاء التحقيق؛ صلاحية الوصول مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the diagnosis: 1) check OSS counters for the last 3h, 2) if sustained PRB saturation with normal BLER, apply targeted scheduler and load-based offload tuning, 3) open a tracking ticket. Share the cell ID and confirm the 3h window and change approval.",
+      "message_ar": "سأتولى التشخيص: 1) فحص عدادات OSS لآخر 3 ساعات، 2) إذا كان تشبع PRB مستمرًا مع BLER طبيعي، سأطبق ضبطًا مستهدفًا لجدولة الموارد والتفريغ القائم على الحمل، 3) فتح تذكرة متابعة. يرجى تزويدي بمعرّف الخلية وتأكيد نافذة 3 ساعات والموافقة على التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-12345. The 3h window is correct and you have approval for read and a safe config change.",
+      "message_ar": "معرّف الخلية: NR-12345. نافذة 3 ساعات صحيحة ولديك موافقة للقراءة ولتغيير آمن في الإعدادات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check on NR-12345 for 3h. Findings: PRB 91–95% sustained, users 226, DL ~12 Mbps, UL ~9 Mbps, p95 scheduler latency 29 ms, BLER ~3.3%, RLF ~3.9%, HO failures ~5%. Neighbor PCI overlap reported high (14). This is capacity congestion with mild interference indications.",
+      "message_ar": "أجري فحص OSS على NR-12345 لمدة 3 ساعات. النتائج: PRB بين 91–95% بشكل مستمر، 226 مستخدمًا، تنزيل ~12 Mbps، رفع ~9 Mbps، كمون المُجدول p95 = 29 ms، BLER ~3.3%، RLF ~3.9%، فشل HO ~5%. تم الإبلاغ عن تداخل PCI مجاور مرتفع (14). الحالة تعكس ازدحام سعة مع مؤشرات تداخل طفيفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Traffic here is enterprise private; many VPN and some streaming sessions during peak evening.",
+      "message_ar": "الحركة هنا مؤسسة خاصة؛ الكثير من VPN وبعض البث أثناء ذروة المساء."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate, I will tune NR-12345: adjust scheduler weights for high load, enable stronger load-based handover bias to neighboring capacity, and refine time-domain resource allocation to stabilize latency for enterprise flows. Changes are minimal and reversible. Approve to proceed?",
+      "message_ar": "للتخفيف، سأضبط NR-12345: تعديل أوزان المُجدول للحمل المرتفع، تمكين انحياز أقوى للتسليم بين الخلايا القائم على الحمل نحو الخلايا ذات السعة، وتحسين تخصيص الموارد الزمنية لاستقرار الكمون لتدفقات المؤسسة. التغييرات طفيفة وقابلة للعكس. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the optimization.",
+      "message_ar": "موافق على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the optimization now. Expect PRB to drop by ~5–10% and scheduler latency to improve within minutes. I will observe counters for the next 15–20 minutes and watch for drops or HO regressions.",
+      "message_ar": "أقوم بتطبيق التحسين الآن. نتوقع انخفاض PRB بنحو 5–10% وتحسن كمون المُجدول خلال دقائق. سأراقب العدادات خلال 15–20 دقيقة وأتحقق من السقوط أو تراجع التسليم بين الخلايا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, PRB is fluctuating around 84–87%, DL throughput stabilized near 14–16 Mbps, and fewer queueing delays; no spike in drop or HO failures.",
+      "message_ar": "بعد نحو 15 دقيقة، يتذبذب PRB حول 84–87%، واستقرت سرعة التنزيل قرب 14–16 Mbps، وانخفضت تأخيرات الاصطفاف، دون ارتفاع في السقوط أو فشل التسليم بين الخلايا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will create a tracking ticket summarizing the congestion, actions, and early results, and continue evening-peak observation. Proceed?",
+      "message_ar": "جيد. سأقوم بإنشاء تذكرة متابعة تلخص الازدحام والإجراءات والنتائج الأولية، وسأواصل المراقبة خلال ذروة المساء. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed, and include the baseline and post-change snapshots.",
+      "message_ar": "تابع، وضمّن لقطات الأساس وما بعد التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-LOAD-03291 created with baseline and post-change notes for NR-12345; monitoring notes will be appended during peak. I will also flag the high neighbor PCI overlap as a watch item.",
+      "message_ar": "تم إنشاء التذكرة DU-LOAD-03291 مع ملاحظات الأساس وما بعد التغيير لـ NR-12345؛ ستتم إضافة ملاحظات المراقبة أثناء الذروة. كما سأشير إلى ارتفاع تداخل PCI المجاور كبند للمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: scheduler latency trending down and PRB holding mid-80s. Action taken: site parameter optimization on NR-12345. Let’s monitor through the next busy hour; update DU-LOAD-03291 afterward.",
+      "message_ar": "تمت ملاحظة تحسن: كمون المُجدول في اتجاه هابط وPRB ثابت في منتصف الثمانينيات. الإجراء المتخذ: تحسين معلمات الموقع على NR-12345. لنتابع المراقبة خلال ساعة الذروة القادمة؛ حدّث DU-LOAD-03291 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will own the next busy-hour monitoring and update the ticket with PRB, throughput, and latency results. If performance regresses, I will roll back the tuning; if congestion persists, I will escalate for capacity relief and interference review. Summary: diagnosed sustained PRB saturation, applied targeted parameter tuning, opened DU-LOAD-03291, and will continue peak-time observation.",
+      "message_ar": "سأتولى مراقبة ساعة الذروة القادمة وأحدّث التذكرة بنتائج PRB ومعدل النقل والكمون. إذا تدهور الأداء سأقوم بعكس الضبط؛ وإذا استمر الازدحام سأصعّد لبحث سعة إضافية ومراجعة التداخل. الملخص: تم تشخيص تشبع PRB المستمر، وتطبيق ضبط معلمات مستهدف، وفتح DU-LOAD-03291، وسأواصل المتابعة في أوقات الذروة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-12345",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler+load-based offload tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB congestion; tuning applied; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 12,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "OSS checks confirmed sustained PRB saturation on the urban NR macro cell during the peak evening window with moderate latency pressure and acceptable BLER. We performed site parameter tuning to improve scheduling and load-based offload, then opened a tracking ticket for continued observation. Monitoring will continue through the next busy hour to ensure stability and validate the mitigation.",
+    "ar": "أكدت فحوصات OSS وجود تشبع مستمر في PRB على خلية NR ماكرو حضرية خلال ذروة المساء مع ضغط كمون متوسط وBLER مقبول. تم تنفيذ ضبط معلمات الموقع لتحسين الجدولة والتفريغ القائم على الحمل، ثم فتح تذكرة متابعة للاستمرار في المراقبة. ستستمر المتابعة خلال ساعة الذروة القادمة لضمان الاستقرار والتحقق من فعالية المعالجة."
+  }
+}

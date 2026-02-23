@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0006",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows high latency ~54 ms over the last 3 hours during peak, with moderate load and elevated BLER (~9.5%); please review latency SLA breaches for enterprise traffic.",
+    "ar": "خلية NR ماكرو في منطقة شبه حضرية تُظهر كموناً مرتفعاً (~54 مللي ثانية) خلال آخر 3 ساعات في وقت الذروة مع حمل متوسط وBLER مرتفع (~9.5%)؛ يرجى مراجعة تجاوزات اتفاقية الكمون لحركة المؤسسات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell for enterprise private users is breaching latency targets over the last 3h peak window: median ~54 ms, SINR ~7 dB, BLER ~9–10%, PRB ~68%, p50 throughput ~11 Mbps. No active alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة شبه حضرية تخدم مستخدمين مؤسسيين تُخالف أهداف الكمون خلال نافذة الذروة لآخر 3 ساعات: الوسيط ~54 مللي ثانية، SINR ~7 dB، BLER ~9–10%، استخدام PRB ~68%، ومعدل p50 ~11 Mbps. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an OSS health and counter snapshot for the last 3 hours to validate load, errors, and buffers; with your approval I will then pull detailed latency trends. Please confirm access and the target cell.",
+      "message_ar": "سأبدأ بفحص الحالة من نظام الإدارة والحصول على لقطة عدّادات لآخر 3 ساعات للتحقق من الحمل والأخطاء والصفوف؛ وبموافقتك سأقوم بعدها بسحب اتجاهات الكمون التفصيلية. يرجى تأكيد الوصول وتحديد الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell: NR-SUB-MACRO-143 (window: last 3h).",
+      "message_ar": "تمت الموافقة على الوصول. الخلية المستهدفة: NR-SUB-MACRO-143 (النافذة: آخر 3 ساعات)."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: cell on-air, no backhaul alarms. Users 240–270, PRB 65–70%, DL BLER 9–11%, and RLC buffer spikes during busy minutes; scheduler not saturated. This indicates retransmissions inflating latency rather than pure congestion. Next, I will extract the latency time series for the same 3h window to correlate with BLER. Approve?",
+      "message_ar": "تم فحص النظام: الخلية عاملة ولا توجد إنذارات على الربط الخلفي. عدد المستخدمين 240–270، استخدام PRB بين 65–70%، وBLER على الوصلة الهابطة 9–11%، مع ارتفاع في صفوف RLC خلال دقائق الانشغال؛ المجدول غير مُستنزف. هذا يشير إلى أن عمليات الإعادة ترفع الكمون بدلاً من الازدحام البحت. بعد ذلك سأستخرج سلسلة الزمن للكمون لنفس نافذة 3 ساعات للربط مع BLER. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series shows p50 ~52–55 ms with peaks at 75–90 ms aligned with BLER bursts; p95 ~68 ms; weak correlation with PRB. Plan: apply targeted parameter tuning to lower BLER and prioritize low-latency traffic (QoS/scheduler weighting and conservative modulation bias within policy). Proceed with the change now?",
+      "message_ar": "سلسلة زمن الكمون تُظهر p50 حوالي 52–55 مللي ثانية مع قمم 75–90 مللي ثانية متزامنة مع ارتفاعات BLER؛ قيمة p95 حوالي 68 مللي ثانية؛ ارتباط ضعيف مع استخدام PRB. الخطة: ضبط موجّه للمعاملات لخفض BLER وإعطاء أولوية لحركة المرور الحساسة للكمون (أوزان QoS/المُجدول وانحياز تعديل أكثر تحفظاً ضمن السياسة). هل أمضي بالتعديل الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed; no conflicting work on this site.",
+      "message_ar": "موافقة على التنفيذ؛ لا توجد أعمال متعارضة على هذا الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied successfully: tuned site parameters to tighten retransmission budget, reduce BLER target, and favor latency-sensitive classes; commit clean. Immediate post-check: DL BLER ~7.5–8%, p50 latency ~41 ms, throughput stable. I will keep observing counters for stabilization.",
+      "message_ar": "تم تطبيق التعديل بنجاح: تم ضبط معاملات الموقع لتشديد ميزانية الإعادات، خفض هدف BLER، وترجيح الفئات الحساسة للكمون؛ تم الاعتماد بدون أخطاء. فحص فوري بعد التغيير: BLER على الوصلة الهابطة ~7.5–8%، وp50 للكمون ~41 مللي ثانية، ومعدل النقل مستقر. سأواصل مراقبة المؤشرات حتى الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback from enterprise users indicates snappier response; no error spikes observed.",
+      "message_ar": "ملاحظات ميدانية من مستخدمي المؤسسة تشير إلى استجابة أسرع؛ لم تُلاحظ طفرات أخطاء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. As link adaptation converges, further reduction in latency peaks is expected over the next few measurement intervals. I will continue passive monitoring and confirm the trend.",
+      "message_ar": "تم. مع تقارب تكيّف الوصلة نتوقع مزيداً من انخفاض قمم الكمون خلال الفترات القياسية القادمة. سأواصل المراقبة السلبية وتأكيد الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good improvement so far: latency spikes trending down and median around 38–42 ms after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن جيد حتى الآن: قمم الكمون تتراجع والوسيط حوالي 38–42 مللي ثانية بعد ضبط معاملات الموقع. لِنُراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; we will own the monitoring for the next busy hour and update you on latency trend, BLER, and user impact. If latency drifts above target, we will roll back the tuning and escalate with a deeper interference and neighbor check; otherwise we will keep the optimization.",
+      "message_ar": "مفهوم؛ سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيك باتجاهات الكمون وBLER وتأثيرها على المستخدمين. إذا انحرف الكمون فوق الهدف سنعود عن الضبط ونصعّد بفحص أعمق للتداخل والجيران؛ وإلا فسنُبقي التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Latency SLA breaches on the suburban NR macro cell were driven by elevated BLER and buffer spikes rather than congestion. We validated health in the management system, analyzed 3-hour latency trends, and then applied site parameter tuning to reduce retransmissions and prioritize low-latency traffic. Early results show lower median latency and fewer peaks; we will monitor through the next busy hour.",
+    "ar": "تجاوزات الكمون في خلية NR الماكرو شبه الحضرية كانت ناتجة عن ارتفاع BLER وارتفاع صفوف البيانات بدلاً من الازدحام. تحققنا من الحالة عبر نظام الإدارة، وحللنا اتجاهات الكمون خلال 3 ساعات، ثم أجرينا ضبطاً لمعاملات الموقع لتقليل عمليات الإعادة وإعطاء أولوية لحركة المرور الحساسة للكمون. النتائج الأولية تُظهر انخفاض الوسيط وتراجع القمم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

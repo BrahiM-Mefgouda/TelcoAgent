@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0010",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell has 67 ms latency over the last 3 hours with PRB ~72%, BLER ~6.6%, 171 users, median downlink 16 Mbps, and interference / signal overlap (SINR 3 dB).",
+    "ar": "خلية NR ماكرو في منطقة شبه حضرية تسجل زمن تأخير 67 مللي ثانية خلال آخر 3 ساعات مع إشغال PRB ~72% وBLER ~6.6% و171 مستخدماً ووسيط تحميل 16 ميجابت/ث، ودلالة على تداخل/تراكب إشارة (SINR = 3 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows elevated user-plane latency ~67 ms over the last 3 hours during shoulder time with eMBB traffic (streaming). SINR is 3 dB indicating interference/signal overlap, BLER ~6.6%, PRB ~72%, p50 DL throughput 16 Mbps, users ~171. No active alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة شبه حضرية تُظهر ارتفاعاً في زمن تأخير طبقة المستخدم ~67 مللي ثانية خلال آخر 3 ساعات في وقت الذروة الثانوية مع حركة eMBB (بث). قيمة SINR = 3 dB تشير إلى تداخل/تراكب إشارة، BLER ~6.6%، إشغال PRB ~72%، وسيط سرعة التحميل 16 ميجابت/ث، وعدد المستخدمين ~171. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. First, I want to pull recent counters for the impacted cell over the same 3-hour window to baseline load, retransmissions, and queuing. Please share the cell ID and confirm access for read and safe parameter tuning.",
+      "message_ar": "سأتولى التشخيص. أولاً، أريد سحب عدادات الفترة الأخيرة للخلية المتأثرة لنفس نافذة 3 ساعات لقياس الحمل، وإعادة الإرسال، والاصطفاف. الرجاء مشاركة معرّف الخلية وتأكيد صلاحية الوصول للقراءة وضبط المعلمات الآمن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Suburb-143A; access approved for reads and parameter changes within guard.",
+      "message_ar": "معرّف الخلية NR-Suburb-143A؛ الوصول مُعتمد للقراءة وتعديل المعلمات ضمن الحماية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS stats for NR-Suburb-143A (last 3h)... Findings: DL queuing delay elevated; PRB avg 72% (peaks 85%); BLER 6–8%; HARQ retransmissions above baseline; PDCCH utilization high; no backhaul drops, no cell resets. Next, I’ll chart latency over time to correlate with load/BLER. Proceed?",
+      "message_ar": "جاري سحب إحصاءات OSS لـ NR-Suburb-143A (آخر 3 ساعات)... النتائج: تأخير الاصطفاف في الوصلة الهابطة مرتفع؛ متوسط PRB 72% (قمم 85%)؛ BLER بين 6–8%؛ زيادات في إعادة إرسال HARQ؛ استعمال PDCCH مرتفع؛ لا انقطاعات نقل خلفي ولا إعادة تشغيل للخلية. التالي، سأرسم زمن التأخير زمنياً لربطه بالحمل/BLER. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, continue.",
+      "message_ar": "موافق، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series confirms recurring spikes to 80–90 ms at shoulder peaks, baseline 55–65 ms, aligning with BLER bursts and PRB >75%. To mitigate, I propose targeted latency-focused tuning: slightly tighter scheduler delay target, increased robustness for DL coding at low SINR, and minor HARQ pacing adjustments. Minimal impact expected; approve to apply?",
+      "message_ar": "سلسلة زمنية لزمن التأخير تؤكد طفرات متكررة إلى 80–90 مللي ثانية وقت الذروة الثانوية، وخط أساس 55–65 مللي ثانية، متزامنة مع نوبات BLER ومع PRB >75%. للتخفيف، أقترح ضبطاً موجهاً لزمن التأخير: تشديد طفيف لهدف تأخير المجدول، متانة أعلى للترميز في الوصلة الهابطة عند SINR منخفض، وتعديلات بسيطة على وتيرة HARQ. الأثر المتوقع ضئيل؛ هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying tuning now... Completed successfully; changes active. Immediate post-change snapshot (5 min): queuing delay trending down, BLER ~5%, no error counters triggered. I’ll keep sampling; please observe initial user KPIs.",
+      "message_ar": "جارٍ تطبيق الضبط... تم بنجاح وأصبح نافذاً. لقطة ما بعد التغيير (5 دقائق): تأخير الاصطفاف يتناقص، BLER ~5%، دون أخطاء. سأواصل أخذ عينات؛ يرجى متابعة مؤشرات المستخدم الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes, median latency dropped to ~44 ms, BLER ~4.7%, throughput steady near 16–18 Mbps; users ~160. No complaints reported.",
+      "message_ar": "بعد ~10 دقائق، انخفض وسيط زمن التأخير إلى ~44 مللي ثانية، وBLER ~4.7%، وثبات السرعة عند 16–18 ميجابت/ث؛ المستخدمون ~160. لا توجد شكاوى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll continue to watch latency, PRB peaks, and interference indicators; if SINR remains constrained we may engage neighboring-cell interference mitigation later. For now, no ticket needed; let’s hold and reassess during the next busy hour.",
+      "message_ar": "تحسن جيد. سأستمر في مراقبة زمن التأخير وذروات PRB ومؤشرات التداخل؛ إذا بقي SINR مقيداً فقد نلجأ لاحقاً لتخفيف التداخل مع الخلايا المجاورة. حالياً لا حاجة لتذكرة؛ لنثبت الوضع ونعيد التقييم خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged—latency spikes are trending down and the median delay improved. Action taken: site parameter tuning focused on the scheduler and BLER robustness. Let’s monitor through the next busy hour and the following 2 hours.",
+      "message_ar": "تم، طفرات زمن التأخير في اتجاه تنازلي وتحسن الوسيط. الإجراء المُنفذ: ضبط معلمات الموقع مع تركيز على المجدول ومتانة BLER. لنتابع المراقبة خلال ساعة الذروة التالية والـساعتين التاليتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring for the next busy hour plus 2 hours and report back with latency, BLER, and PRB trends. If degradation reappears, we will roll back the tuning and escalate to interference coordination for neighboring cells.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية بالإضافة إلى ساعتين وسنبلغ بتوجهات زمن التأخير وBLER وPRB. إذا عادت الحالة للتدهور، سنسترجع الضبط ونصعّد إلى تنسيق التداخل مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on a suburban NR macro cell: latency spikes correlated with moderate BLER and mid-high PRB under interference / signal overlap. Verified via recent counters and latency trend analysis, then applied site parameter tuning targeting scheduler delay and robustness. We will monitor through the next busy hour to ensure latency stability.",
+    "ar": "تم تشخيص انتهاك QoS لزمن التأخير في خلية NR ماكرو شبه حضرية: طفرات زمن التأخير مرتبطة بـ BLER متوسط وإشغال PRB مرتفع جزئياً مع تداخل/تراكب إشارة. تم التحقق عبر عدادات الفترة الأخيرة وتحليل السلاسل الزمنية لزمن التأخير، ثم تطبيق ضبط لمعلمات الموقع يستهدف تأخير المجدول والمتانة. سنواصل المراقبة خلال ساعة الذروة التالية لضمان استقرار زمن التأخير."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0017",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell shows sustained high resource use (~90% PRB, 183 users) while neighbors are light (~31% avg) with mild quality impact (RSRQ -7 dB, SINR 6 dB), indicating load imbalance over the last 6h; proceed to optimize load sharing?",
+    "ar": "موقع ماكرو NR ريفي يظهر استخدام موارد مرتفعًا مستمرًا (~90% PRB، 183 مستخدمًا) بينما الجيران منخفضو الحمل (~31% في المتوسط) مع تأثر طفيف بالجودة (RSRQ -7 dB، SINR 6 dB)، ما يشير إلى عدم توازن الحمل خلال آخر 6 ساعات؛ هل نتابع تحسين تقاسم الحمل؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell is hot across the last 6h: ~90% PRB, 183 users, median DL throughput ~17 Mbps. Neighbors average ~31% load; SINR ~6 dB, RSRQ -7 dB. Mixed hours with eMBB streaming spikes. Please assess.",
+      "message_ar": "موقع ماكرو NR ريفي ساخن خلال آخر 6 ساعات: ~90% PRB، 183 مستخدمًا، وسيط سرعة تحميل ~17 ميجابت/ث. الجيران بمتوسط حمل ~31%؛ SINR حوالي 6 dB و RSRQ -7 dB. ساعات مختلطة مع ارتفاع في بث eMBB. الرجاء التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will review neighbor relations and loads to confirm offload options, then apply targeted load-balancing tuning if viable. Please confirm the cell ID and approve access for this action.",
+      "message_ar": "سأراجع علاقات الجوار والأحمال لتأكيد إمكانيات التفريغ، ثم أطبق ضبط توازن الحمل المستهدف إذا كان مناسبًا. يرجى تأكيد معرف الخلية والموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-RURAL-MACRO-081. Access approved.",
+      "message_ar": "معرّف الخلية: NR-RURAL-MACRO-081. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review: NR-RURAL-MACRO-076 ~25–30% load, NR-RURAL-MACRO-082 ~35–38%, NR-RURAL-MACRO-089 ~28–33%. Overlap adequate (neighbor distances ~7–10 km). HO-in > HO-out and imbalance index ~0.316 indicate offload potential. Proposal: moderate load-balancing tuning to shift ~10–15% load to 076 and 082. Proceed?",
+      "message_ar": "مراجعة الجيران: NR-RURAL-MACRO-076 بحمل ~25–30%، و NR-RURAL-MACRO-082 بحمل ~35–38%، و NR-RURAL-MACRO-089 بحمل ~28–33%. التداخل كافٍ (مسافات الجيران ~7–10 كم). معدّل الانتقال للداخل أعلى من للخارج ومؤشر عدم التوازن ~0.316 يشيران لإمكانية التفريغ. المقترح: ضبط معتدل لتوازن الحمل لتحويل ~10–15% من الحمل إلى 076 و082. هل نمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please proceed with the tuning.",
+      "message_ar": "موافق. يرجى المضي في الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied load-balancing tuning toward NR-RURAL-MACRO-076 and -082 with conservative guardrails to protect quality. Change is reversible. Starting observation now.",
+      "message_ar": "تم تطبيق ضبط توازن الحمل باتجاه NR-RURAL-MACRO-076 و -082 مع حدود تحفظية لحماية الجودة. التغيير قابل للرجوع. أبدأ المراقبة الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Do you see any immediate change in utilization or user distribution?",
+      "message_ar": "تم. هل تلاحظ أي تغيير فوري في الاستخدام أو توزيع المستخدمين؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Early impact (≈15 min): serving cell PRB down to ~78–80%; users ~155. Neighbors: 076 up to ~45–46%, 082 ~39–41%. Median DL throughput improved to ~19–21 Mbps; RSRQ improved to ~-6 dB. No regressions observed.",
+      "message_ar": "الأثر المبكر (≈15 دقيقة): انخفض PRB في الخلية الخادمة إلى ~78–80%؛ المستخدمون ~155. الجيران: 076 ارتفع إلى ~45–46%، و082 ~39–41%. تحسن وسيط التحميل إلى ~19–21 ميجابت/ث؛ تحسن RSRQ إلى ~-6 dB. لا توجد تدهورات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: fewer buffering events on eMBB streams and smoother sessions reported by users.",
+      "message_ar": "ملاحظات ميدانية: حالات تخزين مؤقت أقل في تدفقات eMBB وجلسات أكثر سلاسة وفقًا لتقارير المستخدمين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend check (last ~30 min): HO-out increased modestly toward 076/082; drop rates stable; interference unchanged. Load distribution is holding within the target range. I will keep watching for drift.",
+      "message_ar": "تحقق الاتجاه (آخر ~30 دقيقة): زادت تحويلات الخروج بشكل طفيف نحو 076/082؛ معدلات السقوط مستقرة؛ التداخل دون تغيير. توزيع الحمل ضمن النطاق المستهدف. سأستمر بالمراقبة لأي انحراف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: utilization has stabilized around ~78% and median throughput is up. Action taken was load-balancing parameter optimization. Please monitor through the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: استقر الاستخدام حول ~78% وارتفع وسيط السرعة. الإجراء كان تحسين معلمات توازن الحمل. يرجى المتابعة بالمراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next 2–4 hours and share a summary of utilization, throughput, and handover balance afterward. If degradation appears, we will either roll back the change or widen the offload conservatively and notify you.",
+      "message_ar": "مفهوم. سنقوم بالمراقبة خلال الساعتين إلى الأربع ساعات القادمة ونشارك ملخصًا للاستخدام والسرعة وتوازن التحويلات بعدها. إذا ظهر تدهور، سنقوم إما بالرجوع عن التغيير أو توسيع التفريغ بشكل تحفظي وإبلاغكم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-RURAL-MACRO-081",
+        "all"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_balancing: moderate offset/bias tuning toward NR-RURAL-MACRO-076 and NR-RURAL-MACRO-082; target offload 10–15%; protect QoS"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural NR macro hot-cell condition with ~90% resource use while adjacent cells were lightly loaded. Performed a neighbor review and applied targeted site parameter tuning for load balancing toward two lighter neighbors, offloading ~10–15% of traffic. Post-change metrics show lower utilization, improved median throughput, and stable quality; the cell will be monitored through the next busy period.",
+    "ar": "تم تشخيص حالة خلية ساخنة في موقع ماكرو NR ريفي مع استخدام موارد ~90% بينما كانت الخلايا المجاورة منخفضة الحمل. أجرينا مراجعة للجيران وطبقنا ضبطًا مستهدفًا لمعلمات الموقع لتوازن الحمل باتجاه جارين أقل حملًا، مما نقل ~10–15% من الحركة. أظهرت المؤشرات بعد التغيير انخفاض الاستخدام وتحسن وسيط السرعة مع جودة مستقرة؛ سيتم مراقبة الخلية خلال فترة الازدحام التالية."
+  }
+}

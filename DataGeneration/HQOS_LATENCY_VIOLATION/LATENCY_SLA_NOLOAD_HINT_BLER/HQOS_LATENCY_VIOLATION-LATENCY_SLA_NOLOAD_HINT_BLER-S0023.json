@@ -1,0 +1,105 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0023",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell over the last 3h shows 178 users, latency 76 ms, BLER 11.6%, PRB utilization 78%, SINR 8 dB, and median downlink 11 Mbps during offpeak eMBB.",
+    "ar": "خلية NR ماكرو في الضواحي خلال آخر 3 ساعات تُظهر 178 مستخدمًا، زمن تأخير 76 مللي ثانية، BLER ‏11.6%، استخدام موارد 78%، SINR ‏8 dB، ومعدل تنزيل وسطي 11 ميجابت/ث في وقت خارج الذروة لخدمة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SUB-M01, off-peak last 3h: users report high latency and occasional buffering on streaming; median DL ~11 Mbps; can you investigate the latency SLA breach?",
+      "message_ar": "خلية NR ماكرو في الضواحي NR-SUB-M01، خارج الذروة خلال آخر 3 ساعات: بلاغات عن ارتفاع زمن التأخير وتقطيع متقطع في البث؛ معدل تنزيل وسطي ~11 ميجابت/ث؛ هل يمكنك فحص خرق SLA للزمن؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; I will start by pulling a 3h OSS snapshot for NR-SUB-M01 to baseline load, radio quality, and error rates; please confirm access.",
+      "message_ar": "تم؛ سأبدأ بسحب لقطة OSS لمدة 3 ساعات للخلية NR-SUB-M01 لقياس الحمل وجودة الراديو ومعدلات الأخطاء؛ يرجى تأكيد الإذن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved.",
+      "message_ar": "الإذن معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot complete: PRB ~78%, users 178, latency avg 76 ms, BLER ~11.6%, SINR 8 dB, RSRQ -13 dB, no active alarms or backhaul faults. Latency is elevated despite off-peak load. Next, I'll analyze the 3h latency trend to correlate with radio errors.",
+      "message_ar": "تمت لقطة OSS: استخدام الموارد ~78%، المستخدمون 178، متوسط التأخير 76 مللي ثانية، BLER ~11.6%، SINR ‏8 dB، RSRQ ‏-13 dB، لا إنذارات نشطة أو أعطال نقل خلفي. التأخير مرتفع رغم الحمل المنخفض. سأحلل الآن منحنى التأخير خلال 3 ساعات لربطه بأخطاء الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency timeseries shows periodic spikes every 5–10 minutes aligning with BLER bursts; PRB stays under congestion thresholds. This points to retransmission and scheduler latency bias. I propose a bounded parameter tuning to prioritize low-latency scheduling and cap retransmissions; approve?",
+      "message_ar": "سلسلة زمنية للتأخير تُظهر قممًا دورية كل 5–10 دقائق متزامنة مع ارتفاعات BLER؛ استخدام الموارد دون عتبات الازدحام. يشير ذلك إلى إعادة الإرسال وانحياز المجدول نحو التأخير. أقترح ضبطًا محدودًا للمعاملات لإعطاء أولوية لجدولة منخفضة التأخير وتحديد حد لإعادة الإرسال؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted tuning on NR-SUB-M01 to reduce queueing delay and aggressive retransmissions; change committed without service interruption. I will observe KPIs for stabilization over the next few minutes—please confirm any immediate user impact.",
+      "message_ar": "تم تطبيق ضبط مستهدف على NR-SUB-M01 لتقليل تأخير الطوابير وإعادة الإرسال المفرطة؛ تم اعتماد التغيير بدون انقطاع خدمة. سأراقب مؤشرات الأداء لبضع دقائق للاستقرار—يرجى تأكيد أي تأثير فوري على المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: latency spikes are trending down, with current median near 40 ms and fewer streaming stalls. The site parameter tuning you applied seems effective; let's monitor over the next 2–4 hours.",
+      "message_ar": "فحص أولي: قمم التأخير في انخفاض، والمتوسط الحالي يقارب 40 مللي ثانية مع تقليل تعثرات البث. يبدو أن ضبط معاملات الموقع الذي طبقتَه فعّال؛ لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next 2–4 hours of monitoring and report back with latency and BLER trends. If performance regresses, we will roll back the tuning and escalate for deeper RF interference and QoS policy review.",
+      "message_ar": "تم—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونوافيك بتوجهات التأخير وBLER. إذا تراجعت الأداء، سنعود عن الضبط ونصعّد لمراجعة أعمق لتداخل RF وسياسات الجودة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-M01",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-M01",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase low-latency scheduling weight, cap retransmissions, slight UL power offset to mitigate BLER-induced delay"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated latency on a suburban NR macro during offpeak: OSS showed moderate load with high BLER and poor RSRQ, and latency timeseries spikes aligned with error bursts. After confirming the correlation, we executed site parameter tuning to prioritize low-latency scheduling and cap retransmissions. We will monitor stability and verify continued improvement in latency and BLER.",
+    "ar": "تم تشخيص ارتفاع زمن التأخير في خلية NR ماكرو بضواحي المدينة خلال وقت خارج الذروة: أظهرت بيانات OSS حملاً متوسطًا مع BLER مرتفع وRSRQ ضعيف، وكانت قمم التأخير متزامنة مع ارتفاعات الأخطاء. بعد تأكيد الارتباط، قمنا بضبط معاملات الموقع لإعطاء أولوية لجدولة منخفضة التأخير وتحديد حد لإعادة الإرسال. سنواصل المراقبة للتحقق من استقرار التحسن في التأخير وBLER."
+  }
+}

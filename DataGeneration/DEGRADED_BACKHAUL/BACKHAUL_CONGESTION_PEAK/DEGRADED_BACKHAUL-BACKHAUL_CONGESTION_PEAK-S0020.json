@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0020",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro shows a congestion alarm over the last 3h with backhaul utilization at 97%, ~96 ms latency, 2.2% loss, 25 ms jitter, and 90% queue leading to 15 Mbps downlink for 164 peak-time eMBB users.",
+    "ar": "موقع 5G NR ماكرو حضري يظهر إنذار ازدحام خلال آخر 3 ساعات مع استهلاك وصلات خلفية 97%، كمون ~96 مللي ثانية، فقدان 2.2%، تذبذب 25 مللي ثانية، وامتلاء طوابير 90% مما أدى إلى 15 ميجابت/ث كتنزيل لـ 164 مستخدم eMBB في وقت الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector is flagging congestion during peak; users report buffering and slow data.",
+      "message_ar": "قطاع موقع 5G NR ماكرو حضري يُظهر ازدحاماً في وقت الذروة؛ المستخدمون يبلغون عن تقطيع وبطء في البيانات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. KPIs indicate severe backhaul congestion (util 97%, ~96 ms latency, 2.2% loss, 25 ms jitter). I’ll begin by pulling last 3h counters for the affected cell—please share the serving cell ID and approve access.",
+      "message_ar": "تم الاستلام. المؤشرات تدل على ازدحام شديد في الوصلة الخلفية (استهلاك 97%، كمون ~96 مللي ثانية، فقدان 2.2%، تذبذب 25 مللي ثانية). سأبدأ بسحب عدادات آخر 3 ساعات للخلية المتأثرة—يرجى تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: UBNR-102 S1. Access approved for the last 3 hours.",
+      "message_ar": "معرّف الخلية: UBNR-102 S1. الموافقة ممنوحة لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running health check on UBNR-102 S1 for the last 3h (Step 1). Findings: backhaul utilization 95–97%, latency 90–110 ms, queue 85–92%, loss 2–3%. Radio load ~83% with SINR ~7 dB. This points to a backhaul bottleneck at peak. Approve mitigation via targeted backhaul QoS/buffer tuning on the cell?",
+      "message_ar": "أجري فحص الحالة للخلية UBNR-102 S1 لآخر 3 ساعات (الخطوة 1). النتائج: استهلاك الوصلة الخلفية 95–97%، الكمون 90–110 مللي ثانية، امتلاء الطوابير 85–92%، الفقد 2–3%. حمل الراديو ~83% مع SINR ~7 dB. هذا يشير لاختناق في الوصلة الخلفية وقت الذروة. هل توافق على تنفيذ تهيئة موجهة لجودة الخدمة وتعديل المخازن على الخلية للتخفيف؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the mitigation.",
+      "message_ar": "موافق. تفضل بالتنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying tuning now (Step 2): enable active queue management, refine eMBB traffic shaping, reduce queue depth to cut delay, and prioritize signaling. Change committed with rollback ready.",
+      "message_ar": "أقوم بالتعديل الآن (الخطوة 2): تفعيل إدارة الطوابير النشطة، تحسين تشكيل حركة eMBB، خفض عمق الطوابير لتقليل التأخير، وإعطاء أولوية للإشارات. تم اعتماد التغيير مع جاهزية التراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Immediate observation: backhaul delay is down to ~70–75 ms and jitter is lower; average user downlink is rising toward ~22 Mbps.",
+      "message_ar": "ملاحظة فورية: كمون الوصلة الخلفية انخفض إلى ~70–75 مللي ثانية والتذبذب أقل؛ متوسط تنزيل المستخدم يرتفع نحو ~22 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Positive trend. To secure a lasting fix, I will raise a transport ticket for capacity review and path health checks, attaching before/after evidence. Proceed?",
+      "message_ar": "اتجاه إيجابي. لضمان معالجة دائمة، سأفتح تذكرة مع فريق النقل لمراجعة السعة وفحص مسار الوصلة، مع إرفاق أدلة قبل/بعد. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with creating the ticket.",
+      "message_ar": "تفضل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-BH-03258 (Step 3). We’ll monitor the next busy hour with snapshots of latency, loss, and throughput.",
+      "message_ar": "تم إنشاء التذكرة: DU-BH-03258 (الخطوة 3). سنراقب ساعة الذروة القادمة مع لقطات لزمن الوصول، الفقد، ومعدل النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement: delay trending down and buffering reports reduced. The site parameter tuning helped. Let’s monitor through the next busy hour and the next 2–4 hours; please track latency and loss and update DU-BH-03258.",
+      "message_ar": "تحسن ملحوظ: زمن الوصول يتناقص وتقارير التقطيع انخفضت. تعديل معلمات الموقع أفاد. لنتابع المراقبة خلال ساعة الذروة القادمة وخلال 2–4 ساعات تالية؛ يرجى تتبع الكمون والفقد وتحديث DU-BH-03258."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own monitoring for the next busy hour and provide an update afterward. If congestion resurges, we’ll escalate to transport for capacity upgrade; if adverse effects appear, we’ll roll back the tuning.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة وسنقدم تحديثاً بعدها. إذا عاد الازدحام سنصعّد للجهة المسؤولة عن النقل لرفع السعة؛ وإذا ظهرت آثار سلبية سنقوم بالتراجع عن التعديلات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "UBNR-102 S1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Backhaul QoS and buffer tuning for peak-hour mitigation"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Peak-hour backhaul congestion at UBNR-102 S1; mitigated via tuning; request transport capacity review and path checks"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-hour degraded backhaul on an urban NR macro: backhaul utilization near saturation with high latency, loss, and queueing drove low user throughput. Mitigated by site parameter tuning to optimize backhaul QoS and buffering, which reduced delay and stabilized performance. Opened a transport ticket for capacity review and path checks, and will monitor during the next busy hour.",
+    "ar": "تم تشخيص تدهور الوصلة الخلفية وقت الذروة في موقع 5G NR ماكرو حضري: استهلاك شبه مُشبع مع كمون عالٍ وفقد وامتلاء طوابير أدى إلى انخفاض معدل نقل المستخدمين. تم التخفيف عبر ضبط معلمات الموقع لتحسين جودة الخدمة والتهيئة الخاصة بالمخازن على الوصلة الخلفية، ما خفّض الكمون وثبّت الأداء. تم فتح تذكرة مع فريق النقل لمراجعة السعة وفحص المسار، وسيتم المراقبة خلال ساعة الذروة القادمة."
+  }
+}

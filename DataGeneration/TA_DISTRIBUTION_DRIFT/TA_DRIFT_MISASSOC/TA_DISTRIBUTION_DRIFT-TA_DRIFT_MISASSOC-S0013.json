@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0013",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro cell over the last 6 hours shows TA distribution drift (median 221 m, p95 380 m) with ~30% distant serving, ~87% handover success, and ~5 dB SINR; please investigate potential mis-association.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي خلال آخر 6 ساعات تُظهر انجرافاً في توزيع TA (الوسيط 221 م، p95 380 م) مع تخديم بعيد بحوالي 30% ونجاح تسليم بحوالي 87% وSINR نحو 5 dB؛ الرجاء التحقيق في احتمال سوء الاقتران."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro over the last 6h shows TA drift: avg TA 314 m, median 221 m, p95 380 m, distant serving ~30%. HO success ~87% (fail ~7%). RSRP ~-109 dBm, RSRQ -11 dB, SINR ~5 dB. PRB ~68% with 239 users; p50 throughput 16 Mbps. No active alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة ضواحي خلال آخر 6 ساعات تُظهر انجراف TA: متوسط 314 م، الوسيط 221 م، p95 380 م، وتخديم بعيد ~30%. نجاح التسليم ~87% (فشل ~7%). RSRP حوالي -109 dBm، RSRQ -11 dB، وSINR ~5 dB. إشغال PRB ~68% مع 239 مستخدماً؛ سرعة وسيط 16 ميغابت/ث. لا إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. I will start by checking recent OSS counters and config over the last 6h to validate TA distribution and neighbor relations. Please share the cell ID and confirm access.",
+      "message_ar": "شكراً. سأبدأ بفحص عدادات ونُسخ التهيئة في OSS لآخر 6 ساعات للتحقق من توزيع TA وعلاقات الجوار. يرجى مشاركة معرف الخلية وتأكيد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-043A. Access approved for the last 6h.",
+      "message_ar": "معرف الخلية: NR-SUB-043A. الوصول مُصرّح لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check on NR-SUB-043A for the last 6h: no alarms, no config changes. Mobility logs show elevated distant serving (~30%) and TA drift index ~0.38 vs baseline. Indicators align with edge mis-association. Next, I’ll pull the TA time series to locate hourly peaks (busy/streaming periods). Proceed?",
+      "message_ar": "أجريت فحص OSS على NR-SUB-043A لآخر 6 ساعات: لا إنذارات ولا تغييرات تهيئة. سجلات الحركة تُظهر ارتفاع التخديم البعيد (~30%) ومؤشر انجراف TA ~0.38 مقارنة بالأساس. المؤشرات تتوافق مع سوء اقتران عند الحواف. بعد ذلك سأجلب السلسلة الزمنية لـ TA لتحديد الذروات حسب الساعة (فترات الانشغال/البث). هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series over 6h shows an upward trend with spikes in busy hours; median ~221 m, p95 ~380 m, std ~153 m. HO failures cluster near N1/N2 borders; SINR ~5 dB is modest but stable. This suggests mild overshoot/offset bias. I propose tuning mobility biases toward closer neighbors and slightly tightening handover timing to reduce distant serving. Approve optimization?",
+      "message_ar": "السلسلة الزمنية لـ TA خلال 6 ساعات تُظهر اتجاهاً صاعداً مع ذروات في ساعات الانشغال؛ الوسيط ~221 م، p95 ~380 م، والانحراف المعياري ~153 م. حالات فشل التسليم تتجمع قرب حدود N1/N2؛ قيمة SINR ~5 dB متوسطة لكنها مستقرة. هذا يشير إلى امتداد تغطية طفيف/انحياز في العتبات. أقترح ضبط انحيازات الحركة لصالح الخلايا الأقرب وتشديداً بسيطاً لتوقيت التسليم لتقليل التخديم البعيد. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to tune parameters now.",
+      "message_ar": "موافَق على ضبط المعاملات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Low risk; I will apply a targeted parameter set to prefer nearer cells and curb overshoot, then watch TA/HO immediately, mindful of streaming sessions.",
+      "message_ar": "تم. المخاطر منخفضة؛ سأطبق مجموعة معاملات مستهدفة لتفضيل الخلايا الأقرب وكبح الامتداد، ثم أراقب TA/HO فوراً، مع مراعاة جلسات البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-SUB-043A: adjusted cell selection/handover offsets and timers to favor closer sectors and limit far-edge serving. Initial post-change counters show distant-serving indications starting to drop and median TA contracting. I’ll keep checking TA and HO success.",
+      "message_ar": "تم تطبيق التحسين على NR-SUB-043A: تعديل انحيازات اختيار/تسليم الخلية والمواقيت لتفضيل القطاعات الأقرب والحد من التخديم من الحافة البعيدة. العدادات الأولية بعد التغيير تُظهر بدء انخفاض مؤشرات التخديم البعيد وانكماش الوسيط لـ TA. سأواصل التحقق من TA ونجاح التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: distant-serving cases are trending down and median timing advance is lower. The site parameter optimization appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "ملاحظة أولية: حالات التخديم البعيد تتجه للانخفاض والوسيط لـ TA أصبح أقل. يبدو أن تحسين معاملات الموقع فعّال. دعنا نراقب خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and update with TA spread, distant-serving ratio, and handover success. If degradation appears, we will roll back to previous parameters; if issues persist, we will escalate for deeper RF review.",
+      "message_ar": "سنتولى مراقبة ساعة الانشغال القادمة وسنحدّث بمدى TA ونسبة التخديم البعيد ونجاح التسليم. إذا ظهر تدهور سنُرجع الإعدادات السابقة؛ وإن استمرت القضايا سنصعّد لمراجعة لاسلكية أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The NR macro cell showed TA distribution drift with a high share of distant-serving users, validated via OSS checks and TA time-series trending. We mitigated by site parameter tuning to bias handovers and selection toward nearer neighbors and reduce overshoot. Early indicators improved, and the cell will be monitored through the next busy hour.",
+    "ar": "أظهرت خلية NR الماكرو انجرافاً في توزيع TA مع نسبة مرتفعة من حالات التخديم البعيد، وقد تم التحقق من ذلك عبر فحص OSS والسلسلة الزمنية لـ TA. جرى التخفيف من خلال ضبط معاملات الموقع لتوجيه التسليم والاختيار نحو الجيران الأقرب وتقليل الامتداد. تحسنت المؤشرات الأولية، وسيتم مراقبة الخلية خلال ساعة الانشغال القادمة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0012",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows PRB utilization near 93% over the last 2h during egress with a congestion alarm, low DL/UL rates, and high grant latency; investigate and mitigate.",
+    "ar": "خلية NR مايكرو في الاستاد تُظهر إشغال PRB يقارب 93% خلال آخر ساعتين أثناء خروج الجماهير مع إنذار ازدحام، وسرعات تحميل/رفع منخفضة وارتفاع في كمون المنح؛ نحتاج للتحقق والمعالجة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell STAD-NR-MICRO-12 is heavily loaded during egress; alarm active. Last 2h: PRB ≈93%, 541 users, DL ≈9 Mbps, UL ≈2 Mbps, p95 grant latency 58 ms, BLER 4.3%, RLF 3.2%.",
+      "message_ar": "خلية NR المايكرو في الاستاد STAD-NR-MICRO-12 تحت حمل عالٍ أثناء خروج الجماهير؛ الإنذار نشط. آخر ساعتين: إشغال PRB ≈93%، 541 مستخدمًا، التحميل ≈9 ميجابت/ث، الرفع ≈2 ميجابت/ث، p95 لكمون المنح 58 مللي ثانية، BLER ‏4.3%، وRLF ‏3.2%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. I will first pull the last 2h OSS stats for STAD-NR-MICRO-12 to confirm PRB saturation and grant behavior. Please approve read access.",
+      "message_ar": "شكرًا. سأبدأ بسحب إحصاءات آخر ساعتين من النظام لخلية STAD-NR-MICRO-12 لتأكيد تشبّع PRB وسلوك المنح. يرجى الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved for STAD-NR-MICRO-12 over the 2h window. Neighbor micros 10–15 are on-air.",
+      "message_ar": "تمت الموافقة على القراءة لخلية STAD-NR-MICRO-12 خلال نافذة الساعتين. الخلايا المايكرو المجاورة 10–15 تعمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS confirms: PRB avg ~91%, peaks 95%; 541 active UEs; DL 9 Mbps, UL 2 Mbps; p95 grant latency 58 ms; BLER 4.3%, RLF 3.2%. During egress with eMBB streaming, this is PRB saturation. I propose immediate parameter tuning to relieve congestion (load biasing, admission thresholds, resource weight adjustments). Please approve write access.",
+      "message_ar": "تؤكد بيانات النظام: متوسط إشغال PRB ~91% وبِذُرى 95%؛ 541 مستخدمًا نشطًا؛ DL ‏9 ميجابت/ث، UL ‏2 ميجابت/ث؛ p95 لكمون المنح 58 مللي ثانية؛ BLER ‏4.3% وRLF ‏3.2%. أثناء مرحلة الخروج مع بث eMBB، هذا تشبّع موارد. أقترح ضبطًا فوريًا للمعلمات لتخفيف الازدحام (تحيّز التحميل، عتبات القبول، وتعديل أوزان الموارد). يرجى الموافقة على الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Write access approved. Proceed with the tuning.",
+      "message_ar": "تمت الموافقة على الكتابة. تفضل بتنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing parameter tuning now for the NR micro: applied congestion relief—adjusted resource fairness, tightened admission under high load, and added slight bias to spread load to nearby cells. Change committed successfully.",
+      "message_ar": "أقوم الآن بضبط معلمات خلية NR المايكرو: تطبيق تخفيف الازدحام—تعديل عدالة تخصيص الموارد، تشديد القبول عند الحمل العالي، وإضافة تحيّز طفيف لتوزيع الحمل على الخلايا المجاورة. تم اعتماد التغيير بنجاح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early check (≈10 min): PRB trending 80–85%, DL 14–16 Mbps, UL 4–5 Mbps, grant latency ~35 ms; drops stable. I recommend creating a tracking ticket for this event tuning. Do I have your approval?",
+      "message_ar": "فحص مبكر (~10 دقائق): إشغال PRB يتجه إلى 80–85%، DL ‏14–16 ميجابت/ث، UL ‏4–5 ميجابت/ث، كمون المنح ~35 مللي ثانية؛ حالات السقوط مستقرة. أوصي بإنشاء تذكرة متابعة لهذا الضبط خلال الحدث. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the tracking ticket.",
+      "message_ar": "موافَق على إنشاء تذكرة المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-LOAD-21937 documenting symptoms, tuning, and rollback notes. I will keep watching the cell and neighbors through the busy period.",
+      "message_ar": "تم إنشاء التذكرة DU-LOAD-21937 مع توثيق الأعراض والضبط وملاحظات التراجع. سأواصل مراقبة الخلية والخلايا المجاورة خلال فترة الانشغال."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please confirm from the field if user speeds and buffering complaints are easing post-change.",
+      "message_ar": "يرجى التأكيد ميدانيًا ما إذا كانت سرعات المستخدمين وشكاوى التقطيع في البث قد بدأت في التحسن بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: PRB use is lower and radio grant delays are trending down. The parameter tuning helped. Let’s monitor for the next 2–4 hours and track under DU-LOAD-21937.",
+      "message_ar": "نرى تحسنًا: استخدام PRB أصبح أقل وكمون منح الموارد في اتجاه انخفاض. ضبط المعلمات أفاد. لنراقب خلال الساعتين إلى الأربع ساعات القادمة ونتابع ضمن DU-LOAD-21937."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours monitoring and update the ticket after the window. If congestion resurges, we will extend tuning to adjacent cells; if any adverse impact appears, we will roll back to the pre-change state.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد الازدحام سنوسع الضبط للخلايا المجاورة؛ وإذا ظهر أي أثر سلبي فسنعيد الإعدادات إلى ما قبل التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "High PRB utilization at the stadium NR micro cell was confirmed over the last 2 hours, driving low DL/UL rates and elevated grant latency during egress. We applied site parameter tuning to relieve congestion via load biasing, admission thresholds, and resource weight adjustments, then opened a tracking ticket. Performance improved and we will continue monitoring and update the ticket accordingly.",
+    "ar": "تم تأكيد ارتفاع إشغال PRB في خلية NR المايكرو بالاستاد خلال الساعتين الماضيتين، ما أدى إلى انخفاض سرعات التحميل/الرفع وارتفاع كمون المنح أثناء مرحلة الخروج. قمنا بضبط معلمات الموقع لتخفيف الازدحام عبر تحيّز التحميل وعتبات القبول وتعديل أوزان الموارد، ثم أنشأنا تذكرة متابعة. تحسّن الأداء وسنواصل المراقبة وتحديث التذكرة وفقًا لذلك."
+  }
+}

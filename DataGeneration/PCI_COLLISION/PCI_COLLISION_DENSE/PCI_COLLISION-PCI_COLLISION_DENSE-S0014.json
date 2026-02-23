@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0014",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G macro cell shows slow data with a congestion alarm; HO success ~79%, ping-pong 23%, RSRQ -16 dB, SINR 6 dB, and neighbor PCI overlap at 53%.",
+    "ar": "خلية ماكرو 5G حضرية تظهر بيانات بطيئة مع إنذار ازدحام؛ نجاح التسليم ~79%، تبديل متكرر 23%، RSRQ عند -16 ديسبل، SINR عند 6 ديسبل، وتداخل PCI مع الجوار بنسبة 53%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector has a congestion alarm in the last 6h. Users (eMBB streaming) report slow data and drops. HO success ~79%, ping-pong 23%, RSRQ -16 dB, SINR 6 dB, p50 throughput 6 Mbps, PRB 76%, users ~228.",
+      "message_ar": "قطاع ماكرو NR حضري لديه إنذار ازدحام خلال آخر 6 ساعات. المستخدمون (بث eMBB) يبلغون عن بطء البيانات وانقطاعات. نجاح التسليم ~79%، تبديل متكرر 23%، RSRQ ‏-16 ديسبل، SINR ‏6 ديسبل، وسيط السرعة 6 ميجابت/ث، PRB ‏76%، وعدد المستخدمين ~228."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. With self PCI=263 and high neighbor overlap, I’ll run a neighbor consistency check for PCI duplication over the last 6h. Please confirm the target cell ID and grant access.",
+      "message_ar": "شكرًا. مع كون PCI الذاتي=263 وارتفاع التداخل مع الجوار، سأجري فحص اتساق الجيران لاحتمال تكرار PCI خلال آخر 6 ساعات. يرجى تأكيد معرف الخلية المستهدفة وتفويض الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-01. Access approved for the 6h window.",
+      "message_ar": "معرّف الخلية هو NR-URB-MACRO-01. تمّت الموافقة على الوصول لفترة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review complete: NR-URB-MACRO-02 shares PCI 263 with NR-URB-MACRO-01; overlap ~53%, aligning with elevated HO fails and ping-pong. Root cause: PCI collision. I propose reassigning NR-URB-MACRO-01 to a free PCI (271) and refreshing neighbor relations. Proceed?",
+      "message_ar": "تمت مراجعة الجيران: الخلية NR-URB-MACRO-02 تشترك في PCI 263 مع NR-URB-MACRO-01؛ التداخل ~53% ويتماشى مع ارتفاع فشل التسليم والتبديل المتكرر. السبب الجذري: تعارض PCI. أقترح إعادة تعيين NR-URB-MACRO-01 إلى PCI متاح (271) وتحديث علاقات الجوار. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the change now.",
+      "message_ar": "موافَق على تنفيذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter optimization: NR-URB-MACRO-01 PCI set to 271; neighbor relations refreshed and obsolete mappings cleared. Broadcast verified and UEs re-camped. Expect higher HO success, reduced ping-pong, and lower BLER.",
+      "message_ar": "تم تطبيق تحسين المعلمات: تم تعيين PCI الخاص بـ NR-URB-MACRO-01 إلى 271؛ تحديث علاقات الجوار وإزالة الخرائط القديمة. تم التحقق من البث وإعادة تموضع الأجهزة. من المتوقع تحسن نجاح التسليم، وانخفاض التبديل المتكرر، وانخفاض BLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change snapshot: HO failures trending down and RSRQ improved by ~1 dB. No new alarms raised.",
+      "message_ar": "لقطة بعد التغيير: فشل التسليم يتناقص وRSRQ تحسّن بحوالي 1 ديسبل. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signal. I’ll keep an eye on HO success, ping-pong, and median throughput through the upcoming load. Any new user complaints since the change?",
+      "message_ar": "إشارة جيدة. سأراقب نجاح التسليم، والتبديل المتكرر، والسرعة المتوسطة خلال الحمل القادم. هل ظهرت شكاوى مستخدمين جديدة منذ التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Frontline reports fewer slow-data complaints; some spots show p50 throughput nudging above 8 Mbps.",
+      "message_ar": "التقارير الميدانية تشير إلى انخفاض شكاوى بطء البيانات؛ بعض المناطق تظهر ارتفاع الوسيط فوق 8 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’m creating a tracking ticket documenting the PCI collision resolution and affected neighbors, with before/after KPIs for reference.",
+      "message_ar": "أقوم بإنشاء تذكرة تتبع توثق حل تعارض PCI والجيران المتأثرين، مع مؤشرات قبل/بعد للمرجعية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Metrics look better: ping-pong trending down and slow data easing after the PCI retune and neighbor parameter optimization. Let’s monitor through the next busy hour. Reference DU-PCI-04271.",
+      "message_ar": "المؤشرات تتحسن: التبديل المتكرر في اتجاه هابط وبطء البيانات يتراجع بعد إعادة ضبط PCI وتحسين معلمات الجوار. لنتابع المراقبة خلال ساعة الذروة القادمة. المرجع DU-PCI-04271."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy hour monitoring and update the ticket after the window. If KPIs regress, we’ll rollback the change and reassess; if issues persist, we’ll escalate to field for on-site interference checks.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا تدهورت المؤشرات سنعود إلى الإعداد السابق ونعيد التقييم؛ وإذا استمرت المشاكل سنصعّد إلى الفرق الميدانية لفحوصات التداخل في الموقع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision: the target cell (self PCI 263) shared its PCI with a neighbor, with ~53% overlap driving handover failures and ping-pong. Executed site parameter tuning by reassigning to a free PCI and refreshing neighbor relations, then created a tracking ticket. Initial KPIs improved; we will monitor through the next busy hour and update the record.",
+    "ar": "تم تشخيص تعارض PCI: الخلية المستهدفة (PCI الذاتي 263) تشارك PCI مع جار بتداخل ~53% مما أدى إلى ارتفاع فشل التسليم والتبديل المتكرر. تم تنفيذ ضبط معلمات الموقع بإعادة التعيين إلى PCI متاح وتحديث علاقات الجوار، ثم إنشاء تذكرة تتبع. ظهرت تحسينات أولية في المؤشرات؛ سنواصل المراقبة خلال ساعة الذروة القادمة وتحديث السجل."
+  }
+}

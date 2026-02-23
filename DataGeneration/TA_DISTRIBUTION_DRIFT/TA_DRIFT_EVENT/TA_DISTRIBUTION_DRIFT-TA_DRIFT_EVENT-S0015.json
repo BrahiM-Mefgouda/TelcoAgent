@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0015",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "In the stadium 5G NR micro-cell over the last 3h, we see TA distribution drifting (95th percentile ~472 m, std 116), weak signal (-114 dBm), high distant-serving (19%), elevated handover failures (15%), and slow data (median ~3 Mbps).",
+    "ar": "خلال آخر 3 ساعات في خلية 5G NR صغيرة داخل الاستاد، يظهر انجراف في توزيع TA (الـ95٪ ≈ 472 م، الانحراف المعياري 116)، إشارة ضعيفة (-114 dBm)، نسبة خدمة بعيدة مرتفعة (19٪)، فشل تسليم مرتفع (15٪)، وبيانات بطيئة (الوسيط ≈ 3 ميجابت/ث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During the last 3h ingress in the stadium 5G NR micro cell, users reported slow data with more drops while many were streaming; RSRP is around -114 dBm and handover failures near 15%. Please investigate possible TA distribution drift.",
+      "message_ar": "خلال فترة الدخول في آخر 3 ساعات في خلية 5G NR صغيرة بالاستاد، أبلغ المستخدمون عن بيانات بطيئة مع زيادات في الانقطاعات مع كثرة البث؛ قيمة RSRP حوالي -114 dBm ومعدل فشل التسليم يقارب 15٪. يرجى التحقق من احتمال انجراف توزيع TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first pull the last 3h performance and mobility counters for the target cell, then examine TA evolution; if drift is confirmed, I’ll propose a light parameter tuning to reduce overshoot and improve handovers. Please share the cell ID and confirm read/change access.",
+      "message_ar": "تم. سأقوم أولاً بجلب مؤشرات الأداء والتنقل لآخر 3 ساعات للخلية المستهدفة، ثم أدرس تطور TA؛ وإذا تأكد الانجراف فسأقترح ضبطاً خفيفاً للمعلمات لتقليل التغطيـة الزائدة وتحسين التسليم. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة/التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MICRO-03. Read access and a minor change are approved.",
+      "message_ar": "معرّف الخلية هو NR-STAD-MICRO-03. صلاحية القراءة والتعديل البسيط مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 3h stats for NR-STAD-MICRO-03: TA median ~165 m, 95th percentile ~472 m, std ~116; drift index ~0.41; distant-serving 19%; PRB utilization ~77%; RSRP median ~-114 dBm; handover failure rate ~15%. This matches ingress-driven drift. I will analyze the TA time series over the same window to correlate with crowd peaks.",
+      "message_ar": "تم جمع إحصاءات 3 ساعات للخلية NR-STAD-MICRO-03: وسيط TA ≈ 165 م، والـ95٪ ≈ 472 م، والانحراف المعياري ≈ 116؛ مؤشر الانجراف ≈ 0.41؛ نسبة الخدمة البعيدة 19٪؛ استخدام PRB ≈ 77٪؛ وسيط RSRP ≈ -114 dBm؛ معدل فشل التسليم ≈ 15٪. هذا يتوافق مع انجراف ناتج عن فترة الدخول. سأحلّل السلسلة الزمنية لـ TA لنفس الإطار الزمني لربطها بذروة الحشود."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time-series analysis complete: during ingress peaks, TA expands (p50 shifts +90–120 m) and the 95th percentile spikes near 470 m; distant-serving is dominated by a north macro. This indicates overshoot/beam aim under load. I recommend a small optimization—slight down-tilt, reduced range expansion, refined HO offsets, and stronger timing compensation. Approve to implement?",
+      "message_ar": "اكتمل تحليل السلسلة الزمنية لـ TA: أثناء ذروات الدخول يتوسع TA (يتحوّل الوسيط +90–120 م) وتصل قيمة الـ95٪ إلى نحو 470 م؛ والخدمة البعيدة يغلب عليها ماكرو شمالي. هذا يشير إلى تغطية زائدة/توجيه شعاع غير مثالي تحت الحمل. أوصي بتحسين بسيط—خفض ميل طفيف، تقليل توسيع النطاق، تحسين هوامش التسليم، وتعزيز تعويض التوقيت. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement as proposed.",
+      "message_ar": "مُعتمد التنفيذ كما هو مقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing the optimization now: applying a gentle down-tilt equivalent, reducing bias toward this cell, tightening inter-cell HO margins, and enhancing timing compensation. Change committed; entering a short observation period.",
+      "message_ar": "أقوم الآن بالتنفيذ: تطبيق خفض ميل طفيف بما يعادل، تقليل الانحياز نحو هذه الخلية، تضييق هوامش التسليم بين الخلايا، وتعزيز تعويض التوقيت. تم اعتماد التغيير؛ نبدأ فترة ملاحظة قصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted.",
+      "message_ar": "تم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial post-change results (~10–15 min): TA 95th percentile down by ~80–100 m, distant-serving ~14%, HO failures trending down, and median user throughput improving from ~3 to ~5–6 Mbps; PRB load is unchanged. I will keep watching.",
+      "message_ar": "النتائج الأولية بعد التغيير (≈10–15 دقيقة): انخفاض الـ95٪ لـ TA بنحو 80–100 م، الخدمة البعيدة ~14٪، فشل التسليم في اتجاه هبوطي، وتحسّن وسيط السرعة من ~3 إلى ~5–6 ميجابت/ث؛ حمل PRB ثابت. سأواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "I observe similar improvement: slow data is easing and failed handovers are fewer. The parameter optimization you applied is helping. Let’s monitor through the next busy hour.",
+      "message_ar": "ألاحظ تحسناً مماثلاً: البطء في البيانات يتراجع وحالات فشل التسليم أقل. ضبط المعلمات الذي قمت به مفيد. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own monitoring for the next busy hour and report TA spread, handover failures, and user throughput afterwards. If issues return, we will escalate to cluster-level tuning; if adverse effects appear, we will roll back the change.",
+      "message_ar": "متفق—سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تقريراً عن اتساع TA، وفشل التسليم، وسرعة المستخدمين بعدها. إذا عادت المشكلة سنصعّد إلى ضبط على مستوى العنقود؛ وإن ظهرت آثار سلبية فسنقوم بالرجوع عن التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "minor down-tilt, reduced range expansion, refined HO margins, stronger TA compensation"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "TA distribution drift during stadium ingress was confirmed by performance stats and TA time-series, showing high distant-serving, weak signal, and elevated handover failures. We mitigated it with targeted site parameter tuning—minor down-tilt, reduced range expansion, refined handover margins, and stronger timing compensation—reducing TA spread and improving throughput. We will monitor through the next busy hour to ensure stability.",
+    "ar": "تم تأكيد انجراف توزيع TA خلال فترة الدخول في الاستاد عبر مؤشرات الأداء والسلسلة الزمنية لـ TA، مع ارتفاع الخدمة البعيدة وضعف الإشارة وزيادة فشل التسليم. قمنا بالتخفيف عبر ضبط معلمات الموقع بشكل مستهدف—خفض ميل طفيف، تقليل توسيع النطاق، تحسين هوامش التسليم، وتعزيز تعويض التوقيت—مما خفّض اتساع TA وحسّن السرعات. سنواصل المراقبة خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

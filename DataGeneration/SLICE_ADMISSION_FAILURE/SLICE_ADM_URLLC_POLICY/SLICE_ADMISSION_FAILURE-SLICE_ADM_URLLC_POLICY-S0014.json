@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0014",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro over the last 24h shows URLLC slice admission denials at 13% with 39 requests/min, slice utilization 67%, latency 16 ms, and a policy threshold at 96%—investigate admission failures.",
+    "ar": "بيئة حضرية (NR ماكرو) خلال آخر 24 ساعة تُظهر رفض قبول لشريحة URLLC بنسبة 13% مع 39 طلب/دقيقة، واستغلال الشريحة 67%، وزمنية 16 مللي ثانية، وعتبة سياسة عند 96%—يرجى التحقيق في حالات رفض القبول."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro, last 24h: URLLC slice shows 13% admission denials at ~39 requests/min. PRB ~76%, slice utilization 67%, latency ~16 ms. Please investigate the admission failures.",
+      "message_ar": "منطقة حضرية (NR ماكرو) خلال آخر 24 ساعة: شريحة URLLC تُظهر رفض قبول بنسبة 13% عند ~39 طلب/دقيقة. استخدام PRB ~76%، واستغلال الشريحة 67%، والزمنية ~16 مللي ثانية. يرجى التحقيق في حالات رفض القبول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first review OSS admission/session counters for the target cell over 24h, then adjust the URLLC slice policy if the threshold is overly restrictive, and document the change. Please share the cell ID and confirm change approval.",
+      "message_ar": "تم. سأراجع أولاً عدادات القبول/الجلسات من OSS للخلية المستهدفة خلال 24 ساعة، ثم أضبط سياسة شريحة URLLC إذا كانت العتبة مقيدة، وسأوثّق التغيير. يرجى مشاركة معرف الخلية وتأكيد الموافقة على التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-41023. Approval granted for read access and a controlled policy change on this cell only.",
+      "message_ar": "معرف الخلية: NR-Cell-41023. تمت الموافقة على الوصول للقراءة وإجراء تغيير سياسة مضبوط على هذه الخلية فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS counters for NR-Cell-41023 (24h): URLLC admission queue spikes at mixed times; denials 12–15% while PRB 74–79% and slice utilization 65–69%; median latency ~16 ms. Policy gate at 96% appears too conservative for URLLC bursts.",
+      "message_ar": "سحبت عدادات OSS للخلية NR-Cell-41023 (24 ساعة): طفرات في قائمة انتظار قبول URLLC بأوقات مختلطة؛ الرفض 12–15% بينما استخدام PRB 74–79% واستغلال الشريحة 65–69%؛ الزمنية الوسيطة ~16 مللي ثانية. بوابة السياسة عند 96% تبدو متحفظة أكثر من اللازم لطفرات URLLC."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Proceed if safe.",
+      "message_ar": "مفهوم. تابع إذا كان آمناً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: lower the URLLC admission threshold to 92% and slightly bias preemption toward URLLC, scoped to NR-Cell-41023, maintaining current latency. Proceeding with the change.",
+      "message_ar": "الخطة: خفض عتبة قبول URLLC إلى 92% مع انحياز بسيط للاستباق لصالح URLLC، محصوراً بـ NR-Cell-41023، مع الحفاظ على الزمنية الحالية. سأنفّذ التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Policy updated successfully. Immediate indicators show admission grants up and denials trending ~5–7%; latency stable at ~15–16 ms with no PRB spike.",
+      "message_ar": "تم تحديث السياسة بنجاح. المؤشرات الفورية تُظهر زيادة في المنح وانخفاض الرفض إلى نحو 5–7%؛ الزمنية مستقرة عند ~15–16 مللي ثانية دون ارتفاع في PRB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer rejected URLLC requests in the last 10 minutes; retry spikes have subsided.",
+      "message_ar": "أرى طلبات URLLC مرفوضة أقل خلال آخر 10 دقائق؛ تراجعت طفرات المحاولات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change record created for traceability; post-change baseline captured. I will continue observing through the next busy period.",
+      "message_ar": "تم إنشاء سجل تغيير للتتبع؛ تم حفظ خط الأساس بعد التعديل. سأواصل المراقبة خلال فترة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good improvement—admission denials are trending down. Action taken: URLLC slice policy update on NR-Cell-41023. Let’s monitor through the next busy hour; reference DU-SLICE-04537.",
+      "message_ar": "تحسن جيد—حالات رفض القبول تتجه للانخفاض. الإجراء المنفذ: تحديث سياسة شريحة URLLC على NR-Cell-41023. لنرصد طوال ساعة الذروة التالية؛ المرجع DU-SLICE-04537."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour window and update the ticket after it. If denials rise or latency drifts, we will roll back the change; otherwise we will retain it and consider extending to peer cells.",
+      "message_ar": "سنتولى نافذة ساعة الذروة التالية وسنحدّث التذكرة بعدها. إذا ارتفع الرفض أو انحرفت الزمنية، سنرجع التغيير؛ وإلا سنثبّته وقد ننظر في تعميمه على الخلايا النظيرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-41023",
+        "last_24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC",
+        "admission_threshold=92, preemption_bias=URLLC"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC slice admission denials high; tuned slice policy on NR-Cell-41023"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated URLLC slice admission failures on an urban NR macro cell. Findings showed a strict 96% admission gate causing denials despite moderate PRB and slice utilization with latency near 16 ms; a slice policy update lowered the threshold and biased preemption toward URLLC, and a change record was created. Early results show denials falling with latency stable; monitoring will continue through the next busy hour.",
+    "ar": "تم التحقيق في حالات رفض قبول شريحة URLLC على خلية NR ماكرو حضرية. أظهرت النتائج أن عتبة قبول صارمة عند 96% تتسبب في الرفض رغم استخدام PRB واستغلال الشريحة المعتدلين مع زمنية تقارب 16 مللي ثانية؛ تم تحديث سياسة الشريحة بخفض العتبة وانحياز الاستباق لصالح URLLC، وتم إنشاء سجل تغيير. النتائج الأولية تُظهر انخفاض الرفض مع استقرار الزمنية؛ وسيستمر الرصد خلال ساعة الذروة التالية."
+  }
+}

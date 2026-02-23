@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0024",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell shows elevated BLER ~8.8% over the last 2h at peak with low SINR (-3 dB) indicating interference / signal overlap; congestion alarm active under heavy FWA load.",
+    "ar": "قطاع NR ماكرو في منطقة شبه حضرية يسجل BLER مرتفعاً (~8.8%) خلال آخر ساعتين في وقت الذروة مع SINR منخفض (-3 dB) يدل على تداخل/تراكب الإشارة؛ إنذار ازدحام نشط مع حمل FWA مرتفع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell showing BLER spikes in the last 2 hours during peak; alarm is active. KPIs: RSRP -108 dBm, RSRQ -15 dB, SINR -3 dB, PRB ~74%, neighbor load ~0.70, 183 users, p50 DL ~14 Mbps; FWA sessions dominate.",
+      "message_ar": "خلية NR ماكرو في منطقة شبه حضرية تظهر طفرات BLER خلال آخر ساعتين في وقت الذروة؛ يوجد إنذار نشط. المؤشرات: RSRP -108 dBm، RSRQ -15 dB، SINR -3 dB، استخدام الموارد ~74%، حمل الجوار ~0.70، 183 مستخدماً، وسيط DL ~14 Mbps؛ الغالب جلسات FWA."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking cell health and counters for the last 2 hours. Please confirm the target cell ID and grant read access.",
+      "message_ar": "سأبدأ بفحص صحة الخلية والمؤشرات لآخر ساعتين. يرجى تأكيد معرف الخلية المستهدفة ومنحي صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR1234A; read access approved.",
+      "message_ar": "معرف الخلية NR1234A؛ صلاحية القراءة معتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check on NR1234A (2h) complete: no HW/backhaul faults; congestion alarm present; downlink interference indicators elevated; PRB peaks align with BLER bursts. X2 handovers normal. Next, I propose extracting the BLER time series to characterize the burst pattern—proceed?",
+      "message_ar": "اكتمل فحص النظام لـ NR1234A (ساعتان): لا أعطال عتادية/نقل؛ يوجد إنذار ازدحام؛ مؤشرات التداخل في الوصلة الهابطة مرتفعة؛ قمم استخدام الموارد تتزامن مع طفرات BLER. تسليمات X2 طبيعية. أقترح استخراج سلسلة زمنية لـ BLER لوصف النمط المتقطع—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed; no maintenance on this site.",
+      "message_ar": "تابع؛ لا أعمال صيانة على هذا الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: pull BLER time series for 2h and correlate with PRB and neighbor load. If bursts are confirmed, I will apply targeted interference-protection and link adaptation tuning with rollback. Confirm to continue.",
+      "message_ar": "الخطة: سحب السلسلة الزمنية لـ BLER لساعتين وربطها مع استخدام الموارد وحمل الجوار. إذا تأكدت الطفرات، سأطبق تحسيناً مستهدفاً للحماية من التداخل وضبط تكيّف الوصلة مع إمكانية الرجوع. أكد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed; continue.",
+      "message_ar": "مؤكد؛ تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series shows sharp bursts to 12–15% at :20 and :50 past the hour for 3–5 minutes, coincident with PRB >85% and high neighbor load. SINR dips match the bursts; MCS distribution shifts lower. I recommend focused parameter tuning to strengthen interference resilience and temper resource allocation aggressiveness for FWA traffic. Approve the change?",
+      "message_ar": "تُظهر السلسلة الزمنية طفرات حادة إلى 12–15% عند :20 و :50 من كل ساعة لمدة 3–5 دقائق، متزامنة مع استخدام موارد >85% وحمل جوار مرتفع. تنخفض SINR مع الطفرات؛ ويتحوّل توزيع MCS إلى قيم أدنى. أوصي بضبط معلمات مركّز لتعزيز مقاومة التداخل وتلطيف شراسة تخصيص الموارد لحركة FWA. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR1234A: site parameter tuning for interference protection, link adaptation thresholds, and neighbor coordination. Post-change 5‑min check: BLER avg 3.2% (was 8.8%), spikes <6%; SINR improved to −1 dB; p50 DL 16–18 Mbps. I will continue observing.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR1234A: تعزيز حماية التداخل، ضبط عتبات تكيّف الوصلة، وتنسيق مع الجوار. فحص ما بعد التغيير لمدة 5 دقائق: متوسط BLER 3.2% (كان 8.8%)، الطفرات <6%؛ تحسّن SINR إلى −1 dB؛ وسيط DL 16–18 Mbps. سأواصل المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good improvement observed—BLER spikes are trending down and SINR is steadier. Action taken: site parameter tuning applied. Let's monitor through the next busy hour.",
+      "message_ar": "تحسن جيد ملحوظ—طفرات BLER في اتجاه هبوطي وSINR أكثر استقراراً. الإجراء المنفذ: ضبط معلمات الموقع. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor through the next busy hour and share an update. If BLER worsens, we will roll back the tuning and escalate to deeper interference mitigation and traffic steering on adjacent cells.",
+      "message_ar": "تم الاستلام—سوف نراقب خلال ساعة الذروة التالية ونشارك تحديثاً. إذا تفاقم BLER سنرجع عن الضبط ونصعّد إلى تخفيف تداخل أعمق وتوجيه حركة المرور على الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed bursty BLER on a suburban NR macro cell during peak hours, driven by interference and load overlap, confirmed via health check and BLER time series. Applied site parameter tuning to enhance interference protection and adjust link adaptation, resulting in lower BLER and steadier SINR. We will monitor through the next busy hour to ensure stability.",
+    "ar": "تم تشخيص BLER متقطع على خلية NR ماكرو في منطقة شبه حضرية خلال ساعات الذروة نتيجة تداخل وتراكب حمل، وذلك بعد فحص الحالة وتحليل السلسلة الزمنية لـ BLER. تم تنفيذ ضبط لمعلمات الموقع لتعزيز حماية التداخل وضبط تكيّف الوصلة، مما خفّض BLER واستقرّت SINR. سنواصل المراقبة خلال ساعة الذروة التالية لضمان الاستقرار."
+  }
+}

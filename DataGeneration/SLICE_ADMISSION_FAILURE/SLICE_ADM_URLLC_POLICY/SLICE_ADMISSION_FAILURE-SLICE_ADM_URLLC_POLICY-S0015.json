@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0015",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro shows 24% URLLC slice admission denials over the last 24h with ~48 requests/min, ~77% resource use, 66% slice utilization, 19 ms latency, and an 89% admission threshold likely gating requests.",
+    "ar": "موقع ماكرو NR حضري يظهر نسبة رفض قبول لشريحة URLLC تبلغ 24% خلال آخر 24 ساعة مع ~48 طلب/دقيقة، واستغلال موارد ~77%، واستغلال الشريحة 66%، وزمن تأخير 19 مللي ثانية، وحد قبول عند 89% يُحتمل أنه يعيق الطلبات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell; last 24h we see ~24% URLLC slice admission denials, ~48 requests/min. PRB ~77%, slice utilization 66%, latency ~19 ms. Need help.",
+      "message_ar": "موقع ماكرو NR حضري؛ خلال آخر 24 ساعة نرى ~24% رفض قبول لشريحة URLLC مع ~48 طلب/دقيقة. استغلال PRB ~77%، واستغلال الشريحة 66%، والتأخير ~19 مللي ثانية. أحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first check admission and policy counters for the target cell over 24h to confirm if policy gating is the cause. Please share the cell ID and URLLC slice ID, and confirm access.",
+      "message_ar": "تم. سأتحقق أولاً من مؤشرات القبول والسياسة للموقع خلال 24 ساعة للتأكد إن كان سبب الرفض هو القيود السياسة. يرجى تزويدي بمعرّف الخلية ومعرّف شريحة URLLC وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-1103; URLLC slice ID: S-URLLC-091. Access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-1103؛ معرّف شريحة URLLC: S-URLLC-091. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check on NR-URB-MACRO-1103 (24h): URLLC admission denials average 24% with bursts at mixed hours; PRB 72–85% (peaks ~90%); slice utilization 66%; admission threshold set at 89% causing gating near peaks; latency steady ~19 ms. I propose updating the URLLC slice policy (relax admission threshold and prioritize URLLC). Approve?",
+      "message_ar": "فحص عبر OSS لخلية NR-URB-MACRO-1103 خلال 24 ساعة: متوسط رفض القبول لشريحة URLLC عند 24% مع ذروات في ساعات مختلطة؛ PRB بين 72–85% (ذروات ~90%)؛ استغلال الشريحة 66%؛ حد القبول مضبوط عند 89% ما يسبب حجبًا قرب الذروات؛ التأخير مستقر ~19 مللي ثانية. أقترح تحديث سياسة الشريحة (تخفيض حد القبول وتعزيز أولوية URLLC). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to update the slice policy.",
+      "message_ar": "موافق على تحديث سياسة الشريحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying slice policy update on S-URLLC-091 at NR-URB-MACRO-1103: lowering admission threshold from 89% to 80% and increasing URLLC priority. Change committed successfully; no adverse alerts.",
+      "message_ar": "تطبيق تحديث سياسة الشريحة S-URLLC-091 على الخلية NR-URB-MACRO-1103: خفض حد القبول من 89% إلى 80% وزيادة أولوية URLLC. تم تنفيذ التغيير بنجاح دون تنبيهات سلبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Quick validation: initial admission success has improved and PRB remains stable; no impact flags on other slices. Please share any immediate field observations.",
+      "message_ar": "تحقق سريع: تحسن نجاح القبول مبدئيًا وPRB مستقر؛ لا إشارات تأثير على الشرائح الأخرى. يرجى مشاركة أي ملاحظات ميدانية فورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer rejections already; recent URLLC requests that were failing are now admitted.",
+      "message_ar": "نرى عدد رفضات أقل بالفعل؛ الطلبات الأخيرة لـ URLLC التي كانت تفشل يتم قبولها الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and follow-up, I will log a work ticket and attach before/after metrics. Ticket DU-URLLC-03278 created.",
+      "message_ar": "لأغراض التتبع والمتابعة، سأُنشئ تذكرة عمل وأرفق مؤشرات قبل/بعد. تم إنشاء التذكرة DU-URLLC-03278."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will continue to watch admission trends over the next intervals. Please confirm if you observe sustained improvement during the next load increase.",
+      "message_ar": "سنواصل مراقبة اتجاهات القبول خلال الفترات القادمة. يرجى التأكيد إذا لاحظتم استمرار التحسن أثناء الزيادة التالية في الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: admission denials trending down and success rate rising. Action taken: slice policy update. Let’s monitor through the next busy hour; we can track under DU-URLLC-03278.",
+      "message_ar": "تم تأكيد التحسن: انخفاض في رفض القبول وارتفاع معدل النجاح. الإجراء المتخذ: تحديث سياسة الشريحة. لنتابع خلال ساعة الذروة القادمة؛ يمكننا المتابعة ضمن DU-URLLC-03278."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and update the ticket afterward. If denials rise again, we will roll back to the prior threshold or escalate to capacity planning; otherwise we keep the new policy and close out with a stability note.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا ارتفعت الرفضات مجددًا، سنعود إلى الحد السابق أو نُصعّد إلى تخطيط السعة؛ وإلا سنُبقي السياسة الجديدة ونُغلق مع ملاحظة الاستقرار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice admission failures on an urban NR macro as policy gating: OSS review showed a strict 89% admission threshold causing denials despite moderate PRB and slice utilization. Mitigated by a slice policy update to relax the threshold and prioritize URLLC, then recorded the action and metrics under a follow-up ticket for continued monitoring.",
+    "ar": "تم تشخيص حالات رفض قبول شريحة URLLC في موقع ماكرو حضري NR كقيد ناتج عن السياسة: أظهر فحص OSS أن حد القبول الصارم 89% تسبب بالرفض رغم استغلال PRB والشريحة المعتدلين. جرى التخفيف عبر تحديث سياسة الشريحة لتخفيف الحد وزيادة أولوية URLLC، ثم توثيق الإجراء والمؤشرات ضمن تذكرة متابعة للمراقبة المستمرة."
+  }
+}

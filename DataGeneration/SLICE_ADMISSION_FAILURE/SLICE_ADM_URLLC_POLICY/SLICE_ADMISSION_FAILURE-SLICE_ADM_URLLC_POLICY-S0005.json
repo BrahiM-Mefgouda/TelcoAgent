@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0005",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban macro NR cell shows 25% URLLC slice admission denials over the last 24h with ~29 requests/min, PRB utilization ~69%, slice utilization 70%, and latency ~11 ms, during heavy eMBB streaming.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تسجل رفض إدخال لشريحة URLLC بنسبة 25% خلال آخر 24 ساعة مع نحو 29 طلب/دقيقة، واستخدام PRB حوالي 69%، واستخدام الشريحة 70%، وزمن تأخير قرابة 11 ملي ثانية، مع حركة eMBB كثيفة للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR cell over 24h: URLLC slice admission denials ~25%, about 29 req/min. PRB ~69%, slice utilization ~70%, latency ~11 ms. Heavy eMBB streaming, no alarms. Current URLLC admission threshold observed at 91.",
+      "message_ar": "خلية NR ماكرو حضرية خلال 24 ساعة: رفض إدخال شريحة URLLC حوالي 25%، بنحو 29 طلب/دقيقة. استخدام PRB ~69%، واستخدام الشريحة ~70%، والزمن ~11 ملي ثانية. بث eMBB كثيف، دون إنذارات. تم رصد عتبة قبول URLLC عند 91."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will run a 24h configuration and counter check to validate slice gating and headroom. Please share the cell ID and URLLC slice ID and confirm access.",
+      "message_ar": "سأجري فحصاً لتكوين النظام والعدادات خلال 24 ساعة للتحقق من آلية القبول والهامش. يرجى مشاركة معرف الخلية ومعرف شريحة URLLC وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-3321, URLLC slice: URLLC-01. Access approved.",
+      "message_ar": "معرف الخلية: NR-URB-3321، شريحة URLLC: URLLC-01. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "24h stats confirm moderate load (PRB 69%), URLLC occupancy ~70%. Denials peak during mixed hours; admission gate at 91% is too restrictive for ~29 req/min. No transport/radio faults; latency steady at 11 ms. Root cause: overly strict URLLC admission policy.",
+      "message_ar": "إحصاءات 24 ساعة تؤكد حملاً متوسطاً (PRB 69%)، وإشغال URLLC ~70%. ترتفع حالات الرفض خلال ساعات الحمل المختلط؛ عتبة القبول عند 91% متشددة جداً مع ~29 طلب/دقيقة. لا أعطال نقل/راديو؛ زمن التأخير ثابت 11 ملي ثانية. السبب الجذري: سياسة قبول URLLC متشددة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: relax the URLLC admission threshold by ~6 points and permit short bursts while preserving priority; no change to latency class. Proceed to apply on URLLC-01 at NR-URB-3321?",
+      "message_ar": "الاقتراح: تخفيف عتبة قبول URLLC بنحو 6 نقاط والسماح باندفاعات قصيرة مع الحفاظ على الأولوية؛ دون تغيير فئة التأخير. هل أمضي بالتطبيق على URLLC-01 في NR-URB-3321؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Slice policy update applied on URLLC-01 at NR-URB-3321; admission gate relaxed with safeguards. I will track minute-level denials and utilization.",
+      "message_ar": "تم تطبيق تحديث سياسة الشريحة على URLLC-01 في NR-URB-3321؛ تم تخفيف عتبة القبول مع ضوابط أمان. سأتابع الرفض والاستخدام على مستوى الدقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and post-change review, I will create a change record and monitoring note. Confirm to log it now.",
+      "message_ar": "لأغراض التتبع ومراجعة ما بعد التغيير، سأُنشئ سجل تغيير وملاحظة مراقبة. يرجى التأكيد للبدء بالتوثيق الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, please log it.",
+      "message_ar": "مؤكد، يرجى توثيقه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change record created with summary of the URLLC policy update and baseline metrics. Please share any early improvement you observe in the next few minutes.",
+      "message_ar": "تم إنشاء سجل التغيير مع ملخص تحديث سياسة URLLC والقياسات الأساسية. يرجى مشاركة أي تحسن مبكر تلاحظونه خلال الدقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check: admission denials trending down with more successful admits; latency unchanged. Action taken: slice policy update on URLLC-01. Let’s monitor through the next busy hour; I’ll track via DU-SLICE-04219.",
+      "message_ar": "فحص مبكر: حالات رفض الإدخال تتراجع مع زيادة القبولات الناجحة؛ التأخير دون تغيير. الإجراء المُتخذ: تحديث سياسة الشريحة على URLLC-01. لنتابع خلال ساعة الذروة القادمة؛ سأتابع عبر DU-SLICE-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour monitoring and update the ticket afterward. If denials rise again or latency degrades, we will roll back the threshold change; if stable, we will keep it and consider minor tuning.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا ارتفعت حالات الرفض مجدداً أو تدهور التأخير، سنعيد العتبة إلى وضعها السابق؛ وإن استقرت سنُبقيها وننظر في ضبط طفيف."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated URLLC slice admission denials despite moderate load; the admission threshold was set too high (91%), causing unnecessary gating. Applied a slice policy update to relax the threshold and permit short bursts, then created a change record for traceability. Monitoring will continue through the next busy hour to confirm sustained improvement.",
+    "ar": "تم تشخيص ارتفاع رفض إدخال شريحة URLLC رغم الحمّل المتوسط؛ كانت عتبة القبول مرتفعة (91%) مما سبب حجباً غير ضروري. تم تطبيق تحديث لسياسة الشريحة لتخفيف العتبة والسماح باندفاعات قصيرة، ثم إنشاء سجل تغيير للتتبع. ستستمر المراقبة خلال ساعة الذروة القادمة للتأكد من استدامة التحسن."
+  }
+}

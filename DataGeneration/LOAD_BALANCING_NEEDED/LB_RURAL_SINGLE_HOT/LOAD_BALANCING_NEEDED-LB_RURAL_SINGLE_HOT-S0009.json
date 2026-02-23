@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0009",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro with FWA shows high resource use (~87%) and 195 users over the last 6h while nearby cells average ~32%, with handovers favoring the hot cell (17 out vs 10 in) and RSRQ -12 dB/SINR 12 dB—load balancing is likely needed.",
+    "ar": "خلية NR ماكرو ريفية مع حركة FWA تُظهر استهلاك موارد مرتفعًا (~87%) و195 مستخدمًا خلال آخر 6 ساعات بينما متوسط الجيران ~32%، مع عمليات تسليم تميل لصالح الخلية الساخنة (17 خروج مقابل 10 دخول) وRSRQ -12 dB/SINR 12 dB—يُرجّح الحاجة لموازنة الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NR-RURAL-45721 S2 with FWA load is hot over the last 6h: PRB ~87%, 195 users, median DL 13 Mbps. Neighbors average ~32% PRB, imbalance index ~0.30, HO out/in 17/10, RSRQ -12 dB, SINR 12 dB. No alarms; mixed hours.",
+      "message_ar": "الخلية NR-RURAL-45721 القطاع S2 (ماكرو ريفية) مع حمل FWA ساخنة خلال آخر 6 ساعات: استهلاك PRB ~87%، 195 مستخدمًا، وسطي تنزيل 13 ميجابت/ث. متوسط الجيران ~32%، مؤشر عدم الاتزان ~0.30، التسليم خروج/دخول 17/10، RSRQ -12 dB وSINR 12 dB. لا إنذارات؛ فترات زمنية مختلطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by auditing neighbors and steering biases for NR-RURAL-45721 S2 over the last 6h to confirm relations and offload potential. Please approve access.",
+      "message_ar": "مفهوم. سأبدأ بتدقيق الجيران وانحيازات التوجيه للخلية NR-RURAL-45721 S2 خلال آخر 6 ساعات لتأكيد العلاقات وإمكانية التفريغ. يرجى الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID: NR-RURAL-45721-S2; neighbors are within ~7.2 km. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول. معرف الخلية: NR-RURAL-45721-S2؛ الجيران ضمن ~7.2 كم. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: adjacent sectors are underutilized (avg PRB ~32%). Current steering uses neutral serving bias and conservative mobility thresholds; load-aware handover is not active, so UEs are retained longer on the hot cell. This confirms a load imbalance. I propose a light tuning: slightly reduce serving bias on the hot cell, add a small positive bias on underutilized neighbors, enable load-aware handover around 70%, and modestly relax hysteresis. Approve to apply?",
+      "message_ar": "تم تدقيق الجيران: القطاعات المجاورة منخفضة الاستخدام (متوسط PRB ~32%). التوجيه الحالي يعتمد انحيازًا محايدًا للخلية الخادمة وعتبات حركة محافظة؛ التسليم المعتمد على الحمل غير مُفعّل، ما يؤدي لاحتفاظ الخلية الساخنة بالمشتركين مدة أطول. هذا يؤكد عدم توازن الحمل. أقترح ضبطًا خفيفًا: تقليل انحياز الخلية الساخنة قليلًا، إضافة انحياز طفيف للجيران منخفضي الاستخدام، تفعيل التسليم المعتمد على الحمل عند ~70%، وتخفيفًا طفيفًا للهسترة. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Apply the light tuning as proposed.",
+      "message_ar": "موافق. طبّق الضبط الخفيف كما اقترحت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied successfully: reduced serving bias on NR-RURAL-45721-S2, slight positive bias on underutilized neighbors, enabled load-aware handover near 70%, and slightly reduced hysteresis. Commit confirmed with no errors. Expect ~10–15% PRB relief and more balanced handovers.",
+      "message_ar": "تم تطبيق التغيير بنجاح: تقليل انحياز الخلية NR-RURAL-45721-S2، إضافة انحياز طفيف للجيران منخفضي الاستخدام، تفعيل التسليم المعتمد على الحمل قرب 70%، وتقليل بسيط للهسترة. تم التأكيد دون أخطاء. متوقع تحسن في PRB بنحو 10–15% وتوازن أفضل في عمليات التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation (10 min): PRB on the hot cell dropped to ~79%, neighbor NR-RURAL-45719 S2 rose to ~43%. HO out/in gap is narrowing.",
+      "message_ar": "ملاحظة أولية (10 دقائق): انخفض PRB على الخلية الساخنة إلى ~79%، وارتفع لدى الجار NR-RURAL-45719 S2 إلى ~43%. فجوة التسليم خروج/دخول تتقلص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. We will watch user distribution and handover outcomes for stability; if any adverse radio effects appear, we will revert quickly.",
+      "message_ar": "مؤشر جيد. سنراقب توزع المشتركين ونتائج التسليم لضمان الاستقرار؛ وإذا ظهرت آثار راديوية سلبية سنرجع التغيير سريعًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~30 min: median DL improved to ~16 Mbps, PRB fluctuating 74–79%, RSRQ stable at -12 dB. Users look more evenly spread.",
+      "message_ar": "بعد ~30 دقيقة: تحسن وسطي التنزيل إلى ~16 ميجابت/ث، وPRB يتراوح بين 74–79%، وRSRQ مستقر عند -12 dB. يبدو توزيع المستخدمين أكثر توازنًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Let’s continue monitoring through the next busy hour to confirm sustained relief and ensure no edge cells are overstressed.",
+      "message_ar": "لنواصل المراقبة خلال ساعة الذروة القادمة للتأكد من استمرار التحسن وعدم إجهاد خلايا الحواف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement: resource use trending down and handovers more balanced. Action taken was neighbor audit followed by site parameter tuning for load steering. Propose monitoring over the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: استهلاك الموارد في نزول وعمليات التسليم أكثر توازنًا. الإجراء كان تدقيق الجيران ثم ضبط معلمات الموقع لتوجيه الحمل. أقترح المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy hour monitoring and share an update afterward. If issues arise, we will roll back the change and escalate to capacity planning for further relief.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة وسنشارك تحديثًا بعدها. إذا ظهرت مشكلات سنرجع التغيير ونصعّد إلى تخطيط السعة لمزيد من المعالجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-RURAL-45721-S2",
+        "auto-neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "LB tuning: reduce serving bias ~2 dB on hot cell, +1 dB bias on underutilized neighbors, enable load-aware HO at ~70%, slight hysteresis relaxation"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural NR macro FWA hotspot with high resource usage and low neighbor load. Conducted a neighbor and steering audit, then applied site parameter tuning to shift traffic to underutilized neighbors and enable load-aware handovers. Early results show reduced resource utilization and more balanced handovers; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص خلية NR ماكرو ريفية لحركة FWA كخلية ساخنة مع ارتفاع استهلاك الموارد وانخفاض حمل الجيران. أُجري تدقيق للجيران والتوجيه ثم تم تنفيذ ضبط لمعلمات الموقع لتحويل الحركة إلى الجيران منخفضي الاستخدام وتفعيل التسليم المعتمد على الحمل. النتائج الأولية تُظهر انخفاض استهلاك الموارد وتوازنًا أفضل في التسليم؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

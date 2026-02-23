@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0006",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion over the last 3h with 92% resource use, low fairness (~0.5), skewed allocation, median throughput 13 Mbps, 95th-percentile latency 63 ms, SINR 9 dB, and 432 users during egress.",
+    "ar": "خلية NR صغيرة في الملعب تُظهر ازدحاماً خلال آخر 3 ساعات مع استخدام موارد 92%، عدالة منخفضة (~0.5)، تخصيص منحاز، سرعة متوسطة 13 ميغابت/ث، كمون 95% عند 63 مللي ثانية، نسبة إشارة إلى تداخل 9 ديسيبل، و432 مستخدماً أثناء الخروج."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell in the last 3h egress window raised an alarm: PRB ~92%, fairness ~0.5, allocation skew 24, BE 68% vs high-priority 30%, p50 13 Mbps, p95 latency 63 ms, SINR 9 dB, 432 users. Need assistance.",
+      "message_ar": "خلية NR صغيرة في الملعب خلال نافذة الخروج لآخر 3 ساعات أطلقت إنذاراً: استخدام الموارد ~92%، العدالة ~0.5، انحياز التخصيص 24، حركة أفضل جهد 68% مقابل أولوية عالية 30%، السرعة المتوسطة 13 ميغابت/ث، كمون p95 عند 63 مللي ثانية، نسبة إشارة إلى تداخل 9 ديسيبل، و432 مستخدماً. أحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion. I will diagnose a resource scheduling anomaly: pull last 3h live counters, then analyze PRB allocation/fairness and latency trends. Please share the cell ID and approve access; if confirmed, I’ll apply targeted tuning to improve fairness and reduce tail latency.",
+      "message_ar": "تم تأكيد الازدحام. سأشخّص شذوذ جدولة الموارد: سأسحب عدادات حية لآخر 3 ساعات ثم أحلل اتجاهات تخصيص الموارد/العدالة والكمون. يرجى مشاركة معرف الخلية والموافقة على الوصول؛ وإذا تم التأكيد سأطبق تحسينات مستهدفة لرفع العدالة وتقليل ذيل الكمون."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STA-05-M1. Access approved for the last 3h. Note: traffic is eMBB with streaming during exit.",
+      "message_ar": "معرف الخلية: NR-STA-05-M1. تم اعتماد الوصول لآخر 3 ساعات. ملاحظة: الحركة eMBB مع بث فيديو أثناء الخروج."
+    },
+    {
+      "role": "agent",
+      "message_en": "Retrieving last 3h live counters for NR-STA-05-M1 covering the egress window to review load, QoS mix, and retransmissions. I will proceed to analyze PRB allocation/fairness time series next—please confirm.",
+      "message_ar": "أقوم بجلب العدادات الحية لآخر 3 ساعات للخلية NR-STA-05-M1 خلال نافذة الخروج لمراجعة الحمل ومزيج مستويات الخدمة وإعادات الإرسال. سأتقدم لتحليل السلاسل الزمنية لتخصيص الموارد/العدالة—يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Proceed.",
+      "message_ar": "مؤكد. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "PRB time series indicates sustained >90% load with fairness near 0.5 and pronounced skew; best-effort dominates at 68% while high-priority is ~30%. Latency p95 spikes align with the exit surge. I propose immediate bounded tuning to rebalance toward priority traffic and increase proportional fairness. Approve execution?",
+      "message_ar": "السلاسل الزمنية للموارد تُظهر حملاً مستمراً >90% مع عدالة تقارب 0.5 وانحيازاً ملحوظاً؛ حركة أفضل جهد 68% مقابل أولوية عالية ~30%. ارتفاعات كمون p95 تتزامن مع موجة الخروج. أقترح تحسينات فورية ومحكومة لإعادة الموازنة نحو الحركة ذات الأولوية وزيادة الإنصاف النسبي. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Neighboring micros look healthy and no backhaul alarms seen.",
+      "message_ar": "موافق. الخلايا المجاورة تبدو سليمة ولا توجد إنذارات في الربط الخلفي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted parameter tuning on NR-STA-05-M1: increase priority weighting for high-priority traffic, modestly raise fairness bias, and cap per-UE bursts. Change applied without service interruption and verified. Beginning post-change observation of fairness, p95 latency, and p50 throughput.",
+      "message_ar": "أقوم بتطبيق تحسينات معلمات مستهدفة على NR-STA-05-M1: زيادة وزن الحركة ذات الأولوية العالية، رفعاً معتدلاً لتحيز الإنصاف، وحدّ طفرات المستخدم الواحد. تم تطبيق التغيير دون انقطاع للخدمة والتحقق منه. أبدأ مراقبة ما بعد التغيير للعدالة وكمون p95 وسرعة p50."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after a few minutes: fairness improving slightly, p95 latency down by ~10 ms, and median throughput up by ~1–2 Mbps.",
+      "message_ar": "الملاحظة الأولية بعد بضع دقائق: تحسن طفيف في العدالة، وانخفاض كمون p95 بنحو ~10 مللي ثانية، وارتفاع السرعة المتوسطة بنحو 1–2 ميغابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early signs. I will continue watching during the ongoing egress to confirm stabilization and ensure priority traffic benefits without harming best-effort users. Any user complaints from the venue support?",
+      "message_ar": "مؤشرات مبكرة جيدة. سأواصل المتابعة أثناء الخروج الجاري للتأكد من الاستقرار وضمان استفادة الحركة ذات الأولوية دون الإضرار بمستخدمي أفضل جهد. هل وردت شكاوى من دعم الموقع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No new complaints; tail latency is trending down and fairness is stabilizing. The action taken was site parameter tuning. Suggest monitoring over the next 2–3 hours.",
+      "message_ar": "لا شكاوى جديدة؛ ذيل الكمون يتجه للانخفاض والعدالة تستقر. الإجراء الذي تم هو ضبط معلمات الموقع. أقترح المراقبة خلال الساعتين إلى الثلاث القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring for the next 2–3 hours and report outcomes. If fairness degrades or tail latency rises again, we will escalate with temporary load balancing or admission controls, and roll back the tuning if adverse effects appear.",
+      "message_ar": "تم الفهم—سنكون مسؤولين عن المراقبة خلال الساعتين إلى الثلاث القادمة ونبلغ بالنتائج. إذا تدهورت العدالة أو ارتفع ذيل الكمون مجدداً، سنصعّد عبر موازنة الحمل المؤقتة أو ضوابط القبول، وسنعود عن الضبط إذا ظهرت آثار سلبية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly at the stadium NR micro cell during egress: sustained >90% load with skewed allocation and low fairness drove high tail latency. Pulled recent counters, analyzed PRB time series, then applied site parameter tuning to rebalance priority weighting and fairness. Early improvements in latency and median throughput were observed; continued monitoring is in place.",
+    "ar": "تم تشخيص شذوذ في جدولة الموارد بخلية NR في الملعب أثناء الخروج: حمل مستمر >90% مع تخصيص منحاز وعدالة منخفضة أدى إلى ارتفاع ذيل الكمون. جرى سحب عدادات حديثة وتحليل السلاسل الزمنية للموارد، ثم تطبيق ضبط معلمات الموقع لإعادة موازنة أوزان الأولوية والإنصاف. لوحظت تحسينات مبكرة في الكمون والسرعة المتوسطة؛ والمراقبة مستمرة."
+  }
+}

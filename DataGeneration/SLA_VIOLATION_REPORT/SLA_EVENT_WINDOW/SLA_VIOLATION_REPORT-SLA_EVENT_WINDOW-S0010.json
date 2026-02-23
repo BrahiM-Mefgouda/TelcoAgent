@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0010",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion during ingress over the last 6h with slow data (p50 7 Mbps), latency 61 ms, BLER 8%, QoS 0.34 vs 0.95 target, and 87% resource use—please investigate the SLA breach.",
+    "ar": "خلية NR صغيرة في الملعب تُظهر ازدحاماً خلال فترة الدخول على مدى آخر 6 ساعات مع بيانات بطيئة (وسيط 7 ميجابت/ث)، كمون 61 مللي ثانية، BLER بنسبة 8%، جودة خدمة 0.34 مقابل هدف 0.95، واستخدام موارد 87%—يرجى التحقيق في خرق اتفاقية الخدمة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 6h triggered an SLA alarm on the NR micro cell. Users reported slow data; p50 throughput is 7 Mbps, latency 61 ms, BLER ~8%, PRB ~87%, ~575 users with heavy streaming.",
+      "message_ar": "فترة دخول الجمهور في الملعب خلال آخر 6 ساعات فعّلت إنذار SLA على خلية NR صغيرة. اشتكى المستخدمون من بطء البيانات؛ وسيط السرعة 7 ميجابت/ث، الكمون 61 مللي ثانية، BLER حوالي 8%، واستخدام الموارد نحو 87% مع حوالي 575 مستخدماً وبث مكثف."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking live counters and alarms for the serving NR micro cell over the 6h event window. Please confirm access to proceed.",
+      "message_ar": "سأبدأ بفحص العدادات والتنبيهات للخلية الصغيرة NR خلال نافذة 6 ساعات. يرجى تأكيد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-STAD-MICRO-03. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-STAD-MICRO-03. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS stats now: counters show no hard outages, but sustained high downlink load with PRB utilization peaking ~92% during ingress; queueing flags present; uplink normal.",
+      "message_ar": "أقوم بجلب إحصاءات النظام الآن: لا توجد أعطال كلية، لكن هناك حمل عالٍ مستمر في الوصلة الهابطة مع ذروة استخدام موارد ~92% أثناء الدخول؛ توجد إشارات انتظار؛ الوصلة الصاعدة طبيعية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Continue.",
+      "message_ar": "مفهوم. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will analyze QoS time series over the last 6h to correlate with the ingress peak.",
+      "message_ar": "سأحلّل سلسلة زمنية لجودة الخدمة خلال آخر 6 ساعات لربطها بذروة الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS score averages 0.34 vs target 0.95, with worst interval during ingress; latency spikes align with PRB saturation; BLER is moderate and not the primary limiter. Root cause: capacity congestion on the NR micro cell under event load. I recommend opening an SLA violation report ticket with findings and mitigation notes (offload and capacity actions). Approve?",
+      "message_ar": "متوسط جودة الخدمة 0.34 مقابل الهدف 0.95، وأسوأ فترة أثناء الدخول؛ ارتفاعات الكمون تتوافق مع تشبع الموارد؛ BLER متوسط وليس العامل الأساسي. السبب الجذري: ازدحام سِعوي في الخلية NR الصغيرة تحت حمل الحدث. أوصي بفتح تذكرة تقرير خرق SLA مع النتائج وملاحظات التخفيف (تفريغ الحمل وإجراءات السعة). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Create the SLA ticket with these details.",
+      "message_ar": "موافق. أنشئ تذكرة SLA بهذه التفاصيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA ticket DU-SLA-00657 created: Stadium NR micro cell congestion during ingress causing low QoS (0.34), slow data (p50 7 Mbps), latency 61 ms, PRB up to 92%. Included mitigation notes for offload to neighboring layers and capacity augmentation options.",
+      "message_ar": "تم إنشاء تذكرة SLA رقم DU-SLA-00657: ازدحام في خلية NR صغيرة بالملعب أثناء الدخول يسبب تدني جودة الخدمة (0.34)، بيانات بطيئة (وسيط 7 ميجابت/ث)، كمون 61 مللي ثانية، وموارد تصل إلى 92%. تم تضمين ملاحظات تخفيف للتفريغ إلى الطبقات المجاورة وخيارات تعزيز السعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Since crowd thinning, slow data complaints are easing and latency is trending down. Action taken: SLA violation report and ticket creation. Let’s monitor through the next busy hour; we’ll reference DU-SLA-00657.",
+      "message_ar": "مع تراجع الازدحام، شكاوى بطء البيانات تتناقص والكمون يتجه للانخفاض. الإجراء المتخذ: إعداد تقرير خرق SLA وإنشاء تذكرة. دعنا نراقب خلال ساعة الذروة القادمة؛ سنشير إلى DU-SLA-00657."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update DU-SLA-00657 after the window with trend and impact. If degradation persists, we will escalate for temporary capacity and offload measures; if conditions normalize, we will keep the ticket open for post-event review and close with evidence—no rollback needed since no live changes were pushed.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث DU-SLA-00657 بعد النافذة بالاتجاه والأثر. إذا استمرت الحالة، سنصعّد لطلب سعة مؤقتة وإجراءات تفريغ؛ وإذا عادت الأوضاع إلى طبيعتها، سنبقي التذكرة مفتوحة للمراجعة بعد الحدث ثم نغلقها مع الأدلة—لا حاجة للتراجع لأنه لم تُطبَّق تغييرات مباشرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed SLA breach on the stadium NR micro cell during ingress: QoS averaged 0.34 vs 0.95 target with latency spikes aligned to PRB saturation and slow data. Reviewed OSS and QoS trends, identified congestion as the root cause, and raised an SLA ticket with a mitigation plan including offload and capacity augmentation. We will monitor the next busy hour and update the ticket with outcomes.",
+    "ar": "تم تأكيد خرق SLA على خلية NR في الملعب خلال فترة الدخول: متوسط جودة الخدمة 0.34 مقابل الهدف 0.95 مع ارتفاعات كمون متزامنة مع تشبع الموارد وبطء البيانات. تمت مراجعة بيانات النظام واتجاهات الجودة وتحديد الازدحام كسبب جذري، وتم رفع تذكرة SLA مع خطة تخفيف تشمل التفريغ وتعزيز السعة. سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة بالنتائج."
+  }
+}

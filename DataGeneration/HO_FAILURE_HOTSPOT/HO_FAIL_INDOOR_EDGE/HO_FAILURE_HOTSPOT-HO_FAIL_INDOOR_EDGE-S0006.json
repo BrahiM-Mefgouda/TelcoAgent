@@ -1,0 +1,110 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0006",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Investigate an indoor handover failure hotspot on the 5G micro in the office wing over the last 4 hours, with HO success ~84%, failures 13%, ping-pong 14%, and marginal RSRP (~-106 dBm) affecting eMBB streaming during shoulder hours.",
+    "ar": "التحقيق في بؤرة فشل التسليم داخل مبنى على موقع 5G مايكرو في جناح المكتب خلال آخر 4 ساعات، مع نجاح تسليم ~84%، فشل 13%، ارتداد 14%، وRSRP هامشي (~-106 dBm) يؤثر على بث eMBB خلال فترة الحمل المتوسّط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor 5G micro in the east office wing shows in the last 4h: HO success 84%, HO failures 13%, ping-pong 14%, RLF 5.9%. RSRP about -106 dBm, RSRQ -10 dB, SINR 7 dB. p50 DL 12 Mbps, with some streaming complaints.",
+      "message_ar": "موقع 5G داخلي (مايكرو) في الجناح الشرقي من المكتب خلال آخر 4 ساعات: نجاح التسليم 84%، فشل التسليم 13%، ارتداد التسليم 14%، وانقطاعات راديوية 5.9%. RSRP نحو ‎-106 dBm، وRSRQ ‎-10 dB، وSINR ‎7 dB. سرعة تنزيل وسيطة 12 ميغابت/ث، مع بعض شكاوى البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will identify the indoor handover failure hotspot by generating an east-wing coverage view for the last 4h using a 10 m grid. Please confirm read access.",
+      "message_ar": "تم. سأحدّد بؤرة فشل التسليم الداخلي عبر إنشاء عرض تغطية للجناح الشرقي لآخر 4 ساعات بشبكة 10 م. يرجى تأكيد صلاحية الاطلاع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target is floor 3, east wing; 10 m grid is fine.",
+      "message_ar": "الوصول مُوافق عليه. الهدف هو الطابق 3، الجناح الشرقي؛ شبكة 10 م مناسبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage heatmap completed: the corridor/stairwell boundary shows weak levels (-108 to -112 dBm) with overlap from adjacent macros, aligning with late/failed HOs along the north-east edge. This confirms an indoor edge hotspot.",
+      "message_ar": "تم إنجاز خريطة التغطية الحرارية: حدود الممر/السلم تُظهر مستويات ضعيفة (-108 إلى -112 dBm) مع تداخل من الماكرو المجاورة، متوافق مع عمليات تسليم متأخرة/فاشلة على الحافة الشمالية الشرقية. هذا يؤكد وجود بؤرة على الحافة الداخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "That matches field notes—drops near the fire stairs; load around 212 users at shoulder time. No alarms present.",
+      "message_ar": "هذا يطابق الملاحظات الميدانية—سقوط مكالمات قرب درج الطوارئ؛ الحمل نحو 212 مستخدمًا في فترة الحمل المتوسّط. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply mobility tuning on this indoor micro to trigger earlier, more decisive HOs without excess ping-pong—reduce A3 offset from 2 to 1 dB, raise hysteresis from 1 to 1.5 dB, keep TTT at 134 ms, and add +1 dB HO margin toward the dominant east neighbor. Approve to proceed now?",
+      "message_ar": "الخطة: ضبط معايير التنقّل لهذا الموقع الداخلي لتفعيل تسليمات مبكرة وأكثر حسماً بدون ارتداد زائد—خفض A3 offset من 2 إلى 1 dB، رفع hysteresis من 1 إلى 1.5 dB، الإبقاء على TTT عند 134 مللي ثانية، وإضافة هامش تسليم +1 dB نحو الجار المسيطر شرقًا. هل نتابع الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied successfully; parameters committed. Expect earlier handovers at the east edge with damped ping-pong. We will watch HO success, ping-pong, and RLF counters for initial trends.",
+      "message_ar": "تم تطبيق التغيير بنجاح؛ تم اعتماد المعايير. نتوقع تسليمات أبكر عند الحافة الشرقية مع تخميد الارتداد. سنراقب مؤشرات نجاح التسليم والارتداد والانقطاعات الراديوية للاتجاهات الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look positive—fewer failed attempts and slightly fewer ping-pong events in recent checks.",
+      "message_ar": "المؤشرات الأولية إيجابية—محاولات فاشلة أقل وارتداد أقل قليلًا في الفحوصات الأخيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We will continue monitoring through the next busy hour, focusing on edge UEs and eMBB sessions. If any regression appears, we will promptly revert.",
+      "message_ar": "جيد. سنواصل المتابعة خلال ساعة الذروة القادمة مع التركيز على مستخدمي الحافة وجلسات eMBB. إذا ظهرت أي تراجعات فسنعيد الضبط فورًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: handover failures trending down and ping-pong dampening since the site parameter tuning. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "هناك تحسّن: إخفاقات التسليم في اتجاه تنازلي وتراجع الارتداد منذ ضبط معايير الموقع. لنتابع خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next 2–4 hours and report updates on HO success, ping-pong, and RLF. If degradation appears, we will roll back the recent tuning; if the hotspot persists, we will escalate to RF design for a broader plan.",
+      "message_ar": "تم—سنتولى المتابعة خلال الساعتين إلى الأربع ساعات القادمة ونرفع تحديثات عن نجاح التسليم والارتداد والانقطاعات الراديوية. إذا ظهر تدهور فسنعود عن الضبط الأخير؛ وإن استمرت البؤرة سنصعّد الأمر إلى فريق التصميم الراديوي لخطة أشمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "10m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset:-1dB,hysteresis:+0.5dB,HO_margin_east:+1dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "An indoor edge handover failure hotspot was confirmed by a coverage view showing weak signal and overlap at the east corridor. Mitigation was applied via site parameter tuning: reduced A3 trigger threshold, increased hysteresis, and a small handover margin toward the dominant neighbor. Early trends indicate improvement; continued monitoring will validate stability and guide any further adjustments.",
+    "ar": "تم تأكيد بؤرة فشل التسليم على الحافة الداخلية عبر عرض تغطية أظهر إشارة ضعيفة وتداخلاً عند الممر الشرقي. تم تطبيق إجراء تخفيف عبر ضبط معايير الموقع: خفض عتبة تشغيل A3، وزيادة الهستيريزيز، وإضافة هامش تسليم صغير نحو الجار المسيطر. المؤشرات الأولية تُظهر تحسناً؛ ستؤكد المتابعة الاستقرار وتوجّه أي تعديلات لاحقة."
+  }
+}

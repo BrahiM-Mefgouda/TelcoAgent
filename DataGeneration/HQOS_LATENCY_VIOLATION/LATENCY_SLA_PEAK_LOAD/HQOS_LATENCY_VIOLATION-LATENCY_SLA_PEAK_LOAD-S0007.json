@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0007",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell breaching latency SLA over the last 2h: average latency 63 ms (scheduler p95 41 ms), PRB 83%, BLER 6.5%, 303 users, median downlink 12 Mbps; congestion alarm is active during peak evening eMBB traffic.",
+    "ar": "موقع ماكرو 5G NR حضري يتجاوز اتفاقية مستوى خدمة الكمون خلال آخر ساعتين: متوسط الكمون 63 مللي ثانية (كمون الجدولة p95 = 41 مللي ثانية)، استخدام الموارد 83%، BLER 6.5%، 303 مستخدمين، تنزيل وسطي 12 ميجابت/ث؛ إنذار الازدحام مفعل خلال ذروة المساء وحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell under peak evening load; congestion alarm active. Latency averages 63 ms (scheduler p95 41 ms), PRB ~83%, BLER ~6.5%, ~303 users, median DL 12 Mbps; eMBB streaming complaints reported.",
+      "message_ar": "موقع ماكرو NR حضري تحت حمل ذروة المساء؛ إنذار الازدحام مفعل. متوسط الكمون 63 مللي ثانية (p95 للجدولة 41 مللي ثانية)، استخدام الموارد ~83%، BLER ~6.5%، ~303 مستخدمين، تنزيل وسطي 12 ميجابت/ث؛ شكاوى بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll run a 2h health check on the impacted NR macro sector to validate utilization, error rates, and queue build-up; please confirm access.",
+      "message_ar": "سأجري فحص حالة لمدة ساعتين على القطاع المتأثر للتحقق من الاستغلال والأخطاء وتراكم الطوابير؛ يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Same sector had a brief spike last week; no planned work today.",
+      "message_ar": "تمت الموافقة على الوصول. نفس القطاع شهد ارتفاعًا قصيرًا الأسبوع الماضي؛ لا أعمال مخططة اليوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Health check shows radios stable, PRB 82–88%, BLER 6–7%, active users peaking ~320. Pulling 2h latency time series now to isolate peaks versus baseline.",
+      "message_ar": "فحص الحالة يظهر استقرارًا في الراديو، PRB بين 82–88%، وBLER بين 6–7%، والمستخدمون النشطون يصلون إلى ~320. أقوم الآن باستخراج سلسلة زمنية للكمون خلال ساعتين لعزل القمم عن الأساس."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Customer reports of streaming buffering around 19:45.",
+      "message_ar": "تم الفهم. وردت تقارير عن تقطيع في البث حوالي 19:45."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series indicates spikes from 19:30–20:10; scheduler p95 up to ~48 ms while radio latency stays normal, consistent with HQoS queue saturation under load. I propose tuning scheduler/QoS weights and queue thresholds to reduce waiting time for eMBB bursts. Approve to proceed?",
+      "message_ar": "السلسلة الزمنية تشير إلى ارتفاعات بين 19:30–20:10؛ p95 للجدولة يصل إلى ~48 مللي ثانية بينما كمون الراديو طبيعي، ما يتوافق مع تشبع طوابير HQoS تحت الحمل. أقترح ضبط أوزان الجدولة/جودة الخدمة وحدود الطوابير لتقليل وقت الانتظار لاندفاعات eMBB. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the targeted tuning.",
+      "message_ar": "موافق على تنفيذ الضبط المستهدف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted site parameter tuning to scheduler/QoS weighting and queue/buffer thresholds; commit successful. Starting short validation—expect ~10–15 ms reduction in scheduler p95 without throughput loss.",
+      "message_ar": "أقوم بتطبيق ضبط معلمي الموقع على وزن الجدولة/جودة الخدمة وحدود الطوابير/المخازن؛ تم تطبيق التغييرات بنجاح. أبدأ تحققًا قصيرًا—متوقع خفض ~10–15 مللي ثانية في p95 للجدولة دون فقد في الإنتاجية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial 5-minute snapshot: scheduler p95 now ~30–34 ms; streaming buffering reports are dropping.",
+      "message_ar": "لقطة أولية بعد 5 دقائق: p95 للجدولة الآن ~30–34 مللي ثانية؛ تقارير تقطيع البث في انخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Live counters align: PRB holding ~80–84%, BLER ~5–6%, end-to-end latency trending ~45–48 ms. I’ll keep watching during the busy window.",
+      "message_ar": "العدادات الحية متوافقة: PRB ثابت ~80–84%، BLER ~5–6%، والكمون الشامل يتجه إلى ~45–48 مللي ثانية. سأواصل المتابعة خلال فترة الانشغال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: scheduler p95 reduced by ~13 ms and average latency down from 63 to ~47 ms; streaming is smoother. Action taken: site parameter tuning on scheduler/QoS. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تحسن ملحوظ: انخفض p95 للجدولة ~13 مللي ثانية ومتوسط الكمون تراجع من 63 إلى ~47 مللي ثانية؛ البث أصبح أكثر سلاسة. الإجراء المتخذ: ضبط معلمات الموقع للجدولة/جودة الخدمة. لنتابع خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring for the next 2–4 hours and update you after the window. If latency regresses or throughput dips, we’ll roll back the tuning; if signs point to transport constraints, we’ll escalate to the backhaul team.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع القادمتين وسنوافيك بالتحديث بعد انتهاء الفترة. إذا عاد الكمون للتدهور أو انخفضت الإنتاجية، سنعود عن الضبط؛ وإذا ظهرت مؤشرات قيود نقل، سنصعّد لفريق الربط الخلفي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_URBAN_MACRO_S2",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_URBAN_MACRO_S2",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "HQoS scheduler/QoS weights and queue/buffer tuning for eMBB peak"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA breach on an urban 5G NR macro during the peak evening, confirming high PRB and elevated scheduler delay with normal radio latency via health checks and a 2h latency time series. Mitigated by site parameter tuning of scheduler/QoS weighting and queue/buffer thresholds to relieve HQoS queue saturation. Post-change, scheduler p95 and end-to-end latency improved; the cell will be monitored over the next 2–4 hours for stability.",
+    "ar": "تم تشخيص تجاوز اتفاقية مستوى خدمة الكمون في موقع ماكرو 5G NR حضري خلال ذروة المساء، مع تأكيد ارتفاع استخدام الموارد وتأخر الجدولة مع كمون راديو طبيعي عبر فحص الحالة وسلسلة زمنية للكمون لمدة ساعتين. تم التخفيف عبر ضبط معلمات الموقع لأوزان الجدولة/جودة الخدمة وحدود الطوابير/المخازن لتخفيف تشبع طوابير HQoS. بعد التغيير تحسن p95 للجدولة والكمون الشامل؛ وسيتم مراقبة الموقع خلال الساعات 2–4 القادمة لضمان الاستقرار."
+  }
+}

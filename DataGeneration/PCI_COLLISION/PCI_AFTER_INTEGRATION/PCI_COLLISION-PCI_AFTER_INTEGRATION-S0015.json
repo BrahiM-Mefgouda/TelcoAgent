@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0015",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro sector with an active alarm over the last 8 hours shows PCI 286 overlapping with neighbors (52%), handover failures 22% and ping‑pong 21%, RSRQ −15 dB, SINR 7 dB, and p50 downlink 15 Mbps, indicating congestion.",
+    "ar": "قطاع ماكرو NR حضري مع إنذار نشط خلال آخر 8 ساعات يظهر PCI 286 يتداخل مع الجيران (52%)، فشل التسليم 22% وبيغ بونغ 21%، RSRQ ‏−15 dB وSINR ‏7 dB ومتوسط تنزيل 15 Mbps، مما يشير إلى ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro sector with an active alarm over the last 8h: HO failures ~22%, ping‑pong 21%, RSRQ ≈ −15 dB, SINR ≈ 7 dB, p50 DL ≈ 15 Mbps. Heavy eMBB streaming traffic. Analytics show PCI 286 overlap ~52%—need assistance.",
+      "message_ar": "قطاع ماكرو 5G NR حضري مع إنذار نشط خلال آخر 8 ساعات: فشل التسليم ~22%، بيغ بونغ 21%، RSRQ ≈ −15 dB وSINR ≈ 7 dB، والوسيط للتنزيل ≈ 15 Mbps. حركة eMBB مع بث مرتفع. التحليلات تُظهر تداخل PCI 286 بنحو 52%—نحتاج دعماً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by auditing neighbor relations to confirm any duplicate/overlapping PCI and correlate with HO issues in the last 8h. Please confirm the target cell ID and approve read access.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجوار للتحقق من أي تكرار/تداخل في PCI وربطها بمشكلات التسليم خلال آخر 8 ساعات. يرجى تأكيد معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UBX-MACRO-286-S1. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-UBX-MACRO-286-S1. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ran neighbor audit on NR-UBX-MACRO-286-S1. Found duplicate PCI 286 on neighbor NR-UBX-MACRO-286-N2 with ~52% footprint overlap (RSRP −95 to −85 dBm). Neighbor NR-UBX-MACRO-411-S3 uses PCI 411 without collision. The overlap aligns with HO failures and ping‑pong peaks.",
+      "message_ar": "تم تنفيذ تدقيق الجوار على NR-UBX-MACRO-286-S1. تم العثور على PCI 286 مكرر على الجار NR-UBX-MACRO-286-N2 مع تداخل تغطية ~52% (RSRP من −95 إلى −85 dBm). الجار NR-UBX-MACRO-411-S3 يستخدم PCI 411 بدون تعارض. منطقة التداخل تتطابق مع ذروات فشل التسليم والبيغ بونغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed remediation: reassign NR-UBX-MACRO-286-S1 to a free PCI (e.g., 173) within the allowed group and refresh neighbor relations to remove duplication. No expected service interruption. Approve to proceed now?",
+      "message_ar": "الإجراء المقترح: إعادة تعيين NR-UBX-MACRO-286-S1 إلى PCI متاح (مثلاً 173) ضمن المجموعة المسموح بها وتحديث علاقات الجوار لإزالة التكرار. لا يُتوقع انقطاع خدمة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the PCI change now.",
+      "message_ar": "تمت الموافقة على تنفيذ تغيير الـPCI الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter change: PCI updated from 286 to 173 on NR-UBX-MACRO-286-S1 and neighbor relations refreshed. Commit successful; initial post-change check shows RSRQ improving by ~2 dB and HO errors easing.",
+      "message_ar": "تم تطبيق تغيير المعامل: تحديث PCI من 286 إلى 173 على NR-UBX-MACRO-286-S1 وتحديث علاقات الجوار. تم الاعتماد بنجاح؛ الفحص بعد التغيير يُظهر تحسناً في RSRQ بنحو 2 dB وتراجعاً في أخطاء التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I will open a ticket and monitor HO failures, ping‑pong, and SINR during the next hours. Please confirm to create the record.",
+      "message_ar": "لأغراض التتبع، سأفتح تذكرة وأراقب فشل التسليم والبيغ بونغ وSINR خلال الساعات القادمة. يرجى التأكيد لإنشاء السجل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—create the ticket.",
+      "message_ar": "مؤكد—أنشئ التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-PCI-00357 summarizing the duplicate PCI, reassignment to 173, and KPIs to watch; baseline snapshots captured.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-00357 مع ملخص عن تكرار الـPCI، وإعادة التعيين إلى 173، ومؤشرات المتابعة؛ تم حفظ لقطات خط الأساس."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: handover failures trending down and ping‑pong stabilizing; RSRQ near −13 dB. Action taken: PCI reassignment with neighbor updates. Propose monitoring through the next busy hour and then update DU-PCI-00357.",
+      "message_ar": "تم رصد تحسن مبكر: حالات فشل التسليم تتراجع والبيغ بونغ يستقر؛ RSRQ قريب من −13 dB. الإجراء المنفذ: إعادة تعيين PCI مع تحديثات الجوار. أقترح المراقبة خلال ساعة الذروة القادمة ثم تحديث DU-PCI-00357."
+    },
+    {
+      "role": "agent",
+      "message_en": "Summary: duplicate PCI with ~52% overlap identified and resolved by reassignment to 173 with neighbor updates. We own monitoring for the next busy hour and will update the ticket afterward with KPI deltas. If issues recur, we will escalate for deeper interference tracing; if adverse effects appear, we will roll back to the previous PCI.",
+      "message_ar": "الخلاصة: تم تحديد تكرار PCI بتداخل ~52% وحلّه بإعادة التعيين إلى 173 مع تحديثات الجوار. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة لاحقاً بفروقات المؤشرات. إذا عادت المشكلة سنصعّد للتحقق الأعمق من التداخل؛ وإذا ظهرت آثار جانبية سنرجع إلى الـPCI السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a duplicate PCI (286) with ~52% overlap causing mobility instability and poor RSRQ. The cell was retuned to a free PCI and neighbor relations were updated, and a tracking ticket was opened for follow-up. Initial post-change checks indicate improving RSRQ and fewer handover errors.",
+    "ar": "أكد تحليل الجوار وجود PCI مكرر (286) بتداخل يقارب 52% تسبب في عدم استقرار التنقل وتدهور RSRQ. تم تعديل الخلية إلى PCI متاح وتحديث علاقات الجوار، وتم فتح تذكرة للمتابعة. تظهر الفحوصات بعد التغيير تحسناً في RSRQ وانخفاضاً في أخطاء التسليم."
+  }
+}

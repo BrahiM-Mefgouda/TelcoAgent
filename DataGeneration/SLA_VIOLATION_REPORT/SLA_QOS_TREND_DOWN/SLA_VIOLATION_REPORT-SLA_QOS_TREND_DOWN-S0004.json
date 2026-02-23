@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0004",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban 5G macro cell over the last 24h shows QoS at 0.10 vs 0.95 target, latency 89 ms, BLER 9.9%, PRB 71.5% with 386 users and p50 throughput 18 Mbps; congestion alarm raised.",
+    "ar": "خلية ماكرو 5G حضرية خلال آخر 24 ساعة تُظهر جودة خدمة 0.10 مقابل هدف 0.95، وزمن تأخير 89 مللي ثانية، وBLER ‏9.9%، واستخدام PRB ‏71.5% مع 386 مستخدمًا ومتوسط 18 ميجابت/ث؛ تم رفع إنذار ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell shows QoS 0.10 vs 0.95 target in the last 24h; latency 89 ms, BLER 9.9%, PRB 71%, 386 users. Some eMBB streaming buffering reported. Need your diagnosis.",
+      "message_ar": "خلية NR ماكرو حضرية تُظهر QoS بقيمة 0.10 مقابل هدف 0.95 خلال آخر 24 ساعة؛ زمن التأخير 89 مللي ثانية، وBLER ‏9.9%، وPRB ‏71%، و386 مستخدمًا. وردت شكاوى عن تقطع في بث eMBB. أحتاج لتشخيصك."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 24h counters and events from OSS for the impacted cell; please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ بسحب مؤشرات وأحداث 24 ساعة من نظام الإدارة للخليّة المتأثرة؛ يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is N310-UGB-112-S1 (gNB 41012). Approved to query the last 24h.",
+      "message_ar": "معرّف الخلية N310-UGB-112-S1 (gNB 41012). الموافقة مُنحت للاستعلام عن آخر 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot complete: no hard alarms or outages; mixed traffic; PRB 65–88% at peaks; BLER spikes up to 12%; latency elevated; backhaul utilization normal. Proceeding to plot QoS time series for the same window.",
+      "message_ar": "تمت مراجعة اللقطة من نظام الإدارة: لا توجد أعطال جسيمة أو انقطاع؛ مزيج حركة مختلط؛ استخدام PRB بين 65–88% عند الذروة؛ ارتفاع BLER حتى 12%؛ زمن التأخير مرتفع؛ استغلال مسار النقل طبيعي. سأتوجّه لرسم السلسلة الزمنية لـ QoS لنفس النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the QoS trend analysis.",
+      "message_ar": "موافَق على المتابعة بتحليل اتجاه QoS."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series shows sustained compliance drop to 0.08–0.12 during 12:00–14:00 and 18:00–21:00; p50 DL throughput ~18 Mbps; user count peaks ~380; pattern aligns with heavy eMBB streaming. I recommend filing an SLA violation ticket for cross-domain capacity/scheduling review. Approve?",
+      "message_ar": "السلسلة الزمنية لـ QoS تُظهر هبوطًا مستمرًا إلى 0.08–0.12 خلال 12:00–14:00 و18:00–21:00؛ وسطى سرعة تنزيل ~18 ميجابت/ث؛ ذروة المستخدمين ~380؛ النمط يتماشى مع بث eMBB كثيف. أوصي برفع تذكرة خرق SLA لمراجعة السعة والجدولة عبر الفرق المعنية. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to file the SLA breach report.",
+      "message_ar": "موافق على رفع بلاغ خرق SLA."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA violation ticket created with summary: 'Urban NR macro N310-UGB-112-S1—QoS below target, high latency, BLER spikes, busy-hour load; request capacity and scheduler review.' I will monitor for short-term recovery and update status.",
+      "message_ar": "تم إنشاء تذكرة خرق SLA بملخص: \"خلية NR حضرية N310-UGB-112-S1—QoS دون الهدف، زمن تأخير مرتفع، ارتفاعات BLER، حمل ساعة الذروة؛ مطلوب مراجعة السعة والجدولة\". سأراقب التعافي قصير المدى وأحدّث الحالة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Live view now shows latency improving to ~72 ms and QoS rising to ~0.28 as load eases.",
+      "message_ar": "العرض الحي يُظهر الآن تحسّن زمن التأخير إلى ~72 مللي ثانية وارتفاع QoS إلى ~0.28 مع انخفاض الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We'll monitor for the next 2–4 hours with focus on the next busy hour; if degradation returns, we'll escalate capacity relief via the ticket; if stability holds, we'll propose closure after confirming the trend.",
+      "message_ar": "تم. سنراقب خلال الساعتين إلى الأربع القادمتين مع التركيز على ساعة الذروة التالية؛ إذا عادت الحالة سنتجه للتصعيد بطلب تخفيف السعة عبر التذكرة؛ وإذا استقرت المؤشرات سنقترح الإغلاق بعد تأكيد الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: latency trending down and QoS climbing toward normal. Action taken: SLA breach ticket raised. Please monitor through the next busy hour and track QoS and latency. Reference DU-SLA-04231.",
+      "message_ar": "تمت ملاحظة تحسّن: زمن التأخير في انخفاض وQoS يرتفع نحو الوضع الطبيعي. الإجراء المتخذ: رفع تذكرة خرق SLA. يرجى المتابعة خلال ساعة الذروة التالية وتتبع QoS وزمن التأخير. المرجع DU-SLA-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket afterward. If KPIs worsen, we will escalate to capacity/backhaul teams; if they stabilize, we will proceed with closure and share a brief post-incident report.",
+      "message_ar": "سنتولى المراقبة حتى نهاية ساعة الذروة التالية ونحدّث التذكرة بعدها. إذا ساءت المؤشرات سنصعّد إلى فرق السعة/النقل؛ وإذا استقرت سنمضي في الإغلاق ونشارك تقريرًا موجزًا بعد الحادث."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "N310-UGB-112-S1",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "N310-UGB-112-S1",
+        "QoS",
+        "24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Urban NR macro N310-UGB-112-S1—QoS below target with high latency and BLER during busy hours; request capacity and scheduler review."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Queried OSS and analyzed the QoS time series for the urban NR macro cell, confirming a sustained SLA breach during busy hours with elevated latency and BLER under high load. An SLA violation ticket was filed to trigger cross-domain capacity and scheduler review. We will monitor through the next busy hour and report outcomes.",
+    "ar": "تم الاستعلام من نظام الإدارة وتحليل السلسلة الزمنية لـ QoS لخلية NR الحضرية، وتأكيد خرق متواصل لاتفاقية الخدمة خلال ساعات الذروة مع ارتفاع زمن التأخير وBLER تحت حمل عالٍ. تم رفع تذكرة خرق SLA لبدء مراجعة السعة والجدولة عبر الفرق المعنية. سنواصل المراقبة خلال ساعة الذروة التالية ونشارك النتائج."
+  }
+}

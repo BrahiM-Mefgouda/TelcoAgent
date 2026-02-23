@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0016",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Off-peak suburban NR macro shows sustained high PRB utilization (~91%) with 209 users, DL 18 Mbps, UL 6 Mbps, BLER ~4.5%, affecting eMBB streaming.",
+    "ar": "خلية ماكرو NR في منطقة ضواحي خارج الذروة تُظهر إشغال PRB مرتفعاً مستمراً (~91%) مع 209 مستخدمين، تنزيل 18 ميجابت/ث، رفع 6 ميجابت/ث، BLER ~4.5%، ما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SBR-1023-1 shows sustained high PRB utilization over the last 4h (~91%), DL 18 Mbps, UL 6 Mbps, p95 scheduling latency 29 ms, BLER ~4.5%, ~209 users mostly eMBB streaming; please investigate.",
+      "message_ar": "الخلية NR-SBR-1023-1 (ماكرو NR) في منطقة ضواحي تُظهر إشغال PRB مرتفعاً خلال آخر 4 ساعات (~91%)، تنزيل 18 ميجابت/ث، رفع 6 ميجابت/ث، كمون جدولة p95 يساوي 29 مللي ثانية، BLER ~4.5%، حوالي 209 مستخدمين معظمهم بث eMBB؛ الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by pulling the last 4h OSS counters for NR-SBR-1023-1 to validate PRB saturation; if confirmed, I’ll apply conservative scheduler/PRB tuning and log a tracking ticket. Approve access?",
+      "message_ar": "سأبدأ بسحب مؤشرات OSS لآخر 4 ساعات للخلية NR-SBR-1023-1 للتحقق من التشبع؛ إذا تأكد، سأطبق ضبطاً محافظاً لجدولة الموارد وتخصيص PRB وسأفتح تذكرة متابعة. هل توافق على الوصول؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved.",
+      "message_ar": "تمت الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check over 4h complete: DL PRB sustained 88–95% with bursts; UL PRB elevated at times; ~209 UEs, p95 scheduling delay 29 ms, BLER 4–5%, no active alarms. This indicates capacity pressure even off-peak. Requesting approval to apply light resource-scheduler fairness and per-UE PRB caps to smooth bursts.",
+      "message_ar": "فحص OSS لآخر 4 ساعات اكتمل: إشغال DL PRB بين 88–95% بشكل مستمر مع اندفاعات؛ وUL PRB مرتفع أحياناً؛ ~209 أجهزة، تأخر جدولة p95 = 29 مللي ثانية، BLER بين 4–5%، بلا إنذارات فعالة. هذا يدل على ضغط سعة حتى خارج الذروة. أطلب الموافقة لتطبيق ضبط خفيف لعدالة الجدولة وحدود PRB لكل مستخدم لتنعيم الاندفاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the change.",
+      "message_ar": "موافقة على تنفيذ التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: tuned scheduler fairness and gentle per-UE PRB allocation; expected effect is lower PRB peaks and improved DL/UL stability without service impact. Monitoring starts now.",
+      "message_ar": "تم تطبيق التحسين: ضبط عدالة المجدول وتخصيص PRB لكل مستخدم بشكل لطيف؛ الأثر المتوقع خفض الذروات وتحسين استقرار التنزيل/الرفع دون تأثير على الخدمة. سنبدأ المراقبة الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: PRB utilization trending toward ~80–82% and DL throughput rising to ~22–24 Mbps in the last 10 minutes.",
+      "message_ar": "ملاحظة مبكرة: إشغال PRB يتجه نحو ~80–82% وتحسن سرعة التنزيل إلى ~22–24 ميجابت/ث خلال آخر 10 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Opened a tracking ticket and recorded baseline and post-change snapshots; continuing to watch counters over the next hours.",
+      "message_ar": "تم فتح تذكرة متابعة وتوثيق خط الأساس ونتائج ما بعد التغيير؛ سنواصل متابعة المؤشرات خلال الساعات القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Any side effects on adjacent sectors or slices?",
+      "message_ar": "هل ظهرت آثار جانبية على القطاعات المجاورة أو الشرائح؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "None observed; the tuning is local, does not shift load, and slice behavior is unchanged; no alarms raised. We will keep an eye on neighbor KPIs during monitoring.",
+      "message_ar": "لا يوجد حتى الآن؛ الضبط محلي ولا يحول الحمل، وسلوك الشرائح دون تغيير؛ لم تُسجل إنذارات. سنراقب مؤشرات الجيران كاحتراز."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted—PRB usage trending down and downlink throughput improving after the site parameter tuning; let’s monitor for the next 2–4 hours and track under DU-PRB-04192.",
+      "message_ar": "تحسن ملحوظ—إشغال PRB يتراجع وسرعة التنزيل ترتفع بعد ضبط معلمات الموقع؛ لنراقب خلال الساعتين إلى الأربع القادمة ونتابع تحت DU-PRB-04192."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next 4-hour window and update the ticket after the window. If regressions appear, we will roll back the change; if congestion persists, we will escalate for capacity upgrade.",
+      "message_ar": "تم—سنتولى نافذة الأربع ساعات القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إن ظهرت تراجعات سنرجع إلى الإعداد السابق؛ وإن استمر الازدحام سنصعّده لرفع السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SBR-1023-1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "resource scheduler fairness and per-UE PRB allocation tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB off-peak on NR macro; applied scheduler/PRB tuning; monitor 4h"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Analyzed 4-hour OSS data for a suburban NR macro and confirmed sustained high PRB utilization with moderate throughput and elevated scheduling delay during off-peak. Applied site parameter tuning to the resource scheduler and PRB allocation to reduce peaks and stabilize performance. A tracking ticket was opened and the cell will be monitored for the next 2–4 hours for stability.",
+    "ar": "تم تحليل بيانات OSS لمدة 4 ساعات لخلية ماكرو NR في الضواحي وتأكيد إشغال PRB المرتفع بشكل مستمر مع سرعة متوسطة وتأخر جدولة مرتفع خارج الذروة. تم تطبيق ضبط معلمات الموقع على مجدول الموارد وتخصيص PRB لتقليل الذروات واستقرار الأداء. تم فتح تذكرة متابعة وسيتم مراقبة الخلية خلال الساعتين إلى الأربع القادمـة للتحقق من الاستقرار."
+  }
+}

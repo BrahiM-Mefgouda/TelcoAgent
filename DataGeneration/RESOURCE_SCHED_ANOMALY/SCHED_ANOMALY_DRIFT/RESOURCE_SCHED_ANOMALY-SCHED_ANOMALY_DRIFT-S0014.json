@@ -1,0 +1,110 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0014",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6h shows high PRB use (~83%), low allocation fairness (~0.53) with skew (28), p95 scheduler latency 80 ms, and uneven eMBB streaming throughput (p50 19 Mbps vs p95 23 Mbps) during shoulder hours—investigate a resource allocation anomaly in the scheduler.",
+    "ar": "خلية NR حضرية (ماكرو) خلال آخر 6 ساعات تُظهر استخدام PRB مرتفعاً (~83%)، وعدالة تخصيص منخفضة (~0.53) مع انحياز (28)، وكمون المُجَدْوِل p95 يساوي 80 مللي ثانية، وتفاوتاً في سرعات بث eMBB (p50=19 Mbps مقابل p95=23 Mbps) خلال فترة الكتف—هل نتحقق من شذوذ في توزيع الموارد ضمن المُجَدْوِل؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing inconsistent user throughput and latency spikes on an urban NR macro cell during the last 6h shoulder period with heavy eMBB streaming; please investigate.",
+      "message_ar": "نلاحظ تفاوتاً في سرعة المستخدم وارتفاعات في الكمون على خلية NR حضرية (ماكرو) خلال آخر 6 ساعات في فترة الكتف مع بث eMBB كثيف؛ الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead the triage: review last 6h counters/config, analyze PRB use and allocation fairness over time, then tune the scheduler if needed. Please share the cell ID and confirm access.",
+      "message_ar": "سأتولى الفحص: سأراجع عدادات/إعدادات آخر 6 ساعات، وأحلل استخدام PRB وعدالة التخصيص زمنياً، ثم أضبط المُجَدْوِل إذا لزم. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-1123; access approved.",
+      "message_ar": "معرّف الخلية NR-URB-MACRO-1123؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 6h operational data and configuration for NR-URB-MACRO-1123 now; initial snapshot shows PRB utilization about 83%, RSRQ -14 dB, SINR 11 dB.",
+      "message_ar": "أقوم بجلب بيانات التشغيل والإعداد لآخر 6 ساعات للخلية NR-URB-MACRO-1123 الآن؛ اللقطة الأولية تُظهر استخدام PRB بنحو 83%، وRSRQ = -14 dB، وSINR = 11 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzed PRB allocation over time: fairness index near 0.53 drifting down, allocation skew peaking around 28, p95 scheduler latency ~80 ms; traffic mix shows best-effort ~59% vs high-priority ~31%, aligning with uneven user rates (p50 19 Mbps, p95 23 Mbps).",
+      "message_ar": "تم تحليل تخصيص PRB زمنياً: مؤشر العدالة يقارب 0.53 ويتناقص، وانحياز التخصيص يبلغ ذروته حول 28، وكمون المُجَدْوِل p95 نحو 80 مللي ثانية؛ مزيج الحركة يُظهر حصة الأفضلية الدنيا ~59% مقابل الأولوية العالية ~31%، ما يفسّر تفاوت سرعات المستخدمين (p50=19 Mbps، p95=23 Mbps)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes match: streaming users reported buffering; no active alarms on the cell.",
+      "message_ar": "ملاحظات الميدان متطابقة: مستخدمو البث أبلغوا عن تقطّع؛ ولا توجد إنذارات نشطة على الخلية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: rebalance scheduler and QoS weights to improve fairness and protect high-priority flows, and reduce queuing to lower p95 latency; minimal risk. Approve optimization?",
+      "message_ar": "المقترح: إعادة موازنة المُجَدْوِل وأوزان QoS لتحسين العدالة وحماية التدفقات عالية الأولوية، وتقليل الاصطفاف لخفض p95 للكمون؛ مخاطرة محدودة. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—proceed with the optimization.",
+      "message_ar": "موافق—تابع تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-URB-MACRO-1123: adjusted fairness weighting and QoS priorities with conservative bounds. Early post-change checks show fairness trending up (~0.60) and p95 scheduler latency easing by ~10–15 ms; continuing to watch counters.",
+      "message_ar": "تم تطبيق التحسين على NR-URB-MACRO-1123: تعديل أوزان العدالة وأولويات QoS بحدود تحفظية. المؤشرات الأولية بعد التغيير تُظهر ارتفاعاً في العدالة (~0.60) وانخفاضاً في p95 لكمون المُجَدْوِل بنحو 10–15 مللي ثانية؛ سنواصل مراقبة العدادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency spikes are easing and PRB allocation looks more balanced. Action taken was scheduler parameter optimization; suggest monitoring over the next 2–4 hours.",
+      "message_ar": "نرى تحسناً: تراجعت ذروات الكمون ويبدو تخصيص PRB أكثر توازناً. الإجراء الذي تم هو تحسين معلمات المُجَدْوِل؛ أقترح المراقبة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next 2–4 hours of monitoring and update you on fairness, latency, and user rates; if degradation reappears we will escalate to load distribution review, and if regressions occur we will roll back the tuning.",
+      "message_ar": "تم—سنتولى مراقبة الساعتين إلى الأربع القادمتين وسنزودك بتحديث عن العدالة والكمون ومعدلات المستخدمين؛ إذا عاد التدهور سنصعّد إلى مراجعة توزيع الحمل، وإذا ظهرت آثار سلبية فسنرجع تغييرات الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-1123",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-1123",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness_qos_rebalance"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a scheduler-related resource allocation anomaly on the urban NR macro cell: high PRB use with low fairness, allocation skew, and elevated p95 scheduler delay affecting eMBB users. Reviewed 6h cell counters and PRB time series, then applied site parameter tuning to rebalance the scheduler and QoS weights. Early results indicate improved fairness and lower latency, with continued monitoring planned.",
+    "ar": "تم تشخيص شذوذ في توزيع الموارد المرتبط بالمُجَدْوِل على خلية NR حضرية (ماكرو): استخدام PRB مرتفع مع عدالة منخفضة وانحياز في التخصيص وارتفاع تأخير المُجَدْوِل p95 يؤثر على مستخدمي eMBB. تمّت مراجعة عدادات 6 ساعات وسلاسل PRB الزمنية، ثم تنفيذ ضبط معلمات على الموقع لإعادة موازنة المُجَدْوِل وأوزان QoS. النتائج الأولية تشير إلى تحسن في العدالة وانخفاض في الكمون، مع الاستمرار في المراقبة."
+  }
+}

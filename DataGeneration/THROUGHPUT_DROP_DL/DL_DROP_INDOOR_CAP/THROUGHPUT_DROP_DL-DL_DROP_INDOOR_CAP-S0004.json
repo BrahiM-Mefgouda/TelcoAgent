@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0004",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate congestion on the indoor office 5G NR micro cell over the last 4h: DL throughput ~10 Mbps with ~126 users, PRB utilization ~84%, and p95 queuing delay 42 ms.",
+    "ar": "التحقق من الازدحام على خلية 5G NR ميكرو داخلية في المكتب خلال آخر 4 ساعات: معدل تنزيل ~10 ميجابت/ث مع ~126 مستخدمًا، إشغال الموارد ~84%، وزمن انتظار p95 يبلغ 42 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm for congestion on an indoor NR micro cell over the last 4h during business hours. Office users report poor downloads. KPIs: PRB ~84%, ~126 users, DL ~10 Mbps, BLER ~3.4%, p95 queuing delay 42 ms.",
+      "message_ar": "يوجد تنبيه يشير إلى ازدحام على خلية NR ميكرو داخلية خلال آخر 4 ساعات في ساعات العمل. مستخدمو المكتب يبلّغون عن بطء في التنزيل. المؤشرات: إشغال الموارد ~84%، ~126 مستخدمًا، التنزيل ~10 ميجابت/ث، BLER ~3.4%، وزمن انتظار p95 يبلغ 42 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: pull OSS stats for the cell over the last 4h, then plot DL time series to profile busy periods; if congestion is confirmed, apply targeted capacity tuning on radio resources/PRB allocation. Please confirm access to the cell and 4h window.",
+      "message_ar": "الخطة: سحب إحصاءات التشغيل للخلية خلال آخر 4 ساعات، ثم رسم سلسلة زمنية للتنزيل لتوصيف فترات الذروة؛ وإذا تأكد الازدحام سنطبق تحسين سعة مستهدف على موارد الراديو/تخصيص PRB. يرجى تأكيد الوصول إلى الخلية وإطار 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the cell and the 4h window.",
+      "message_ar": "تمت الموافقة على الوصول إلى الخلية وإطار 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing OSS snapshot now. Findings: active users peaked at 132; PRB utilization 88–92% at busy minutes; BLER stable 3–4%; no backhaul alarms; cell availability 100%. Indicates capacity congestion, not RF/transport fault. Next, I will fetch the DL throughput time series to quantify dips. Proceed?",
+      "message_ar": "أجري الآن فحص التشغيل. النتائج: المستخدمون النشطون بلغوا ذروة 132؛ إشغال الموارد 88–92% في الدقائق المزدحمة؛ BLER ثابت 3–4%؛ لا إنذارات نقل خلفي؛ توافر الخلية 100%. هذا يشير إلى ازدحام سعة وليس عطل راديو/نقل. بعد ذلك سأجلب السلسلة الزمنية للتنزيل لقياس الهبوط. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed. Heavy footfall due to a tenant event; many were streaming.",
+      "message_ar": "تابع. كان هناك ازدحام بشري بسبب فعالية للمستأجر، وكثيرون كانوا يبثون فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling DL throughput time series. Observations: median DL 9–12 Mbps with troughs 6–8 Mbps during the busiest 30 minutes; p95 queuing delay spikes to ~55 ms; queue growth aligns with PRB saturation; traffic mix dominated by eMBB video streaming. This confirms congestion on the indoor micro cell. Request approval to apply controlled capacity tuning.",
+      "message_ar": "أجلب السلسلة الزمنية لمعدل التنزيل. الملاحظات: الوسيط 9–12 ميجابت/ث مع هبوط إلى 6–8 ميجابت/ث خلال أكثر 30 دقيقة ازدحامًا؛ زمن انتظار p95 يرتفع إلى ~55 مللي ثانية؛ تزايد الطوابير يتزامن مع تشبع PRB؛ المزيج المروري يغلب عليه eMBB مع بث فيديو. هذا يؤكد الازدحام على الخلية الداخلية الميكرو. أطلب الموافقة على تطبيق ضبط سعة مضبوط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply controlled parameter tuning now.",
+      "message_ar": "موافق على تطبيق ضبط معلمات مسيطر عليه الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying capacity optimization now: adjusted radio-resource fairness and PRB allocation toward throughput efficiency with conservative limits. Change applied successfully; no errors. I will watch KPIs for immediate effect.",
+      "message_ar": "أطبق الآن تحسين السعة: تم ضبط توازن موارد الراديو وتخصيص PRB باتجاه كفاءة أعلى للتنزيل مع حدود محافظة. تم تطبيق التغيير بنجاح دون أخطاء. سأراقب المؤشرات للأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early checks show DL rising to ~22 Mbps and p95 queuing delay dropping to ~28 ms; user complaints easing.",
+      "message_ar": "الفحص الأولي يظهر ارتفاع التنزيل إلى ~22 ميجابت/ث وانخفاض زمن الانتظار p95 إلى ~28 مللي ثانية؛ شكاوى المستخدمين تتناقص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. I will continue short-term observation and validate that PRB utilization stays <85% with BLER stable. Any site constraints to note?",
+      "message_ar": "استجابة مبكرة جيدة. سأستمر في المراقبة قصيرة الأجل والتحقق من بقاء إشغال PRB دون 85% مع BLER مستقر. هل توجد قيود في الموقع يجب ملاحظتها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement persists—download rates are up and queuing delays are trending down. The action taken was site parameter tuning on radio resource and PRB allocation. Please monitor through the next 2–4 hours.",
+      "message_ar": "التحسن مستمر—سرعات التنزيل ارتفعت وتأخيرات الطوابير في اتجاه هابط. الإجراء الذي تم هو ضبط معلمات الموقع على موارد الراديو وتوزيع PRB. يرجى المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will monitor for the next 2–4 hours and provide an update on throughput, utilization, and user experience. If performance degrades, we will escalate with temporary traffic steering to adjacent cells; if adverse effects appear, we will roll back to the prior settings.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونقدم تحديثًا حول معدل التنزيل والإشغال وتجربة المستخدم. إذا تدهور الأداء سنصعّد بتوجيه مؤقت للحركة إلى خلايا مجاورة، وإن ظهرت آثار جانبية سنعيد الإعدادات للحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "OSS checks and DL performance time series confirmed capacity congestion on the indoor NR micro cell during business hours, with high user load and PRB saturation driving low throughput and higher queuing delay. We performed site parameter tuning focused on radio-resource fairness and PRB allocation to relieve contention. KPIs improved immediately; continued monitoring is in place to validate stability under the next busy period.",
+    "ar": "أكدت فحوصات التشغيل والسلسلة الزمنية لأداء التنزيل وجود ازدحام سعة على خلية NR ميكرو داخلية خلال ساعات العمل، حيث أدى ارتفاع عدد المستخدمين وتشبع PRB إلى انخفاض معدل التنزيل وزيادة زمن الانتظار. قمنا بضبط معلمات الموقع مع التركيز على توازن موارد الراديو وتخصيص PRB لتخفيف الازدحام. تحسنت المؤشرات فورًا؛ وستستمر المراقبة للتحقق من الاستقرار خلال فترة الذروة القادمة."
+  }
+}

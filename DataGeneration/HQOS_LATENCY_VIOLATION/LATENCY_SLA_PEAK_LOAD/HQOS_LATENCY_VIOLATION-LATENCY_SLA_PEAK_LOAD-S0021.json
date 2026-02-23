@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0021",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows high load and latency in the last 2h: PRB ~82%, 333 users, median latency 63 ms (p95 scheduler latency 52 ms), median DL throughput ~7 Mbps indicating slow data; a congestion alarm is active.",
+    "ar": "خلية NR ماكرو حضرية تُظهر حملاً وتأخيراً مرتفعين خلال آخر ساعتين: استخدام الموارد ~82%، 333 مستخدماً، متوسط الكمون 63 مللي ثانية (p95 لجدولة 52 مللي ثانية)، ومعدل تنزيل وسطي ~7 ميغابت/ث مما يشير إلى بيانات بطيئة؛ إنذار الازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm active on urban NR macro cell NR-URB-123 over the last 2h (shoulder period); users report slow data and high latency. Please take a look.",
+      "message_ar": "إنذار نشط على خلية NR ماكرو حضرية NR-URB-123 خلال آخر ساعتين (فترة الكتف)، والمستخدمون يبلّغون عن بطء البيانات وارتفاع الكمون. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will collect last 2h network counters for NR-URB-123 to check PRB load, BLER, scheduler latency, user count, and QoS bearers. Please confirm access to proceed.",
+      "message_ar": "سأبدأ بجمع مؤشرات الشبكة لآخر ساعتين للخلية NR-URB-123 لفحص حمل الموارد، BLER، كمون الجدولة، عدد المستخدمين، وفئات QoS. يرجى تأكيد صلاحية الوصول للمضي قدماً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Traffic is mostly eMBB with some streaming.",
+      "message_ar": "الوصول مُعتمد. الحركة أغلبها eMBB مع بث فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled: PRB ~82%, users 333, BLER ~7%, median latency 63 ms with p95 scheduler latency 52 ms, median DL throughput ~7 Mbps. Next, I will plot the latency time series for the same window to pinpoint spikes and correlation with load; approve?",
+      "message_ar": "تم جمع المؤشرات: استخدام الموارد ~82%، 333 مستخدماً، BLER ~7%، متوسط الكمون 63 مللي ثانية مع p95 لجدولة 52 مللي ثانية، ومعدل تنزيل وسطي ~7 ميغابت/ث. الخطوة التالية: رسم سلسلة زمنية للكمون لنفس النافذة لتحديد الذروات والارتباط مع الحمل؛ موافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "The latency time series shows spikes aligned with PRB peaks and queue build-up on eMBB flows; no backhaul errors detected. Diagnosis: QoS latency breach under peak load. I propose targeted site parameter tuning to rebalance scheduler latency weighting and queue thresholds for eMBB to reduce buffering with minimal throughput impact; proceed?",
+      "message_ar": "تُظهر السلسلة الزمنية ذروات كمون متزامنة مع ارتفاع الحمل وتراكم الطوابير لتدفقات eMBB؛ لا توجد أخطاء في النقل الخلفي. الاستنتاج: خرق كمون QoS تحت الحمل الذروي. أقترح ضبطاً مستهدفاً لمعلمات الموقع لموازنة أوزان الجدولة وحدود الطوابير لـ eMBB لتقليل التخزين المؤقت مع تأثير طفيف على السعة؛ هل أمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter tuning applied on NR-URB-123 successfully. Expected outcome: reduce p95 scheduler latency below 40 ms and lift median DL throughput. Please observe for 10–15 minutes and share quick readings.",
+      "message_ar": "تم تطبيق الضبط على NR-URB-123 بنجاح. الأثر المتوقع: خفض p95 لكمون الجدولة إلى أقل من 40 مللي ثانية ورفع المعدل الوسطي للتنزيل. يرجى المراقبة لمدة 10–15 دقيقة ومشاركة القراءات السريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes: p95 scheduler latency ~36–38 ms, median DL throughput ~10–11 Mbps, PRB ~76–79%, BLER stable. User complaints are subsiding.",
+      "message_ar": "بعد 12 دقيقة: p95 لكمون الجدولة ~36–38 مللي ثانية، ومعدل تنزيل وسطي ~10–11 ميغابت/ث، واستخدام الموارد ~76–79%، وBLER مستقر. شكاوى المستخدمين تتراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good immediate response. I will continue to watch counters for stability and any side effects on retransmissions or drops through the remaining shoulder period.",
+      "message_ar": "استجابة فورية جيدة. سأواصل مراقبة المؤشرات للاستقرار وأي آثار جانبية على الإعادات أو السقوط خلال بقية فترة الكتف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—95th-percentile latency is trending down. The site parameter tuning you applied helped. Let's monitor through the next busy hour.",
+      "message_ar": "التحسن مؤكد—كمون الشريحة 95 يتجه للانخفاض. ضبط معلمات الموقع الذي قمتَ به أفاد. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own monitoring through the next busy hour and update you with results. If latency regresses, we will roll back the tuning and escalate for capacity augmentation; otherwise we will keep the change.",
+      "message_ar": "تم، سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيك بالنتائج. إذا عاد الكمون للارتفاع فسنلغي الضبط ونصعّد لزيادة السعة، وإلا سنبقي التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a latency SLA breach on an urban NR macro cell during the shoulder period with eMBB traffic. Analysis of network counters and the latency time series showed spikes correlated with high PRB utilization, causing slow data under peak load. Applied site parameter tuning to rebalance scheduler latency and queue thresholds; monitoring continues to ensure p95 latency remains below target.",
+    "ar": "تم التحقيق في خرق SLA للكمون على خلية NR ماكرو حضرية خلال فترة الكتف مع حركة eMBB. أظهرت مؤشرات الشبكة والسلسلة الزمنية للكمون ذروات مرتبطة بارتفاع استخدام الموارد PRB مما سبب بطء البيانات تحت الحمل الذروي. تم تنفيذ ضبط لمعلمات الموقع لإعادة موازنة كمون الجدولة وحدود الطوابير؛ وتستمر المراقبة لضمان بقاء p95 للكمون دون الهدف."
+  }
+}

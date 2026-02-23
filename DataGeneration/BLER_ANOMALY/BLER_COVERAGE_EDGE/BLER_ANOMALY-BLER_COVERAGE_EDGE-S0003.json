@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0003",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows elevated BLER (~8%) over the last 6h with very weak signal (RSRP -121 dBm) and 0 dB SINR indicating interference / signal overlap, 61 users, and median downlink throughput around 9 Mbps during shoulder hours with eMBB streaming.",
+    "ar": "خلية NR ماكرو ريفية تُظهر ارتفاعاً في BLER (~8%) خلال آخر 6 ساعات مع إشارة ضعيفة جداً (RSRP -121 dBm) وSINR عند 0 dB بما يدل على تداخل/تراكب إشارة، 61 مستخدماً، ومعدل تنزيل وسطي ~9 Mbps خلال فترة الكتف مع حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro over last 6h: RSRP -121 dBm, RSRQ -12 dB, SINR 0 dB (interference / signal overlap), BLER ~8%, p50 DL 9 Mbps, 61 users. No alarms. Shoulder period with eMBB streaming complaints at the edge.",
+      "message_ar": "موقع NR ماكرو ريفي خلال آخر 6 ساعات: RSRP -121 dBm، RSRQ -12 dB، وSINR = 0 dB (تداخل/تراكب إشارة)، BLER حوالي 8%، والتنزيل الوسطي 9 Mbps، و61 مستخدماً. لا توجد إنذارات. فترة الكتف مع شكاوى بث eMBB عند الحافة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull OSS counters for the last 6h first; please share the cell ID and approve access. If elevated BLER is confirmed, I’ll analyze the BLER time series and then apply targeted site parameter tuning to improve edge robustness.",
+      "message_ar": "سأقوم أولاً بجلب عدادات OSS لآخر 6 ساعات؛ يرجى مشاركة معرّف الخلية والموافقة على الوصول. إذا تأكد ارتفاع BLER، سأحلل السلسلة الزمنية لـ BLER ثم أنفّذ ضبطاً مستهدفاً لمعاملات الموقع لتحسين متانة الحافة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Cell-4821 (sector A). Access approved.",
+      "message_ar": "المعرّف NR-Cell-4821 (القطاع A). الوصول مُوافق عليه."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS 6h snapshot: BLER median 7.8% with peaks up to 13% around 14:30–16:00; median SINR 0–1 dB; RSRP near -121 dBm; no hardware/backhaul faults; load moderate (55–70 users). Pattern suggests coverage-edge with interference. Proceeding to fetch detailed BLER time series.",
+      "message_ar": "لقطة OSS لآخر 6 ساعات: وسيط BLER 7.8% مع قمم تصل إلى 13% حوالي 14:30–16:00؛ SINR الوسيط 0–1 dB؛ RSRP قريب من -121 dBm؛ لا أعطال عتادية أو في النقل الخلفي؛ الحمل متوسط (55–70 مستخدماً). النمط يشير إلى حافة تغطية مع تداخل. سأتابع بجلب تفاصيل السلسلة الزمنية لـ BLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No recent field changes. Users report buffering at the edge. Go ahead.",
+      "message_ar": "لا تغييرات ميدانية حديثة. المستخدمون يبلغون عن تخزين مؤقت عند الحافة. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series confirms spikes aligned with shoulder hours and increased retransmissions at low SINR; edge throughput dips. Plan: apply conservative site parameter tuning to increase edge-user robustness and balance interference/dominance without hurting center capacity. Requesting approval to push.",
+      "message_ar": "تحليل السلسلة الزمنية لـ BLER يؤكد ارتفاعات متزامنة مع فترة الكتف وزيادة الإعادات عند SINR منخفض؛ ينخفض الأداء على الحافة. الخطة: تنفيذ ضبط محافظ لمعلمات الموقع لزيادة متانة مستخدمي الحافة وموازنة التداخل/الهيمنة دون التأثير على سعة المركز. أطلب الموافقة على الدفع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute the tuning.",
+      "message_ar": "موافق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully: site parameters adjusted for edge robustness and interference balance; change is reversible. I’ll watch immediate post-change indicators for 15–20 minutes.",
+      "message_ar": "تم تطبيق التحسين بنجاح: تم ضبط معلمات الموقع لتعزيز متانة الحافة وموازنة التداخل؛ التغيير قابل للإرجاع. سأراقب مؤشرات ما بعد التغيير لمدة 15–20 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 minutes: BLER down to ~5–6% with fewer retransmissions; SINR improved by ~1 dB; no new complaints.",
+      "message_ar": "بعد 15 دقيقة: انخفض BLER إلى نحو 5–6% مع تقليل الإعادات؛ تحسن SINR بحوالي 1 dB؛ لا شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will continue monitoring for the next 2–4 hours focusing on BLER stability and edge user experience.",
+      "message_ar": "تم. سنواصل المراقبة خلال الساعتين إلى الأربع القادمـتين مع التركيز على استقرار BLER وتجربة المستخدم عند الحافة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: BLER peaks trending down and fewer retransmissions after the site parameter tuning. Let’s monitor through the next busy hour (next 2–4 hours).",
+      "message_ar": "تمت ملاحظة تحسن: انخفاض قمم BLER وتراجع الإعادات بعد ضبط معلمات الموقع. لنواصل المراقبة خلال ساعة الذروة التالية (2–4 ساعات)."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the monitoring for this window and provide an update afterward. If BLER rises again, we will roll back the change; if interference persists, we will escalate to RF for neighbor/tilt review.",
+      "message_ar": "سنتولى المراقبة خلال هذه النافذة ونقدم تحديثاً بعدها. إذا ارتفع BLER مجدداً سنُرجع التغيير؛ وإذا استمر تأثير التداخل سنصعّد إلى فريق RF لمراجعة الجوار/الزاوية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Elevated BLER at a rural NR macro cell was diagnosed under weak signal with 0 dB SINR indicating interference/overlap. We pulled OSS data and the BLER time series, then executed site parameter tuning to improve edge robustness and balance interference. Post-change, BLER decreased and SINR improved; we will continue monitoring to validate the mitigation.",
+    "ar": "تم تشخيص ارتفاع BLER في خلية NR ماكرو ريفية مع إشارة ضعيفة وSINR عند 0 dB مما يدل على تداخل/تراكب. جلبنا بيانات OSS والسلسلة الزمنية لـ BLER ثم نفّذنا ضبطاً لمعلمات الموقع لتحسين متانة الحافة وموازنة التداخل. بعد التغيير انخفض BLER وتحسن SINR؛ سنواصل المراقبة للتحقق من فعالية إجراء التخفيف."
+  }
+}

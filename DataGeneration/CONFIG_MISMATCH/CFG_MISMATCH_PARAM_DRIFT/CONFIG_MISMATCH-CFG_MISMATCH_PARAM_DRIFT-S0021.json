@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0021",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Alarm on an urban 5G NR macro cell over the last 12h: 3 config mismatches with ~55h drift, 11% handover failures, BLER 3.1%, PRB 56%, and median downlink throughput 12 Mbps; possible congestion/outage impact.",
+    "ar": "يوجد إنذار على موقع NR ماكرو حضري خلال آخر 12 ساعة: 3 فروقات إعدادات مع انجراف ~55 ساعة، فشل تسليم 11%، BLER بنسبة 3.1%، استخدام PRB 56%، وسرعة تنزيل متوسطة 12 ميغابت/ث؛ احتمال تأثير ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has an active alarm; last 12h show 11% handover failures, median DL 12 Mbps, BLER ~3%. It’s offpeak now and some eMBB streaming users complained. Please assist.",
+      "message_ar": "يوجد إنذار نشط على موقع NR ماكرو حضري؛ آخر 12 ساعة تُظهر فشل تسليم 11% وسرعة تنزيل متوسطة 12 ميغابت/ث وBLER ~3%. الوقت حاليًا خارج أوقات الذروة وبعض مستخدمي eMBB للبث اشتكوا. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnostics for potential config drift. First, I’ll compare OSS vs live for the past 12h. Please confirm the cell ID and grant access.",
+      "message_ar": "سأقود التشخيص لاحتمال انجراف الإعدادات. أولاً، سأقارن إعدادات OSS مع الحية لآخر 12 ساعة. يرجى تأكيد معرف الخلية ومنح صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-Macro-123. Access approved.",
+      "message_ar": "معرف الخلية هو NR-URB-Macro-123. تم منح الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying and validating configs now. I’ll report mismatches and impact shortly.",
+      "message_ar": "أقوم الآن بالاستعلام والتحقق من الإعدادات. سأبلغ عن الفروقات والتأثير قريبًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted.",
+      "message_ar": "تم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Result: 3 mismatches with ~55h drift. Live has HO hysteresis 2 dB below baseline, two neighbors missing from the list, and SSB power offset -1 dB from baseline. This aligns with the 11% HO failures. I propose correcting to OSS baseline. Proceed?",
+      "message_ar": "النتيجة: 3 فروقات مع انجراف ~55 ساعة. القيم الحية تُظهر هسترة التسليم أقل بـ 2 ديسيبل من المرجع، جارَين مفقودين من القائمة، وإزاحة طاقة SSB أقل بـ 1 ديسيبل من المرجع. هذا يتماشى مع فشل التسليم 11%. أقترح التصحيح إلى مرجع OSS. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to correct to baseline during offpeak.",
+      "message_ar": "موافق على التصحيح إلى المرجع خلال وقت خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing baseline push for HO thresholds, neighbor list, and SSB power offset with rollback point set. Brief momentary signaling impact expected.",
+      "message_ar": "أقوم بتنفيذ دفع المرجع لعتبات التسليم وقائمة الجيران وإزاحة طاقة SSB مع تعيين نقطة تراجع. قد يحدث تأثير إشارتي طفيف للحظات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood.",
+      "message_ar": "مفهوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline applied successfully. Quick post-check shows alarms cleared, early HO failures trending down, BLER stable, and PRB unchanged. I’ve opened a tracking ticket for audit and follow-up.",
+      "message_ar": "تم تطبيق المرجع بنجاح. فحص سريع بعد التنفيذ يُظهر زوال الإنذار، وانخفاضًا في اتجاه فشل التسليم المبكر، واستقرار BLER، وعدم تغير PRB. فتحت تذكرة متابعة للتدقيق والمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: handover failures are trending down and user sessions are steadier. The action was a config push to restore baseline. Let’s monitor for the next 2–4 hours; I’ll reference ticket DU-CFG-04832.",
+      "message_ar": "أرى تحسنًا: فشل التسليم في اتجاه تنازلي والجلسات أكثر استقرارًا. كانت العملية دفع إعدادات لاستعادة المرجع. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة؛ سأشير إلى التذكرة DU-CFG-04832."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours of monitoring, track HO failures, BLER, and user throughput, and update the ticket after the window. If regression appears, we’ll roll back to the saved point and escalate to a deeper neighbor/HO audit; otherwise we’ll keep the baseline and close with a stability report.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة، ونتابع فشل التسليم وBLER وسرعات المستخدمين، ونحدث التذكرة بعد انتهاء الفترة. إذا ظهر تراجع سنعود إلى نقطة التراجع المحفوظة ونصعد إلى تدقيق أعمق للجيران/التسليم؛ وإلا سنحافظ على المرجع ونغلق مع تقرير استقرار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-Macro-123",
+        "12h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG-NR-URB-Macro-123-BASELINE-2025-09-13T02:00Z"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved config mismatch on NR-URB-Macro-123 via baseline restore (HO hysteresis, neighbor list, SSB power offset); monitor 2–4h for HO failures/BLER/throughput. Ticket DU-CFG-04832."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a configuration mismatch on the urban 5G NR macro cell with three drifts aging ~55 hours, correlating with elevated handover failures. Executed a config push to restore the OSS baseline for HO thresholds, neighbor list, and SSB power offset, then opened a tracking ticket for follow-up. Post-change checks showed improvement; the cell will be monitored for 2–4 hours to confirm stability.",
+    "ar": "تم تشخيص اختلاف في الإعدادات على موقع NR ماكرو حضري مع ثلاثة انحرافات بعمر يقارب 55 ساعة، ما ارتبط بارتفاع فشل التسليم. تم تنفيذ دفع إعدادات لاستعادة مرجع OSS لعتبات التسليم وقائمة الجيران وإزاحة طاقة SSB، ثم فتح تذكرة متابعة. أظهرت الفحوصات بعد التغيير تحسنًا؛ وسيتم مراقبة الخلية لمدة 2–4 ساعات لتأكيد الاستقرار."
+  }
+}

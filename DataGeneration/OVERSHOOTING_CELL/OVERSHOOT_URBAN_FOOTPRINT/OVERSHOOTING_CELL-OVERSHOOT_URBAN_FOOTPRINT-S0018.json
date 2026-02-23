@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_URBAN_FOOTPRINT-S0018",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_URBAN_FOOTPRINT",
+  "query": {
+    "en": "Urban NR macro cell shows far-UE timing (~1.76 km), 13% distant serving, low median signal (−107 dBm) with interference / signal overlap (SINR −1 dB), elevated handover issues, and median throughput ~10 Mbps over the last 12h—suspected overshooting footprint.",
+    "ar": "خلية NR ماكرو حضرية تُظهر زمن وصول بعيد (~1.76 كم)، تخديم بعيد 13%، إشارة متوسطة منخفضة (−107 dBm) مع تداخل / تراكب إشارة (SINR −1 dB)، ومشكلات تسليم مرتفعة ومتوسط إنتاجية ~10 Mbps خلال آخر 12 ساعة—يُشتبه بامتداد تغطية مفرط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell shows extended footprint: TA p95 ~1.76 km, distant serving ~13%, low RSRP (~-107 dBm) with interference/signal overlap (SINR ~ -1 dB). HO failures and ping-pong both ~11%. eMBB streaming users report intermittent issues. Please investigate over the last 12h.",
+      "message_ar": "خلية NR ماكرو حضرية تظهر امتداداً في البصمة: TA p95 ~1.76 كم، التخديم البعيد ~13%، وRSRP منخفض (~-107 dBm) مع تداخل/تراكب إشارة (SINR ~ -1 dB). فشل التسليم والتأرجح كلاهما ~11%. مستخدمو eMBB للبث يواجهون مشاكل متقطعة. يرجى التحري خلال آخر 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a coverage sweep to visualize the footprint and overlap on an urban grid for the last 12h; requesting read-only diagnostic access.",
+      "message_ar": "تم. سأبدأ بمسح التغطية لعرض البصمة والتداخل على شبكة حضرية لآخر 12 ساعة؛ أطلب صلاحية قراءة للفحص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for diagnostics.",
+      "message_ar": "موافقة على الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage view shows the sector projecting ~2.2 km along two corridors, edge RSRP −110 to −105 dBm, SINR down to −2 dB, and dominance lost against three neighbors—consistent with overshoot. Next, I will audit neighbor relations to confirm definitions and thresholds affecting handovers.",
+      "message_ar": "تعرض الخريطة أن القطاع يمتد ~2.2 كم على ممرين، وRSRP على الحافة بين −110 و−105 dBm وSINR حتى −2 dB، مع فقدان الهيمنة أمام ثلاثة جيران—وذلك يتسق مع الامتداد المفرط. الخطوة التالية: تدقيق العلاقات مع الجيران للتحقق من التعاريف والعتبات المؤثرة على عمليات التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit flags two adjacent NR neighbors missing and permissive HO thresholds causing late exits; one neighbor shows asymmetric priority. To mitigate overshoot and stabilize mobility, I propose retuning: increase down-tilt by 2°, reduce pilot power by 1 dB, add the two neighbors, align priorities, and tighten HO thresholds slightly.",
+      "message_ar": "أظهر التدقيق وجود جارين NR متجاورين غير مضافين وعتبات تسليم رخوة تؤدي إلى خروج متأخر؛ كما توجد أولوية غير متناظرة لأحد الجيران. للحد من الامتداد وتحسين التنقّل، أقترح إعادة الضبط: زيادة الميلان بمقدار 2°، خفض قدرة الإشارة المرجعية بمقدار 1 dB، إضافة الجارين، مواءمة الأولويات، وتشديد عتبات التسليم قليلاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement with caution; proceed and avoid creating coverage holes.",
+      "message_ar": "موافقة على التنفيذ بحذر؛ تفضل وتجنب إحداث فجوات تغطية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied: +2° down-tilt, −1 dB pilot power, added the two neighbors, aligned priorities, and modest HO threshold tightening. Initial checks indicate footprint reduced by ~350 m, improved dominance versus neighbors, and ~2 dB SINR uplift at the former fringe.",
+      "message_ar": "تم تطبيق التغييرات: +2° ميلان، −1 dB قدرة إشارة مرجعية، إضافة الجارين، مواءمة الأولويات، وتشديد بسيط لعتبات التسليم. الفحوصات الأولية تشير إلى انكماش البصمة بنحو ~350 م، وتحسن الهيمنة أمام الجيران، وتحسن ~2 dB في SINR عند الحافة السابقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer far-served UEs in quick samples; user reports are quieter. Any early mobility counters?",
+      "message_ar": "نلاحظ عدداً أقل من المستخدمين البعيدين في عينات سريعة؛ الشكاوى أقل. هل هناك مؤشرات تنقّل أولية؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Early 15-min counters: distant serving down from 13% to ~8%, ping-pong down ~3 pp, HO failures down ~2 pp, and RSRQ improved by ~1 dB. I recommend continued observation through the next busy period.",
+      "message_ar": "مؤشرات أولية خلال 15 دقيقة: التخديم البعيد انخفض من 13% إلى ~8%، التأرجح انخفض بنحو ~3 نقاط مئوية، وفشل التسليم انخفض ~2 نقطة مئوية، وتحسّن RSRQ بنحو ~1 dB. أوصي بالمتابعة حتى فترة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noting ping-pong trending down and signal overlap easing on probes. The sector parameter tuning and neighbor cleanup you applied appear effective. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ انخفاض التأرجح وتراجع تراكب الإشارة في القياسات. ضبط معلمات القطاع وترتيب الجيران الذي قمت به يبدو فعالاً. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—I will own monitoring through the next busy hour and share an update afterward. If degradation resurfaces, I will roll back the tilt/power changes and revert neighbor edits, then reassess with additional measurements.",
+      "message_ar": "تم—سأتولى المراقبة خلال ساعة الذروة القادمة وأشارك تحديثاً بعدها. إذا عادت حالات التدهور، سأُرجع تغييرات الميلان والطاقة وألغي تعديلات الجيران، ثم أعيد التقييم بقياسات إضافية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an overshooting NR macro sector in an urban area using coverage visualization and a neighbor relation review, confirming extended footprint, weak edge signal, and overlap driving mobility issues. Applied site parameter tuning to rein in the footprint (tilt/power adjustments), aligned neighbor relations, and tightened handover thresholds. Early KPIs show reduced distant serving and ping-pong; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص قطاع NR ماكرو حضري يعاني من امتداد مفرط عبر عرض التغطية ومراجعة علاقات الجيران، مما أكد بصمة ممتدة وضعف الإشارة على الحافة وتراكباً سبب مشاكل في التنقل. تم تنفيذ ضبط لمعلمات الموقع للحد من البصمة (تعديلات الميلان والطاقة)، ومواءمة علاقات الجيران، وتشديد عتبات التسليم. تظهر المؤشرات الأولية انخفاض التخديم البعيد والتأرجح؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

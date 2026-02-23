@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0029",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G macro cell shows slow data with a congestion alarm over the last 3h shoulder period: downlink 7 Mbps, ~81% resource use, 278 users, SINR 10 dB, RSRQ -11 dB, and p95 radio queuing delay 90 ms.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر بيانات بطيئة مع تنبيه ازدحام خلال آخر 3 ساعات (فترة الكتف): سرعة تنزيل 7 Mbps، استغلال موارد ~81%، 278 مستخدمًا، SINR ‏10 dB، RSRQ ‏-11 dB، وزمن انتظار صف راديوي p95 يبلغ 90 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell seeing slow data in the last 3h shoulder window; congestion alarm active and impacting eMBB streaming users.",
+      "message_ar": "خلية ماكرو NR حضرية تعاني من بيانات بطيئة خلال آخر 3 ساعات (فترة الكتف)؛ تنبيه ازدحام نشط ويؤثر على مستخدمي بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll begin by pulling 3h network stats for the affected cell to validate load and radio quality; please share the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ باستخراج إحصاءات الشبكة لآخر 3 ساعات للتحقق من الحمل وجودة الراديو؛ يرجى مشاركة مُعرّف الخلية والموافقة على صلاحية قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_CELL_URB_029. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR_CELL_URB_029. تمت الموافقة على صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "3h stats for NR_CELL_URB_029: PRB utilization avg 81% (peak 95%), active users 250–300, RSRQ -11 dB, SINR 10 dB, BLER ~5%, p95 radio queuing delay 90 ms; transport OK. Next, I will fetch the downlink throughput timeseries to confirm the drop pattern.",
+      "message_ar": "إحصاءات 3 ساعات للخلية NR_CELL_URB_029: استغلال PRB متوسط 81% (ذروة 95%)، مستخدمون نشطون 250–300، RSRQ ‏-11 dB، SINR ‏10 dB، BLER نحو 5%، وزمن انتظار صف راديوي p95 ‏90 مللي ثانية؛ النقل سليم. بعد ذلك سأجلب السلسلة الزمنية لسرعات التنزيل لتأكيد نمط الهبوط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافقة على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Downlink timeseries (3h) shows user throughput degrading from ~18 Mbps to 6–8 Mbps over the last 90 minutes with PRB ≥85% and modest retransmissions; this is congestion-limited. I propose a low-risk site parameter tuning to improve DL resource allocation and queuing behavior for eMBB under high load. Please approve.",
+      "message_ar": "السلسلة الزمنية للتنزيل (3 ساعات) تُظهر تدهور معدل المستخدم من ~18 Mbps إلى 6–8 Mbps خلال آخر 90 دقيقة مع PRB ≥85% وإعادة إرسال طفيفة؛ المشكلة ناتجة عن الازدحام. أقترح تنفيذ ضبط معلمات منخفض المخاطر لتحسين تخصيص موارد التنزيل وسلوك الاصطفاف لـ eMBB تحت الحمل المرتفع. يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning.",
+      "message_ar": "موافقة على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR_CELL_URB_029: adjusted allocation weights and a conservative DL resource bias for eMBB with guardrails to avoid instability. Change completed successfully; starting immediate observation for 10–15 minutes.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR_CELL_URB_029: تعديل أوزان التخصيص وانحياز موارد تنزيل محافظ لـ eMBB مع ضوابط لتجنب أي عدم استقرار. اكتمل التغيير بنجاح؛ أبدأ مراقبة فورية لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early feedback: buffering complaints eased; average DL around 11 Mbps now, and high-percentile radio queuing delay is trending down.",
+      "message_ar": "مؤشرات مبكرة: شكاوى التقطيع انخفضت؛ متوسط التنزيل الآن نحو 11 Mbps، وتأخير الصف الراديوي عند الشرائح العليا يتراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—metrics are improving. I will keep watching counters and user throughput; share any additional field observations.",
+      "message_ar": "تم—المؤشرات تتحسن. سأواصل متابعة العدّادات ومعدلات المستخدمين؛ يرجى مشاركة أي ملاحظات ميدانية إضافية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement sustained: slow data complaints are down and p95 radio queuing delay continues to drop; the site parameter tuning you applied is effective. Let's monitor through the next busy hour to confirm stability.",
+      "message_ar": "التحسن مستمر: شكاوى بطء البيانات انخفضت وزمن انتظار الصف الراديوي p95 يواصل الانخفاض؛ ضبط معلمات الموقع الذي طبّقتموه فعّال. لنراقب خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we'll own monitoring through the next busy hour and report the results. If performance regresses, we will roll back the change; if congestion persists, we will escalate for capacity relief and broader optimization.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بالنتائج. إذا تراجعت الأداء سنعود عن التغيير؛ وإذا استمر الازدحام سنصعّد لزيادة السعة وتحسينات أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_CELL_URB_029",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_CELL_URB_029",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL resource allocation and eMBB bias tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a congestion-driven downlink slowdown on an urban NR macro cell during the shoulder period. Validated high resource usage and confirmed the throughput drop via a 3h trend, then mitigated it with site parameter tuning to improve downlink resource allocation for eMBB. Initial results show higher user throughput and lower high-percentile radio queuing delay; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص تباطؤ في التنزيل ناتج عن الازدحام في خلية NR حضرية خلال فترة الكتف. تم التحقق من ارتفاع استغلال الموارد وتأكيد هبوط السرعة عبر اتجاه زمني لـ3 ساعات، ثم تمت المعالجة بضبط معلمات الموقع لتحسين تخصيص موارد التنزيل لـ eMBB. تظهر النتائج الأولية زيادة في معدل المستخدم وانخفاضًا في تأخير الصف الراديوي عند الشرائح العليا؛ وتستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

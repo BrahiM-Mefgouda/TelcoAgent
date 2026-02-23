@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0025",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro shows interference/signal overlap with a congestion alarm after integration; HO failures and ping‑pong are elevated, suggesting a PCI collision.",
+    "ar": "موقع NR ماكرو حضري يظهر تداخل/تراكب للإشارة مع وجود إنذار ازدحام بعد الدمج؛ ارتفاع إخفاقات التسليم والبينغ‑بونغ يشير إلى تصادم PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "New NR macro integrated in the last 8h in an urban area; a congestion alarm is active. SINR ~2 dB, RSRQ -14 dB, HO failures 22% and ping‑pong 17%, with eMBB streaming complaints. Please check for a PCI collision.",
+      "message_ar": "تم دمج موقع NR ماكرو في منطقة حضرية خلال آخر 8 ساعات؛ يوجد إنذار ازدحام. قيمة SINR حوالي 2 dB و RSRQ = -14 dB، إخفاقات التسليم 22% والبينغ‑بونغ 17%، مع شكاوى من بث eMBB. يرجى التحقق من تصادم PCI."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a neighbor audit over the last 8h to detect PCI reuse/overlap and verify neighbor relations. Please confirm read access and allow a quick parameter change if a collision is confirmed.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق الجوار لآخر 8 ساعات لاكتشاف إعادة استخدام/تراكب PCI والتحقق من علاقات الجوار. يرجى تأكيد صلاحية القراءة والسماح بتعديل سريع للمعلمات إذا تأكد التصادم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell_id: NR-MACRO-UGB-130-A. You may proceed and implement a quick change if needed.",
+      "message_ar": "تمت الموافقة على الوصول. المعرّف المستهدف: NR-MACRO-UGB-130-A. يمكنك المتابعة وتنفيذ تعديل سريع عند الحاجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the neighbor audit now... Result: the new cell uses PCI 130 and a nearby sector within ~1.1 km reuses the same PCI with ~57% coverage overlap; neighbor entries are asymmetric. This explains low SINR and HO issues. I propose reassigning the cell to a free PCI from the local reuse pool and aligning neighbor entries. Approve?",
+      "message_ar": "أجري الآن تدقيق الجوار... النتيجة: الخلية الجديدة تستخدم PCI 130 وقطاع قريب ضمن ~1.1 كم يعيد استخدام نفس PCI مع تداخل تغطية ~57%؛ إدخالات الجوار غير متناسقة. هذا يفسر انخفاض SINR ومشكلات التسليم. أقترح إعادة تعيين الخلية إلى PCI حر من مجموعة إعادة الاستخدام المحلية وتنسيق إدخالات الجوار. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize parameters now.",
+      "message_ar": "موافق على تحسين المعلمات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization: shifted the cell to a non‑conflicting PCI from the local group and refreshed neighbor relations; applied cleanly. Brief reselection observed; no service interruption. Monitoring HO and interference counters for the next 15–30 minutes.",
+      "message_ar": "جارٍ التنفيذ: تم نقل الخلية إلى PCI غير متعارض من المجموعة المحلية وتحديث علاقات الجوار؛ تم التطبيق بنجاح. تمت ملاحظة إعادة اختيار قصيرة؛ دون انقطاع خدمة. سأراقب مؤشرات التسليم والتداخل خلال 15–30 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: interference has reduced and ping‑pong is trending down; no new alarms.",
+      "message_ar": "ملاحظة أولية: التداخل انخفض والبينغ‑بونغ في اتجاه هبوطي؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. I will document the change and open a tracking ticket for stability and impact monitoring. Shall I proceed?",
+      "message_ar": "تقدم جيد. سأوثق التغيير وأفتح تذكرة متابعة لمراقبة الاستقرار والأثر. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed and include before/after snapshots for SINR and HO failures.",
+      "message_ar": "تفضل وتضمّن لقطات قبل/بعد لقيم SINR وإخفاقات التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-PCI-04153, documenting the PCI reassignment and neighbor alignment with pre/post KPI snapshots. Baseline captured post‑change.",
+      "message_ar": "تم إنشاء التذكرة: DU-PCI-04153، مع توثيق إعادة تعيين PCI وتنسيق الجوار مع لقطات مؤشرات الأداء قبل/بعد. تم حفظ خط الأساس بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: handover failures are trending down and interference looks better. The PCI parameter optimization is effective; let’s monitor through the next busy hour under DU-PCI-04153.",
+      "message_ar": "تحديث: إخفاقات التسليم في اتجاه هبوطي والتداخل يبدو أفضل. تحسين معلمة PCI فعّال؛ دعنا نراقب خلال ساعة الذروة القادمة تحت DU-PCI-04153."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy‑hour monitoring and update the ticket afterward. If metrics regress, we will roll back the PCI change or escalate to RF design for a broader reuse plan.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا تدهورت المؤشرات، سنعيد التغيير على PCI أو نصعّد إلى فريق تخطيط الترددات لنهج أوسع لإعادة الاستخدام."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a PCI reuse conflict with ~57% overlap, causing interference and mobility issues after the new NR macro integration. We mitigated it by site parameter tuning: reassigning the cell to a non‑conflicting PCI and aligning neighbor relations, then documented the change via a ticket. Post‑change KPIs show reduced interference and improved handover behavior, with continued monitoring in place.",
+    "ar": "أكد تدقيق الجوار وجود تعارض في إعادة استخدام PCI مع تداخل يقارب 57% مما تسبب في التداخل ومشكلات الحركة بعد دمج موقع NR الجديد. قمنا بالتخفيف عبر ضبط معلمات الموقع: إعادة تعيين الخلية إلى PCI غير متعارض وتنسيق علاقات الجوار، ثم توثيق التغيير بتذكرة. تظهر مؤشرات ما بعد التغيير انخفاضًا في التداخل وتحسنًا في سلوك التسليم، مع استمرار المراقبة."
+  }
+}

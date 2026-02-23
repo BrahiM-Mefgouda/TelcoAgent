@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0025",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro showing congestion alarm during peak: backhaul at 85% utilization with ~101 ms latency and ~2.8% loss, 453 users, and slow data around 6 Mbps.",
+    "ar": "خلية ماكرو NR حضرية مع إنذار ازدحام خلال الذروة: استعمال الوصلة الخلفية 85% مع ~101 مللي ثانية تأخر و~2.8% فقدان، 453 مستخدمًا، وبيانات بطيئة ~6 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell during peak; complaints of slow data and streaming buffering. There’s an alarm indicating backhaul congestion. Current snapshot: backhaul utilization ~85%, latency ~101 ms, loss ~2.8%, jitter 18 ms; PRB ~83%, 453 users, DL ~6 Mbps.",
+      "message_ar": "خلية ماكرو NR في منطقة حضرية خلال ساعة الذروة؛ شكاوى من بطء البيانات وتقطيع في البث. يوجد إنذار يشير إلى ازدحام في الوصلة الخلفية. لقطة حالية: استعمال الوصلة الخلفية ~85%، التأخر ~101 مللي ثانية، فقدان ~2.8%، ارتعاش 18 مللي ثانية؛ استخدام PRB ~83%، 453 مستخدمًا، سرعة تنزيل ~6 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion. I will pull last 3h OSS counters for this cell to verify backhaul behavior and correlate with radio load, then apply appropriate mitigation. Approve read-only access?",
+      "message_ar": "تم تأكيد الازدحام. سأجلب مؤشرات آخر 3 ساعات من OSS لهذه الخلية للتحقق من سلوك الوصلة الخلفية وربطه بحمل الراديو، ثم أطبق التخفيف المناسب. هل تأذن بالوصول للقراءة فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read-only access.",
+      "message_ar": "موافق، يمكنك الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS results: backhaul utilization 80–90% with queue occupancy ~78%, latency ~100+ ms, and 2–3% loss. Radio layer shows SINR ~10 dB with high user count. Likely root cause: backhaul saturation at peak. I propose site parameter tuning to improve queue management and scheduler weights to protect latency and slightly smooth eMBB streaming peaks. Proceed?",
+      "message_ar": "نتائج OSS: استعمال الوصلة الخلفية 80–90% مع ازدحام صفوف ~78%، التأخر ~100+ مللي ثانية، وفقدان 2–3%. طبقة الراديو تُظهر SINR ~10 dB مع عدد مستخدمين مرتفع. السبب المرجح: تشبع الوصلة الخلفية في الذروة. أقترح ضبط معلمات الموقع لتحسين إدارة الصفوف وأوزان الجدولة لحماية التأخر وتخفيف ذروات تدفق eMBB للبث قليلاً. هل نطبق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter changes with no service interruption: tuned backhaul queue management and scheduler weighting to smooth peaks. We’ll watch a few minutes for latency/loss impact. Please share any immediate change.",
+      "message_ar": "تم تطبيق ضبط المعلمات دون انقطاع: تحسين إدارة صفوف الوصلة الخلفية وضبط أوزان الجدولة لتسوية الذروات. سنراقب عدة دقائق لتأثير التأخر/الفقد. أبلغني بأي تغير فوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs: latency dipping to ~85–90 ms and DL up to ~8–9 Mbps; load still high. You can open a backhaul capacity ticket.",
+      "message_ar": "مبدئيًا التأخر انخفض نحو 85–90 مللي ثانية، وسرعة التنزيل ارتفعت إلى ~8–9 ميجابت/ث؛ الحمل ما زال مرتفعًا. يمكنك فتح تذكرة لسعة الوصلة الخلفية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Capacity/provider ticket opened for backhaul audit and peering checks, requesting an upgrade path. I’ll continue monitoring through peak.",
+      "message_ar": "تم فتح تذكرة لمراجعة سعة الوصلة الخلفية والتحقق من الربط/المزود، مع طلب مسار ترقية. سأستمر بالمراقبة خلال الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: latency ~78 ms, loss ~1.4%, and DL around ~10 Mbps; jitter reduced.",
+      "message_ar": "تحديث: التأخر ~78 مللي ثانية، الفقد ~1.4%، والسرعة نحو ~10 ميجابت/ث؛ الارتعاش أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we’ll keep observing through the end of the peak window and document the improvement.",
+      "message_ar": "تم، سنواصل الرصد حتى نهاية نافذة الذروة وتوثيق التحسن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed — packet loss trending down after the site parameter tuning. Let’s monitor over the next busy hour; I’ll track under ticket DU-BH-04218.",
+      "message_ar": "نرى تحسنًا — فقدان الحزم في تراجع بعد ضبط معلمات الموقع. أقترح المراقبة خلال ساعة الذروة التالية، وسأتابع ضمن التذكرة DU-BH-04218."
+    },
+    {
+      "role": "agent",
+      "message_en": "Actions completed: OSS verification, site parameter tuning, and capacity ticket. We’ll own the next busy-hour monitoring and update the ticket after the window. If congestion returns, we’ll escalate to transport for capacity; if side effects appear, we’ll roll back the tuning.",
+      "message_ar": "الإجراءات المنجزة: تحقق عبر OSS، وضبط معلمات الموقع، وتذكرة سعة. سنتولى نافذة المراقبة في ساعة الذروة القادمة ونحدّث التذكرة بعد انتهائها. إن عادت الازدحامات سنصعّد لمزود النقل لزيادة السعة، وإن ظهرت آثار جانبية سنرجع الضبط السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-1123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_qos_tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Backhaul congestion mitigation and capacity review for NR-URB-MACRO-1123"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-hour backhaul congestion on the urban NR macro: high utilization, elevated latency, and packet loss consistent with saturation. Mitigated by site parameter tuning to improve queue management and scheduler behavior, and raised a capacity/provider ticket for longer-term relief. We will monitor through the next busy hour and update the ticket with outcomes.",
+    "ar": "تم تشخيص ازدحام الوصلة الخلفية في ساعة الذروة على خلية ماكرو NR حضرية: استعمال مرتفع مع تأخر وفقدان حزم يشيران إلى تشبع. تم التخفيف عبر ضبط معلمات الموقع لتحسين إدارة الصفوف وسلوك الجدولة، وفتح تذكرة سعة/مزود للحل طويل الأمد. سنراقب خلال ساعة الذروة التالية ونحدّث التذكرة بالنتائج."
+  }
+}

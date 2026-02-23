@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0014",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows high user latency (~79 ms) over the last 3h shoulder window with slow data (p50 ~6 Mbps), moderate load (~68% resources), BLER ~7.8%, and SINR ~9 dB.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحي تُظهر ارتفاعًا في زمن الاستجابة (~79 مللي ثانية) خلال آخر 3 ساعات (فترة كتف) مع بيانات بطيئة (الوسيط ~6 ميجابت/ث)، حمل معتدل (~68% من الموارد)، BLER ~7.8% وSINR ~9 ديسيبل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-Suburb-023-S1 over the last 3h (shoulder) shows latency ~79 ms with slow data (p50 ~6 Mbps), ~195 users, resources ~68%, BLER ~7–8%, RSRQ -12 dB, SINR ~9 dB. Please investigate.",
+      "message_ar": "خلية NR ماكرو NR-Suburb-023-S1 في الضواحي خلال آخر 3 ساعات (فترة كتف) تُظهر زمن استجابة ~79 مللي ثانية مع بيانات بطيئة (الوسيط ~6 ميجابت/ث)، ~195 مستخدمًا، استهلاك موارد ~68%، BLER ~7–8%، RSRQ -12 ديسيبل، وSINR ~9 ديسيبل. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will pull network counters for the last 3h, then review a latency time series; if latency is driven by moderate load with BLER, I’ll apply targeted scheduler/QoS tuning for eMBB (including streaming). Confirm cell ID and approve access for non-service-impacting changes?",
+      "message_ar": "تم. سأجلب عدادات الشبكة لآخر 3 ساعات ثم أراجع سلسلة زمنية لزمن الاستجابة؛ إذا كان التأخير مرتبطًا بحمل معتدل مع BLER، سأطبق ضبطًا مستهدفًا للجدولة وجودة الخدمة لـ eMBB (يشمل البث). هل تؤكد معرف الخلية وتوافق على تغييرات غير مؤثرة على الخدمة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID confirmed: NR-Suburb-023-S1. Access approved for non-service-impacting tuning.",
+      "message_ar": "تم التأكيد: NR-Suburb-023-S1. الوصول معتمد لضبط غير مؤثر على الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters: resources 62–71%, active users 140–210, DL BLER 6–10%, RSRQ -13 to -10 dB, SINR 8–10 dB, queue occupancy elevated; no site alarms. This suggests latency driven by retransmissions under moderate load. Next, I will analyze the latency time series.",
+      "message_ar": "تم جلب عدادات 3 ساعات: الموارد 62–71%، المستخدمون النشطون 140–210، BLER للأسفل 6–10%، RSRQ بين -13 و-10 ديسيبل، SINR بين 8–10 ديسيبل، وارتفاع في امتلاء الطوابير؛ لا إنذارات في الموقع. هذا يشير إلى أن التأخير ناجم عن عمليات إعادة الإرسال تحت حمل معتدل. التالي، سأحلل السلسلة الزمنية لزمن الاستجابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Field notes also mention intermittent buffering on streaming for eMBB users.",
+      "message_ar": "مفهوم. ملاحظات الميدان تشير أيضًا إلى تقطع في البث لمستخدمي eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series (3h): median 72–85 ms with p95 spikes 150–180 ms aligning with BLER upticks; throughput median ~6 Mbps. No signs of hard congestion. I recommend proceeding with latency-focused scheduler/QoS tuning to reduce queueing and retransmissions.",
+      "message_ar": "السلسلة الزمنية لزمن الاستجابة (3 ساعات): الوسيط 72–85 مللي ثانية مع قمم p95 بين 150–180 مللي ثانية متزامنة مع ارتفاعات BLER؛ وسيط السرعة ~6 ميجابت/ث. لا مؤشرات على اختناق حاد. أوصي بالمضي في ضبط الجدولة/جودة الخدمة مركزًا على تقليل الطوابير وإعادة الإرسال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning on NR-Suburb-023-S1 now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن على NR-Suburb-023-S1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing targeted tuning: prioritize low-latency traffic, moderate aggressiveness for mid-SINR users, and reduce buffer depth impact. Applying changes now; no coverage-impacting adjustments.",
+      "message_ar": "جارٍ تنفيذ ضبط مستهدف: إعطاء أولوية لحركة المرور منخفضة التأخير، وضبط درجة الجرأة للمستخدمين ذوي SINR المتوسط، وتقليل تأثير عمق المخزن المؤقت. يجري تطبيق التغييرات الآن؛ بدون تعديلات تؤثر على التغطية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Copy. Please share immediate post-change observations.",
+      "message_ar": "تم. يرجى مشاركة الملاحظات بعد التغيير مباشرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial 10–15 min post-change: DL BLER ~5–6%, queueing delay down, latency median ~48–55 ms with p95 <110 ms; p50 DL throughput ~10–12 Mbps. I will continue short-term observation.",
+      "message_ar": "أول 10–15 دقيقة بعد التغيير: BLER للأسفل ~5–6%، انخفاض في تأخير الطوابير، وسيط زمن الاستجابة ~48–55 مللي ثانية مع p95 أقل من 110 مللي ثانية؛ وسيط سرعة التنزيل ~10–12 ميجابت/ث. سأواصل المراقبة القصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed—user latency is trending down and slow data complaints have eased. Action taken: site parameter tuning focused on latency/QoS. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن—زمن الاستجابة للمستخدمين في اتجاه هابط وتراجعت شكاوى البطء. الإجراء المتخذ: ضبط معلمات الموقع مع تركيز على التأخير وجودة الخدمة. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the 2–4 hour monitoring window and report the sustained latency and BLER trends. If performance regresses, we will escalate to deeper interference/coverage checks and revert the tuning if needed.",
+      "message_ar": "تم. سنتولى نافذة المراقبة لمدة 2–4 ساعات ونبلغ باتجاهات زمن الاستجابة وBLER المستدامة. إذا تراجعت الأداء، سنصعّد إلى فحوصات أعمق للتداخل/التغطية وسنرجع الضبط إذا لزم الأمر."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-023-S1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburb-023-S1",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Latency-focused scheduler/QoS tuning for eMBB under moderate load to reduce BLER-induced retransmissions and queueing delays"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA breach on a suburban NR macro cell under moderate load, where elevated BLER caused retransmissions and queueing delays. Pulled counters and reviewed the latency time series, then applied site parameter tuning to prioritize low-latency traffic and improve robustness for mid-SINR users. Post-change, median latency and BLER improved, and we will monitor for stability over the next hours.",
+    "ar": "تم تشخيص خرق SLA لزمن الاستجابة على خلية NR ماكرو في الضواحي تحت حمل معتدل، حيث أدى ارتفاع BLER إلى عمليات إعادة إرسال وتأخير في الطوابير. تم جلب العدادات ومراجعة السلسلة الزمنية لزمن الاستجابة، ثم تطبيق ضبط لمعلمات الموقع لإعطاء أولوية لحركة المرور منخفضة التأخير وتحسين المتانة للمستخدمين ذوي SINR المتوسط. بعد التغيير، تحسن وسيط زمن الاستجابة وBLER، وسنراقب الاستقرار خلال الساعات القادمة."
+  }
+}

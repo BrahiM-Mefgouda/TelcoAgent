@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0016",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium 5G NR micro cell shows ~9 Mbps downlink over the last 2h with very high resource use (~98%), low SINR (~1 dB) indicating interference/signal overlap, 503 users, and a congestion alarm active.",
+    "ar": "خلية 5G NR صغيرة في الملعب تُظهر حوالي 9 ميجابت/ث في التنزيل خلال آخر ساعتين مع استخدام موارد مرتفع جداً (~98%)، وSINR منخفض (~1 dB) يدل على تداخل/تراكب إشارة، و503 مستخدمين، مع إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During the ongoing stadium event, users report slow downloads and streaming buffers on the NR micro cell over the last 2h; a congestion alarm is active. Can you take the lead?",
+      "message_ar": "خلال الحدث الجاري في الملعب، يشتكي المستخدمون من بطء التنزيل وتوقف البث على خلية NR الصغيرة خلال آخر ساعتين؛ يوجد إنذار ازدحام نشط. هل يمكنك تولّي المهمة؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead. First, I will pull the last 2h cell stats to verify load, interference, and error rates. Please share the cell ID and approve read access.",
+      "message_ar": "سأتولى المهمة. أولاً سأجلب إحصاءات الخلية لآخر ساعتين للتحقق من الحمل والتداخل ومعدلات الأخطاء. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MIC-01; read access is approved for the 2h window.",
+      "message_ar": "معرّف الخلية هو NR-STAD-MIC-01؛ تمت الموافقة على صلاحية القراءة لفترة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching network counters for NR-STAD-MIC-01 over 2h (PRB, SINR, BLER, users, scheduler delay).",
+      "message_ar": "أقوم بجلب مؤشرات الشبكة للخلية NR-STAD-MIC-01 خلال ساعتين (PRB وSINR وBLER وعدد المستخدمين وتأخير المجدول)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: PRB ~98%, users ~500, SINR ~1 dB, RSRQ ~-9 dB, BLER ~7%, scheduler p95 ~104 ms—heavy load with interference/signal overlap. Next, I’ll chart the DL throughput to confirm the degradation pattern; proceed?",
+      "message_ar": "النتائج: PRB حوالي 98%، المستخدمون ~500، SINR ~1 dB، RSRQ ~-9 dB، BLER ~7%، تأخير المجدول p95 ~104 مللي ثانية—حمل مرتفع مع تداخل/تراكب إشارة. التالي سأرسم منحنى سرعة التنزيل لتأكيد نمط التدهور؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing DL throughput trend for 2h: sustained drop to ~9 Mbps during the event, aligned with PRB saturation and low SINR; streaming traffic is most affected.",
+      "message_ar": "أحلّل اتجاه سرعة التنزيل خلال ساعتين: هبوط مستمر إلى ~9 ميجابت/ث أثناء الحدث، متوافق مع تشبع PRB وSINR منخفض؛ حركة البث هي الأكثر تأثراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate, I will apply temporary capacity tuning on the cell: adjust scheduler weights for fairness, cap aggressive MCS to stabilize BLER, and enable congestion handling to prioritize eMBB. Requesting approval to implement now.",
+      "message_ar": "للتخفيف، سأطبّق ضبطاً مؤقتاً للسعة على الخلية: تعديل أوزان المجدول للإنصاف، تقييد MCS العدواني لاستقرار BLER، وتفعيل آليات التعامل مع الازدحام لإعطاء أولوية لـeMBB. أطلب الموافقة للتنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimized parameters to NR-STAD-MIC-01 and validating: changes accepted; initial counters show some PRB relief for cell-edge UEs and modest DL gain. I will watch short-term metrics for the next 10 minutes.",
+      "message_ar": "أطبّق المعلمات المُحسّنة على NR-STAD-MIC-01 وأتحقق: تم قبول التغييرات؛ المؤشرات الأولية تُظهر بعض التخفيف في استخدام PRB لأطراف الخلية وتحسناً طفيفاً في التنزيل. سأراقب المؤشرات قصيرة المدى خلال 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: average download speed is rising and scheduler delays are easing. The site parameter tuning looks effective; let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: متوسط سرعة التنزيل يرتفع وتأخيرات المجدول تتناقص. ضبط معلمات الموقع يبدو فعالاً؛ لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring over the next busy hour and share an update afterward. If performance degrades, we’ll roll back to the prior settings and escalate to RF for interference assessment.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا تدهور الأداء سنعود إلى الإعدادات السابقة ونصعّد إلى فريق الترددات لتقييم التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MIC-01",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MIC-01",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "capacity_tuning:scheduler_weights+MCS_cap+congestion_handling_for_eMBB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The stadium NR micro cell experienced a downlink throughput drop driven by extreme PRB utilization and low SINR indicating interference/signal overlap during the event. We reviewed recent network counters and the DL trend, then applied site parameter tuning to rebalance scheduling, stabilize MCS, and enable congestion handling for eMBB. Early metrics improved; we will continue monitoring through the next busy hour.",
+    "ar": "شهدت خلية NR الصغيرة في الملعب هبوطاً في سرعة التنزيل بسبب استخدام PRB شديد الارتفاع وSINR منخفض يدل على تداخل/تراكب إشارة أثناء الحدث. قمنا بمراجعة مؤشرات الشبكة واتجاه سرعة التنزيل ثم نفذنا ضبطاً لمعلمات الموقع لإعادة موازنة الجدولة، واستقرار MCS، وتفعيل آليات التعامل مع الازدحام لخدمة eMBB. تحسنت المؤشرات الأولية وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

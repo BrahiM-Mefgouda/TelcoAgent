@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0008",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office NR small cells show ~81% handover success with 26% ping-pong over 3h during peak, pointing to interference / signal overlap affecting streaming users.",
+    "ar": "خلايا NR صغيرة داخلية في مكتب تُظهر نجاح تسليم ~81% مع 26% ارتداد خلال 3 ساعات في الذروة، ما يشير إلى تداخل/تراكب الإشارة يؤثر على مستخدمي البث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "On the 12th-floor indoor NR micro cluster over the last 3h, ping-pong handovers are 26%, HO success ~81%, failures 11%, SINR ~4 dB, RSRP −96 dBm. Please check.",
+      "message_ar": "في عنقود NR صغير داخلي في الطابق 12 خلال آخر 3 ساعات، معدل ارتداد التسليم 26%، نجاح التسليم ~81%، الفشل 11%، وSINR ~4 dB وRSRP −96 dBm. يرجى المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling last 3h mobility counters for the serving cell to identify dominant ping-pong pairs, then review HO trends. Please confirm access and the primary cell ID.",
+      "message_ar": "تم الاستلام. سأبدأ بجلب عدادات الحركة لآخر 3 ساعات للخلية الخادمة لتحديد أزواج الارتداد المهيمنة، ثم مراجعة اتجاهات التسليم. يرجى تأكيد الوصول وتزويدي بمعرف الخلية الأساسية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Primary cell: NR_SMC_12F_A with neighbors NR_SMC_12F_B/C. Window: last 3 hours during peak eMBB (streaming).",
+      "message_ar": "الوصول مُعتمد. الخلية الأساسية: NR_SMC_12F_A مع الجيران NR_SMC_12F_B/C. النافذة: آخر 3 ساعات أثناء ذروة eMBB (البث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS counters for NR_SMC_12F_A (3h). Findings: average 52 HO attempts per 5 min; 26% returns within 60 s mainly A↔B 58% and A↔C 31%; HO fail rate 11%. Current thresholds: A3 offset 3 dB, TTT 301 ms, hysteresis 3 dB. Next, I will analyze the HO time series versus load and radio quality.",
+      "message_ar": "جاري سحب عدادات OSS للخلية NR_SMC_12F_A (3 ساعات). النتائج: متوسط 52 محاولة تسليم كل 5 دقائق؛ 26% عودة خلال 60 ثانية أساسًا بين A↔B بنسبة 58% وA↔C بنسبة 31%؛ معدل فشل التسليم 11%. القيم الحالية: انحياز A3 بمقدار 3 dB، ووقت التفويض 301 ms، والهسترة 3 dB. بعد ذلك سأحلل السلاسل الزمنية للتسليم مقابل الحمل وجودة الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Drive logs also show UEs bouncing A↔B in corridor areas. Proceed.",
+      "message_ar": "مفهوم. سجلات الميدان تُظهر أيضاً ارتداد الأجهزة بين A↔B في الممرات. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series review shows ping-pong peaks align with PRB ~71% and SINR dips 2–5 dB. Short-stay returns cluster at 30–90 s, dominated by A↔B. Proposal: raise A3 offset to 4 dB and increase TTT to 512 ms on A→B and A→C to damp rapid reversals, keeping hysteresis unchanged. Approve?",
+      "message_ar": "مراجعة السلاسل الزمنية تُظهر أن قمم الارتداد تتماشى مع استغلال PRB ~71% وانخفاض SINR إلى 2–5 dB. عودة الإقامة القصيرة تتجمع عند 30–90 ثانية، وتُهيمن عليها A↔B. الاقتراح: رفع انحياز A3 إلى 4 dB وزيادة وقت التفويض إلى 512 ms على علاقات A→B وA→C لتخفيف الانعكاسات السريعة مع بقاء الهسترة كما هي. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for NR_SMC_12F_A toward B and C.",
+      "message_ar": "موافق لخلية NR_SMC_12F_A باتجاه B وC."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing targeted mobility tuning on NR_SMC_12F_A: A3 offset 3→4 dB and TTT 301→512 ms for neighbors B and C. Change applied successfully; KPIs reachable and no alarms. I will watch immediate post-change behavior.",
+      "message_ar": "جارٍ تطبيق ضبط مستهدف للتنقل على NR_SMC_12F_A: رفع انحياز A3 من 3→4 dB ووقت التفويض من 301→512 ms للجارين B وC. تم تطبيق التغيير بنجاح؛ المؤشرات متاحة ولا توجد إنذارات. سأراقب السلوك بعد التغيير مباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial 20-min check: ping-pong down to ~15%, HO success ~86%, user count steady. Looks better.",
+      "message_ar": "فحص أولي خلال 20 دقيقة: ارتداد التسليم انخفض إلى ~15%، نجاح التسليم ~86%، وعدد المستخدمين ثابت. الوضع أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will continue observation through the next busy hour and, if possible, a quick on-floor spot check to validate edge stability.",
+      "message_ar": "جيد. سأستمر بالمراقبة خلال ساعة الذروة القادمة، وإن أمكن، إجراء تحقق سريع على الطابق للتأكد من استقرار الحدود."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend is positive: ping-pong events are trending down. Action taken: mobility parameter optimization (A3/TTT) on NR_SMC_12F_A. Let’s monitor through the next busy hour.",
+      "message_ar": "الاتجاه إيجابي: أحداث الارتداد في انخفاض. الإجراء المتخذ: تحسين معلمات التنقل (A3/TTT) على NR_SMC_12F_A. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next busy hour and report on ping-pong rate, handover success, and user impact. If degradation reappears, we will roll back to previous settings and escalate with targeted neighbor tuning.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تقريرًا عن معدل الارتداد، نجاح التسليم، وتأثيره على المستخدمين. إذا ظهرت أي تدهورات، سنعود للإعدادات السابقة ونصعّد عبر ضبط مستهدف للعلاقات مع الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "High ping-pong handovers were observed on an indoor NR micro cluster during peak hours, driven by interference / signal overlap under load and tight mobility thresholds. We validated the issue via OSS counters and HO time series, then applied site parameter tuning by increasing A3 offset and TTT on the dominant neighbor relations. Early results show reduced ping-pong and improved handover success; monitoring continues through the next busy hour.",
+    "ar": "تم رصد ارتداد تسليم مرتفع في عنقود NR داخلي صغير خلال ساعات الذروة، مدفوعًا بتداخل/تراكب الإشارة تحت الحمل ومع عتبات تنقل ضيقة. تم التحقق من المشكلة عبر عدادات OSS والسلاسل الزمنية للتسليم، ثم تم تنفيذ ضبط معلمات الموقع برفع انحياز A3 وزيادة وقت التفويض على العلاقات المهيمنة مع الجيران. أظهرت النتائج الأولية انخفاض الارتداد وتحسن نجاح التسليم؛ وتستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

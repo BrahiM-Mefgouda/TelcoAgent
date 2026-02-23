@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0023",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G NR macro shows a 2-hour spike in radio link failures with an alarm indicating congestion, high handover failures, PRB ~77%, and interference/signal overlap (SINR ~2 dB, RSRQ -14 dB).",
+    "ar": "موقع ماكرو 5G NR حضري يظهر ارتفاعًا خلال ساعتين في فشل رابط الراديو مع إنذار يشير إلى ازدحام، وإخفاقات تسليم مرتفعة، واستغلال موارد ~77%، وتداخل/تراكب إشارة (SINR ~2 dB، RSRQ -14 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a 2-hour spike in radio link failures on an urban 5G NR macro during the shoulder period; an alarm indicates congestion. Handover failures and T310 are up, SINR ~2 dB and RSRQ -14 dB. eMBB users report drops while streaming. Can you lead the investigation?",
+      "message_ar": "نلاحظ ارتفاعًا لمدة ساعتين في حالات فشل رابط الراديو على موقع ماكرو 5G NR حضري خلال فترة الكتف؛ ويوجد إنذار يشير إلى ازدحام. إخفاقات التسليم وارتفاع T310، وSINR حوالي 2 dB وRSRQ -14 dB. مستخدمو eMBB يبلّغون عن انقطاعات أثناء البث. هل يمكنك قيادة التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling the last 2 hours of cell counters to scope the issue. Please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ باستخراج مؤشرات الساعتين الماضيتين لتحديد نطاق المشكلة. يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-ULB-231. Access approved for this window.",
+      "message_ar": "معرّف الخلية هو NR-ULB-231. الوصول مُعتمد لهذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching counters now for NR-ULB-231 over the last 2 hours: RLF, T310, HO success/fail, PRB, SINR/RSRQ, BLER, latency, and user load. Any on-site work or power changes recently?",
+      "message_ar": "أجلب الآن مؤشرات NR-ULB-231 لآخر ساعتين: RLF وT310 ونِسَب نجاح/فشل التسليم وPRB وSINR/RSRQ وBLER والزمنية والحمولة. هل حدثت أعمال ميدانية أو تغييرات طاقة مؤخرًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No site changes reported. Field noted drops around the plaza area.",
+      "message_ar": "لا توجد تغييرات في الموقع. لوحِظت انقطاعات حول منطقة الساحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm: RLF 7.7% in the last 2h; HO success 85.6% (fail ~17%); elevated T310 expiries; PRB ~76.8%; SINR ~2 dB, RSRQ -14 dB; BLER ~4.2%; p95 scheduling latency 103 ms; p50 DL 18 Mbps; 375 users. This points to interference/signal overlap under moderate congestion. Next, I’ll run an RLF time series to isolate peaks and correlations—proceed?",
+      "message_ar": "المؤشرات تؤكد: RLF ‏%7.7 خلال آخر ساعتين؛ نجاح التسليم ‏%85.6 (فشل ~‏%17)؛ ارتفاع في انتهاء T310؛ PRB ~‏%76.8؛ SINR ~2 dB وRSRQ -14 dB؛ BLER ~‏%4.2؛ كمون جدولة p95 ‏103 ms؛ تنزيل وسيطي ‏18 Mbps؛ 375 مستخدمًا. هذا يشير إلى تداخل/تراكب إشارة مع ازدحام متوسط. التالي، سأشغّل سلسلة زمنية لـ RLF لعزل الذروات والارتباطات—هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافَق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows RLF surges during shoulder peaks, synchronized with PRB >75% and SINR dips; clustering near sector edges indicates overlap. T310 peaks co-occur with HO failures. I recommend mobility parameter tuning to prefer earlier, cleaner handovers under load and reduce weak-link exposure. Safe and reversible—apply now?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاعات RLF أثناء ذروة فترة الكتف، متزامنة مع PRB >‏%75 وانخفاضات SINR؛ التكتل قرب حدود القطاعات يشير إلى تراكب. ذُروات T310 تتزامن مع إخفاقات التسليم. أوصي بضبط معايير الحركة لتفضيل تسليمات أبكر وأنظف تحت الحمل وتقليل التعرض للروابط الضعيفة. الإجراء آمن وقابل للرجوع—هل نطبّق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization now.",
+      "message_ar": "موافقة على تطبيق التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-ULB-231: slight mobility threshold tightening and time-to-trigger/hysteresis tweaks toward stronger neighbors; no interruption. I’ll monitor counters for the next 15 minutes for immediate effects.",
+      "message_ar": "تم تطبيق التحسين على NR-ULB-231: تشديد طفيف لعَتبات الحركة وتعديلات بسيطة على زمن التفعيل/الهسترة باتجاه الجيران الأقوى؛ دون انقطاع. سأراقب المؤشرات خلال 15 دقيقة القادمة للتأثيرات الفورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial improvement observed: drop events trending down and handover success improving within 15 minutes; this aligns with the parameter optimization/config push. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن أولي ملحوظ: انخفاض في اتجاه حالات الانقطاع وتحسّن في نجاح التسليم خلال 15 دقيقة؛ وهذا يتماشى مع ضبط المعايير/دفع الإعدادات. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and share RLF, HO, and SINR updates after the window. If degradation returns, we’ll escalate to interference mitigation across neighbors; if adverse effects appear, we’ll roll back the tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثات RLF وHO وSINR بعد انتهاء الفترة. إذا عاد التدهور فسنعمد إلى تصعيد إجراءات الحد من التداخل عبر الجيران؛ وإذا ظهرت آثار سلبية فسنرجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an urban 5G NR radio link failure spike correlated with load and interference: OSS counters showed elevated RLF, T310, and PRB with poor SINR/RSRQ, and the RLF time series peaked during shoulder hours. Applied site parameter tuning to mobility thresholds and timers to favor earlier, cleaner handovers under interference. We will monitor through the next busy hour and confirm sustained improvement.",
+    "ar": "تم تشخيص ارتفاع في فشل رابط الراديو في شبكة 5G NR حضرية مرتبط بالحمل والتداخل: أظهرت مؤشرات OSS ارتفاع RLF وT310 وPRB مع SINR/RSRQ ضعيفين، وبلغت سلسلة RLF الزمنية ذروتها خلال فترة الكتف. تم تنفيذ ضبط لمعلمات الموقع في عتبات الحركة والمؤقتات لتفضيل تسليمات أبكر وأنظف تحت التداخل. سنواصل المراقبة خلال ساعة الذروة القادمة للتأكد من استدامة التحسن."
+  }
+}

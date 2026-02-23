@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0008",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell over the last 3h shows downlink throughput at 11 Mbps with 79% resource use, 228 users, SINR 11 dB, and p95 scheduling latency 88 ms; a congestion alarm is active during peak evening.",
+    "ar": "خلية ماكرو NR في منطقة حضرية خلال آخر 3 ساعات تُظهر معدل تنزيل 11 ميجابت/ث مع استخدام موارد 79٪ و228 مستخدماً وSINR قدره 11 ديسيبل وزمن جدولة p95 يساوي 88 مللي ثانية؛ إنذار الازدحام فعّال خلال ذروة المساء."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening eMBB users report slow data on an urban NR macro. Last 3h: DL ~11 Mbps, users 228, PRB ~79%, p95 scheduling latency 88 ms. Congestion alarm is active.",
+      "message_ar": "مستخدمو eMBB خلال ذروة المساء يبلّغون عن بيانات بطيئة على خلية ماكرو NR حضرية. آخر 3 ساعات: تنزيل ~11 ميجابت/ث، المستخدمون 228، استخدام PRB ~79٪، زمن جدولة p95 يبلغ 88 مللي ثانية. إنذار ازدحام فعّال."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will 1) pull OSS counters for the last 3h, 2) check the DL throughput trend, and 3) apply targeted site parameter tuning if congestion is confirmed. Please provide the cell ID and approve read/write access.",
+      "message_ar": "مفهوم. سأقوم بـ 1) سحب عدادات OSS لآخر 3 ساعات، 2) فحص اتجاه معدل التنزيل، و3) تطبيق ضبط معلمات الموقع إذا تبيّن الازدحام. الرجاء تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة/التعديل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UMC-41023-1. You have approval to proceed with diagnostics and safe optimization now.",
+      "message_ar": "معرّف الخلية: NR-UMC-41023-1. لديك الموافقة للبدء بالتشخيص والتنفيذ الآمن للتحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching OSS counters for NR-UMC-41023-1 over 3h. Observed: PRB utilization ~79% sustained, peak users 228, BLER ~4%, SINR ~11 dB, RSRQ -11 dB, p95 scheduling latency 88 ms. This points to congestion rather than RF impairment. Next, I will pull the DL throughput time series to confirm the drop profile. Proceed?",
+      "message_ar": "جاري جلب عدادات OSS للخلية NR-UMC-41023-1 خلال 3 ساعات. الملاحظات: استخدام PRB ~79٪ بشكل مستمر، ذروة المستخدمين 228، BLER ~4٪، وSINR ~11 ديسيبل، وRSRQ -11 ديسيبل، وزمن جدولة p95 يساوي 88 مللي ثانية. المؤشرات تدل على ازدحام وليس قصور تغطية. بعد ذلك، سأستخرج سلسلة زمنية لمعدل التنزيل لتأكيد نمط الانخفاض. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series over the 3h window shows median throughput dipping to 9–14 Mbps between 18:00–21:00 versus a baseline ~35–40 Mbps off-peak. Spikes in scheduler latency align with heavy eMBB streaming traffic. I recommend a conservative tuning: bias the DL scheduler slightly towards throughput, relax PRB caps for eMBB bearers, and tighten queue thresholds to reduce latency. Approve execution?",
+      "message_ar": "السلسلة الزمنية للتنزيل خلال نافذة 3 ساعات تُظهر هبوط الوسيط إلى 9–14 ميجابت/ث بين 18:00–21:00 مقارنة بخط أساس ~35–40 ميجابت/ث خارج الذروة. ترتبط زيادة تأخر الجدولة مع ازدحام حركة eMBB (بث فيديو). أوصي بضبط محافظ: إمالة منظّم التنزيل قليلاً نحو الإنتاجية، تخفيف حدود PRB لحوامل eMBB، وتشديد عتبات الطوابير لتقليل التأخير. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute the tuning on NR-UMC-41023-1.",
+      "message_ar": "تمت الموافقة على تنفيذ الضبط على NR-UMC-41023-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying site parameter tuning now on NR-UMC-41023-1: adjusted DL scheduler weights toward throughput, relaxed eMBB PRB limits, and refined queue thresholds. Commit successful. Initial check: p95 scheduling latency trending down to ~65–70 ms with more even PRB distribution. Please run a quick user-plane check.",
+      "message_ar": "أقوم الآن بتطبيق ضبط معلمات الموقع على NR-UMC-41023-1: تعديل أوزان مُنظِّم التنزيل باتجاه الإنتاجية، وتخفيف حدود PRB لـ eMBB، وتحسين عتبات الطوابير. تم الاعتماد بنجاح. فحص أولي: زمن جدولة p95 يتجه للانخفاض إلى ~65–70 مللي ثانية وتوزيع PRB أصبح أكثر توازناً. يرجى إجراء تحقق سريع من طبقة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick check: speed tests improved to ~18–22 Mbps and video buffering events are fewer; p95 scheduling latency now near 62 ms.",
+      "message_ar": "تحقق سريع: اختبارات السرعة تحسنت إلى ~18–22 ميجابت/ث وانخفضت حالات التخزين المؤقت للفيديو؛ زمن جدولة p95 الآن قريب من 62 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement for the peak period. I will keep counters under observation this evening and verify that throughput and latency remain stable as load fluctuates. Let me know your preferred monitoring window.",
+      "message_ar": "تحسن جيد خلال فترة الذروة. سأبقي العدادات تحت المراقبة هذا المساء وأتحقق من استقرار الإنتاجية والزمن مع تغيّر الحمل. أخبرني بإطار المراقبة المفضل لديك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement continues: scheduling delays are trending down and user throughput is up. Action taken: site parameter tuning on NR-UMC-41023-1. Please monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: تأخيرات الجدولة في اتجاه هبوطي وإنتاجية المستخدمين ارتفعت. الإجراء المتخذ: ضبط معلمات الموقع على NR-UMC-41023-1. يرجى المتابعة بالمراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring over the next busy hour and update with throughput, PRB use, and latency trends. If degradation returns, we will roll back the tuning and escalate for capacity augmentation with the field team.",
+      "message_ar": "تم الإقرار. سنتولى المراقبة خلال ساعة الذروة القادمة ونزوّدك بتحديث حول اتجاهات الإنتاجية واستخدام PRB والزمن. إذا عاد التدهور، سنقوم بالتراجع عن الضبط ونصعّد لزيادة السعة بالتنسيق مع فريق الميدان."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a peak-evening downlink throughput drop on an urban NR macro as congestion-driven, with sustained high PRB usage and elevated scheduling latency rather than RF limitations. Executed site parameter tuning to bias the downlink scheduler toward throughput, adjust PRB limits for eMBB, and refine queue thresholds. Post-change checks show improved user throughput and reduced scheduling delay; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص انخفاض معدل التنزيل في ذروة المساء على خلية ماكرو NR حضرية على أنه ناتج عن ازدحام، مع استخدام PRB مرتفع وتأخر جدولة مرتفع بدلاً من قصور في التغطية. تم تنفيذ ضبط معلمات الموقع لإمالة منظّم التنزيل نحو الإنتاجية، وضبط حدود PRB لحركة eMBB، وتحسين عتبات الطوابير. أظهرت الفحوصات بعد التغيير تحسناً في إنتاجية المستخدم وانخفاضاً في تأخر الجدولة؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

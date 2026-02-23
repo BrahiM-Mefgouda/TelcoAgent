@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0003",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "In the indoor office wing, 5G micro cells show elevated ping-pong handovers (~30%) with handover success around 78% and weak signal (RSRP -104 dBm, RSRQ -10 dB) over the last 3 hours.",
+    "ar": "في الجناح المكتبي الداخلي، تظهر خلايا 5G الصغيرة ارتفاعًا في تسليمات التبديل ذهابًا وإيابًا (~30%) مع نجاح تبديل يقارب 78% وإشارة ضعيفة (RSRP -104 dBm، RSRQ -10 dB) خلال آخر 3 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cluster in the office wing shows frequent ping-pong handovers over the last 3h; ping-pong ~30%, HO success ~78%, HO failures ~10%. Signal around -104 dBm RSRP / -10 dB RSRQ, PRB ~65% with ~274 users during shoulder hours and eMBB traffic.",
+      "message_ar": "المجموعة الصغيرة NR الداخلية في الجناح المكتبي تُظهر تبديلات ذهابًا وإيابًا متكررة خلال آخر 3 ساعات؛ الذهاب والإياب ~30%، نجاح التبديل ~78%، وفشل التبديل ~10%. الإشارة حوالي -104 dBm RSRP / -10 dB RSRQ، واستخدام PRB ~65% مع ~274 مستخدمًا خلال فترة الكتف وحركة eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by pulling the last 3h mobility and RF stats for the serving indoor small site. Please confirm access and share the target cell ID/name.",
+      "message_ar": "مفهوم. سأبدأ بجلب إحصاءات الحركة والراديو لآخر 3 ساعات للموقع الداخلي الصغير الخدمي. يرجى تأكيد الوصول ومشاركة مُعرّف/اسم الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; target cell is NR_Indoor_SC_245 serving the office wing.",
+      "message_ar": "الوصول مُعتمد؛ الخلية المستهدفة هي NR_Indoor_SC_245 التي تخدم الجناح المكتبي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 3h stats for NR_Indoor_SC_245: HO attempts per 5 min median ~69; ping-pong ~30% concentrated on neighbors N7 and N9 (same floor). Current settings show margin ~2 dB, dwell ~250 ms, hysteresis ~1 dB. RF medians: RSRP -104 dBm, RSRQ -10 dB, SINR ~10 dB. Next, I’ll review the HO time series to confirm persistence and timing.",
+      "message_ar": "تم جمع إحصاءات 3 ساعات للخلية NR_Indoor_SC_245: محاولات التبديل كل 5 دقائق بوسيط ~69؛ الذهاب والإياب ~30% مركّز على الجيران N7 وN9 (نفس الطابق). الإعدادات الحالية تُظهر هامش ~2 dB، مدة مكوث ~250 ms، وتباطؤ ~1 dB. القيم الوسطية للراديو: RSRP -104 dBm، RSRQ -10 dB، وSINR ~10 dB. بعد ذلك سأراجع السلسلة الزمنية للتبديلات لتأكيد الاستمرارية والتوقيت."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series review.",
+      "message_ar": "تابع مراجعة السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series over 3h shows sustained ping-pong 28–32% with spikes in shoulder-hour streaming; reversals dominated by N7<->SC_245 and N9<->SC_245 at low UE speeds. This indicates aggressive thresholds. I propose a controlled optimization to increase stability margins and dwell for those neighbor relations. Proceed?",
+      "message_ar": "السلسلة الزمنية خلال 3 ساعات تُظهر ذهابًا وإيابًا مستمرًا بنسبة 28–32% مع ارتفاعات خلال فترة الكتف مع البث؛ الانعكاسات مهيمنة بين N7<->SC_245 وN9<->SC_245 عند سرعات مستخدم منخفضة. هذا يشير إلى عتبات عدوانية. أقترح تحسينًا مضبوطًا لزيادة هوامش الثبات ومدة المكوث لتلك العلاقات مع الجيران. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization on the indoor cluster; no active alarms.",
+      "message_ar": "موافق على تنفيذ التحسين على المجموعة الداخلية؛ لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted handover parameter tuning on NR_Indoor_SC_245 toward neighbors N7 and N9: slightly increased stability margins and dwell within safe indoor micro limits, verified consistency, and prepared rollback. Post-apply check: counters normal, no errors.",
+      "message_ar": "تم تطبيق ضبط مُستهدف لمعاملات التبديل على NR_Indoor_SC_245 باتجاه الجيران N7 وN9: زيادة طفيفة لهوامش الثبات ومدة المكوث ضمن حدود آمنة للموقع الداخلي الصغير، تم التحقق من الاتساق وتجهيز خطة الرجوع. فحص ما بعد التطبيق: العدادات طبيعية ولا توجد أخطاء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early read (10–15 min): ping-pong down to ~18%, HO success up to ~86%; attempts stable, throughput unchanged; signal quality steady.",
+      "message_ar": "قراءة مبكرة (10–15 دقيقة): الذهاب والإياب انخفض إلى ~18%، نجاح التبديل ارتفع إلى ~86%؛ المحاولات مستقرة، ومعدل النقل دون تغيير؛ جودة الإشارة مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. We’ll keep short-term observation and compare with the prior 3h baseline, focusing on reversals and failures per neighbor and any side effects in the office wing.",
+      "message_ar": "تحسن جيد. سنواصل المراقبة قصيرة الأجل ونقارن بخط الأساس لآخر 3 ساعات، مع التركيز على الانعكاسات والإخفاقات لكل جار وأي آثار جانبية في الجناح المكتبي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observation: ping-pong reversals are trending down and handover success is improving after the handover parameter optimization. Let’s monitor through the next 2 hours to confirm stability.",
+      "message_ar": "الملاحظة: انعكاسات الذهاب والإياب تتراجع ونجاح التبديل يتحسن بعد تحسين معاملات التبديل. دعنا نراقب خلال الساعتين المقبلتين لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2-hour monitoring window and report the outcome. If degradations appear, we will promptly roll back the change and escalate for deeper neighbor review; otherwise, we will keep the tuning in place.",
+      "message_ar": "تم الاستلام. سنتولى نافذة المراقبة لمدة ساعتين ونبلغ بالنتيجة. إذا ظهرت تدهورات سنقوم فورًا بالرجوع عن التعديل والتصعيد لمراجعة أعمق للجيران؛ وإلا سنُبقي الضبط قائمًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong handovers on an indoor 5G micro cell by reviewing recent mobility KPIs and the handover time series, revealing persistent reversals dominated by two neighbors. Mitigated by targeted site parameter tuning to increase stability margins and dwell for the affected neighbor relations. Post-change indicators showed reduced reversals and improved handover success, with continued monitoring planned.",
+    "ar": "تم تشخيص ارتفاع التبديلات ذهابًا وإيابًا على خلية 5G داخلية صغيرة عبر مراجعة مؤشرات الحركة الأخيرة والسلسلة الزمنية للتبديل، ما كشف عن انعكاسات مستمرة مهيمنة بين جارَين. تمت المعالجة عبر ضبط مستهدف لمعاملات الموقع لزيادة هوامش الثبات ومدة المكوث للعلاقات المتأثرة مع الجيران. أظهرت المؤشرات بعد التعديل انخفاض الانعكاسات وتحسن نجاح التبديل مع التخطيط لمواصلة المراقبة."
+  }
+}

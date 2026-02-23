@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0017",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3h peak with backhaul utilization 92%, latency 70 ms, 1.0% loss, jitter 13 ms, queue 63%, PRB 76%, SINR 18 dB, RSRP -106 dBm, and DL 14 Mbps.",
+    "ar": "خلية ماكرو NR حضرية تظهر إنذار ازدحام خلال آخر 3 ساعات وقت الذروة مع استخدام وصلة راجعة 92%، كمون 70 مللي ثانية، فقد 1.0%، تذبذب 13 مللي ثانية، امتلاء صف 63%، استهلاك PRB‏ 76%، SINR ‏18 ديسيبل، RSRP ‏-106 ديسيبل ملي واط، وتنزيل 14 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell has a backhaul alarm over the last 3h peak; eMBB users (streaming) report stalls. KPIs: backhaul util 92%, latency 70 ms, loss 1.0%, jitter 13 ms, queue 63%, PRB 76%, DL 14 Mbps, SINR 18 dB, RSRP -106 dBm.",
+      "message_ar": "خلية ماكرو NR في منطقة حضرية لديها إنذار في الوصلة الراجعة خلال آخر 3 ساعات وقت الذروة؛ مستخدمو eMBB (بث) يشتكون من التقطّع. المؤشرات: استخدام الوصلة 92%، الكمون 70 مللي ثانية، الفقد 1.0%، التذبذب 13 مللي ثانية، امتلاء الصف 63%، استهلاك PRB 76%، التنزيل 14 ميجابت/ث، SINR ‏18 ديسيبل، RSRP ‏-106 ديسيبل ملي واط."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull the last 3h health and backhaul counters for the impacted cell; please confirm the cell ID and approve read access.",
+      "message_ar": "سأقوم بسحب مؤشرات الصحة والوصلة الراجعة لآخر 3 ساعات للخلية المتأثرة؛ يرجى تأكيد معرّف الخلية والموافقة على وصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-123. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-123. تمت الموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 3h stats now. Findings: backhaul utilization avg 91–95% with peaks 98%, latency p95 ~72 ms, packet loss ~1.1%, jitter 12–15 ms; radio load ~75% and SINR 18 dB — the bottleneck is the backhaul. I propose immediate transport profile tuning to reduce queuing loss and smooth bursts.",
+      "message_ar": "أقوم بجلب إحصاءات 3 ساعات الآن. النتائج: استخدام الوصلة الراجعة متوسط 91–95% مع ذروات 98%، كمون p95 نحو 72 مللي ثانية، فقد رزم ~1.1%، تذبذب 12–15 مللي ثانية؛ حمل الراديو ~75% وSINR ‏18 ديسيبل — عنق الزجاجة في الوصلة الراجعة. أقترح ضبط ملف النقل فوراً لتقليل فقد الصفوف وتنعيم الاندفاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with transport tuning.",
+      "message_ar": "موافق على المضي في ضبط النقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying controlled changes: enable active queue management on egress, adjust queue thresholds, and cap non-GBR eMBB peak by ~10% to stabilize; push complete with no service impact. We’ll observe for 10 minutes.",
+      "message_ar": "أقوم بتطبيق تغييرات مضبوطة: تفعيل إدارة صفوف نشطة على المخرج، ضبط عتبات الصفوف، وتحديد ذروة حركة eMBB غير المضمونة بنحو 10% لتحقيق الاستقرار؛ تم الدفع دون تأثير على الخدمة. سنراقب لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 8 minutes: backhaul latency ~42 ms, loss ~0.3%, utilization ~85–88%, DL ~18 Mbps; user complaints are subsiding.",
+      "message_ar": "بعد 8 دقائق: الكمون في الوصلة ~42 مللي ثانية، الفقد ~0.3%، الاستخدام ~85–88%، التنزيل ~18 ميجابت/ث؛ الشكاوى تتراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Improvement looks solid but headroom remains tight at peak. I recommend raising a capacity ticket to transport with before/after evidence; shall I proceed?",
+      "message_ar": "التحسن جيد لكن الهامش ما زال محدوداً وقت الذروة. أوصي برفع تذكرة سعة إلى فريق النقل مع أدلة قبل/بعد؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; include peak-hour counters and the actions applied.",
+      "message_ar": "موافق؛ أدرج عدّادات وقت الذروة والإجراءات التي تم تطبيقها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created a capacity ticket for NR-URB-MACRO-123: peak backhaul congestion mitigated via transport tuning; requested capacity review. Attached 3h graphs and post-change KPIs.",
+      "message_ar": "تم إنشاء تذكرة سعة لخلية NR-URB-MACRO-123: ازدحام الوصلة الراجعة وقت الذروة تم تخفيفه عبر ضبط النقل؛ طُلبت مراجعة السعة. أُرفقت رسوم 3 ساعات ومؤشرات ما بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted: latency continues trending down and packet loss is stable after the configuration change; please monitor through the next busy hour and update DU-BH-12874.",
+      "message_ar": "تمت الملاحظة: الكمون يستمر بالانخفاض وفقد الرزم مستقر بعد تغيير الإعداد؛ يرجى المراقبة خلال ساعة الذروة التالية وتحديث DU-BH-12874."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket afterward. If congestion resurges, we will escalate to transport for temporary throughput shaping and expedite capacity; if adverse effects appear, we will roll back the tuning to the prior state.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونحدّث التذكرة بعدها. إذا عاد الازدحام سنصعّد إلى فريق النقل لاتخاذ تشكيل مؤقت لمعدل النقل وتسريع زيادة السعة؛ وإذا ظهرت آثار سلبية فسنعيد الضبط إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul transport profile tuning: enable AQM, adjust queue thresholds, cap non-GBR eMBB peak by ~10%"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "NR-URB-MACRO-123 peak backhaul congestion; mitigation applied; capacity review requested"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-hour backhaul congestion on the urban NR macro cell: utilization >90% with high latency and ~1% loss while radio load and SINR were acceptable, indicating a transport bottleneck. Applied targeted site parameter tuning on the transport profile to reduce queuing loss and smooth bursts, which lowered latency and loss and improved throughput. A capacity ticket was created for backhaul upgrade review, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص ازدحام في الوصلة الراجعة خلال ساعة الذروة على خلية ماكرو NR حضرية: استخدام >90% مع كمون مرتفع وفقد ~1% بينما حمل الراديو وSINR مقبولان، ما يشير إلى عنق زجاجة في النقل. تم تنفيذ ضبط مستهدف لمعلمات الموقع في ملف النقل لتقليل فقد الصفوف وتنعيم الاندفاعات، مما خفّض الكمون والفقد وحسّن معدل التنزيل. تم إنشاء تذكرة سعة لمراجعة ترقية الوصلة الراجعة، وسيجري مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

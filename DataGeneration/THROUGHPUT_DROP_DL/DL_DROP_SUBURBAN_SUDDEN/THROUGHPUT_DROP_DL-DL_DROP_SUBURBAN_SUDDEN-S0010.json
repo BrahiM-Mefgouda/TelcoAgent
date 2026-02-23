@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0010",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban 5G macro cell shows a sudden downlink throughput drop to 10 Mbps over the past 2h during shoulder hours with 176 users, moderate-high resource use, and interference / signal overlap (SINR 4 dB, RSRQ -16 dB).",
+    "ar": "خلية ماكرو 5G في منطقة ضواحي تعاني هبوطاً مفاجئاً في معدل التحميل إلى 10 ميجابت/ث خلال آخر ساعتين في وقت بيني مع 176 مستخدماً، واستغلال موارد مرتفع نسبياً وتداخل/تراكب إشارات (SINR ‏4 dB، RSRQ ‏-16 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has a sudden DL throughput drop to ~10 Mbps over the last 2h (shoulder). Users ~176, PRB ~77%, SINR ~4 dB and RSRQ -16 dB indicate interference/signal overlap; BLER ~4.6%, HO success ~86%. eMBB users reported streaming stalling. Please investigate.",
+      "message_ar": "لدينا هبوط مفاجئ في معدل التحميل إلى نحو 10 ميجابت/ث خلال آخر ساعتين في خلية ماكرو NR بضواحي المدينة (فترة بينية). عدد المستخدمين ~176، واستغلال الموارد ~77%، وSINR ~4 dB وRSRQ -16 dB يشيران إلى تداخل/تراكب إشارات؛ BLER ~4.6%، نجاح التسليم ~86%. تم الإبلاغ عن توقفات في البث لعملاء eMBB. الرجاء التحليل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will lead diagnostics: 1) pull last 2h cell counters, 2) review DL KPIs over time, 3) if quality/load-driven, apply a low-risk site parameter tuning to stabilize throughput. Share the exact cell ID and confirm approval for a controlled change with instant rollback. Any concurrent works?",
+      "message_ar": "تم الاستلام. سأقود التشخيص: 1) سحب عدادات آخر ساعتين للخلية، 2) مراجعة مؤشرات التحميل عبر الزمن، 3) إذا كان السبب جودة/حمل، تطبيق ضبط منخفض المخاطر لمعاملات الموقع لتحسين الاستقرار. شاركني معرّف الخلية ووافق على تغيير مضبوط مع إمكانية تراجع فوري. هل توجد أعمال متزامنة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SB-2143-1. Approved for read access and a non-service-impacting optimization with rollback. No concurrent activities.",
+      "message_ar": "معرّف الخلية: NR-SB-2143-1. موافق على الوصول القرائي وتحسين غير مؤثر على الخدمة مع إمكانية تراجع. لا توجد أعمال متزامنة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 2h counters for NR-SB-2143-1: availability OK, users 170–182, PRB 74–85% (avg ~77%), SINR ~4 dB, RSRQ ~-16 dB, BLER 4–5%. No alarms or backhaul faults. Pattern indicates interference-limited quality under moderate load. Proceed to DL time-series?",
+      "message_ar": "سحبت عدادات آخر ساعتين لـ NR-SB-2143-1: الإتاحة سليمة، المستخدمون 170–182، PRB 74–85% (متوسط ~77%)، SINR ~4 dB، RSRQ ~-16 dB، BLER 4–5%. لا إنذارات أو أعطال وصل خلفي. النمط يدل على كون الجودة محدودة بالتداخل مع حمل متوسط مرتفع. هل أمضي لتحليل السلاسل الزمنية للتحميل؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time-series: cell-average DL throughput fell from ~45 Mbps baseline to 9–12 Mbps starting ~90 min ago; dips coincide with SINR 3–5 dB and PRB crests 80–85%. HO stable. Cause: interference/signal overlap with load pressure reducing MCS. I propose targeted site parameter tuning (scheduler balance and link adaptation bias), minimal risk, with rollback ready. Proceed?",
+      "message_ar": "سلاسل الزمن للتحميل: متوسط التحميل الهابط انخفض من ~45 ميجابت/ث إلى 9–12 ميجابت/ث بدءاً من ~قبل 90 دقيقة؛ الانخفاضات متزامنة مع SINR بين 3–5 dB وقمم PRB عند 80–85%. التسليم مستقر. الاستنتاج: تداخل/تراكب إشارات مع ضغط حمل خفّض مستويات التضمين. أقترح ضبطاً موجهاً لمعاملات الموقع (موازنة الجدولة وانحياز التكيّف الرابط) بمخاطر منخفضة وتراجع جاهز. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning now.",
+      "message_ar": "نفّذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted tuning on NR-SB-2143-1: modest adjustments to improve robustness under interference and balance DL scheduling. No service impact; rollback preserved. Starting a 10-minute post-change watch.",
+      "message_ar": "تم تطبيق الضبط الموجّه على NR-SB-2143-1: تعديلات متواضعة لتعزيز المتانة تحت التداخل وموازنة جدولة التحميل الهابط. دون تأثير خدمي؛ التراجع محفوظ. بدء مراقبة لاحقة لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 8 minutes, median DL throughput is up to ~24–28 Mbps; SINR improved to 5–6 dB; BLER ~3.8%. User count unchanged.",
+      "message_ar": "بعد 8 دقائق، ارتفع متوسط التحميل الهابط إلى ~24–28 ميجابت/ث؛ تحسّن SINR إلى 5–6 dB؛ BLER ~3.8%. عدد المستخدمين دون تغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early recovery. I will continue observing KPIs through the next busy period; target >30 Mbps with BLER <4%. If degradation returns, I will revert and initiate deeper interference coordination. Confirm monitoring window.",
+      "message_ar": "تحسّن مبكر جيد. سأواصل مراقبة المؤشرات خلال الفترة المزدحمة التالية؛ الهدف >30 ميجابت/ث وBLER <4%. إذا عاد التدهور فسأُرجِع التغيير وأصعّد لتنسيق تخفيف التداخل مع الخلايا المجاورة. أكد نافذة المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: downlink throughput trending upward and interference metrics easing. Action taken: site parameter tuning. Please monitor for the next 2–4 hours.",
+      "message_ar": "التحسّن مستمر: معدل التحميل الهابط يتجه صعوداً ومؤشرات التداخل آخذة بالانخفاض. الإجراء المنفّذ: ضبط معاملات الموقع. الرجاء المتابعة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we own the next 2–4 hours of monitoring and will report results. If performance dips, we will roll back the change and escalate for interference mitigation with neighboring cells.",
+      "message_ar": "تم—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونقدّم النتائج. إذا انخفض الأداء سنرجع التغيير ونصعّد لمعالجة التداخل مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a suburban NR macro cell with a sudden downlink throughput drop. Counter checks and DL time-series indicated interference/signal overlap with moderate-high resource use causing reduced modulation and lower throughput. A targeted site parameter tuning was applied to strengthen robustness and balance scheduling; throughput improved and will be monitored over the next 2–4 hours.",
+    "ar": "تم التحقيق في خلية ماكرو NR بضواحي المدينة شهدت هبوطاً مفاجئاً في التحميل الهابط. أظهرت مراجعة العدادات والسلاسل الزمنية للتحميل وجود تداخل/تراكب إشارات مع استغلال موارد متوسط مرتفع أدى إلى خفض مستويات التضمين وتراجع السرعة. تم تطبيق ضبط موجّه لمعاملات الموقع لتعزيز المتانة وموازنة الجدولة؛ تحقق تحسّن وسيتم المتابعة خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

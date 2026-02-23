@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0009",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G NR macro sector shows weak signal (RSRP -114 dBm), interference/signal overlap (SINR -2 dB), BLER ~9.3%, 58 users, and slow data (p50 ~4 Mbps) over the last 6h during peak FWA traffic—can you investigate?",
+    "ar": "قطاع ماكرو 5G NR ريفي يُظهر إشارة ضعيفة (RSRP -114 dBm) وتداخل/تراكب إشارات (SINR -2 dB) مع BLER ~9.3% و58 مستخدمًا وبيانات بطيئة (p50 ~4 Mbps) خلال آخر 6 ساعات وقت الذروة لحركة FWA—هل يمكنكم التحقق؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector has elevated BLER (~9.3%) over the last 6h at peak FWA load; RSRP ~ -114 dBm, RSRQ -13 dB, SINR -2 dB indicating interference/signal overlap, with 58 users and p50 DL ~4 Mbps (slow data).",
+      "message_ar": "قطاع ماكرو NR ريفي لديه BLER مرتفع (~9.3%) خلال آخر 6 ساعات وقت ذروة FWA؛ RSRP ~ -114 dBm وRSRQ -13 dB وSINR -2 dB بما يدل على تداخل/تراكب إشارات، مع 58 مستخدمًا ووسيط DL ~4 Mbps (بيانات بطيئة)."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll pull OSS counters for the last 6 hours to validate BLER and RF conditions; please share the cell ID and confirm access.",
+      "message_ar": "سأجلب عدادات OSS لآخر 6 ساعات للتحقق من BLER وظروف الراديو؛ يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Rural-48291-S1; access approved.",
+      "message_ar": "معرّف الخلية: NR-Rural-48291-S1؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS stats over 6h confirm DL BLER averaging 9–11% with peaks ~14% around 19:00–20:00; median SINR ~ -1.5 dB, high HARQ retransmissions, PRB utilization moderate (~55–60%). Next, I'll review the BLER time series to isolate the spike pattern.",
+      "message_ar": "تُؤكّد إحصاءات OSS خلال 6 ساعات أن BLER للوصلة الهابطة بمعدل 9–11% مع ذُرى ~14% بين 19:00–20:00؛ وسيط SINR حوالي -1.5 dB مع إعادة إرسال HARQ مرتفعة واستخدام PRB متوسط (~55–60%). التالي، سأراجع السلسلة الزمنية لـ BLER لعزل نمط الارتفاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "The BLER trend shows edge-heavy spikes aligned with peak load; baseline ~5% and 95th percentile 14–16%. This points to coverage-edge robustness rather than congestion. I propose targeted site parameter tuning to harden link adaptation at low SINR and slightly favor edge users; minimal impact expected to center users.",
+      "message_ar": "تُظهر السلسلة الزمنية لـ BLER ارتفاعات عند الأطراف متزامنة مع الذروة؛ خط الأساس ~5% والـ95 بالمئة بين 14–16%. يشير ذلك إلى مسألة متانة حافة التغطية وليس ازدحامًا. أقترح ضبطًا انتقائيًا لمعلمات الموقع لتعزيز التكيّف عند SINR المنخفض مع تحسين طفيف لمستخدمي الحافة؛ مع توقع تأثير طفيف على مستخدمي المركز."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement.",
+      "message_ar": "موافَق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-Rural-48291-S1 to improve edge robustness; changes committed successfully. We'll observe KPIs for 20 minutes and compare against pre-change.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR-Rural-48291-S1 لتحسين متانة الحافة؛ تم اعتماد التغييرات بنجاح. سنراقب مؤشرات الأداء لمدة 20 دقيقة ونقارن بما قبل التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early view: BLER dropped to ~5.2% and p50 DL improved to ~6 Mbps; retransmissions reduced; no new alarms.",
+      "message_ar": "نظرة أولية: انخفض BLER إلى ~5.2% وتحسّن وسيط سرعة الوصلة الهابطة إلى ~6 Mbps؛ انخفضت عمليات إعادة الإرسال؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted; continue normal traffic and we will keep watching stability during load ramps this evening. If variability reappears, I can fine-tune the parameters further.",
+      "message_ar": "تم التدوين؛ استمروا بحركة المرور العادية وسنواصل متابعة الاستقرار أثناء ارتفاع الحمل هذا المساء. إذا ظهرت تقلبات مجددًا يمكنني تحسين الضبط بشكل أدق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: BLER is trending below 6% and slow data complaints have eased. Action taken was site parameter tuning to improve edge robustness. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: BLER يتجه إلى أقل من 6% وشكاوى بطء البيانات تراجعت. الإجراء المنفّذ هو ضبط معلمات الموقع لتحسين متانة الحافة. لِنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next busy hour and report updated BLER and throughput. If degradation returns, we will escalate for interference investigation; if any adverse effect emerges, we will roll back the tuning.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الذروة القادمة ونبلّغ بقيم BLER ومعدلات السرعة المحدّثة. إذا عاد التدهور سنصعّد للتحقق من مصادر التداخل، وإن ظهرت آثار سلبية سنقوم بإرجاع الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "OSS counters and BLER time series confirmed high error rates at the coverage edge during peak FWA load with weak signal and poor SINR. We applied site parameter tuning to improve edge robustness, which reduced BLER and lifted median downlink throughput. We will monitor through the next busy hour to validate stability.",
+    "ar": "أكدت عدادات OSS والسلسلة الزمنية لـ BLER معدلات أخطاء مرتفعة عند حافة التغطية خلال حمل FWA الذروي مع إشارة ضعيفة وSINR منخفض. قمنا بضبط معلمات الموقع لتعزيز متانة الحافة، مما خفّض BLER ورفع الوسيط لسرعة الوصلة الهابطة. سنواصل المراقبة خلال ساعة الذروة القادمة للتحقق من الاستقرار."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0016",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Evening peak congestion alarm on an urban 5G NR macro cell shows high load with slow data (~7 Mbps median) and rising latency (p95 ~88 ms) affecting streaming.",
+    "ar": "إنذار ازدحام في ذروة المساء على خلية ماكرو 5G NR حضرية مع حمل مرتفع وبيانات بطيئة (~7 ميجابت/ث) وارتفاع الكمون (p95 ~88 مللي ثانية) مما يؤثر على البث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on urban NR macro cell NR-Cell-UGB-045 raised a congestion alarm: 393 users, PRB ~93.5%, p95 latency ~88 ms, median latency ~40 ms, and slow data (~7 Mbps p50) impacting streaming.",
+      "message_ar": "في ذروة المساء، أطلق الموقع الحضري NR الماكرو NR-Cell-UGB-045 إنذار ازدحام: 393 مستخدمًا، استخدام PRB ~93.5%، كمون p95 ~88 مللي ثانية، كمون وسيط ~40 مللي ثانية، وبيانات بطيئة (~7 ميجابت/ث p50) تؤثر على البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics. I’ll pull the last 2h performance for NR-Cell-UGB-045 to validate load, latency distribution, and QoS behavior. Please confirm access approval and no ongoing work on the site.",
+      "message_ar": "سأتولى التشخيص. سأسترجع أداء آخر ساعتين للخلية NR-Cell-UGB-045 للتحقق من الحمل وتوزيع الكمون وسلوك جودة الخدمة. يرجى تأكيد الموافقة على الوصول وعدم وجود أعمال جارية على الموقع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved, no planned work. Window is last 2 hours; proceed.",
+      "message_ar": "الوصول مُعتمَد، ولا توجد أعمال مخططة. الإطار الزمني آخر ساعتين؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 2h stats: PRB stayed 92–96%, BLER ~7%, queue depth spikes align with busy hour; no backhaul errors. Confirms congestion-driven latency. I will drill into the latency timeseries next.",
+      "message_ar": "تم جمع إحصاءات آخر ساعتين: استخدام PRB بين 92–96%، BLER حوالي 7%، ارتفاعات في عمق الصفوف مع ساعة الذروة؛ ولا توجد أخطاء في النقل الخلفي. هذا يؤكد أن الكمون ناتج عن الازدحام. سأتعمّق في سلسلة زمنية للكمون بعد ذلك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the latency drilldown.",
+      "message_ar": "موافق على المتابعة في تحليل سلسلة الكمون."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency timeseries shows p95 peaking 90–95 ms whenever PRB >90%; eMBB traffic and interactive flows are affected. No packet discard anomalies. I propose a targeted cell parameter tuning to prioritize latency-sensitive traffic within policy without reducing capacity. Approve?",
+      "message_ar": "السلسلة الزمنية للكمون تُظهر أن p95 يصل إلى 90–95 مللي ثانية عندما يتجاوز استخدام PRB نسبة 90%؛ يتأثر تدفق eMBB والتطبيقات التفاعلية. لا توجد شذوذات في إسقاط الحزم. أقترح ضبطًا مستهدفًا لمعاملات الخلية لإعطاء أولوية لحركة المرور الحساسة للكمون ضمن السياسات دون خفض السعة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize parameters now.",
+      "message_ar": "موافَق على تنفيذ ضبط المعلمات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted tuning on NR-Cell-UGB-045 to improve QoS prioritization and smooth resource allocation. Change succeeded. Immediate snapshot: p95 latency ~68 ms, p50 throughput ~9–10 Mbps, PRB ~88–91%.",
+      "message_ar": "تم تطبيق ضبط مستهدف على NR-Cell-UGB-045 لتحسين أولوية جودة الخدمة وتنعيم تخصيص الموارد. نُفِّذ التغيير بنجاح. قراءة فورية: كمون p95 ~68 مللي ثانية، ومعدل نقل p50 ~9–10 ميجابت/ث، واستخدام PRB ~88–91%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing similar improvement on our side: p95 latency ~65 ms and the slow data symptom is easing.",
+      "message_ar": "نلاحظ تحسنًا مماثلًا لدينا: كمون p95 ~65 مللي ثانية وتراجع عرض مشكلة البيانات البطيئة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep short-term observation of counters and user experience to confirm stabilization before the next busy period.",
+      "message_ar": "جيد. سأواصل المراقبة القصيرة المدى للمؤشرات وتجربة المستخدم للتأكد من الاستقرار قبل فترة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement remains stable: p95 latency trending down and slow data largely resolved. Action taken was site parameter tuning for QoS and resource allocation. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستقر: كمون p95 في اتجاه هبوطي وتمت معالجة بطء البيانات إلى حد كبير. الإجراء المنفذ كان ضبط معلمات الخلية لجودة الخدمة وتخصيص الموارد. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and share an update afterward. If latency regresses, we will roll back the change and pursue capacity relief; otherwise, we will keep the tuning in place.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا تدهور الكمون، سنرجع التغيير ونتجه إلى تخفيف الحمل؛ وإلا سنبقي الضبط ساريًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-UGB-045",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-UGB-045",
+        "latency",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "HQoS scheduler tuning for eMBB latency reduction"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA violation on an urban 5G NR macro cell during evening peak, driven by high PRB utilization and moderate BLER. Reviewed the latency time series and then applied targeted site parameter tuning to improve QoS prioritization and resource allocation, which reduced p95 latency and improved median throughput. We will monitor through the next busy hour to validate stability.",
+    "ar": "تم تشخيص انتهاك SLA للكمون على خلية ماكرو 5G NR حضرية خلال ذروة المساء، نتيجة ارتفاع استخدام PRB وBLER معتدل. بعد مراجعة السلسلة الزمنية للكمون، تم تطبيق ضبط مستهدف لمعاملات الموقع لتحسين أولوية جودة الخدمة وتخصيص الموارد، مما خفّض كمون p95 وحسّن المعدل الوسيط للنقل. سنواصل المراقبة خلال ساعة الذروة القادمة للتحقق من الاستقرار."
+  }
+}

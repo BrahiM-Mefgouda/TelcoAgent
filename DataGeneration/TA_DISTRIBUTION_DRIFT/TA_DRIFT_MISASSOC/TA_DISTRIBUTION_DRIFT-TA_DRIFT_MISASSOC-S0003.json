@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0003",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro cell shows timing advance drift with distant serving and slow data over the last 6h (avg TA ~241 m, p95 ~509 m, SINR ~5 dB, median DL ~7 Mbps).",
+    "ar": "الموقع الريفي الحضري NR (ماكرو) يُظهر انجرافاً في توقيت الوصول مع خدمة من خلايا بعيدة وبطء في البيانات خلال آخر 6 ساعات (متوسط TA ~241 م، p95 ~509 م، SINR ~5 دB، الوسيط للتحميل ~7 ميجابت/ث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 6h shows rising timing advance and user complaints of slow data and weak edge signal; mixed hours affected, especially during streaming—please investigate.",
+      "message_ar": "الموقع NR ماكرو في منطقة شبه حضرية خلال آخر 6 ساعات يظهر ارتفاعاً في توقيت الوصول مع شكاوى من بطء البيانات وضعف الإشارة عند الأطراف؛ التأثير في أوقات مختلطة خاصة أثناء البث—يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by checking the last 6h OSS counters for this cell to confirm TA drift and distant serving; please approve access.",
+      "message_ar": "تم الاستلام. سأبدأ بفحص عدادات OSS لآخر 6 ساعات لهذه الخلية لتأكيد انجراف TA والخدمة البعيدة؛ يرجى الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved.",
+      "message_ar": "تمت الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check (6h) completed: avg TA ~241 m, p95 ~509 m, std 89 m; drift index 0.32. Distant-serving ~22%. RSRP median ~-110 dBm, RSRQ -8 dB, SINR ~5 dB. PRB util ~73%, users peak 176. HO success 86.6%. DL median ~7 Mbps. This aligns with TA drift/misassociation under load.",
+      "message_ar": "تم فحص OSS (6 ساعات): متوسط TA ~241 م، p95 ~509 م، انحراف معياري 89 م؛ مؤشر الانجراف 0.32. نسبة الخدمة البعيدة ~22%. وسيط RSRP ~-110 dBm، RSRQ -8 dB، وSINR ~5 dB. إشغال PRB ~73%، والذروة 176 مستخدماً. نجاح التسليم البيني 86.6%. وسيط التحميل ~7 ميجابت/ث. المعطيات تتماشى مع انجراف TA/سوء الارتباط تحت الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will pull the TA time series for the same 6h window to locate spike periods and correlate with load; approve?",
+      "message_ar": "بعد ذلك، سأستخرج السلسلة الزمنية لـ TA لنفس نافذة 6 ساعات لتحديد فترات الارتفاع وربطها بالحِمل؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms TA spikes during mixed day/evening peaks; outer-distance bins grow when PRB >70% and RSRP is weak. Drift coincides with higher user counts, indicating partial serving by a farther sector. No hard alarms.",
+      "message_ar": "السلسلة الزمنية تؤكد ارتفاعات TA خلال ذروة النهار/المساء؛ تزداد الفئات البعيدة عندما يتجاوز إشغال PRB 70% ومع ضعف RSRP. يتزامن الانجراف مع ارتفاع عدد المستخدمين، ما يشير إلى خدمة جزئية من قطاع أبعد. لا توجد إنذارات حرجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose targeted site parameter tuning (mobility/beam biasing) to favor nearer coverage and reduce overshoot; minimal and reversible change. Proceed?",
+      "message_ar": "أقترح ضبطاً مستهدفاً لمعاملات الموقع (تحيّز الحركة/الحزم) لتهيئة التغطية الأقرب وتقليل التخطي؛ تغيير بسيط وقابل للعكس. هل نمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied successfully. Quick post-check (10–15 min): distant-serving down to ~18%, median TA trending lower, HO success slightly up, and initial DL rates improved; no adverse impacts observed.",
+      "message_ar": "تم تطبيق التغيير بنجاح. فحص سريع بعد التنفيذ (10–15 دقيقة): انخفضت الخدمة البعيدة إلى ~18%، يتجه وسيط TA للانخفاض، وارتفع نجاح التسليم البيني قليلاً، وتحسنت سرعات التحميل الأولية؛ لم تُلاحظ آثار سلبية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement: fewer distant-serving cases and median timing advance dropping. The site parameter tuning appears effective; let’s monitor through the next busy hour (next 2–4 hours).",
+      "message_ar": "هناك تحسن مبكر: حالات الخدمة البعيدة أقل ووسيط توقيت الوصول ينخفض. ضبط معاملات الموقع يبدو فعّالاً؛ لنتابع خلال ساعة الانشغال التالية (خلال الساعتين إلى الأربع المقبلة)."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and share updates on TA distribution, HO success, and user rates afterward. If metrics regress, we will roll back the change; if drift persists, we will escalate for a targeted RF alignment check.",
+      "message_ar": "سنتولى مراقبة الأداء خلال الساعتين إلى الأربع المقبلتين ونشارك التحديثات حول توزيع TA ونجاح التسليم البيني ومعدلات المستخدمين بعد ذلك. إذا تراجعت المؤشرات سنقوم بعكس التغيير؛ وإذا استمر الانجراف سنصعّد لإجراء فحص مواءمة RF مستهدف."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed timing advance distribution drift on a suburban NR macro with high distant-serving, weak signal, and slow median downlink. Verified via 6h OSS counters and TA time series, indicating partial misassociation under load. Mitigated through site parameter tuning to bias mobility/beam selection toward nearer coverage; early monitoring shows improvement.",
+    "ar": "تم تشخيص انجراف في توزيع توقيت الوصول في موقع NR ماكرو شبه حضري مع خدمة بعيدة مرتفعة وإشارة ضعيفة وبطء في التحميل الوسطي. تم التحقق عبر عدادات OSS وسلسلة TA الزمنية خلال 6 ساعات، ما يشير إلى سوء ارتباط جزئي تحت الحمل. تمت المعالجة عبر ضبط معاملات الموقع لتحيّز الحركة/الحزم نحو التغطية الأقرب؛ وتظهر المراقبة الأولية تحسناً."
+  }
+}

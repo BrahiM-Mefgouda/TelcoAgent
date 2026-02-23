@@ -1,0 +1,108 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0008",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban NR macro shows interference/signal overlap with low SINR (~2 dB), degraded handovers (success ~84%, failures ~13%, ping‑pong ~12%), and median DL ~9 Mbps over the last 12h—investigate potential PCI confusion.",
+    "ar": "موقع NR ماكرو في ضاحية يظهر تداخل/تراكب إشارة مع SINR منخفض (~2 dB)، تدهور في التسليم (نجاح ~84%، فشل ~13%، تبديل ذهاب‑إياب ~12%) ومتوسط تنزيل ~9 Mbps خلال آخر 12 ساعة—يرجى التحقق من احتمال ارتباك PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro over the last 12h (mixed hours) shows SINR ~2 dB, RSRQ -14 dB, HO success ~84% with ~13% failures and ~12% ping‑pong; eMBB users report streaming stutter near edges—possible PCI confusion with a nearby sector.",
+      "message_ar": "موقع NR ماكرو في منطقة ضاحية خلال آخر 12 ساعة (ساعات مختلطة) يظهر SINR ~2 dB وRSRQ -14 dB، نجاح تسليم ~84% مع ~13% فشل و~12% تبديل ذهاب‑إياب؛ مستخدمو eMBB يذكرون تقطّعًا في البث قرب الحواف—اشتباه ارتباك PCI مع قطاع مجاور."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start with a neighbor consistency audit to confirm any PCI conflicts for this cell over the 12h window. Please confirm access.",
+      "message_ar": "مفهوم. سأبدأ بتدقيق التوافق مع الجيران للتحقق من أي تعارض PCI لهذه الخلية خلال نافذة 12 ساعة. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; proceed.",
+      "message_ar": "تمت الموافقة على الوصول؛ تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit confirms a modulo‑3 PCI group conflict: serving PCI 110 overlaps with neighbor PCI 295, causing signal overlap (overlap group ~11) and correlating with higher ping‑pong and BLER 8.9%. I propose a targeted PCI retune to a non‑overlapping value and a neighbor relation refresh. Approve immediate change?",
+      "message_ar": "أكّد التدقيق وجود تعارض ضمن مجموعة modulo‑3: PCI الخادم 110 يتداخل مع الجار 295، ما يسبب تراكب إشارة (مجموعة تراكب ~11) ويتوافق مع ارتفاع التبديل ذهاب‑إياب وBLER 8.9%. أقترح إعادة ضبط PCI إلى قيمة غير متداخلة وتحديث علاقات الجيران. هل توافق على التغيير الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed: reassigned PCI to 112 on the affected sector and refreshed neighbor relations with minimal hysteresis alignment. No alarms raised; cells remained in service.",
+      "message_ar": "تم تنفيذ التحسين: إعادة تعيين PCI إلى 112 على القطاع المتأثر وتحديث علاقات الجيران مع مواءمة طفيفة للهسترة. لم تُسجّل إنذارات؛ بقيت الخلايا في الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I will open a change record documenting the PCI remediation. Approve?",
+      "message_ar": "لأغراض التتبّع، سأفتح سجل تغيير يوثّق معالجة PCI. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-PCI-04231 covering the PCI retune and neighbor refresh; initial post-change observation window set to 2 hours.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-04231 لتغطية إعادة ضبط PCI وتحديث الجيران؛ فترة المراقبة الأولية بعد التغيير محددة بساعتين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial improvement observed: ping‑pong handovers trending down and SINR up by ~3 dB. Action taken was the PCI retune with neighbor refresh (config optimization). Let’s monitor through the next busy hour and update DU-PCI-04231.",
+      "message_ar": "تحسّن أولي ملاحظ: تبديل الذهاب‑الإياب في انخفاض وارتفاع SINR بحوالي 3 dB. الإجراء المنفّذ كان إعادة ضبط PCI مع تحديث الجيران (تحسين الإعدادات). لنتابع المراقبة خلال ساعة الذروة القادمة وتحديث DU-PCI-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor through the next busy hour and update the ticket after the window. If interference returns, we will escalate to a cluster retune; if adverse impact appears, we will roll back to the previous PCI plan.",
+      "message_ar": "تم التأكيد—سنتابع المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء النافذة. إذا عاد التداخل سنصعّد إلى إعادة ضبط على مستوى العنقود؛ وإذا ظهرت آثار سلبية سنعود إلى خطة PCI السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A neighbor audit confirmed a PCI group conflict between the serving sector (110) and a neighbor (295), causing signal overlap and unstable handovers. We applied site parameter tuning to assign a non-overlapping PCI and refreshed neighbor relations, then recorded the change with a ticket for traceability. Early indicators improved and the cell is under continued monitoring.",
+    "ar": "أكد تدقيق الجيران وجود تعارض في مجموعة PCI بين القطاع الخادم (110) والجار (295)، مما سبب تراكب إشارة وعدم استقرار في التسليم. قمنا بضبط معلمات الموقع لتعيين PCI غير متداخل وتحديث علاقات الجيران، ثم توثيق التغيير بتذكرة للشفافية. المؤشرات الأولية تحسّنت والخليّة قيد المراقبة المستمرة."
+  }
+}

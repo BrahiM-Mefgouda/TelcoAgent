@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0018",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural NR macro cell shows long-range serving (TA ~2.9 km) with interference/signal overlap and slow data (~3 Mbps), plus high ping‑pong and HO failures—suspected overshooting.",
+    "ar": "خلية NR ماكرو ريفية تُظهر خدمة بعيدة (TA ~2.9 كم) مع تداخل/تراكب إشارة وبطء بيانات (~3 ميجابت/ث)، إضافة إلى ارتفاع التذبذب بين الخلايا وإخفاقات التسليم—يُشتبه في فرط التغطية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector shows complaints of slow data and some drops across mixed times. Streaming users report buffering. KPIs: p50 DL ~3 Mbps, SINR -1 dB, RSRP -113 dBm, RSRQ -17 dB. TA p95 ~2.9 km, distant serving 19%, neighbors ~8 km. No alarms.",
+      "message_ar": "القطاع NR ماكرو الريفي لديه شكاوى من بطء البيانات وبعض الانقطاعات عبر أوقات مختلطة. مستخدمو البث يعانون من تجمّع. المؤشرات: متوسط تنزيل ~3 ميجابت/ث، SINR ‏-1 dB، RSRP ‏-113 dBm، RSRQ ‏-17 dB. TA p95 ~2.9 كم، نسبة خدمة بعيدة 19%، الجيران ~8 كم. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "This points to overshooting with interference/signal overlap. I will first run a coverage view for the area over the last 12h, then audit neighbors, and if confirmed apply targeted parameter tuning. Please confirm the cell ID and approve access.",
+      "message_ar": "هذا يشير إلى فرط تغطية مع تداخل/تراكب إشارة. سأبدأ بعرض التغطية للمنطقة لآخر 12 ساعة، ثم تدقيق الجيران، وإذا تأكد ذلك سأطبق ضبطاً مستهدفاً للمعاملات. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-ALPINE-03-S1. Access approved for diagnostics in the last 12h window.",
+      "message_ar": "معرّف الخلية هو NR-ALPINE-03-S1. الوصول معتمد للتشخيص ضمن نافذة 12 ساعة الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage view shows a dominant lobe extending ~7–10 km to the NE with overlap onto two neighbors; far-edge cluster has SINR -1 to +2 dB and TA mass at 2.8–3.2 km. This confirms overshooting characteristics. Requesting approval to proceed with neighbor and mobility audit.",
+      "message_ar": "عرض التغطية يُظهر لُحمة رئيسية تمتد ~7–10 كم نحو الشمال الشرقي مع تداخل على خليتين جارتيْن؛ مجموعة الحافة البعيدة لديها SINR من -1 إلى +2 dB وكتلة TA عند 2.8–3.2 كم. هذا يؤكد خصائص فرط التغطية. أطلب الموافقة للمتابعة بتدقيق الجيران والتنقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the neighbor and mobility audit.",
+      "message_ar": "الموافقة ممنوحة للمتابعة بتدقيق الجيران والتنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit for NR-ALPINE-03-S1: nearby sectors at 7.8 km and 9.1 km; one neighbor relation to NR-ALPINE-05-S2 is missing. Current HO settings show low offset and short TTT; cell tilt ~0.5° and SSB power high—factors that promote overshoot and ping‑pong. Proposal: +2° electrical down-tilt, -1.5 dB SSB power, raise HO offset by ~2 dB with slightly longer TTT, and add the missing neighbor with proper priority. Approve immediate optimization?",
+      "message_ar": "نتيجة تدقيق الجيران لـ NR-ALPINE-03-S1: قطاعات قريبة على بعد 7.8 كم و9.1 كم؛ علاقة جار مع NR-ALPINE-05-S2 مفقودة. إعدادات التسليم تُظهر انحيازاً منخفضاً ومدة TTT قصيرة؛ ميل الخلية ~0.5° وطاقة SSB مرتفعة—عوامل تعزز الفرط والتذبذب. المقترح: زيادة الميل الكهربائي +2°، خفض طاقة SSB بمقدار 1.5 dB، رفع انحياز التسليم ~2 dB مع إطالة طفيفة لـ TTT، وإضافة الجار المفقود مع أولوية مناسبة. هل توافق على التنفيذ الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed optimization now.",
+      "message_ar": "موافق على تنفيذ الضبط المقترح الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: tilt increased by +2°, SSB power reduced ~1.5 dB, HO offset and TTT adjusted, and the missing neighbor added with priority. Expect reduced overshoot NE, improved SINR/RSRQ, and fewer HO failures/ping‑pongs. I will monitor and correlate; share any quick field check if available.",
+      "message_ar": "تم تطبيق الضبط: زيادة الميل +2°، خفض طاقة SSB ~1.5 dB، تعديل انحياز ومدة التسليم، وإضافة الجار المفقود مع أولوية. يُتوقع تقليل الفرط نحو الشمال الشرقي وتحسن SINR/RSRQ وانخفاض إخفاقات/تذبذب التسليم. سأراقب وأربط النتائج؛ شارك أي تحقق ميداني سريع إن توفر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick spot check at 8–9 km shows RSRQ improved by ~3 dB, fewer rapid HO swings, and throughput around 5–7 Mbps.",
+      "message_ar": "تحقق سريع على بعد 8–9 كم يُظهر تحسناً في RSRQ بنحو 3 dB، وتقلص تذبذب التسليم السريع، ومعدل throughput حوالي 5–7 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early signs. I will keep observing trends and stability. Please confirm your preferred monitoring window.",
+      "message_ar": "مؤشرات مبكرة جيدة. سأستمر في متابعة الاتجاهات والاستقرار. يرجى تأكيد نافذة المراقبة المفضلة لديك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing ping‑pong rate trending down and fewer HO failures after the site parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ انخفاضاً في معدل التذبذب بين الخلايا وتراجعاً في إخفاقات التسليم بعد ضبط معاملات الموقع. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next busy hour and report on SINR, throughput, and mobility stability. If degradation reappears, we will escalate by reverting the tilt/power change and revisiting neighbor and HO thresholds; otherwise we will keep the optimization in place.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تقريراً عن SINR ومعدل النقل واستقرار التنقل. إذا عادت التدهورات سنصعّد بإرجاع تغيير الميل/الطاقة ومراجعة الجيران وعَتبات التسليم؛ وإلا سنبقي الضبط مطبقاً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an overshooting rural NR macro cell via coverage assessment showing a long dominant lobe and poor far‑edge SINR, then validated with a neighbor audit that found a missing relation and permissive mobility settings. Mitigated by site parameter tuning: increased electrical down‑tilt, reduced SSB power, adjusted handover offsets/TTT, and added the missing neighbor. Early results show improved signal quality and fewer ping‑pongs; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص فرط تغطية في خلية NR ماكرو ريفية عبر تقييم التغطية الذي أظهر لُحمة ممتدة وجودة إشارة ضعيفة عند الحافة، ثم تأكد ذلك بتدقيق الجيران الذي كشف علاقة مفقودة وإعدادات تنقل متساهلة. تم التخفيف عبر ضبط معاملات الموقع: زيادة الميل الكهربائي، خفض طاقة SSB، تعديل انحياز/مدة التسليم، وإضافة الجار المفقود. تظهر النتائج المبكرة تحسناً في جودة الإشارة وانخفاض التذبذب بين الخلايا، وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

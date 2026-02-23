@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0009",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6 hours (shoulder period) shows high resource load (~81% PRB), low scheduler fairness, allocation skew, elevated p95 scheduler latency (79 ms), and median throughput ~15 Mbps despite acceptable RF, pointing to a resource allocation anomaly.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات (فترة الكتف) تُظهر حملاً مرتفعاً (~81% من PRB)، وعدالة منخفضة للمجدول، وانحرافاً في التخصيص، وارتفاع زمن تأخير p95 للمجدول (79 مللي ثانية)، ومعدل نقل وسيط ~15 ميجابت/ث رغم جودة راديوية مقبولة، ما يشير إلى خلل في تخصيص الموارد."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell serving enterprise private users shows inconsistent throughput and high scheduler delay in the last 6h shoulder window; PRB ~81%, fairness degraded and allocation skew elevated—please check.",
+      "message_ar": "خلية NR ماكرو حضرية تخدم مستخدمين مؤسسيين خاصين تُظهر تذبذباً في السرعة وزمناً عالياً لتأخير المجدول خلال آخر 6 ساعات (فترة الكتف)؛ استخدام PRB ~81%، تراجع في العدالة وانحراف تخصيص مرتفع—يرجى الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; likely a resource allocation drift. I will first pull last 6h OSS counters for this cell to verify load, fairness, class shares, and delay—please confirm access.",
+      "message_ar": "مفهوم؛ يُرجَّح وجود انجراف في تخصيص الموارد. سأستخرج أولاً عدادات OSS لآخر 6 ساعات لهذه الخلية للتحقق من الحمل والعدالة وحصص الفئات والتأخير—يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; read-only to the cell is fine.",
+      "message_ar": "الوصول مُعتمد؛ صلاحية قراءة فقط للخلية كافية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS stats for the last 6h now. Snapshot shows PRB 81%, scheduler fairness ~0.67, allocation skew 18, best‑effort share 56% vs high‑priority 23%, p95 delay 79 ms; RF is acceptable (SINR ~10 dB). Next, I will run a time profile of PRB and scheduler metrics to confirm drift—proceed?",
+      "message_ar": "أجلب إحصاءات OSS لآخر 6 ساعات الآن. اللقطة تُظهر PRB 81%، عدالة المجدول ~0.67، انحراف تخصيص 18، حصة أفضل جهد 56% مقابل أولوية عالية 23%، وتأخير p95 يبلغ 79 مللي ثانية؛ والجودة الراديوية مقبولة (SINR ~10 dB). بعد ذلك سأجري تتبعاً زمنياً لمقاييس PRB والمجدول لتأكيد الانجراف—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with the time profile.",
+      "message_ar": "نعم، امضِ قدماً بالتتبع الزمني."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series over the 6h shoulder shows fairness dips and delay spikes aligned with PRB peaks; the scheduler is over‑serving best‑effort traffic during enterprise bursts. I propose targeted parameter tuning to rebalance QoS weights and queue behavior with minimal risk—approve implementation?",
+      "message_ar": "السلاسل الزمنية خلال 6 ساعات (فترة الكتف) تُظهر هبوط العدالة وارتفاع التأخير مع قمم PRB؛ المجدول يفرط في خدمة حركة أفضل جهد أثناء اندفاعات المؤسسة. أقترح ضبطاً دقيقاً للمعلمات لإعادة موازنة أوزان QoS وسلوك الاصطفاف بأقل مخاطرة—هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning; keep impact minimal.",
+      "message_ar": "مُوافق على تنفيذ الضبط؛ حافظ على أقل تأثير ممكن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying scheduler parameter tuning now and committing; rollback is prepared if any negative impact occurs. I will watch fairness, class shares, and delay over the next few intervals and report.",
+      "message_ar": "أُطبّق الآن ضبط معلمات المجدول مع الاعتماد؛ والرجوع جاهز إذا ظهر تأثير سلبي. سأراقب العدالة وحصص الفئات والتأخير على الفواصل القريبة وأبلغك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change snapshot: fairness improved to ~0.74, p95 delay down to ~58 ms, and median throughput ~16–17 Mbps; no adverse effects observed.",
+      "message_ar": "بعد التغيير: تحسنت العدالة إلى ~0.74، وانخفض تأخير p95 إلى ~58 مللي ثانية، والسرعة المتوسطة ~16–17 ميجابت/ث؛ دون آثار سلبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Improvement looks solid with stable RF. I recommend holding the new settings and observing through the next busy period; targets: fairness ≥0.75 and p95 delay ≤60 ms. Shall we track during the next busy hour?",
+      "message_ar": "التحسن جيد مع استقرار في الطبقة الراديوية. أوصي بالإبقاء على الإعدادات الجديدة والمراقبة خلال فترة الانشغال القادمة؛ الأهداف: عدالة ≥0.75 وتأخير p95 ≤60 مللي ثانية. هل نتابع خلال ساعة الانشغال القادمة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed—improvement is visible with lower high-percentile scheduler delay and better fairness. The action taken was scheduler parameter tuning; let’s monitor through the next busy hour.",
+      "message_ar": "متفقون—التحسن واضح بانخفاض تأخير المجدول عند النسب المئوية العالية وتحسن العدالة. الإجراء الذي تم هو ضبط معلمات المجدول؛ لنتابع المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own the next busy hour monitoring and update you afterward on fairness, class shares, and delay. If performance degrades, we will revert the changes; if minor regressions appear, we will fine‑tune within safe bounds.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة ساعة الانشغال القادمة ونوافيك لاحقاً بتحديث حول العدالة وحصص الفئات وزمن التأخير. إذا تدهور الأداء سنرجع التغييرات؛ وإذا ظهرت تراجعات طفيفة سنجري ضبطاً دقيقاً ضمن حدود آمنة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation imbalance in an urban NR macro cell during the last 6h shoulder window: high PRB load, low fairness, skew toward best‑effort, and elevated scheduler delay with acceptable RF. Confirmed the drift via time profiling of PRB and scheduler metrics, then applied site parameter tuning to rebalance QoS weights and queuing. Initial results show improved fairness and lower high‑percentile delay; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص اختلال في تخصيص الموارد في خلية NR ماكرو حضرية خلال آخر 6 ساعات (فترة الكتف): حمل PRB مرتفع، عدالة منخفضة، انحياز نحو حركة أفضل جهد، وارتفاع تأخير المجدول مع جودة راديوية مقبولة. تم تأكيد الانجراف عبر تتبع زمني لمقاييس PRB والمجدول، ثم تنفيذ ضبط لمعلمات الموقع لإعادة موازنة أوزان QoS والاصطفاف. النتائج الأولية تُظهر تحسناً في العدالة وانخفاضاً في التأخير عند النسب العالية؛ سنواصل المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

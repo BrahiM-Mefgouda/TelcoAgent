@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0029",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell shows interference/signal overlap and slow data (p50 ~5 Mbps) with an active congestion/outage alarm over the last 8h.",
+    "ar": "خلية ماكرو NR حضرية تُظهر تداخل/تراكب إشارة وبطء بيانات (p50 ~5 Mbps) مع إنذار ازدحام/انقطاع نشط خلال آخر 8 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro just integrated. Alarm active in the last 8h. About 320 users; p50 throughput ~5 Mbps (slow data), SINR ~2 dB (signal overlap), RSRQ -16 dB. HO failures ~16% and ping-pong ~19% impacting eMBB streaming.",
+      "message_ar": "تم دمج خلية ماكرو NR حضرية للتو. الإنذار نشط خلال آخر 8 ساعات. حوالي 320 مستخدمًا؛ وسيط السرعة ~5 Mbps (بيانات بطيئة)، وSINR ~2 dB (تراكب إشارة)، وRSRQ -16 dB. فشل التسليم ~16% وPing-Pong ~19% يؤثر على بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely a PCI collision after integration. I will run a neighbor audit on the serving cell for the last 8h to confirm conflicting/overlapping PCI and mobility edges. Please confirm OSS access.",
+      "message_ar": "تم الاستلام. يرجّح وجود تصادم PCI بعد الدمج. سأجري تدقيق الجوار على الخلية الخادمة لآخر 8 ساعات للتحقق من تعارض/تراكب PCI وحدود الحركة. الرجاء تأكيد صلاحية الوصول إلى النظام."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Serving cell: NR-UGB-001-S1. A new neighbor NR-UGB-017-S2 was integrated last night.",
+      "message_ar": "تمت الموافقة على الوصول. الخلية الخادمة: NR-UGB-001-S1. تم دمج الجار الجديد NR-UGB-017-S2 الليلة الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor audit on NR-UGB-001-S1 over 8h: detected PCI 153 conflicting with neighbor PCI 320 (same modulo group) with overlap score ~53% on the shared border; correlated with HO failures and ping-pong elevation. I propose to reassign the serving PCI to 157 (clean within 2-tier). Approve change?",
+      "message_ar": "أُجري تدقيق الجوار على NR-UGB-001-S1 خلال 8 ساعات: تم رصد تعارض PCI 153 مع الجار PCI 320 (نفس مجموعة المودولو) وبدرجة تداخل ~53% على الحد المشترك؛ ويتطابق ذلك مع ارتفاع فشل التسليم والـPing-Pong. أقترح إعادة تعيين PCI للخدمة إلى 157 (نظيف ضمن مستويين). هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to change now. Proceed.",
+      "message_ar": "موافق على التغيير الآن. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying cell optimization: reassigned PCI of NR-UGB-001-S1 to 157 and refreshed neighbor relations. Change committed; brief UE impact expected <1s. I’ll watch immediate counters for 10–15 minutes.",
+      "message_ar": "تطبيق تحسين الخلية: تم إعادة تعيين PCI لِـ NR-UGB-001-S1 إلى 157 وتحديث علاقات الجوار. تم تثبيت التغيير؛ تأثير بسيط على المستخدمين أقل من ثانية. سأراقب المؤشرات الفورية لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: SINR median ~5 dB, RSRQ ~-13 dB; HO success >90% and ping-pong down to ~12% after the change.",
+      "message_ar": "المؤشرات الأولية أفضل: وسيط SINR حوالي 5 dB وRSRQ حوالي -13 dB؛ نجاح التسليم >90% وانخفاض الـPing-Pong إلى ~12% بعد التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. For traceability and continued observation, I will open a tracking ticket and monitor through the next busy period. Approve ticket creation?",
+      "message_ar": "جيد. من أجل التتبع واستمرار المراقبة، سأفتح تذكرة متابعة وأراقب خلال فترة الذروة التالية. هل توافق على إنشاء التذكرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-PCI-04567 with the PCI reassignment details and impact notes. I will continue to observe mobility and RF quality counters.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-04567 مع تفاصيل إعادة تعيين PCI وملاحظات الأثر. سأواصل مراقبة مؤشرات الحركة وجودة التغطية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures trending down and slow data easing. Action taken: PCI reassignment/config push. Propose monitoring through the next busy hour and update DU-PCI-04567 afterward.",
+      "message_ar": "تمت ملاحظة تحسن: انخفاض فشل التسليم تدريجيًا وتراجع بطء البيانات. الإجراء المتخذ: إعادة تعيين PCI/دفع الإعدادات. أقترح المراقبة خلال ساعة الذروة القادمة وتحديث التذكرة DU-PCI-04567 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and update the ticket after the window. If degradation returns, we will escalate for on-site interference checks; if regressions appear, we will switch to an alternate clean PCI. Otherwise, we will keep the new setting.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء الفترة. إذا عاد التدهور سنصعّد لفحص التداخل ميدانيًا؛ وإذا ظهرت انتكاسات سننتقل إلى PCI نظيف بديل. وإلا سنُبقي الإعداد الجديد."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A neighbor audit confirmed a PCI collision between the serving cell and a newly integrated neighbor, correlating with interference, handover failures, and ping‑pong. The issue was mitigated by site parameter tuning via PCI reassignment to a non-conflicting value and neighbor relation refresh. A tracking ticket was opened to monitor stability and performance through the next busy period.",
+    "ar": "أكد تدقيق الجوار حدوث تصادم PCI بين الخلية الخادمة والجار الذي تم دمجه حديثًا، مما ارتبط بالتداخل وفشل التسليم والـPing-Pong. تم التخفيف عبر ضبط إعدادات الموقع بإعادة تعيين PCI إلى قيمة غير متعارضة وتحديث علاقات الجوار. تم فتح تذكرة متابعة لمراقبة الاستقرار والأداء خلال فترة الذروة التالية."
+  }
+}

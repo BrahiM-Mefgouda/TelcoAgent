@@ -1,0 +1,105 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0013",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban macro 5G cell shows evening downlink throughput ~10 Mbps with ~82% resource use, 297 users, SINR 7 dB and RSRQ -13 dB; congestion alarm active.",
+    "ar": "خلية 5G ماكرو حضرية تُظهر تحميلًا تنزيليًا مساءً بنحو 10 ميجابت/ث مع استخدام موارد ~82% و297 مستخدمًا وSINR قدره 7 dB وRSRQ -13 dB؛ إنذار الازدحام مُفَعّل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell reporting evening slowdown: downlink around 10 Mbps, ~297 users; alarm active and eMBB streaming complaints.",
+      "message_ar": "خلية NR ماكرو حضرية تُظهر بطءًا مساءً: التحميل التنزيلي حوالي 10 ميجابت/ث، ~297 مستخدمًا؛ الإنذار مفعّل مع شكاوى بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling the last 3 hours of live counters for the impacted cell to verify load, RF quality, and latency; please share the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بسحب مؤشرات الساعات الثلاث الماضية للخلية المتأثرة للتحقق من الحمل وجودة الإشارة والتأخير؛ يرجى تزويدي بمعرّف الخلية والموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-MACRO-URBAN-001. Access approved.",
+      "message_ar": "معرّف الخلية: NR-MACRO-URBAN-001. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm high load: PRB ~82%, users 290–310, SINR ~7 dB, RSRQ -13 dB; DL 9–12 Mbps with p95 scheduler latency ~60+ ms. Next, I'll analyze the downlink time series over the same 3-hour window to localize the dips; proceed?",
+      "message_ar": "القياسات تؤكد حملاً مرتفعًا: استخدام PRB ~82%، المستخدمون 290–310، SINR ~7 dB وRSRQ -13 dB؛ التحميل التنزيلي 9–12 ميجابت/ث مع تأخير مُجدول p95 نحو 60+ مللي ثانية. التالي، سأحلّل السلسلة الزمنية للتحميل التنزيلي لنفس نافذة 3 ساعات لتحديد الانخفاضات؛ هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows sustained degradation during the busy peak with short microbursts; BLER ~5% and stable, indicating contention rather than radio errors. I'll apply a controlled optimization to improve DL scheduling efficiency and PRB distribution; approve?",
+      "message_ar": "السلسلة الزمنية تُظهر تدهورًا مستمرًا خلال الذروة مع اندفاعات قصيرة؛ معدل أخطاء الكتلة ~5% ومستقر، ما يشير إلى تزاحم الموارد لا أخطاء راديوية. سأطبّق تحسينًا مضبوطًا لرفع كفاءة الجدولة التنزيلية وتوزيع PRB؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Keep the change conservative.",
+      "message_ar": "موافق. اجعل التعديل محافظًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied with safe bounds for scheduling and resource allocation. Early counters show smoother PRB utilization and p95 scheduler latency down ~15%. I'll watch for regressions.",
+      "message_ar": "تم تطبيق التحسين ضمن حدود آمنة للجدولة وتخصيص الموارد. مؤشرات مبكرة تُظهر سلاسة أكبر في استخدام PRB وانخفاض تأخير p95 بنحو 15%. سأراقب أي ارتداد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: download rates trending up and high scheduler delays easing. The site parameter tuning seems effective; let's monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسنًا: معدلات التنزيل ترتفع وتأخيرات الجدولة العالية تتراجع. يبدو أن ضبط معلمات الموقع فعّال؛ لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We pulled counters, analyzed the DL time series, and applied targeted tuning. We'll monitor through the next busy hour and share an update. If performance drops or errors rise, we'll roll back the tuning and escalate for capacity augmentation; otherwise we keep the change.",
+      "message_ar": "قمنا بسحب المؤشرات، وتحليل السلسلة الزمنية للتحميل التنزيلي، وتطبيق ضبط مُوجّه. سنراقب خلال ساعة الذروة القادمة ونشارك تحديثًا. إذا تدهور الأداء أو ارتفعت الأخطاء سنرجع الضبط ونصعّد لزيادة السعة؛ وإلا سنُبقي التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a downlink throughput drop on an urban 5G NR macro cell during peak evening. Live counters and time series indicated high load, many users, moderate SINR with poor RSRQ, and elevated scheduling delay—pointing to resource contention. Applied site parameter tuning for DL scheduling and PRB distribution, yielding immediate improvement; monitoring continues through the next busy hour.",
+    "ar": "تم التحقيق في انخفاض التحميل التنزيلي على خلية NR ماكرو حضرية خلال فترة الذروة المسائية. أظهرت القياسات والسلسلة الزمنية حملاً مرتفعًا وكثرة مستخدمين وسينارًا متوسطًا مع RSRQ ضعيف وتأخير جدولة مرتفع، ما يشير إلى تزاحم الموارد. تم تنفيذ ضبط لمعلمات الموقع لتحسين الجدولة التنزيلية وتوزيع PRB مع تحسن فوري؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

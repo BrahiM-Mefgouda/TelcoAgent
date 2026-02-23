@@ -1,0 +1,108 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_URBAN_PEAK-S0019",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows congestion in the last 2h during peak evening with PRB utilization ~95%, 204 users, downlink 15 Mbps, uplink 3 Mbps, BLER 5.6%, and p95 scheduler latency 38 ms impacting eMBB streaming.",
+    "ar": "خلية NR ماكرو حضرية تُظهر ازدحاماً خلال آخر ساعتين في ذروة المساء مع استهلاك PRB يقارب 95% و204 مستخدمين وسرعة تنزيل 15 ميجابت/ث ورفع 3 ميجابت/ث وBLER بنسبة 5.6% وزمن جدولة p95 يساوي 38 مللي ثانية مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on an urban NR macro cell with a congestion alarm; eMBB streaming users report buffering and DL ~15 Mbps/UL ~3 Mbps. Can you review the last 2h?",
+      "message_ar": "ذروة المساء على خلية NR ماكرو حضرية مع إنذار ازدحام؛ مستخدمو بث eMBB يبلّغون عن تقطّع وسرعة تنزيل ~15 ميجابت/ث ورفع ~3 ميجابت/ث. هل يمكنك مراجعة آخر ساعتين؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion. Please provide the cell ID and approve me to pull 2h counters to start the diagnosis.",
+      "message_ar": "تم تأكيد الازدحام. الرجاء تزويدي بمعرّف الخلية والموافقة لسحب عدادات آخر ساعتين لبدء التشخيص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-41023; approval granted.",
+      "message_ar": "معرّف الخلية: NR-Cell-41023؛ تمت الموافقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 2h counters... Results: DL PRB utilization sustained 94–98% (p95≈98%), active users peak 204, DL ≈15 Mbps, UL ≈3 Mbps, BLER 5–6%, scheduler p95 latency 38 ms, RLF 3.6%. This confirms peak-hour resource saturation.",
+      "message_ar": "جاري سحب عدادات آخر ساعتين... النتائج: استهلاك PRB في التنزيل ثابت عند 94–98% (p95≈98%)، ذروة المستخدمين 204، التنزيل ≈15 ميجابت/ث، الرفع ≈3 ميجابت/ث، BLER بين 5–6%، زمن جدولة p95 عند 38 مللي ثانية، ومعدل فقد الاتصال 3.6%. هذا يؤكد تشبّع الموارد في ساعة الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I recommend immediate mitigation by tuning the cell’s resource scheduling (fairness and per-user share) and tightening congestion thresholds to protect QoS. Please confirm to proceed.",
+      "message_ar": "أوصي بتخفيف فوري عبر ضبط جدولة الموارد في الخلية (العدالة وحصة المستخدم) وتشديد عتبات الازدحام لحماية جودة الخدمة. الرجاء التأكيد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—proceed with the optimization now.",
+      "message_ar": "مؤكّد—تابع بتحسين الإعدادات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying conservative optimization now... Done. Adjusted resource scheduling to cap heavy users, improve fairness, and prioritize critical traffic. Change successful; observing live counters for immediate effect.",
+      "message_ar": "يتم تطبيق تحسين محافظ الآن... تم. تم ضبط جدولة الموارد لتحديد حصة المستخدمين ذوي الاستهلاك العالي وتحسين العدالة وإعطاء أولوية للحركة الحرجة. التغيير ناجح؛ أراقب العدادات الحية للأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: DL throughput rising to ~20–22 Mbps, scheduler delays easing, and fewer buffering complaints.",
+      "message_ar": "المؤشرات الأولية إيجابية: سرعة التنزيل ترتفع إلى ~20–22 ميجابت/ث، تأخيرات الجدولة تنخفض، وشكاوى التقطّع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Creating a tracking ticket DU-PRB-01742 for this mitigation and maintaining short-term watch on counters.",
+      "message_ar": "جيد. سأقوم بإنشاء تذكرة متابعة DU-PRB-01742 لهذا الإجراء والحفاظ على مراقبة قصيرة المدى للعدادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: PRB utilization has dipped from near-constant 95% to low 80s and latency is trending down after the parameter optimization. Let’s monitor through the next busy hour; reference DU-PRB-01742.",
+      "message_ar": "تم تأكيد التحسّن: انخفض استهلاك PRB من نحو 95% ثابتة إلى أوائل 80% وزمن التأخير في انخفاض بعد تحسين المعلمات. لنتابع المراقبة خلال ساعة الازدحام القادمة؛ المرجع DU-PRB-01742."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy-hour monitoring and update the ticket after the window. If congestion resurges, we will roll back to prior settings or escalate to broader optimization; otherwise, we’ll retain the tuning.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الازدحام القادمة ونحدّث التذكرة بعد انتهاء الفترة. إذا عاد الازدحام سنعود إلى الإعدادات السابقة أو نصعّد إلى تحسين أوسع، وإلا فسنُبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained evening-peak resource saturation on an urban NR macro cell with ~95% PRB utilization, low throughput, and elevated scheduler delay. Mitigated by site parameter tuning to improve resource scheduling and congestion handling, yielding immediate relief. A tracking ticket was opened, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص تشبّع موارد مستمر خلال ذروة المساء على خلية NR ماكرو حضرية مع استهلاك PRB يقارب 95% وسرعات منخفضة وتأخير جدولة مرتفع. تمت المعالجة عبر ضبط معلمات الموقع لتحسين جدولة الموارد والتعامل مع الازدحام ما أدى إلى تحسّن فوري. تم فتح تذكرة متابعة وستتم مراقبة الخلية خلال ساعة الازدحام التالية."
+  }
+}

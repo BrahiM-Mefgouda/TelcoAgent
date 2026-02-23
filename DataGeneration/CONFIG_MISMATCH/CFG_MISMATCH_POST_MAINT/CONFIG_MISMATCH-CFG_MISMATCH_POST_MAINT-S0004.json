@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0004",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro cell over the last 24h shows two configuration inconsistencies (drift ~4h, mild issues: BLER 6.9%, handover failures ~5, PRB 63%, median downlink 14 Mbps), suggesting a post-maintenance config mismatch.",
+    "ar": "خلية NR ماكرو في منطقة شبه حضرية خلال آخر 24 ساعة تُظهر عدم اتساقين في الإعدادات (انجراف ~4 ساعات، مؤشرات طفيفة: BLER ‏6.9%، فشل التسليم ~5، استخدام PRB ‏63%، وسيط التنزيل 14 ميجابت/ث)، ما يُشير إلى تعارض إعدادات بعد الصيانة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-maintenance on a suburban NR macro in the last 24h, we see minor service inconsistencies: mismatch indicator count 2 (age ~4h), HO failures around 5, BLER ~6.9%, PRB ~63%, median DL ~14 Mbps. No alarms raised.",
+      "message_ar": "بعد أعمال الصيانة على خلية NR ماكرو في منطقة شبه حضرية خلال آخر 24 ساعة، نلاحظ بعض التذبذب: عدد مؤشرات عدم التطابق 2 (العُمر ~4 ساعات)، فشل تسليم يقارب 5، BLER حوالي 6.9%، استخدام PRB ~63%، وسيط سرعة التنزيل ~14 ميجابت/ث. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Likely a live vs planned configuration mismatch post-maintenance. I will verify the live settings against the baseline over 24h. Please confirm the target cell ID and approve a read-only check.",
+      "message_ar": "مفهوم. يُحتمل وجود تعارض بين الإعدادات الفعلية والمخططة بعد الصيانة. سأتحقق من الإعدادات الفعلية مقابل الخط الأساس خلال 24 ساعة. يرجى تأكيد معرف الخلية والموافقة على فحص للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Suburban-Macro-Cell-123. Read-only access approved.",
+      "message_ar": "معرّف الخلية هو NR-Suburban-Macro-Cell-123. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the comparison now. Initial result: two mismatches detected starting ~4h ago: (1) A3 offset deviates by ~2 dB from template; (2) neighbor list missing two planned entries. This can elevate HO failures. I propose aligning the live config to the OSS baseline now—do you approve?",
+      "message_ar": "أجري المقارنة الآن. النتيجة الأولية: تم اكتشاف عدم تطابقين بدءًا من ~4 ساعات: (1) انحراف A3 بحوالي 2 ديسيبل عن القالب؛ (2) قائمة الجيران تفتقد مُدخلين مخططين. قد يرفع ذلك فشل التسليم. أقترح مواءمة الإعدادات الفعلية مع الخط الأساس المخطط الآن—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the alignment. No change constraints from my side.",
+      "message_ar": "موافق على تنفيذ المواءمة. لا توجد قيود تغيير من جانبي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing configuration alignment using baseline CFG_NR_MACRO_2024-09-RevB with atomic apply and pre/post snapshot. Expected impact is negligible.",
+      "message_ar": "أقوم بتنفيذ مواءمة الإعدادات باستخدام الخط الأساس CFG_NR_MACRO_2024-09-RevB مع تطبيق ذري ولقطات قبل/بعد. التأثير المتوقع ضئيل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Change completed; saw a brief blip but the cell remained on-air.",
+      "message_ar": "اكتمل التغيير؛ لوحظ تذبذب قصير لكن الخلية بقيت تعمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change verification: discrepancies cleared, neighbor relations complete, and mobility offsets per template. I’ll validate KPIs over the next hour and propose creating a change record for auditability.",
+      "message_ar": "التحقق بعد التغيير: تم حل الفروقات، علاقات الجيران مكتملة، وإزاحات الحركة حسب القالب. سأتحقق من مؤشرات الأداء خلال الساعة القادمة وأقترح إنشاء سجل تغيير للتدقيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the record.",
+      "message_ar": "موافق على إنشاء السجل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created: DU-CFG-03127 summarizing the post-maintenance config correction on NR-Suburban-Macro-Cell-123. We will watch HO failures and BLER through the next busy hour.",
+      "message_ar": "تم إنشاء السجل: DU-CFG-03127 يوجز تصحيح الإعدادات بعد الصيانة على NR-Suburban-Macro-Cell-123. سنراقب فشل التسليم وBLER خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: BLER easing toward ~4–5% and fewer failed handovers. Action taken: configuration push to align live with planned settings. Let’s monitor for the next 2–4 hours and update DU-CFG-03127 afterward.",
+      "message_ar": "المؤشرات الأولية إيجابية: تراجع BLER نحو ~4–5% وتقليل فشل التسليم. الإجراء المتخذ: دفع الإعدادات لمواءمة الفعلي مع المخطط. لنتابع خلال الساعتين إلى الأربع ساعات القادمة ونحدّث DU-CFG-03127 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the 2–4 hour monitoring and update the ticket after the window. If KPIs regress, we will roll back to the snapshot and expand investigation on neighbors; if stable, we’ll retain the settings and close the record.",
+      "message_ar": "تم التأكيد—سنتولى المتابعة لمدة 2–4 ساعات وسنحدّث التذكرة بعد انتهاء الفترة. إذا تراجعت المؤشرات، سنعود إلى اللقطة السابقة ونوسّع التحقيق في الجيران؛ وإذا استقرت، سنبقي الإعدادات ونغلق السجل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburban-Macro-Cell-123",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG_NR_MACRO_2024-09-RevB"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config mismatch corrected post-maintenance for NR macro cell NR-Suburban-Macro-Cell-123"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an OSS vs live configuration mismatch on a suburban 5G NR macro after maintenance, with two discrepancies (mobility offset and neighbor list) contributing to elevated handover failures and BLER. Aligned the live cell to the planned baseline via a configuration push and verified the mismatches were cleared. Opened a traceability record and set a short monitoring window to confirm stability.",
+    "ar": "تم تشخيص تعارض بين الإعدادات الفعلية والمخططة في خلية NR ماكرو شبه حضرية بعد الصيانة، مع وجود فرقين (إزاحة الحركة وقائمة الجيران) ساهما في ارتفاع فشل التسليم وBLER. تم مواءمة الإعدادات الفعلية مع الخط الأساس المخطط عبر دفع الإعدادات والتحقق من زوال الفروقات. تم فتح سجل للتتبع وتحديد فترة مراقبة قصيرة لتأكيد الاستقرار."
+  }
+}

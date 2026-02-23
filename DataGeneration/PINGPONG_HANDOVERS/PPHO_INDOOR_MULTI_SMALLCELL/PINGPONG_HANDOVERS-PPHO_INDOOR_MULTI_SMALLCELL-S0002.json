@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0002",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office small site shows high ping‑pong handovers (~27%) with lower handover success (~81%) over the last 3 hours during the shoulder period.",
+    "ar": "موقع داخلي صغير في المكتب يظهر معدل تبديل ذهاباً وإياباً مرتفعاً (~27%) مع انخفاض في نجاح التسليم (~81%) خلال آخر 3 ساعات في فترة ما بين الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor micro site NR-SC-IND-05 shows frequent ping‑pong handovers over the last 3h shoulder window; HO success ~81%, ping‑pong ~27%, PRB ~84%, users ~192, RSRP around −107 dBm. Please investigate.",
+      "message_ar": "الموقع الصغير الداخلي NR-SC-IND-05 يظهر تبديلات متكررة ذهاباً وإياباً خلال آخر 3 ساعات في فترة ما بين الذروة؛ نجاح التسليم ~81%، معدل التبديل العكسي ~27%، استخدام الموارد ~84%، المستخدمون ~192، وRSRP حوالي −107 dBm. يرجى التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling recent network counters for NR-SC-IND-05 over the last 3 hours to baseline mobility and neighbor activity. Please confirm access.",
+      "message_ar": "تم الاستلام. سأبدأ بجلب مؤشرات الشبكة الحديثة لخلية NR-SC-IND-05 خلال آخر 3 ساعات لعمل خط أساس للتنقل والجوار. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; cell_id is NR-SC-IND-05. Proceed.",
+      "message_ar": "الوصول مُعتمد؛ المعرّف هو NR-SC-IND-05. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters retrieved: high HO attempts (~82/5min), ping‑pong 27%, HO fail 14%. No alarms. Mobility settings: A3 offset 3 dB, hysteresis 3 dB, TTT 83 ms. Radio: SINR 13 dB, RSRP −107 dBm; load high (PRB 84%). Next, I will review HO time series and return‑HO distribution to isolate over‑triggering with NR‑SC‑IND‑06/07. Proceed?",
+      "message_ar": "تم جلب المؤشرات: محاولات تسليم مرتفعة (~82/5 دقائق)، تبديل عكسي 27%، فشل التسليم 14%. لا توجد إنذارات. إعدادات التنقل: A3 offset بمقدار 3 dB، hysteresis 3 dB، وTTT 83 ms. الراديو: SINR ‏13 dB، وRSRP ‏−107 dBm؛ والحمل مرتفع (PRB ‏84%). بعد ذلك سأراجع السلاسل الزمنية للتسليم وتوزيع العودة لعزل التحفيز المفرط مع NR‑SC‑IND‑06/07. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to review the time series.",
+      "message_ar": "موافَق على مراجعة السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows ping‑pong spikes during the shoulder period, dominated by NR‑SC‑IND‑05⇄06 (38%) and 05⇄07 (33%); 62% of returns occur within 30 s. HO success is stable but oscillations are high under weak RSRP and dense indoor footprint. I recommend tuning mobility thresholds: raise TTT to 128 ms on those edges, increase hysteresis to 4 dB, and reduce A3 offset to 1 dB to damp short‑term fluctuations. Approve optimization now?",
+      "message_ar": "السلاسل الزمنية تُظهر ارتفاعات في التبديل العكسي خلال فترة ما بين الذروة، تهيمن عليها NR‑SC‑IND‑05⇄06 (38%) و05⇄07 (33%)؛ 62% من حالات العودة خلال 30 ثانية. نجاح التسليم مستقر لكن الاهتزازات مرتفعة مع RSRP ضعيف وكثافة خلايا داخلية. أوصي بضبط عتبات التنقل: رفع TTT إلى 128 ms على هذه الحواف، زيادة hysteresis إلى 4 dB، وخفض A3 offset إلى 1 dB لتخميد التقلبات القصيرة. هل توافق على التحسين الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility tuning immediately.",
+      "message_ar": "موافَق على تنفيذ ضبط التنقل فوراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mobility tuning applied on NR‑SC‑IND‑05: TTT 83→128 ms for neighbors 06/07, hysteresis 3→4 dB, A3 offset 3→1 dB. Commit successful. Beginning post‑change observation of HO and return rates.",
+      "message_ar": "تم تطبيق ضبط التنقل على NR‑SC‑IND‑05: رفع TTT من 83 إلى 128 ms لجيران 06/07، وhysteresis من 3 إلى 4 dB، وخفض A3 offset من 3 إلى 1 dB. تم الالتزام بنجاح. أبدأ الآن مراقبة مؤشرات التسليم وحالات العودة بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 15 minutes look better: return handovers trending down from 27% to ~18%, HO success moving toward 86%, throughput steady. No new complaints.",
+      "message_ar": "أول 15 دقيقة تبدو أفضل: انخفاض في التبديلات العكسية من 27% إلى ~18%، ونجاح التسليم يتحسن نحو 86%، ومعدل النقل مستقر. لا توجد شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early signs. Let’s continue to watch the indoor office wing through the next busy period to confirm stability with eMBB streaming traffic.",
+      "message_ar": "مؤشرات مبكرة جيدة. دعنا نواصل المراقبة في الجناح الداخلي خلال فترة الذروة التالية لتأكيد الاستقرار مع حركة eMBB والبث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed—ping‑pong continues to ease and return events are declining. We performed mobility parameter optimization. Recommend monitoring through the next 2–4 hours including the next busy hour.",
+      "message_ar": "متفق—التبديل العكسي مستمر في الانخفاض وحالات العودة تتراجع. قمنا بتحسين معلمات التنقل. أوصي بالمراقبة خلال الساعتين إلى الأربع ساعات القادمة بما يشمل ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the monitoring for the next 2–4 hours and update you on ping‑pong rate, handover success, and user impact. If instability returns, we will roll back to the prior settings and escalate for a deeper neighbor and coverage review.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونوافيك بمعدل التبديل العكسي، نجاح التسليم، وتأثير المستخدمين. إذا عادت حالة عدم الاستقرار، سنُرجع الإعدادات السابقة ونصعّد للمراجعة المتعمقة للجوار والتغطية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping‑pong handovers on an indoor small site during the shoulder period by reviewing recent mobility counters and the handover time series. Findings showed rapid return events between specific neighbor pairs under weak RSRP and dense indoor coverage. Mitigation was applied via site parameter tuning (TTT increase, hysteresis increase, and A3 offset reduction), yielding an early drop in ping‑pong and improved handover success; continued monitoring is in place.",
+    "ar": "تم تشخيص معدل مرتفع للتبديل العكسي في موقع داخلي صغير خلال فترة ما بين الذروة عبر مراجعة مؤشرات التنقل الأخيرة والسلاسل الزمنية للتسليم. أظهرت النتائج عودة سريعة بين أزواج جيران محددة مع RSRP ضعيف وتغطية داخلية كثيفة. تم تطبيق المعالجة عبر ضبط معلمات الموقع (زيادة TTT، زيادة hysteresis، وخفض A3 offset)، ما أدى إلى انخفاض مبكر في التبديل العكسي وتحسن في نجاح التسليم؛ وتم تنفيذ خطة متابعة للمراقبة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0015",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor small site sees 30% ping-pong handovers over the last 3h at peak, HO success around 85% with interference / signal overlap and weak signal (RSRP −100 dBm, RSRQ −12 dB, SINR 4 dB).",
+    "ar": "في موقع داخلي صغير، نسبة تبديل الخلايا ذهاب‑إياب 30% خلال آخر 3 ساعات في الذروة، ونسبة نجاح التسليم ~85% مع تداخل/تراكب إشارة وإشارة ضعيفة (RSRP −100 dBm، RSRQ −12 dB، SINR 4 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cluster during peak over the last 3h shows elevated ping-pong handovers (~30%) and higher failures; HO success ~85%, RSRP ~-100 dBm, RSRQ -12 dB, SINR ~4 dB. eMBB streaming users are complaining.",
+      "message_ar": "عنقود NR داخلي (مايكرو) خلال فترة الذروة في آخر 3 ساعات يظهر تبديلات ذهاب‑إياب مرتفعة (~30%) وفشل أعلى؛ نجاح التسليم ~85%، RSRP حوالي -100 dBm، RSRQ -12 dB، وSINR ~4 dB. مستخدمو eMBB (بث) يشتكون."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll take lead. First, I will pull the last 3h performance for the impacted cell to confirm ping‑pong patterns and neighbor involvement. Please share the cell ID and confirm read access.",
+      "message_ar": "سأتولى القيادة. أولاً سأسترجع أداء آخر 3 ساعات للخلية المتأثرة لتأكيد أنماط الذهاب‑الإياب وتداخل الجيران. الرجاء تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_INDOOR_MICRO_045. Read access approved.",
+      "message_ar": "معرّف الخلية: NR_INDOOR_MICRO_045. صلاحية القراءة مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters: HO attempts 110–120 per 5 min, ping‑pong 28–32%, HO failures 14–16%. Load ~77% PRB with ~100 users. Oscillation is mostly between adjacent co‑channel micros, consistent with signal overlap indoors.",
+      "message_ar": "تم سحب مؤشرات 3 ساعات: محاولات التسليم 110–120 لكل 5 دقائق، الذهاب‑الإياب 28–32%، وفشل التسليم 14–16%. الحمل ~77% PRB مع ~100 مستخدم. التذبذب يحدث غالبًا بين خلايا مايكرو متجاورة على نفس القناة، ما يتوافق مع تراكب الإشارة داخليًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Field notes also saw short dwell times and bouncing between neighboring small cells.",
+      "message_ar": "مفهوم. ملاحظات الحقل رصدت أيضًا فترات مكوث قصيرة وتبديلًا متكررًا بين الخلايا الصغيرة المجاورة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will analyze HO time series to isolate peak-hour behavior and dwell times. This will validate if current mobility thresholds are too aggressive for this indoor layout.",
+      "message_ar": "سأحلّل السلاسل الزمنية للتسليم لعزل سلوك ساعة الذروة وأزمنة المكوث. سيؤكد ذلك إن كانت عتبات التنقل الحالية عدوانية لهذا المخطط الداخلي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the analysis.",
+      "message_ar": "موافَق على المضي في التحليل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend confirms spikes at peak; many UEs dwell <60–90s before returning. Current settings: A3 offset 2 dB, hysteresis 4 dB, TTT ~281 ms. With SINR ~4 dB and overlap, I propose a targeted mobility retune for co‑tier neighbors to dampen ping‑pong. Approve?",
+      "message_ar": "الاتجاه يؤكد الذروة؛ العديد من الأجهزة تمكث أقل من 60–90 ثانية قبل العودة. الإعدادات الحالية: إزاحة A3 بمقدار 2 dB، الهسترة 4 dB، وTTT ~281 ms. مع SINR ~4 dB وتراكب الإشارة، أقترح ضبط تنقل موجّه لجيران نفس الطبقة لتخميد الذهاب‑الإياب. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the targeted mobility retune now.",
+      "message_ar": "موافق على تنفيذ ضبط التنقل الموجّه الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: increased hysteresis to 5 dB, A3 offset to 3 dB for the oscillating co‑tier neighbors, and TTT to 320 ms; minor smoothing on measurement filtering. No service interruption observed. Initial 10–15 min: ping‑pong down to ~14–18%, HO failures ~9–10%, HO success ~90%. Throughput remains ~20–22 Mbps.",
+      "message_ar": "تم تطبيق التحسين: رفع الهسترة إلى 5 dB، ورفع إزاحة A3 إلى 3 dB لجيران نفس الطبقة الذين يسببون التذبذب، وTTT إلى 320 ms؛ مع تنعيم طفيف على ترشيح القياسات. لم تُلاحظ أي انقطاعات. أول 10–15 دقيقة: انخفاض الذهاب‑الإياب إلى ~14–18%، وفشل التسليم ~9–10%، ونجاح التسليم ~90%. يظل معدل النقل ~20–22 Mbps."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement on our side: bounce rate trending toward ~15% and handover failures decreasing. Action taken was handover parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسّنًا لدينا: معدل الارتداد يتجه نحو ~15% وانخفاض في فشل التسليم. الإجراء الذي تم هو تحسين معايير التسليم. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and share updated ping‑pong and HO success trends. If degradation returns, we will roll back to prior thresholds and escalate to RF for deeper interference and neighbor tuning assessment.",
+      "message_ar": "تم. سنتولى المتابعة خلال ساعة الذروة القادمة ونشارك اتجاهات الذهاب‑الإياب ونجاح التسليم المحدّثة. إذا عاد التدهور، سنعيد القيم السابقة ونصعّد إلى فريق التغطية لإجراء تقييم أعمق للتداخل وضبط الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_INDOOR_MICRO_045",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_INDOOR_MICRO_045",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset:3dB; hysteresis:5dB; TTT:320ms; neighbor-scoped to co-tier; filter:smoothing+; no-restart"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed indoor ping‑pong handovers driven by interference/signal overlap and aggressive mobility thresholds under peak load. Verified via recent performance counters and HO time‑series, then mitigated by site parameter tuning (increasing hysteresis and A3 offset, extending TTT for co‑tier neighbors with slight measurement smoothing). Early results show reduced ping‑pong and improved handover success; continued monitoring through the next busy hour is planned.",
+    "ar": "تم تشخيص تبديلات ذهاب‑إياب داخلية ناتجة عن تداخل/تراكب إشارة وحدود تنقل عدوانية أثناء الذروة. جرى التحقق عبر مؤشرات الأداء الأخيرة والسلاسل الزمنية للتسليم، ثم التخفيف عبر ضبط معايير الموقع (زيادة الهسترة وإزاحة A3 وتمديد TTT لجيران نفس الطبقة مع تنعيم بسيط للقياسات). تظهر النتائج المبكرة انخفاض الذهاب‑الإياب وتحسن نجاح التسليم؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

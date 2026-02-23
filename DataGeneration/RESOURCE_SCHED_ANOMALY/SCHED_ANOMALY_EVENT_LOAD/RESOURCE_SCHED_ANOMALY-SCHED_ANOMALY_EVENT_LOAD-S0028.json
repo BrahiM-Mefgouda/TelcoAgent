@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0028",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR microcell shows congestion over the last 3h with very high PRB use (~93%), low fairness and skewed allocation; p95 access delay 89 ms, median downlink 11 Mbps, and ~670 users on eMBB streaming.",
+    "ar": "خلية NR صغيرة في الاستاد تُظهر ازدحاماً خلال آخر 3 ساعات مع استخدام PRB مرتفعاً جداً (~93%)، إنصاف منخفض وانحياز في التخصيص؛ تأخير p95 يبلغ 89 مللي ثانية، الوسيط للوصلة الهابطة 11 ميجابت/ث، وحوالي 670 مستخدماً مع حمل eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR microcell in-event over the last 3h raised a congestion alarm; users report inconsistent speeds and high delay, ~670 attached, SINR ~12 dB and RSRQ -15 dB.",
+      "message_ar": "الخلية الصغيرة NR في الاستاد خلال حدث حي خلال آخر 3 ساعات أطلقت إنذار ازدحام؛ المستخدمون يشتكون من سرعات غير ثابتة وتأخير مرتفع، حوالي 670 مستخدمًا متصلًا، SINR ≈ 12 dB و RSRQ -15 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnostics. I plan to check recent health and load for cell STAD-NR-MICRO-021 over 3h. Confirm access to query now?",
+      "message_ar": "سأتولى التشخيص. أنوي فحص حالة الحمل الأخيرة للخلية STAD-NR-MICRO-021 خلال 3 ساعات. هل تؤكد السماح بالاستعلام الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID: STAD-NR-MICRO-021; proceed.",
+      "message_ar": "موافق. معرّف الخلية: STAD-NR-MICRO-021؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Query results: PRB utilization ~93%, fairness index 0.63, allocation skew 27, p95 scheduler latency 89 ms, best-effort share 79%, users ~670; no hardware or fault alarms. Next, I'll pull PRB trend for the last 3h to verify burst patterns. Approve?",
+      "message_ar": "نتائج الاستعلام: استخدام PRB ≈ 93%، مؤشر الإنصاف 0.63، انحراف التوزيع 27، كمون p95 لمكوّن الجدولة 89 مللي ثانية، حصة أفضل جهد 79%، عدد المستخدمين ~670؛ لا أعطال أو إنذارات عتادية. التالي، سأجلب منحنى PRB لآخر 3 ساعات للتحقق من نمط الذروات. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows PRB pegged >90% for long stretches with spikes matching event peaks; fairness dips to ~0.58 and throughput spread is large (p95–p50 gap 29 Mbps). This confirms a resource scheduling imbalance under eMBB streaming load. I will apply targeted parameter tuning to prioritize higher classes and temper best-effort bursts. Approve execution?",
+      "message_ar": "السلسلة الزمنية تُظهر PRB فوق 90% لفترات طويلة مع قمم متزامنة مع ذروة الحدث؛ ينخفض الإنصاف إلى ~0.58 وتباين السرعة كبير (فارق p95–p50 = 29 ميجابت/ث). هذا يؤكد خللاً في توزيع الموارد تحت حمل eMBB للبث. سأطبق ضبطاً انتقائياً للمعاملات لإعطاء أولوية أعلى للفئات الحرجة وكبح اندفاع أفضل جهد. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for controlled tuning on this microcell.",
+      "message_ar": "موافقة على الضبط المتحكم به لهذه الخلية الصغيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter changes committed successfully: increased protection for high-priority flows and moderated best-effort aggressiveness; no drops/errors during apply. I'll watch KPIs for the next 30 minutes.",
+      "message_ar": "تم تطبيق تغييرات المعاملات بنجاح: تعزيز حماية التدفقات ذات الأولوية العالية وتخفيف شراسة أفضل جهد؛ لم تُسجل إسقاطات/أخطاء أثناء التطبيق. سأراقب المؤشرات خلال 30 دقيقة قادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes, median downlink improved to ~14 Mbps and high-delay tail dropped to ~65 ms; fairness trending up. No new complaints.",
+      "message_ar": "بعد حوالي 10 دقائق، تحسن الوسيط للوصلة الهابطة إلى ~14 ميجابت/ث وانخفض ذيل التأخير العالي إلى ~65 مللي ثانية؛ الإنصاف في تحسن. لا شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. We'll keep observing through traffic surges; if it tightens again, we will reassess allocation policy.",
+      "message_ar": "مؤشرات جيدة. سنواصل المراقبة خلال فترات ذروة الحركة؛ وإذا اشتد الضغط مجدداً سنعيد تقييم سياسة التوزيع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: high-delay events are trending down and median throughput is higher. Action taken was site parameter tuning for resource allocation. Let's monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: أحداث التأخير العالي في انخفاض والوسيط للسرعة أعلى. الإجراء كان ضبط معاملات الموقع لتوزيع الموارد. لنُراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy hour and share an update afterward. If degradation returns, we will revert to the previous settings and escalate to the capacity team for further relief.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا عاد التدهور سنُعيد الإعدادات السابقة ونصعّد الأمر إلى فريق السعة لاتخاذ إجراءات تخفيف إضافية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on the stadium NR microcell during in-event load: PRB near 93%, low fairness, and skewed allocation. Verified with PRB trends over 3h, then mitigated via site parameter tuning to protect higher-priority traffic and temper best-effort. Post-change, the latency tail dropped and median throughput improved; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص خلل في توزيع الموارد على خلية NR الصغيرة في الاستاد أثناء الحدث: PRB يقارب 93%، إنصاف منخفض وانحياز في التخصيص. تم التحقق عبر اتجاهات PRB خلال 3 ساعات، ثم التخفيف بضبط معاملات الموقع لحماية الحركات ذات الأولوية العالية وكبح أفضل جهد. بعد التغيير انخفض ذيل التأخير وتحسن الوسيط في السرعة؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

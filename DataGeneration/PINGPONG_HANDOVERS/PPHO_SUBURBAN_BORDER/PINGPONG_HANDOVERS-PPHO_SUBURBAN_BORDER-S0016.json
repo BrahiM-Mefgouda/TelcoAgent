@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0016",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro sector shows elevated ping-pong handovers (~24%) and handover failures (~14%) over the last 5 hours in the shoulder period, with moderate signal (RSRP −106 dBm, RSRQ −9 dB, SINR 10 dB), ~55% resource use, and p50 downlink 24 Mbps.",
+    "ar": "قطاع ماكرو 5G NR في منطقة ضاحية يظهر ارتفاعاً في التذبذب بين الخلايا (~24%) وفشل التسليم (~14%) خلال آخر 5 ساعات في فترة الكتف، مع إشارة متوسطة (RSRP −106 dBm، RSRQ −9 dB، SINR 10 dB)، واستغلال موارد ~55%، وتنزيل وسيطي 24 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector at the border shows elevated ping-pong over the last 5h shoulder period: ping-pong 24%, HO failures 14%, HO success ~91%. RF around RSRP −106 dBm, RSRQ −9 dB, SINR 10 dB; ~175 users, PRB ~55%, p50 DL 24 Mbps. Please investigate and resolve.",
+      "message_ar": "قطاع ماكرو NR في منطقة ضاحية على حدود التغطية يظهر ارتفاعاً في عمليات التذبذب خلال آخر 5 ساعات في فترة الكتف: معدل التذبذب 24%، فشل التسليم 14%، نجاح التسليم ~91%. مستويات التغطية حول RSRP −106 dBm و RSRQ −9 dB و SINR 10 dB؛ ~175 مستخدماً، استغلال الموارد ~55%، وتنزيل وسيطي 24 ميجابت/ث. يرجى التحقيق والمعالجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull 5h OSS KPIs for the serving cell and top neighbors, analyze HO/ping-pong patterns and parameters, and if confirmed apply targeted mobility tuning. Please confirm the cell ID and approval for live changes if required.",
+      "message_ar": "سأقوم بسحب مؤشرات آخر 5 ساعات للخلية والخلايا المجاورة الرئيسية، ثم تحليل أنماط التسليم/التذبذب والمعلمات، وإذا تأكد السبب سأطبق ضبطاً مستهدفاً للتنقل. يرجى تأكيد مُعرّف الخلية والموافقة على تغييرات مباشرة عند الحاجة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NR-SUB-123A-S1; main neighbors: NR-SUB-124A-S1 and NR-SUB-125A-S1. Approved for checks and controlled tuning.",
+      "message_ar": "المعرف: NR-SUB-123A-S1؛ الجيران الرئيسيون: NR-SUB-124A-S1 و NR-SUB-125A-S1. الموافقة مُعطاة للفحص والضبط المتحكم به."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching 5h OSS snapshot for NR-SUB-123A-S1 now; I’ll extract HO and event counters per neighbor.",
+      "message_ar": "أقوم الآن باستخراج لقطة مؤشرات 5 ساعات من النظام للخلية NR-SUB-123A-S1 وسأستخلص عدادات التسليم لكل جار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial readout: 62% of ping-pong is between 123A-S1↔124A-S1; A3 triggers near −105 dBm. Current TTT 231 ms, hysteresis 1 dB, A3 offset 1 dB. HO failures concentrate on the same pair. I will pull HO/ping-pong time series to confirm the temporal pattern.",
+      "message_ar": "القراءة الأولية: 62% من التذبذب بين 123A-S1↔124A-S1؛ تفعيل A3 قرب −105 dBm. TTT الحالي 231 مللي ثانية، الهيستيريزيز 1 dB، وإزاحة A3 بمقدار 1 dB. حالات الفشل تتركز على الزوج نفسه. سأسحب سلسلة زمنية للتسليم/التذبذب لتأكيد النمط الزمني."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, proceed with the time series.",
+      "message_ar": "موافق، تفضل بمتابعة السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "5h time series pulled: ping-pong spikes align with shoulder hour and eMBB streaming; 123A↔124A peaks at 28% ping-pong with short dwell <30 s; HO success dips to ~90% during spikes. Signal overlap is moderate (SINR ~10 dB). Root cause points to tight A3 and low hysteresis at the border.",
+      "message_ar": "تم سحب السلسلة الزمنية لآخر 5 ساعات: ذرى التذبذب تتزامن مع فترة الكتف وحركة eMBB الخاصة بالبث؛ الزوج 123A↔124A يصل إلى 28% تذبذب مع إقامة قصيرة <30 ثانية؛ نجاح التسليم يهبط إلى ~90% أثناء الذروات. التداخل متوسط (SINR ~10 dB). السبب الأرجح هو عتبة A3 الضيقة وهيستيريزيز منخفض عند الحدود."
+    },
+    {
+      "role": "agent",
+      "message_en": "Remediation plan: increase A3 offset by +1 dB (to 2 dB) for NR-SUB-123A-S1↔124A-S1, raise TTT to 320 ms, and hysteresis to 2 dB; no neighbor list changes. Expected 25–40% ping-pong reduction with negligible throughput impact. Requesting approval to implement now.",
+      "message_ar": "الخطة التصحيحية: زيادة إزاحة A3 بمقدار +1 dB (لتصبح 2 dB) لعلاقة NR-SUB-123A-S1↔124A-S1، ورفع TTT إلى 320 مللي ثانية، والهيستيريزيز إلى 2 dB؛ دون تعديل قائمة الجيران. المتوقع خفض التذبذب 25–40% مع أثر طفيف على الأداء. أطلب الموافقة للتنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mobility tuning applied on the relation; change committed successfully. 15‑min post-check: ping-pong on 123A↔124A down ~9 pp, HO failures down ~4 pp; overall HO success ~93–94%. BLER stable (~6%); PRB and p50 DL unchanged. Please confirm field view.",
+      "message_ar": "تم تطبيق ضبط التنقل على العلاقة؛ تم تثبيت التغيير بنجاح. فحص 15 دقيقة بعد التغيير: تراجع التذبذب على 123A↔124A بحوالي 9 نقاط مئوية، وانخفضت حالات فشل التسليم ~4 نقاط؛ نجاح التسليم الكلي ~93–94%. BLER مستقر (~6%)؛ الموارد والتنزيل الوسطي بدون تغيير. يرجى تأكيد الرصد الميداني."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: ping-pong between 123A↔124A trending down with fewer short-stay returns; HO failures easing. Action taken was site parameter tuning on the relation. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: تراجع التذبذب بين 123A↔124A وانخفاض العودات القصيرة؛ حالات فشل التسليم تتناقص. الإجراء كان ضبط معلمات الموقع للعلاقة. نقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If KPIs regress, we will roll back to prior values and apply a more conservative mobility bias; if improvements hold, we will retain the tuning.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا تدهورت المؤشرات، سنرجع إلى القيم السابقة ونطبّق تحيّز تنقل أكثر تحفظاً؛ وإن استمر التحسن سنُبقي الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a ping-pong hotspot on the suburban NR macro border, concentrated on the 123A↔124A neighbor relation during shoulder hours due to tight A3 criteria and low hysteresis. Applied site parameter tuning on that relation by increasing A3 offset, TTT, and hysteresis, yielding immediate reductions in ping-pong and fewer handover failures while keeping throughput and BLER stable.",
+    "ar": "تم تشخيص بؤرة تذبذب على حدود خلية NR في الضاحية متركزة على علاقة الجوار 123A↔124A خلال فترة الكتف بسبب معايير A3 الضيقة وهيستيريزيز منخفض. تم تنفيذ ضبط معلمات الموقع على تلك العلاقة برفع إزاحة A3 ومدة TTT والهيستيريزيز، مما أدى إلى انخفاض فوري في التذبذب وتقليل حالات فشل التسليم مع بقاء معدل النقل والـBLER مستقرين."
+  }
+}

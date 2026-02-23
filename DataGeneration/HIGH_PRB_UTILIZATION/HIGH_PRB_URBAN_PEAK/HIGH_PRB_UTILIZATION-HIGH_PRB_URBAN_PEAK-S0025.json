@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_URBAN_PEAK-S0025",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_URBAN_PEAK",
+  "query": {
+    "en": "Urban macro 5G cell shows sustained PRB utilization near 92% over the last 2h with slow data (~7 Mbps downlink), moderate BLER (~5.8%), 322 users during evening peak, and a congestion alarm is active.",
+    "ar": "خلية 5G ماكرو حضرية تُظهر استهلاك PRB مستمرًا يقارب 92% خلال آخر ساعتين مع بيانات بطيئة (~7 Mbps تنزيل)، BLER متوسط (~5.8%) و322 مستخدمًا في ذروة المساء، وتنبيه الازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Evening peak on the urban NR macro sector shows a congestion alarm; PRB ~92%, DL ~7 Mbps, BLER ~5–6%, p95 latency ~38 ms, about 322 users with streaming complaints.",
+      "message_ar": "ذروة المساء على قطاع NR ماكرو حضري تُظهر تنبيه ازدحام؛ PRB ~92%، السرعة التنزيلية ~7 Mbps، BLER ~5–6%، كمون p95 ~38 مللي ثانية، وحوالي 322 مستخدمًا مع شكاوى من التقطيع أثناء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first pull the last 2h performance from OSS for the target cell to confirm congestion patterns and drivers. Please confirm access to proceed.",
+      "message_ar": "تم. سأقوم أولاً بجلب أداء آخر ساعتين من نظام الإدارة للتحقق من نمط الازدحام وأسبابه. يرجى تأكيد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the target cell and the last 2 hours.",
+      "message_ar": "الوصول مُعتمد للخلية المستهدفة ولآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS confirms sustained PRB 88–95% across the last 2h, spikes aligned with eMBB streaming; DL median 6–8 Mbps (slow data), BLER ~5–6%, RLF elevated, p95 scheduler latency ~38 ms. This is resource saturation. I propose applying congestion‑relief tuning on the cell (scheduler/QoS prioritization and gentle offload bias). Proceed?",
+      "message_ar": "يؤكد نظام الإدارة استهلاك PRB مستمرًا بين 88–95% خلال آخر ساعتين مع ذروات متزامنة مع حمل eMBB والبث؛ الوسيط في التنزيل 6–8 Mbps (بيانات بطيئة)، BLER ~5–6%، ارتفاع في حالات فقدان الاتصال، وكمون المجدول p95 ~38 مللي ثانية. هذا تشبّع موارد. أقترح تطبيق ضبط لتخفيف الازدحام على الخلية (أولوية المجدول/الجودة وانحياز تفريغ لطيف). هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning change.",
+      "message_ar": "موافقة على متابعة تغيير الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied successfully with no service interruption. Changes prioritize active users, smooth resource contention, and enable mild offload behavior. Expect PRB to ease by ~10–15% and DL median to recover toward 9–12 Mbps. We will observe counters for the next 15 minutes.",
+      "message_ar": "تم تطبيق الضبط بنجاح دون انقطاع خدمة. التغييرات تعطي أولوية للمستخدمين النشطين، وتخفف تنازع الموارد، وتمكّن سلوك تفريغ خفيف. نتوقع انخفاض PRB بنحو 10–15% وتحسن الوسيط في التنزيل إلى 9–12 Mbps. سنراقب المؤشرات خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: PRB now oscillates ~75–85%, DL around 9–10 Mbps, and p95 scheduler latency trending ~28–30 ms; fewer buffering reports.",
+      "message_ar": "المؤشرات الأولية أفضل: PRB يتراوح الآن ~75–85%، التنزيل حوالي 9–10 Mbps، وكمون المجدول p95 يتجه إلى ~28–30 مللي ثانية؛ شكاوى التقطيع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll continue observing for stability and side effects, then record the change for traceability and ongoing monitoring. Shall I proceed to log it?",
+      "message_ar": "تحسن جيد. سأواصل المراقبة للتأكد من الاستقرار وعدم وجود آثار جانبية، ثم أوثق التغيير لأغراض التتبع والمتابعة. هل أمضي بتوثيقه؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed to log the change and set it for follow-up.",
+      "message_ar": "نعم، امضِ بتوثيق التغيير وضبطه للمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking record created and annotated with before/after telemetry. We will keep monitoring through the busy period this evening and compare trends.",
+      "message_ar": "تم إنشاء سجل تتبع وتمت إضافته ببيانات ما قبل/بعد التنفيذ. سنواصل المراقبة خلال فترة الذروة هذا المساء ومقارنة الاتجاهات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: downlink is holding near 10 Mbps and beam failures are trending down; the site parameter tuning/config push appears effective. Let’s monitor over the next 2–4 hours and track via DU-PRB-04237.",
+      "message_ar": "نلاحظ تحسّنًا: سرعة التنزيل مستقرة قرب 10 Mbps وإخفاقات الحزمة في انخفاض؛ ضبط معلمات الموقع/الدفع التكويني يبدو فعّالًا. لنراقب خلال الساعات 2–4 القادمة ونتابع عبر DU-PRB-04237."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4h monitoring window and update the ticket afterward with KPI deltas and any anomalies. If congestion resurges, we will roll back the tuning; if PRB remains high, we will escalate for capacity relief and broader load distribution.",
+      "message_ar": "مفهوم. سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث التذكرة بعدها بفروقات مؤشرات الأداء وأي شذوذ. إذا عاد الازدحام سنُرجِع الضبط، وإذا ظل PRB مرتفعًا سنصعّد لزيادة السعة وتوزيع الحمل على نطاق أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-025",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "congestion_relief_profile_v1"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB utilization on NR macro cell during evening peak; applied congestion-relief tuning; monitor next 2–4h."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed evening-peak capacity congestion on the urban NR macro cell: sustained PRB near 92% drove slow data and elevated latency. Pulled OSS statistics, executed site parameter tuning for congestion relief, and opened a tracking ticket; initial KPIs improved and will be monitored over the next hours.",
+    "ar": "تم تشخيص ازدحام سِعوي في ذروة المساء على خلية NR ماكرو حضرية: استهلاك PRB مستمر قرب 92% تسبب في بطء البيانات وارتفاع الكمون. تم سحب إحصاءات من نظام الإدارة، وتنفيذ ضبط معلمات الموقع لتخفيف الازدحام، وفتح تذكرة متابعة؛ تحسنت المؤشرات الأولية وسيتم مراقبتها خلال الساعات القادمة."
+  }
+}

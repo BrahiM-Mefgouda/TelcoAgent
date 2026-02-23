@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0001",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate a 5G NR indoor office cell over the last 4h with DL throughput ~10 Mbps, 87% resource use, 185 users, and a congestion alarm active.",
+    "ar": "التحقق من خلية 5G NR داخلية في مكتب خلال آخر 4 ساعات مع تنزيل ~10 ميجابت/ث، استخدام موارد 87%، 185 مستخدمًا، ووجود إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Business-hours complaints from an enterprise office: the 5G NR indoor micro cell shows DL throughput near 10 Mbps over the last 4h; a congestion alarm is active with ~185 users.",
+      "message_ar": "شكاوى أثناء ساعات العمل من مكتب مؤسسي: الخلية الداخلية 5G NR من نوع micro تُظهر معدل تنزيل يقارب 10 ميجابت/ث خلال آخر 4 ساعات؛ إنذار ازدحام نشط مع ~185 مستخدمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the troubleshooting. Plan: check OSS counters for the last 4h, review DL throughput trend, and if capacity-bound, apply targeted parameter tuning. Please share the cell ID and confirm read access.",
+      "message_ar": "سأتولى الاستكشاف. الخطة: التحقق من مؤشرات الأداء لآخر 4 ساعات، مراجعة منحنى معدل التنزيل، وإذا كانت المشكلة بسبب السعة فسنطبق ضبطًا انتقائيًا للمعلمات. الرجاء تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-IND-MICRO-07 in the enterprise building. Read-only access approved.",
+      "message_ar": "معرّف الخلية هو NR-IND-MICRO-07 في مبنى المؤسسة. تم اعتماد الوصول للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled a 4h performance snapshot for NR-IND-MICRO-07: resource utilization 87%, active users 185, BLER ~5.7%, p95 scheduler latency 45 ms, DL throughput ~10 Mbps. This points to capacity congestion on the indoor micro site. Next, I’ll review the DL throughput time series to confirm the drop pattern and baseline—proceed?",
+      "message_ar": "تم سحب لقطة أداء لمدة 4 ساعات للخلية NR-IND-MICRO-07: استخدام الموارد 87%، المستخدمون النشطون 185، BLER حوالي 5.7%، كمون المجدول p95 يساوي 45 مللي ثانية، ومعدل التنزيل ~10 ميجابت/ث. هذا يشير إلى ازدحام سعة على الموقع الداخلي من نوع micro. بعد ذلك سأراجع السلسلة الزمنية لمعدل التنزيل لتأكيد نمط الهبوط والخط الأساسي—هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms a drop from ~35–40 Mbps to ~10 Mbps starting around 10:10 with a surge in users; no outage signatures, and latency/utilization track load. Diagnosis: resource saturation. I propose a low-risk live optimization to improve DL multiplexing and PRB availability for enterprise data sessions. Approve execution?",
+      "message_ar": "السلسلة الزمنية للتنزيل تؤكد هبوطًا من ~35–40 ميجابت/ث إلى ~10 ميجابت/ث بدءًا من نحو 10:10 مع زيادة في عدد المستخدمين؛ لا مؤشرات لانقطاع، والكمون/الاستخدام يتبعان الحمل. التشخيص: تشبّع الموارد. أقترح تحسينًا مباشرًا منخفض المخاطر لتحسين التعددية في التنزيل وتوفير PRB لجلسات بيانات المؤسسة. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization applied on NR-IND-MICRO-07. Immediate counters: utilization easing to ~78–80%, median DL throughput rising to ~22 Mbps, BLER stable. I’ll observe for stability over the next 15–30 minutes. Any on-site feedback?",
+      "message_ar": "تم تطبيق تحسين المعلمات على NR-IND-MICRO-07. المؤشرات الفورية: انخفاض الاستخدام إلى ~78–80%، ارتفاع الوسيط لمعدل التنزيل إلى ~22 ميجابت/ث، واستقرار BLER. سأراقب الثبات خلال 15–30 دقيقة المقبلة. هل توجد ملاحظات من الموقع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "On-site tests show speed improving from ~8 to ~22 Mbps and enterprise app downloads are smoother. No new issues observed.",
+      "message_ar": "اختبارات الموقع تُظهر تحسن السرعة من ~8 إلى ~22 ميجابت/ث وتنزيلات تطبيقات المؤسسة أصبحت أكثر سلاسة. لا توجد مشكلات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. I’ll keep trending throughput, utilization, and delay through the upcoming busy interval to confirm sustained gains. If congestion resurfaces, we’ll consider controlled rollback or additional tuning with your approval.",
+      "message_ar": "تقدم جيد. سأواصل تتبّع معدل التنزيل والاستخدام والتأخير خلال فترة الانشغال القادمة لتأكيد الاستمرارية. إذا عاد الازدحام، سننظر في تراجع مضبوط أو ضبط إضافي بموافقتكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement persists: downlink throughput is averaging above 20 Mbps and queueing delays are easing. The site parameter tuning you applied looks effective; let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: متوسط معدل التنزيل يتجاوز 20 ميجابت/ث وتأخيرات الانتظار في انخفاض. ضبط معلمات الموقع الذي طبقتموه يبدو فعّالًا؛ فلنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and provide a status update afterward. If performance degrades, we’ll roll back the change and escalate to capacity planning; otherwise, we’ll keep the optimization in place.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديث الحالة بعدها. إذا تدهور الأداء، سنعيد التكوين السابق ونصعّد إلى تخطيط السعة؛ وإلا سنُبقي التحسين مُفعّلًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on a 5G indoor micro cell during business hours by reviewing counters and the DL time series, which indicated capacity congestion (high resource use, many users, elevated delay). Applied site parameter tuning to improve downlink multiplexing and PRB availability, raising throughput while keeping error rates stable. We will monitor through the next busy hour to confirm sustained improvement.",
+    "ar": "تم تشخيص هبوط في معدل التنزيل على خلية 5G داخلية من نوع micro خلال ساعات العمل عبر مراجعة المؤشرات والسلسلة الزمنية للتنزيل، مما أظهر ازدحام سعة (ارتفاع استخدام الموارد وكثرة المستخدمين وزيادة التأخير). تم تطبيق ضبط لمعلمات الموقع لتحسين التعددية في التنزيل وتوفير PRB، فارتفع معدل التنزيل مع بقاء معدلات الخطأ مستقرة. سنراقب خلال ساعة الذروة القادمة لتأكيد استدامة التحسن."
+  }
+}

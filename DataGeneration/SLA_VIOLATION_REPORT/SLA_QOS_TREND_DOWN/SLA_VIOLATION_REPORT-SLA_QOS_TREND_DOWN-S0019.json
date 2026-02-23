@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0019",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban NR macro cell shows QoS 0.36 vs SLA 0.98 over the last 24h with slow data (p50 6 Mbps), high latency 89 ms, BLER 8.1%, 597 users, and an active alarm indicating congestion/outage.",
+    "ar": "خلية NR ماكرو حضرية تُظهر QoS بقيمة 0.36 مقابل SLA 0.98 خلال آخر 24 ساعة مع بيانات بطيئة (الوسيط 6 ميجابت/ث)، زمن تأخير 89 مللي ثانية، BLER بنسبة 8.1%، 597 مستخدمًا، وإنذار نشط يشير إلى ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NRU-URB-MACRO-001 has 24h QoS down to 0.36; users report slow data during mixed times, especially streaming (eMBB). Alarm is active.",
+      "message_ar": "الخلية NR الماكرو الحضرية NRU-URB-MACRO-001 لديها QoS خلال 24 ساعة عند 0.36؛ المستخدمون يبلّغون عن بطء البيانات في أوقات مختلطة، خصوصاً أثناء البث (eMBB). يوجد إنذار نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 24h OSS counters for NRU-URB-MACRO-001 to verify QoS, latency, BLER, PRB, and user load. Please confirm access for the last 24h window.",
+      "message_ar": "سأبدأ بسحب عدّادات OSS لمدة 24 ساعة للخلية NRU-URB-MACRO-001 للتحقق من QoS وزمن التأخير وBLER واستخدام الموارد وعدد المستخدمين. يرجى تأكيد الوصول لنافذة 24 ساعة الماضية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NRU-URB-MACRO-001 over the last 24h.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NRU-URB-MACRO-001 خلال آخر 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 24h counters: QoS ~0.36 vs target ~0.98, latency ~89 ms, BLER ~8.1%, PRB utilization ~61%, peak users ~597. No hard-down flags; service flag present. I will now review the QoS time series to inspect trend and periods of worst impact.",
+      "message_ar": "تم سحب عدّادات 24 ساعة: QoS ~0.36 مقابل الهدف ~0.98، زمن التأخير ~89 مللي ثانية، BLER ~8.1%، استخدام الموارد ~61%، ذروة المستخدمين ~597. لا توجد أعلام انقطاع كامل؛ يوجد علم خدمة. سأراجع الآن السلسلة الزمنية لـQoS لفحص الاتجاه وفترات أسوأ تأثير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the QoS trend review.",
+      "message_ar": "تفضل بمراجعة اتجاه QoS."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows sustained QoS degradation with dips during busy periods; slow data aligns with p50 DL ~6 Mbps and elevated BLER/latency. This is an SLA breach. I propose opening an incident for SLA violation and continuing focused monitoring. May I proceed?",
+      "message_ar": "السلسلة الزمنية تُظهر تدهورًا مستمرًا في QoS مع هبوطات خلال الفترات المزدحمة؛ بطء البيانات يتماشى مع وسيط تنزيل ~6 ميجابت/ث وBLER/Zمن تأخير مرتفعين. هذا خرق لـSLA. أقترح فتح حادثة لانتهاك SLA مع متابعة مراقبة مركزة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, go ahead and open the incident.",
+      "message_ar": "نعم، تفضل بفتح الحادثة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident opened for SLA breach on NRU-URB-MACRO-001 with summary of QoS trend, latency 89 ms, BLER 8.1%, and user/load context. We will monitor during the next busy period and provide updates.",
+      "message_ar": "تم فتح حادثة لانتهاك SLA على الخلية NRU-URB-MACRO-001 مع ملخص اتجاه QoS وزمن التأخير 89 مللي ثانية وBLER بنسبة 8.1% وسياق الحمل/المستخدمين. سنراقب خلال الفترة المزدحمة التالية ونقدّم تحديثات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Off-peak now still shows slow data for some users; latency remains elevated.",
+      "message_ar": "تم. الفترة خارج الذروة الآن لا تزال تُظهر بطء البيانات لبعض المستخدمين؛ زمن التأخير ما زال مرتفعًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will keep watching QoS and user experience across the next busy hour to confirm stabilization or further degradation.",
+      "message_ar": "تم. سأستمر في متابعة QoS وتجربة المستخدم خلال ساعة الذروة القادمة لتأكيد الاستقرار أو التدهور."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: QoS is improving and latency is trending down toward ~75 ms; slow data complaints are easing. Incident for SLA breach was opened; propose monitoring through the next busy hour and the following 2–4 hours, and reference DU-SLA-10327.",
+      "message_ar": "تحديث: QoS يتحسن وزمن التأخير يتجه نحو ~75 مللي ثانية؛ شكاوى بطء البيانات تتراجع. تم فتح حادثة لانتهاك SLA؛ أقترح المراقبة خلال ساعة الذروة التالية والـ 2–4 ساعات التي تليها، والإشارة إلى DU-SLA-10327."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour plus 2–4 hours and update DU-SLA-10327 afterward. If degradation returns, we will escalate to transport and capacity teams; if performance normalizes, we will proceed to closure with a brief report.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية بالإضافة إلى 2–4 ساعات وسنحدّث DU-SLA-10327 بعد ذلك. إذا عاد التدهور، سنصعّد إلى فرق النقل والسعة؛ وإذا عاد الأداء إلى الوضع الطبيعي، سنمضي للإغلاق مع تقرير موجز."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRU-URB-MACRO-001",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRU-URB-MACRO-001",
+        "QoS",
+        "24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA QoS degradation on NR macro cell NRU-URB-MACRO-001 over 24h; high latency, elevated BLER, slow data; user load peak ~597."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated an SLA QoS violation on the urban NR macro cell by reviewing OSS counters and the QoS time trend: QoS ~0.36 vs target ~0.98 with high latency and elevated BLER causing slow data. Opened an incident ticket for the SLA breach and initiated focused monitoring through the next busy period. Mitigation is driven via the incident process with continued observation and escalation to transport/capacity if degradation persists.",
+    "ar": "تم التحقق من انتهاك SLA لجودة الخدمة على خلية NR ماكرو حضرية عبر مراجعة عدّادات OSS واتجاه QoS: قيمة ~0.36 مقابل الهدف ~0.98 مع زمن تأخير مرتفع وBLER مرتفع تسببان بطء البيانات. تم فتح تذكرة حادثة لانتهاك SLA وبدء مراقبة مركزة خلال الفترة المزدحمة التالية. تتم المعالجة عبر مسار الحادثة مع الاستمرار في المراقبة والتصعيد إلى النقل/السعة إذا استمر التدهور."
+  }
+}

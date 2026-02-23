@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0012",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3h with ~90% PRB, 289 users, low SINR (3 dB) indicating interference/signal overlap, and 14/8 Mbps DL/UL during shoulder-hour eMBB streaming.",
+    "ar": "خلية NR ماكرو حضرية بها إنذار ازدحام خلال آخر 3 ساعات مع إشغال PRB ~90% و289 مستخدمًا، وSINR منخفض (3 dB) يدل على تداخل/تراكب إشارة، وسرعات تنزيل/رفع 14/8 Mbps خلال فترة الكتف لحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell raising congestion alarm in the last 3h: ~90% PRB, SINR 3 dB, RSRQ -13 dB, 289 users, DL 14 Mbps / UL 8 Mbps during shoulder hour with eMBB streaming spike.",
+      "message_ar": "خلية NR ماكرو في منطقة حضرية تصدر إنذار ازدحام خلال آخر 3 ساعات: إشغال PRB ~90%، ‏SINR ‏3 dB، ‏RSRQ ‏-13 dB، ‏289 مستخدمًا، سرعة تنزيل 14 Mbps ورفع 8 Mbps خلال فترة الكتف مع زيادة في بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion. I will start by pulling last 3h network counters for the cell to validate load, interference, and scheduling behavior; please confirm access.",
+      "message_ar": "تم استلام إنذار الازدحام. سأبدأ بسحب مؤشرات الشبكة لآخر 3 ساعات للخلية للتحقق من الحمل والتداخل وسلوك الجدولة؛ يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; target cell ID is NR-URB-MACRO-01.",
+      "message_ar": "تمت الموافقة على الوصول؛ معرف الخلية المستهدفة هو NR-URB-MACRO-01."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm sustained ~89–90% PRB, p95 scheduling delay 57 ms, BLER ~3.3%, low SINR 3 dB; neighbor data shows hints of PCI overlap causing signal overlap. I propose immediate parameter tuning: enable inter-cell load balancing, adjust scheduler fairness for eMBB, and reduce overlap at the cell edge to cut interference. Proceed?",
+      "message_ar": "تؤكد المؤشرات استمرار إشغال PRB بنحو 89–90%، تأخر الجدولة p95 يبلغ 57 مللي ثانية، BLER حوالي 3.3%، وSINR منخفض 3 dB؛ وتظهر بيانات الجيران مؤشرات على تراكب PCI يسبب تراكب الإشارة. أقترح ضبط المعلمات فورًا: تفعيل موازنة الحمل بين الخلايا، وضبط عدالة المجدول لحركة eMBB، وتقليل التراكب عند حافة الخلية لخفض التداخل. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization now.",
+      "message_ar": "موافق على تنفيذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied live optimization: increased offload toward healthier neighbors, tuned scheduler weights/admission for eMBB, and trimmed overlap at the edge to lower interference. Expect minimal transient impact.",
+      "message_ar": "تم تطبيق التحسين المباشر: زيادة تحويل الحمل نحو الجيران الأفضل، وضبط أوزان/قبول المجدول لحركة eMBB، وتقليل التراكب عند الحافة لخفض التداخل. التأثير العابر متوقع أن يكون محدودًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: PRB trending near 80%, DL throughput around 19 Mbps, and interference slightly reduced.",
+      "message_ar": "ملاحظة أولية: إشغال PRB يقترب من 80%، سرعة التنزيل نحو 19 Mbps، والتداخل أقل قليلًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good initial effect. To track residual interference and load stability, I will open a tracking ticket and set up monitoring on load, latency, and failures. Confirm?",
+      "message_ar": "أثر أولي جيد. لمتابعة ما تبقى من التداخل واستقرار الحمل، سأفتح تذكرة متابعة وأُعد مراقبة للحمل والزمنية والإخفاقات. هل تؤكد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "مؤكد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-LOAD-01937 documenting the high-load mitigation and current observations. We will continue proactive checks and post updates there.",
+      "message_ar": "تم إنشاء DU-LOAD-01937 لتوثيق إجراءات تخفيف الحمل المرتفع والملاحظات الحالية. سنواصل المتابعة الاستباقية وننشر التحديثات هناك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: PRB utilization trending down and scheduling delays decreasing. Action taken: site parameter optimization. Propose monitoring through the next busy hour via DU-LOAD-01937.",
+      "message_ar": "تمت ملاحظة تحسن: إشغال PRB في انخفاض وتأخرات الجدولة تتناقص. الإجراء المنفذ: تحسين معلمات الموقع. أقترح المراقبة خلال ساعة الذروة القادمة عبر DU-LOAD-01937."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy-hour monitoring and update the ticket after the window. If congestion returns or errors rise, we will roll back the tuning and escalate for additional capacity and neighbor retuning; otherwise we keep the changes.",
+      "message_ar": "تم الاستلام—سنتولى مراقبة ساعة الذروة التالية ونحدّث التذكرة بعد انتهاء النافذة. إذا عاد الازدحام أو زادت الأخطاء فسنرجع الضبط ونصعّد لزيادة السعة وإعادة ضبط الجيران؛ وإلا فسنُبقي التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-01",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Load balancing and scheduler tuning with interference mitigation on NR macro cell"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB utilization with interference; parameters optimized; monitor and follow up on neighbor PCI overlap"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a congested urban NR macro cell with sustained high PRB and interference/signal overlap indicated by low SINR and RSRQ. Executed site parameter tuning to enable inter-cell load balancing, adjust scheduler fairness for eMBB, and reduce overlap at the edge. Created a tracking ticket for continued monitoring and follow-up on residual interference.",
+    "ar": "تم تشخيص خلية NR ماكرو حضرية تعاني من ازدحام مستمر في إشغال PRB وتداخل/تراكب إشارة ظهر في انخفاض SINR وRSRQ. نُفّذ ضبط معلمات الموقع لتمكين موازنة الحمل بين الخلايا، وضبط عدالة المجدول لحركة eMBB، وتقليل التراكب عند الحافة. تم إنشاء تذكرة متابعة للمراقبة المستمرة والمتابعة بشأن التداخل المتبقي."
+  }
+}

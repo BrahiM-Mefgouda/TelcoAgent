@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0026",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell is hot: 92.6% resource use with 164 users, neighbors averaging 32.9% load, and handovers skewed out (30/5 min) vs in (17/5 min) over 6 hours; assess and balance traffic.",
+    "ar": "خلية NR ماكرو ريفية ساخنة: استعمال الموارد 92.6% مع 164 مستخدماً، والجيران بمتوسط حمل 32.9%، والتحويلات مائلة للخارج (30/كل 5 دقائق) مقابل الداخل (17/كل 5 دقائق) خلال 6 ساعات؛ نحتاج تقييم وموازنة الحركة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell has been hot over mixed hours: ~92% resource use, 164 users, median downlink ~16 Mbps; no alarms, with eMBB streaming complaints.",
+      "message_ar": "الموقع ريفي NR ماكرو وكان ساخناً عبر أوقات مختلطة: استعمال الموارد ~92% و164 مستخدماً ومتوسط نزول ~16 ميجابت/ث؛ لا إنذارات، مع شكاوى بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll check for load imbalance by auditing neighbor relations over the last 6 hours. Please share the cell ID and confirm access.",
+      "message_ar": "مفهوم. سأفحص اختلال التوزيع عبر تدقيق علاقات الجوار لآخر 6 ساعات. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-RUR-48210. 6h window is fine, access approved.",
+      "message_ar": "معرّف الخلية: NR-RUR-48210. نافذة 6 ساعات مناسبة، والوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor audit on NR-RUR-48210 and surrounding cells for the 6h window.",
+      "message_ar": "أُجري تدقيق الجوار على NR-RUR-48210 والخلايا المحيطة ضمن نافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: serving PRB ~92.6% with 164 users; neighbors within ~10 km average ~33% load; handovers skewed out 30 vs in 17 per 5 min; radio quality acceptable (SINR 13 dB, RSRQ -9 dB). I propose load-balancing parameter tuning to steer traffic to lighter neighbors. Approve?",
+      "message_ar": "النتائج: الخلية الخادمة عند ~92.6% مع 164 مستخدماً؛ الجيران ضمن ~10 كم بمتوسط حمل ~33%؛ التحويلات تميل للخارج 30 مقابل الداخل 17 لكل 5 دقائق؛ جودة الراديو مقبولة (SINR ‏13 دB، RSRQ ‏-9 دB). أقترح ضبط معلمات موازنة الحمل لتوجيه الحركة نحو الجيران الأخف. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning.",
+      "message_ar": "موافَق على المضي بضبط المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying site parameter tuning now: slight positive bias toward the lightest neighbors and gentler handover thresholds to encourage offload; immediate, non-disruptive.",
+      "message_ar": "أطبّق الآن ضبط معلمات الموقع: تحيز طفيف لصالح الجيران الأخف وتخفيف عتبات التحويل لتشجيع التفريغ؛ تأثير فوري وغير مُعطِّل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change snapshot: active users ~140, PRB trending ~80–84%, HO-out toward light neighbors increased, no error spikes. I’ll continue watching into the next busy period.",
+      "message_ar": "لقطة ما بعد التغيير: المستخدمون النشطون ~140، واستعمال الموارد يتجه ~80–84%، وزيادة التحويل للخارج نحو الجيران الخفيفين، دون ارتفاع في الأخطاء. سأواصل المتابعة خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field side shows fewer buffering complaints and more consistent throughput; no spike in drops. Any further action needed now?",
+      "message_ar": "ميدانياً نلاحظ انخفاض شكاوى التخزين المؤقت وثباتاً أفضل في السرعة؛ دون ارتفاع في الانقطاعات. هل هناك إجراء إضافي الآن؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "No further action now. We’ll observe KPI stabilization and neighbor loads; please share any anomalies you see.",
+      "message_ar": "لا إجراء إضافي حالياً. سنراقب استقرار المؤشرات وحمل الجيران؛ يرجى إبلاغي بأي ظواهر غير طبيعية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Resource utilization is now about 82% with handovers stabilizing; the load-balancing parameter tuning has been applied. Let’s monitor through the next busy hour (2–4 hours).",
+      "message_ar": "استعمال الموارد الآن نحو 82% مع استقرار التحويلات؛ تم تنفيذ ضبط معلمات موازنة الحمل. أقترح المراقبة خلال ساعة الذروة القادمة (2–4 ساعات)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and report PRB, user distribution, and handover balance. If congestion returns, we’ll strengthen the steering; if any adverse effects appear, we’ll roll back to the previous settings immediately.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيك بتحديث عن PRB وتوزيع المستخدمين وتوازن التحويلات. إذا عادت الازدحامات سنزيد التوجيه، وإذا ظهرت آثار سلبية سنرجع فوراً للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural NR macro hot cell with clear load imbalance: serving cell at ~93% with 164 users while neighbors were lightly loaded and HO out > in. Executed site parameter tuning to steer traffic toward low-load neighbors, reducing utilization to ~80–84% without errors. We will monitor PRB, user distribution, and handover balance through the next busy hour.",
+    "ar": "تم تشخيص خلية NR ماكرو ريفية ساخنة مع اختلال واضح في التوزيع: الخلية الخادمة ~93% مع 164 مستخدماً بينما الجيران بحمل منخفض وتحويلات للخارج أكثر من الداخل. نُفّذ ضبط معلمات الموقع لتوجيه الحركة نحو الجيران منخفضي الحمل، مما خفّض الاستعمال إلى ~80–84% دون أخطاء. سنراقب PRB وتوزيع المستخدمين وتوازن التحويلات خلال ساعة الذروة القادمة."
+  }
+}

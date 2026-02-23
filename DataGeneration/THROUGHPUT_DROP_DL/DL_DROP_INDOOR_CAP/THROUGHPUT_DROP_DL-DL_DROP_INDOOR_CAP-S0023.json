@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0023",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor 5G micro site shows slow data, with very high resource use (~95% PRB), many users (~194), and elevated radio queueing delay; an active alarm indicates congestion.",
+    "ar": "موقع 5G صغير داخلي يظهر بيانات بطيئة مع استخدام مرتفع جداً للموارد (~95% PRB) وعدد مستخدمين كبير (~194) وتأخير اصطفاف راديوي مرتفع؛ ويوجد إنذار فعّال يشير إلى ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing downlink throughput around 5 Mbps over the last 4h on the indoor NR micro in the east wing; an alarm is active. Users ~194, enterprise private traffic with some streaming. Please investigate.",
+      "message_ar": "ألاحظ معدل تحميل بحوالي 5 ميجابت/ث خلال آخر 4 ساعات على موقع NR صغير داخلي في الجناح الشرقي؛ يوجد إنذار فعّال. عدد المستخدمين ~194، حركة شبكة خاصة للمؤسسة مع بعض البث. يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first check recent cell status and alarms for the last 4h, then review DL performance. Please confirm the cell ID and approve read/write for a minimal tuning if needed.",
+      "message_ar": "تم الاستلام. سأتحقق أولاً من حالة الخلية والإنذارات خلال آخر 4 ساعات، ثم أراجع أداء التحميل. يرجى تأكيد معرف الخلية والموافقة على قراءة/كتابة لإجراء ضبط طفيف إذا لزم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_MICRO_OFFICE_23. Read/write is approved during this off-peak window. No known backhaul work.",
+      "message_ar": "معرف الخلية: NR_MICRO_OFFICE_23. القراءة/الكتابة معتمدة خلال فترة خارج الذروة. لا توجد أعمال خلفية معروفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "From network counters: PRB utilization ~95% sustained; active users peaked ~194. BLER ~2.7% (acceptable). p95 radio queueing delay ~70 ms. Alarm flags congestion; no backhaul faults observed. Next, I will pull the DL throughput trend for the last 4h to confirm capacity saturation.",
+      "message_ar": "من العدادات الشبكية: استخدام PRB بنحو ~95% بشكل مستمر؛ ذروة المستخدمين النشطين ~194. BLER ~2.7% (مقبول). تأخير اصطفاف راديوي p95 حوالي 70 مللي ثانية. الإنذار يشير إلى ازدحام؛ لا توجد أعطال في النقل الخلفي. بعد ذلك، سأجلب منحنى معدل التحميل لآخر 4 ساعات لتأكيد ضغط السعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the DL trend check.",
+      "message_ar": "تفضل بالتحقق من منحنى التحميل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows persistent median 4–6 Mbps across the window, despite off-peak, on an indoor small site serving enterprise traffic. This indicates capacity pressure rather than RF errors. I propose targeted tuning to improve fairness and burst handling and reduce queueing: adjust DL resource-allocation fairness, refine QoS weights for streaming vs. background, and slightly increase link-adaptation responsiveness. Approve to apply?",
+      "message_ar": "سلسلة بيانات التحميل تُظهر متوسطاً ثابتاً بين 4–6 ميجابت/ث عبر النافذة الزمنية، رغم أنها خارج الذروة، لموقع داخلي صغير يخدم حركة مؤسسية. هذا يشير إلى ضغط سعة وليس أخطاء RF. أقترح ضبطاً مستهدفاً لتحسين عدالة تخصيص الموارد والتعامل مع الدُفعات وتقليل الاصطفاف: ضبط عدالة تخصيص موارد التحميل، تحسين أوزان جودة الخدمة بين البث والخلفية، وزيادة طفيفة في استجابة تكيّف الرابط. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "موافق على تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied successfully. Changes: increased DL resource-allocation fairness, slightly boosted short-burst capacity, refined QoS weights for enterprise streaming, and modestly increased link-adaptation responsiveness. Immediate impact (10 min): PRB ~88–90%, DL median 12–14 Mbps, p95 radio queueing delay 45–50 ms, BLER stable. Please validate from your probes.",
+      "message_ar": "تم تطبيق الضبط بنجاح. التغييرات: زيادة عدالة تخصيص موارد التحميل، تعزيز طفيف لسعة الدُفعات القصيرة، تحسين أوزان جودة الخدمة للبث المؤسسي، وزيادة متواضعة في استجابة تكيّف الرابط. الأثر الفوري (10 دقائق): PRB حوالي 88–90%، متوسط التحميل 12–14 ميجابت/ث، وتأخير اصطفاف راديوي p95 بين 45–50 مللي ثانية، وBLER مستقر. يرجى التحقق من قياساتك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick checks show improvement: test UE now ~12 Mbps and downloads are smoother. Queueing delay feels reduced.",
+      "message_ar": "التحقق السريع يُظهر تحسناً: جهاز الاختبار الآن ~12 ميجابت/ث والتنزيلات أصبحت أكثر سلاسة. يبدو أن تأخير الاصطفاف قد انخفض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. I will keep watching DL throughput, PRB load, radio queueing delay, and active users. If regression appears, I will revert the tuning and reassess capacity options. Any site constraints to note?",
+      "message_ar": "جيد. سأواصل مراقبة معدل التحميل واستخدام PRB وتأخير الاصطفاف الراديوي وعدد المستخدمين النشطين. إذا ظهرت انتكاسة، سأعيد الإعدادات السابقة وأعيد تقييم خيارات السعة. هل توجد قيود خاصة بالموقع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No constraints. Improvement observed: slow data has eased and radio queueing delay is trending down after the site parameter tuning. Let's monitor for the next 2–4 hours.",
+      "message_ar": "لا توجد قيود. لوحظ تحسن: بطء البيانات خفّ وتأخير الاصطفاف الراديوي يتجه للانخفاض بعد ضبط معايير الموقع. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will own monitoring for the next 2–4 hours and share an update afterward. If performance drops or errors appear, we'll roll back the tuning and escalate to capacity planning for longer-term relief. Summary: analyzed alarms and counters, confirmed DL congestion via throughput trend, applied site parameter tuning to resource allocation, QoS weights, and link adaptation; continuing to monitor.",
+      "message_ar": "تم. سأتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وأوافيك بتحديث بعدها. إذا انخفض الأداء أو ظهرت أخطاء، سنعود إلى الإعدادات السابقة ونصعّد إلى تخطيط السعة للحلول طويلة الأجل. الملخص: تم تحليل الإنذارات والعدادات، وتأكيد ازدحام التحميل عبر منحنى المعدل، وتطبيق ضبط معايير الموقع لتخصيص الموارد وأوزان جودة الخدمة وتكيّف الرابط؛ والمتابعة مستمرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_MICRO_OFFICE_23",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_MICRO_OFFICE_23",
+        "DL",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL_resource_allocation+QoS_weights+link_adaptation"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The indoor NR micro cell’s downlink slowdown was due to congestion: sustained ~95% PRB usage, many users, elevated radio queueing delay, and low median throughput confirmed by the time series. We performed site parameter tuning on resource-allocation fairness, QoS weights, and link adaptation, which lifted DL throughput and reduced delay. We will monitor the cell for the next 2–4 hours for stability.",
+    "ar": "كان تباطؤ التحميل في موقع NR الصغير الداخلي ناتجاً عن ازدحام: استخدام PRB مستمر بحوالي 95% وعدد مستخدمين كبير وتأخير اصطفاف راديوي مرتفع ومتوسط معدل تحميل منخفض كما أكدته السلسلة الزمنية. قمنا بضبط معايير الموقع لعدالة تخصيص الموارد وأوزان جودة الخدمة وتكيّف الرابط، مما رفع معدل التحميل وقلل التأخير. سنراقب الخلية خلال الساعتين إلى الأربع ساعات القادمة للتحقق من الاستقرار."
+  }
+}

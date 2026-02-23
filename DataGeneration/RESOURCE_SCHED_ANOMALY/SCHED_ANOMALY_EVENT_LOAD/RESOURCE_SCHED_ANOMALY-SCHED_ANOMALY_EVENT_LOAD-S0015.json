@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0015",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium 5G NR micro cell shows a congestion alarm over the last 3h with slow data, PRB ~93%, low fairness, high latency, and ~976 users during ingress.",
+    "ar": "خلية 5G NR صغيرة في الملعب تُظهر إنذار ازدحام خلال آخر 3 ساعات مع بيانات بطيئة، إشغال PRB ~93%، انخفاض العدالة، ارتفاع الكمون، وحوالي 976 مستخدمًا أثناء الدخول."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress on a 5G NR micro cell. Over the last 3h we saw an alarm and users report slow data. KPIs: PRB ~93%, low fairness, p50 throughput 6 Mbps, p95 latency 42 ms. Streaming is affected. Please take lead.",
+      "message_ar": "حدث دخول جماهير في الملعب؛ خلية 5G NR من نوع micro. خلال آخر 3 ساعات ظهر إنذار، والمستخدمون يشتكون من بطء البيانات. المؤشرات: إشغال PRB ~93%، مؤشر عدالة منخفض، الوسيط 6 ميجابت/ث، كمون p95 ≈ 42 مللي ثانية. البث التدفقي متأثر. تولَّ القيادة من فضلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead. Plan: pull last 3h stats from OSS, analyze PRB and allocation balance, then apply a controlled tuning if confirmed. Please share the cell ID and approve a temporary change window.",
+      "message_ar": "سأتولى الأمر. الخطة: سحب إحصاءات آخر 3 ساعات من OSS، تحليل PRB وتوازن التخصيص، ثم تطبيق ضبط متحفظ إذا تأكد الخلل. يرجى تزويدي بمعرّف الخلية والموافقة على تغيير مؤقت."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-05-MICRO-1. Read/write approved for the next 3h.",
+      "message_ar": "معرّف الخلية: NR-STAD-05-MICRO-1. موافقة قراءة/كتابة خلال الساعات الثلاث القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 3h counters for NR-STAD-05-MICRO-1: PRB utilization sustained 90–96%; allocation skew 39; high-priority share 22%, best-effort 71%; users peaked at 976. Radio quality stable (SINR ~10 dB, RSRQ -13 dB). This indicates heavy load with unbalanced resource distribution. Proceed to PRB trend analysis for confirmation?",
+      "message_ar": "تم سحب مؤشرات آخر 3 ساعات للخلية NR-STAD-05-MICRO-1: إشغال PRB ثابت 90–96%؛ انحراف التخصيص 39؛ حصة أولوية عالية 22% وحصة أفضل جهد 71%؛ المستخدمون بلغوا 976. جودة الراديو مستقرة (SINR ~10 dB، RSRQ -13 dB). هذا يشير إلى ضغط حمولة مع توزيع موارد غير متوازن. هل أتابع بتحليل منحنى PRB للتأكيد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected PRB time series for the 3h window: PRB >95% during ingress bursts; fairness index ~0.63; median throughput ~6 Mbps; tail latency ~42 ms. Root cause aligns with a scheduling imbalance under high load, not RF. Requesting approval to apply conservative scheduling-weight tuning to protect high-priority traffic and enforce fairness guards on this micro cell.",
+      "message_ar": "تم جمع سلسلة زمنية لـ PRB خلال نافذة 3 ساعات: PRB يتجاوز 95% أثناء ذروة الدخول؛ مؤشر العدالة ~0.63؛ الوسيط ~6 ميجابت/ث؛ كمون الذيل ~42 مللي ثانية. السبب الجذري يتوافق مع خلل في آلية التوزيع تحت الحمل العالي وليس مشكلة RF. أطلب الموافقة لتطبيق ضبط محافظ لأوزان التوزيع لحماية الفئات ذات الأولوية وتفعيل حارس عدالة على هذه الخلية الصغيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Implement the change.",
+      "message_ar": "موافق. نفّذ التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR-STAD-05-MICRO-1: increased bounds for critical-class weight, enabled short-term fairness guard, and softened best-effort burstiness. No reset; live take. Monitoring for 10–15 minutes.",
+      "message_ar": "تم تطبيق الضبط على NR-STAD-05-MICRO-1: رفع حدود وزن الفئات الحرجة، تفعيل حارس عدالة قصير الأمد، وتخفيف اندفاع أفضل جهد. دون إعادة إقلاع؛ تفعيل حيّ. سنراقب لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: median user throughput up to ~8–9 Mbps, p95 latency down to ~30–32 ms, fairness rising. No new complaints in the last 5 minutes.",
+      "message_ar": "تحسن مبكر: ارتفع وسيط السرعة إلى ~8–9 ميجابت/ث، انخفض كمون p95 إلى ~30–32 مللي ثانية، العدالة تتحسن. لا شكاوى جديدة خلال آخر 5 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change checks show PRB still high but distribution more even; high-priority share ~30% during peaks without starving best-effort; no error spikes observed. We’ll keep the tuning active and continue observing through ingress.",
+      "message_ar": "فحوصات ما بعد التغيير تُظهر أن PRB ما يزال مرتفعًا لكن التوزيع أصبح أكثر توازنًا؛ حصة الأولوية العالية ~30% أثناء الذروة دون حرمان أفضل جهد؛ لم تُلاحظ طفرات في الأخطاء. سنُبقي الضبط مفعّلًا ونواصل المراقبة خلال فترة الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: slow data reports reduced and tail latency trending down. Action taken: scheduling parameter tuning on the NR micro cell. Let’s monitor through the next busy hour.",
+      "message_ar": "تم التأكيد على التحسن: تقارير بطء البيانات انخفضت وكمون الذيل في اتجاه هبوطي. الإجراء المتخذ: ضبط معلمات التوزيع على الخلية NR الصغيرة. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and provide an update on throughput, latency, and PRB balance. If conditions worsen, we’ll roll back the tuning and escalate to capacity planning for additional relief.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونقدّم تحديثًا حول السرعة والكمون وتوازن PRB. إذا ساءت الحالة، سنرجع الضبط ونصعّد إلى تخطيط السعة لاتخاذ إجراءات إضافية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During stadium ingress, the NR micro cell exhibited very high PRB usage with skewed resource distribution, causing slow data and elevated tail latency. I validated the condition using operational counters and PRB time series, then applied targeted site parameter tuning to rebalance class weights and enforce fairness. Immediate improvement was observed, and the cell will be monitored through the next busy hour.",
+    "ar": "أثناء دخول الجماهير في الملعب، أظهرت الخلية NR الصغيرة إشغال PRB مرتفعًا جدًا مع توزيع موارد غير متوازن مما سبب بطء البيانات وارتفاع كمون الذيل. تم التحقق من الحالة عبر المؤشرات التشغيلية والسلسلة الزمنية لـ PRB، ثم جرى تطبيق ضبط معلمات مستهدف لإعادة موازنة أوزان الفئات وفرض العدالة. لوحظ تحسن فوري، وسيتم مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

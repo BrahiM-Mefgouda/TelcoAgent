@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0017",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor 5G micro cell shows downlink throughput around 9 Mbps with ~92% PRB utilization and 179 users over the last 4h; a congestion alarm is active during business hours with heavy eMBB streaming.",
+    "ar": "خلية 5G داخلية (ميكرو) تُظهر معدل نقل وصلة هابطة حوالي 9 ميجابت/ث مع استخدام PRB ~92% و179 مستخدمًا خلال آخر 4 ساعات؛ إنذار ازدحام نشط خلال ساعات العمل مع حركة eMBB كثيفة (بث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor 5G micro cell NR-MICRO-IND-21 has a downlink throughput drop over the last 4h during business hours; a congestion alarm is active. KPIs: PRB ~92%, 179 users, DL ~9 Mbps, BLER ~5.9%, p95 resource allocation latency 41 ms. Heavy eMBB with streaming; office east wing users report slow downloads.",
+      "message_ar": "خلية 5G داخلية (ميكرو) NR-MICRO-IND-21 تعاني من هبوط في معدل الوصلة الهابطة خلال آخر 4 ساعات في ساعات العمل؛ إنذار ازدحام نشط. المؤشرات: استخدام PRB ~92%، 179 مستخدمًا، الوصلة الهابطة ~9 ميجابت/ث، BLER ~5.9%، تأخير تخصيص الموارد p95 يبلغ 41 مللي ثانية. حركة eMBB كثيفة مع بث؛ مستخدمو الجناح الشرقي في المكتب يشتكون من بطء التحميل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull current health and counters for NR-MICRO-IND-21 over the last 4h, then trend DL metrics to confirm if it’s capacity-driven. Please confirm access approval.",
+      "message_ar": "تم الاستلام. سأقوم أولاً بسحب حالة الخلية والعدادات لـ NR-MICRO-IND-21 لآخر 4 ساعات، ثم أرسم اتجاه مؤشرات الوصلة الهابطة للتحقق إن كان السبب سعة الشبكة. يرجى تأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-MICRO-IND-21 and the last 4h window.",
+      "message_ar": "تمت الموافقة على الوصول لـ NR-MICRO-IND-21 ونافذة آخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS health/counters for the last 4h. Snapshot: PRB utilization 91–94%, active users peak ~180+, BLER stable ~6%, backhaul OK, no hardware faults. Noted east wing impact—are specific floors more affected?",
+      "message_ar": "تم جلب حالة النظام والعدادات لآخر 4 ساعات. ملخص: استخدام PRB بين 91–94%، ذروة المستخدمين النشطين ~180+، BLER مستقر ~6%، الربط الخلفي جيد، لا أعطال عتادية. تم تسجيل تأثر الجناح الشرقي—هل هناك طوابق محددة أكثر تأثرًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Mostly level 3 east wing; occasional reports from level 2.",
+      "message_ar": "معظم الشكاوى من الطابق الثالث للجناح الشرقي؛ وأحيانًا من الطابق الثاني."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I’ll chart DL throughput vs PRB and latency over the last 4h to correlate dips with busy periods. Proceed?",
+      "message_ar": "بعد ذلك سأرسم علاقة معدل الوصلة الهابطة مع استخدام PRB والتأخير خلال آخر 4 ساعات لربط الهبوط بفترات الذروة. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows DL throughput degrading to 7–10 Mbps during top-load intervals when PRB >90% and resource-allocation delay rises; BLER remains moderate. This indicates congestion-driven capacity limitation on this indoor micro. Proposal: apply low-risk capacity tuning (DL resource distribution weights, PRB allocation bias for eMBB, modest control-channel aggregation) to relieve contention. Approve?",
+      "message_ar": "سلاسل الزمن تُظهر هبوط معدل الوصلة الهابطة إلى 7–10 ميجابت/ث أثناء فترات الحمل الأعلى عندما يتجاوز استخدام PRB 90% ويزداد تأخير تخصيص الموارد؛ بينما تبقى BLER متوسطة. هذا يدل على قيد سعة ناتج عن ازدحام في الخلية الداخلية. الاقتراح: تطبيق ضبط منخفض المخاطر لمعلمات السعة (أوزان توزيع الموارد في الوصلة الهابطة، تحييز تخصيص PRB لحركة eMBB، تجميع معتدل لقناة التحكم) لتخفيف التزاحم. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed with capacity parameter tuning now.",
+      "message_ar": "موافق؛ نفّذ ضبط معلمات السعة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Capacity tuning applied and verified. Immediate post-check (~5 min): PRB peaks reduced by ~5–8%, DL throughput now 12–15 Mbps under similar load, p95 resource-allocation delay down to ~28–32 ms, no BLER regression. Please have users on east wing L3 retest.",
+      "message_ar": "تم تطبيق ضبط السعة والتحقق منه. فحص فوري (~5 دقائق): انخفضت ذرى استخدام PRB بحوالي 5–8%، معدل الوصلة الهابطة أصبح 12–15 ميجابت/ث تحت حمل مشابه، تأخير تخصيص الموارد p95 انخفض إلى ~28–32 مللي ثانية، دون تدهور في BLER. يرجى طلب إعادة الاختبار من مستخدمي الطابق الثالث بالجناح الشرقي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Users report download rates improved to ~14 Mbps and page loads are smoother; resource-allocation delays are trending down. Action taken: capacity parameter tuning on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "أبلغ المستخدمون أن معدلات التحميل تحسّنت إلى ~14 ميجابت/ث وأصبح فتح الصفحات أكثر سلاسة؛ وتأخيرات تخصيص الموارد في اتجاه نزولي. الإجراء المتخذ: ضبط معلمات السعة على الخلية. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will monitor counters and user experience through the next busy hour and report back. If congestion persists, we will roll back the tuning and escalate for off-peak capacity expansion or broader offload; if performance holds, we’ll keep the new settings.",
+      "message_ar": "تم—سنراقب العدادّات وتجربة المستخدم خلال ساعة الذروة القادمة ونوافيكم بالتحديث. إذا استمر الازدحام سنقوم بالتراجع عن الضبط والتصعيد لتوسعة السعة خارج أوقات الذروة أو تفريغ أوسع؛ وإن استقر الأداء سنُبقي الإعدادات الجديدة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-MICRO-IND-21",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-MICRO-IND-21",
+        "DL",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL capacity tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on an indoor 5G micro cell during business hours. Counter and time-series analysis showed sustained PRB >90% with moderate error rates, pointing to congestion-driven capacity limitation. Applied site parameter tuning to improve DL resource distribution, reducing contention and lifting user throughput; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص هبوط معدل الوصلة الهابطة في خلية 5G داخلية (ميكرو) خلال ساعات العمل. أظهرت العدادات وسلاسل الزمن استخدام PRB مرتفعًا >90% مع أخطاء متوسطة، ما يدل على قيد سعة ناتج عن ازدحام. تم تطبيق ضبط لمعلمات الموقع لتحسين توزيع موارد الوصلة الهابطة، مما خفّف التزاحم ورفع معدل المستخدمين؛ ستستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

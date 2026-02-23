@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0003",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Over the last 3h at the stadium NR micro cell, a congestion alarm coincided with PRB ~86%, low fairness (0.63), high allocation skew, p95 scheduling latency 134 ms, and 542 users.",
+    "ar": "خلال آخر 3 ساعات في خلية NR ميكرو بالملعب، تزامن إنذار ازدحام مع استهلاك PRB ~86%، عدالة منخفضة (0.63)، انحياز تخصيص مرتفع، كمون جدولة p95=134 مللي ثانية، و542 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell NR-STAD-MICRO-07 raised a congestion alarm over the last 3h: PRB ~86%, allocation skew 28, fairness 0.63, p95 scheduling latency 134 ms, DL p50 10 Mbps/p95 32 Mbps, SINR 8 dB, 542 users with heavy eMBB streaming.",
+      "message_ar": "خلية NR ميكرو في الملعب NR-STAD-MICRO-07 أطلقت إنذار ازدحام خلال آخر 3 ساعات: استهلاك PRB ~86%، انحياز التخصيص 28، مؤشر العدالة 0.63، كمون الجدولة p95=134 مللي ثانية، تنزيل p50=10 ميجابت/ث وp95=32 ميجابت/ث، SINR=8 ديسيبل، 542 مستخدمًا مع بث eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling last 3h counters for NR-STAD-MICRO-07; approve access to proceed?",
+      "message_ar": "سأبدأ بسحب عدادات آخر 3 ساعات لـ NR-STAD-MICRO-07؛ هل توافق على الوصول للمتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed.",
+      "message_ar": "موافق؛ تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm congestion: PRB 85–88%, fairness low (≈0.63), allocation skew 28 toward best-effort, high-priority share 14%, p95 scheduling latency 134 ms; RF looks consistent (RSRQ −13 dB, SINR 8 dB). Next, I'll analyze PRB and fairness time series over 3h to see patterns—proceed?",
+      "message_ar": "العدادات تؤكد الازدحام: PRB بين 85–88%، العدالة منخفضة (≈0.63)، انحياز تخصيص 28 لصالح أفضل جهد، حصة أولوية عالية 14%، كمون الجدولة p95=134 مللي ثانية؛ طبقة RF مستقرة (RSRQ −13 ديسيبل، SINR 8 ديسيبل). سأحلل سلسلة PRB والعدالة خلال 3 ساعات لرؤية الأنماط—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows peaks aligned with crowd surges; fairness dips to 0.55 during bursts, best-effort share rises >65%, while high-priority queues inflate driving latency. I propose targeted tuning: increase weights for high-priority classes, cap best-effort burstiness, and apply a per-user PRB ceiling during congestion. Approve changes?",
+      "message_ar": "السلسلة الزمنية تُظهر قممًا مع اندفاعات الجمهور؛ العدالة تهبط إلى 0.55 أثناء الاندفاع، وترتفع حصة أفضل جهد لأكثر من 65% مع تضخم صفوف الأولوية العالية مما يرفع الكمون. أقترح ضبطًا موجّهًا: رفع أوزان الفئات ذات الأولوية، تقييد اندفاعية أفضل جهد، وتطبيق حد PRB لكل مستخدم أثناء الازدحام. هل توافق على التغييرات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning on NR-STAD-MICRO-07.",
+      "message_ar": "موافق على تنفيذ الضبط على NR-STAD-MICRO-07."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied tuning: +10% weight to high-priority classes, capped best-effort bursts, enabled per-user PRB ceiling under congestion and a short fairness window. No service interruption. Initial checks after 10 minutes: p95 scheduling latency ~92 ms, fairness ≈0.76, best-effort share ~55%, DL p50 ~13 Mbps.",
+      "message_ar": "تم تطبيق الضبط: +10% لأوزان الفئات عالية الأولوية، تقييد اندفاع أفضل جهد، تفعيل حد PRB لكل مستخدم مع الازدحام ونافذة عدالة قصيرة. دون انقطاع خدمة. فحوصات أولية بعد 10 دقائق: كمون الجدولة p95≈92 مللي ثانية، العدالة ≈0.76، حصة أفضل جهد ≈55%، تنزيل p50≈13 ميجابت/ث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing similar improvement here; queueing delays are easing and throughput distribution looks more balanced. RF indicators (RSRQ −13 dB, SINR 8 dB) remain stable.",
+      "message_ar": "أرى تحسنًا مماثلاً؛ تأخيرات الاصطفاف تتراجع وتوزيع السعة أكثر توازنًا. مؤشرات RF (RSRQ −13 ديسيبل، SINR 8 ديسيبل) مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep watching during the event peak, focusing on fairness, latency, and PRB headroom; let me know your preferred monitoring window.",
+      "message_ar": "جيد. سأستمر بالمراقبة أثناء ذروة الحدث مع التركيز على العدالة والكمون والهامش في PRB؛ أخبرني بنافذة المراقبة المفضلة لديك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Let’s monitor through the next busy hour; p95 scheduling latency is trending down to ~90 ms after the site parameter tuning. I’ll watch user experience KPIs and share observations.",
+      "message_ar": "لنراقب خلال الساعة المزدحمة القادمة؛ كمون الجدولة p95 يتجه للانخفاض إلى ~90 مللي ثانية بعد ضبط معلمات الموقع. سأتابع مؤشرات تجربة المستخدم وأشارك الملاحظات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we'll own that monitoring window and report updated fairness, latency, and throughput after the hour. If congestion resurges, we will escalate to load balancing across neighbors; if side effects appear, we will roll back the weight increase.",
+      "message_ar": "تم—سنتولى نافذة المراقبة ونبلغ بتحديثات العدالة والكمون ومعدلات النقل بعد الساعة. إذا عاد الازدحام سنصعّد إلى موازنة الحمل عبر الجيران؛ وإذا ظهرت آثار جانبية سنرجع زيادة الأوزان."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "+10% QoS weight to high-priority; cap best-effort bursts; per-user PRB ceiling under congestion; short fairness window"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on a stadium NR micro cell during an ongoing event: high PRB utilization with skewed allocation toward best-effort, low fairness, and elevated p95 scheduling latency. We reviewed counters and PRB time series, then applied site parameter tuning to rebalance QoS weights, cap burstiness, and enforce a per-user PRB ceiling during congestion. Early results show improved fairness and reduced latency; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص خلل في جدولة الموارد على خلية NR ميكرو في الملعب أثناء الحدث: استهلاك PRB مرتفع مع انحياز نحو أفضل جهد، عدالة منخفضة، وارتفاع كمون الجدولة p95. تم فحص العدادات والسلاسل الزمنية لـ PRB، ثم تطبيق ضبط لمعلمات الموقع لإعادة موازنة أوزان QoS، وتقييد الاندفاعية، وفرض حد PRB لكل مستخدم أثناء الازدحام. النتائج الأولية تُظهر تحسنًا في العدالة وانخفاضًا في الكمون؛ سنستمر بالمراقبة خلال الساعة المزدحمة القادمة."
+  }
+}

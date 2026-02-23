@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0027",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro cell over the last 24h shows ~9% URLLC admission denials with ~83% PRB use, ~35 slice requests per minute, ~70% slice utilization, latency ~15 ms, and a policy guard at 89%.",
+    "ar": "خلال آخر 24 ساعة في موقع ماكرو NR حضري يوجد ~9% حالات رفض قبول لـ URLLC مع استعمال PRB ~83%، حوالي 35 طلب شريحة في الدقيقة، استخدام الشريحة ~70%، كمون ~15 مللي ثانية، وحد حماية في السياسة عند 89%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell in the last 24h shows ~9% URLLC admission denials; PRB ~83%, ~35 slice requests/min, slice utilization ~70%, latency ~15 ms. Please investigate.",
+      "message_ar": "موقع ماكرو 5G NR حضري خلال آخر 24 ساعة يُظهر ~9% رفض قبول لـ URLLC؛ استعمال PRB ~83%، حوالي 35 طلب شريحة/دقيقة، استخدام الشريحة ~70%، والكمون ~15 مللي ثانية. الرجاء التحري."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking the cell counters and URLLC slice policy over the past 24h to isolate admission constraints. Please share the affected cell and slice IDs and confirm access.",
+      "message_ar": "سأبدأ بفحص عدادات الخلية وسياسة شريحة URLLC خلال آخر 24 ساعة لعزل قيود القبول. يرجى مشاركة معرفي الخلية والشريحة والتأكيد على السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NR1234A-1; Slice: URLLC-098. Access approved.",
+      "message_ar": "الخلية: NR1234A-1؛ الشريحة: URLLC-098. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running a 24h check on NR1234A-1 counters and URLLC-098 policy to review admission counters and guard limits.",
+      "message_ar": "أجري فحصًا لمدة 24 ساعة على عدادات NR1234A-1 وسياسة URLLC-098 لمراجعة عدادات القبول وحدود الحراسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: the URLLC admission guard is set at 89% with strict burst gating. With PRB averaging ~83% and short spikes to 88–90%, requests are denied despite ~70% slice utilization. Proposed action: lower the guard to 85% and enable short-burst allowance; no change to latency targets. Approve?",
+      "message_ar": "النتائج: حد حراسة قبول URLLC مضبوط عند 89% مع تقييد صارم للاندفاعات. مع متوسط PRB ~83% وارتفاعات قصيرة إلى 88–90% تحدث حالات رفض رغم أن استخدام الشريحة ~70%. الإجراء المقترح: خفض الحد إلى 85% وتمكين سماحية الاندفاع القصير؛ دون تغيير أهداف الكمون. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now; keep impact minimal.",
+      "message_ar": "موافَق على التنفيذ الآن؛ مع إبقاء الأثر في الحد الأدنى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying URLLC slice policy update on NR1234A-1/URLLC-098: guard 89% -> 85% and short-burst allowance enabled. Change is reversible and scoped to this cell. I will validate counters for 15 minutes.",
+      "message_ar": "جارٍ تطبيق تحديث سياسة شريحة URLLC على NR1234A-1/URLLC-098: خفض الحراسة من 89% إلى 85% وتمكين سماحية الاندفاع القصير. التغيير قابل للرجوع ومحصور بهذه الخلية. سأتأكد من العدادات لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial live counters show admission denials dipping and acceptance improving. Continue.",
+      "message_ar": "المؤشرات الحية الأولية تُظهر انخفاضًا في رفض القبول وتحسنًا في القبول. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Recording the change for traceability and continuing to watch admission success and PRB headroom across mixed hours.",
+      "message_ar": "أقوم بتوثيق التغيير لأغراض التتبع وسأواصل مراقبة نجاح القبول وهامش PRB عبر ساعات الاستخدام المختلطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~30 minutes, denials trend around 2–3% and latency holds near 15 ms; PRB peaks ~86–87%. Keep observing.",
+      "message_ar": "بعد ~30 دقيقة، يتجه معدل الرفض إلى حوالي 2–3% والكمون ثابت قرب 15 مللي ثانية؛ وتبلغ ذرى PRB حوالي 86–87%. واصل المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good improvement: URLLC admission denials trending down and acceptance above 97%. Action taken: slice policy update (guard lowered, burst allowance enabled). Let’s monitor through the next busy hour. Reference DU-SLICE-02831.",
+      "message_ar": "تحسن جيد: رفض قبول URLLC في اتجاه هابط والقبول فوق 97%. الإجراء المُتخذ: تحديث سياسة الشريحة (خفض الحراسة وتمكين سماحية الاندفاع). لنراقب خلال ساعة الذروة القادمة. المرجع DU-SLICE-02831."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket after the window. If denials spike or latency degrades, we will roll back the change; if stable but headroom tightens, we will consider cautious extensions to adjacent cells.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونقوم بتحديث التذكرة بعد انتهاء الفترة. إذا ارتفع الرفض أو تدهور الكمون سنرجع التغيير؛ وإن بقيت الاستقرارية مع تضييق الهامش فسننظر في توسيع حذر للخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "URLLC slice admission failures were traced to an overly strict guard at 89%, causing denials during short PRB bursts despite moderate average utilization. We executed a slice policy update by lowering the guard to 85% and enabling short-burst allowance on the affected NR macro cell, and logged a change ticket. Early results show improved admission success; we will monitor through the next busy hour.",
+    "ar": "تم تتبع حالات رفض قبول URLLC إلى حد حراسة صارم عند 89% تسبب برفضات أثناء اندفاعات PRB القصيرة رغم الاستفادة المتوسطة. نفّذنا تحديثًا لسياسة الشريحة عبر خفض الحراسة إلى 85% وتمكين سماحية الاندفاع القصير على خلية NR الماكرو المتأثرة، وتم تسجيل تذكرة تغيير. تظهر النتائج الأولية تحسنًا في نجاح القبول؛ وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

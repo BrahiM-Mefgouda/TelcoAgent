@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0005",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural 5G NR macro cell is heavily loaded (PRB ~85%, 219 users) while neighbors average ~36% and median throughput is ~7 Mbps (slow data) over the last 6h—load balancing is likely needed.",
+    "ar": "خلية ماكرو NR ريفية محمّلة بشدة (إشغال الموارد ~85%، 219 مستخدمًا) بينما متوسط الجيران ~36% والسرعة الوسيط ~7 ميجابت/ث (بيانات بطيئة) خلال آخر 6 ساعات—مرجح الحاجة إلى موازنة الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NR-Cell-4812 has been hot over the last 6h across mixed hours: PRB ~85%, 219 users, p50 throughput ~7 Mbps (slow data). Neighbors look light (~36% avg). eMBB traffic with streaming dominant. Please assess.",
+      "message_ar": "الخلية الماكرو الريفية NR-Cell-4812 كانت ساخنة خلال آخر 6 ساعات عبر فترات مختلطة: إشغال الموارد ~85%، 219 مستخدمًا، السرعة الوسيطة ~7 ميجابت/ث (بيانات بطيئة). الجيران خفاف (~36% متوسط). حركة eMBB مع بث مسيطر. الرجاء التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Suspect load imbalance. I will first review neighbor relations and utilization to confirm offload targets, then apply conservative load-balancing tuning. Approve read access and change if needed?",
+      "message_ar": "تم. أشتبه في اختلال توازن الحمل. سأراجع أولًا الجيران والاستخدام لتأكيد أهداف التفريغ، ثم أطبق ضبطًا محافظًا لموازنة الحمل. هل توافق على وصول قراءة وتنفيذ تغييرات إذا لزم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID is NR-Cell-4812; neighbors are within ~7–8 km with acceptable links. You may proceed with changes if justified.",
+      "message_ar": "موافَق. معرّف الخلية NR-Cell-4812؛ الجيران ضمن ~7–8 كم بروابط مقبولة. يمكنك المتابعة بالتغييرات إذا كانت مبررة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initiating neighbor/load audit for NR-Cell-4812 against adjacent cells within 10 km to verify imbalance and offload candidates. I will proceed to tuning if confirmed.",
+      "message_ar": "أبدأ تدقيق الجيران وتوزيع الحمل لخلية NR-Cell-4812 مقابل الخلايا المجاورة ضمن 10 كم للتحقق من الاختلال وأهداف التفريغ. سأنتقل للضبط إذا تأكد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابِع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit results: serving PRB 84–88% vs neighbors 28–42%; handovers out ≈11 vs in ≈9 per 5 min; quality adequate (SINR 16 dB, RSRQ −11 dB). Conclusion: clear offload potential to underutilized neighbors. Propose adjusting mobility/load-based thresholds and offsets to shift ~10–15% traffic. Approve immediate change?",
+      "message_ar": "نتائج التدقيق: حمل الخلية الخادمة 84–88% مقابل الجيران 28–42%؛ التسليمات للخارج ≈11 مقابل الداخل ≈9 لكل 5 دقائق؛ الجودة كافية (SINR ‏16 ديسيبل، RSRQ ‏−11 ديسيبل). الاستنتاج: إمكان تفريغ واضح نحو الجيران منخفضي الحمل. أقترح ضبط عتبات التنقل المعتمدة على الحمل وهوامش التفضيل لتحويل ~10–15% من الحركة. هل توافق على تنفيذ فوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate, conservative optimization.",
+      "message_ar": "موافق على تحسين فوري ومحافظ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying conservative load-balancing parameter tuning on NR-Cell-4812 and relevant neighbors: reduce serving bias, increase preference toward lighter neighbors, and slightly earlier handover under high utilization; voice/edge users protected. Changes committed; I will monitor initial impact for 15–30 minutes.",
+      "message_ar": "أطبق ضبطًا محافظًا لمعايير موازنة الحمل على NR-Cell-4812 والجيران المعنيين: تقليل انحياز الخلية الخادمة، زيادة تفضيل الجيران الأخف حملًا، وتقديم التسليم قليلًا عند ارتفاع الاستخدام؛ مع حماية الصوت وأطراف الخلية. تم تطبيق التغييرات؛ سأراقب الأثر الأولي لمدة 15–30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged, watching counters.",
+      "message_ar": "تم، أتابع العدادات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early post-change snapshot: serving PRB down to ~72–75%, neighbors up to ~50–55%; median throughput ~11 Mbps. Handover success stable, no spike in failures. Continuing to monitor.",
+      "message_ar": "لقطة أولية بعد التغيير: حمل الخلية الخادمة انخفض إلى ~72–75%، والجيران ارتفعوا إلى ~50–55%؛ السرعة الوسيطة ~11 ميجابت/ث. نجاح التسليم مستقر ولا ارتفاع في الإخفاقات. أواصل المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data complaints eased and load trending lower. Action taken was load-balancing parameter tuning after a neighbor audit. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: تراجعت شكاوى بطء البيانات والحمل في اتجاه منخفض. الإجراء كان ضبط معايير موازنة الحمل بعد تدقيق الجيران. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update on PRB distribution, user throughput, and handover stability. If congestion returns or mobility degradation appears, we will roll back the changes and escalate for capacity options; otherwise we’ll keep the tuning in place.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونزوّدك بتحديث حول توزيع الحمل والسرعات واستقرار التسليم. إن عاد الازدحام أو ظهرت تدهورات في التنقل، سنرجع التغييرات ونصعّد لبحث خيارات السعة؛ وإلا سنبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-Cell-4812",
+        "auto"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_balancing_offsets"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural 5G NR macro cell as load-imbalanced: serving PRB near 85% with neighbors lightly loaded and users experiencing slow data. Performed a neighbor audit and executed site parameter tuning for load-based offloading and mobility thresholds to bias traffic toward underutilized neighbors. Early results show reduced serving load and improved median throughput; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص خلية ماكرو NR ريفية بوجود اختلال في توازن الحمل: إشغال الخلية الخادمة يقارب 85% بينما الجيران منخفضو الحمل مع بطء بيانات للمستخدمين. تم إجراء تدقيق للجيران وتنفيذ ضبط لمعلمات الموقع لتفعيل التفريغ المعتمد على الحمل وتهيئة عتبات التنقل لتحويل الحركة نحو الجيران منخفضي الاستخدام. تظهر النتائج الأولية انخفاض حمل الخلية الخادمة وتحسن السرعة الوسيطة؛ وتستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

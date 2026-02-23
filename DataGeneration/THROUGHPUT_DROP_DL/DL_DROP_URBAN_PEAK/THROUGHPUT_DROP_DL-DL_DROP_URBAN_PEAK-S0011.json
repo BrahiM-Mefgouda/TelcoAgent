@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0011",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a downlink throughput drop over the last 3h with a congestion alarm active; high load and interference/signal overlap (SINR 2 dB, RSRQ -15 dB, 282 users, PRB 79%).",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر هبوطاً في معدل التحميل خلال آخر 3 ساعات مع إنذار ازدحام فعّال؛ حمل مرتفع وتداخل/تراكب إشارة (SINR ‏2 dB، RSRQ ‏-15 dB، 282 مستخدماً، PRB ‏79%)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro NR-URB-0456 has DL throughput ~13 Mbps over the last 3h during shoulder time. Users ~282, PRB ~79%, SINR ~2 dB, RSRQ -15 dB, BLER ~4.7%, p95 scheduling latency 56 ms.",
+      "message_ar": "الخلية الحضرية NR ماكرو NR-URB-0456 لديها معدل تحميل يقارب 13 ميجابت/ث خلال آخر 3 ساعات في فترة الكتف. المستخدمون ~282، استهلاك PRB ~79%، SINR ~2 dB، RSRQ ‏-15 dB، BLER ~4.7%، وزمن جدولة p95 يساوي 56 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull OSS counters for NR-URB-0456 over the last 3h to validate load, interference, and user distribution. Approve read-only access?",
+      "message_ar": "سأجلب عدادات الـOSS للخلية NR-URB-0456 لآخر 3 ساعات للتحقق من الحمل والتداخل وتوزيع المستخدمين. هل توافق على وصول للقراءة فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Read-only access is fine.",
+      "message_ar": "موافق. وصول للقراءة فقط مقبول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot confirms high load: PRB 78–82%, users peaked ~290, SINR median ~2 dB, RSRQ ~-15 dB. Next, I will chart DL throughput and related metrics over 3h to isolate the drop window. Proceed?",
+      "message_ar": "اللقطة تؤكد حملاً مرتفعاً: PRB بين 78–82%، المستخدمون بلغوا ذروة ~290، قيمة SINR المتوسطة ~2 dB وRSRQ ~-15 dB. بعد ذلك سأرسم سلسلة زمنية لمعدل التحميل والقياسات ذات الصلة خلال 3 ساعات لعزل فترة الهبوط. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Timeseries shows DL throughput dipping to 8–15 Mbps during the shoulder period with PRB saturation and elevated scheduling latency; BLER remains moderate. This points to capacity pressure compounded by interference/signal overlap. I propose site parameter tuning to improve scheduler fairness and reduce interference impact; low risk. Approve?",
+      "message_ar": "السلسلة الزمنية تُظهر هبوط DL إلى 8–15 ميجابت/ث في فترة الكتف مع تشبع PRB وارتفاع زمن الجدولة؛ بينما BLER معتدل. هذا يشير إلى ضغط سعة مع تداخل/تراكب إشارة. أقترح ضبط معلمات الموقع لتحسين عدالة المُجدول وتقليل تأثير التداخل؛ مخاطرة منخفضة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize parameters.",
+      "message_ar": "موافق على تحسين المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on NR-URB-0456 now: tuned scheduler fairness, eased high-MCS aggressiveness under poor SINR, and balanced downlink power allocation. Changes committed; rollback plan ready if adverse effects appear.",
+      "message_ar": "أطبّق التحسين الآن على NR-URB-0456: ضبطت عدالة المُجدول، خفّفت اندفاعية MCS العالية مع SINR ضعيف، ووازنت تخصيص القدرة في الوصلة الهابطة. تم اعتماد التغييرات؛ وخطة الرجوع جاهزة إذا ظهرت آثار سلبية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check ~10 minutes after change: DL median up to ~20 Mbps and p95 latency starting to ease.",
+      "message_ar": "فحص أولي بعد ~10 دقائق من التغيير: ارتفع الوسيط لمعدل DL إلى ~20 ميجابت/ث وبدأ زمن p95 في التحسن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will keep watching counters for stabilization and ensure no negative impact on neighbors. Target: higher DL throughput and lower scheduling delay under similar load.",
+      "message_ar": "تم. سأواصل مراقبة العدادات لاستقرار الأداء والتأكد من عدم وجود تأثير سلبي على الجيران. الهدف: زيادة معدل DL وتقليل تأخر الجدولة تحت حمل مماثل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: downlink throughput trending up. Action taken was site parameter tuning on NR-URB-0456. Let’s monitor through the next busy hour.",
+      "message_ar": "تم رصد تحسن: معدل التحميل الهابط يتجه للارتفاع. الإجراء المتخذ كان ضبط معلمات الموقع على NR-URB-0456. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and share a status update afterward. If performance drops again, we will revert the tuning and investigate neighboring interference; otherwise, we will keep the change in place.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديث الحالة بعدها. إذا تراجع الأداء مرة أخرى، سنرجع عن الضبط ونفحص التداخل من الخلايا المجاورة؛ وإلا سنبقي التغيير قائماً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-0456",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-0456",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on an urban 5G NR macro cell during the shoulder period, driven by high load and interference/signal overlap validated via OSS snapshot and DL time-series. Mitigated by site parameter tuning to improve scheduler fairness and balance downlink power under poor SINR. Performance will be monitored through the next busy hour to confirm stability.",
+    "ar": "تم تشخيص هبوط في معدل التحميل الهابط على خلية ماكرو 5G NR حضرية خلال فترة الكتف، ناتج عن حمل مرتفع وتداخل/تراكب إشارة، وذلك بعد التحقق عبر لقطة OSS وسلسلة زمنية لمعدل DL. جرى التخفيف عبر ضبط معلمات الموقع لتحسين عدالة المُجدول وموازنة القدرة في الوصلة الهابطة مع SINR ضعيف. ستتم مراقبة الأداء خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+  }
+}

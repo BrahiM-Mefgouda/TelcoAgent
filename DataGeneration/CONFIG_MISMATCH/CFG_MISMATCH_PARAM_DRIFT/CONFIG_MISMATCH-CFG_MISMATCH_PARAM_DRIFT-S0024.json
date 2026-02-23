@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0024",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell with an active alarm suggesting a partial outage; config drift observed (7 mismatched parameters over 11 hours, drift score 0.44), handover failures ~9%, moderate load (~47% PRB), and median downlink 23 Mbps for eMBB.",
+    "ar": "خلية NR ماكرو حضرية مع إنذار نشط يوحي بتعطل جزئي؛ لوحظ انجراف في الإعدادات (7 معلمات غير متطابقة خلال 11 ساعة، درجة 0.44)، فشل تسليم ~9%، حمل متوسط (~47% PRB)، ومعدل تنزيل وسطي 23 ميجابت/ث لمرور eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm on NR macro cell gNodeB-41012 (urban) over the last 12h; seeing elevated handover failures and occasional buffering on streaming for eMBB during off-peak. Please investigate.",
+      "message_ar": "إنذار على خلية NR ماكرو gNodeB-41012 (حضرية) خلال آخر 12 ساعة؛ نلاحظ ارتفاعًا في فشل التسليم وأحيانًا تقطّعًا في البث لمرور eMBB خلال خارج الذروة. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by auditing live vs OSS configuration for the past 12h to confirm parameter drift. Please share the cell ID and approve read access.",
+      "message_ar": "تم. سأبدأ بتدقيق التوافق بين الإعدادات الحية ومخزن الإعدادات لآخر 12 ساعة لتأكيد الانجراف. يرجى مشاركة معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-41012A; window: 12h. Read-only access approved.",
+      "message_ar": "معرف الخلية: NR-41012A؛ النافذة: 12 ساعة. موافقة وصول للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit complete: 7 parameters have drifted for ~11h (handover thresholds, neighbor relations, beam set). This likely explains the ~9% HO failures despite moderate load. I recommend aligning to the OSS baseline now; approve?",
+      "message_ar": "اكتمل التدقيق: 7 معلمات انجرفت منذ ~11 ساعة (عتبات التسليم، علاقات الجيران، مجموعة الحزم). هذا يفسّر فشل التسليم ~9% رغم الحمل المتوسط. أوصي بمواءمة الإعدادات مع الأساس الآن؛ هل موافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to align to the baseline now; we are still off-peak.",
+      "message_ar": "موافق على المواءمة مع الأساس الآن؛ ما زلنا خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing baseline configuration to NR-41012A and validating. Completed: live now matches OSS on the 7 items; no consistency alarms post-change. I will watch mobility KPIs for stabilization.",
+      "message_ar": "جارٍ دفع الإعدادات الأساسية إلى NR-41012A والتحقق. تم: أصبحت الإعدادات الحية متطابقة مع الأساس في العناصر السبعة؛ لا توجد إنذارات تناسق بعد التغيير. سأراقب مؤشرات التنقل للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: fewer failed handovers in recent checks; no user complaints during the brief change.",
+      "message_ar": "ملاحظة أولية: عدد فشل التسليم أقل في الفحوصات الأخيرة؛ لا شكاوى مستخدمين أثناء التغيير القصير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. To document and track, I will open a change record and a monitoring ticket, and continue observing the KPIs. Please confirm.",
+      "message_ar": "جيد. للتوثيق والمتابعة، سأفتح سجل تغيير وتذكرة مراقبة وأواصل رصد المؤشرات. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed; proceed with creating the ticket.",
+      "message_ar": "مؤكد؛ تفضل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-CFG-10452 for baseline config push and drift remediation on NR-41012A. I will annotate initial post-change metrics.",
+      "message_ar": "تم إنشاء التذكرة: DU-CFG-10452 لمعالجة الانجراف ودفع الإعدادات الأساسية على NR-41012A. سأضيف مقاييس ما بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, handover failures are trending down and buffering reports have stopped. Action taken: configuration push to align parameters. Let’s monitor over the next 2–4 hours; we will track under DU-CFG-10452.",
+      "message_ar": "بعد التغيير، فشل التسليم يتجه للانخفاض وتوقفت تقارير التقطّع. الإجراء المنفذ: دفع إعدادات لمواءمة المعلمات. دعنا نراقب خلال الساعتين إلى الأربع القادمتين؛ سنتابع تحت DU-CFG-10452."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update DU-CFG-10452 with results. If degradation returns, we will escalate for deeper root-cause and, if needed, roll back to the previous working configuration.",
+      "message_ar": "سنَتَولّى نافذة المراقبة لمدة 2–4 ساعات ونحدّث DU-CFG-10452 بالنتائج. إذا عادت الحالة للتدهور فسوف نُصعّد للتحقيق الأعمق، وإن لزم الأمر نرجع إلى الإعداد السابق العامل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed live-versus-OSS parameter drift on the urban NR macro cell with seven mismatches active for about 11 hours, contributing to elevated handover failures. Executed a configuration push to realign with the baseline and created a tracking ticket. Monitoring will continue off-peak to confirm stability.",
+    "ar": "تم تأكيد انجراف المعلمات بين الإعدادات الحية ومخزن الإعدادات على خلية NR ماكرو حضرية مع سبع حالات عدم تطابق نشطة لنحو 11 ساعة، ما أسهم في ارتفاع فشل التسليم. تم تنفيذ دفع إعدادات لإعادة المواءمة مع الأساس وإنشاء تذكرة للمتابعة. ستستمر المراقبة خارج الذروة للتحقق من الاستقرار."
+  }
+}

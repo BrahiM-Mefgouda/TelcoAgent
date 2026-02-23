@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0030",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell shows a congestion alarm in the last 6h with QoS far below target and slow data; please investigate and report the SLA violation scope and cause.",
+    "ar": "خلية NR صغيرة في الملعب تظهر إنذار ازدحام خلال آخر 6 ساعات مع جودة خدمة أدنى بكثير من الهدف وبطء في البيانات؛ نرجو التحقيق وإعداد تقرير بنطاق وسبب خرق اتفاقية الخدمة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During the ongoing stadium event, the NR micro cell breached SLA over the last 6h. QoS ~0.34 vs 0.95 target, p50 throughput 8 Mbps (slow data), latency ~53 ms, PRB ~82%, ~479 users. Alarm is active. Please assist.",
+      "message_ar": "خلال الحدث الجاري في الملعب، خلية NR صغيرة تجاوزت اتفاقية مستوى الخدمة خلال آخر 6 ساعات. جودة الخدمة ~0.34 مقابل هدف 0.95، وسيط السرعة 8 ميغابت/ث (بيانات بطيئة)، الكمون ~53 مللي ثانية، إشغال الموارد ~82%، حوالي 479 مستخدمًا. يوجد إنذار نشط. الرجاء المساندة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first review OSS data for NR-STAD-MICRO-01 over the last 6h to validate congestion and any faults, then quantify the SLA breach window. Please confirm access and target cell.",
+      "message_ar": "تم. سأراجع أولًا بيانات منصة التشغيل والصيانة للخلية NR-STAD-MICRO-01 لآخر 6 ساعات للتحقق من الازدحام وأي أعطال، ثم أقيس نافذة خرق SLA. يرجى تأكيد صلاحية الوصول والخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; target cell is NR-STAD-MICRO-01. No change freeze in effect.",
+      "message_ar": "تمت الموافقة على الوصول؛ الخلية المستهدفة هي NR-STAD-MICRO-01. لا يوجد تجميد تغييرات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS counters and alarms for NR-STAD-MICRO-01 across 6h, focusing on utilization, backhaul, and error trends. I will follow with QoS impact.",
+      "message_ar": "أسترجع عدادات وتنبيهات المنصة للخلية NR-STAD-MICRO-01 خلال 6 ساعات، مع التركيز على الاستغلال والربط الخلفي واتجاهات الأخطاء. سأتابع بتأثير جودة الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Context: event is live, streaming demand is high near halftime; I also saw DL grants saturating. No fiber alarms from our side.",
+      "message_ar": "للتوضيح: الحدث مباشر، وحمل البث مرتفع قرب فترة الاستراحة؛ كما لاحظت تشبع منح التنزيل. لا توجد إنذارات ألياف من جهتنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS indicates sustained high utilization (PRB >80%), latency spikes 50–70 ms, BLER ~4%. Next, I’ll extract the QoS time series for the last 6h to measure severity and timing of the breach.",
+      "message_ar": "تُظهر المنصة استغلالًا مرتفعًا مستمرًا (PRB >80%)، وارتفاعات كمون 50–70 مللي ثانية، وBLER بنحو 4%. التالي: سأستخرج السلسلة الزمنية لجودة الخدمة لآخر 6 ساعات لقياس شدة وتوقيت الخرق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "The QoS trend confirms persistent degradation: average ~0.34 with ~54% of the window below target; worst interval 20:10–20:55. Primary driver is capacity pressure; no hard faults observed. I will prepare the SLA report and propose opening a ticket for capacity/policy actions.",
+      "message_ar": "تؤكد السلسلة الزمنية تدهورًا مستمرًا: متوسط ~0.34 مع ~54% من النافذة دون الهدف؛ أسوأ فترة 20:10–20:55. الدافع الأساسي ضغط السعة؛ لا أعطال صلبة. سأجهز تقرير خرق SLA وأقترح فتح تذكرة لإجراءات السعة/السياسة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the report and ticket.",
+      "message_ar": "تابع إعداد التقرير وفتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA incident recorded with evidence (KPIs, charts, timestamps) requesting event-mode capacity/policy review for NR-STAD-MICRO-01. I will keep monitoring through the busy window.",
+      "message_ar": "تم إنشاء سجل خرق SLA مع الأدلة (مؤشرات، رسوم، طوابع زمنية) لطلب مراجعة السعة/السياسات لوضع الحدث للخلية NR-STAD-MICRO-01. سأواصل المراقبة خلال فترة الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing slight improvement: slow-data complaints eased and latency trending down to ~40 ms post-peak. Action taken: SLA report and ticket creation for capacity/policy review. Let’s monitor through the next busy hour and track QoS recovery against DU-SLA-02319.",
+      "message_ar": "أرى تحسنًا طفيفًا: تقلصت شكاوى بطء البيانات والكمون يتجه إلى ~40 مللي ثانية بعد الذروة. الإجراء المتخذ: إعداد تقرير الخرق وإنشاء تذكرة لمراجعة السعة/السياسة. لنرصد خلال ساعة الذروة القادمة ونتابع تعافي جودة الخدمة مقابل DU-SLA-02319."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring over the next busy hour and update the ticket after the window. If metrics worsen, we will escalate to the capacity team for immediate relief; if any negative side effects appear, we will roll back temporary measures—none were applied today.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد النافذة. إذا ساءت المؤشرات سنصعّد إلى فريق السعة للحلول العاجلة؛ وإذا ظهرت آثار سلبية سنلغي أي إجراءات مؤقتة—مع العلم أنه لم يُطبق شيء اليوم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "QoS",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA violation at stadium NR micro cell NR-STAD-MICRO-01 during live event; QoS=0.34 vs target 0.95 with 54% of window below target; PRB=82%, latency=53 ms, BLER=4%, users=479. Request capacity and policy review for event-mode mitigation."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the 5G NR micro cell showed sustained congestion with latency spikes and slow data, yielding QoS ~0.34 versus a 0.95 target and a 54% violation window. We validated the breach through OSS review and QoS time trends, then opened a ticket for capacity and policy action; we will monitor through the next busy hour and update the record.",
+    "ar": "خلال حدث الملعب، أظهرت خلية 5G NR الصغيرة ازدحامًا مستمرًا مع ارتفاعات في الكمون وبطء في البيانات، ما أدى إلى جودة خدمة ~0.34 مقابل هدف 0.95 ونافذة خرق بنسبة 54%. تم التحقق من الخرق عبر مراجعة المنصة والسلاسل الزمنية لجودة الخدمة، ثم فتح تذكرة لاتخاذ إجراءات السعة والسياسة؛ سنواصل المراقبة خلال ساعة الذروة القادمة ونحدّث السجل."
+  }
+}

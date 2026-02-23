@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0012",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate slow data on the indoor NR micro cell over the last 4 hours during off-peak; an alarm indicates congestion with PRB ~85%, 161 users, downlink throughput ~6 Mbps, BLER ~3.8%, and p95 queue latency 79 ms.",
+    "ar": "التحقيق في بيانات بطيئة على موقع NR داخلي من نوع مايكرو خلال آخر 4 ساعات خارج أوقات الذروة؛ يوجد إنذار يشير إلى ازدحام مع إشغال الموارد ~85%، 161 مستخدماً، سرعة تنزيل ~6 ميجابت/ث، BLER ~3.8%، وكمون صفوف p95 يساوي 79 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cell at the enterprise campus shows slow downloads in the last 4 hours off-peak. Alarm indicates congestion. KPIs: PRB ~85%, ~161 users, DL throughput ~6 Mbps, p95 queue latency 79 ms, BLER ~3.8%.",
+      "message_ar": "الموقع الداخلي NR من نوع مايكرو في حرم الشركة يُظهر بطئاً في التنزيل خلال آخر 4 ساعات خارج أوقات الذروة. يوجد إنذار يشير إلى ازدحام. المؤشرات: إشغال الموارد ~85%، حوالي 161 مستخدماً، سرعة تنزيل ~6 ميجابت/ث، كمون الصفوف p95 يبلغ 79 مللي ثانية، وBLER ~3.8%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by checking live performance for the last 4 hours in OSS. Please share the exact cell ID and approve read access.",
+      "message_ar": "مفهوم. سأبدأ بفحص الأداء الحي لآخر 4 ساعات عبر نظام الإدارة. الرجاء تزويدي بمعرّف الخلية الدقيق والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_IN_23_MIC1. Read access approved. No recent changes on this site.",
+      "message_ar": "معرّف الخلية: NR_IN_23_MIC1. تمت الموافقة على صلاحية القراءة. لا تغييرات حديثة على هذا الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR_IN_23_MIC1 (last 4h): PRB utilization averages 85% with spikes >90%; users peaked 160+; p95 MAC queue latency 79 ms; BLER normal ~3–4%; no backhaul or fault alarms. This indicates capacity congestion. Next, I will plot downlink throughput over 4h to correlate with load—proceed?",
+      "message_ar": "نتيجة فحص نظام الإدارة للخلية NR_IN_23_MIC1 (آخر 4 ساعات): إشغال PRB بمتوسط 85% مع ارتفاعات تتجاوز 90%؛ عدد المستخدمين تجاوز 160؛ كمون صفوف MAC p95 يساوي 79 مللي ثانية؛ BLER طبيعي ~3–4%؛ لا إنذارات نقل خلفي أو أعطال. هذا يشير إلى ازدحام سِعوي. بعد ذلك سأرسم سلسلة زمنية لسرعة الوصلة الهابطة خلال 4 ساعات لربطها بالحمولة — هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms DL median ~6 Mbps with dips when PRB >90%. No interference indicators; MAC resource utilization is the bottleneck. Proposal: apply capacity-oriented site parameter tuning to prioritize downlink resources and optimize resource weights; low risk and reversible. Approve immediate change?",
+      "message_ar": "السلسلة الزمنية تؤكد أن الوسيط لسرعة التنزيل ~6 ميجابت/ث مع هبوط عند تجاوز PRB نسبة 90%. لا مؤشرات على تداخل؛ اختناق في استغلال موارد MAC. المقترح: تنفيذ ضبط معلمات موجه للسعة لزيادة أولوية موارد الوصلة الهابطة وتحسين أوزان الموارد؛ مخاطرة منخفضة وقابل للرجوع. هل توافق على التنفيذ فوراً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR_IN_23_MIC1: increased downlink resource aggressiveness and PRB budget within safe limits. Commit at 12:05 UTC. Monitoring short-term counters for 10 minutes.",
+      "message_ar": "تم تطبيق التحسين على NR_IN_23_MIC1: رفع شدة تخصيص موارد الوصلة الهابطة وزيادة ميزانية PRB ضمن حدود آمنة. تم التنفيذ عند 12:05 بالتوقيت العالمي. سأراقب المؤشرات القصيرة لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes: DL median ~12 Mbps, PRB ~73–75%, p95 queue latency ~48 ms, BLER stable ~3.5%. User count similar.",
+      "message_ar": "بعد 10 دقائق: الوسيط لسرعة التنزيل ~12 ميجابت/ث، إشغال PRB حوالي 73–75%، كمون الصفوف p95 ~48 مللي ثانية، وBLER مستقر ~3.5%. عدد المستخدمين مشابه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Improvement looks solid. I will keep watching near-real-time counters. Any user feedback from the office floor?",
+      "message_ar": "التحسن واضح. سأواصل متابعة المؤشرات شبه الفورية. هل هناك ملاحظات من المستخدمين في المكاتب؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, users report faster downloads; throughput is trending up and queue latency trending down after the site parameter tuning. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "نعم، المستخدمون أبلغوا عن تنزيلات أسرع؛ السرعة في اتجاه تصاعدي وكمون الصفوف في اتجاه تنازلي بعد ضبط معلمات الموقع. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and share throughput and load trends. If performance regresses, we will roll back the tuning; if congestion persists, we will escalate for capacity expansion.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونوافيكم باتجاهات السرعة والحمولة. إذا تراجعت الجودة سنرجع عن الضبط؛ وإن استمر الازدحام سنصعّد لزيادة السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor NR micro cell with slow downlink due to high resource utilization and elevated queue latency, while error rates remained normal. Time-series analysis confirmed throughput drops aligned with load peaks. Mitigation was applied via site parameter tuning to prioritize downlink resources and adjust resource weighting, and the cell will be monitored for the next 2–4 hours.",
+    "ar": "تم تشخيص خلية NR داخلية من نوع مايكرو تعاني من بطء في الوصلة الهابطة بسبب ارتفاع استغلال الموارد وارتفاع كمون الصفوف مع بقاء معدلات الأخطاء ضمن الطبيعي. أكدت السلسلة الزمنية أن هبوط السرعة يتوافق مع ذروة الحمل. تم تنفيذ الإجراء عبر ضبط معلمات الموقع لإعطاء أولوية لموارد الوصلة الهابطة وتعديل أوزان الموارد، وسيتم مراقبة الخلية خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

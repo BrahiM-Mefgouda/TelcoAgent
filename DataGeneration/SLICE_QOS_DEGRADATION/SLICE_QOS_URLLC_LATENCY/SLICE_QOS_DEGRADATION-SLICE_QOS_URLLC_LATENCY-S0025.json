@@ -1,0 +1,106 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0025",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban NR macro cell in peak hour shows URLLC latency 37 ms, jitter 11 ms, violations 34%, PRB 85%, 92 users, and p50 throughput 6 Mbps (slow data); congestion alarm active.",
+    "ar": "خلية NR ماكرو حضرية في ساعة الذروة تعرض كمون URLLC يبلغ 37 مللي ثانية وتذبذب 11 مللي ثانية ومخالفات 34% وإشغال PRB بنسبة 85% و92 مستخدمًا ومعدل نقل وسيطي 6 ميجابت/ث (بيانات بطيئة)؛ إنذار ازدحام مفعل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell during peak with heavy eMBB streaming has a congestion alarm. URLLC latency is 37 ms, jitter 11 ms, violations ~34%, PRB ~85%, p50 throughput 6 Mbps, 92 users. Please investigate.",
+      "message_ar": "خلية NR ماكرو حضرية خلال الذروة مع بث eMBB كثيف لديها إنذار ازدحام. كمون URLLC 37 مللي ثانية، التذبذب 11 مللي ثانية، المخالفات ~34%، إشغال PRB ~85%، المعدل الوسيط 6 ميجابت/ث، 92 مستخدمًا. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by reviewing the last 4 hours of cell status and counters. Please confirm the impacted cell ID and grant access.",
+      "message_ar": "سأبدأ بمراجعة حالة الخلية ومؤشرات آخر 4 ساعات. يرجى تأكيد معرف الخلية ومنح حق الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Impacted cell: NR-URB-12345. Read access approved.",
+      "message_ar": "الخلية المتأثرة: NR-URB-12345. تم منح صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewed the last 4 hours: site healthy, no hardware/backhaul faults. PRB peaked at 92% with URLLC scheduler backlog during busy hour—consistent with congestion. Next, I will analyze the slice QoS time series to verify the latency pattern; proceed?",
+      "message_ar": "راجعت آخر 4 ساعات: الموقع سليم ولا أعطال في العتاد/الوصل الخلفي. بلغت ذروة إشغال PRB نسبة 92% مع تراكم في مجدول URLLC وقت الانشغال—يتسق مع الازدحام. بعد ذلك سأحلل السلسلة الزمنية لجودة خدمة الشريحة للتحقق من نمط الكمون؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "The QoS time series shows URLLC median latency ~37 ms with spikes into the low 40s, jitter ~11–12 ms, and violations 30–36% aligned with heavy eMBB streaming. This points to resource contention on the cell. I propose a targeted slice policy update to raise URLLC priority with stricter preemption; please confirm and share the URLLC slice ID.",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة تُظهر وسيط كمون URLLC ~37 مللي ثانية مع قمم في أوائل الأربعينيات وتذبذب ~11–12 مللي ثانية ومخالفات 30–36% متزامنة مع بث eMBB كثيف. يشير ذلك إلى تنازع على الموارد في الخلية. أقترح تحديثًا موجّهًا لسياسة الشريحة لرفع أولوية URLLC مع حجب أكثر صرامة؛ يرجى التأكيد ومشاركة معرّف شريحة URLLC."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. URLLC slice ID is SL-URLLC-URB-01. Approval granted for the policy update.",
+      "message_ar": "تم التأكيد. معرّف شريحة URLLC هو SL-URLLC-URB-01. تمت الموافقة على تحديث السياسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the slice policy update for SL-URLLC-URB-01 on NR-URB-12345. Early results (5–10 min): URLLC latency down to 22–24 ms, jitter 7–8 ms, violations trending below 15%. PRB remains high but scheduling now prioritizes URLLC; no drops or new alarms. I will continue to observe.",
+      "message_ar": "تم تطبيق تحديث سياسة الشريحة لـ SL-URLLC-URB-01 على NR-URB-12345. النتائج الأولية (5–10 دقائق): انخفض كمون URLLC إلى 22–24 مللي ثانية، التذبذب 7–8 مللي ثانية، والمخالفات تتجه لأقل من 15%. يظل إشغال PRB مرتفعًا لكن الجدولة تُفضل URLLC؛ لا إسقاطات ولا إنذارات جديدة. سأواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "I see URLLC latency in the low 20s with violations trending down; action taken: slice policy update. Let's monitor through the next busy hour.",
+      "message_ar": "أرى كمون URLLC في أوائل العشرينات مع اتجاه هابط للمخالفات؛ الإجراء المتخذ: تحديث سياسة الشريحة. لنواصل المراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor over the next busy hour and report latency, jitter, and violation rates. If degradation returns, we will escalate with broader load relief and roll back the change if needed.",
+      "message_ar": "تم. سنراقب خلال ساعة الانشغال التالية ونبلغ بالكمون والتذبذب ونسب المخالفات. إذا عادت المشكلة سنتصعّد بإجراءات أوسع لتخفيف الحمل وسنرجع التغيير إذا لزم الأمر."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-12345",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-12345",
+        "QoS cls",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "SL-URLLC-URB-01",
+        "priority+preemption"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During peak hour on an urban NR macro cell, URLLC latency and violations increased due to resource contention driven by heavy eMBB traffic. We confirmed healthy hardware/backhaul, validated the QoS time series trend, and applied a slice policy update to prioritize URLLC with stricter preemption. Post-change, URLLC latency and jitter dropped and violations declined, with continued monitoring in the next busy hour.",
+    "ar": "خلال ساعة الذروة على خلية NR ماكرو حضرية، ارتفع كمون URLLC والمخالفات بسبب تنازع الموارد الناتج عن حركة eMBB كثيفة. تم التأكد من سلامة العتاد والوصل الخلفي، والتحقق من مسار جودة الخدمة، ثم تطبيق تحديث لسياسة الشريحة لرفع أولوية URLLC مع حجب أكثر صرامة. بعد التغيير انخفض الكمون والتذبذب وتراجعت المخالفات، مع استمرار المراقبة في ساعة الانشغال التالية."
+  }
+}

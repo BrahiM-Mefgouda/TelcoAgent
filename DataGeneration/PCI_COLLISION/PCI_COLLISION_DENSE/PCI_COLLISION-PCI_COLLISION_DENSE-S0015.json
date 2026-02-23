@@ -1,0 +1,123 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0015",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G NR macro sector with an active alarm shows high handover failures (25%) and ping-pong (15%), low RSRQ (-16 dB), BLER 13.7%, median DL 16 Mbps with 386 users; 61% neighbor overlap suggests a PCI collision risk.",
+    "ar": "قطاع ماكرو 5G NR حضري مع تنبيه فعّال يظهر ارتفاعاً في فشل التسليم (25%) وارتداد التسليم (15%)، RSRQ منخفض (-16 dB)، BLER بنسبة 13.7%، ومتوسط تنزيل 16 Mbps مع 386 مستخدماً؛ تداخل الجيران بنسبة 61% يوحي بخطر تصادم PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector over the last 6h shows alarms and mobility issues: HO success ~79%, failures ~25%, ping-pong 15%, SINR ~7 dB, RSRQ -16 dB, BLER 13.7%, p50 DL 16 Mbps, 386 users, heavy eMBB streaming.",
+      "message_ar": "خلال آخر 6 ساعات في قطاع ماكرو NR حضري هناك تنبيهات ومشاكل في التنقل: نجاح التسليم ~79%، الفشل ~25%، ارتداد التسليم 15%، SINR حوالي 7 dB، وRSRQ -16 dB، وBLER 13.7%، ووسيط التنزيل 16 Mbps، مع 386 مستخدماً وبث eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by auditing neighbors to verify any PCI collision/confusion in the overlap zones. Please confirm the target cell ID and authorize diagnostic access and a potential live change if needed.",
+      "message_ar": "مفهوم. سأبدأ بتدقيق الجيران للتحقق من أي تصادم/تشوش في PCI ضمن مناطق التداخل. يرجى تأكيد معرّف الخلية المستهدفة وتفويض الوصول التشخيصي وإمكانية تنفيذ تغيير حي عند الحاجة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_MACRO_UTR-123. You have read access and change approval if you find a clear PCI issue.",
+      "message_ar": "معرّف الخلية: NR_MACRO_UTR-123. لديك صلاحية قراءة والموافقة على التغيير إذا وجدت مشكلة PCI واضحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit shows a direct PCI collision: adjacent sector NR_MACRO_UTR-129-S2 also uses PCI 286 with ~61% footprint overlap and within 3 dB dominance; another strong neighbor on PCI 411 increases confusion. I propose reassigning NR_MACRO_UTR-123 to PCI 178 (free locally; distinct modulo sets) to break contention. Proceed?",
+      "message_ar": "تدقيق الجيران يُظهر تصادماً مباشراً في PCI: القطاع المجاور NR_MACRO_UTR-129-S2 يستخدم أيضاً PCI 286 مع تداخل في البصمة ~61% وضمن هيمنة 3 dB؛ جار قوي آخر على PCI 411 يزيد التشوش. أقترح إعادة تعيين NR_MACRO_UTR-123 إلى PCI 178 (متاح محلياً وبمجموعات باقي مميزة) لإنهاء التعارض. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to reassign PCI as proposed.",
+      "message_ar": "تمت الموافقة على إعادة تعيين PCI كما اقترحت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: change PCI from 286 to 178, refresh neighbor relations to avoid same/offset collisions, and trigger cleanup of stale entries. No user-impact expected beyond brief measurement resets. Requesting final go-ahead.",
+      "message_ar": "الخطة: تغيير PCI من 286 إلى 178، وتحديث علاقات الجوار لتجنب التصادمات المباشرة/الإزاحة، وتهيئة تنظيف الإدخالات القديمة. لا يُتوقع تأثير على المستخدمين سوى إعادة ضبط قياسات وجيزة. أطلب الإذن النهائي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل بالتنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed: NR_MACRO_UTR-123 now on PCI 178; updated neighbor lists and removed conflicting mappings. Immediate signs: reduced rapid HO attempts and slight RSRQ lift in initial samples. I’ll monitor counters as they settle.",
+      "message_ar": "تم التنفيذ: NR_MACRO_UTR-123 أصبح على PCI 178؛ تم تحديث قوائم الجوار وإزالة الخرائط المتعارضة. مؤشرات فورية: انخفاض محاولات التسليم السريعة وارتفاع طفيف في RSRQ في العينات الأولية. سأراقب العدادات أثناء الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: UE traces show fewer rapid handovers in the last 10 minutes and BLER trending lower.",
+      "message_ar": "ملاحظة مبكرة: سجلات الأجهزة تظهر انخفاضاً في عمليات التسليم السريعة خلال آخر 10 دقائق وBLER يتجه للانخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will document the PCI replan and link the change for tracking and post-change review. Any additional context to include?",
+      "message_ar": "حسناً. سأوثّق إعادة تخطيط PCI وأربط التغيير للمتابعة ومراجعة ما بعد التغيير. هل هناك سياق إضافي لإدراجه؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No extra context. Please proceed with documentation.",
+      "message_ar": "لا يوجد سياق إضافي. يرجى المضي بالتوثيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Documentation completed: created a change/incident record summarizing the PCI replan on NR_MACRO_UTR-123 and monitoring plan. I’ll continue watching mobility and interference KPIs.",
+      "message_ar": "تم إكمال التوثيق: تم إنشاء سجل تغيير/حادثة يلخّص إعادة تخطيط PCI على NR_MACRO_UTR-123 وخطة المراقبة. سأواصل متابعة مؤشرات التنقل والتداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing improvement now: ping-pong handovers are trending down and handover failures are easing. The PCI replan (parameter tuning) you applied is effective; let’s monitor through the next busy hour and update DU-PCI-02867 afterward.",
+      "message_ar": "نلاحظ تحسناً الآن: ارتداد التسليم في انخفاض وفشل التسليم يتراجع. إعادة تخطيط PCI (ضبط المعلمات) التي قمت بها فعّالة؛ لِنُتابع خلال ساعة الذروة القادمة ونحدّث DU-PCI-02867 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and post an update to the ticket afterward. If degradation reappears, we will escalate to RF planning and, if needed, roll back to the prior PCI to stabilize service.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة وننشر تحديثاً للتذكرة بعدها. إذا عاد التدهور سنصعّد إلى تخطيط الترددات، وعند الحاجة سنعيد PCI السابق لاستقرار الخدمة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR_MACRO_UTR-123",
+        "live_neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "pci=178;anr_cleanup=true;update_neighbors=true"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI replan applied on NR_MACRO_UTR-123 to resolve collision in 61% overlap; monitor next busy hour for mobility stability"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 12,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision in an urban NR macro sector via neighbor audit, with a 61% overlap and a neighbor sharing the same PCI, causing ping-pong and handover failures. Mitigated by retuning the sector to a free PCI and updating neighbor relations (site parameter tuning), then documented the change with a ticket. Post-change indicators show improving mobility and interference, with monitoring through the next busy hour.",
+    "ar": "تم تشخيص تصادم PCI في قطاع ماكرو NR حضري عبر تدقيق الجيران، مع تداخل 61% وجار يستخدم نفس PCI مما سبب ارتداد وفشل التسليم. جرت المعالجة بإعادة ضبط القطاع إلى PCI متاح وتحديث علاقات الجوار (ضبط معلمات الموقع)، ثم توثيق التغيير بتذكرة. المؤشرات بعد التغيير تُظهر تحسناً في التنقل والتداخل، مع المتابعة خلال ساعة الذروة القادمة."
+  }
+}

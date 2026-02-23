@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0011",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell over the past 6h shows congestion with QoS 0.11 vs 0.95 target, 53% violations, PRB 97%, latency 50 ms, 510 users, and p50 throughput 8 Mbps (slow data).",
+    "ar": "خلية NR مصغّرة في الملعب خلال آخر 6 ساعات تُظهر ازدحاماً مع مؤشر جودة خدمة 0.11 مقابل هدف 0.95، انتهاكات 53%، اشغال موارد 97%، زمن تأخير 50 مللي ثانية، 510 مستخدمين، ووسيط سرعة 8 ميجابت/ث (بيانات بطيئة)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell breached SLA in the last 6h egress window: QoS index 0.11 vs 0.95, 53% violations, PRB ~97%, latency ~50 ms, 510 users, p50 throughput 8 Mbps (slow data). Congestion alarm active.",
+      "message_ar": "خلية NR مصغّرة في الملعب خرقت اتفاقية مستوى الخدمة خلال نافذة 6 ساعات لمرحلة الخروج: مؤشر جودة الخدمة 0.11 مقابل 0.95، نسبة الانتهاكات 53%، اشغال الموارد ~97%، زمن تأخير ~50 مللي ثانية، 510 مستخدمين، والوسيط للسرعة 8 ميجابت/ث (بيانات بطيئة). تنبيه ازدحام نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking live counters for the cell over the last 6h, then verify the QoS time series, and open an incident if breach is confirmed. Please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ بالتحقق من العدادات الحية للخلية خلال آخر 6 ساعات، ثم سأتحقق من سلسلة زمنية لمؤشر جودة الخدمة، وسأفتح بلاغاً إذا تأكد الخرق. الرجاء تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-03. Access approved for the 6h window.",
+      "message_ar": "معرف الخلية: NR-STAD-MICRO-03. تم منح الموافقة لنافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-STAD-MICRO-03 (6h). Findings: congestion flags present, average PRB 96–98%, no outage, backhaul normal, no critical faults. Proceeding to pull QoS time series for confirmation?",
+      "message_ar": "أجري فحصاً عبر نظام التشغيل للشبكة للخلية NR-STAD-MICRO-03 (6 ساعات). النتائج: إشارات ازدحام موجودة، متوسط اشغال الموارد 96–98%، لا انقطاع، الربط الخلفي طبيعي، ولا أعطال حرجة. أتابع لاستخراج السلسلة الزمنية لجودة الخدمة للتأكيد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead.",
+      "message_ar": "موافق. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series retrieved: index ~0.10–0.20 versus 0.95 target; violations in 53% of samples; latency spikes 40–60 ms; p50 throughput 8 Mbps. Egress crowd with eMBB streaming is saturating this stadium micro cell. I will open an incident for capacity relief and QoS protection. Confirm?",
+      "message_ar": "تم استخراج السلسلة الزمنية لجودة الخدمة: المؤشر ~0.10–0.20 مقابل هدف 0.95؛ انتهاكات في 53% من العينات؛ ارتفاعات زمن التأخير 40–60 مللي ث؛ الوسيط للسرعة 8 ميجابت/ث. ازدحام مرحلة الخروج مع بث eMBB يشبع هذه الخلية الصغيرة في الملعب. سأفتح بلاغاً لطلب تخفيف السعة وحماية جودة الخدمة. تأكيد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Please proceed.",
+      "message_ar": "مؤكد. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident created with full context (egress window, KPIs, user load) and recommendations for event-time capacity measures and QoS prioritization. I will keep watching the cell and prepare an update.",
+      "message_ar": "تم إنشاء بلاغ يتضمن السياق الكامل (نافذة الخروج، مؤشرات الأداء، عدد المستخدمين) وتوصيات لإجراءات سعة وقت الحدث وإعطاء أولوية لجودة الخدمة. سأواصل مراقبة الخلية وأجهز تحديثاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Live view: users down to ~320, PRB utilization ~85%, and slow data complaints are easing.",
+      "message_ar": "المشاهدة الحية: عدد المستخدمين انخفض إلى ~320، واشغال الموارد ~85%، وشكاوى بطء البيانات تتراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; performance is recovering as load drops. Please confirm the monitoring window you prefer for closure updates.",
+      "message_ar": "تم. الأداء يتحسن مع تراجع الحمل. يرجى تأكيد نافذة المراقبة المفضلة لتحديثات الإغلاق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: p50 throughput ~12 Mbps and latency trending down. Action taken: SLA incident ticket logged after QoS verification and OSS check. Let’s monitor for the next 2–4 hours; ticket DU-SLA-01857.",
+      "message_ar": "نرى تحسناً: الوسيط للسرعة ~12 ميجابت/ث وزمن التأخير يتناقص. الإجراء المتخذ: تم تسجيل بلاغ خرق SLA بعد التحقق من QoS وفحص النظام. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة؛ البلاغ DU-SLA-01857."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next 2–4 hours and post an update to the ticket afterward. If issues recur, we will escalate to capacity planning and event engineering; no rollback is needed, and any temporary measures causing side effects will be reverted.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنحدّث البلاغ بعد انتهاء النافذة. إذا تكررت المشكلات سنصعّد إلى تخطيط السعة وفريق فعاليات الشبكة؛ لا حاجة للتراجع حالياً، وأي إجراءات مؤقتة قد تُحدث آثاراً جانبية سيتم التراجع عنها."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Reviewed the stadium NR micro cell over the last 6 hours and confirmed a severe SLA breach: QoS index around 0.10–0.20 with 53% violations, high PRB, and latency spikes driven by egress eMBB streaming demand. After validating via QoS time series and an OSS check, an incident DU-SLA-01857 was raised for capacity relief and QoS protection. We will monitor for the next 2–4 hours and update the ticket.",
+    "ar": "تمت مراجعة خلية NR المصغّرة في الملعب خلال آخر 6 ساعات وتأكيد خرق شديد لاتفاقية مستوى الخدمة: مؤشر QoS بين 0.10–0.20 مع 53% انتهاكات، اشغال موارد مرتفع وارتفاعات في زمن التأخير بسبب طلب بث eMBB في مرحلة الخروج. بعد التحقق عبر السلسلة الزمنية لجودة الخدمة وفحص النظام، تم رفع البلاغ DU-SLA-01857 لطلب تخفيف السعة وحماية QoS. سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونحدّث البلاغ."
+  }
+}

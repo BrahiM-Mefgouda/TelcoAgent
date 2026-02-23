@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0006",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6h peak shows high PRB use (~83%), fairness ~0.60 with skew to best-effort, median throughput 20 Mbps, and p95 scheduler latency 44 ms for enterprise private traffic.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات ذروة تُظهر استخدام PRB مرتفع (~83%)، وعدالة ~0.60 مع انحياز لأفضل جهد، ومتوسط سرعات 20 ميغابت/ث، وزمن انتظار المُجدِّل p95 يبلغ 44 مللي ثانية لحركة المؤسسات الخاصة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-URB-123 has variable user experience during the last 6h peak for enterprise private users. Seeing high PRB use and latency spikes. Can you investigate?",
+      "message_ar": "الخلية NR ماكرو الحضرية NR-URB-123 لديها تذبذب في تجربة المستخدم خلال آخر 6 ساعات ذروة لمشتركي المؤسسات الخاصة. نرى استخدام PRB مرتفع وارتفاعات في زمن الاستجابة. هل يمكنك التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling OSS counters for NR-URB-123 over the last 6h to verify PRB distribution, fairness, and latency. Please confirm access approval.",
+      "message_ar": "مفهوم. سأبدأ بسحب مؤشرات OSS للخلية NR-URB-123 لآخر 6 ساعات للتحقق من توزيع PRB والعدالة وزمن التأخير. يرجى تأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. No active alarms; backhaul looks normal. Peak traffic is enterprise APN.",
+      "message_ar": "تمت الموافقة على الوصول. لا توجد إنذارات نشطة؛ الربط الخلفي طبيعي. حركة الذروة من APN المؤسسات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot complete: PRB utilization 82–86%, fairness index 0.60 with allocation skew 18 toward best-effort; high-priority share ~40%. Median DL throughput 20 Mbps, p95 42 Mbps. Scheduler p95 latency ~44 ms. Next, I will run a PRB time series to assess drift across peak. Proceed?",
+      "message_ar": "تم التقاط لقطة OSS: استخدام PRB بين 82–86%، مؤشر العدالة 0.60 مع انحياز 18 نحو أفضل جهد؛ حصة الحوامل عالية الأولوية ~40%. وسيط السعة النزولية 20 ميغابت/ث وp95 عند 42 ميغابت/ث. زمن المُجدِّل p95 ~44 مللي ثانية. بعد ذلك سأشغّل سلسلة زمنية لـ PRB لتقييم الانحراف عبر الذروة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series completed: PRB peaked at ~88% around 18:30; fairness dipped to ~0.55 during bursts; best-effort share expanded while high-priority lagged. Latency spikes correlate with these periods. I propose targeted scheduler balancing: raise weight for high-priority bearers, reserve a small PRB floor for GBR, and limit best-effort burst length. Approve parameter tuning now?",
+      "message_ar": "تمت السلسلة الزمنية: بلغت PRB ذروتها ~88% حوالي 18:30؛ انخفضت العدالة إلى ~0.55 أثناء الفترات المتقطعة؛ توسعت حصة أفضل جهد بينما تراجعت الحوامل عالية الأولوية. تتوافق ارتفاعات التأخير مع هذه الفترات. أقترح موازنة انتقائية للمُجدِّل: رفع وزن الحوامل عالية الأولوية، حجز حد أدنى صغير من PRB لـ GBR، وتقييد طول الدفقات لأفضل جهد. هل توافق على ضبط المعلمات الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Apply the tuning.",
+      "message_ar": "موافق. طبّق الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied successfully to NR-URB-123. Immediate checks show high-priority PRB share up by ~6 pp, fairness ~0.68, and scheduler p95 latency down to ~36 ms. I will watch counters for short stabilization and check for any regressions. Any immediate field feedback?",
+      "message_ar": "تم تطبيق الضبط بنجاح على NR-URB-123. الفحوصات الفورية تُظهر ارتفاع حصة PRB عالية الأولوية بحوالي +6 نقاط مئوية، والعدالة ~0.68، وانخفاض زمن المُجدِّل p95 إلى ~36 مللي ثانية. سأراقب المؤشرات لفترة استقرار قصيرة وأتحقق من أي تراجع. هل هناك ملاحظات ميدانية فورية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early feedback is positive—enterprise sessions look steadier, fewer latency complaints so far.",
+      "message_ar": "التغذية الراجعة الأولية إيجابية—جلسات المؤسسات أكثر استقراراً، وشكاوى التأخير أقل حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Targets after stabilization: fairness ≥0.70, scheduler p95 latency ≤35 ms, and median DL throughput ≥24 Mbps. I will continue observing during today’s busy period and share interim deltas shortly.",
+      "message_ar": "جيد. الأهداف بعد الاستقرار: عدالة ≥0.70، وزمن المُجدِّل p95 ≤35 مللي ثانية، ووسيط السعة النزولية ≥24 ميغابت/ث. سأواصل المراقبة خلال فترة الذروة اليوم وسأشارك التغييرات المؤقتة قريباً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Scheduling delay is trending down and fairness is improving; the site parameter tuning seems effective. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت الملاحظة. تأخير المُجدِّل في اتجاه تنازلي والعدالة تتحسن؛ ضبط معلمات الموقع يبدو فعالاً. لنرصد خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and post an update afterward. If performance degrades, we will roll back to the previous weights and pursue deeper analysis; if stable or better, we will keep the changes and close the action.",
+      "message_ar": "سنَتولّى المراقبة خلال ساعة الذروة القادمة وسنقدم تحديثاً بعدها. إذا تدهور الأداء سنعيد القيم السابقة ونجري تحليلاً أعمق؛ وإذا استقر أو تحسّن سنُبقي التغييرات ونغلق الإجراء."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on urban NR macro cell NR-URB-123 by reviewing OSS counters and a PRB time series, confirming fairness degradation and high scheduler latency with skew toward best-effort traffic. Executed site parameter tuning to rebalance scheduler weights, add a small PRB floor for high-priority/GBR traffic, and constrain best-effort bursts. Post-change checks showed improved fairness and lower latency; continued monitoring during the next busy hour is planned.",
+    "ar": "تم تشخيص خلل في جدولة الموارد على خلية NR ماكرو حضرية NR-URB-123 عبر مراجعة مؤشرات OSS وسلسلة زمنية لـ PRB، ما أكد تدهور العدالة وارتفاع زمن المُجدِّل مع انحياز نحو حركة أفضل جهد. تم تنفيذ ضبط لمعلمات الموقع لإعادة موازنة أوزان المُجدِّل، وإضافة حد أدنى صغير من PRB لحركة عالية الأولوية/GBR، وتقييد دفقات أفضل جهد. أظهرت فحوصات ما بعد التغيير تحسناً في العدالة وانخفاضاً في التأخير؛ مع الاستمرار في المراقبة خلال ساعة الذروة القادمة."
+  }
+}

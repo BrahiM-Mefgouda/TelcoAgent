@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0020",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows elevated ping-pong handovers (22%) and higher handover failures (11%) over the last 5h with low SINR (~3 dB) indicating interference/signal overlap and high load (~82% resource use).",
+    "ar": "خلية ماكرو 5G NR في الضواحي تظهر ارتفاعاً في عمليات التسليم التبادلي (22%) وإخفاقات التسليم (11%) خلال آخر 5 ساعات مع SINR منخفض (~3 dB) دالّ على تداخل/تراكب إشارة وحمل مرتفع (~82% من الموارد)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell showing elevated ping-pong handovers over the last 5h. HO success 92.6%, ping-pong 22%, HO fails 11%. RSRP −100 dBm, RSRQ −9 dB, SINR 3 dB (interference/signal overlap). PRB ~82% with 185 users; traffic mostly eMBB streaming. No alarms.",
+      "message_ar": "موقع ماكرو NR في منطقة الضواحي يُظهر ارتفاعاً في عمليات التسليم التبادلي خلال آخر 5 ساعات. نجاح التسليم 92.6%، معدل ping‑pong 22%، فشل التسليم 11%. RSRP −100 dBm و RSRQ −9 dB و SINR 3 dB (تداخل/تراكب إشارة). إشغال PRB ~82% مع 185 مستخدماً؛ الحركة غالبها eMBB للبث. لا إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. I'll start by pulling recent mobility and neighbor counters for this cell over 5h to isolate oscillating pairs and dwell times. Please confirm access.",
+      "message_ar": "شكراً. سأبدأ بسحب عدادات التنقل والعلاقات المجاورة لآخر 5 ساعات لهذه الخلية لعزل الأزواج المتذبذبة وأزمنة المكوث. الرجاء تأكيد الإذن بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved.",
+      "message_ar": "الإذن بالوصول معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled ops data: high short-dwell reversions <15s between NR-SUB-MACRO-045 and NR-SUB-MACRO-046 (68% of ping-pong), plus secondary with -047. Uplink interference spikes align with PRB >80%. No hardware faults. Next, I'll chart HO/reversion trends across 5h to quantify the spike and time correlation. Proceed?",
+      "message_ar": "تم سحب بيانات التشغيل: عمليات عودة قصيرة <15 ثانية مرتفعة بين NR-SUB-MACRO-045 و NR-SUB-MACRO-046 (68% من ping‑pong)، وثانوية مع -047. طفرات تداخل الوصلة الصاعدة تتوافق مع PRB >80%. لا أعطال عتادية. سأنشئ الآن رسوماً لاتجاهات التسليم/العودة خلال 5 ساعات لقياس الارتفاع وزمن حدوثه. المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend shows ping-pong peaking during shoulder into busy hour; reversions within 10–30s. Current settings: A3 offset 0 dB, TTT ~209 ms, hysteresis 4 dB. Diagnosis: overlap and marginal SINR driving early triggers. I propose tightening mobility: A3 +2 dB, TTT 320 ms, hysteresis 5 dB. Minimal risk. Approve change?",
+      "message_ar": "تُظهر الاتجاهات ذروة ping‑pong خلال الفترة الانتقالية حتى الذروة؛ عودة خلال 10–30 ثانية. الإعدادات الحالية: A3=0 dB، TTT≈209 ms، hysteresis=4 dB. التشخيص: تداخل وتراكب مع SINR هامشي يسبب تحفيزات مبكرة. أقترح تشديد التنقل: A3 +2 dB، TTT 320 ms، و hysteresis 5 dB. المخاطر محدودة. الموافقة على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter tuning on NR-SUB-MACRO-045 and symmetric neighbor relations: A3 +2 dB, TTT 320 ms, hysteresis 5 dB. Commit verified. Starting 15–30 min observation for reversion rate, HO success, and user throughput.",
+      "message_ar": "تم تطبيق ضبط المعلمات على NR-SUB-MACRO-045 وعلى العلاقات المتناظرة مع الجيران: A3 +2 dB، TTT 320 ms، و hysteresis 5 dB. تم التحقق من الاعتماد. أبدأ مراقبة 15–30 دقيقة لمعدل العودة، نجاح التسليم، ومعدل نقل المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No customer complaints reported during change. Please continue monitoring.",
+      "message_ar": "لا توجد شكاوى عملاء أثناء التغيير. الرجاء مواصلة المراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early counters look stable with fewer quick reversions. I will keep watching until we cross the next busy-hour ramp.",
+      "message_ar": "العدادات الأولية مستقرة مع انخفاض في العودات السريعة. سأواصل المتابعة حتى بداية ارتفاع الذروة القادم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: ping-pong events have dropped and handover failures are trending down. The site parameter optimization you applied appears effective. Let's monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: انخفضت أحداث الـ ping‑pong وتتجه إخفاقات التسليم للانخفاض. يبدو أن تحسين معلمات الموقع الذي طبّقته فعّال. لِنراقب حتى ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the monitoring through the next busy hour and share an update afterward. We tightened mobility thresholds (A3 +2 dB, TTT 320 ms, hysteresis 5 dB); if regressions appear, we will escalate to neighbor retune and, if needed, roll back today’s tweaks.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة حتى ساعة الذروة القادمة وسنشارك تحديثاً بعدها. قمنا بتشديد عتبات التنقل (A3 +2 dB و TTT 320 ms و hysteresis 5 dB)؛ وإذا ظهرت انتكاسات، سنصعّد إلى إعادة ضبط الجيران وسنعود عن تعديلات اليوم عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-045",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-MACRO-045",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3:+2dB; TTT:320ms; Hysteresis:5dB; scope:NR-SUB-MACRO-045↔neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on a suburban 5G NR macro cell driven by cell overlap and marginal SINR during shoulder/busy periods. Pulled operational data and time-series to confirm short-dwell reversions concentrated between specific neighbors, then applied site parameter tuning (A3 offset +2 dB, longer TTT, increased hysteresis) to reduce oscillations. We will monitor through the next busy hour to validate sustained improvement.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم التبادلي في خلية ماكرو 5G NR في الضواحي نتيجة تراكب التغطية وSINR هامشي خلال الفترات الانتقالية والذروة. تم تحليل بيانات التشغيل والسلاسل الزمنية لتأكيد عودات قصيرة المكوث بين جيران محددين، ثم تطبيق ضبط لمعلمات الموقع (رفع تعويض A3 بمقدار +2 dB وزيادة TTT وزيادة الهسترة) لتقليل التذبذب. سنراقب حتى ساعة الذروة القادمة للتحقق من استدامة التحسن."
+  }
+}

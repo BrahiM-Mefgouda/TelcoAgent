@@ -1,0 +1,105 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0005",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows high BLER (~13%) over the past 6h with interference/signal overlap and slow data (median DL ~5 Mbps) during the shoulder period—can you investigate?",
+    "ar": "خلية ماكرو NR ريفية تُظهر BLER مرتفعاً (~13%) خلال آخر 6 ساعات مع تداخل/تراكب إشارات وبطء في البيانات (وسيط التحميل ~5 Mbps) خلال الفترة الانتقالية—هل يمكن التحقق؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell over the last 6h (shoulder period). Users report slow data; KPIs: BLER ~13%, RSRP -116 dBm, RSRQ -11 dB, SINR 0 dB, ~47 users, p50 DL 5 Mbps; no alarms. Mix is eMBB with some streaming.",
+      "message_ar": "خلية ماكرو NR ريفية خلال آخر 6 ساعات (فترة انتقالية). المستخدمون يشتكون من بطء البيانات؛ المؤشرات: BLER ~13%، RSRP ‎-116 dBm، RSRQ ‎-11 dB، SINR ‏0 dB، ~47 مستخدماً، الوسيط للتحميل 5 Mbps؛ لا إنذارات. المزيج eMBB مع بعض البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first pull OSS counters for the last 6h to validate BLER and RF health. Please confirm the target cell ID and approve access.",
+      "message_ar": "تم. سأستخرج مؤشرات OSS لآخر 6 ساعات للتحقق من BLER وصحة التغطية. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-45721. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-45721. تمت الموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot for NR-45721 shows persistently elevated BLER at the coverage edge; transmit power is nominal, PRB load is moderate, and no active faults. Next, I will chart BLER over the 6h window to assess the pattern versus load and interference; proceed?",
+      "message_ar": "لقطة OSS للخلية NR-45721 تُظهر BLER مرتفعاً باستمرار عند حافة التغطية؛ قدرة الإرسال ضمن الحدود، وحمل PRB متوسط، ولا أعطال فعالة. الخطوة التالية: رسم BLER على مدى 6 ساعات لتقييم النمط مقابل الحمل والتداخل؛ هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "The time series indicates BLER peaks during the shoulder period with SINR around 0 dB and weak RSRP (-116 dBm), consistent with interference/signal overlap at cell edge. I propose targeted parameter optimization to improve coverage-edge robustness (link adaptation and retransmission tuning). Approve immediate low-risk change?",
+      "message_ar": "سلسلة الزمن تُظهر ارتفاعات BLER خلال الفترة الانتقالية مع SINR قرابة 0 dB وRSRP ضعيف (-116 dBm)، بما يتسق مع تداخل/تراكب إشارات عند حافة التغطية. أقترح تحسين إعدادات موجّه نحو حافة التغطية لزيادة التحمل (تحسين التكيّف على الوصلة وإعادة الإرسال). هل توافق على تنفيذ تغيير منخفض المخاطر الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-45721; no service interruption observed. I will watch counters for a short stabilization period and verify user-plane throughput.",
+      "message_ar": "تم تطبيق التحسين على NR-45721؛ لم تُلاحظ أي انقطاعات. سأراقب المؤشرات لفترة استقرار قصيرة وأتحقق من معدل نقل المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: BLER is trending down from ~13% to ~7%, and median downlink is rising toward 8–9 Mbps. Action taken: site parameter tuning/config push. Please monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: BLER يتجه للانخفاض من ~13% إلى ~7%، والوسيط للتحميل يرتفع إلى نحو 8–9 Mbps. الإجراء المتخذ: ضبط معلمات الموقع/دفع الإعدادات. الرجاء المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We will monitor through the next busy hour and update you on BLER, SINR, and median downlink. If performance regresses, we will roll back the change or escalate for RF optimization and field validation.",
+      "message_ar": "تم التأكيد. سنراقب خلال ساعة الذروة القادمة ونوافيك بتحديث حول BLER وSINR والوسيط للتحميل. إذا تراجعت الأداء، سنقوم بإرجاع التغيير أو نرفع الموضوع لتحسين RF والتحقق الميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-45721",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-45721",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "coverage-edge robustness tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a BLER anomaly on a rural NR macro cell with weak edge signal and interference, validated via OSS counters and a 6h BLER time series. Executed site parameter tuning to improve coverage-edge robustness, which reduced BLER and lifted median downlink throughput. Monitoring will continue through the next busy hour to ensure stability.",
+    "ar": "تم تأكيد شذوذ BLER في خلية ماكرو NR ريفية مع إشارة ضعيفة عند الحافة وتداخل، وتم التحقق عبر مؤشرات OSS وسلسلة BLER لمدّة 6 ساعات. نُفّذ ضبط لمعلمات الموقع لتحسين التحمل عند حافة التغطية، ما خفّض BLER ورفع الوسيط لمعدل التحميل. ستتواصل المتابعة خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

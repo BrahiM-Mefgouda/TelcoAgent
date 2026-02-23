@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0002",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows a 3h downlink degradation with a congestion alarm; ~80% PRB use, 253 users, 15 Mbps DL, and 0 dB SINR indicate interference / signal overlap during shoulder eMBB streaming.",
+    "ar": "خلية NR ماكرو حضرية تُظهر تراجعاً في الوصلة الهابطة لمدة 3 ساعات مع إنذار ازدحام؛ استخدام PRB بنحو 80% و253 مستخدماً ومعدل تنزيل 15 Mbps وSINR عند 0 dB تشير إلى تداخل/تراكب إشارات خلال ساعة الكتف مع حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR cell experiencing DL throughput drop over the last 3 hours; congestion alarm active. Users report buffering on streaming during the shoulder period.",
+      "message_ar": "خلية NR ماكرو حضرية تعاني انخفاضاً في سرعة التنزيل خلال آخر 3 ساعات؛ إنذار ازدحام نشط. هناك شكاوى من التقطيع أثناء البث خلال ساعة الكتف."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by checking OSS stats for the last 3 hours (load, radio quality, active users). Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بفحص إحصاءات النظام من آخر 3 ساعات (الحمل، جودة الراديو، المستخدمون النشطون). يرجى تأكيد معرّف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NRU1234, read-only access approved.",
+      "message_ar": "معرّف الخلية NRU1234، تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows PRB utilization ~80%, users 240–260, SINR ~0 dB, RSRQ -10 dB, BLER ~4–5%, and p95 scheduling latency ~95 ms. This aligns with congestion and interference. Next, I’ll pull the DL throughput time series for the same 3h window to correlate dips with load and SINR. Approve?",
+      "message_ar": "يعرض النظام استخدام PRB بنحو 80%، وعدد المستخدمين 240–260، وSINR يقارب 0 dB، وRSRQ عند -10 dB، وBLER نحو 4–5%، وزمن جدولة p95 يقارب 95 مللي ثانية. هذا يتوافق مع الازدحام والتداخل. بعد ذلك سأستخرج سلسلة زمنية لمعدل التنزيل لنفس نافذة 3 ساعات لربط الانخفاضات بالحمل وSINR. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows median 14–16 Mbps with troughs at 10–12 Mbps coinciding with PRB >85% and SINR dips. Impact is highest for eMBB streaming. I propose site parameter tuning focusing on DL scheduler bias, link adaptation thresholds, and light interference mitigation. Proceed?",
+      "message_ar": "السلسلة الزمنية لمعدل التنزيل تُظهر وسيط 14–16 ميجابت/ث مع قيعان 10–12 ميجابت/ث بالتزامن مع PRB>85% وهبوط SINR. الأثر الأعلى على بث eMBB. أقترح ضبط معاملات الموقع مع التركيز على انحياز المُجدوِل للوصلة الهابطة، عتبات التكيّف على الوصلة، وتخفيف تداخل خفيف. هل نمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed; change window is open now.",
+      "message_ar": "تابع؛ نافذة التغيير مفتوحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied safely: increased DL throughput bias in scheduling, refined adaptation margins, and enabled mild interference mitigation. No service interruption; rollback is prepared.",
+      "message_ar": "تم تطبيق الضبط بأمان: تعزيز انحياز المُجدوِل نحو رفع سرعة التنزيل، تحسين هوامش التكيّف، وتفعيل تخفيف تداخل خفيف. دون انقطاع خدمة؛ وخطة عكس التغيير جاهزة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: p95 scheduling latency down to ~70 ms, PRB peaks reduced by ~5 points, and instantaneous DL is around 22 Mbps.",
+      "message_ar": "ملاحظة أولية: زمن جدولة p95 انخفض إلى نحو 70 مللي ثانية، وذُرى PRB انخفضت بنحو 5 نقاط، وسرعة التنزيل اللحظية حوالي 22 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good initial response. I’ll validate post-change counters and short traces over the next 15–20 minutes. Targets: p95 latency <70 ms, DL >20 Mbps, stable BLER. I’ll keep watching during the shoulder period.",
+      "message_ar": "استجابة أولية جيدة. سأتحقق من العدّادات بعد التغيير ومن تتبعات قصيرة خلال 15–20 دقيقة القادمة. الأهداف: p95 أقل من 70 مللي ثانية، تنزيل أعلى من 20 ميجابت/ث، وBLER مستقر. سأواصل المتابعة خلال فترة الكتف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Now seeing DL averaging 24–26 Mbps with fewer interference warnings; the site parameter tuning appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "الآن نرى متوسط تنزيل 24–26 ميجابت/ث مع انخفاض تنبيهات التداخل؛ يبدو أن ضبط معاملات الموقع فعّال. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We reviewed OSS, analyzed the DL trend, and applied targeted parameter tuning. We will own monitoring through the next busy hour and share results afterward. If KPIs degrade, we will revert the tuning; if interference grows, we will escalate for coordinated optimization with neighbors.",
+      "message_ar": "تم الاستلام. راجعنا النظام، حلّلنا اتجاه معدل التنزيل، وطبقنا ضبطاً موجهاً للمعاملات. سنتولى المراقبة خلال ساعة الذروة التالية ونشارك النتائج بعدها. إذا تدهورت مؤشرات الأداء فسنُرجِع التغييرات، وإذا زاد التداخل فسنصعّد لتحسين منسّق مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on an urban NR macro cell by reviewing OSS stats and correlating DL time series with high load and low SINR, indicating congestion with interference. Applied site parameter tuning focused on downlink scheduling and link adaptation with light interference mitigation. Post-change metrics improved, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص انخفاض معدل التنزيل في خلية NR ماكرو حضرية عبر مراجعة إحصاءات النظام وربط السلسلة الزمنية للتحميل الهابط مع الحمل المرتفع وSINR المنخفض، مما يشير إلى ازدحام مع تداخل. تم تطبيق ضبط معاملات الموقع مع التركيز على جدولة الوصلة الهابطة وتكيّف الوصلة مع تخفيف تداخل خفيف. تحسنت المؤشرات بعد التغيير وسيتم مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

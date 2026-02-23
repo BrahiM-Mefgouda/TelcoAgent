@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0007",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban 5G macro during peak evening shows elevated ping-pong handovers (26%) with handover success around 82%, 103 attempts per 5 minutes, and 356 users; please assess mobility stability for eMBB streaming.",
+    "ar": "موقع ماكرو 5G في منطقة حضرية كثيفة خلال فترة الذروة المسائية يظهر ارتفاعاً في عمليات التسليم المتأرجحة (26%) مع نجاح تسليم بنحو 82% و103 محاولات كل 5 دقائق و356 مستخدماً؛ يرجى تقييم استقرار التنقل لخدمة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing high ping-pong handovers on NR macro NR-MACRO-2103-S1 in dense urban during peak evening eMBB. Ping-pong ~26%, HO success ~82%, 103 attempts/5min, RSRP -98 dBm, RSRQ -11 dB, SINR 9 dB, users ~356. No alarms.",
+      "message_ar": "نلاحظ ارتفاعاً في عمليات التسليم المتأرجحة على خلية NR الماكرو NR-MACRO-2103-S1 في منطقة حضرية كثيفة خلال الذروة المسائية مع eMBB. التأرجح ~26%، نجاح التسليم ~82%، 103 محاولات/5 دقائق، RSRP -98 dBm، RSRQ -11 dB، وSINR 9 dB، وعدد المستخدمين ~356. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling last 4h OSS mobility counters for NR-MACRO-2103-S1 to quantify ping-pong and current thresholds, then drill into HO time series. Please confirm access for a 4h analysis window.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات التنقل لآخر 4 ساعات من نظام الإدارة لِـ NR-MACRO-2103-S1 لقياس التأرجح والعتبات الحالية، ثم التحليل على شكل سلسلة زمنية لعمليات التسليم. يرجى تأكيد السماح بالوصول لفترة تحليل 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the 4-hour window on NR-MACRO-2103-S1.",
+      "message_ar": "تمت الموافقة على الوصول لفترة 4 ساعات على NR-MACRO-2103-S1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 4h OSS stats: HO success 81.9–82.5%, ping-pong 24–28%. Two neighbors (L2103-N2, L2103-N3) account for ~68% of back-and-forth. Current thresholds: A3 offset 3 dB, TTT 196 ms, hysteresis 2 dB. Next, I will fetch 5‑minute HO time series to isolate oscillation periods and dominant neighbor pairs. Proceed?",
+      "message_ar": "تم سحب إحصاءات 4 ساعات من نظام الإدارة: نجاح التسليم 81.9–82.5%، التأرجح 24–28%. جارِيان (L2103-N2 وL2103-N3) يشكلان حوالي 68% من التذبذب ذهاباً وإياباً. العتبات الحالية: A3 offset بمقدار 3 dB، وTTT بقيمة 196 ms، وhysteresis بقيمة 2 dB. بعد ذلك سأجلب سلسلة زمنية كل 5 دقائق لعمليات التسليم لعزل فترات التأرجح والجيران المسيطرين. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the 5-minute time series.",
+      "message_ar": "تفضل بمتابعة السلسلة الزمنية كل 5 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms spikes 18:30–21:30 with 30–60 s oscillation cycles between L2103-N2/N3; HO attempts ~100/5min are stable; PRB utilization ~0.64; radio quality moderate. Root cause: boundary with similar RSRP causing aggressive switching. I propose tuning: increase TTT to 320 ms, increase hysteresis to 3 dB, keep A3 offset at 3 dB. Approve a controlled change now?",
+      "message_ar": "السلسلة الزمنية تؤكد ارتفاعات بين 18:30–21:30 مع دورات تأرجح 30–60 ثانية بين L2103-N2/N3؛ محاولات التسليم ~100/5 دقائق ثابتة؛ استغلال PRB ~0.64؛ جودة الراديو متوسطة. السبب الجذري: حد تغطية بقيم RSRP متقاربة يؤدي إلى تبديل عدواني. أقترح الضبط: رفع TTT إلى 320 ms، ورفع hysteresis إلى 3 dB، والإبقاء على A3 offset عند 3 dB. هل توافق على تغيير مضبوط الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed tuning.",
+      "message_ar": "موافَق على تنفيذ الضبط المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-MACRO-2103-S1: TTT → 320 ms, hysteresis → 3 dB, A3 offset unchanged. Commit successful. I will watch immediate counters for 15 minutes; if any adverse trend appears, I’m ready to revert. Please share any field observations meanwhile.",
+      "message_ar": "تم تطبيق التحسين على NR-MACRO-2103-S1: TTT إلى 320 ms، وhysteresis إلى 3 dB، وA3 offset بدون تغيير. تم اعتماد الإعدادات بنجاح. سأراقب المؤشرات الفورية لمدة 15 دقيقة؛ وفي حال ظهور اتجاه سلبي سأعود للإعدادات السابقة. يرجى مشاركة أي ملاحظات ميدانية خلال ذلك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, ping-pong events per 5 minutes dropped from ~26 to ~15; handover success nudged up to ~86%. No increase in drops, and fewer streaming stalls reported.",
+      "message_ar": "بعد حوالي 15 دقيقة، انخفضت أحداث التأرجح لكل 5 دقائق من ~26 إلى ~15؛ وارتفع نجاح التسليم إلى ~86%. لا زيادة في حالات الانقطاع، وتم رصد انخفاض في تعثرات البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Live counters also show HO attempts steady near ~100/5min and median user throughput slightly improved (~12 Mbps). I’ll continue to watch neighbor-pair stability and verify no late handovers emerge.",
+      "message_ar": "جيد. المؤشرات الحية تُظهر أيضاً بقاء محاولات التسليم قرب ~100/5 دقائق وتحسناً طفيفاً في متوسط سرعة المستخدم (~12 Mbps). سأواصل متابعة استقرار الأزواج المجاورة والتحقق من عدم ظهور تسليمات متأخرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: ping-pong behavior trending down. Action taken: mobility parameter optimization (TTT/hysteresis). Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسّن: سلوك التأرجح في انخفاض. الإجراء المُتخذ: تحسين معلمات التنقل (TTT/hysteresis). لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update with stability, ping-pong rate, and handover success. If the issue regresses, we will roll back the thresholds and escalate to a neighbor plan review.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية وسنوافيكم بتحديث حول الاستقرار ومعدل التأرجح ونجاح التسليم. إذا عاد الخلل سنعيد العتبات إلى السابق ونصعّد لمراجعة خطة الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-MACRO-2103-S1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-MACRO-2103-S1",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility tuning: TTT→320ms; hysteresis→3dB; A3 offset=3dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on a dense urban 5G macro by reviewing OSS counters and 5‑minute handover time series, identifying oscillations between two dominant neighbors during the peak evening. Mitigated by site parameter tuning, increasing TTT and hysteresis while keeping the A3 offset unchanged. Early results show reduced ping‑pong and improved handover success, with continued monitoring through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التأرجح في عمليات التسليم على خلية ماكرو 5G حضرية كثيفة عبر مراجعة مؤشرات نظام الإدارة والسلسلة الزمنية لكل 5 دقائق، مع تحديد تذبذبات بين جارَين مهيمنين خلال الذروة المسائية. تم التخفيف عبر ضبط معلمات الموقع برفع TTT وhysteresis مع الإبقاء على A3 offset دون تغيير. تُظهر النتائج الأولية انخفاض التأرجح وتحسناً في نجاح التسليم، مع الاستمرار في المراقبة خلال ساعة الذروة التالية."
+  }
+}

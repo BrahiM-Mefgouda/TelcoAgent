@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0029",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G macro cell shows ~20% ping‑pong handovers in the last 5h with HO success ~85% and SINR ~0 dB indicating interference / signal overlap, alongside weak RSRP (~‑112 dBm).",
+    "ar": "خلية ماكرو 5G في منطقة ضواحي تُظهر ~20% عمليات تسليم ذهاب‑إياب خلال آخر 5 ساعات مع نجاح تسليم ~85% وSINR ~0 dB مما يشير إلى تداخل/تراكب إشارة، إلى جانب RSRP ضعيف (~‑112 dBm)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing ping‑pong handovers around 20% on a suburban NR macro over the last 5h off‑peak; HO success ~85%, SINR ~0 dB (interference / signal overlap), RSRP about -112 dBm; traffic is mostly eMBB streaming.",
+      "message_ar": "ألاحظ عمليات تسليم ذهاب‑إياب (~Ping‑Pong) نحو 20% على موقع ماكرو 5G في منطقة ضواحي خلال آخر 5 ساعات خارج الذروة؛ نجاح التسليم ~85%، وSINR حوالي 0 dB (تداخل/تراكب إشارة)، وRSRP قرابة ‎-112 dBm؛ الحركة أغلبها eMBB مع بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first pull the last 5h mobility counters from the network manager to identify the bouncing neighbor pairs and trigger reasons. Please confirm the cell ID and approve access.",
+      "message_ar": "حسناً. سأستخرج أولاً عدادات التنقل لآخر 5 ساعات من نظام إدارة الشبكة لتحديد الأزواج المتأرجحة من الجيران وأسباب التحفيز. يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUBURB-MACRO-312. Access approved for the 5h window.",
+      "message_ar": "معرّف الخلية: NR-SUBURB-MACRO-312. الوصول مُعتمد لمدة نافذة 5 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled stats for NR-SUBURB-MACRO-312: high bidirectional events with neighbors NR-MACRO-315 and NR-MACRO-318; many short-interval A3 triggers. Current settings: A3 offset 3 dB, TTT 262 ms, hysteresis 3 dB; load ~78% PRB, users ~170. Next, I'll analyze handover trends by neighbor over the same 5h to quantify bounce patterns. Proceed?",
+      "message_ar": "تم سحب الإحصاءات للخلية NR-SUBURB-MACRO-312: أحداث ثنائية الاتجاه مرتفعة مع الجارين NR-MACRO-315 وNR-MACRO-318؛ العديد من تحفيزات A3 بفواصل زمنية قصيرة. الإعدادات الحالية: A3 offset بمقدار 3 dB، وTTT=262 ms، وhysteresis=3 dB؛ الحمل ~78% PRB وعدد المستخدمين ~170. بعد ذلك سأحلّل اتجاهات التسليم لكل جار خلال نفس 5 ساعات لقياس نمط الارتداد. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend analysis confirms periodic ping‑pong peaks aligned with SINR dips; HO failures ~12% but no RLF spike. Dominant pairs are 312↔315 and 312↔318. I propose targeted tuning: increase TTT to 360 ms, raise hysteresis by +1 dB, and A3 offset by +1 dB for those neighbor edges to damp short‑cycle triggers. Apply with guard timers and monitor live. Approve?",
+      "message_ar": "تؤكد التحليلات الاتجاهية قمماً دورية للذهاب‑الإياب تتزامن مع هبوط SINR؛ فشل التسليم ~12% بدون ارتفاع في حالات فقدان الاتصال. الأزواج المهيمنة هي 312↔315 و312↔318. أقترح ضبطاً مستهدفاً: رفع TTT إلى 360 ms، وزيادة hysteresis بمقدار +1 dB، وA3 offset بمقدار +1 dB لتلك الحواف مع الجيران لتخفيف التحفيزات القصيرة. سنطبق مع حمايات زمنية ومراقبة فورية. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR-SUBURB-MACRO-312 toward neighbors 315/318; activation successful. We'll monitor counters and spot KPI deltas for the next 30–60 minutes with automatic rollback if degradation is detected. Please share any immediate observations from your side.",
+      "message_ar": "تم تطبيق التغيير على NR-SUBURB-MACRO-312 باتجاه الجارين 315/318؛ التفعيل ناجح. سنراقب العدادات وفروق مؤشرات الأداء خلال الـ30–60 دقيقة القادمة مع تراجع تلقائي إذا تم رصد تدهور. يرجى مشاركة أي ملاحظات فورية من جانبكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check after 20 minutes: ping‑pong rate trending down to ~14–15%, HO success nudged to ~87%, throughput median steady; no new alarms.",
+      "message_ar": "فحص أولي بعد 20 دقيقة: معدل الذهاب‑الإياب يتجه نزولاً إلى ~14–15%، ونجاح التسليم ارتفع إلى ~87%، والوسيط للسرعة ثابت؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. We'll keep observing bounce attempts and HO success while verifying SINR stabilization; further fine‑tuning can be considered if rates plateau above target.",
+      "message_ar": "استجابة مبكرة جيدة. سنواصل متابعة محاولات الارتداد ونجاح التسليم مع التحقق من استقرار SINR؛ يمكن النظر في ضبط إضافي إذا استقرت المعدلات فوق الهدف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement continues: ping‑pong counters are trending down and HO success improving. The site parameter optimization (TTT/hysteresis/A3) is in place. Let's monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: عدادات الذهاب‑الإياب تتناقص ونجاح التسليم يتحسن. تم تطبيق تحسين معلمات الموقع (TTT/hysteresis/A3). دعنا نراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy‑hour monitoring and report ping‑pong rate, HO success, and SINR afterward. If performance regresses, we will escalate by expanding targeted tuning to adjacent neighbors; if adverse effects emerge, we will roll back the change to the prior values.",
+      "message_ar": "تم—سنتولى مراقبة ساعة الذروة التالية وسنقدم تقريراً لاحقاً عن معدل الذهاب‑الإياب، ونجاح التسليم، وSINR. إذا تراجعت الجودة سنصعّد بتوسيع الضبط المستهدف إلى الجيران المجاورين؛ وإذا ظهرت آثار سلبية فسنعود إلى القيم السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping‑pong handovers on a suburban 5G macro driven by weak signal and interference. Reviewed recent mobility and handover trends, then applied site parameter tuning (TTT, hysteresis, A3) focused on dominant neighbor pairs. Early results show reduced ping‑pong and improved handover success; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم ذهاب‑إياب على موقع ماكرو 5G في الضواحي بسبب ضعف الإشارة والتداخل. جرى مراجعة مؤشرات التنقل واتجاهات التسليم الأخيرة ثم تطبيق ضبط لمعلمات الموقع (TTT وhysteresis وA3) بشكل مستهدف على الأزواج الجارّة المهيمنة. أظهرت النتائج الأولية انخفاضاً في الذهاب‑الإياب وتحسناً في نجاح التسليم؛ وستستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0004",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban 5G macro cell shows 4 configuration mismatches with ~13h drift, elevated BLER (~10%), handover failures (~8%), PRB utilization (~72%), median throughput ~12 Mbps; alarm indicates possible congestion/outage.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر 4 اختلافات إعدادية بانجراف ~13 ساعة وBLER مرتفع (~10%) وإخفاقات تسليم (~8%) واستغلال PRB (~72%) وسرعة وسيط ~12 ميجابت/ث؛ يشير التنبيه إلى احتمال ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell during peak for enterprise private traffic. Alarm active; 4 config mismatches drifting for ~13h. HO failures ~8%, BLER ~10%, PRB ~72%, median throughput ~12 Mbps.",
+      "message_ar": "خلية NR ماكرو حضرية خلال الذروة لحركة مؤسسية خاصة. يوجد إنذار؛ 4 اختلافات إعدادية بانجراف ~13 ساعة. إخفاقات التسليم ~8%، BLER ~10%، PRB ~72%، والسرعة الوسيطة ~12 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will audit OSS vs live configs over the last 12h to confirm drift. Please share the cell ID and approve diagnostics.",
+      "message_ar": "سأقوم بتدقيق إعدادات OSS مقابل الحية خلال آخر 12 ساعة لتأكيد الانجراف. يرجى تزويدي بمعرف الخلية والموافقة على الفحص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-ALPHA-217-S1. Read-only access approved for the last 12h.",
+      "message_ar": "معرف الخلية: NR-ALPHA-217-S1. الموافقة على وصول للقراءة لآخر 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS-to-live configuration audit on NR-ALPHA-217-S1 over a 12h window to pinpoint drifts contributing to BLER and HO failures.",
+      "message_ar": "أجري تدقيق إعدادات OSS مقابل الحية على NR-ALPHA-217-S1 ضمن نافذة 12 ساعة لتحديد الانحرافات التي تسهم في BLER وإخفاقات التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: 4 deviations from the OSS baseline impacting mobility thresholds and link adaptation; drift age ~13h. I recommend pushing the OSS baseline to clear the drift. Requesting approval for immediate corrective push.",
+      "message_ar": "النتائج: 4 انحرافات عن خط أساس OSS تؤثر في عتبات الحركة والتكيّف الراديوي؛ عمر الانجراف ~13 ساعة. أوصي بدفع خط الأساس من OSS لإزالة الانجراف. أطلب الموافقة على تنفيذ فوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push now. No additional constraints.",
+      "message_ar": "موافق على الدفع الآن. لا قيود إضافية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing the OSS baseline to NR-ALPHA-217-S1 with safe commit and instant post-change validation. A brief signaling blip may occur.",
+      "message_ar": "أدفع خط الأساس من OSS إلى NR-ALPHA-217-S1 بتطبيق آمن وتحقق فوري بعد التغيير. قد تحدث ومضة إشارة قصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial readback shows BLER trending down and handover failures stabilizing after the push.",
+      "message_ar": "القراءة المبدئية تُظهر أن BLER يتجه للانخفاض وإخفاقات التسليم تستقر بعد الدفع."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and compliance, I will open a ticket documenting the drift, fix, and post-change monitoring. Do you approve?",
+      "message_ar": "لأغراض التتبع والامتثال، سأفتح بلاغاً يوثّق الانحراف والإصلاح ومراقبة ما بعد التغيير. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the ticket.",
+      "message_ar": "موافق على فتح البلاغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-CFG-01234 has been created with the config diff and immediate post-change snapshot attached. We will link monitoring insights to it.",
+      "message_ar": "تم إنشاء البلاغ DU-CFG-01234 مع إرفاق فرق الإعداد ولقطة ما بعد التغيير مباشرة. سنربط به نتائج المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: block errors moving toward ~6% in the first 10 minutes, and handover failures are trending down. Action taken: configuration push aligning the cell to the OSS baseline. Let's monitor through the next busy hour and update DU-CFG-01234.",
+      "message_ar": "نرى تحسناً: أخطاء الكتلة تتجه نحو ~6% خلال أول 10 دقائق، وإخفاقات التسليم في اتجاه هبوطي. الإجراء المتخذ: دفع الإعداد لمواءمة الخلية مع خط أساس OSS. لِنُراقب خلال ساعة الذروة القادمة وتحديث DU-CFG-01234."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket after the window. If symptoms return, we will roll back to the pre-change snapshot; if degradation persists, we will escalate to the field team for inspection.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث البلاغ بعد النافذة. إذا عادت الأعراض سنرجع إلى اللقطة السابقة للتغيير؛ وإذا استمر التدهور فسنصعّد إلى فريق الميدان للفحص."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a live-vs-OSS configuration mismatch on an urban NR macro cell with four parameters drifting for ~13 hours, contributing to higher BLER and handover failures during peak load. Executed a baseline configuration push to restore alignment and created ticket DU-CFG-01234 for traceability. Post-change KPIs improved; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص عدم تطابق بين الإعدادات الحية وOSS في خلية NR ماكرو حضرية مع انجراف أربعة معلمات لمدة ~13 ساعة، مما ساهم في ارتفاع BLER وإخفاقات التسليم خلال الذروة. تم تنفيذ دفع لخط الأساس لإعادة المواءمة وإنشاء البلاغ DU-CFG-01234 للتتبع. تحسنت مؤشرات الأداء بعد التغيير؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

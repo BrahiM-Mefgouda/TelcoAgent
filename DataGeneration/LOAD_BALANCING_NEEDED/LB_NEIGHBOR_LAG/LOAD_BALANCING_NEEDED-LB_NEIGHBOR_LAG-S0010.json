@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0010",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban 5G macro over the last 4h in peak evening shows ~94% PRB with 212 users, neighbor average ~43%, clear load imbalance (~0.29), and moderate signal quality (RSRQ -13 dB, SINR 6 dB); assess and balance load to underutilized neighbors.",
+    "ar": "موقع ماكرو 5G حضري خلال آخر 4 ساعات في ذروة المساء يُظهر استخدام موارد ~94% مع 212 مستخدمًا، ومتوسط الجيران ~43%، وعدم توازن واضح في الحمل (~0.29)، وجودة إشارة متوسطة (RSRQ -13 dB وSINR 6 dB)؛ نحتاج تقييم وموازنة الحمل نحو الجيران منخفضي الاستخدام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-UTN-045-S1 is running hot during peak evening: ~94% PRB over the last 4h with 212 users; neighbors look light. Users report streaming buffering; SINR ~6 dB, RSRQ -13 dB, no alarms.",
+      "message_ar": "الموقع الماكرو NR-UTN-045-S1 في منطقة حضرية يعمل بضغوط عالية خلال ذروة المساء: ~94% استخدام موارد خلال آخر 4 ساعات مع 212 مستخدمًا؛ الجيران منخفضو الحمل. توجد شكاوى بطء بث الفيديو؛ SINR حوالي 6 dB وRSRQ -13 dB، ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by auditing neighbor load and HO borders for the last 4h to quantify the imbalance and identify offload targets. Please confirm access.",
+      "message_ar": "مفهوم. سأبدأ بتدقيق حمل الجيران وحدود التسليم خلال آخر 4 ساعات لقياس عدم التوازن وتحديد الجيران المناسبين لتحويل الحمل. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved.",
+      "message_ar": "الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit findings: NR-UTN-045-S1 sustained 92–96% PRB; neighbors NR-UTN-045-S2 and NR-UTN-046-S1 at ~35–50%. Handover in/out is balanced, indicating users are sticking despite neighbor headroom. Imbalance index ~0.29; offload potential 15–20%. I propose conservative load-balancing tuning to bias edge users toward these neighbors. Proceed?",
+      "message_ar": "نتائج التدقيق: الخلية NR-UTN-045-S1 حافظت على 92–96% من استخدام الموارد؛ الجيران NR-UTN-045-S2 وNR-UTN-046-S1 عند ~35–50%. معدلات التسليم الداخل/الخارج متوازنة، ما يشير إلى بقاء المستخدمين رغم سعة الجيران. مؤشر عدم التوازن ~0.29؛ إمكانية تحويل الحمل 15–20%. أقترح ضبطًا محافظًا لموازنة الحمل لتحويل مستخدمي الحافة نحو هؤلاء الجيران. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning.",
+      "message_ar": "تابع عملية الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying low-risk load-balancing adjustments toward NR-UTN-045-S2/NR-UTN-046-S1 to ease edge stickiness and trigger earlier offload; no power changes; fully reversible. Starting a 30-minute observation.",
+      "message_ar": "جاري تطبيق تعديلات منخفضة المخاطر لموازنة الحمل باتجاه NR-UTN-045-S2 وNR-UTN-046-S1 لتخفيف تمسك المستخدمين بالحافة وتفعيل تحويل أبكر؛ دون أي تغييرات قدرة؛ قابلة للعكس بالكامل. سنبدأ مراقبة لمدة 30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes: serving PRB down to ~80%, neighbors up to ~55–60%; active users now ~170. Buffering complaints are dropping.",
+      "message_ar": "بعد حوالي 15 دقيقة: استخدام الموارد في الخلية الخادمة انخفض إلى ~80%، والجيران ارتفعوا إلى ~55–60%؛ عدد المستخدمين النشطين الآن ~170. شكاوى التقطيع في البث في انخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. Please confirm there’s no rise in handover failures or ping‑pong during this interval.",
+      "message_ar": "مؤشر جيد. يرجى التأكد من عدم ارتفاع فشل التسليم أو ظاهرة التذبذب بين الخلايا خلال هذه الفترة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Handover failures remain normal and ping‑pong is stable. Median user throughput improved.",
+      "message_ar": "فشل التسليم ضمن الوضع الطبيعي وظاهرة التذبذب مستقرة. تحسن متوسط سرعة المستخدم."
+    },
+    {
+      "role": "agent",
+      "message_en": "We'll retain the new tuning and continue observing PRB, user distribution, and HO stability through the busy period. If any regression appears, we will revert.",
+      "message_ar": "سنُبقي على الضبط الجديد ونستمر في مراقبة استخدام الموارد وتوزيع المستخدمين واستقرار التسليم خلال فترة الازدحام. إذا ظهر تراجع، سنقوم بالرجوع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: PRB stabilizing around 78–82% with neighbors near ~55%, and streaming buffering reports down. We performed a neighbor audit and applied load‑balancing tuning. Let’s monitor over the next 2–4 hours (evening peak).",
+      "message_ar": "تم تأكيد التحسن: استقر استخدام الموارد عند حوالي 78–82% مع اقتراب الجيران من ~55%، وانخفضت تقارير تقطيع البث. قمنا بتدقيق الجيران وتطبيق ضبط لموازنة الحمل. لنراقب خلال الساعتين إلى الأربع ساعات القادمة (ذروة المساء)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring window and update you on PRB levels, user balance across neighbors, and handover stability. If congestion returns, we will roll back the tuning; if instability arises, we will tighten thresholds and escalate to the RAN team.",
+      "message_ar": "تم الاستلام. سنتولى نافذة المراقبة على مدى 2–4 ساعات وسنزودكم بتحديثات حول مستويات استخدام الموارد، وتوازن المستخدمين عبر الجيران، واستقرار التسليم. إذا عادت الازدحامات سنرجع الضبط؛ وإذا ظهرت عدم استقرار سنشدد العتبات ونصعّد إلى فريق الشبكة اللاسلكية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "The urban NR macro cell showed sustained congestion (~94% PRB) while adjacent cells were lightly loaded, indicating a load imbalance. We audited neighbor relations and then applied conservative site parameter tuning to bias edge users toward underutilized neighbors. PRB on the serving cell dropped to ~80% with stable handovers; monitoring will continue over the next 2–4 hours.",
+    "ar": "أظهرت الخلية الماكرو NR الحضرية ازدحامًا مستمرًا (~94% استخدام موارد) بينما كانت الخلايا المجاورة منخفضة الحمل، مما يشير إلى عدم توازن في الحمل. قمنا بتدقيق علاقات الجيران ثم طبقنا ضبطًا محافظًا لمعلمات الموقع لتحويل مستخدمي الحافة نحو الجيران منخفضي الاستخدام. انخفض استخدام الموارد في الخلية الخادمة إلى ~80% مع تسليم مستقر؛ وستستمر المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_URBAN_FOOTPRINT-S0025",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_URBAN_FOOTPRINT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows long time advance tail (~836 m p95) with 28% distant-serving, weak RSRP/RSRQ, ping-pong and handover failures around 10% over the last 12h, suggesting an overshooting footprint.",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر ذيلاً طويلاً في زمن الوصول (~836 م عند p95) مع 28% خدمة بعيدة، وضعف RSRP/RSRQ، وتذبذب وحالات فشل تسليم بنحو 10% خلال آخر 12 ساعة، ما يشير إلى بصمة تغطية متجاوزة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector shows high TA tail (p95 ~836 m), weak RSRP ~-106 dBm, RSRQ -13 dB, SINR ~9 dB. Distant-serving ~28%, HO failures and ping-pong ~10% in the last 12h. Users reported being held by a far site; some streaming stutters at mixed hours.",
+      "message_ar": "قطاع ماكرو NR حضري يُظهر ذيلاً مرتفعاً لزمن الوصول (p95 ~836 م)، وRSRP ضعيف ~-106 dBm وRSRQ -13 dB وSINR ~9 dB. الخدمة البعيدة ~28%، وفشل التسليم وتذبذب ~10% خلال آخر 12 ساعة. أبلغ المستخدمون عن الارتباط بخلية بعيدة؛ مع تعثر بسيط في البث خلال الساعات المختلطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "This aligns with an overshooting macro. I will 1) check the coverage footprint against the urban grid, 2) audit neighbor relations and mobility thresholds, and 3) if confirmed, apply site parameter tuning (tilt/power balance and HO offsets). Please share the cell ID and approve read-only checks for the last 12h.",
+      "message_ar": "هذا يتماشى مع خلية ماكرو متجاوزة. سأقوم بـ 1) فحص بصمة التغطية مقابل شبكة المنطقة الحضرية، 2) تدقيق الجيران وعناصر العتبات الحركية، و3) عند التأكيد تطبيق ضبط معلمات الموقع (توازن الميل/القدرة وإزاحات التسليم). الرجاء تزويدي بمعرّف الخلية والموافقة على فحوصات القراءة فقط لآخر 12 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRU-31023-S2. Read-only checks for the past 12h are approved.",
+      "message_ar": "معرّف الخلية: NRU-31023-S2. تمت الموافقة على فحوصات القراءة فقط لآخر 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running coverage analysis for NRU-31023-S2 over the urban area using a 200 m grid across the last 12h. Early view shows the footprint spilling ~0.8–1.2 km beyond intended blocks with weak edge RSRP and a pronounced TA tail. Shall I proceed to neighbor and mobility audit?",
+      "message_ar": "أجري تحليلاً للتغطية للخلية NRU-31023-S2 فوق المنطقة الحضرية باستخدام شبكة 200 م خلال آخر 12 ساعة. يظهر مبكراً امتداد البصمة ~0.8–1.2 كم خارج الكتل المقصودة مع RSRP ضعيف على الأطراف وذيل TA واضح. هل أمضي إلى تدقيق الجيران والحركية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the neighbor and mobility audit.",
+      "message_ar": "تفضل بالمتابعة مع تدقيق الجيران والحركية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewing neighbors and HO thresholds for NRU-31023-S2: one closer sector is missing as a defined neighbor; relations to two adjacent sectors are asymmetric; entry conditions are too lax, causing late handover; dominance is low at the edges. This supports overshoot as root cause.",
+      "message_ar": "أراجع الجيران وعتبات التسليم للخلية NRU-31023-S2: يوجد قطاع أقرب مفقود كجار معرّف؛ العلاقات مع قطاعين متجاورين غير متناظرة؛ شروط الدخول متساهلة ما يؤدي إلى تسليم متأخر؛ الهيمنة ضعيفة عند الأطراف. هذا يدعم أن السبب الجذري هو التجاوز."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes indicate distant serving from an eastern macro and neighbor lists may be stale post-refarm. You have approval to implement corrective tuning in a short window.",
+      "message_ar": "تفيد ملاحظات الميدان بوجود خدمة بعيدة من ماكرو شرقي وقد تكون قوائم الجيران قديمة بعد إعادة التخصيص. لديك الموافقة لتنفيذ الضبط التصحيحي في نافذة قصيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan to apply targeted optimization: add the missing closer neighbor and symmetrize relations; modestly increase down-tilt equivalent and balance power to shrink the footprint; tighten HO offsets/hysteresis toward nearer sectors. Expected outcome: lower distant-serving and ping-pong. Approve execution now?",
+      "message_ar": "الخطة لتطبيق تحسين مستهدف: إضافة الجار الأقرب المفقود وجعل العلاقات متناظرة؛ زيادة طفيفة في الميل الهابط المكافئ وموازنة القدرة لتقليص البصمة؛ تشديد إزاحات/هسترة التسليم نحو القطاعات الأقرب. النتيجة المتوقعة: انخفاض الخدمة البعيدة والتذبذب. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now.",
+      "message_ar": "تمت الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NRU-31023-S2 successfully. Immediate validation shows improved sector dominance and an early contraction of the TA tail. I will observe for 15–30 minutes and recheck mobility events and user distribution.",
+      "message_ar": "تم تطبيق التحسين بنجاح على NRU-31023-S2. يظهر التحقق الفوري تحسناً في هيمنة القطاع وانكماشاً مبكراً لذيل TA. سأراقب لمدة 15–30 دقيقة وأعيد فحص أحداث الحركية وتوزيع المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: distant-serving dropped to about 12% and ping-pong events are trending down. The site parameter tuning looks effective. Let's monitor through the next busy hour to confirm stability.",
+      "message_ar": "نلاحظ تحسناً: انخفضت الخدمة البعيدة إلى نحو 12% وتتجه أحداث التذبذب للانخفاض. ضبط معلمات الموقع يبدو فعّالاً. لنراقب خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and report outcomes. If degradation resurfaces, we will roll back the tuning and escalate for physical alignment checks; otherwise we will keep the changes.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بالنتائج. إذا عاد التدهور سنقوم بالتراجع عن الضبط والتصعيد لفحص المحاذاة الميدانية؛ وإلا سنُبقي التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an overshooting urban NR macro cell using coverage footprint analysis and neighbor/mobility audits, confirming spillover coverage, a missing closer neighbor, asymmetric relations, and lax handover entry. Mitigated by site parameter tuning: adding the missing neighbor, symmetrizing relations, tightening mobility offsets, and modest footprint reduction via tilt/power balance. Early results show reduced distant serving and fewer ping-pong events; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص خلية ماكرو NR حضرية متجاوزة عبر تحليل بصمة التغطية وتدقيق الجيران والحركية، مؤكداً امتداد التغطية وفقدان جار أقرب وعلاقات غير متناظرة وتساهل في شروط التسليم. تمت المعالجة عبر ضبط معلمات الموقع: إضافة الجار المفقود، تناظُر العلاقات، تشديد إزاحات الحركية، وتقليص البصمة بشكل معتدل عبر توازن الميل/القدرة. النتائج المبكرة تُظهر انخفاض الخدمة البعيدة وتراجع التذبذب؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0022",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro shows elevated ping‑pong (~19%) with moderate handover issues (success ~91%, failures ~13%) and interference/signal overlap (SINR ~4 dB, RSRP −102 dBm) over the last 5 hours during the shoulder period.",
+    "ar": "موقع ماكرو NR في منطقة ضواحٍ يُظهر ارتفاعاً في الارتداد بين الخلايا (~19%) مع مشاكل تسليم متوسطة (نسبة النجاح ~91%، الإخفاق ~13%) وتداخل/تراكب إشارات (SINR ~4 dB، RSRP −102 dBm) خلال آخر 5 ساعات في فترة الكتف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SUB-2411-1 over the last 5h shows ping-pong around 19% and HO failures ~13%. RSRP −102 dBm, RSRQ −10 dB, SINR ~4 dB (interference/signal overlap). Shoulder period with eMBB streaming. No alarms.",
+      "message_ar": "خلية ماكرو NR فرعية NR-SUB-2411-1 خلال آخر 5 ساعات تُظهر ارتداداً بين الخلايا بحوالي 19% وإخفاقات تسليم ~13%. RSRP −102 dBm وRSRQ −10 dB وSINR ~4 dB (تداخل/تراكب إشارات). فترة كتف مع حركة eMBB وبث. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will pull OSS mobility stats for NR-SUB-2411-1 over the last 5h to verify neighbor pairs and return ratios. Please confirm read access.",
+      "message_ar": "تم الاستلام. سأجلب إحصائيات التنقل من نظام الإدارة لخلية NR-SUB-2411-1 لآخر 5 ساعات للتحقق من الأزواج المجاورة ونِسَب الارتداد. يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved. This cell borders NR-SUB-2411-2 where users report bouncing.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة. هذه الخلية على حدود الخلية NR-SUB-2411-2 حيث يُبلّغ المستخدمون عن التذبذب."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: 7.2k HO attempts; ping-pong returns 1.37k (~19%). Top pair is NR-SUB-2411-1 ↔ NR-SUB-2411-2 accounting for 72% of returns. PRB ~58%, no faults. I will analyze HO time series and return ratios across the 5h window next.",
+      "message_ar": "تم فحص النظام: 7.2 ألف محاولة تسليم؛ عودة ارتدادية 1.37 ألف (~19%). أعلى زوج هو NR-SUB-2411-1 ↔ NR-SUB-2411-2 بنسبة 72% من العودات. استخدام PRB ~58% ولا توجد أعطال. سأحلّل سلسلة الزمن لتسليمات الحركة ونِسَب الارتداد خلال نافذة 5 ساعات الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows peaks 13:00–16:00 with returns 22–24% and HO success dipping to ~90–91%. Edge SINR ~3–4 dB indicates interference/overlap. Current settings: A3 offset 1 dB, TTT 318 ms, hysteresis 2 dB. I propose to raise A3 offset to 2 dB toward NR-SUB-2411-2, increase TTT to 512 ms, and set hysteresis to 3 dB for inter-cell A3 to damp ping-pong at the border. Approve optimization?",
+      "message_ar": "تُظهر السلسلة الزمنية ذُرى بين 13:00–16:00 مع عودات 22–24% وانخفاض نجاح التسليم إلى ~90–91%. قيمة SINR عند الحافة ~3–4 dB تُشير إلى تداخل/تراكب. الإعدادات الحالية: A3 offset بمقدار 1 dB وTTT ‏318 ms وhysteresis ‏2 dB. أقترح رفع A3 offset إلى 2 dB تجاه NR-SUB-2411-2 وزيادة TTT إلى 512 ms وضبط hysteresis إلى 3 dB لتخميد الارتداد على الحدود. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement those parameter changes.",
+      "message_ar": "موافق على تنفيذ تغييرات المعلمات المذكورة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the parameter update now for NR-SUB-2411-1 vs NR-SUB-2411-2. Change committed successfully, no service impact noted. I will watch post-change HO counters and returns.",
+      "message_ar": "أقوم الآن بتطبيق تحديث المعلمات لـ NR-SUB-2411-1 مقابل NR-SUB-2411-2. تم اعتماد التغيير بنجاح دون تأثير على الخدمة. سأراقب عدادات التسليم والعودات بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 20 minutes post-change: ping-pong returns trending down to ~10–12%; HO success ~94%. Throughput median slightly up; streaming stable. No complaints.",
+      "message_ar": "أول 20 دقيقة بعد التغيير: عودات الارتداد في انخفاض إلى ~10–12%؛ نجاح التسليم ~94%. ارتفاع طفيف في الوسيط للthroughput؛ البث مستقر. لا شكاوى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early outcome. I’ll continue observing the border HO pair and cell-edge KPIs to confirm stability as load fluctuates.",
+      "message_ar": "نتيجة أولية جيدة. سأواصل مراقبة زوج التسليم على الحدود ومؤشرات أطراف الخلية لتأكيد الاستقرار مع تذبذب الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: unnecessary returns now ~9%, with HO success holding ~94%. Action taken was site parameter tuning (A3/TTT/hysteresis). Recommend monitoring through the next busy hour.",
+      "message_ar": "التحسن مستمر: العودات غير الضرورية الآن ~9% مع ثبات نجاح التسليم ~94%. الإجراء المُتخذ كان ضبط معلمات الموقع (A3/TTT/hysteresis). أوصي بالمراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If KPIs regress, we will rollback the parameter changes; if instability persists, we will escalate to cluster optimization for deeper RF alignment.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنشارك تحديثاً بعدها. إذا تراجعت مؤشرات الأداء، سنقوم بالتراجع عن تغييرات المعلمات؛ وإذا استمرت الحالة، سنصعّد إلى تحسين عنقودي لمواءمة RF بشكل أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-2411-1",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-2411-1",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase A3 offset to 2 dB, raise TTT to 512 ms, set hysteresis to 3 dB for NR-SUB-2411-1 toward neighbor NR-SUB-2411-2"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping‑pong at a suburban NR macro border driven by interference/signal overlap and permissive mobility thresholds. Verified with OSS and HO time series, then mitigated via site parameter tuning by increasing A3 offset, TTT, and hysteresis toward the dominant neighbor. Post-change, ping‑pong returns dropped and HO success improved; continued monitoring is in place for the next busy hour.",
+    "ar": "تم تشخيص ارتفاع الارتداد بين الخلايا على حدود موقع ماكرو NR في الضواحي بسبب التداخل/تراكب الإشارات ومعايير تنقل متساهلة. جرى التحقق عبر النظام وسلسلة الزمن للتسليمات، ثم التخفيف عبر ضبط معلمات الموقع برفع A3 offset وTTT وhysteresis تجاه الجار الرئيسي. بعد التغيير انخفضت عودات الارتداد وتحسنت نسبة نجاح التسليم؛ وتستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

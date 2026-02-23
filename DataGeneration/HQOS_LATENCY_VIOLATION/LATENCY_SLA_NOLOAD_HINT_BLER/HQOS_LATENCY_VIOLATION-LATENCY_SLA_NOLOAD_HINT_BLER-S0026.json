@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0026",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell shows ~99 ms latency over the last 3h at peak with ~76% resource use, 130 users, SINR 9 dB, BLER ~7.8%, and median downlink 22 Mbps.",
+    "ar": "قطاع ماكرو NR في منطقة الضواحي يظهر تأخرًا بحوالي 99 مللي ثانية خلال آخر 3 ساعات في وقت الذروة مع استخدام موارد ~76%، و130 مستخدمًا، وSINR بقيمة 9 dB، وBLER ~7.8%، ووسيط تنزيل 22 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows elevated user-plane latency (~99 ms) over the last 3h during peak. Load ~76% PRB, 130 users, SINR ~9 dB, BLER ~7–8%. Throughput p50 ~22 Mbps. Please investigate.",
+      "message_ar": "القطاع الماكرو NR في منطقة الضواحي يظهر تأخرًا مرتفعًا في مسار المستخدم (~99 مللي ثانية) خلال آخر 3 ساعات في وقت الذروة. الحمل ~76% من الموارد، 130 مستخدمًا، SINR حوالي 9 dB، وBLER بين 7–8%. وسيط السرعة ~22 ميجابت/ث. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will begin with a 3h health check on the impacted cell. Please share the cell ID and confirm access to run diagnostics.",
+      "message_ar": "تم الاستلام. سأبدأ بفحص الحالة لآخر 3 ساعات على القطاع المتأثر. يرجى تزويدي بمعرّف القطاع وتأكيد السماح بإجراء التشخيص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-041. You have approval to proceed.",
+      "message_ar": "معرّف القطاع: NR-SUB-041. لديك الموافقة للمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected performance counters for NR-SUB-041 over 3h: PRB 72–85% (avg ~76%), users ~130, BLER 7–9%, elevated RLC/HARQ retransmissions, no site or backhaul alarms. This matches the latency symptom. Next, I will extract the latency trend for correlation.",
+      "message_ar": "تم جمع عدّادات الأداء للقطاع NR-SUB-041 خلال 3 ساعات: استخدام الموارد 72–85% (متوسط ~76%)، عدد المستخدمين ~130، BLER بين 7–9%، إعادة إرسال RLC/HARQ مرتفعة، ولا توجد إنذارات على الموقع أو النقل الخلفي. هذا يتوافق مع عرض التأخر. التالي، سأستخرج منحنى التأخر للارتباط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series shows sustained 90–110 ms during peak, with spikes aligned to PRB and BLER rises; median DL throughput ~22 Mbps. Likely cause: moderate congestion plus BLER-driven retransmissions. I propose a low-risk parameter optimization to prioritize low-latency QoS and slightly tighten retransmission/BLER targets. Approve?",
+      "message_ar": "سلسلة زمنية للتأخر تُظهر استمرار 90–110 مللي ثانية في الذروة مع ارتفاعات تتزامن مع زيادة استخدام الموارد وBLER؛ وسيط سرعة التنزيل ~22 ميجابت/ث. السبب المرجّح: ازدحام متوسط مع إعادة إرسال مدفوعة بارتفاع BLER. أقترح تحسينًا منخفض المخاطر للمعلمات يعطي أولوية لخدمة الكمون المنخفض ويشدّد حدود إعادة الإرسال/BLER بشكل طفيف. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter optimization on NR-SUB-041: tuned scheduler weights toward low-latency classes and refined retransmission thresholds to reduce queueing. Change committed successfully. I will watch immediate counters for the next 10–15 minutes.",
+      "message_ar": "تم تطبيق تحسين معلمات على NR-SUB-041: ضبط أوزان الجدولة باتجاه فئات الكمون المنخفض وتنقيح عتبات إعادة الإرسال لتقليل الطوابير. تم اعتماد التغيير بنجاح. سأراقب العدّادات الفورية خلال 10–15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change snapshot: median latency now ~68 ms, tail reduced; BLER ~5–6%; user count similar. Improvement observed.",
+      "message_ar": "لقطة بعد التغيير: وسيط التأخر الآن ~68 مللي ثانية مع انخفاض الذيل؛ BLER حوالي 5–6%؛ وعدد المستخدمين مشابه. هناك تحسّن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. Let’s validate during the next busy hour, especially for streaming experience on eMBB. Any objections?",
+      "message_ar": "جيد. لنتحقق خلال ساعة الذروة القادمة، خصوصًا لتجربة البث على eMBB. هل هناك أي اعتراضات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No objections. Latency is trending down and retransmission events are fewer after the parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "لا اعتراض. التأخر في اتجاه هبوطي وأحداث إعادة الإرسال أقل بعد تحسين المعلمات. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own monitoring through the next busy hour and share an update afterward. If latency worsens, we will escalate to deeper RF checks; if adverse effects appear, we will roll back the change.",
+      "message_ar": "تم التأكيد — سنتولّى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا ساء التأخر سنصعّد إلى فحوصات RF أعمق؛ وإذا ظهرت آثار سلبية سنرجع التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a QoS latency violation on a suburban 5G NR macro during peak hours. Analysis showed moderate load with elevated BLER causing retransmissions and queueing; the latency trend confirmed sustained 90–110 ms peaks. Executed site parameter tuning to prioritize low-latency classes and refine retransmission targets, resulting in improved latency and BLER; monitoring will continue through the next busy hour.",
+    "ar": "تم التحقيق في انتهاك QoS للكمون على قطاع ماكرو 5G NR في الضواحي خلال ساعات الذروة. أظهرت التحليلات حملًا متوسطًا مع BLER مرتفعًا يؤدي إلى عمليات إعادة إرسال وطوابير؛ وأكّد منحنى التأخر وجود قمم مستمرة 90–110 مللي ثانية. تم تنفيذ ضبط لمعلمات الموقع لإعطاء أولوية لفئات الكمون المنخفض وتنقيح حدود إعادة الإرسال، مما أدى إلى تحسن في التأخر وBLER؛ وستستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

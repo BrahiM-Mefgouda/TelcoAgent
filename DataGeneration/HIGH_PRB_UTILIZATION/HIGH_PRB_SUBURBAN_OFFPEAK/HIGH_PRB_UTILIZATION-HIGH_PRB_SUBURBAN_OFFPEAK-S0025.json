@@ -1,0 +1,108 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0025",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Suburban NR macro shows off-peak high PRB utilization (~87.6%) over 4h with 199 users, downlink throughput ~10 Mbps, uplink 12 Mbps, BLER ~4.2%, and p95 scheduler latency 24 ms.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تسجل ارتفاع استخدام موارد الراديو (~87.6%) خلال 4 ساعات خارج أوقات الذروة مع 199 مستخدماً، وسرعة تنزيل ~10 Mbps ورفع 12 Mbps، وBLER ~4.2% وزمن المُجدول p95 يبلغ 24 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell has high PRB off-peak over the last 4 hours. Users ~199, DL ~10 Mbps, UL 12 Mbps, BLER ~4%, scheduler p95 24 ms. eMBB users report streaming stutters. No active alarms.",
+      "message_ar": "خلية NR ماكرو في الضواحي تُظهر ارتفاع استخدام PRB خارج أوقات الذروة خلال آخر 4 ساعات. عدد المستخدمين ~199، التنزيل ~10 Mbps، الرفع 12 Mbps، BLER ~4%، p95 للمجدول 24 مللي ثانية. مستخدمو eMBB يبلّغون عن تقطّع في البث. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 4h counters from the network management system for the target cell to validate PRB, throughput, and scheduler metrics. Please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ بسحب عدادات آخر 4 ساعات من نظام إدارة الشبكة للخلية المستهدفة للتحقق من PRB ومعدلات النقل ومقاييس المُجدول. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID is NRCell-Suburb-102, window 4h.",
+      "message_ar": "موافق. معرف الخلية هو NRCell-Suburb-102، النافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled. Findings: DL PRB utilization averages 86–90% with peaks ~95%; per-user DL throughput depressed around 9–12 Mbps; UL stable. No cell/backhaul alarms. Neighbor cells show PRB <60%, indicating localized scheduler pressure.",
+      "message_ar": "تم سحب العدادات. النتائج: متوسط استخدام PRB في التنزيل 86–90% مع ذروات ~95%؛ معدل تنزيل لكل مستخدم منخفض بحدود 9–12 Mbps؛ الرفع مستقر. لا إنذارات في الخلية أو النقل الخلفي. الخلايا المجاورة تُظهر PRB أقل من 60% ما يشير إلى ضغط مُجدول محلي."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate, I propose site parameter tuning: bias DL scheduler weights toward spectral efficiency for eMBB, cap best-effort PRB per UE slightly, and rebalance QoS class weights to reduce contention. Minimal service risk (<1 min). Proceed?",
+      "message_ar": "للتخفيف، أقترح ضبط معلمات الموقع: توجيه أوزان المُجدول في التنزيل نحو الكفاءة الطيفية لـ eMBB، وضع حد بسيط لاستخدام PRB لكل جهاز لخدمات أفضل جهد، وإعادة موازنة أوزان فئات QoS لتقليل التزاحم. مخاطرة خدمة طفيفة (<1 دقيقة). هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement on NRCell-Suburb-102 now.",
+      "message_ar": "موافَق على التنفيذ على NRCell-Suburb-102 الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to NRCell-Suburb-102: scheduler/QoS tuning and per-UE PRB cap adjusted. Baseline saved for rollback if needed. Watching KPIs for immediate impact.",
+      "message_ar": "تم تطبيق التحسين على NRCell-Suburb-102: ضبط المُجدول/جودة الخدمة وتعديل حد PRB لكل مستخدم. تم حفظ خط الأساس للتراجع إذا لزم الأمر. أراقب مؤشرات الأداء للتأثير الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: DL PRB trending ~78–82%, p95 scheduler latency down to ~18–20 ms, DL throughput climbing to ~14 Mbps. No new errors.",
+      "message_ar": "ملاحظة أولية: PRB في التنزيل يتجه نحو ~78–82%، p95 لزمن المُجدول انخفض إلى ~18–20 مللي ثانية، وسرعة التنزيل ارتفعت إلى ~14 Mbps. لا توجد أخطاء جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Captured a post-change baseline and queued ongoing checks to confirm stability across the off-peak window.",
+      "message_ar": "جيد. تم التقاط خط أساس بعد التغيير وتم تهيئة فحوصات مستمرة لتأكيد الاستقرار خلال نافذة خارج أوقات الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds so far; DL PRB remains under 82% and throughput is steadier. This aligns with the site parameter tuning you executed. Let’s monitor for the next 2–4 hours and track under DU-PRB-04567.",
+      "message_ar": "التحسّن مستمر حتى الآن؛ PRB في التنزيل يبقى تحت 82% وسرعة النقل أكثر استقراراً. هذا يتماشى مع ضبط معلمات الموقع الذي نفّذته. دعنا نراقب خلال الساعات 2–4 القادمة ونتابع تحت DU-PRB-04567."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and update the ticket after the window. If KPIs regress, we will roll back to the saved baseline; if congestion resurfaces, we will extend tuning or coordinate neighbor balancing as a next step.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة الساعات 2–4 القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا تراجعت المؤشرات فسنعيد الإعدادات إلى خط الأساس المحفوظ؛ وإذا عاد الازدحام فسنوسع الضبط أو ننسّق موازنة الحمل مع الخلايا المجاورة كخطوة تالية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell-Suburb-102",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Tune DL scheduler toward spectral efficiency, set mild per-UE PRB cap for best-effort, rebalance QoS class weights; preserve rollback baseline"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Suburban NR macro off-peak high PRB; executed scheduler/QoS tuning; monitor 2–4h for stability"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated sustained high PRB utilization on a suburban 5G NR macro during off-peak by reviewing last 4h counters. Applied site parameter tuning to the scheduler and QoS weights with a mild per-UE PRB cap to ease contention and improve efficiency, then recorded the change for follow-up. The cell will be monitored for 2–4 hours to confirm stability and throughput gains.",
+    "ar": "تم التحقق من ارتفاع مستمر لاستخدام PRB على خلية 5G NR ماكرو في الضواحي خارج أوقات الذروة عبر مراجعة عدادات آخر 4 ساعات. تم تطبيق ضبط لمعلمات الموقع على المُجدول وأوزان جودة الخدمة مع حد بسيط لـ PRB لكل مستخدم لتخفيف التزاحم وتحسين الكفاءة، ثم توثيق التغيير للمتابعة. ستتم مراقبة الخلية لمدة 2–4 ساعات للتأكد من الاستقرار واستمرار مكاسب السرعة."
+  }
+}

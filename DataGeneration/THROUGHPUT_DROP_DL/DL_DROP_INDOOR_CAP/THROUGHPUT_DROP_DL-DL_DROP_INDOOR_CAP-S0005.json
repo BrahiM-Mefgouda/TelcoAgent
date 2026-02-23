@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0005",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor office NR micro cell shows a congestion alarm in the last 4h with high PRB 86% and 208 users; downlink at 7 Mbps indicates slow data with elevated scheduling latency.",
+    "ar": "خلية NR ميكرو داخلية في جناح المكتب تُظهر تنبيه ازدحام خلال آخر 4 ساعات مع إشغال موارد 86% و208 مستخدمين؛ معدل تنزيل 7 ميجابت/ث يشير إلى بيانات بطيئة مع ازدياد تأخير الجدولة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Office wing indoor NR micro cell is seeing complaints during business hours: slow downloads and buffering for enterprise users; dashboard shows DL ~7 Mbps, PRB ~86%, ~200 users.",
+      "message_ar": "خلية NR ميكرو داخلية في جناح المكتب تتلقى شكاوى خلال ساعات العمل: بطء التنزيل والتقطيع للمستخدمين المؤسسيين؛ لوحة المتابعة تظهر تنزيل ~7 ميجابت/ث، إشغال موارد ~86%، ~200 مستخدم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling OSS counters for the last 4 hours to baseline load and errors. Please provide the cell ID and confirm read/write access.",
+      "message_ar": "مفهوم. سأبدأ بجلب مؤشرات النظام خلال آخر 4 ساعات لقياس الحمل والأخطاء. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة/الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-IND-23-MICRO-1. Access approved for this window.",
+      "message_ar": "معرّف الخلية: NR-IND-23-MICRO-1. الوصول مُعتمد لهذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS data for NR-IND-23-MICRO-1 (last 4h): DL PRB 86%, active users 208, BLER ~3.2%, p95 scheduler latency 89 ms. This points to capacity-driven slow data on an indoor micro site. Next, I'll extract DL throughput time series to verify dips and correlation with load.",
+      "message_ar": "تم جلب بيانات النظام للخلية NR-IND-23-MICRO-1 (آخر 4 ساعات): إشغال موارد التنزيل 86%، مستخدمون نشطون 208، معدل أخطاء الكتلة ~3.2%، تأخير الجدولة p95 = 89 مللي ثانية. هذا يشير إلى بطء بيانات ناتج عن سعة محدودة في موقع ميكرو داخلي. بعد ذلك سأستخرج سلسلة زمنية لمعدل التنزيل للتحقق من الهبوط والتوافق مع الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL throughput series (5‑min bins) shows median 6–8 Mbps with dips to 3 Mbps at peaks; no BLER spike, but user count and PRB rise together—clear capacity contention. I propose a targeted optimization: tune DL scheduler fairness weights and time‑domain pattern to reduce queuing under load. Approve execution now?",
+      "message_ar": "سلسلة معدل التنزيل (فواصل 5 دقائق) تُظهر وسيط 6–8 ميجابت/ث مع هبوط إلى 3 ميجابت/ث عند الذروة؛ لا توجد قفزة في أخطاء الكتلة، لكن عدد المستخدمين وإشغال الموارد يرتفعان معاً—ازدحام سَعَوي واضح. أقترح تحسيناً موجهاً: ضبط أوزان عدالة المجدول ونمط الموارد الزمني في التنزيل لتقليل الاصطفاف تحت الحمل. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization on NR-IND-23-MICRO-1: applied conservative tuning to DL scheduler fairness and time‑domain resource pattern, plus minor queue thresholds refinement. Change committed with automatic rollback point captured.",
+      "message_ar": "جارٍ تنفيذ التحسين على NR-IND-23-MICRO-1: تم تطبيق ضبط محافظ لعدالة مجدول التنزيل ونمط الموارد الزمني مع تحسينات طفيفة لعَتبات الطوابير. تم اعتماد التغيير مع نقطة عودة تلقائية محفوظة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No user impact reported during the change.",
+      "message_ar": "لا يوجد تأثير ملحوظ على المستخدم أثناء التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Immediate post‑change check: DL p50 now ~12 Mbps, p95 scheduling latency ~60 ms, PRB eased to ~78–80%. I will continue to watch during the next busy period; please confirm any field feedback.",
+      "message_ar": "التحقق الفوري بعد التغيير: وسيط التنزيل ~12 ميجابت/ث، تأخير الجدولة p95 ~60 مللي ثانية، وانخفض إشغال الموارد إلى ~78–80%. سأستمر بالمراقبة خلال فترة الانشغال القادمة؛ يرجى تأكيد أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: scheduling delays are trending down and downloads feel faster. After the site parameter tuning on the downlink scheduler, performance looks steadier. Let's monitor for the next 2–4 hours.",
+      "message_ar": "لوحظ تحسّن: تأخيرات الجدولة في اتجاه هابط والتنزيلات أصبحت أسرع. بعد ضبط معلمات الموقع في مجدول التنزيل، تبدو الأداء أكثر استقراراً. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the 2–4 hour monitoring window and share an update afterward. If degradation reappears, we will escalate for capacity relief and revert the tuning to the previous baseline if needed.",
+      "message_ar": "تم الاستلام—سنتولى نافذة المراقبة لمدة 2–4 ساعات ونوافيكم بتحديث بعدها. إذا عاد التدهور سنصعّد لزيادة السعة وسنعيد الضبط إلى الحالة السابقة عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Downlink slow data on the indoor NR micro cell was confirmed during business hours, with high PRB utilization and 208 users. Time‑series analysis showed capacity contention without error spikes, so we performed site parameter tuning on the downlink scheduler (fairness and time‑domain pattern) to relieve queuing. Post‑change checks show improved median throughput and lower scheduling latency; we will monitor through the next busy hours.",
+    "ar": "تم تأكيد بطء التنزيل في الخلية NR الميكرو الداخلية خلال ساعات العمل مع إشغال موارد عالٍ و208 مستخدمين. أظهرت السلسلة الزمنية ازدحاماً سَعَوياً دون ارتفاع في الأخطاء، لذلك قمنا بضبط معلمات الموقع في مجدول التنزيل (العدالة والنمط الزمني) لتقليل الطوابير. أظهرت الفحوصات بعد التغيير تحسناً في الوسيط وانخفاضاً في تأخير الجدولة؛ سنواصل المراقبة خلال ساعات الانشغال القادمة."
+  }
+}

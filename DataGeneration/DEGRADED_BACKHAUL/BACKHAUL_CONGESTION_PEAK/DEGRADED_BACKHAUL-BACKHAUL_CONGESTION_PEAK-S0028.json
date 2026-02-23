@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0028",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell has a congestion alarm over the last 3h with backhaul utilization ~90%, latency 101 ms, 1.31% loss, jitter 21 ms, and downlink throughput 16 Mbps across 347 users during shoulder hour.",
+    "ar": "خلية NR ماكرو في منطقة حضرية لديها إنذار ازدحام خلال آخر 3 ساعات مع استخدام للوصلة الخلفية ~90% وكمون 101 مللي ثانية وفقد 1.31% وتذبذب 21 مللي ثانية وسرعة تنزيل 16 ميجابت/ث عبر 347 مستخدمًا خلال فترة الكتف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro site showing a congestion alarm in the last 3h during the shoulder hour; about 347 users on eMBB with reports of buffering on streaming. Backhaul latency ~100 ms and utilization near 90%; DL ~16 Mbps. Need assistance.",
+      "message_ar": "موقع حضري بنظام NR (خلية ماكرو) يظهر إنذار ازدحام خلال آخر 3 ساعات في فترة الكتف؛ حوالي 347 مستخدمًا بحركة eMBB مع تقارير عن تقطع في البث. كمون الوصلة الخلفية ~100 مللي ثانية والاستخدام قرابة 90%؛ التنزيل ~16 ميجابت/ث. نحتاج مساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by pulling last 3h OSS stats for the affected cell to separate backhaul from radio causes. Please share the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بسحب إحصاءات آخر 3 ساعات من نظام الإدارة للخلية المتأثرة لتمييز سبب الوصلة الخلفية عن جانب الراديو. يرجى تزويدي بمعرّف الخلية والموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR12345. Read access approved.",
+      "message_ar": "معرّف الخلية: NR12345. تمت الموافقة على وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "3h KPIs for NR12345: backhaul utilization 88–95%, queue occupancy up to 97%, latency median 92 ms peaking 120 ms, packet loss ~1.3%, jitter ~21 ms. Radio is healthy (PRB ~74%, SINR ~15 dB). This confirms backhaul congestion. I propose targeted site parameter tuning to mitigate congestion (activate active queue management, prioritize control/interactive flows, cap burstiness). Do you approve?",
+      "message_ar": "مؤشرات 3 ساعات للخلية NR12345: استخدام الوصلة الخلفية 88–95%، امتلاء الطوابير حتى 97%، الكمون وسيطه 92 مللي ثانية ويبلغ ذروته 120 مللي ثانية، فقدان حزم ~1.3%، تذبذب ~21 مللي ثانية. جانب الراديو سليم (PRB ~74%، SINR ~15 dB). هذا يؤكد ازدحام الوصلة الخلفية. أقترح ضبطًا انتقائيًا لمعلمات الموقع للتخفيف (تفعيل إدارة الطوابير النشطة، أولوية لحركة التحكم/التفاعل، تقليل اندفاعية المرور). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the mitigation now.",
+      "message_ar": "موافق على تطبيق إجراء التخفيف الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied congestion-mitigation tuning on NR12345. Initial readouts show queue occupancy dropping from 97% to ~80% and latency easing toward 80–85 ms within minutes. We will watch short-term trends; if stable, I will open a tracking ticket for backhaul capacity/quality review.",
+      "message_ar": "تم تطبيق ضبط التخفيف من الازدحام على NR12345. القراءات الأولية تُظهر انخفاض امتلاء الطوابير من 97% إلى ~80% وانخفاض الكمون نحو 80–85 مللي ثانية خلال دقائق. سنراقب الاتجاه قصير المدى؛ وإذا استقر، سأفتح تذكرة متابعة لمراجعة سعة/جودة الوصلة الخلفية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improved user experience; downlink throughput holding near 18–20 Mbps.",
+      "message_ar": "نلاحظ تحسنًا في تجربة المستخدم؛ سرعة التنزيل مستقرة عند نحو 18–20 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. To document and engage transport, I will create a ticket capturing the 3h degradation, the tuning applied, and a request for backhaul capacity/quality review for NR12345. Please confirm.",
+      "message_ar": "جيد. لتوثيق الحالة وإشراك فريق النقل، سأقوم بإنشاء تذكرة تتضمن تدهور الثلاث ساعات، والتعديل المطبق، وطلب مراجعة السعة/الجودة للوصلة الخلفية للخلية NR12345. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "تم التأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-04583 created for NR12345 with logs and post-change notes. We will keep the mitigation active through the next busy period and track latency, loss, and queue depth.",
+      "message_ar": "تم إنشاء التذكرة DU-BH-04583 للخلية NR12345 مع السجلات وملاحظات ما بعد التغيير. سنبقي إجراء التخفيف فعالًا خلال فترة الانشغال التالية ونتتبع الكمون والفقد وعمق الطوابير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: backhaul latency now trending below 70–80 ms and queue occupancy easing. Action taken: site parameter tuning to alleviate backhaul congestion. Let's monitor over the next 2–4 hours and track DU-BH-04583.",
+      "message_ar": "تمت ملاحظة تحسن: كمون الوصلة الخلفية يتجه الآن إلى أقل من 70–80 مللي ثانية مع تراجع امتلاء الطوابير. الإجراء المُتخذ: ضبط معلمات الموقع لتخفيف ازدحام الوصلة الخلفية. لنتابع خلال الساعتين إلى الأربع ساعات القادمة ونتتبع التذكرة DU-BH-04583."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor for the next 2–4 hours and update DU-BH-04583 with latency, loss, and user throughput trends. If KPIs regress, we'll escalate to the transport provider; if side effects appear, we'll revert the tuning.",
+      "message_ar": "تم التأكيد—سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونحدّث التذكرة DU-BH-04583 باتجاهات الكمون والفقد وسرعات المستخدمين. إذا تراجعت المؤشرات سنصعّد إلى مزود النقل؛ وإذا ظهرت آثار جانبية سنعيد التعديل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR12345",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_congestion_mitigation"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul on NR12345; applied congestion-mitigation tuning and requested transport capacity/quality review."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on an urban NR macro cell: high utilization, latency, loss, and queues with healthy radio counters confirmed a backhaul bottleneck. Pulled recent KPIs, applied site parameter tuning to mitigate congestion, and created a ticket to request backhaul capacity/quality review. We will monitor during the next busy period and keep the mitigation active while tracking latency, loss, and queue depth.",
+    "ar": "تم تشخيص تدهور في الوصلة الخلفية لخلية NR ماكرو حضرية: استخدام مرتفع وكمون وفقد وامتلاء طوابير مع مؤشرات راديوية سليمة ما يؤكد عنق زجاجة في الوصلة الخلفية. تم سحب المؤشرات الأخيرة، وتطبيق ضبط معلمات الموقع للتخفيف من الازدحام، وإنشاء تذكرة لطلب مراجعة سعة/جودة الوصلة الخلفية. سنراقب خلال فترة الانشغال التالية مع إبقاء التخفيف مفعلًا وتتبع الكمون والفقد وعمق الطوابير."
+  }
+}

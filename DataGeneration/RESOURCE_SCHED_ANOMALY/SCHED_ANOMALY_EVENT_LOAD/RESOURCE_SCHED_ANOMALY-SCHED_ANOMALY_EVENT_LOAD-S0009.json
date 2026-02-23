@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0009",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell in ingress shows a congestion alarm with 763 users, ~91% PRB load, uneven resource allocation (low fairness, high skew), wide throughput spread, and p95 latency at 103 ms during eMBB streaming.",
+    "ar": "موقع ملعب بتقنية NR وخلايا مايكرو خلال مرحلة الدخول يظهر إنذار ازدحام مع 763 مستخدماً، وحمل PRB ~91%، وتوزيع موارد غير متوازن (إنصاف منخفض وانحراف مرتفع)، وتباين كبير في السرعات، وزمن تأخير p95 عند 103 مللي ثانية أثناء حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is in ingress with a congestion alarm. We see 763 users, PRB ~91%, fairness low, skew high, p50 ~9 Mbps, and p95 latency ~103 ms; traffic is eMBB with lots of streaming.",
+      "message_ar": "خلية NR مايكرو في الملعب خلال مرحلة الدخول مع إنذار ازدحام. لدينا 763 مستخدماً، حمل PRB ~91%، الإنصاف منخفض، الانحراف مرتفع، p50 ~9 ميجابت/ث، وp95 زمن تأخير ~103 مللي ثانية؛ الحركة eMBB مع بث كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "This points to a resource allocation anomaly under ingress load. Please share the target cell ID and approve read access for the last 3h so I can pull an OSS snapshot to confirm.",
+      "message_ar": "هذا يشير إلى خلل في توزيع الموارد تحت حمل الدخول. يرجى تزويدي بمعرّف الخلية المستهدفة والموافقة على صلاحية قراءة لآخر 3 ساعات كي أسحب لقطة من نظام الإدارة للتحقق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_STAD_MICRO_12. Read access approved for the past 3 hours.",
+      "message_ar": "معرّف الخلية: NR_STAD_MICRO_12. تمت الموافقة على صلاحية القراءة لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot for NR_STAD_MICRO_12 (3h) completed: users peaked ~780; PRB 90–95%; QoS mix skewed (best-effort ~64–68%, high-priority ~16–18%); no HW/backhaul alarms. Next, I will review PRB/allocation time series for the same 3h to quantify fairness and bursts—proceed?",
+      "message_ar": "تمت لقطة نظام الإدارة للخلية NR_STAD_MICRO_12 خلال 3 ساعات: المستخدمون بلغوا الذروة ~780؛ حمل PRB بين 90–95%؛ مزيج QoS منحاز (أفضل جهد ~64–68%، أولوية عالية ~16–18%)؛ لا إنذارات عتاد أو نقل خلفي. التالي، سأراجع السلاسل الزمنية للـPRB/التوزيع للفترة نفسها لقياس الإنصاف والاندفاعات—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time series review.",
+      "message_ar": "تفضل بمتابعة مراجعة السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms the issue: fairness index ~0.55–0.60, allocation skew up to 24, best-effort share spikes to 65–70% during ingress; p95–p50 throughput gap ~25 Mbps; p95 latency 100–110 ms; RF quality moderate (RSRQ -14 dB, SINR ~7 dB). Diagnosis: mis-weighted allocation under congestion. I propose a live parameter retune to reinforce high-priority classes and restrain best-effort bursts. Approve?",
+      "message_ar": "السلاسل الزمنية تؤكد المشكلة: مؤشر الإنصاف ~0.55–0.60، انحراف التوزيع يصل إلى 24، وارتفاع حصة أفضل جهد إلى 65–70% أثناء الدخول؛ فجوة السرعة بين p95 وp50 ~25 ميجابت/ث؛ p95 زمن تأخير 100–110 مللي ثانية؛ جودة لاسلكية متوسطة (RSRQ -14 ديسيبل، وSINR ~7 ديسيبل). التشخيص: أوزان تخصيص غير ملائمة تحت الازدحام. أقترح إعادة ضبط حية للمعاملات لتعزيز الفئات ذات الأولوية العالية وكبح اندفاع أفضل جهد. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the parameter retune now.",
+      "message_ar": "موافق. تابع إعادة ضبط المعاملات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter retune applied on NR_STAD_MICRO_12: boosted weighting for high-priority classes and tightened burst control for best-effort; changes committed successfully. I will watch KPIs for the next 15 minutes for stability.",
+      "message_ar": "تم تطبيق إعادة ضبط المعاملات على NR_STAD_MICRO_12: تعزيز وزن الفئات ذات الأولوية العالية وتشديد التحكم بالاندفاع لحركة أفضل جهد؛ تم اعتماد التغييرات بنجاح. سأراقب مؤشرات الأداء لمدة 15 دقيقة للتحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: fairness moved to ~0.72, p95 latency down to ~80 ms, and p50 throughput rising toward ~11 Mbps while load remains high.",
+      "message_ar": "المؤشرات الأولية أفضل: ارتفع الإنصاف إلى ~0.72، وانخفض p95 زمن التأخير إلى ~80 مللي ثانية، وارتفع p50 في السرعة نحو ~11 ميجابت/ث مع بقاء الحمل مرتفعاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement under load. I’ll continue observing during the ingress peak; if regression appears, I will adjust cautiously or revert to the last stable state.",
+      "message_ar": "تحسن جيد تحت الحمل. سأواصل المراقبة خلال ذروة الدخول؛ وإذا ظهرت انتكاسة، سأجري تعديلاً تحفظياً أو أعود إلى الحالة المستقرة السابقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is holding: resource fairness trending up and latency stabilizing. Action taken was site parameter tuning. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "التحسن مستمر: إنصاف التوزيع يرتفع وزمن التأخير يستقر. الإجراء المتخذ كان ضبط معاملات الموقع. لنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and report on PRB load, fairness, and latency afterward. If congestion resurges, we will roll back the tweak and escalate to capacity and neighbor optimization.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونوافيكم بتحديث حول حمل PRB والإنصاف وزمن التأخير بعدها. إذا عاد الازدحام، سنلغي التعديل ونصعّد إلى معالجة السعة وتحسين الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STAD_MICRO_12",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STAD_MICRO_12",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "resource_allocation_tuning_ingress"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Ingress congestion at the stadium NR micro cell caused uneven resource allocation and high latency, evidenced by high PRB load, low fairness, and allocation skew. We validated the condition with an OSS snapshot and PRB time series, then mitigated it via site parameter tuning to rebalance QoS weights and fairness guardrails. Early results show improved fairness and lower latency; continued monitoring is underway.",
+    "ar": "أدى ازدحام مرحلة الدخول في خلية NR مايكرو بالملعب إلى توزيع موارد غير متوازن وزمن تأخير مرتفع، كما ظهر من حمل PRB العالي وانخفاض الإنصاف وانحراف التوزيع. تم التحقق عبر لقطة نظام الإدارة وسلاسل PRB الزمنية، ثم تمت المعالجة من خلال ضبط معاملات الموقع لإعادة موازنة أوزان QoS وحواجز الإنصاف. النتائج الأولية تُظهر تحسناً في الإنصاف وانخفاضاً في التأخير، والمراقبة مستمرة."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0012",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Indoor NR micro cell shows elevated handover failures in the last 4h off-peak (HO success 80.6%, ping-pong 26%, weak signal: RSRP -98 dBm, RSRQ -12 dB, SINR 5 dB) affecting the office wing.",
+    "ar": "خلية NR داخلية من نوع micro تُظهر ارتفاعاً في فشل التسليم خلال آخر 4 ساعات خارج أوقات الذروة (نجاح التسليم 80.6%، ping-pong بنسبة 26%، إشارة ضعيفة: RSRP -98 dBm وRSRQ -12 dB وSINR 5 dB) تؤثر على جناح المكتب."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Over the last 4h off-peak, the indoor NR micro cell shows HO success 80.6%, HO failures 11%, ping-pong 26%, RLF ~2.5%. Signal is weak (RSRP ~-98 dBm, RSRQ -12 dB, SINR 5 dB). Please investigate the office west wing; some eMBB streaming complaints.",
+      "message_ar": "خلال آخر 4 ساعات خارج الذروة، خلية NR داخلية (micro) تُظهر نجاح HO بنسبة 80.6%، فشل HO بنسبة 11%، ping-pong بنسبة 26%، وRLF ~2.5%. الإشارة ضعيفة (RSRP حوالي -98 dBm، RSRQ -12 dB، SINR 5 dB). الرجاء التحقيق في الجناح الغربي للمكتب؛ توجد شكاوى بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start with an indoor coverage/overlap heatmap for the office wing over the last 4h to localize the HO hotspot. Please confirm read-only access to counters and maps.",
+      "message_ar": "سأبدأ بخريطة تغطية/تداخل داخلية للجناح المكتبي خلال آخر 4 ساعات لتحديد بؤرة فشل التسليم. يرجى تأكيد صلاحية الوصول للقراءة فقط إلى العدادات والخرائط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read-only access approved; suspected hotspot is near the west corridor by the elevators.",
+      "message_ar": "تمت الموافقة على الوصول للقراءة فقط؛ يُشتبه بوجود البؤرة قرب الممر الغربي بجانب المصاعد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage/overlap analysis complete: weak serving dominance (-100 to -95 dBm) along the west corridor with overlap from adjacent indoor sectors; ~30% of HO failures cluster there. With A3 offset 3 dB and 0 dB hysteresis, triggers are late and unstable. I propose mobility tuning—reduce A3 offset to 1 dB, add 1 dB hysteresis, and extend TTT to 160 ms—focused on the indoor micro sector and key neighbors. Approve write?",
+      "message_ar": "تم تحليل التغطية/التداخل: سيطرة التغطية ضعيفة (-100 إلى -95 dBm) على طول الممر الغربي مع تداخل من قطاعات داخلية مجاورة؛ حوالي 30% من حالات فشل HO تتجمع هناك. مع تعيين A3 عند 3 dB وهسترة 0 dB تصبح المحفزات متأخرة وغير مستقرة. أقترح ضبط معاملات الحركة—خفض A3 إلى 1 dB، إضافة هسترة 1 dB، وتمديد TTT إلى 160 ms—مع التركيز على القطاع الداخلي micro والجيران الرئيسيين. هل توافق على الكتابة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Write access approved; proceed with the mobility tuning now.",
+      "message_ar": "تمت الموافقة على صلاحية الكتابة؛ امضِ قدماً بضبط معاملات الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mobility tuning applied: A3 offset 3→1 dB, hysteresis 0→1 dB, TTT 99→160 ms; slight positive bias to indoor neighbors (+1 dB). Expect earlier, more stable HOs and fewer ping-pongs at the corridor edge. Please watch short-term counters for 10–15 minutes.",
+      "message_ar": "تم تطبيق ضبط الحركة: A3 من 3→1 dB، الهسترة من 0→1 dB، وTTT من 99→160 ms؛ مع تحيز طفيف موجب نحو الجيران الداخليين (+1 dB). المتوقع تسليمات أبكر وأكثر استقراراً وتقليل ping-pong عند حافة الممر. يرجى متابعة العدادات قصيرة المدى لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, HO command success improved by ~6 points and ping-pong reduced to ~18%. No alarms seen.",
+      "message_ar": "بعد حوالي 15 دقيقة، تحسّن نجاح أوامر HO بنحو 6 نقاط وانخفض ping-pong إلى ~18%. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Keep the change active. Any user feedback on streaming in that wing?",
+      "message_ar": "تم الاستلام. أبقِ التغيير مُفعّلاً. هل توجد أي ملاحظات من المستخدمين حول البث في ذلك الجناح؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No new complaints; median downlink throughput is steady around 18 Mbps.",
+      "message_ar": "لا توجد شكاوى جديدة؛ وسيط سرعة التنزيل مستقر عند حوالي 18 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. If agreeable, we will monitor HO failures and ping-pong in the west corridor over the next 2–4 hours and compare against the prior 4h baseline. Please confirm.",
+      "message_ar": "مفهوم. إذا كان ذلك مناسباً، سنراقب حالات فشل HO والـ ping-pong في الممر الغربي خلال الساعات 2–4 القادمة ونقارنها بخط الأساس لآخر 4 ساعات. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. We see HO failures trending down and ping-pong reduced after the mobility parameter optimization. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تم التأكيد. نلاحظ اتجاهاً هابطاً في فشل HO وانخفاضاً في ping-pong بعد تحسين معاملات الحركة. لِنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the monitoring window and report HO failure and ping-pong results after it. If metrics regress, we will roll back the tuning and escalate to RF design; if stable or improved, we will keep the changes.",
+      "message_ar": "سنتولى نافذة المراقبة ونبلغ بنتائج فشل HO وping-pong بعدها. إذا تراجعت المؤشرات فسنعيد الضبط السابق ونصعّد إلى فريق تصميم التغطية اللاسلكية؛ وإذا بقيت مستقرة أو تحسنت فسنُبقي التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Identified an indoor handover failure hotspot at the west corridor where serving dominance was weak and overlap from adjacent sectors was high. Executed site parameter tuning (A3 offset, hysteresis, and TTT) to trigger earlier and more stable handovers, reducing ping-pong. We will monitor for the next 2–4 hours to validate sustained improvement.",
+    "ar": "تم تحديد بؤرة لفشل التسليم داخل المبنى عند الممر الغربي حيث كانت سيطرة الخلية ضعيفة مع تداخل مرتفع من قطاعات مجاورة. نُفّذ ضبط لمعاملات الموقع (إزاحة A3 والهسترة وTTT) لتفعيل تسليمات أبكر وأكثر استقراراً وتقليل ping-pong. سنراقب خلال الساعتين إلى الأربع ساعات القادمة للتحقق من استدامة التحسن."
+  }
+}

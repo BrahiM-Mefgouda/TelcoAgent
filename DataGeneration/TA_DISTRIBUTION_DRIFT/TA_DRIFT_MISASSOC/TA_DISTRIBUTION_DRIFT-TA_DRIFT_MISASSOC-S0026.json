@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0026",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro cell shows timing advance drift with elevated distant-serving and slow data over the last 6h.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تُظهر انجرافاً في توقيت الوصول مع ارتفاع في الخدمة البعيدة وبطء في البيانات خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell showing TA drift in the last 6h: TA mean 337, p95 360, std 79; distant-serving 31%. RSRP -104 dBm, RSRQ -8 dB, SINR 8 dB. Users ~300, p50 throughput ~6 Mbps.",
+      "message_ar": "خلية NR ماكرو في الضواحي تُظهر انجرافاً في TA خلال آخر 6 ساعات: المتوسط 337، p95 عند 360، والانحراف المعياري 79؛ نسبة الخدمة البعيدة 31%. RSRP −104 dBm، وRSRQ −8 dB، وSINR 8 dB. عدد المستخدمين ~300، ومعدل سرعة وسيط ~6 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Likely mis-association/overshoot driving TA drift and slow data across mixed hours with streaming usage. I will start by pulling last 6h counters for the affected cell. Please share the cell ID and confirm access.",
+      "message_ar": "يُرجّح وجود سوء ارتباط/تجاوز تغطية يسبب انجراف TA وبطء البيانات عبر ساعات مختلطة مع استخدام البث. سأبدأ بسحب عدادات آخر 6 ساعات للخلية المعنية. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-MACRO-7812. Access approved.",
+      "message_ar": "معرّف الخلية هو NR-SUB-MACRO-7812. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 6h counters for NR-SUB-MACRO-7812 now, focusing on TA buckets, HO outcomes, RSRP/RSRQ, SINR, and load.",
+      "message_ar": "أقوم الآن بجلب عدادات 6 ساعات للخلية NR-SUB-MACRO-7812 مع التركيز على فئات TA ونتائج التسليم بين الخلايا وقيم RSRP/RSRQ وSINR والحمولة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: no active alarms; TA distribution shifted outward; distant-serving ~31%; RSRP weak (≈-104 dBm), SINR 8 dB; PRB ~75%. Next, I will analyze the TA time series over 6h to confirm drift patterns—approve?",
+      "message_ar": "النتائج: لا إنذارات نشطة؛ توزيع TA متجه إلى الخارج؛ الخدمة البعيدة ~31%؛ RSRP ضعيف (≈-104 dBm) وSINR عند 8 dB؛ إشغال الموارد ~75%. التالي، سأحلّل السلسلة الزمنية لـ TA خلال 6 ساعات لتأكيد نمط الانجراف—هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with TA time series analysis.",
+      "message_ar": "موافَق على المضي قدماً في تحليل السلسلة الزمنية لـ TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing TA time series for 6h: TA rises during mixed periods; peaks align with ~300 users. HO success ~92% but transitions from nearer cells appear slightly delayed. This confirms drift/mis-association. I propose light site parameter tuning to reduce overshoot and bias toward nearer cells. Approve change?",
+      "message_ar": "تحليل السلسلة الزمنية لـ TA لمدّة 6 ساعات: ارتفاع TA خلال فترات مختلطة؛ القمم تتزامن مع ~300 مستخدم. نجاح التسليم ~92% لكن الانتقالات من الخلايا الأقرب تبدو متأخرة قليلاً. هذا يؤكد الانجراف/سوء الارتباط. أقترح ضبطاً خفيفاً لمعاملات الموقع لتقليل التجاوز وتحييز الانتقال نحو الخلايا الأقرب. هل الموافقة متاحة للتنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافَق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted tuning now to reduce far-edge serving and favor closer neighbors; change committed. Starting short validation (10–15 minutes).",
+      "message_ar": "أقوم الآن بتطبيق ضبط مُوجّه لتقليل خدمة الأطراف البعيدة وتفضيل الجيران الأقرب؛ تم اعتماد التغيير. أبدأ تحققاً قصيراً (10–15 دقيقة)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early counters show TA median trending down and distant-serving moving toward <20%; p50 throughput improving from ~6 Mbps. Please confirm any user-experience changes.",
+      "message_ar": "العدادات المبكرة تُظهر انخفاضاً في وسيط TA وتراجع الخدمة البعيدة باتجاه أقل من 20%؛ تحسن في وسيط السرعة من ~6 ميجابت/ث. يرجى تأكيد أي تغيّرات في تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer far-serving events and slow data complaints easing; your site parameter tuning helped. Let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "نلاحظ انخفاضاً في حالات الخدمة البعيدة وتراجع شكاوى بطء البيانات؛ ضبط معاملات الموقع كان مفيداً. لنتابع المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and update with TA distribution, distant-serving ratio, and throughput. If performance regresses, we will roll back the change and escalate for a targeted field check; otherwise we’ll keep the optimization.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونوافِيكم بتحديث يشمل توزيع TA ونسبة الخدمة البعيدة ومعدل السرعة. إذا حدث تراجع في الأداء، سنُعيد التغيير ونصعّد لزيارة ميدانية مُستهدفة؛ وإلا سنُبقي على التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The investigation of 6h counters and TA time series showed an outward shift in timing advance with high distant-serving, indicating mis-association/overshoot on the NR macro site. We executed site parameter tuning to reduce far-edge serving and bias mobility toward nearer neighbors. Monitoring will focus on TA distribution, distant-serving ratio, and user throughput to confirm sustained improvement.",
+    "ar": "أظهر فحص عدادات 6 ساعات والسلسلة الزمنية لـ TA انحرافاً خارجياً في توقيت الوصول مع ارتفاع الخدمة البعيدة، ما يشير إلى سوء ارتباط/تجاوز تغطية في موقع NR ماكرو. تم تنفيذ ضبط معاملات الموقع لتقليل خدمة الأطراف البعيدة وتحييز الحركة نحو الجيران الأقرب. ستتركز المراقبة على توزيع TA ونسبة الخدمة البعيدة وسرعات المستخدمين لتأكيد استمرار التحسن."
+  }
+}

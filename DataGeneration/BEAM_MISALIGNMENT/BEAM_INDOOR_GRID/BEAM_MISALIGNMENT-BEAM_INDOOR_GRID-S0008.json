@@ -1,0 +1,113 @@
+{
+  "id": "BEAM_MISALIGNMENT-BEAM_INDOOR_GRID-S0008",
+  "intent": "BEAM_MISALIGNMENT",
+  "blueprint_id": "BEAM_INDOOR_GRID",
+  "query": {
+    "en": "Indoor NR cell shows weak signal (RSRP -113 dBm), 36 beam failure recoveries per hour, and nearby sites competing (dominance 0.46) during peak eMBB; check beam alignment over the last 6 hours.",
+    "ar": "خلية NR داخلية تُظهر إشارة ضعيفة (RSRP -113 dBm)، 36 حدث تعافي فشل حزمة/ساعة، وتنافس مواقع مجاورة (هيمنة 0.46) خلال الذروة؛ يلزم التحقق من محاذاة الحزمة خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak hour on the indoor pico NR cell covering the office wing. Users report buffering/drops during heavy eMBB streaming. Last 6h: RSRP -113 dBm, SINR 7 dB, dominance 0.46, beam failure rate 3% with 36 BFR/hr, p50 throughput 23 Mbps, coverage gap 14%. No active alarms.",
+      "message_ar": "ساعة الذروة على خلية NR بيكو داخلية تغطي جناح المكتب. المستخدمون يذكرون تقطّع/انقطاعات أثناء بث eMBB الكثيف. آخر 6 ساعات: RSRP -113 dBm، SINR 7 dB، نسبة الهيمنة 0.46، معدل فشل الحزمة 3% مع 36 حدث BFR/ساعة، وسيط السرعة 23 Mbps، فجوات تغطية 14%. لا إنذارات فعّالة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given weak RSRP, beam failures, and competing neighbors, I suspect beam misalignment on this indoor small site. I will run an indoor grid check for the last 6 hours to localize the SSB footprint; please confirm the cell ID and approve access.",
+      "message_ar": "نظراً لضعف RSRP وفشل الحزم وتنافس الجيران، أرجّح انحراف توجيه الحزمة في هذا الموقع الداخلي الصغير. سأجري فحص شبكة داخلية لآخر 6 ساعات لتحديد بصمة SSB؛ يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID is NR-PICO-OF-12-S1, with access granted for an indoor grid check over the last 6 hours.",
+      "message_ar": "موافق. معرّف الخلية NR-PICO-OF-12-S1، والوصول معتمد لفحص الشبكة الداخلية لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Grid check completed: the SSB footprint is offset ~8–10 m toward the corridor with a null toward the lounge; neighbor macro dominance on the west side; minimum RSRP ~-116 dBm and variance ~6 dB. This indicates beam misalignment. I propose a minor re-centering: slight boresight adjustment toward the lounge and ~1 dB per-beam rebalance. Impact expected to be negligible. Approve?",
+      "message_ar": "تم تنفيذ الفحص: بصمة SSB منحرفة بنحو 8–10 م نحو الممر مع منطقة خافتة باتجاه صالة الاستراحة؛ هيمنة ماكرو مجاور جهة الغرب؛ حد أدنى RSRP يقارب -116 dBm وتباين يقارب 6 dB. هذا يشير إلى انحراف الحزمة. أقترح إعادة تمركز طفيفة: تعديل بسيط في البوصلة نحو الصالة وإعادة موازنة بنحو 1 dB لكل حزمة. التأثير متوقع أن يكون ضئيلاً. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-PICO-OF-12-S1: re-centered the main beam toward the lounge, slight downtilt, and per-beam power rebalance within safe limits. Changes committed with no service hit. Beginning post-change observation.",
+      "message_ar": "تم تطبيق التحسين على NR-PICO-OF-12-S1: إعادة تمركز الحزمة الرئيسية نحو الصالة، مَيْل طفيف للأسفل، وإعادة موازنة لقدرات الحزم ضمن حدود آمنة. تم تثبيت التغييرات دون تأثير خدمي. أبدأ المراقبة بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial spot checks: a test UE shows ~3 dB RSRP gain in the lounge and SINR ~9 dB; fewer beam failures in the last 5 minutes.",
+      "message_ar": "فحوصات أولية: جهاز اختبار يُظهر تحسّن RSRP بنحو 3 dB في الصالة وارتفاع SINR إلى نحو 9 dB؛ وعدد أقل من حالات فشل الحزمة خلال آخر 5 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early signal. For traceability and follow-up during peak, I will open a quality ticket referencing the beam parameter optimization and planned monitoring. OK to proceed?",
+      "message_ar": "إشارة مبشرة. للتتبع والمواءمة خلال الذروة، سأفتح تذكرة جودة تشير إلى تحسين معلمات الحزم وخطة المراقبة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-BEAM-01492. We will track beam failure events, RSRP in the formerly weak grid area, and dominance versus neighbors over the next busy period.",
+      "message_ar": "تم إنشاء التذكرة: DU-BEAM-01492. سنتابع أحداث فشل الحزم وRSRP في منطقة الشبكة التي كانت ضعيفة والهيمنة مقابل الجيران خلال فترة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Beam failures are trending down and coverage is more uniform after the beam parameter optimization. Let’s monitor through the next busy hour and revisit via DU-BEAM-01492.",
+      "message_ar": "أرى أن حالات فشل الحزم في اتجاه الانخفاض والتغطية أصبحت أكثر تجانساً بعد تحسين معلمات الحزم. فلنراقب خلال ساعة الذروة القادمة ونعود عبر DU-BEAM-01492."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring for the next busy hour and update the ticket afterward. If metrics regress, we will either roll back the tuning or escalate for an on‑site RF check with vendor support.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا تدهورت المؤشرات، سنرجع التعديل أو نصعّد لفحص RF ميداني مع دعم المورّد."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "An indoor grid analysis showed an off‑center SSB footprint with neighbor dominance, indicating beam misalignment on the NR pico cell. We performed site parameter tuning to re‑center the main beam and rebalance per‑beam power, then opened a follow‑up ticket for tracking. We will monitor beam failures, RSRP, and dominance through the next busy hour and adjust if required.",
+    "ar": "أظهر فحص الشبكة الداخلية انحرافاً في بصمة SSB وهيمنة جيران، ما يدل على انحراف الحزمة في خلية NR البيكو. نفّذنا ضبطاً لمعلمات الموقع لإعادة تمركز الحزمة الرئيسية وإعادة موازنة طاقة الحزم، ثم فتحنا تذكرة متابعة. سنراقب فشل الحزم وRSRP والهيمنة خلال ساعة الذروة القادمة ونُجري التعديل عند الحاجة."
+  }
+}

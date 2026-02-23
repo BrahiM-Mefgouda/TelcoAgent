@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0026",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban 5G macro cell over the last 24h shows QoS 0.50 vs 0.96 target, latency 89 ms, BLER 11%, 462 users, and p50 throughput 20 Mbps; an active alarm indicates congestion affecting eMBB streaming.",
+    "ar": "خلية 5G ماكرو حضرية خلال آخر 24 ساعة تُظهر QoS = 0.50 مقابل الهدف 0.96، تأخير 89 مللي ثانية وBLER 11% مع 462 مستخدمًا وسرعة وسيطة 20 ميجابت/ث؛ يوجد إنذار نشط يشير إلى ازدحام يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has an active alarm; over the last 24h QoS is 0.50 vs 0.96 target, latency ~89 ms, BLER ~11%, PRB ~57%, 462 users. Streaming complaints reported.",
+      "message_ar": "هناك إنذار نشط على خلية NR ماكرو حضرية؛ خلال آخر 24 ساعة QoS = 0.50 مقابل الهدف 0.96، التأخير ~89 مللي ثانية، BLER ~11%، PRB ~57%، و462 مستخدمًا. توجد شكاوى تخص البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the investigation: first pull cell counters for 24h, then review the QoS time series, and if a breach is confirmed, open an SLA case. Please share the cell ID and confirm access.",
+      "message_ar": "سأتولى التحقيق: أولاً سأستخرج عدادات الخلية لمدة 24 ساعة، ثم أراجع السلسلة الزمنية لـ QoS، وإذا تأكد الخرق سأفتح حالة SLA. يرجى تزويدي بمعرّف الخلية وتأكيد الإذن بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-41023; 24h window; access approved.",
+      "message_ar": "معرّف الخلية NR-41023؛ نافذة 24 ساعة؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling counters for NR-41023 (24h). Initial readout: no hard outages, QoS pass rate ~51%, DL latency p95 ~140 ms, BLER peaks ~13%, PRB peaks ~78% at busy hours; minor backhaul jitter warnings. Congestion present but not saturating.",
+      "message_ar": "أستخرج العدادات لـ NR-41023 (24 ساعة). النتائج الأولية: لا انقطاعات صلبة، معدل نجاح QoS ~51%، تأخير DL p95 ~140 مللي ثانية، قمم BLER ~13%، قمم PRB ~78% في ساعات الذروة؛ تحذيرات طفيفة لاهتزاز الوصلة الخلفية. هناك ازدحام لكنه غير مُشبع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding to analyze the QoS time series to confirm the downward trend versus latency spikes. Please confirm.",
+      "message_ar": "سأتابع لتحليل السلسلة الزمنية لـ QoS لتأكيد الاتجاه الهابط مقابل قمم التأخير. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Go ahead.",
+      "message_ar": "مؤكّد. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series for NR-41023 (24h) declines from ~0.82 to ~0.48, worst during mixed busy hours; aligned with latency spikes up to ~160 ms and BLER ~12–13%. PRB is moderate, so the breach is latency-driven rather than pure capacity.",
+      "message_ar": "السلسلة الزمنية لـ QoS لـ NR-41023 (24 ساعة) تهبط من ~0.82 إلى ~0.48، والأسوأ خلال ساعات الذروة المختلطة؛ متزامنة مع قمم التأخير حتى ~160 مللي ثانية وBLER ~12–13%. PRB متوسط، لذا الخرق مدفوع بالتأخير وليس بالسعة البحتة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I recommend opening an SLA violation case with evidence (QoS trend, latency p95, BLER peaks, load) to engage transport/core for latency mitigation. Shall I create it now?",
+      "message_ar": "أوصي بفتح حالة خرق SLA مع الأدلة (اتجاه QoS، تأخير p95، قمم BLER، الحمولة) لإشراك النقل/النواة لمعالجة التأخير. هل أنشئها الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the case.",
+      "message_ar": "موافق على إنشاء الحالة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-QOS-03158 for NR-41023 with attached evidence and a request for transport latency review. I will watch the next busy hour and the rest of today for improvements.",
+      "message_ar": "تم إنشاء التذكرة DU-QOS-03158 لِـ NR-41023 مع إرفاق الأدلة وطلب مراجعة التأخير من فريق النقل. سأراقب ساعة الذروة القادمة وبقية اليوم للتحسّن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: the QoS index has nudged up and latency p95 is trending down. Action taken: SLA violation ticket raised with evidence (DU-QOS-03158). Let’s monitor through the next busy hour and the following 2–4 hours.",
+      "message_ar": "المؤشرات الأولية أفضل: مؤشر QoS ارتفع قليلًا وتأخير p95 في اتجاه هابط. الإجراء المتخذ: رفع تذكرة خرق SLA مع الأدلة (DU-QOS-03158). لنتابع خلال ساعة الذروة القادمة والـ 2–4 ساعات التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we own the monitoring window and will update the ticket after it. If metrics degrade again, we will escalate to transport/core operations and coordinate targeted mitigation; if they stabilize, we will document results and propose closing the ticket.",
+      "message_ar": "تم الاستلام—سنكون مسؤولين عن نافذة المراقبة وسنحدّث التذكرة بعدها. إذا تدهورت المؤشرات مجددًا فسنتصعّد إلى عمليات النقل/النواة ونتعاون على تخفيف موجّه؛ وإن استقرت فسنوثّق النتائج ونقترح إغلاق التذكرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41023",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-41023",
+        "QoS",
+        "24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA breach on NR-41023; QoS down with latency spikes and moderate PRB; attach trends for transport/core latency mitigation review"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "We diagnosed the urban NR macro cell by reviewing network counters and QoS time series over 24h, confirming a QoS decline driven by latency spikes rather than capacity saturation. An SLA violation case (DU-QOS-03158) was opened with evidence to engage transport/core for mitigation. We will monitor the next busy hour and update based on observed improvements.",
+    "ar": "قمنا بتشخيص الخلية NR الحضرية عبر مراجعة عدادات الشبكة والسلسلة الزمنية لـ QoS خلال 24 ساعة، وتأكد أن هبوط QoS ناتج عن قمم التأخير وليس عن تشبع السعة. تم فتح حالة خرق SLA (DU-QOS-03158) مع الأدلة لإشراك النقل/النواة في المعالجة. سنراقب ساعة الذروة القادمة ونحدّث النتائج وفق التحسّن المرصود."
+  }
+}

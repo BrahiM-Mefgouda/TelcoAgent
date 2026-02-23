@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0013",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell shows elevated BLER (~17%) with weak signal (RSRP -110 dBm, RSRQ -15 dB), SINR ~8 dB, moderate load (~63% PRB) and high neighbor load over the last 2h; alarm indicates possible congestion/outage.",
+    "ar": "موقع ماكرو NR في منطقة ضواحي يظهر ارتفاعاً في BLER (~17%) مع إشارة ضعيفة (RSRP -110 dBm، RSRQ -15 dB)، وSINR ~8 dB، وحمل متوسط (~63% PRB) وحمل عالٍ لدى الجوار خلال آخر ساعتين؛ التنبيه يشير إلى احتمال ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NRM-Suburb-312 has rising DL BLER during the last 2h shoulder period; an alarm is active. Users on eMBB streaming report buffering. RSRP ~-110 dBm, RSRQ -15 dB, SINR ~8 dB, p50 DL throughput ~9 Mbps.",
+      "message_ar": "الموقع الماكرو NR المسمى NRM-Suburb-312 في الضواحي يظهر ارتفاعاً في BLER على الوصلة الهابطة خلال آخر ساعتين في فترة الذروة الجزئية، وهناك تنبيه نشط. مستخدمو eMBB (بث) يشتكون من تقطيع. RSRP نحو -110 dBm وRSRQ -15 dB وSINR ~8 dB، ومتوسط سرعة DL نحو 9 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first check OSS KPIs and faults for NRM-Suburb-312 over the last 2h to validate the BLER condition and any anomalies. Please confirm read-only access.",
+      "message_ar": "سأبدأ بفحص مؤشرات وأعطال النظام عبر OSS لخلية NRM-Suburb-312 خلال آخر ساعتين للتحقق من حالة BLER وأي شذوذ. يرجى تأكيد السماح بالوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with read-only checks.",
+      "message_ar": "موافق. تفضل بإجراء فحوصات القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check done: cell is up with no active faults. Average BLER ~17% with bursty peaks; PRB utilization ~63%. Neighbor load is high (~0.79). Weak RSRP/RSRQ suggests edge conditions. Next, I will pull a BLER time series for the 2h window to characterize burst patterns. Approve?",
+      "message_ar": "تم فحص OSS: الخلية عاملة ولا توجد أعطال نشطة. متوسط BLER ~17% مع قمم متقطعة؛ استخدام PRB بنحو 63%. حمل الجوار مرتفع (~0.79). ضعف RSRP/RSRQ يوحي بظروف حافة تغطية. التالي، سأسحب سلسلة زمنية لـ BLER لمدة ساعتين لوصف نمط القمم. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the BLER time series.",
+      "message_ar": "موافق على سحب السلسلة الزمنية لـ BLER."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows baseline BLER 5–7% with burst spikes 20–28% aligning with the shoulder period and high neighbor load; SINR stays ~8 dB and handovers are stable. Diagnosis: bursty interference/loading. I propose low-risk parameter tuning: slightly more conservative link adaptation, higher PDCCH aggregation, and stronger interference coordination. Apply now?",
+      "message_ar": "السلسلة الزمنية تُظهر BLER أساسياً 5–7% مع قمم 20–28% متزامنة مع فترة الذروة الجزئية وحمل الجوار المرتفع؛ SINR ثابت ~8 dB وعمليات التسليم مستقرة. التشخيص: تداخل/تحميل متقطّع. أقترح ضبطاً منخفض المخاطر للمعلمات: جعل تكيّف الارتباط أكثر تحفظاً قليلاً، زيادة تجميع PDCCH، وتعزيز تنسيق التداخل. هل نطبق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the parameter optimization.",
+      "message_ar": "موافق. تفضل بتنفيذ ضبط المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to NRM-Suburb-312 without errors; change set is active. Expect 10–15 minutes to stabilize. We will monitor BLER, RSRQ, and user throughput over the next hour.",
+      "message_ar": "تم تطبيق الضبط على NRM-Suburb-312 دون أخطاء؛ مجموعة التغييرات فعّالة. نتوقع 10–15 دقيقة للاستقرار. سنراقب BLER وRSRQ وسرعات المستخدم خلال الساعة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes, BLER spikes are lower (~9–11%) and RSRQ improved by about 2 dB; fewer streaming complaints observed.",
+      "message_ar": "بعد نحو 20 دقيقة، انخفضت قمم BLER إلى (~9–11%) وتحسّن RSRQ بنحو 2 dB؛ وشكاوى البث أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend looks positive. We will hold the new settings and continue observing; no further changes at this time. Please share any new user feedback.",
+      "message_ar": "الاتجاه إيجابي. سنُبقي الإعدادات الجديدة ونستمر بالمراقبة؛ لا تغييرات إضافية حالياً. يرجى مشاركة أي ملاحظات جديدة من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: BLER spikes trending down and median BLER near 7%. The site parameter tuning helped. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسّن: قمم BLER في انخفاض والوسيط قريب من 7%. ضبط معلمات الموقع كان مفيداً. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and report outcomes. If BLER rebounds, we will roll back the tuning and coordinate interference mitigation with neighboring cells; if severe degradation appears, we will escalate to RF for interference hunting.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بالنتائج. إذا عاد BLER للارتفاع، سنقوم بالتراجع عن الضبط والتنسيق على التخفيف من التداخل مع الخلايا المجاورة؛ وإذا ظهرت تدهورات شديدة، سنصعّد إلى فريق RF لتعقب التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on a suburban NR macro cell by checking OSS status and analyzing a 2-hour BLER time series, revealing bursty spikes aligned with the shoulder period and high neighbor load. Applied site parameter tuning to make link adaptation more conservative, increase control channel robustness, and strengthen interference coordination. BLER spikes decreased and signal quality improved; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص شذوذ BLER على موقع ماكرو NR في الضواحي عبر التحقق من حالة OSS وتحليل سلسلة زمنية لمدة ساعتين، ما أظهر قمماً متقطعة متزامنة مع فترة الذروة الجزئية وحمل الجوار المرتفع. تم تنفيذ ضبط لمعلمات الموقع لجعل تكيّف الارتباط أكثر تحفظاً، وتعزيز متانة القناة التحكمية، وتقوية تنسيق التداخل. انخفضت قمم BLER وتحسّنت جودة الإشارة؛ سنستمر بالمراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0004",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "A suburban NR macro cell shows sustained high PRB utilization (~87%) during off-peak over the last 4 hours with ~143 users, DL 12 Mbps, UL 13 Mbps, BLER ~3.7%, and p95 scheduling latency 19 ms; investigate resource congestion affecting eMBB streaming.",
+    "ar": "خلية NR ماكرو في منطقة شبه حضرية تُظهر ارتفاعاً مستمراً في استهلاك PRB (~87%) خلال فترة خارج الذروة خلال آخر 4 ساعات مع ~143 مستخدماً، تنزيل 12 ميجابت/ث، رفع 13 ميجابت/ث، BLER ~3.7%، وزمن جدولة p95 يبلغ 19 مللي ثانية؛ نحتاج للتحقق من ازدحام الموارد الذي يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing sustained high PRB utilization (~87%) on a suburban NR macro over the last 4 hours: ~143 users, DL 12 Mbps, UL 13 Mbps, BLER ~3.7%, p95 scheduling latency 19 ms. eMBB streaming dominates; no active alarms.",
+      "message_ar": "نلاحظ ارتفاعاً مستمراً في استهلاك PRB (~87%) على خلية NR ماكرو في منطقة شبه حضرية خلال آخر 4 ساعات: نحو 143 مستخدماً، تنزيل 12 ميجابت/ث، رفع 13 ميجابت/ث، BLER ~3.7%، والزمن المئوي 95 لجدولة الموارد 19 مللي ثانية. حركة eMBB (بث الفيديو) هي السائدة؛ ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull 4-hour stats for the affected cell, then apply targeted scheduler/PRB tuning if the bottleneck is confirmed, and finally open a follow-up ticket. Please share the exact cell ID and approve read/write access.",
+      "message_ar": "سأبدأ بسحب إحصاءات آخر 4 ساعات للخلية المتأثرة، ثم أطبق ضبطاً مستهدفاً لمعاملات الجدولة/PRB إذا تأكدت عنق الزجاجة، وأخيراً أفتح تذكرة متابعة. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحيات القراءة/الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-2143-1. Access approved (read/write) for this 4-hour window.",
+      "message_ar": "معرّف الخلية: NR-SUB-2143-1. تمت الموافقة على الوصول (قراءة/كتابة) لهذه النافذة البالغة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling network counters for NR-SUB-2143-1 (last 4 hours). Findings: PRB occupancy 80–92% (avg ~87%); p95 scheduling latency 18–22 ms; BLER 3–5%; ~120–160 active users; eMBB ~70% of volume; no hardware or backhaul issues; neighbors at moderate load. This is resource-bound congestion.",
+      "message_ar": "أجري سحب المؤشرات لـ NR-SUB-2143-1 (آخر 4 ساعات). النتائج: إشغال PRB بين 80–92% (متوسط ~87%)؛ p95 لزمن الجدولة 18–22 مللي ثانية؛ BLER 3–5%؛ 120–160 مستخدماً نشطاً؛ eMBB ~70% من الحجم؛ لا مشاكل عتاد أو نقل خلفي؛ الجيران بحمل متوسط. هذا ازدحام مرتبط بالموارد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Copy. Proceed if you can safely reduce PRB pressure.",
+      "message_ar": "تم. تفضل بالمتابعة إذا كان بالإمكان خفض ضغط PRB بأمان."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply conservative site parameter tuning to rebalance scheduler weights and cap non-GBR per-UE PRB share, targeting ~10% PRB reduction without harming latency/BLER. Change is reversible. Do you approve?",
+      "message_ar": "الخطة: تطبيق ضبط محافظ لمعاملات الموقع لإعادة موازنة أوزان المجدول وتقييد حصة PRB لكل مستخدم غير مضمونة، بهدف خفض PRB بنحو 10% دون التأثير على الكمون/BLER. التغيير قابل للإرجاع. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization on NR-SUB-2143-1 now; parameters applied successfully. Initial post-change snapshot (5–10 min): PRB ~74–79%, p95 scheduling latency 15–17 ms, BLER ~3–4%, DL throughput ~16 Mbps. Monitoring for stability.",
+      "message_ar": "تنفيذ التحسين الآن على NR-SUB-2143-1؛ تم تطبيق المعاملات بنجاح. لقطة أولية بعد التغيير (5–10 دقائق): PRB ~74–79%، p95 لزمن الجدولة 15–17 مللي ثانية، BLER ~3–4%، وسرعة التنزيل ~16 ميجابت/ث. سنراقب الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing PRB hovering ~76% and DL throughput around 16 Mbps; no side effects so far.",
+      "message_ar": "أرى PRB حول ~76% وسرعة التنزيل نحو 16 ميجابت/ث؛ بلا آثار جانبية حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a follow-up ticket for tracking and handoff to capacity planning; we will continue near-term observation and document results there.",
+      "message_ar": "أقوم بفتح تذكرة متابعة للتوثيق وتسليمها لتخطيط السعة؛ سنستمر في المراقبة القريبة المدى وتوثيق النتائج هناك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: PRB utilization trending down and user throughput up. Action taken was site parameter tuning. Let’s monitor over the next 2–4 hours; reference ticket DU-LOAD-03871.",
+      "message_ar": "تم تأكيد التحسن: استهلاك PRB يتناقص وسرعة المستخدمين ترتفع. الإجراء الذي نُفّذ هو ضبط معاملات الموقع. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة؛ المرجع DU-LOAD-03871."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and update the ticket after the window. If metrics regress, we will revert the change; if congestion resurges elsewhere, we will escalate to capacity planning for carrier or footprint expansion.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا تراجعت المؤشرات سنرجع التغيير؛ وإن عاد الازدحام في مواقع أخرى سنصعّد إلى تخطيط السعة لتوسيع الحامل أو البصمة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed resource-bound congestion on a suburban NR macro during off-peak with ~87% PRB utilization, moderate BLER, and elevated scheduling latency driven by eMBB traffic. Pulled recent stats, then applied site parameter tuning to rebalance scheduler and PRB allocation, reducing utilization to the mid-70s with improved latency and throughput. A follow-up ticket was created and the cell will be monitored over the next hours.",
+    "ar": "تم تأكيد ازدحام مرتبط بالموارد على خلية NR ماكرو في منطقة شبه حضرية خلال فترة خارج الذروة مع استهلاك PRB ~87% وBLER معتدل وارتفاع في زمن الجدولة بسبب حركة eMBB. تم سحب الإحصاءات الحديثة ثم تطبيق ضبط معاملات الموقع لإعادة موازنة المجدول وتوزيع PRB، ما خفّض الاستهلاك إلى منتصف السبعينيات مع تحسن في الكمون والسرعة. تم فتح تذكرة متابعة وسيُراقَب أداء الخلية خلال الساعات القادمة."
+  }
+}

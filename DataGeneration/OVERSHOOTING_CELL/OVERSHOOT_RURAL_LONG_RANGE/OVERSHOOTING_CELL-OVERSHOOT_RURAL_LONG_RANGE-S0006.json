@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0006",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural 5G macro cell shows long-range serving with high time advance (~1.9 km), low SINR (2 dB) indicating interference/signal overlap, 20% distant users, and elevated handover failures over the last 12h—please investigate overshooting.",
+    "ar": "خلية ماكرو 5G ريفية تُظهر خدمة بعيدة مع زمن وصول مرتفع (~1.9 كم) وSINR منخفض (2 ديسيبل) يدل على تداخل/تراكب إشارة، و20% مستخدمين بعيدين، وإخفاقات تسليم مرتفعة خلال آخر 12 ساعة—يرجى التحقيق في فرط التغطية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural 5G NR macro sector NR-R12345 over the last 12h shows long-range serving: TA p95 ≈1.9 km, SINR ~2 dB, RSRP -113 dBm, RSRQ -13 dB, distant-serving ~20%, HO failures 15%, ping-pong 9%; traffic is FWA-heavy with mixed hours—please investigate.",
+      "message_ar": "القطاع الماكرو NR 5G الريفي NR-R12345 خلال آخر 12 ساعة يُظهر خدمة بعيدة: قيمة TA p95 ≈ 1.9 كم، وSINR حوالي 2 ديسيبل، وRSRP -113 dBm، وRSRQ -13 dB، ونسبة المستخدمين البعيدين ~20%، وإخفاقات التسليم 15%، وPing-Pong 9%؛ الحركة يغلب عليها FWA وبساعات مختلطة—يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "The low SINR and high distant-serving indicate overshooting with interference/signal overlap; I will first review coverage over the rural grid, then audit neighbor borders, and finally apply a small down-tilt and mobility threshold tuning to contract the footprint—requesting approval for non-intrusive checks now and a low-risk live change afterward.",
+      "message_ar": "يشير انخفاض SINR وارتفاع نسبة الخدمة البعيدة إلى فرط تغطية مع تداخل/تراكب إشارة؛ سأراجع أولاً نمط التغطية على شبكة المنطقة الريفية، ثم أدقق حدود الجيران، وأخيراً أنفذ تقليلاً بسيطاً للانحدار وضبطاً طفيفاً لعناصر التنقل لتقليص البصمة—أطلب الموافقة على فحوصات غير تدخّلية الآن وتغييراً بسيطاً مباشراً بعد ذلك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Use cell NR-R12345, area “rural west ridge”; proceed with the checks and be ready for a minor live change.",
+      "message_ar": "موافق. استخدم الخلية NR-R12345، منطقة \"الحافة الغربية الريفية\"؛ امضِ في الفحوصات واستعد لتغيير بسيط مباشر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review complete on 1 km grid: main lobe stretches ~15 km toward azimuth 240°, weak-edge RSRP ~-115 dBm with overlap from two neighbors ~12 km away; this aligns with the 20% distant serving. Proceed to neighbor relations audit?",
+      "message_ar": "اكتملت مراجعة التغطية على شبكة 1 كم: يمتد الحزم الرئيسي نحو ~15 كم باتجاه السمت 240°، وقيم RSRP ضعيفة عند الحافة (~-115 dBm) مع تداخل من جارين يبعدان ~12 كم؛ وهذا يتماشى مع 20% خدمة بعيدة. هل أمضي في تدقيق علاقات الجيران؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit done: two targets present but handover thresholds and hysteresis cause late handover from this sector; one nearer neighbor was missing; this explains the 15% failures and 9% ping-pong. I propose a minor electrical down-tilt, slight threshold relaxation to advance handovers, and adding the missing neighbor relation—may I implement now?",
+      "message_ar": "تم تدقيق الجيران: يوجد هدفان لكن عتبات التسليم والهسترة تؤدي إلى تسليم متأخر من هذا القطاع؛ كما أن جاراً أقرب كان مفقوداً؛ وهذا يفسّر 15% إخفاقات و9% Ping-Pong. أقترح تقليلاً بسيطاً للانحدار الكهربائي، وتخفيفاً طفيفاً للعتبات لتقديم التسليم، وإضافة علاقة الجار المفقودة—هل أستطيع التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now; traffic is light.",
+      "message_ar": "موافق على التنفيذ الآن؛ الحركة خفيفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Captured pre-change snapshot (TA distribution, distant-serving share, HO failures, and boundary SINR). Executing minor down-tilt, gentle mobility threshold tuning, and adding the missing neighbor; no service interruption expected.",
+      "message_ar": "تم أخذ لقطة قبل التغيير (توزيع TA، نسبة الخدمة البعيدة، إخفاقات التسليم، وSINR على الحدود). جارٍ تنفيذ خفض بسيط للانحدار، وضبط خفيف لعتبات التنقل، وإضافة الجار المفقود؛ لا يُتوقع انقطاع خدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم التأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied successfully. Early checks show contracted far-edge coverage (~0.4 km reduction along 240°), cleaner neighbor dominance at the border, and earlier handover triggers; I’ll monitor counters for trend confirmation.",
+      "message_ar": "تم تطبيق التغيير بنجاح. تُظهر الفحوصات الأولية انكماش التغطية عند الحافة (~0.4 كم على اتجاه 240°)، وهيمنة أنظف للجيران على الحدود، وتفعيل تسليم مبكر؛ سأراقب العدادات لتأكيد الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement within 20 minutes: distant-serving share down toward ~12% and handover failures trending down. Action taken was site parameter tuning following coverage and neighbor review. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً خلال 20 دقيقة: انخفاض نسبة الخدمة البعيدة نحو ~12% وتراجع إخفاقات التسليم. الإجراء كان ضبط معلمات الموقع بعد مراجعة التغطية والجيران. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and report updated distant-serving share, TA distribution, and handover failures. If regressions appear, we will roll back the latest tuning; if issues persist, we will escalate for a physical retune.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بنسبة الخدمة البعيدة وتوزيع TA وإخفاقات التسليم بعد التحديث. إذا ظهرت انتكاسات سنرجع عن الضبط الأخير؛ وإن استمرت المشكلة فسوف نصعّد لطلب إعادة معايرة ميدانية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "rural",
+        "1km"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-R12345",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "minor down-tilt, mobility thresholds, neighbor list correction"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigation confirmed the rural 5G macro sector was overshooting, shown by high time advance, low SINR, and a large distant-serving share. We reviewed coverage, audited neighbor relations, then applied site parameter tuning (minor down-tilt, mobility threshold adjustment, and neighbor list correction) to contract the footprint and advance handovers. Early indicators show reduced distant serving and improving handover outcomes, and we will continue monitoring.",
+    "ar": "أكد التحقيق أن قطاع 5G الماكرو الريفي يعاني من فرط تغطية، وهو ما ظهر في ارتفاع زمن الوصول وانخفاض SINR وحصة كبيرة من الخدمة البعيدة. قمنا بمراجعة التغطية وتدقيق الجيران ثم طبّقنا ضبطاً لمعلمات الموقع (خفضاً بسيطاً للانحدار، وضبط عتبات التنقل، وتصحيح قائمة الجيران) لتقليص البصمة وتقديم التسليم. تظهر المؤشرات المبكرة انخفاض الخدمة البعيدة وتحسناً في نتائج التسليم، وسنواصل المراقبة."
+  }
+}

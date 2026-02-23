@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0007",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows timing advance distribution drift over the last 3h (median 169 m, p95 456 m, high variance), distant serving at 23%, PRB utilization ~82%, RSRP ~-107 dBm, and handover failures ~8% during ingress.",
+    "ar": "الخليّة الصغيرة NR في الاستاد تُظهر انجرافاً في توزيع توقيت التقدّم خلال آخر 3 ساعات (الوسيط 169 م، p95 عند 456 م وتباين مرتفع)، نسبة خدمة بعيدة 23%، استخدام PRB حوالي 82%، RSRP نحو -107 dBm، وإخفاقات تسليم حوالي 8% أثناء الدخول."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During ingress at the stadium over the last 3h, the NR micro cell seems to be serving users farther than usual; edge experience reports increased and internal stats suggest a TA tail and higher HO failures. Can you investigate?",
+      "message_ar": "أثناء الدخول في الاستاد خلال آخر 3 ساعات، يبدو أن الخليّة الصغيرة NR تخدم مستخدمين أبعد من المعتاد؛ تزايدت بلاغات تجربة الحافة وتشير الإحصاءات الداخلية إلى ذيل في TA وارتفاع في إخفاقات التسليم. هل يمكنك التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Plan: pull last 3h OSS counters for cell NR-STAD-MICRO-01, then chart TA to confirm drift; if confirmed, apply focused mobility/TA parameter tuning to reduce distant serving. Please confirm access approval.",
+      "message_ar": "تم الاستلام. الخطة: سحب مؤشرات OSS لآخر 3 ساعات للخلية NR-STAD-MICRO-01، ثم تحليل سلسلة TA لتأكيد الانجراف؛ وإذا تأكد، سننفّذ ضبطاً مركزاً لمعاملات الحركة/TA لتقليل الخدمة البعيدة. يرجى تأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell is NR-STAD-MICRO-01.",
+      "message_ar": "الوصول مُعتمد. الخلية المستهدفة هي NR-STAD-MICRO-01."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h OSS: TA median 169 m, p95 456 m, std high; distant-serving ratio 23%; PRB ~82%; RSRP ~-107 dBm; HO failures ~8%. This indicates a right-tailed TA during ingress. Proceeding to TA time series deep-dive next—please confirm.",
+      "message_ar": "تم سحب بيانات OSS لآخر 3 ساعات: وسيط TA ‏169 م، p95 ‏456 م، والانحراف عالٍ؛ نسبة الخدمة البعيدة 23%؛ استخدام PRB نحو 82%؛ RSRP حوالي -107 dBm؛ وإخفاقات التسليم ~8%. هذا يشير إلى ذيل أيمن في TA أثناء الدخول. سأتابع بتحليل سلسلة TA التفصيلي—يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, proceed.",
+      "message_ar": "تم التأكيد، تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series shows drift starting ~40 min before gates, peaking mid-ingress; it co-moves with PRB >80% and elevated HO failures. Pattern points to micro-layer under-selection and distant serving. I propose targeted tuning of TA/mobility thresholds and a small micro-layer bias to tighten selection.",
+      "message_ar": "سلسلة TA الزمنية تُظهر انجرافاً يبدأ قبل ~40 دقيقة من فتح البوابات ويبلغ الذروة أثناء منتصف الدخول؛ ويتزامن مع PRB>80% وارتفاع إخفاقات التسليم. النمط يدل على نقص تفضيل طبقة الميكرو وخدمة بعيدة. أقترح ضبطاً مستهدفاً لعَتبات TA/الحركة وإضافة انحياز بسيط لطبقة الميكرو لشدّ الاختيار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning.",
+      "message_ar": "موافَق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: tightened TA/mobility thresholds and added a minor micro-layer bias to curb distant serving; no service interruption observed. Starting post-change validation now.",
+      "message_ar": "تم تطبيق التغيير: شدّدنا عتبات TA/الحركة وأضفنا انحيازاً بسيطاً لطبقة الميكرو للحد من الخدمة البعيدة؛ دون انقطاع خدمة. نبدأ التحقق بعد التغيير الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged; crowd is growing with heavy streaming traffic.",
+      "message_ar": "تم الاستلام؛ الحشد يزداد مع حركة بث مرتفعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline capture running; we will watch TA tail, distant-serving ratio, and handover failures as the cell stabilizes over the next interval.",
+      "message_ar": "يتم التقاط خط الأساس؛ سنراقب ذيل TA ونسبة الخدمة البعيدة وإخفاقات التسليم مع استقرار الخلية خلال الفترة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better—handover failures are trending down. The action taken was site parameter tuning to address TA drift. Let’s monitor through the next busy hour.",
+      "message_ar": "المؤشرات الأولية أفضل—إخفاقات التسليم تتجه للانخفاض. الإجراء المتخذ كان ضبط معاملات الموقع لمعالجة انجراف TA. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update you on TA distribution, distant serving, and handover failures afterward. If degradation returns, we will escalate to broader coordination across neighbors; if adverse effects appear, we’ll roll back to the previous settings.",
+      "message_ar": "سنكون مسؤولين عن المراقبة خلال ساعة الذروة القادمة وسنزوّدك بتحديث حول توزيع TA والخدمة البعيدة وإخفاقات التسليم بعدها. إذا عاد التدهور، سنصعّد إلى تنسيق أوسع عبر الخلايا المجاورة؛ وإذا ظهرت آثار سلبية، سنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Tune TA and mobility thresholds to reduce distant serving; minor micro-layer bias adjustment"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on the stadium NR micro cell during ingress using OSS checks and TA time series, revealing a right-tailed distribution, elevated distant serving, and increased handover failures. Mitigated by site parameter tuning that tightened TA and mobility thresholds with a minor micro-layer bias to improve local cell selection. We will monitor through the next busy hour to confirm sustained reduction in the TA tail and failures.",
+    "ar": "تم تشخيص انجراف توزيع TA على الخليّة الصغيرة NR في الاستاد أثناء الدخول عبر فحوصات OSS وسلسلة TA الزمنية، مما كشف عن توزيع بذيل أيمن وارتفاع في الخدمة البعيدة وزيادة في إخفاقات التسليم. جرى التخفيف عبر ضبط معاملات الموقع بتشديد عتبات TA والحركة مع إضافة انحياز بسيط لطبقة الميكرو لتحسين اختيار الخلية المحلية. سنواصل المراقبة خلال ساعة الذروة القادمة للتأكد من استمرار انخفاض ذيل TA والإخفاقات."
+  }
+}

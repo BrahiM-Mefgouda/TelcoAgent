@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0003",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G macro cell breaching latency SLA over the last 2h with a congestion alarm: ~281 users, ~81% resource use, BLER ~6.8%, scheduler p95 64 ms, end-to-end latency 67 ms.",
+    "ar": "خلية ماكرو 5G حضرية تسجّل خرقاً لاتفاقية زمن التأخير خلال آخر ساعتين مع إنذار ازدحام: حوالي 281 مستخدماً، استخدام موارد ~81%، BLER حوالي 6.8%، زمن جدولة p95 يساوي 64 مللي ثانية، والزمن الطرفي 67 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on an urban NR macro cell; QoS latency alarm is active. E2E latency ~67 ms, scheduler p95 ~64 ms, ~281 users, PRB ~81%, BLER ~6.8%. Users reported streaming buffering.",
+      "message_ar": "فترة ذروة مسائية على خلية NR ماكرو حضرية؛ إنذار تأخير جودة الخدمة نشط. زمن طرفي ~67 مللي ثانية، p95 للجدولة ~64 مللي ثانية، حوالي 281 مستخدماً، استخدام PRB ~81%، وBLER ~6.8%. وردت شكاوى من تقطّع البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by checking OSS counters for the last 2h to scope the latency breach. Please share the affected cell ID and confirm access to proceed.",
+      "message_ar": "مفهوم. سأبدأ بفحص مؤشرات OSS لآخر ساعتين لتحديد نطاق خرق التأخير. الرجاء تزويدي بمعرّف الخلية المتأثرة وتأكيد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-1123-S1. Access approved; no planned changes earlier today.",
+      "message_ar": "معرّف الخلية: NR-URB-1123-S1. الوصول مُعتمد؛ لا تغييرات مخططة اليوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check over 2h for NR-URB-1123-S1: latency breaches cluster 18:10–19:50; PRB peaks ~88%; DL queue depth and HOL delay spike; BLER steady 6–8%; no backhaul alarms. Next, I will chart latency time series (p95/p99) for confirmation; proceed?",
+      "message_ar": "فحص OSS خلال ساعتين للخلية NR-URB-1123-S1: خروقات التأخير تتجمع بين 18:10–19:50؛ ذروة PRB ~88%؛ عمق طوابير التنزيل وتأخير HOL مرتفعان؛ BLER ثابت 6–8%؛ لا إنذارات وصل خلفي. التالي سأعرض سلسلة زمنية للتأخير (p95/p99) للتأكيد؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضّل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series confirms p95 at 62–68 ms with p99 spikes up to ~95 ms during the peak window; median throughput ~17 Mbps; retransmissions moderate. This points to queuing under load, not a radio fault. I will apply site parameter tuning (QoS latency weights and queue thresholds) to cut scheduler delay. Approve live change?",
+      "message_ar": "السلسلة الزمنية للتأخير تؤكد p95 بين 62–68 مللي ثانية مع ارتفاعات p99 حتى ~95 مللي ثانية خلال نافذة الذروة؛ متوسط الإنتاجية ~17 ميجابت/ث؛ إعادة الإرسال متوسطة. هذا يشير إلى ازدحام الطوابير تحت الحمل وليس عطباً راديوياً. سأطبق ضبطاً لمعلمات الموقع (أوزان تأخير QoS وعَتبات الطوابير) لخفض تأخير الجدولة. هل توافق على التغيير الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning.",
+      "message_ar": "موافَق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on NR-URB-1123-S1; commit successful. Early post-change (5–10 min): p95 latency ~50–53 ms, p99 <80 ms; PRB still ~80% but queues reduced; no new alarms. I will keep watching during this peak window.",
+      "message_ar": "تم تطبيق الضبط على NR-URB-1123-S1؛ التنفيذ ناجح. المؤشرات المبكرة بعد التغيير (5–10 دقائق): p95 للتأخير ~50–53 مللي ثانية، p99 أقل من 80 مللي ثانية؛ PRB ما زال ~80% لكن الطوابير انخفضت؛ لا إنذارات جديدة. سأستمر بالمراقبة خلال نافذة الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field probes show fewer buffering events; a brief spike around 19:05 remains, but trend looks better.",
+      "message_ar": "القياسات الميدانية تظهر انخفاضاً في حالات التقطّع؛ لا يزال هناك ارتفاع قصير حوالي 19:05، لكن الاتجاه تحسّن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Neighbor cells show normal counters and no spillover load. I will continue short-term observation for residual spikes.",
+      "message_ar": "تم. الخلايا المجاورة طبيعية ولا يوجد تسرب حمل. سأواصل المراقبة القصيرة لرصد أي ارتفاعات متبقية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: p95 latency now trending near ~51 ms with fewer spikes after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسّن: p95 للتأخير يتجه الآن نحو ~51 مللي ثانية مع ارتفاعات أقل بعد ضبط معلمات الموقع. لنواصل المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour monitoring and update you on latency and queues afterward. If degradation returns, we will roll back the tuning and escalate to transport if backhaul symptoms appear.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة التالية وسنزودكم بتحديث حول التأخير والطوابير بعدها. إذا عاد التدهور سنعود عن الضبط ونصعّد إلى فريق النقل إذا ظهرت مؤشرات مشكلة في الوصل الخلفي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-1123-S1",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-1123-S1",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "latency_qos_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During peak evening on an urban NR macro cell, latency SLA violations were traced to queuing under high load rather than radio faults. We analyzed recent counters and latency time series, then applied site parameter tuning to adjust QoS latency weights and queue thresholds. Post-change, p95 latency dropped to ~50–53 ms with fewer spikes; we will continue monitoring through the next busy hour.",
+    "ar": "خلال ذروة المساء على خلية NR ماكرو حضرية، تم إرجاع خروقات زمن التأخير لاتفاقية الخدمة إلى ازدحام الطوابير تحت الحمل العالي وليس إلى أعطال راديوية. قمنا بتحليل المؤشرات الحديثة والسلسلة الزمنية للتأخير، ثم طبقنا ضبطاً لمعلمات الموقع لضبط أوزان تأخير QoS وعَتبات الطوابير. بعد التغيير انخفض p95 للتأخير إلى ~50–53 مللي ثانية مع ارتفاعات أقل؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

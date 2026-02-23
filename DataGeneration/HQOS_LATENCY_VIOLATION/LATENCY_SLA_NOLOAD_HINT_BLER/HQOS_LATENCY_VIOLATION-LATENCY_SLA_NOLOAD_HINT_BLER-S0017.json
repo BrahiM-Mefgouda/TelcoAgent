@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0017",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell over the last 3h shows high latency at 88 ms with 1 dB SINR indicating interference / signal overlap under moderate load.",
+    "ar": "خلية ماكرو NR في منطقة ضاحية خلال آخر 3 ساعات تُظهر زمن تأخير مرتفع 88 مللي ثانية مع SINR يبلغ 1 ديسيبل مما يشير إلى تداخل/تراكب إشارات تحت حمل معتدل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell, shoulder period last 3h: latency ~88 ms, p50 DL throughput ~10 Mbps, SINR ~1 dB, BLER ~10%, PRB ~72%, 170 users, no alarms. Streaming complaints observed.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية خلال فترة الكتف لآخر 3 ساعات: زمن التأخير ~88 مللي ثانية، سرعة تنزيل وسيط ~10 ميجابت/ث، SINR ~1 ديسيبل، BLER ~10%، استخدام PRB ~72%، 170 مستخدمًا، بدون إنذارات. تم رصد شكاوى في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling OSS stats for the last 3h on this cell to baseline load, BLER, and RF quality. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب إحصاءات OSS لآخر 3 ساعات لهذه الخلية لتأسيس خط أساس للحمل وBLER وجودة التغطية. يرجى تأكيد معرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-2451; read access approved.",
+      "message_ar": "معرّف الخلية هو NR-SUB-2451؛ تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows availability OK with no active faults. PRB utilization 68–75%, BLER 9–11%, RSRQ -15 dB, SINR ~1 dB. QoS latency class breaches are present during the shoulder window. Next, I’ll run a latency time series over the same 3h to isolate spikes and patterns. Proceed?",
+      "message_ar": "يعرض OSS توفرًا جيدًا بدون أعطال نشطة. استخدام PRB بين 68–75%، وBLER بين 9–11%، وRSRQ -15 ديسيبل، وSINR ~1 ديسيبل. هناك خروقات لفئة جودة الخدمة الخاصة بالزمن خلال نافذة الكتف. بعد ذلك سأجري سلسلة زمنية لزمن التأخير لنفس 3 ساعات لعزل الارتفاعات والأنماط. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series confirms median 80–90 ms with p95 peaks 120–150 ms; spikes align with BLER rises and user count >160. Throughput remains steady, pointing to retransmission overhead from interference / signal overlap. I propose a non-intrusive, latency-focused radio optimization to prioritize delay-sensitive traffic and reduce retries. Approve immediate change?",
+      "message_ar": "تؤكد السلسلة الزمنية لزمن التأخير وسيطًا بين 80–90 مللي ثانية مع قمم p95 بين 120–150 مللي ثانية؛ ترتبط الارتفاعات بزيادة BLER وتجاوز عدد المستخدمين 160. يظل معدل النقل مستقرًا، ما يشير إلى عبء إعادة الإرسال بسبب التداخل/تراكب الإشارات. أقترح تحسينًا غير تداخلي يركز على تقليل التأخير عبر إعطاء أولوية لحركة المرور الحساسة للزمن وتقليل الإعادات. هل توافق على التنفيذ الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted parameter tuning on NR-SUB-2451 for latency reduction; changes committed successfully. Initial counters indicate lower scheduling delay and BLER easing. I will watch for 10 minutes—please share live observations.",
+      "message_ar": "تم تطبيق ضبط موجه للمعلمات على NR-SUB-2451 لخفض زمن التأخير؛ تم اعتماد التغييرات بنجاح. المؤشرات الأولية تُظهر انخفاضًا في تأخير الجدولة وتراجعًا في BLER. سأراقب لمدة 10 دقائق—يرجى مشاركة الملاحظات الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early view: average latency trending ~55–60 ms, BLER ~6–7%, p50 DL ~12 Mbps; user sessions are smoother. No adverse effects observed.",
+      "message_ar": "المشاهدة الأولية: متوسط زمن التأخير يتجه إلى ~55–60 مللي ثانية، وBLER ~6–7%، وسرعة تنزيل وسيط ~12 ميجابت/ث؛ جلسات المستخدم أكثر سلاسة. لا آثار سلبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will continue background checks across the sector through the end of the shoulder window; please flag any regressions.",
+      "message_ar": "تم الاستلام. سأواصل الفحوصات الخلفية عبر القطاع حتى نهاية فترة الكتف؛ يرجى الإبلاغ عن أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: average latency now near 58 ms with retransmission-related delay down. Action taken was site parameter optimization focused on latency prioritization. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن: متوسط زمن التأخير الآن قرب 58 مللي ثانية مع انخفاض التأخير الناتج عن إعادة الإرسال. الإجراء كان تحسين معلمات الموقع مع التركيز على أولوية تقليل التأخير. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update you on latency, BLER, and user experience afterward. If performance degrades, we will escalate to interference mitigation with neighboring cells or roll back the change if side effects appear.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنوافيكم بتحديث حول زمن التأخير وBLER وتجربة المستخدم بعدها. إذا تدهور الأداء، سنصعّد إلى إجراءات تخفيف التداخل مع الخلايا المجاورة أو نرجع التغيير إذا ظهرت آثار جانبية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA violation on a suburban 5G macro cell correlated with high BLER and low SINR indicating interference. We analyzed latency trends and executed latency-focused site parameter tuning to reduce retransmissions and prioritize delay-sensitive traffic. Latency and BLER improved, and we will monitor for stability over the next hours.",
+    "ar": "تم تشخيص خرق لاتفاقية زمن التأخير في خلية ماكرو 5G بضاحية، مرتبط بارتفاع BLER وانخفاض SINR مما يدل على تداخل. تم تحليل اتجاهات زمن التأخير وتنفيذ ضبط لمعلمات الموقع يركز على تقليل التأخير عبر خفض عمليات إعادة الإرسال وإعطاء أولوية لحركة المرور الحساسة للزمن. تحسّن زمن التأخير وBLER، وسنراقب الاستقرار خلال الساعات القادمة."
+  }
+}

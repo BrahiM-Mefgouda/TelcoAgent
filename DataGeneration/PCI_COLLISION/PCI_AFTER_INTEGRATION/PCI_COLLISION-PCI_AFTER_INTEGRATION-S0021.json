@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0021",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro shows suspected PCI collision with neighbors (overlap 51) over the last 8h; alarm indicates congestion with HO failures 27%, ping-pong 12%, SINR 9 dB, RSRQ -12 dB, and p50 throughput 17 Mbps.",
+    "ar": "موقع NR ماكرو حضري يظهر اشتباه تضارب PCI مع الجيران (تداخل 51) خلال آخر 8 ساعات؛ التنبيه يشير إلى ازدحام مع فشل تسليم 27% وارتداد 12% وSINR ‏9 dB وRSRQ ‏-12 dB وسرعة وسيطية 17 مب/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector has an active alarm. Over the last 8h we see HO failures at 27% and ping-pong at 12% with ~273 users; eMBB streaming complaints noted.",
+      "message_ar": "قطاع NR ماكرو حضري لديه تنبيه فعّال. خلال آخر 8 ساعات نرى فشل تسليم 27% وارتداد 12% مع ~273 مستخدم؛ وردت شكاوى من بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by auditing neighbor relations and PCI use across the last 8h to confirm a collision. Please provide the exact cell ID and approve read-only access.",
+      "message_ar": "تم. سأبدأ بتدقيق علاقات الجوار واستخدام PCI خلال آخر 8 ساعات لتأكيد وجود تضارب. الرجاء تزويدي بالمعرّف الدقيق للخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: LON-MACRO-1123-N78-S1. Read-only access approved.",
+      "message_ar": "معرّف الخلية: LON-MACRO-1123-N78-S1. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor audit on LON-MACRO-1123-N78-S1. Findings: adjacent LON-MACRO-1124-N78-S2 uses the same PCI 75 with ~51% footprint overlap; additional reuse proximity around PCI 433 observed. This aligns with HO failures and degraded RSRQ (-12 dB). I propose retuning this sector to a conflict-free PCI and refreshing neighbor relations. Approve?",
+      "message_ar": "أجري تدقيق الجوار على LON-MACRO-1123-N78-S1. النتائج: الجار LON-MACRO-1124-N78-S2 يستخدم نفس PCI 75 مع تداخل تغطية يقارب 51%؛ كما لوحظ قرب في إعادة الاستخدام حول PCI 433. هذا يتوافق مع ارتفاع فشل التسليم وتدهور RSRQ (-12 dB). أقترح إعادة ضبط PCI لهذا القطاع إلى قيمة خالية من التعارض وتحديث علاقات الجوار. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to retune now.",
+      "message_ar": "موافق على إعادة الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter optimization: change PCI from 75 to 312 on LON-MACRO-1123-N78-S1 and refresh neighbor relations/offsets. Change committed; brief SSB reacquisition expected (<1 min). I will watch HO success, ping-pong, and RSRQ.",
+      "message_ar": "تطبيق تحسين المعايير: تغيير PCI من 75 إلى 312 على LON-MACRO-1123-N78-S1 وتحديث علاقات الجوار والانحرافات. تم تنفيذ التغيير؛ من المتوقع إعادة اكتساب SSB لفترة وجيزة (<1 دقيقة). سأراقب نجاح التسليم، الارتداد، وRSRQ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed a short SSB reacquisition; service is stable.",
+      "message_ar": "تمت ملاحظة إعادة اكتساب SSB قصيرة؛ الخدمة مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early counters show improvement: HO success ~85% (from ~78%), ping-pong trending down, and RSRQ improving toward -10 dB. Please confirm user-side feedback.",
+      "message_ar": "المؤشرات المبكرة تظهر تحسنًا: نجاح التسليم ~85% (من ~78%)، والارتداد في انخفاض، وRSRQ يتحسن نحو -10 dB. يرجى تأكيد ملاحظات المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback is positive—fewer short drops and smoother streaming.",
+      "message_ar": "التغذية الراجعة من الميدان إيجابية—انخفاض في الانقطاعات القصيرة وبث أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I will log the PCI retune with pre/post KPIs and context and open a tracking reference.",
+      "message_ar": "لأغراض التتبع، سأقوم بتوثيق إعادة ضبط PCI مع مؤشرات ما قبل/بعد والسياق وفتح مرجع تتبع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: handover failures trending down and RSRQ steadier. Action taken: PCI parameter optimization on the sector. Let’s monitor through the next busy hour; reference DU-PCI-00158.",
+      "message_ar": "التحسن مستمر: فشل التسليم في انخفاض وRSRQ أكثر استقرارًا. الإجراء المتخذ: تحسين معلمة PCI على القطاع. دعنا نراقب خلال ساعة الذروة القادمة؛ المرجع DU-PCI-00158."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update the ticket after the window with KPI deltas. If degradation returns, we will escalate to field checks; if regressions occur, we will rollback to the prior PCI and neighbor setup.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد الفترة بفروقات المؤشرات. إذا عادت التدهورات سنصعّد لفحوصات ميدانية؛ وإذا حدثت انتكاسات سنرجع إلى PCI السابق وإعدادات الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "LON-MACRO-1123-N78-S1",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI retune to 312; refresh neighbor relations and HO offsets"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision resolved on LON-MACRO-1123-N78-S1 by retune; attach pre/post KPIs and notes"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision between the target NR macro sector and an adjacent sector using PCI 75 with significant overlap, driving handover failures and degraded signal quality. The sector was retuned to a conflict-free PCI and neighbor relations were refreshed, then a tracking record was created. Post-change KPIs improved (higher HO success, steadier RSRQ) and the site will be monitored through the next busy hour.",
+    "ar": "أكّد تحليل الجوار وجود تضارب PCI بين قطاع NR الماكرو المستهدف وقطاع مجاور يستخدم PCI 75 مع تداخل كبير، مما أدى إلى فشل التسليم وتدهور جودة الإشارة. تم إعادة ضبط القطاع إلى PCI خالٍ من التعارض وتحديث علاقات الجوار، ثم إنشاء سجل تتبع. تحسنت مؤشرات ما بعد التغيير (ارتفاع نجاح التسليم واستقرار RSRQ) وسيتم مراقبة الموقع خلال ساعة الذروة القادمة."
+  }
+}

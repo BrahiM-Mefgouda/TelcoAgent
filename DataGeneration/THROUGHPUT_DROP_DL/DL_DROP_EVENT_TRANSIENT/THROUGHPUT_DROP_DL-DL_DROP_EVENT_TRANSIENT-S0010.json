@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0010",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "At the stadium NR micro cell, an alarm indicating congestion in the last 2h coincides with slow data (~8 Mbps), very high resource use (~95%), and interference/signal overlap (SINR ~3 dB, RSRQ -14 dB) with ~460 users during the event.",
+    "ar": "في خلية NR الميكرو بالملعب، يوجد إنذار يشير إلى ازدحام خلال آخر ساعتين يتزامن مع بطء البيانات (~8 ميجابت/ث) واستخدام موارد مرتفع جداً (~95%) وتداخل/تراكب إشارة (SINR ~3 dB وRSRQ -14 dB) مع ~460 مستخدماً أثناء الحدث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Live issue at the stadium NR micro cell during the event (last 2h alarm): DL user throughput ~8 Mbps, PRB ~95%, SINR ~3 dB, RSRQ -14 dB, p95 scheduler latency ~66 ms, ~460 users; please investigate.",
+      "message_ar": "مشكلة حية في خلية NR ميكرو داخل الملعب أثناء الحدث (إنذار خلال آخر ساعتين): سرعة تنزيل المستخدمين ~8 ميجابت/ث، إشغال الموارد ~95%، SINR ~3 dB، RSRQ -14 dB، تأخر المجدول p95 ~66 مللي ثانية، وعدد المستخدمين ~460. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the alarm; symptoms point to interference/signal overlap under heavy load. Please share the cell ID and confirm read access for the last 2h; I will start with a health/load snapshot and then examine the DL performance trend.",
+      "message_ar": "تم استلام الإنذار؛ الأعراض تشير إلى تداخل/تراكب الإشارة مع حمل مرتفع. يرجى مشاركة معرف الخلية وتأكيد صلاحية القراءة لآخر ساعتين؛ سأبدأ بلقطة صحة/حمل ثم أتابع اتجاه أداء التنزيل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-05-M1. Access approved for the last 2h.",
+      "message_ar": "المعرف: NR-STAD-05-M1. الوصول معتمد لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS counters for NR-STAD-05-M1 over the last 2h to validate utilization, control-channel pressure, radio faults, and neighbor status; will report findings next.",
+      "message_ar": "أسترجع عدادات OSS لـ NR-STAD-05-M1 خلال آخر ساعتين للتحقق من الاستخدام، ضغط قناة التحكم، أعطال الراديو، وحالة الجيران؛ سأبلغ بالنتائج قريباً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access permitted; no recent field changes.",
+      "message_ar": "الوصول مسموح؛ لا تغييرات ميدانية حديثة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: sustained PRB 93–98%, high control usage, no HW/backhaul alarms; neighbors normal. DL user throughput depressed during peaks; median SINR ~3 dB. Next, I will chart DL throughput across the 2h window to quantify the drop pattern.",
+      "message_ar": "النتائج: إشغال PRB مستدام 93–98%، استخدام قناة التحكم مرتفع، لا إنذارات عتاد/وصلات خلفية؛ الجيران طبيعيون. سرعة التنزيل متدهورة في الذروة؛ متوسط SINR ~3 dB. التالي: سأرسم سلسلة زمنية لسرعة التنزيل عبر نافذة الساعتين لقياس نمط الهبوط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms slow data during bursts: median 7–9 Mbps with troughs below 6 Mbps when users >440; BLER stable ~3–4%, indicating load plus interference rather than link failures. I propose targeted parameter optimization to improve resource efficiency for heavy streaming usage and slightly reduce the interference footprint; please approve execution.",
+      "message_ar": "السلسلة الزمنية للتنزيل تؤكد بطء البيانات أثناء الاندفاعات: الوسيط 7–9 ميجابت/ث مع قيعان دون 6 ميجابت/ث عندما يزيد المستخدمون عن 440؛ BLER مستقر ~3–4%، ما يشير إلى حمل مع تداخل أكثر من أخطاء وصلة. أقترح تحسيناً مستهدفاً للمعلمات لرفع كفاءة الموارد لاستهلاك البث الكثيف وتقليل البصمة التداخلية قليلاً؛ يرجى اعتماد التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed immediately.",
+      "message_ar": "موافق على التنفيذ فوراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter tuning on NR-STAD-05-M1 with no service interruption. Early metrics (5 min): p95 scheduler latency ~48 ms and median DL 12–14 Mbps while PRB remains high but more efficient. I will continue observing.",
+      "message_ar": "تطبيق ضبط معلمات على NR-STAD-05-M1 دون انقطاع خدمة. مؤشرات مبكرة (5 دقائق): تأخر المجدول p95 ~48 مللي ثانية، والوسيط للتنزيل 12–14 ميجابت/ث مع بقاء الإشغال مرتفعاً لكن أكثر كفاءة. سأواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: median DL near 13 Mbps and scheduler latency trending down. Action taken: parameter optimization on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسناً: سرعة التنزيل المتوسطة قرب 13 ميجابت/ث وتأخر المجدول يتناقص. الإجراء المنفذ: تحسين معلمات الخلية. نقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the monitoring for the next busy hour and share an update afterward. If performance dips, we will roll back the change; if interference persists, we will escalate for temporary capacity relief or retuning.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة القادمة ونشارك تحديثاً بعد ذلك. إن تراجع الأداء سنرجع التغيير؛ وإن استمر التداخل سنصعّد لخيارات تخفيف سعة مؤقتة أو إعادة ضبط الاتجاه."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the NR micro cell experienced slow downlink throughput driven by sustained high resource utilization and interference (low SINR). We validated the condition via OSS and a DL time series, then applied site parameter tuning to improve resource efficiency and reduce interference impact. Early results show higher user throughput and lower scheduler latency; monitoring will continue through the next busy hour.",
+    "ar": "خلال الحدث في الملعب، عانت خلية NR الميكرو من بطء في سرعات التنزيل بسبب إشغال الموارد المرتفع باستمرار والتداخل (SINR منخفض). تم التحقق من الحالة عبر OSS وسلسلة زمنية للتنزيل، ثم تطبيق ضبط لمعلمات الموقع لتحسين كفاءة الموارد وتقليل أثر التداخل. تظهر النتائج المبكرة زيادة في سرعة المستخدمين وانخفاضاً في تأخر المجدول؛ وسنواصل المتابعة خلال ساعة الذروة التالية."
+  }
+}

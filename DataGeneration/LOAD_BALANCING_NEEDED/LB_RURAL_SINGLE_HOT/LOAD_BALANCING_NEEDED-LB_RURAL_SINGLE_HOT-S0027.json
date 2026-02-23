@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0027",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell over the last 6h shows >91% resource use with 140 users, median downlink 7 Mbps (slow data) and SINR 3 dB indicating interference/signal overlap, while neighbors average ~40% load.",
+    "ar": "خلية NR ماكرو ريفية خلال آخر 6 ساعات تُظهر استخدام موارد >91% مع 140 مستخدماً، وسرعة تنزيل متوسطة 7 ميجابت/ث (بيانات بطيئة) وSINR بمقدار 3 dB ما يشير إلى تداخل/تراكب إشارة، بينما متوسط حمل الجيران ~40%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell is hot over the last 6h: ~91% resource use, 140 users, median DL 7 Mbps with eMBB streaming buffering; SINR ~3 dB and RSRQ -13 dB. Neighbors are ~3 km and look lighter. Please investigate.",
+      "message_ar": "الخلية الريفية NR (ماكرو) ساخنة خلال آخر 6 ساعات: استخدام موارد ~91%، 140 مستخدماً، تنزيل وسطي 7 ميجابت/ث مع تقطّع في بث eMBB؛ قيمة SINR ~3 dB وRSRQ -13 dB. الجيران على بعد ~3 كم ويبدون أخف حملاً. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely load imbalance with interference/signal overlap. I will start by reviewing neighbor relations and borders for the last 6 hours. Please confirm the cell ID and grant read access.",
+      "message_ar": "تم الاستلام. يُرجّح وجود عدم توازن في الحمل مع تداخل/تراكب للإشارة. سأبدأ بمراجعة علاقات الجوار وحدود التسليم لآخر 6 ساعات. يرجى تأكيد معرّف الخلية ومنح صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-RURAL-123. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-RURAL-123. صلاحية القراءة مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running a neighbor review on NR-RURAL-123 against on-air neighbors within 5 km to check load distribution, handover biases, and overlap zones.",
+      "message_ar": "أجري مراجعة للجيران على NR-RURAL-123 مقابل الجيران العاملين ضمن 5 كم للتحقق من توزيع الحمل، وانحيازات التسليم، ومناطق التداخل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: serving PRB ≈91% vs neighbor average ≈40%; NR-RURAL-127 at 28% load (2.8 km) and NR-RURAL-129 at 36%. HO out 18/5min vs in 7/5min; current offsets favor the serving cell. Clear offload potential to west/north sectors. I propose light load-balancing tuning (small neighbor bias and mild load-aware triggering). Approve change?",
+      "message_ar": "النتائج: حمل الموارد في الخلية ≈91% مقابل متوسط الجيران ≈40%؛ NR-RURAL-127 بحمل 28% (2.8 كم) وNR-RURAL-129 بحمل 36%. التسليمات الصادرة 18/5 دقائق مقابل الواردة 7/5 دقائق؛ الإزاحات الحالية تُفضّل الخلية الخادمة. هناك فرصة واضحة لتفريغ الحمل نحو القطاعات الغربية/الشمالية. أقترح ضبطاً خفيفاً لموازنة الحمل (انحياز بسيط للجيران وتحفيزاً خفيفاً واعياً للحمل). هل تعتمد التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed.",
+      "message_ar": "مُعتمد. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the load-balancing tuning on NR-RURAL-123 and adjacent sectors now; expected service impact is negligible.",
+      "message_ar": "أقوم الآن بتطبيق ضبط موازنة الحمل على NR-RURAL-123 والقطاعات المجاورة؛ الأثر على الخدمة ضئيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change completed. Early counters show PRB dipping to ~80% and handovers to NR-RURAL-127 increasing. I will track KPIs for stabilization.",
+      "message_ar": "تم تنفيذ التغيير. المؤشرات الأولية تُظهر هبوط حمل الموارد إلى ~80% وزيادة التسليمات نحو NR-RURAL-127. سأتابع مؤشرات الأداء حتى الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement: median DL is up to ~10–11 Mbps and fewer buffering complaints.",
+      "message_ar": "نرى تحسناً مبكراً: ارتفع التنزيل الوسطي إلى ~10–11 ميجابت/ث مع شكاوى أقل من التقطّع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will watch PRB utilization, handover distribution, and interference through the next busy hour and update with trends. Please share any field feedback.",
+      "message_ar": "جيد. سأراقب استخدام الموارد وتوزيع التسليمات ومؤشرات التداخل خلال ساعة الذروة التالية وأقدم تحديثاً بالاتجاهات. يرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change: PRB is now ~74% and slow data reports are down; SINR improved slightly. Action taken was neighbor review followed by site parameter tuning for load balancing. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "بعد التغيير: حمل الموارد الآن ~74% وتقارير البطء انخفضت؛ تحسّن بسيط في SINR. الإجراء كان مراجعة الجيران تلتها معايرة معلمات الموقع لموازنة الحمل. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next 2–4 hours and share an update. If congestion returns, we will roll back the tuning and escalate with alternative offload options.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال الساعتين إلى الأربع القادمة ونشارك تحديثاً. إذا عاد الازدحام سنعود عن الضبط ونصعّد بخيارات تفريغ بديلة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis: the rural 5G macro cell was hot with >91% resource use, slow data, and low SINR while neighbors were underutilized; a neighbor review confirmed load imbalance. Action: applied site parameter tuning to bias handovers toward lightly loaded neighbors and enable mild load-aware offload. Result: PRB fell to ~74% and median throughput improved; we will monitor for the next busy period and adjust if needed.",
+    "ar": "التشخيص: كانت الخلية الماكرو الريفية 5G ساخنة مع استخدام موارد >91% وبيانات بطيئة وSINR منخفض بينما كان الجيران منخفضي الحمل؛ أكدت مراجعة الجيران وجود عدم توازن في الحمل. الإجراء: تمت معايرة معلمات الموقع لتحفيز التسليم نحو الجيران الأقل حملاً وتفعيل تفريغ خفيف واعٍ للحمل. النتيجة: انخفض حمل الموارد إلى ~74% وتحسّن التنزيل الوسطي؛ سنواصل المراقبة خلال فترة الذروة القادمة ونُجري تعديلات عند الحاجة."
+  }
+}

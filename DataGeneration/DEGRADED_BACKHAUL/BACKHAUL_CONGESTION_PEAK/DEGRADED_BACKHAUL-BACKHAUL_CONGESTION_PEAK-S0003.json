@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0003",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3h: backhaul utilization 81%, latency 101 ms, 1.38% loss, jitter 9 ms, queue 76%, with 510 users on eMBB streaming and DL 12 Mbps.",
+    "ar": "يوجد إنذار ازدحام في موقع ماكرو NR حضري خلال آخر 3 ساعات: استهلاك الربط الخلفي 81%، الكمون 101 مللي ثانية، فقدان 1.38%، تذبذب 9 مللي ثانية، امتلاء الطوابير 76%، مع 510 مستخدمين لتطبيقات eMBB (بث)، ومعدل تنزيل 12 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour alarm on an urban NR macro cell over the last 3h. Users report buffering; KPIs: backhaul util 81%, latency 101 ms, loss 1.38%, jitter 9 ms; PRB 73%, SINR 14 dB, DL 12 Mbps.",
+      "message_ar": "يوجد إنذار في ساعة الذروة على موقع ماكرو NR حضري خلال آخر 3 ساعات. المستخدمون يبلغون عن تقطّع؛ المؤشرات: استهلاك الربط الخلفي 81%، الكمون 101 مللي ثانية، الفقد 1.38%، التذبذب 9 مللي ثانية؛ استغلال الموارد 73%، نسبة SINR ‏14 dB، والتنزيل 12 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics: I plan to pull last 3h OSS counters for this cell to contrast backhaul vs radio. Please approve access.",
+      "message_ar": "سأتولى التشخيص: أنوي سحب مؤشرات آخر 3 ساعات من نظام الإدارة للمقارنة بين الربط الخلفي والطبقة الراديوية. الرجاء الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Same sector carried ~510 users; fiber backhaul, no recent planned changes.",
+      "message_ar": "موافق. نفس القطاع حمل حوالي 510 مستخدمين؛ ربط خلفي بالألياف، ولا تغييرات مخططة مؤخراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm sustained queue ~76%, backhaul utilization >80%, latency ~100 ms, loss ~1.3% at peak, while radio is normal (PRB ~73%, SINR 14 dB). Root cause: peak-time backhaul congestion. I propose a temporary parameter tune to tighten buffers and prioritize essential traffic; proceed?",
+      "message_ar": "المؤشرات تؤكد امتلاء طوابير ~76% مع استهلاك ربط خلفي >80%، كمون ~100 مللي ثانية وفقد ~1.3% في الذروة، بينما الطبقة الراديوية طبيعية (PRB ~73% وSINR ‏14 dB). السبب الجذري: ازدحام الربط الخلفي في الذروة. أقترح ضبطاً مؤقتاً للمعلمات لتشديد الحدود وتفضيل الحركة الأساسية؛ هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now; keep impact minimal.",
+      "message_ar": "موافَق على التنفيذ الآن؛ حافظ على أثرٍ محدود."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied tuning on the cell: reduced buffer depth, enabled active queue management, and favored control/GBR over burst eMBB. Change succeeded; monitoring for 10–15 minutes.",
+      "message_ar": "تم تطبيق الضبط على الخلية: تقليل عمق المخازن، تفعيل إدارة نشطة للطوابير، وتفضيل حركة التحكم/GBR على الاندفاعات غير المضمونة. نجح التغيير؛ سنراقب لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 8 minutes, latency dropped to ~74 ms and loss to ~0.8%; DL throughput improved to ~16 Mbps; fewer buffering complaints.",
+      "message_ar": "بعد 8 دقائق، انخفض الكمون إلى ~74 مللي ثانية والفقد إلى ~0.8%؛ تحسن معدل التنزيل إلى ~16 ميجابت/ث؛ شكاوى التقطّع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. Since this recurs at peak, I will open a tracking ticket with before/after evidence and note the capacity need. OK?",
+      "message_ar": "تحسن جيد. وبما أن المشكلة تتكرر في الذروة، سأفتح تذكرة متابعة مع أدلة قبل/بعد والإشارة إلى الحاجة لرفع السعة. موافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created for degraded backhaul tracking and mitigation documentation.",
+      "message_ar": "تم إنشاء تذكرة لمتابعة تدهور الربط الخلفي وتوثيق إجراءات التخفيف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Backhaul latency is trending down and buffering reports are fewer; the site parameter tuning helped. Let’s monitor through the next busy hour; reference DU-BH-04217.",
+      "message_ar": "كمون الربط الخلفي يتناقص والشكاوى أقل؛ ضبط معلمات الموقع أفاد. لنتابع خلال ساعة الذروة القادمة؛ المرجع DU-BH-04217."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket afterward. If congestion returns, we will escalate to the transport team for capacity; if side effects appear, we will roll back the tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا عاد الازدحام سنصعّد إلى فريق النقل لرفع السعة؛ وإذا ظهرت آثار جانبية سنُعيد الضبط السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-time degraded backhaul via OSS counters showing >80% utilization, ~100 ms latency, and ~1.3% loss while radio KPIs were normal. Applied site parameter tuning to manage backhaul queues and prioritize essential traffic, which reduced latency and loss. Opened a tracking ticket to follow up on backhaul capacity and will monitor through the next busy hour.",
+    "ar": "تم تشخيص تدهور الربط الخلفي في وقت الذروة عبر مؤشرات نظام الإدارة التي أظهرت استهلاكاً >80% وكموناً ~100 مللي ثانية وفقداً ~1.3% مع مؤشرات راديوية طبيعية. تم تطبيق ضبط لمعلمات الموقع لإدارة الطوابير وتفضيل الحركة الأساسية مما خفّض الكمون والفقد. تم فتح تذكرة متابعة لمراجعة سعة الربط الخلفي وسيتم المراقبة خلال ساعة الذروة القادمة."
+  }
+}

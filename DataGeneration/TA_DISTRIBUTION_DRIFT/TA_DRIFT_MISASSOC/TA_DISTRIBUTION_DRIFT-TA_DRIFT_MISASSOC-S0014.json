@@ -1,0 +1,105 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0014",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro cell shows TA distribution drift over the last 6 hours with distant-serving (~23%), interference/signal overlap, and slow data (p50 ~6 Mbps).",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر انجرافاً في توزيع TA خلال آخر 6 ساعات مع خدمة بعيدة (~23%) وتداخل/تراكب إشارة وبطء بيانات (الوسيط ~6 Mbps)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector over the last 6h shows TA drift: TA median ~248, p95 ~359, distant-serving ~23%. RSRP -104 dBm, SINR -1 dB, PRB ~71%, ~207 users, slow data ~6 Mbps, HO failures ~9%.",
+      "message_ar": "قطاع NR ماكرو في منطقة ضاحية خلال آخر 6 ساعات يُظهر انجراف TA: الوسيط ~248، 95٪ ~359، خدمة بعيدة ~23%. RSRP -104 dBm، SINR -1 dB، إشغال ~71%، ~207 مستخدمين، بيانات بطيئة ~6 Mbps، فشل تسليم ~9%."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 6h health for the cell from OSS. Please share the exact cell/sector ID and approve read/optimize access. If drift with signal overlap is confirmed, I’ll proceed with targeted mobility/beam footprint tuning.",
+      "message_ar": "سأبدأ بجلب بيانات الصحة لآخر 6 ساعات من نظام الإدارة للخلية. يرجى تزويدي بمعرّف الخلية/القطاع والموافقة على الوصول للقراءة/الضبط. إذا تأكد الانجراف مع تداخل الإشارة، سأتابع بضبط مستهدف لعوامل الحركة وبصمة الحزمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-123 sector 2. Access approved for diagnostics and optimization.",
+      "message_ar": "معرّف الخلية: NR-SUB-123 القطاع 2. الموافقة ممنوحة للتشخيص والتحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 6h: TA spread elevated (p50≈248, p95≈359), distant-serving ~23%, SINR ≈ -1 dB, PRB ≈71%, HO success ≈89%. This points to misassociation/overshoot rather than pure load. Shall I proceed to a TA time-series analysis to quantify drift?",
+      "message_ar": "تم سحب بيانات آخر 6 ساعات: انتشار TA مرتفع (الوسيط≈248، 95٪≈359)، خدمة بعيدة ~23%، SINR≈-1 dB، إشغال ≈71%، نجاح التسليم ≈89%. يشير ذلك إلى سوء اقتران/تجاوز تغطية أكثر من كونه حملاً بحتاً. هل أمضي بتحليل السلاسل الزمنية لـ TA لقياس الانجراف؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time-series over 6h shows upward drift with peaks during mixed hours and a heavy tail >300 bins, coinciding with RSRQ dips—consistent with far-beam attachments. I propose a safe mobility/beam footprint optimization to reduce distant-serving and stabilize TA. Approve to apply now?",
+      "message_ar": "السلسلة الزمنية لـ TA خلال 6 ساعات تُظهر انجرافاً تصاعدياً مع قمم في ساعات مختلطة وذيل ثقيل فوق 300، متزامناً مع هبوط RSRQ—ما يتوافق مع ارتباطات بحزم بعيدة. أقترح تحسيناً آمناً لعوامل الحركة وبصمة الحزمة لتقليل الخدمة البعيدة واستقرار TA. الموافقة على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply now.",
+      "message_ar": "تمت الموافقة على التطبيق الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning to tighten footprint and adjust mobility thresholds. Objective: lower TA median/variance and improve SINR/slow data during streaming-heavy eMBB usage. Change committed; monitoring immediate effects.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع لتضييق بصمة التغطية وتعديل عتبات الحركة. الهدف: خفض وسيط/تباين TA وتحسين SINR/بطء البيانات أثناء استخدام eMBB الذي يتضمن بثاً. تم اعتماد التغيير؛ أراقب التأثيرات الفورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: median TA is trending down. The mobility/beam parameter optimization seems effective. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن مبكر ملحوظ: وسيط TA يتراجع. يبدو أن تحسين معلمات الحركة/الحزمة فعّال. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and update on TA distribution, interference indicators, and user throughput. If drift resurges or service KPIs worsen, we will roll back the change and escalate to RF planning for a footprint review.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنزودكم بتحديث عن توزيع TA ومؤشرات التداخل وإنتاجية المستخدمين. إذا عاد الانجراف أو ساءت مؤشرات الخدمة، سنرجع التغيير ونصعّد إلى تخطيط الترددات لمراجعة بصمة التغطية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-123",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-123",
+        "TA",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TA drift mitigation: mobility thresholds and beam footprint"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on a suburban NR macro by reviewing recent OSS health and a 6h TA time-series, which indicated distant-serving and signal overlap. Applied site parameter tuning focused on mobility thresholds and beam footprint to reduce misassociation. Monitoring the cell through the next busy hour for stabilization of TA and throughput.",
+    "ar": "تم تشخيص انجراف توزيع TA على خلية NR ماكرو في الضواحي عبر مراجعة صحة النظام والسلسلة الزمنية لـ TA لمدة 6 ساعات، والتي أشارت إلى خدمة بعيدة وتراكب إشارات. تم تطبيق ضبط معلمات الموقع مع التركيز على عتبات الحركة وبصمة الحزمة لتقليل سوء الاقتران. تتم مراقبة الخلية خلال ساعة الذروة القادمة لاستقرار TA والإنتاجية."
+  }
+}

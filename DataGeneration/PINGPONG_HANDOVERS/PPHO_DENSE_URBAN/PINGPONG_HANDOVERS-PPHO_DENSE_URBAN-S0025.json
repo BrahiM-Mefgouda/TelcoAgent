@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0025",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban 5G macro in the peak evening shows ping-pong handovers at 26% with 12% failures, weak RSRP (-106 dBm) and low SINR (5 dB), impacting eMBB streaming despite ~20 Mbps median throughput.",
+    "ar": "موقع 5G ماكرو حضري خلال ذروة المساء يظهر تبادلاً متأرجحاً في التسليم بنسبة 26% مع 12% فشل، وRSRP ضعيف (-106 dBm) وSINR منخفض (5 dB)، ما يؤثر على بث eMBB رغم وسيط سرعة يقارب 20 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Dense urban NR macro sector is seeing frequent ping-pong this peak evening: ~26% ping-pong, ~83% HO success, ~12% failures; RSRP −106 dBm, RSRQ −8 dB, SINR 5 dB. Traffic is eMBB with heavy streaming. No alarms in the last 4 hours.",
+      "message_ar": "قطاع ماكرو NR حضري يشهد تبادلاً متأرجحاً في التسليم خلال ذروة المساء: ~26% تذبذب، ~83% نجاح تسليم، ~12% فشل؛ RSRP −106 dBm، وRSRQ −8 dB، وSINR ‏5 dB. الحركة eMBB مع بث كثيف. لا توجد إنذارات خلال آخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. I will start by pulling the last 4h OSS stats for the impacted cell to verify ping-pong patterns and neighbors. Please confirm the cell ID and approve read access.",
+      "message_ar": "شكرًا. سأبدأ بسحب إحصاءات آخر 4 ساعات من النظام للخلية المتأثرة للتحقق من نمط التبادل المتأرجح والجيران. يرجى تأكيد معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is CellA-NR-001; read access approved.",
+      "message_ar": "معرف الخلية هو CellA-NR-001؛ تمت الموافقة على وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 4h stats for CellA-NR-001: ping-pong 26%, HO success 83.1%, HO failures 12%, attempts ~149/5min, users ~412, PRB ~65%, signal ~−106 dBm with SINR 5 dB. Next, I will review HO timelines to isolate bounce pairs—proceed?",
+      "message_ar": "تم سحب إحصاءات 4 ساعات للخلية CellA-NR-001: التبادل المتأرجح 26%، نجاح التسليم 83.1%، فشل التسليم 12%، المحاولات ~149 لكل 5 دقائق، المستخدمون ~412، استخدام PRB ~65%، الإشارة ~−106 dBm مع SINR ‏5 dB. الخطوة التالية مراجعة المخططات الزمنية للتسليم لعزل أزواج الارتداد—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO timeline shows repeated back-and-forth with two neighbors during 19:00–21:00 and short dwell <2 s. Current mobility shows TTT 113 ms, hysteresis 4 dB, A3 offset 2 dB—aggressive for weak signal. I propose a small retune: TTT 256 ms, hysteresis 5 dB, A3 3 dB on the affected neighbor cluster. Approve change?",
+      "message_ar": "يُظهر المخطط الزمني للتسليم تبادلاً متكرراً مع جارين خلال 19:00–21:00 وإقامة قصيرة <2 ث. إعدادات الحركة الحالية: TTT ‏113 ms، هيستيريزيز 4 dB، وإزاحة A3 بمقدار 2 dB—قيم حادة مع الإشارة الضعيفة. أقترح ضبطاً طفيفاً: TTT ‏256 ms، هيستيريزيز 5 dB، وA3 ‏3 dB على مجموعة الجيران المتأثرة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the proposed retune.",
+      "message_ar": "تمت الموافقة على الضبط المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the mobility retune to CellA-NR-001 and the two neighbor relations; changes committed successfully. Starting a 30-minute observation for bounce rate, HO success, and failures.",
+      "message_ar": "تم تطبيق ضبط الحركة على CellA-NR-001 وعلاقتي الجيران؛ تم اعتماد التغييرات بنجاح. سنبدأ مراقبة لمدة 30 دقيقة لمعدل الارتداد ونجاح التسليم وحالات الفشل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, ping-pong is trending down to ~14%, HO success up to ~88%, failures reducing. Streaming experience looks stable.",
+      "message_ar": "بعد ~15 دقيقة، يتجه التبادل المتأرجح إلى ~14%، وارتفع نجاح التسليم إلى ~88%، وتنخفض حالات الفشل. تجربة البث تبدو مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. No further changes now—let’s keep watching through the busy period and confirm stability across the top neighbor pair.",
+      "message_ar": "تحسن جيد. لا تغييرات إضافية الآن—سنواصل المراقبة خلال فترة الانشغال للتأكد من الاستقرار عبر زوج الجيران الأعلى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observations are positive: ping-pong continues to decline and handover failures are trending down. The action taken was site parameter tuning (TTT/hysteresis/A3) on the affected relations. Suggest monitoring through the next busy hour to confirm.",
+      "message_ar": "المؤشرات إيجابية: يستمر انخفاض التبادل المتأرجح وتتجه حالات فشل التسليم للانخفاض. الإجراء الذي تم هو ضبط معلمات الموقع (TTT/هيستيريزيز/A3) على العلاقات المتأثرة. أقترح المراقبة خلال ساعة الذروة التالية للتأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy-hour monitoring and share results. If bounce rises again, we will roll back to prior values and broaden checks across neighbors; if stable, we will keep the tuning and document the change.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة ساعة الذروة القادمة ومشاركة النتائج. إذا ارتفع الارتداد مجددًا سنرجع إلى القيم السابقة ونوسع الفحص عبر الجيران؛ إذا بقي مستقراً فسنُبقي الضبط ونوثّق التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-evening ping-pong between the urban 5G macro and two neighbors, exacerbated by weak signal and aggressive mobility thresholds. We reviewed OSS and handover trends, then executed site parameter tuning to increase dwell time and margins. Ping-pong decreased and handover success improved; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص تبادل متأرجح خلال ذروة المساء بين خلية ماكرو حضرية وجارين، تفاقم بسبب إشارة ضعيفة وعَتبات حركة حادة. راجعنا بيانات النظام واتجاهات التسليم ثم نفذنا ضبطًا لمعلمات الموقع لزيادة زمن البقاء وهوامش التسليم. انخفض التبادل المتأرجح وتحسن نجاح التسليم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0016",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor NR micro site in the office wing shows high ping-pong handovers (31%) and elevated HO failures during peak eMBB, with SINR ~3 dB suggesting interference/signal overlap.",
+    "ar": "موقع NR داخلي صغير في جناح المكتب يظهر معدّل تبديل ارتدادي مرتفع (31%) وارتفاعًا في فشل التحويل أثناء ذروة eMBB، مع SINR حوالي 3 dB مما يشير إلى تداخل/تراكب للإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro site in the office wing is seeing frequent ping-pong. Last 3h: ping-pong ~31%, HO failures ~15%, SINR ~3 dB, RSRP -96 dBm, RSRQ -13 dB, PRB ~75%, ~151 users during peak eMBB (some streaming jitter). Please investigate; you have access.",
+      "message_ar": "موقع NR داخلي صغير في جناح المكتب يعاني من تبديل ارتدادي متكرر. آخر 3 ساعات: الارتداد ~31%، فشل التحويل ~15%، SINR ~3 dB، RSRP -96 dBm، RSRQ -13 dB، إشغال PRB ~75%، ~151 مستخدمًا خلال الذروة لـ eMBB (بعض تقطّع البث). الرجاء التحقيق؛ لديك صلاحية الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will begin by pulling OSS counters for the target cell over the last 3 hours to baseline mobility and interference. Please confirm the cell ID.",
+      "message_ar": "تم الاستلام. سأبدأ بجلب مؤشرات OSS للخلية المستهدفة لآخر 3 ساعات لقياس الأساس للحركة والتداخل. يرجى تأكيد معرّف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRID-INDR-MSC-17-S1. Window: 3h. Proceed.",
+      "message_ar": "معرّف الخلية: NRID-INDR-MSC-17-S1. النافذة: 3 ساعات. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS baseline pulled for NRID-INDR-MSC-17-S1 (3h): HO attempts ~137/5min, HO success 88%, ping-pong 31% mainly with neighbors S2/S3; parameters observed: A3 offset 3 dB, TTT 144 ms, hysteresis 1 dB. SINR ~3 dB indicates interference/signal overlap. Next, I will analyze HO time series to isolate per-neighbor patterns.",
+      "message_ar": "تم جلب الأساس من OSS للخلية NRID-INDR-MSC-17-S1 خلال 3 ساعات: محاولات التحويل ~137/5 دقائق، نجاح التحويل 88%، الارتداد 31% بشكل رئيسي مع الجيران S2/S3؛ المعايير الحالية: A3 offset بقيمة 3 dB، وTTT 144 ms، وhysteresis 1 dB. قيمة SINR ~3 dB تشير إلى تداخل/تراكب للإشارة. الخطوة التالية: تحليل السلاسل الزمنية للتحويل لعزل الأنماط لكل جار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching HO time series for NRID-INDR-MSC-17-S1 over 3h, focusing on ping-pong cycles and failure correlation by neighbor. Findings: peaks during busy hour with oscillations S1↔S2/S3 every ~45–90s; failures rise when SINR dips and PRB load is mid-high. This indicates thresholds/timers are too permissive under overlap.",
+      "message_ar": "جاري جلب السلاسل الزمنية للتحويل للخلية NRID-INDR-MSC-17-S1 خلال 3 ساعات مع التركيز على دورات الارتداد وارتباط الفشل حسب الجار. النتائج: ذرى خلال ساعة الانشغال مع تذبذب S1↔S2/S3 كل ~45–90 ثانية؛ ترتفع حالات الفشل عند هبوط SINR ومع حمل PRB متوسط-عالٍ. هذا يشير إلى أن العتبات والمؤقتات متساهلة تحت التراكب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood.",
+      "message_ar": "تم الفهم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed mitigation: tune mobility thresholds/timers to damp ping-pong while preserving edge HOs—raise A3 offset 3→5 dB, increase TTT 144→256 ms for S1↔S2/S3, and hysteresis 1→2 dB; add a 2 s ping-pong guard on these relations. Approve to apply?",
+      "message_ar": "الإجراء المقترح: ضبط عتبات/مؤقتات الحركة لتقليل الارتداد مع الحفاظ على التحويل عند الحافة—رفع A3 offset من 3→5 dB، زيادة TTT من 144→256 ms للعلاقات S1↔S2/S3، ورفع hysteresis من 1→2 dB؛ إضافة حاجز ارتداد 2 ثانية لهذه العلاقات. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement on the indoor small site neighbors noted.",
+      "message_ar": "موافَق على التنفيذ على الجيران المذكورين للموقع الداخلي الصغير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NRID-INDR-MSC-17-S1 relations with S2/S3: A3 +2 dB, TTT 256 ms, hysteresis +1 dB, 2 s ping-pong guard. No alarms observed; counters stable post-change. I will watch early impact and roll back to prior values if any regression appears.",
+      "message_ar": "تم تطبيق التغيير على علاقات NRID-INDR-MSC-17-S1 مع S2/S3: زيادة A3 بمقدار +2 dB، وTTT إلى 256 ms، وhysteresis +1 dB، وحاجز ارتداد 2 ثانية. لا توجد إنذارات؛ المؤشرات مستقرة بعد التغيير. سأراقب الأثر المبكر وسأعود للقيم السابقة إذا ظهر أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: rapid back-and-forth handovers are down and failures are easing. This aligns with the mobility parameter tuning you applied. Let’s monitor through the next busy hour.",
+      "message_ar": "الملاحظة الأولية: انخفضت حالات التبديل ذهابًا وإيابًا بسرعة وتراجعَت حالات الفشل. هذا يتماشى مع ضبط معلمات الحركة الذي قمت به. دعنا نراقب خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and report ping-pong rate, HO success, and SINR trends afterward. If instability returns, we will escalate to interference mitigation and revert the mobility changes.",
+      "message_ar": "سنتولى مراقبة ساعة الانشغال القادمة وسنقدم تقريرًا لاحقًا بمعدل الارتداد، ونسبة نجاح التحويل، واتجاهات SINR. إذا عادت التقلبات، سنصعّد إلى تخفيف التداخل وسنرجع تغييرات الحركة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRID-INDR-MSC-17-S1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRID-INDR-MSC-17-S1",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset:+2dB;TTT:256ms;Hysteresis:+1dB;PP_guard:2s on S1↔S2,S1↔S3"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong handovers on the indoor NR micro cell driven by interference/signal overlap and permissive mobility thresholds during peak traffic. Baseline and HO time-series confirmed rapid oscillations between S1 and neighbors S2/S3. Mitigation applied via site parameter tuning: increased A3 offset, raised TTT, added hysteresis, and enabled a short ping-pong guard on the affected relations.",
+    "ar": "تم تشخيص ارتفاع التبديل الارتدادي على خلية NR داخلية صغيرة بسبب التداخل/تراكب الإشارة وتسامح عتبات الحركة خلال الذروة. أكّد الأساس والسلاسل الزمنية للتحويل وجود تذبذب سريع بين S1 والجيران S2/S3. تم تطبيق التخفيف عبر ضبط معلمات الموقع: رفع A3 offset، زيادة TTT، إضافة hysteresis، وتفعيل حاجز ارتداد قصير على العلاقات المتأثرة."
+  }
+}

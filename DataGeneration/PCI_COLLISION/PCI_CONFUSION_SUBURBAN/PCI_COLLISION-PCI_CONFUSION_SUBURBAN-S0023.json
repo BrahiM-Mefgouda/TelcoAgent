@@ -1,0 +1,123 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0023",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban 5G NR macro shows interference / signal overlap with handover instability over the last 12h (low SINR ~1 dB, RSRQ -14 dB, ping-pong 8%, neighbor PCI overlap 14) affecting eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحٍ تظهر تداخل / تراكب الإشارة وعدم استقرار في التسليم خلال آخر 12 ساعة (SINR منخفض ~1 dB و RSRQ ‎-14 dB ومعدل تنقل ذهاب‑إياب 8% وتداخل PCI لدى الجيران 14) مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro over the last 12h shows SINR ~1 dB, RSRQ -14 dB, HO failures 8%, ping-pong 8%, and users reporting eMBB streaming glitches; no alarms active.",
+      "message_ar": "الخلية الماكرو NR في الضواحي خلال آخر 12 ساعة تُظهر SINR حوالي 1 dB و RSRQ ‎-14 dB وفشل تسليم 8% وذهاب‑إياب 8% مع شكاوى من تعثر بث eMBB؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by auditing neighbor relations and PCI reuse within the cluster to check for collision/confusion across the 12h window; please confirm read-only access.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجوار وإعادة استخدام PCI ضمن العنقود للتحقق من التصادم/الالتباس خلال نافذة 12 ساعة؛ يرجى تأكيد صلاحية الوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read-only diagnostics on the 12h window; traffic is mainly eMBB with mixed busy hours.",
+      "message_ar": "موافَق على إجراء تشخيصات للقراءة فقط خلال نافذة 12 ساعة؛ الحركة بشكل أساسي eMBB مع ساعات ذروة متباينة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit shows a nearby sector (~0.8 km) broadcasting the same PCI 472 as our cell with overlapping SSB coverage; dense reuse exists around PCI 355 without direct collision. This explains interference-driven HO instability. I propose reassigning our PCI to an unused value (e.g., 474) and refreshing neighbor relations. Approve immediate change?",
+      "message_ar": "يوضح تدقيق الجيران أن قطاعًا قريبًا (~0.8 كم) يبث نفس PCI 472 لخلّيتنا مع تداخل تغطية SSB؛ كما يوجد استخدام كثيف لـ PCI 355 دون تصادم مباشر. هذا يفسّر عدم الاستقرار الناتج عن التداخل. أقترح إعادة تعيين PCI الخاص بنا إلى قيمة غير مستخدمة (مثل 474) وتحديث علاقات الجوار. هل توافق على التنفيذ فورًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the PCI reallocation and neighbor refresh now.",
+      "message_ar": "موافَق على المضي قدمًا الآن في إعادة تخصيص PCI وتحديث الجيران."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI reallocation to 474, refreshing neighbor relations and ANR, and applying the change; brief UE re-acquisition (<1 s) expected. I will monitor HO and RF quality for the next 30 minutes.",
+      "message_ar": "أقوم بتنفيذ إعادة تخصيص PCI إلى 474 وتحديث علاقات الجوار وANR وتطبيق التغيير؛ قد يحدث إعادة التحاق سريعة للأجهزة (<1 ثانية). سأراقب جودة التسليم والراديو خلال 30 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Saw a short blip; UEs reattached normally and no alarms were raised.",
+      "message_ar": "لوحظ انقطاع قصير؛ أعادت الأجهزة الالتحاق بشكل طبيعي ولم تُرفع إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial results: median SINR improved to ~5–6 dB, RSRQ to ~-10 dB; HO success up ~3 pp (~90%), ping-pong ~4%, and BLER trending toward 6–7%. Continuing to observe under mixed load.",
+      "message_ar": "النتائج الأولية: تحسّن SINR الوسيط إلى ~5–6 dB وRSRQ إلى ~-10 dB؛ نجاح التسليم ارتفع ~3 نقاط مئوية (~90%)، والذهاب‑الإياب ~4%، وBLER يتجه نحو 6–7%. أواصل المراقبة تحت حمل متنوع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Crowd traces and probes show smoother streaming and fewer rapid handovers.",
+      "message_ar": "تُظهر القياسات الميدانية وتتبع المستخدمين بثًا أكثر سلاسة وعددًا أقل من التسليمات السريعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and stability tracking, I will open a follow-up record and attach before/after KPIs. Do you agree to proceed?",
+      "message_ar": "لأغراض التتبع ومراقبة الاستقرار، سأفتح سجل متابعة وأرفق مؤشرات الأداء قبل/بعد. هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the follow-up with a concise summary.",
+      "message_ar": "موافَق على إنشاء المتابعة بملخص موجز."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-PCI-03218 documenting the PCI change and neighbor refresh; monitoring checkpoints set for the next busy hour and 24h trend.",
+      "message_ar": "تم إنشاء DU-PCI-03218 لتوثيق تغيير PCI وتحديث الجيران؛ تم تحديد نقاط مراقبة لساعة الذروة القادمة ولمؤشر 24 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "KPIs look improved so far (ping-pong rate down and SINR up). Action taken: neighbor PCI audit followed by PCI parameter change; let's monitor through the next busy hour and update DU-PCI-03218 afterward.",
+      "message_ar": "تبدو مؤشرات الأداء أفضل حتى الآن (انخفاض معدل الذهاب‑الإياب وارتفاع SINR). الإجراء الذي تم: تدقيق PCI للجيران ثم تغيير معلمة PCI؛ دعنا نراقب خلال ساعة الذروة القادمة ونحدّث DU-PCI-03218 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update DU-PCI-03218 with the outcomes. If degradation returns, we will roll back the PCI change and escalate to field for an interference sweep.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث DU-PCI-03218 بالنتائج. إذا عاد التدهور، سنرجع عن تغيير PCI ونصعّد إلى الفريق الميداني لإجراء فحص تداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 12,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision via a neighbor audit: a nearby sector shared PCI 472 with the target NR macro, creating interference and handover instability. Mitigated by reassigning the cell to an unused PCI and refreshing neighbor relations, then recorded the change with a follow-up ticket. Post-change KPIs improved (higher SINR, lower ping-pong), and we set a monitoring plan through the next busy hour.",
+    "ar": "تم تشخيص تصادم PCI عبر تدقيق الجيران: قطاع قريب كان يشارك PCI 472 مع الخلية المستهدفة مما سبب تداخلًا وعدم استقرار في التسليم. تمت المعالجة بإعادة تعيين الخلية إلى PCI غير مستخدم وتحديث علاقات الجوار، ثم توثيق التغيير بتذكرة متابعة. تحسّنت مؤشرات الأداء بعد التغيير (ارتفاع SINR وانخفاض الذهاب‑الإياب)، وتم تحديد خطة مراقبة خلال ساعة الذروة القادمة."
+  }
+}

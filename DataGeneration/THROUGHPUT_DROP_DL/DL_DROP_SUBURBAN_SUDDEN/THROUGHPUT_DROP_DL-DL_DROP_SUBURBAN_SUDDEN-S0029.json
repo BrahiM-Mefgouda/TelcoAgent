@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0029",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban NR macro cell shows a sudden downlink throughput drop to about 9 Mbps in the last 2 hours during off-peak with moderate load (PRB ~68%), elevated errors (~9% BLER), and weak RSRQ (-12 dB).",
+    "ar": "خلية NR ماكرو في منطقة ضواحي شهدت هبوطًا مفاجئًا في سرعة التحميل إلى نحو 9 ميجابت/ث خلال آخر ساعتين خارج أوقات الذروة مع حمل متوسط (PRB ~68%) وأخطاء مرتفعة (~9% BLER) وRSRQ ضعيف (-12 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-Suburb-123-S1 shows a sudden downlink throughput dip to ~9 Mbps over the last 2 hours during off-peak; users reported buffering on streaming. No alarms raised.",
+      "message_ar": "خلية NR ماكرو في منطقة ضواحي NR-Suburb-123-S1 شهدت هبوطًا مفاجئًا في سرعة التحميل إلى حوالي 9 ميجابت/ث خلال آخر ساعتين خارج أوقات الذروة؛ اشتكى المستخدمون من تقطّع في البث. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start with a management-plane check over the last 2 hours to validate load, error rate, and radio quality. Please confirm access and the target cell ID.",
+      "message_ar": "سأبدأ بفحص طبقة الإدارة لآخر ساعتين للتحقق من الحمل، معدل الأخطاء، وجودة الراديو. الرجاء تأكيد صلاحية الوصول ومعرّف الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Suburb-123-S1. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-Suburb-123-S1. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check done for NR-Suburb-123-S1 (2h). Observations: PRB utilization ~68%, users peaked ~230, BLER elevated 10–12% with spikes aligning to the throughput drop; RSRQ ~ -12 dB, SINR ~7 dB; handovers stable. Next, I'll pull the downlink throughput time series to correlate with BLER. Proceed?",
+      "message_ar": "تم فحص المنصة الإدارية لِـ NR-Suburb-123-S1 (2 ساعتين). الملاحظات: استخدام PRB نحو 68%، عدد المستخدمين بلغ ذروة ~230، BLER مرتفع 10–12% مع طفرات متزامنة مع هبوط السرعة؛ RSRQ حوالي -12 dB، وSINR ~7 dB؛ عمليات التسليم مستقرة. سأجلب سلسلة الزمن لسرعة التحميل لربطها مع BLER. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series retrieved. DL median fell from ~36 to ~9 Mbps about 90 minutes ago; BLER spikes co-occur; PRB not saturated; CQI median dropped from ~10 to ~7 causing MCS downshift. This points to interference or power imbalance affecting the macro cell. I will apply a conservative parameter optimization: adjust downlink scheduling weights, smooth link adaptation, and a small PDSCH power balance within policy. Approve?",
+      "message_ar": "تم جلب السلسلة الزمنية. الوسيط للتحميل هبط من ~36 إلى ~9 ميجابت/ث قبل ~90 دقيقة؛ طفرات BLER متزامنة؛ لا يوجد تشبّع في PRB؛ انخفض وسيط CQI من ~10 إلى ~7 مما أدى إلى خفض MCS. يشير ذلك إلى تداخل أو اختلال بسيط في القدرة يؤثر على الماكرو. سأطبّق تحسينًا محافظًا للمعلمات: تعديل أوزان الجدولة للتحميل، تخفيف تقلب خوارزمية التكيّف الرابط، وضبط طفيف لتوازن قدرة PDSCH ضمن السياسات. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to NR-Suburb-123-S1: tuned scheduling weights, link adaptation smoothing, and minor power balance; no service interruption. Initiating quick post-check over 10 minutes.",
+      "message_ar": "تم تطبيق التحسين على NR-Suburb-123-S1: ضبط أوزان الجدولة، تهدئة تكيّف الرابط، وتوازن قدرة طفيف؛ دون انقطاع خدمة. أبدأ تحققًا سريعًا لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes, field probe shows DL improved to ~24–28 Mbps; BLER now around 5–6%.",
+      "message_ar": "بعد 10 دقائق، يُظهر فحص ميداني تحسن التحميل إلى ~24–28 ميجابت/ث؛ BLER الآن حوالي 5–6%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement and within safe bounds. I'll continue observing DL and BLER while keeping an eye on user load; no adverse effects noted.",
+      "message_ar": "تحسن جيد وضمن الحدود الآمنة. سأواصل متابعة التحميل وBLER مع مراقبة عدد المستخدمين؛ لا آثار جانبية حتى الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Throughput is trending up and error rate down after the site parameter tuning; user complaints have subsided. Please monitor through the next busy hour.",
+      "message_ar": "التحميل في اتجاه صعودي ومعدل الأخطاء منخفض بعد ضبط معلمات الموقع؛ انخفضت شكاوى المستخدمين. يرجى المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We applied conservative parameter tuning and will own monitoring through the next busy hour, then send an update. If KPIs regress, we will escalate for interference source checks; if any degradation appears, we will roll back the tuning.",
+      "message_ar": "قمنا بتطبيق ضبط محافظ للمعلمات وسنتولى المتابعة خلال ساعة الذروة القادمة ثم نرسل تحديثًا. إذا تراجعت مؤشرات الأداء سنصعّد لفحص مصادر التداخل؛ وإذا ظهر أي تدهور سنرجع التعديلات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a sudden downlink throughput drop on a suburban NR macro cell by checking 2-hour OSS metrics and correlating DL time series with error rate. Findings showed elevated BLER and CQI degradation without PRB saturation, indicating radio quality issues rather than congestion. Applied conservative site parameter tuning (scheduler weighting, link adaptation smoothing, minor power balance), improving throughput and lowering errors; monitoring through the next busy hour.",
+    "ar": "تم التحقيق في هبوط مفاجئ لسرعة التحميل على خلية NR ماكرو في الضواحي عبر فحص مؤشرات آخر ساعتين من المنصة الإدارية وربط السلسلة الزمنية للتحميل مع معدل الأخطاء. أظهرت النتائج ارتفاع BLER وتدهور CQI دون تشبّع في PRB، ما يشير إلى مشكلة جودة راديو وليس ازدحامًا. تم تنفيذ ضبط محافظ لمعلمات الموقع (ترجيح الجدولة، تهدئة تكيّف الرابط، توازن قدرة طفيف) مما حسّن السرعة وخفّض الأخطاء؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

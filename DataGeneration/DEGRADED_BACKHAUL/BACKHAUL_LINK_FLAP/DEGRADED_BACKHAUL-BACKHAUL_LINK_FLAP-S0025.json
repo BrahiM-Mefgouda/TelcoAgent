@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0025",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows backhaul link flaps (~3/hour) over 6h with high delay and jitter, interface error bursts, many users, and slow data (~8 Mbps).",
+    "ar": "خلية ماكرو 5G NR في منطقة شبه حضرية تظهر تقلبات في وصلة النقل الخلفي (~3/ساعة) خلال 6 ساعات مع تأخر واهتزاز مرتفعين، ودفعات أخطاء على الواجهة، وعدد مستخدمين كبير، وبيانات بطيئة (~8 ميجابت/ث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro is intermittently flapping on backhaul in the last 6 hours; users report slow data during mixed hours with streaming. Current: ~3 flaps/hr, p95 latency 84 ms, jitter 24 ms, 378 interface errors, PRB ~76%, SINR 11 dB, RSRP -107 dBm, 261 users, DL ~8 Mbps.",
+      "message_ar": "موقع ماكرو NR في منطقة شبه حضرية يعاني من تقلبات متقطعة في النقل الخلفي خلال آخر 6 ساعات؛ المستخدمون يبلّغون عن بطء البيانات خلال ساعات مختلطة مع بث فيديو. الوضع الحالي: ~3 تقلبات/ساعة، تأخر 95 المئوي 84 مللي ثانية، تذبذب 24 مللي ثانية، 378 خطأ على الواجهة، استهلاك PRB ~76%، SINR‏ 11 ديسيبل، RSRP‏ -107 ديسيبل-مللي واط، 261 مستخدمًا، وتنزيل ~8 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first review recent OSS counters/events for the last 6h to validate backhaul instability. Please share the cell ID and approve read access.",
+      "message_ar": "مفهوم. سأبدأ بمراجعة عدادات/أحداث OSS لآخر 6 ساعات للتحقق من عدم استقرار النقل الخلفي. يرجى مشاركة معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-MACRO-09123. Read-only access approved.",
+      "message_ar": "معرف الخلية: NR-SUB-MACRO-09123. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review for NR-SUB-MACRO-09123 over 6h shows 18 link up/down events (~3/hr), loss-burst spikes aligning with load, interface errors elevated, and DL throughput suppressed while radio quality is moderate. This confirms degraded backhaul. Next, I propose a low-risk site parameter tuning to stabilize flap handling and prioritize control/user traffic. Approve live apply?",
+      "message_ar": "مراجعة OSS للخلية NR-SUB-MACRO-09123 خلال 6 ساعات تُظهر 18 حدث صعود/هبوط (~3/ساعة)، دفعات فقدان متزامنة مع الحمل، وارتفاع أخطاء الواجهة، وانخفاض في سرعة التنزيل رغم جودة راديوية متوسطة. هذا يؤكد تدهور النقل الخلفي. الخطوة التالية: أقترح ضبطًا خفيفًا لمعلمات الموقع لاستقرار التعامل مع التقلبات وإعطاء أولوية لحركة التحكم/المستخدم. هل توافق على التطبيق المباشر؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the non-intrusive tuning now.",
+      "message_ar": "موافق على تطبيق الضبط غير التداخلي الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied backhaul-stability and QoS prioritization tuning live; no reset required. Monitoring immediate counters for flap suppression and delay improvement.",
+      "message_ar": "تم تطبيق ضبط استقرار النقل الخلفي وإعطاء الأولوية للجودة مباشرةً دون إعادة تشغيل. أراقب العدادات الفورية للتحقق من تقليل التقلبات وتحسن التأخر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: no new flaps in 10 minutes, p95 latency trending ~60 ms, jitter ~16 ms, DL ~14 Mbps.",
+      "message_ar": "المؤشرات المبكرة أفضل: لا تقلبات جديدة خلال 10 دقائق، تأخر 95 المئوي يتجه إلى ~60 مللي ثانية، التذبذب ~16 مللي ثانية، والتنزيل ~14 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Given residual interface errors, I recommend we log a transport follow-up for the backhaul path while we keep the mitigation in place. May I open a ticket?",
+      "message_ar": "جيد. نظرًا لاستمرار بعض أخطاء الواجهة، أوصي بتسجيل متابعة نقل لمسار النقل الخلفي مع الإبقاء على إجراء التخفيف. هل أفتح تذكرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please proceed with the ticket.",
+      "message_ar": "نعم، يرجى المتابعة بفتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-02864 created for degraded backhaul with link flaps, elevated delay/jitter, and interface errors; notes include the applied tuning and initial improvement. We will continue observing counters and user impact.",
+      "message_ar": "تم إنشاء التذكرة DU-BH-02864 بخصوص تدهور النقل الخلفي مع تقلبات الوصلة وارتفاع التأخر/التذبذب وأخطاء الواجهة؛ تتضمن الملاحظات الضبط المطبق والتحسن الأولي. سنواصل مراقبة العدادات وتأثير المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained so far: link flaps trending down and delay decreasing after the site parameter tuning. Let's monitor through the next busy hour and update DU-BH-02864 accordingly.",
+      "message_ar": "التحسن مستمر حتى الآن: تقلبات الوصلة في اتجاه هبوطي والتأخر يتناقص بعد ضبط معلمات الموقع. لنراقب خلال ساعة الذروة التالية وتحديث التذكرة DU-BH-02864 وفقًا لذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the monitoring through the next busy hour and update the ticket afterward. If flaps recur, we will escalate to transport and vendor; if any regression appears, we will roll back the tuning.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة التالية وسنحدّث التذكرة بعدها. إذا عادت التقلبات سنصعد الأمر لفريق النقل والمورّد؛ وإذا ظهرت أي انتكاسة سنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-09123",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_stability_and_QoS_prioritization"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul with link flaps, high latency/jitter, and interface errors; applied site parameter tuning; monitor and transport follow-up required."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated degraded backhaul on a suburban 5G NR macro via recent performance counters: repeated link flaps, elevated delay/jitter, and interface errors suppressing throughput. Applied site parameter tuning to stabilize flap handling and prioritize traffic, then opened a transport follow-up ticket. We will monitor through the next busy hour and update the ticket with results.",
+    "ar": "تم تأكيد تدهور النقل الخلفي في موقع ماكرو 5G NR شبه حضري عبر عدادات الأداء: تقلبات متكررة وارتفاع التأخر/التذبذب وأخطاء واجهة أثّرت في السرعة. جرى تطبيق ضبط لمعلمات الموقع لاستقرار التعامل مع التقلبات وإعطاء أولوية للحركة، ثم فتح تذكرة متابعة للنقل. سنراقب خلال ساعة الذروة التالية ونحدّث التذكرة بالنتائج."
+  }
+}

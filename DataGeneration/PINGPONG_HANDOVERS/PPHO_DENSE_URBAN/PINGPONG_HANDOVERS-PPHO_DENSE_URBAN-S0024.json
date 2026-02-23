@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0024",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Urban 5G macro cell shows 16% ping-pong handovers over the last 4h with ~86% handover success and weak signal (RSRP -113 dBm), affecting eMBB streaming during the shoulder period.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر 16% من حركات التسليم المتأرجحة خلال آخر 4 ساعات مع نجاح تسليم ~86% وإشارة ضعيفة (RSRP -113 dBm)، مما يؤثر على بث eMBB خلال فترة ما قبل الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Dense urban NR macro cell with elevated ping-pong over the last 4h. HO success ~85.6%, ping-pong 16%, HO fail 13%. RSRP -113 dBm, RSRQ -12 dB, SINR 13 dB. PRB ~81%, ~395 users; eMBB streaming impacted in the shoulder period.",
+      "message_ar": "خلية ماكرو NR حضرية كثيفة مع ارتفاع في التسليمات المتأرجحة خلال آخر 4 ساعات. نجاح التسليم ~85.6%، التسليم المتأرجح 16%، فشل التسليم 13%. RSRP -113 dBm، RSRQ -12 dB، وSINR 13 dB. استغلال PRB ~81%، حوالي 395 مستخدمًا؛ تأثر بث eMBB في فترة ما قبل الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics. First, I’ll pull a 4h network snapshot for this cell, then inspect HO trends; if confirmed, I’ll apply targeted mobility tuning. Please share the cell ID and approve 4h access.",
+      "message_ar": "سأتولى التشخيص. أولاً، سأستخرج لقطة 4 ساعات لهذه الخلية ثم أفحص اتجاهات التسليم؛ وإذا تأكدت المشكلة سأطبق ضبطاً مستهدفاً لمعاملات الحركة. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول لمدة 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-310-260-12345. Access approved for the 4h window.",
+      "message_ar": "معرّف الخلية: NR-Cell-310-260-12345. الموافقة على الوصول لمدة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot complete: no active alarms. HO attempts ~48 per 5 min; current mobility shows A3 offset 3 dB, TTT 256 ms, hysteresis 1 dB. Neighbors N1/N2 dominate edges. Next, I’ll analyze HO time evolution to isolate ping-pong loops.",
+      "message_ar": "تمت اللقطة: لا إنذارات فعّالة. محاولات التسليم ~48 كل 5 دقائق؛ إعدادات الحركة الحالية: إزاحة A3 بمقدار 3 dB، TTT عند 256 ms، والهيسترة 1 dB. الجيران N1/N2 يسيطرون على الحدود. بعد ذلك سأحلل تطوّر التسليمات زمنيًا لعزل حلقات التأرجح."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Proceed with the HO trend review.",
+      "message_ar": "تم. تفضل بمراجعة اتجاهات التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO trends confirm repeated back-and-forth within 60–90 s mainly with N1/N2; ping-pong at 16% persists under weak RSRP despite SINR 13 dB. I recommend tuning per affected relations: reduce A3 offset to 2 dB, increase TTT to 384 ms, and raise hysteresis to 2 dB. Requesting approval to implement now.",
+      "message_ar": "اتجاهات التسليم تؤكد تكرار الذهاب والإياب خلال 60–90 ثانية بشكل رئيسي مع N1/N2؛ يستمر التأرجح عند 16% مع RSRP ضعيف رغم SINR عند 13 dB. أوصي بضبط لكل علاقة متأثرة: خفض إزاحة A3 إلى 2 dB، زيادة TTT إلى 384 ms، ورفع الهيسترة إلى 2 dB. أطلب الموافقة للتنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط المقترح الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied on the specified relations and committed successfully. No errors observed. Beginning live monitoring for 30–60 minutes.",
+      "message_ar": "تم تطبيق التغييرات على العلاقات المحددة وتأكيدها بنجاح. لا توجد أخطاء. أبدأ مراقبة حية لمدة 30–60 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: ping-pong events are decreasing and HO success is slightly up. No new user complaints.",
+      "message_ar": "ملاحظة أولية: أحداث التأرجح تتناقص ونجاح التسليم ارتفع قليلاً. لا توجد شكاوى مستخدمين جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial post-change view: ping-pong trending around 9–10% over the last 15 minutes; HO attempts per 5 min down to ~32. Median throughput ~27 Mbps remains stable. I’ll keep tracking through the shoulder-to-busy ramp.",
+      "message_ar": "نظرة بعد التغيير: التأرجح يتجه نحو 9–10% خلال آخر 15 دقيقة؛ محاولات التسليم كل 5 دقائق انخفضت إلى ~32. يبقى الوسيط للسرعة ~27 Mbps مستقراً. سأواصل المتابعة خلال الانتقال إلى ساعة الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: back-and-forth handovers trending down. Action taken was site parameter tuning on mobility thresholds. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: التسليمات المتبادلة في انخفاض. الإجراء كان ضبط معلمات الموقع لعتبات الحركة. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and report updated ping-pong rate and HO success. If performance degrades, we will rollback to prior thresholds and escalate to mobility design for boundary re-optimization.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ بمعدل التأرجح ونسبة نجاح التسليم المحدّثين. إذا حدث تدهور في الأداء، سنعيد القيم السابقة ونصعّد إلى فريق تصميم الحركة لإعادة تحسين الحدود."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-310-260-12345",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-310-260-12345",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility tuning: A3 offset 2 dB to N1/N2, TTT 384 ms, hysteresis 2 dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers in a dense urban NR macro cell during the last 4h, confirmed by OSS snapshot and handover trend analysis showing rapid back-and-forth with dominant neighbors under weak RSRP. Applied site parameter tuning on mobility thresholds (A3 offset, TTT, hysteresis) toward the affected relations to stabilize borders. Monitoring continues through the next busy hour with rollback readiness if regressions appear.",
+    "ar": "تم تشخيص ارتفاع التسليمات المتأرجحة في خلية ماكرو NR حضرية كثيفة خلال آخر 4 ساعات، وتم التأكيد عبر لقطة من النظام وتحليل اتجاهات التسليم التي أظهرت ذهاباً وإياباً سريعاً مع جيران مهيمنين تحت RSRP ضعيف. تم تنفيذ ضبط لمعلمات الموقع على عتبات الحركة (إزاحة A3، وTTT، والهيسترة) للعلاقات المتأثرة لاستقرار الحدود. ستستمر المتابعة خلال ساعة الذروة القادمة مع جاهزية للعودة للقيم السابقة إذا ظهرت انتكاسات."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0004",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3h with ~89% resource use, 213 users, slow data (~6 Mbps DL), and higher handover failures; please investigate and relieve load.",
+    "ar": "خلية NR ماكرو حضرية عليها إنذار ازدحام خلال آخر 3 ساعات مع استخدام موارد ~89% و213 مستخدماً وبطء بيانات (~6 Mbps تحميل) وارتفاع إخفاقات التسليم؛ يرجى التحقيق وتخفيف الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro during peak evening (eMBB streaming heavy) has a congestion alarm: PRB ~89%, DL ~6 Mbps, p95 scheduling latency 58 ms, RSRQ -11 dB, 213 users, HO failures ~7%, and high neighbor PCI overlap. Need assistance.",
+      "message_ar": "خلية NR ماكرو حضرية خلال ذروة المساء (بث eMBB كثيف) عليها إنذار ازدحام: استهلاك الموارد ~89%، سرعة التحميل ~6 Mbps، كمون الجدولة p95 = 58 ms، RSRQ = -11 dB، 213 مستخدماً، إخفاقات التسليم ~7%، وتداخل PCI مرتفع مع الجيران. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will lead the fix: first pull 3h live counters, then if sustained high load is confirmed, apply targeted load relief and scheduler tuning. Please share the affected cell ID and approve access.",
+      "message_ar": "مفهوم. سأقود المعالجة: أولاً سأسحب عدادات حية لآخر 3 ساعات، ثم إذا تأكد الحمل المرتفع المستمر سأطبق تحسينات لتخفيف الحمل وضبط المجدول. الرجاء تزويدي بمعرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-112. Access approved.",
+      "message_ar": "معرف الخلية: NR-URB-MACRO-112. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying 3h stats now. Findings: PRB avg 88–92% (peaks 95%), DL median ~6 Mbps, BLER ~7%, p95 scheduling latency 58 ms, active users ~213, with notable PCI overlap in neighbors. I propose applying parameter tuning to steer load to neighbors and improve scheduler fairness; proceed?",
+      "message_ar": "أستعلم إحصاءات 3 ساعات الآن. النتائج: متوسط استهلاك الموارد 88–92% (قمم 95%)، وسطي التحميل ~6 Mbps، BLER ~7%، كمون الجدولة p95 = 58 ms، ~213 مستخدماً نشطاً، مع تداخل PCI ملحوظ لدى الجيران. أقترح ضبط معلمات لتوجيه جزء من الحمل للجيران وتحسين عدالة المجدول؛ هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed approved.",
+      "message_ar": "موافقة على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing low-risk optimization on NR-URB-MACRO-112: mild neighbor steering for load balance and scheduler weight tuning for eMBB fairness. Changes committed; no service interruption observed. Monitoring immediate impact.",
+      "message_ar": "أُنفّذ تحسيناً منخفض المخاطر على NR-URB-MACRO-112: توجيه بسيط نحو الجيران لموازنة الحمل وضبط أوزان المجدول لعدالة eMBB. تم تطبيق التغييرات دون انقطاع خدمة. أراقب الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "10 minutes post-change: PRB peaks shaved to ~85–88%, DL median ~8–9 Mbps, p95 latency down to ~46 ms; congestion alarm cleared.",
+      "message_ar": "بعد 10 دقائق من التغيير: انخفضت قمم استهلاك الموارد إلى ~85–88%، وسطي التحميل ~8–9 Mbps، وانخفض كمون p95 إلى ~46 ms؛ إنذار الازدحام زال."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. To manage residual PCI overlap and track capacity relief, I will open a tracking ticket and continue monitoring through the next busy hour. Please confirm.",
+      "message_ar": "تقدّم جيد. لإدارة تداخل PCI المتبقي ومتابعة تخفيف السعة، سأفتح تذكرة متابعة وأستمر في المراقبة خلال ساعة الذروة التالية. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "تم التأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-RSRC-01847 opened for NR-URB-MACRO-112 documenting high PRB at peak, parameter tuning applied, and the ongoing monitoring plan.",
+      "message_ar": "تم فتح تذكرة DU-RSRC-01847 لِـ NR-URB-MACRO-112 تتضمن توثيق الازدحام العالي في الموارد وقت الذروة، وتطبيق ضبط المعلمات، وخطة المراقبة الجارية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, latency is trending down and slow data complaints are easing; the parameter optimization is effective. Let’s monitor over the next 2–4 hours and track via DU-RSRC-01847.",
+      "message_ar": "بعد التغيير، الكمون في اتجاه هابط وشكاوى بطء البيانات تتراجع؛ ضبط المعلمات فعّال. لِنراقب خلال الساعتين إلى الأربع ساعات القادمة ونتابع عبر DU-RSRC-01847."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and update DU-RSRC-01847 afterward. If congestion resurges, we will roll back the tuning and escalate to RF for broader relief; otherwise we’ll retain the changes. Summary: pulled 3h stats, applied load and scheduler tuning, and opened a tracking ticket; ongoing monitoring in place.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنحدّث DU-RSRC-01847 بعدها. إذا عاد الازدحام فسنرجع الضبط ونصعّد إلى قسم الترددات لتخفيف أوسع؛ وإلا سنُبقي التغييرات. الملخص: سحبنا إحصاءات 3 ساعات، طبقنا ضبطاً للحمل والمجدول، وفتحنا تذكرة متابعة؛ المراقبة مستمرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-112",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_rebalance,scheduler_tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB on NR-URB-MACRO-112 during peak; tuning applied; monitoring next busy hours."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Sustained high resource utilization (~90%) was confirmed on the urban NR macro during peak, leading to slow data and elevated latency. The agent pulled live counters, then applied site parameter tuning for load balancing and scheduler fairness, and created a tracking ticket for follow-up. Monitoring is active to validate stability and determine if wider PCI cleanup or capacity actions are required.",
+    "ar": "تم تأكيد ارتفاع مستمر في استهلاك الموارد (~90%) على خلية NR الماكرو الحضرية وقت الذروة، ما أدى إلى بطء البيانات وارتفاع الكمون. قام الوكيل بسحب العدادات الحية ثم طبّق ضبط معلمات للموازنة بين الأحمال وعدالة المجدول، وأنشأ تذكرة متابعة. المراقبة فعّالة للتحقق من الاستقرار وتحديد الحاجة إلى تنظيف أوسع للـPCI أو إجراءات سعة إضافية."
+  }
+}

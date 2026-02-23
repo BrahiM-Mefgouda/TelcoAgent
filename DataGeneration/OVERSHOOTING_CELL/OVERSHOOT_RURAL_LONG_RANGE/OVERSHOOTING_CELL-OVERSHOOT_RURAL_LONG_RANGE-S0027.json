@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0027",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural NR macro cell shows very long timing advance and distant-serving users with weak RSRP/RSRQ, interference / signal overlap, and slow data over the last 12 hours.",
+    "ar": "موقع ماكرو 5G NR في منطقة ريفية يظهر تقدّم توقيت طويل جداً وخدمة لمشتركين بعيدين مع ضعف RSRP/RSRQ وتداخل/تراكب إشارات وبطء في البيانات خلال آخر 12 ساعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural 5G NR macro sector shows long timing advance and distant-serving behavior over the last 12h. RSRP ~ -115 dBm, RSRQ -16 dB, SINR -5 dB; median DL ~3 Mbps. HO fails ~8%, ping-pong 7%. No alarms. Users reported streaming buffering.",
+      "message_ar": "قطاع ماكرو 5G NR في منطقة ريفية يظهر تقدّم توقيت طويل وخدمة لمشتركين بعيدين خلال آخر 12 ساعة. RSRP حوالي -115 dBm وRSRQ -16 dB وSINR -5 dB؛ متوسط التحميل ~3 Mbps. فشل التسليم ~8% وبينغ بونغ 7%. لا توجد إنذارات. وردت شكاوى من تقطيع في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first run a coverage heatmap to verify overshoot and dominance, then review neighbor relations and mobility thresholds for this 12h window. Please approve access.",
+      "message_ar": "تم الاستلام. سأبدأ بتحليل خريطة التغطية للتحقق من التمدد المفرط وهيمنة الإشارة، ثم سأراجع علاقات الجوار وعُتبات الحركة لنفس نافذة 12 ساعة. يرجى الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Target is macro sector A at site RUR-143; typical users ~92, PRB utilization ~42%.",
+      "message_ar": "موافق. الهدف هو قطاع الماكرو A في الموقع RUR-143؛ عدد المستخدمين المعتاد ~92 واستخدام PRB ~42%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review complete: serving footprint extends 10–12 km along the highway, with dominance past 7–8 km and overlap against two neighbors ~9 km away. Distant-user share ~27%, TA p95 ~2.47 km. A SINR valley aligns with the overlap. Confirms overshoot driving interference and slow data.",
+      "message_ar": "اكتمل فحص التغطية: بصمة الخدمة تمتد 10–12 كم على طول الطريق، مع هيمنة بعد 7–8 كم وتداخل مع جارَين يبعدان ~9 كم. نسبة المستخدمين البعيدين ~27%، وTA p95 ~2.47 كم. يوجد انخفاض في SINR يتوافق مع منطقة التداخل. هذا يؤكد التمدد المفرط الذي يسبب تداخلًا وبطئًا في البيانات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I’ll audit neighbor definitions and mobility offsets/TTT to check for retention bias. Proceed?",
+      "message_ar": "التالي، سأفحص تعريفات الجيران وإزاحات الحركة ومدة TTT للتحقق من انحياز الاحتفاظ. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review: two closer NR sectors detected, one missing relation. Serving cell CIO is +2 dB vs neighbors; A3 TTT is long (320 ms) with slightly high hysteresis. These favor retention and late HO, matching ~8% HO fails and 7% ping-pong.",
+      "message_ar": "مراجعة الجيران: تم رصد قطاعين NR أقرب، أحدهما يفتقر إلى علاقة جيران. قيمة CIO للخلية الخادمة +2 dB مقارنة بالجيران؛ مدة A3 TTT طويلة (320 ms) مع هيسترة مرتفعة قليلًا. هذا يفضّل الاحتفاظ والتسليم المتأخر، بما يتماشى مع ~8% فشل تسليم و7% بينغ بونغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed fix now: 1) add the missing neighbor (both directions), 2) reduce serving CIO by 2 dB and trim hysteresis, 3) shorten TTT to 160 ms, 4) apply +2° electrical down-tilt and reduce pilot power ~1.5 dB to shrink far coverage. Low risk given rural load. Approve implementation?",
+      "message_ar": "الإصلاح المقترح الآن: 1) إضافة جار مفقود (باتجاهين)، 2) خفض CIO للخلية الخادمة بمقدار 2 dB وتقليل الهيسترة، 3) تقصير TTT إلى 160 ms، 4) تطبيق إمالة كهربائية إضافية +2° وخفض قدرة الإشارة المرجعية ~1.5 dB لتقليص التغطية البعيدة. المخاطر منخفضة نظرًا للحمل الريفي. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate change.",
+      "message_ar": "موافق على التنفيذ الفوري."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied and validated. Early results (10–15 min): TA p95 down to ~1.8 km; distant-user share lower by ~9 pp; edge SINR median improved by ~3 dB; HO failures trending ~8%→~5%, ping-pong slightly lower; median DL up from ~3 to ~6–7 Mbps for eMBB streaming users. I will continue to watch trends.",
+      "message_ar": "تم تطبيق التغييرات والتحقق منها. نتائج أولية (10–15 دقيقة): انخفض TA p95 إلى ~1.8 كم؛ انخفضت نسبة المستخدمين البعيدين بنحو 9 نقاط مئوية؛ تحسن وسيط SINR عند الحافة بحوالي 3 dB؛ فشل التسليم يتجه من ~8% إلى ~5%، والبينغ بونغ أقل قليلًا؛ ارتفع متوسط التحميل من ~3 إلى ~6–7 Mbps لمستخدمي eMBB والبث. سأواصل متابعة الاتجاهات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: handover failures trending down and time advance range tightening. Action taken was parameter optimization on tilt/power/mobility with neighbor additions. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسنًا: انخفاضًا في فشل التسليم وتضييق نطاق تقدّم التوقيت. الإجراء كان تحسين المعايير (الإمالة/القدرة/الحركة) مع إضافة الجيران. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and share an update. If KPIs regress, we will partially roll back tilt/CIO; if coverage gaps appear, we will restore power and revisit offsets with a smaller step.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثًا. إذا تراجعت مؤشرات الأداء سنعود جزئيًا عن الإمالة/CIO؛ وإذا ظهرت فجوات تغطية سنعيد القدرة ونراجع الإزاحات بخطوة أصغر."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis: a rural NR macro was overshooting, evidenced by long timing advance, a high share of distant users, weak RSRP/RSRQ, and low SINR causing interference and slow data. Actions: we analyzed coverage and neighbors, then executed site parameter tuning (down-tilt, reduced pilot power, CIO/TTT/hysteresis adjustments, and added a missing neighbor). Early results show reduced far-UE footprint, improved SINR, lower handover failures, and higher median throughput; we will continue monitoring.",
+    "ar": "التشخيص: كان موقع ماكرو NR ريفي يتمدد بشكل مفرط، ويتضح ذلك من تقدّم توقيت طويل ونسبة مرتفعة من المستخدمين البعيدين وضعف RSRP/RSRQ وSINR منخفض يسبب تداخلًا وبطء بيانات. الإجراءات: قمنا بتحليل التغطية والجيران ثم نفّذنا ضبط معايير للموقع (زيادة الإمالة السالبة، خفض القدرة المرجعية، تعديل CIO/TTT/الهيسترة، وإضافة جار مفقود). تظهر النتائج المبكرة تقليص بصمة المستخدمين البعيدين وتحسّن SINR وانخفاض فشل التسليم وارتفاع متوسط السرعة؛ سنواصل المراقبة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0018",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G macro sector shows interference/signal overlap and slow data over the past 6h (SINR ~ -1 dB, p50 ~5 Mbps) with a congestion alarm active.",
+    "ar": "قطاع ماكرو 5G حضري يُظهر تداخل/تراكب إشارة وبطء بيانات خلال آخر 6 ساعات (SINR حوالي -1 dB، الوسيط ~5 Mbps) مع وجود إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G macro sector over the last 6h shows user impact: slow data (~5 Mbps p50), interference with SINR ~ -1 dB and RSRQ -14 dB, HO failures ~23% and ping-pong 13% during mixed hours; eMBB streaming traffic; a congestion alarm is active.",
+      "message_ar": "خلال آخر 6 ساعات، يشهد قطاع ماكرو 5G حضري تأثيراً على المستخدمين: بيانات بطيئة (~5 Mbps وسيط)، تداخل مع SINR حوالي -1 dB و RSRQ -14 dB، فشل تسليم ~23% وارتداد 13% خلال ساعات مختلطة؛ حركة eMBB تشمل البث؛ يوجد إنذار ازدحام نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Symptoms point to a PCI collision/overlap. I will start by auditing neighbor relations for the serving sector (current PCI 488) over the last 6h to confirm overlapping PCI affecting streaming users. Please approve diagnostic access.",
+      "message_ar": "شكراً. الأعراض تشير إلى تصادم/تداخل PCI. سأبدأ بتدقيق علاقات الجوار للقطاع الخادم (PCI الحالي 488) خلال آخر 6 ساعات لتأكيد تراكب PCI يؤثر على مستخدمي البث. يرجى الموافقة على الوصول التشخيصي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Serving cell is the NR macro sector with PCI 488; a nearby neighbor uses PCI 104. Use the past 6h window.",
+      "message_ar": "مقبول. الخلية الخادمة هي قطاع ماكرو NR مع PCI 488؛ وهناك جار قريب يستخدم PCI 104. استخدم نافذة آخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the neighbor audit now. Findings: an adjacent NR macro sector to the east is also on PCI 488 with ~36% coverage overlap; the PCI 104 neighbor is non-conflicting. This explains interference, ping-pong, and elevated HO failures. Next, I propose reassigning the serving sector’s PCI from 488 to 506 (clean in the cluster) to remove the collision. Minimal impact (brief re-camp). Approve change?",
+      "message_ar": "أجري الآن تدقيق الجوار. النتائج: قطاع ماكرو NR مجاور شرقاً يستخدم أيضاً PCI 488 مع تداخل تغطية ~36%؛ الجار ذو PCI 104 غير متعارض. هذا يفسر التداخل والارتداد وارتفاع فشل التسليم. أقترح بعد ذلك إعادة تعيين PCI للقطاع الخادم من 488 إلى 506 (متاح ونظيف ضمن المجموعة) لإزالة التصادم. التأثير طفيف (إعادة تسجيل قصيرة). هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the PCI reassignment now.",
+      "message_ar": "موافق على تنفيذ إعادة تعيين PCI الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI change to 506 and refreshing neighbor relations. Change applied successfully; immediate health checks are clean. Please observe KPIs on your side.",
+      "message_ar": "أقوم بتنفيذ تغيير PCI إلى 506 وتحديث علاقات الجوار. تم تطبيق التغيير بنجاح؛ فحوصات السلامة الفورية سليمة. يرجى متابعة مؤشرات الأداء لديكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: SINR median has improved to about +2 dB, handover failures trending down, and median throughput moving toward ~7–8 Mbps. Looks positive.",
+      "message_ar": "الملاحظة الأولية: تحسن وسيط SINR إلى حوالي +2 dB، وانخفضت اتجاهات فشل التسليم، وارتفع الوسيط في سرعة التحميل نحو ~7–8 Mbps. المؤشرات إيجابية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. For traceability and follow-up, I will create a tracking ticket documenting the PCI change and collision resolution. May I proceed?",
+      "message_ar": "تقدم جيد. من أجل التتبع والمتابعة، سأقوم بإنشاء تذكرة توثّق تغيير PCI وحل التصادم. هل أستطيع المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-PCI-00321. Summary: PCI collision resolved by reassigning sector PCI 488→506; neighbor relations refreshed; no new alarms.",
+      "message_ar": "تم إنشاء التذكرة: DU-PCI-00321. الملخص: تم حل تصادم PCI بإعادة تعيين PCI القطاع من 488 إلى 506؛ وتم تحديث علاقات الجوار؛ لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, beam failures are trending down and slow data complaints are easing; the PCI reassignment (site parameter tuning) appears effective. Let’s monitor over the next 2–4 hours, referencing DU-PCI-00321.",
+      "message_ar": "بعد التغيير، إخفاقات الحزم في اتجاه هبوطي وشكاوى بطء البيانات تتراجع؛ تبدو إعادة تعيين PCI (ضبط معلمات الموقع) فعّالة. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة مع الإشارة إلى DU-PCI-00321."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next 2–4 hours and update the ticket after the window. If degradation returns, we will roll back to the prior PCI or select another clean PCI and escalate to field checks if needed.",
+      "message_ar": "تم الاستلام. سنراقب خلال الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا عادت التدهورات، سنقوم بالرجوع إلى PCI السابق أو اختيار PCI نظيف بديل مع تصعيد للفحص الميداني عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR_MACRO_SECTOR_A",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI reassignment 488->506; update neighbor relations; refresh SSB mapping"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI collision on NR macro sector A by reassigning PCI 488->506; monitor KPIs for 6h"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a PCI collision: an adjacent NR macro sector shared PCI 488 with ~36% overlap, causing interference and mobility issues. We resolved it via site parameter tuning by reassigning the serving sector’s PCI to 506 and refreshing neighbor relations, then created a tracking ticket. KPIs started improving and we will continue monitoring during the upcoming hours.",
+    "ar": "أكد تدقيق الجوار وجود تصادم PCI: قطاع ماكرو NR مجاور يشارك PCI 488 مع تداخل ~36%، مما سبب تداخلاً ومشكلات تنقل. تم الحل عبر ضبط معلمات الموقع بإعادة تعيين PCI القطاع الخادم إلى 506 وتحديث علاقات الجوار، ثم إنشاء تذكرة متابعة. بدأت مؤشرات الأداء بالتحسن وسنواصل المراقبة خلال الساعات القادمة."
+  }
+}

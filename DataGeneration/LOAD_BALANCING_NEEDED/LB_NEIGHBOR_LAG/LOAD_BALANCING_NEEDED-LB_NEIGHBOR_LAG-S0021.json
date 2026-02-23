@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0021",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban 5G macro cell shows sustained high radio resource use (~87%) with 310 users, neighbors averaging ~57%, and imbalance index ~0.43 over the last 4h during shoulder hours with eMBB streaming; request load-balancing assessment and action.",
+    "ar": "خلية 5G ماكرو حضرية تظهر استخدامًا مرتفعًا ومستمرًا لموارد الراديو (~87%) مع 310 مستخدمين، ومتوسط الجيران ~57% ومؤشر عدم توازن ~0.43 خلال آخر 4 ساعات في فترة كتفية مع بث eMBB؛ نطلب تقييمًا وتنفيذ موازنة حمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell during shoulder hour is heavily loaded: PRB ~87% with 310 users; neighbors average ~57%; imbalance index 0.43. RSRQ -10 dB, SINR 5 dB. Traffic is eMBB with streaming. Please assist with load balancing.",
+      "message_ar": "خلية NR ماكرو حضرية خلال فترة كتفية تعاني حملًا مرتفعًا: إشغال PRB ~87% مع 310 مستخدمين؛ متوسط الجيران ~57%؛ مؤشر عدم التوازن 0.43. RSRQ ‏-10 ديسيبل وSINR ‏5 ديسيبل. الحركة eMBB مع بث. الرجاء المساعدة في موازنة الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first audit neighbor loads and current handover biases over the last 4h to confirm offload potential. Please approve read access.",
+      "message_ar": "تم. سأبدأ بتدقيق أحمال الجيران وانحيازات التسليم خلال آخر 4 ساعات لتأكيد إمكانية التفريغ. الرجاء اعتماد وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Read access granted.",
+      "message_ar": "موافق. تم منح وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit results: serving PRB 86–89%; N1 ~58%, N2 ~52%, N3 ~61%. HO out/in stable. Bias favors serving by ~1–2 dB; neighbors have headroom. I propose a small positive bias toward N1/N2 with conservative timers to offload. Approve to apply?",
+      "message_ar": "نتائج التدقيق: الخلية الخادمة PRB بين 86–89%؛ الجار N1 ~58%، N2 ~52%، N3 ~61%. معدلات التسليم الخارجي/الداخلي مستقرة. الانحياز يميل للخادمة ~1–2 ديسيبل؛ لدى الجيران سعة متاحة. أقترح زيادة بسيطة للانحياز نحو N1/N2 مع مؤقتات تحفظية للتفريغ. هل نطبق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the small bias and conservative load-based weighting.",
+      "message_ar": "موافق على تطبيق الانحياز البسيط وأوزان الحمل التحفظية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter tuning now: slight offload bias to N1/N2 with guard timers; no coverage power change. Change committed; I will watch PRB, HO stability, and any ping‑pong.",
+      "message_ar": "أقوم الآن بضبط المعلمات: انحياز تفريغ طفيف إلى N1/N2 مع مؤقتات حماية؛ دون تغيير قدرة التغطية. تم تنفيذ التغيير؛ سأتابع PRB واستقرار التسليم وأي تأرجح."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation (5–10 min): serving active users down ~7%; PRB trending 78–80%; no handover oscillations.",
+      "message_ar": "ملاحظة مبكرة (5–10 دقائق): عدد المستخدمين على الخلية الخادمة انخفض ~7%؛ PRB يتجه إلى 78–80%؛ لا يوجد تأرجح في التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Neighbor PRB is rising moderately, indicating healthy load shift. Please confirm no local drop-call or throughput complaints.",
+      "message_ar": "جيد. PRB لدى الجيران يرتفع بشكل معتدل ما يشير إلى تفريغ صحي. يرجى تأكيد عدم وجود شكاوى انقطاع مكالمات أو إنتاجية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No complaints observed; VoNR call setup is normal and throughput samples are steady.",
+      "message_ar": "لا توجد شكاوى؛ إعداد مكالمات VoNR طبيعي وعينات الإنتاجية مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will continue to track PRB versus neighbors and HO success through the next busy period. Expect an extra 5–10% relief as streaming peaks.",
+      "message_ar": "سنواصل تتبع PRB مقابل الجيران ونجاح التسليم خلال فترة الذروة القادمة. متوقع تحسن إضافي 5–10% مع ذروة البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: resource use is lower and user count stabilized; handover success remains steady. Action taken was load‑balancing parameter tuning. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "نرى تحسنًا: استخدام الموارد أقل وعدد المستخدمين مستقر؛ نجاح التسليم ما زال ثابتًا. الإجراء كان ضبط معلمات موازنة الحمل. لنراقب خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and report PRB/utilization and handover stability. If congestion returns or instability appears, we will roll back the bias; if relief is insufficient, we will escalate to RF for a broader plan.",
+      "message_ar": "تم. سنتولى المراقبة خلال الساعتين إلى الأربع القادمة ونقدم تقريرًا عن PRB/الاستخدام واستقرار التسليم. إذا عاد الازدحام أو ظهرت عدم استقرار، سنرجع عن الانحياز؛ وإذا كان التحسن غير كافٍ، سنصعّد إلى فريق RF لخطة أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban NR macro: the serving cell ran at ~87% while neighbors averaged ~57%, confirmed by a neighbor utilization and handover bias review. Applied site parameter tuning to shift modest load to underused neighbors via small bias adjustments with conservative timers. Post-change, PRB utilization decreased and users redistributed; we will monitor PRB and handover stability over the next 2–4 hours.",
+    "ar": "تم تشخيص عدم توازن الحمل في خلية NR ماكرو حضرية: الخادمة عند ~87% بينما متوسط الجيران ~57%، وتم التأكيد عبر مراجعة أحمال الجيران وانحيازات التسليم. تم تنفيذ ضبط معلمات الموقع لتحويل حمل بسيط إلى الجيران الأقل استخدامًا عبر تعديلات انحياز طفيفة مع مؤقتات تحفظية. بعد التغيير انخفض استخدام PRB وتوزع المستخدمون؛ سنراقب PRB واستقرار التسليم خلال الساعتين إلى الأربع القادمة."
+  }
+}

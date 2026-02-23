@@ -1,0 +1,113 @@
+{
+  "id": "BEAM_MISALIGNMENT-BEAM_INDOOR_GRID-S0007",
+  "intent": "BEAM_MISALIGNMENT",
+  "blueprint_id": "BEAM_INDOOR_GRID",
+  "query": {
+    "en": "Indoor pico 5G cell in the office wing shows low RSRP (~-114 dBm) with fluctuating signal and elevated beam recovery events (~36/hr) during peak, with median throughput around 15 Mbps and SINR ~6 dB.",
+    "ar": "خلية 5G داخلية من نوع بيكو في جناح المكتب تُظهر RSRP منخفضاً (~-114 dBm) مع إشارة متقلبة وارتفاعاً في أحداث استعادة الحزمة (~36/ساعة) خلال الذروة، مع إنتاجية متوسطة حوالي 15 Mbps وSINR ~6 dB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR pico in the north office wing over the last 6h (peak). Users mostly eMBB streaming. KPIs: RSRP ~-114 dBm, fluctuating signal, SINR ~6 dB, beam failures ~2% with ~36 BFR events/hr, p50 DL ~15 Mbps. No alarms.",
+      "message_ar": "موقع NR بيكو داخلي في الجناح الشمالي للمكتب خلال آخر 6 ساعات (وقت الذروة). المستخدمون أغلبهم eMBB بث فيديو. مؤشرات: RSRP حوالي -114 dBm، إشارة متقلبة، SINR ~6 dB، إخفاقات الحزمة ~2% مع ~36 حدث BFR/ساعة، إنتاجية تنزيل وسيطة ~15 Mbps. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Hypothesis: beam misalignment on this indoor small site causing patchy SSB coverage. I will start by pulling an indoor coverage heatmap across the office-wing grid for the last 6h to inspect beam footprints versus user clusters. Please confirm access and the serving cell ID.",
+      "message_ar": "شكراً. الفرضية: انحراف في الحزمة بهذا الموقع الداخلي الصغير يسبب تغطية SSB متقطعة. سأبدأ بسحب خريطة تغطية داخلية لشبكة جناح المكتب لآخر 6 ساعات لفحص بصمة الحزم مقابل تجمعات المستخدمين. يرجى تأكيد صلاحية الوصول ومعرّف الخلية الخادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Serving cell is NR-PICO-17A in the north office wing. Proceed.",
+      "message_ar": "الوصول مُوافق عليه. الخلية الخادمة NR-PICO-17A في الجناح الشمالي للمكتب. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Heatmap analysis complete: the dominant SSB beam centroid is skewed ~18° east with a null along the glass corridor, and weak dominance near the lifts—consistent with low RSRP and the fluctuating signal. I propose a minimal beam parameter optimization to realign the main lobe and smooth beam boundaries. Do I have approval to implement?",
+      "message_ar": "تم تحليل خريطة التغطية: مركز الحزمة SSB السائدة منحرف بحوالي 18° شرقاً مع فجوة على طول الممر الزجاجي، وضعف الهيمنة قرب المصاعد—وهو ما يتسق مع RSRP المنخفض والإشارة المتقلبة. أقترح تحسيناً طفيفاً لمعلمات الحزمة لإعادة محاذاة الفص الرئيسي وتنعيم حدود الحزم. هل أملك الموافقة للتنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize. Please proceed carefully.",
+      "message_ar": "موافقة على التحسين. يرجى التنفيذ بحذر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing light optimization on NR-PICO-17A: correcting beam azimuth offset (~15°), slightly narrowing main beam width, and balancing SSB power across beams within safe limits. No service interruption. Post-checks clean. Expect ~5–8 dB RSRP uplift and fewer beam failures; I’ll watch live counters for 10 minutes.",
+      "message_ar": "تنفيذ تحسين خفيف على NR-PICO-17A: تصحيح انحراف السمت للحزمة (~15°)، تضييق بسيط لعرض الفص الرئيسي، وموازنة طاقة SSB عبر الحزم ضمن الحدود الآمنة. دون انقطاع خدمة. فحوصات ما بعد التنفيذ سليمة. من المتوقع تحسن RSRP بمقدار ~5–8 dB وتقليل إخفاقات الحزمة؛ سأراقب المؤشرات الحية لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early results: desk areas show ~6 dB RSRP improvement, SINR up to ~8–9 dB, and beam recoveries down to ~12/hr. User load remains ~175.",
+      "message_ar": "نتائج مبكرة: تحسن RSRP بنحو ~6 dB في مناطق المكاتب، وSINR ارتفع إلى ~8–9 dB، وانخفضت أحداث الاستعادة إلى ~12/ساعة. حمل المستخدمين يبقى ~175."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I’ve recorded the change for traceability as DU-BEAM-04219 with before/after KPIs and heatmap snapshots. Let’s keep observing through the next busy hour; if the glass corridor dip persists, we can fine-tune in the next approved window.",
+      "message_ar": "جيد. قمت بتوثيق التغيير لأغراض التتبع تحت DU-BEAM-04219 مع مؤشرات قبل/بعد ولقطات لخريطة التغطية. لنواصل المراقبة خلال ساعة الذروة القادمة؛ إذا استمرت الفجوة قرب الممر الزجاجي، يمكننا إجراء ضبط دقيق في نافذة معتمدة لاحقاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Small spot by the glass corridor still shows occasional dips but overall stability is better. Continue observation.",
+      "message_ar": "تم. توجد بقعة صغيرة قرب الممر الزجاجي تظهر هبوطاً متقطعاً، لكن الاستقرار العام أفضل. استمر بالمراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. No further changes now to avoid over-tuning. I’ll keep watching beam failures, SSB variance, and indoor RSRP trends while users move across the wing.",
+      "message_ar": "تم التأكيد. لا تغييرات إضافية الآن لتجنب المبالغة في الضبط. سأستمر في مراقبة إخفاقات الحزمة، وتباين SSB، واتجاهات RSRP الداخلية مع تحرك المستخدمين عبر الجناح."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: beam failures are trending down and the signal fluctuation is reduced. Action taken was beam parameter optimization; let’s monitor through the next busy hour and update DU-BEAM-04219 afterward.",
+      "message_ar": "تم تأكيد التحسن: إخفاقات الحزمة تتجه للانخفاض وتقلّب الإشارة انخفض. الإجراء المنفذ هو تحسين معلمات الحزمة؛ لنتابع المراقبة خلال ساعة الذروة القادمة وتحديث DU-BEAM-04219 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and update the ticket afterward with KPI deltas and user-experience notes. If instability returns, we will roll back to the previous beam settings; if the corridor dip persists, we will escalate to an on-site survey.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعدها بفروقات المؤشرات وملاحظات تجربة المستخدم. إذا عادت حالة عدم الاستقرار سنعود إلى إعدادات الحزمة السابقة؛ وإذا استمر الهبوط قرب الممر سنصعّد إلى فحص ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "office-wing"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "beam azimuth/width/weight realignment for NR-PICO-17A"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Indoor NR beam realignment on NR-PICO-17A; improved RSRP/SINR; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed indoor beam misalignment via an office-wing coverage assessment that showed a skewed SSB footprint and corridor nulls causing low RSRP and a fluctuating signal. Applied site parameter tuning to realign beams and balance power, yielding higher RSRP and fewer beam failures. Logged DU-BEAM-04219 and will monitor through the next busy hour.",
+    "ar": "تم تشخيص انحراف الحزمة داخلياً عبر تقييم تغطية لجناح المكتب أظهر بصمة SSB منحرفة وفجوات في الممر سببت RSRP منخفضاً وإشارة متقلبة. تم تطبيق ضبط معلمات للموقع لإعادة محاذاة الحزم وموازنة القدرة، ما أدى إلى RSRP أعلى وتقليل إخفاقات الحزمة. تم توثيق DU-BEAM-04219 وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

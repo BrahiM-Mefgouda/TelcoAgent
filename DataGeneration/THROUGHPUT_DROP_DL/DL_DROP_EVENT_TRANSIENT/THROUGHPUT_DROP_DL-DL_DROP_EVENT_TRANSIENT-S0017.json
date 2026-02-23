@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0017",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium 5G micro cell shows slow data over the last 2h with a congestion alarm: DL ~7 Mbps, ~95% resource use, RSRQ −15 dB, ~457 users, and p95 allocation delay ~58 ms.",
+    "ar": "خلية 5G صغيرة في الاستاد تظهر بيانات بطيئة خلال آخر ساعتين مع إنذار ازدحام: سرعة تنزيل ~7 ميجابت/ث، استخدام موارد ~95%، RSRQ −15 ديسيبل، ~457 مستخدمًا، وتأخير تخصيص p95 ~58 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium 5G micro cell has a downlink throughput drop in the last 2 hours; congestion alarm active. Users report slow data and buffering as ingress ramps up.",
+      "message_ar": "هناك هبوط في سرعة التنزيل لخلية 5G صغيرة في الاستاد خلال آخر ساعتين؛ إنذار الازدحام فعّال. المستخدمون يبلغون عن بطء البيانات وتقطّع أثناء زيادة الدخول."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling last 2h OSS counters to validate load, quality, and allocation delay. Please share the cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب مؤشرات الساعتين الماضيتين للتحقق من الحمل والجودة وتأخير التخصيص. فضلاً زوّدني بمعرّف الخلية والموافقة على الوصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-05. Read access approved. Crowd ~18k, many users streaming video.",
+      "message_ar": "معرّف الخلية: NR-STAD-05. تمّت الموافقة على الوصول للقراءة. الحضور ~18 ألف، وعديد من المستخدمين يبثّون فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS counters (last 2h) for NR-STAD-05: PRB utilization 94–96%, active users peak 457, DL avg ~7 Mbps, BLER ~5%, RSRQ −15 dB, SINR 12 dB, p95 allocation delay ~58 ms. This confirms capacity-driven DL degradation under congestion. Next, I will chart DL throughput vs load to pinpoint onset and variance.",
+      "message_ar": "مؤشرات آخر ساعتين للخلية NR-STAD-05: استخدام الموارد 94–96%، ذروة المستخدمين النشطين 457، متوسط التنزيل ~7 ميجابت/ث، BLER ~5%، RSRQ −15 ديسيبل، SINR 12 ديسيبل، وتأخير تخصيص p95 ~58 مللي ثانية. يؤكد ذلك تدهور السرعة بسبب الازدحام. الخطوة التالية: سأرسم سلسلة زمنية لسرعة التنزيل مقابل الحمل لتحديد لحظة البدء والتذبذب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows dips aligned with ingress start; floor ~5–7 Mbps at peaks, with allocation delay spikes and modest BLER. Root cause is resource saturation on this micro during the event. I propose targeted site parameter tuning to improve multi-user downlink efficiency for eMBB streaming. Approve to proceed?",
+      "message_ar": "السلسلة الزمنية لسرعة التنزيل تُظهر هبوطات متزامنة مع بدء الدخول؛ حد أدنى ~5–7 ميجابت/ث عند الذروة مع ارتفاع تأخير التخصيص وBLER معتدل. السبب الجذري هو تشبّع الموارد على هذه الخلية الصغيرة أثناء الحدث. أقترح ضبطًا مستهدفًا لمعاملات الموقع لتحسين كفاءة التنزيل متعدد المستخدمين لخدمة بث eMBB. هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with low-risk tuning now. Ingress expected to continue for ~1 hour.",
+      "message_ar": "موافق على المضي بضبط منخفض المخاطر الآن. من المتوقع استمرار الدخول لمدة ~ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing tuning: adjust scheduling weights and congestion thresholds to favor downlink efficiency while keeping error rates stable. A brief transient may occur; I will watch key KPIs closely.",
+      "message_ar": "يجري تنفيذ الضبط: تعديل أوزان الجدولة وعَتبات الازدحام لزيادة كفاءة التنزيل مع الحفاظ على معدلات الخطأ مستقرة. قد يحدث تغيّر عابر قصير؛ سأراقب المؤشرات الرئيسية عن كثب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied. Immediate observation: PRB utilization ~91%, DL avg ~13 Mbps (up from ~7 Mbps), p95 allocation delay ~36 ms, BLER ~5%, RSRQ ~−14 dB. No adverse effects observed. I will continue to observe during the ongoing ingress.",
+      "message_ar": "تم تطبيق التغيير. الملاحظة الفورية: استخدام الموارد ~91%، متوسط التنزيل ~13 ميجابت/ث (بدلاً من ~7 ميجابت/ث)، تأخير تخصيص p95 ~36 مللي ثانية، BLER ~5%، وRSRQ ~−14 ديسيبل. لم تُلاحظ آثار سلبية. سأواصل المراقبة أثناء استمرار الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: field tests show higher speeds and fewer buffering events; DL is ~12–13 Mbps now. Action taken: site parameter tuning on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "هناك تحسّن: الاختبارات الميدانية تُظهر سرعات أعلى وتقطّعًا أقل؛ سرعة التنزيل الآن ~12–13 ميجابت/ث. الإجراء المتخذ: ضبط معاملات الموقع على الخلية. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and provide an update afterward. If performance regresses, we will roll back the tuning; if congestion persists, we will escalate with additional capacity measures via neighboring cells.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية وسنقدّم تحديثًا بعدها. إذا تراجع الأداء، سنعود إلى الضبط السابق؛ وإذا استمر الازدحام، سنصعّد عبر اتخاذ إجراءات سعة إضافية بالتعاون مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated a downlink throughput drop on the stadium 5G micro cell under congestion: very high resource utilization, degraded RSRQ, and increased allocation delay aligned with event ingress. Analyzed DL trends over the last 2 hours, then applied targeted site parameter tuning to improve multi-user downlink efficiency. Post-change, throughput rose to ~13 Mbps with lower delay and stable error rates; we will continue monitoring through the next busy hour.",
+    "ar": "تم توثيق هبوط سرعة التنزيل في خلية 5G صغيرة بالاستاد تحت الازدحام: استخدام موارد مرتفع جدًا، تدهور RSRQ، وزيادة في تأخير التخصيص متزامنة مع بدء الحدث. جرى تحليل اتجاهات التنزيل خلال آخر ساعتين، ثم تطبيق ضبط مستهدف لمعاملات الموقع لتحسين كفاءة التنزيل متعدد المستخدمين. بعد التغيير ارتفعت السرعة إلى ~13 ميجابت/ث مع انخفاض التأخير وثبات معدلات الخطأ؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0014",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows 7 configuration mismatches over the last 12h (drift ~44h) with HO failures ~8%, BLER ~6.8%, PRB ~70%, and median downlink 24 Mbps; an active alarm indicates possible congestion/outage during eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر 7 اختلافات في التهيئة خلال آخر 12 ساعة (انحراف ~44 ساعة) مع فشل تسليم ~8% وBLER ~6.8% واستهلاك PRB ~70% ومتوسط تنزيل 24 ميجابت/ث؛ يوجد إنذار نشط يشير إلى احتمال ازدحام/انقطاع أثناء بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Active alarm on an urban 5G NR macro sector over the last 12h; users report buffering during eMBB streaming and HO failures near the site. Please investigate.",
+      "message_ar": "يوجد إنذار نشط على قطاع ماكرو 5G NR حضري خلال آخر 12 ساعة؛ يبلّغ المستخدمون عن تقطّع أثناء بث eMBB وفشل تسليم بالقرب من الموقع. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will compare the live configuration to the OSS baseline for the last 12h and review key KPIs. Please share the cell ID and approve read-only access.",
+      "message_ar": "سأقارن التهيئة الحية بمرجع OSS لآخر 12 ساعة وأراجع مؤشرات الأداء الرئيسية. يرجى مشاركة معرف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-41023A. Read-only checks approved.",
+      "message_ar": "معرّف الخلية NR-41023A. موافقة على الفحص للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot and counters pulled: 7 configuration mismatches against baseline, drift present for ~44h (drift score ~0.44). HO failure rate ~8%, BLER ~6.8%, PRB utilization ~70%, median DL ~24 Mbps. This indicates configuration drift impacting mobility/control.",
+      "message_ar": "تم استخلاص لقطة OSS والمؤشرات: 7 اختلافات في التهيئة مقابل المرجع، والانحراف مستمر لنحو 44 ساعة (درجة الانحراف ~0.44). معدل فشل التسليم ~8%، وBLER ~6.8%، واستهلاك PRB ~70%، ومتوسط التنزيل ~24 ميجابت/ث. هذا يدل على انحراف تهيئة يؤثر على الحركة والتحكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood.",
+      "message_ar": "مفهوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Recommendation: restore the baseline by pushing the correct configuration to NR-41023A now (shoulder hour). Minimal control-plane blip expected; user impact should be limited. Do you approve?",
+      "message_ar": "التوصية: استعادة المرجع بدفع التهيئة الصحيحة إلى NR-41023A الآن (ساعة كتف). من المتوقع تأثير طفيف جداً على طبقة التحكم وتأثير محدود على المستخدم. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the baseline config to NR-41023A.",
+      "message_ar": "موافَق على دفع التهيئة المرجعية إلى NR-41023A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline configuration pushed successfully; inconsistencies cleared. Immediate post-change check shows HO failures and BLER starting to trend down. I will watch closely for the next 30 minutes.",
+      "message_ar": "تم دفع التهيئة المرجعية بنجاح وإزالة التعارضات. فحص ما بعد التغيير مباشرة يُظهر بدء انخفاض في فشل التسليم وBLER. سأراقب عن كثب لمدة 30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are good: handover failures are decreasing and fewer radio errors in drive logs.",
+      "message_ar": "المؤشرات الأولية جيدة: فشل التسليم في انخفاض وأخطاء الراديو أقل في سجلات القيادة."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and continued observation, I have opened ticket DU-CFG-01482 to track outcomes over the next hours.",
+      "message_ar": "لأغراض التتبع والمراقبة المستمرة، فتحت تذكرة DU-CFG-01482 لتتبع النتائج خلال الساعات القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Performance has improved: BLER down to ~3–4% and handover failures trending down. The action taken was a baseline configuration push. Let’s monitor through the next busy hour; I will follow updates under DU-CFG-01482.",
+      "message_ar": "تحسّن الأداء: انخفض BLER إلى نحو 3–4% وفشل التسليم في منحى هابط. الإجراء الذي تم هو دفع التهيئة المرجعية. دعنا نراقب حتى ساعة الذروة التالية؛ سأتابع التحديثات تحت DU-CFG-01482."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket afterward. If degradation reappears, we will escalate to a deeper baseline audit; if adverse effects emerge, we will roll back to the previous configuration immediately.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونحدّث التذكرة بعدها. إذا عادت مؤشرات التدهور سنصعّد إلى تدقيق أعمق للمرجع؛ وإذا ظهرت آثار سلبية سنعود فوراً إلى التهيئة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis: live configuration drifted from the baseline with 7 mismatches persisting for ~44 hours, correlating with elevated handover failures and BLER. Action: executed a baseline configuration push to restore parameters and opened a tracking ticket for follow-up. We will monitor mobility and error KPIs through the next busy hour to confirm stability.",
+    "ar": "التشخيص: انحرفت التهيئة الحية عن المرجع مع وجود 7 اختلافات مستمرة لنحو 44 ساعة، مترافقة مع ارتفاع فشل التسليم وBLER. الإجراء: تم دفع التهيئة المرجعية لاستعادة المعاملات وفتح تذكرة متابعة. سنراقب مؤشرات الحركة والأخطاء خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0009",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G macro shows 20% ping-pong handovers and 8% handover failures in the last 5h with SINR ~0 dB indicating interference / signal overlap and p50 throughput at 8 Mbps (slow data).",
+    "ar": "موقع ماكرو 5G في منطقة ضاحية يسجل 20٪ عمليات تسليم متأرجحة و8٪ فشل تسليم خلال آخر 5 ساعات مع SINR يقارب 0 dB مما يشير إلى تداخل/تراكب الإشارة وإنتاجية وسيطة 8 ميجابت/ث (بيانات بطيئة)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro near the sector border is seeing elevated ping-pong over the last 5h (HO success ~87%, ping-pong ~20%). RSRP ~-111 dBm, RSRQ -12 dB, SINR ~0 dB. Enterprise private traffic affected with slow data. No alarms.",
+      "message_ar": "موقع ماكرو NR في الضواحي قرب حدود القطاعات يشهد ارتفاعاً في التسليم المتأرجح خلال آخر 5 ساعات (نجاح التسليم ~87٪، التسليم المتأرجح ~20٪). RSRP حوالي -111 dBm، وRSRQ -12 dB، وSINR ~0 dB. حركة مؤسسية خاصة متأثرة ببطء البيانات. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling latest OSS counters for the last 5h to quantify HO and ping-pong. Please confirm cell ID and grant access.",
+      "message_ar": "مفهوم. سأبدأ بجلب مؤشرات OSS لآخر 5 ساعات لقياس التسليم والتسليم المتأرجح. يرجى تأكيد معرّف الخلية ومنحي الإذن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Suburban-Cell-3321. Access approved.",
+      "message_ar": "معرّف الخلية: NR-Suburban-Cell-3321. الموافقة ممنوحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NR-Suburban-Cell-3321 (5h): HO success 86.9%, ping-pong 20%, HO failures 8%. SINR ~0 dB with BLER ~6%. This points to interference / signal overlap on the border. Next, I'll chart HO and ping-pong time series over 5h to correlate with the shoulder period—proceed?",
+      "message_ar": "تم جلب المؤشرات للخلية NR-Suburban-Cell-3321 (5 ساعات): نجاح التسليم 86.9٪، التسليم المتأرجح 20٪، فشل التسليم 8٪. قيمة SINR ~0 dB مع BLER ~6٪. هذا يشير إلى تداخل/تراكب الإشارة على الحدود. بعد ذلك سأرسم سلسلة زمنية للتسليم والتسليم المتأرجح خلال 5 ساعات للربط مع فترة ما بين الذروة—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed. Note some enterprise streaming sessions also reported slow playback.",
+      "message_ar": "نعم، تابع. علماً بأن بعض جلسات البث المؤسسية أبلغت عن بطء في التشغيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms peaks during the shoulder hour: return HOs ~22%, oscillation mostly between 3321↔3322 and 3321↔3323. Current margins: A3 offset 3 dB, hysteresis 2 dB, TTT 156 ms. I propose tuning to reduce ping-pong: increase A3 offset by +1 dB, hysteresis +1 dB, and TTT to 256 ms, plus +2 dB neighbor-specific offset for 3322/3323. Approve optimization?",
+      "message_ar": "السلسلة الزمنية تؤكد الذروات خلال فترة ما بين الذروة: عمليات العودة في التسليم ~22٪، والتذبذب غالباً بين 3321↔3322 و3321↔3323. الهوامش الحالية: إزاحة A3 مقدارها 3 dB، والهستيريسيس 2 dB، وTTT = 156 ms. أقترح ضبطاً لتقليل التأرجح: زيادة إزاحة A3 بمقدار +1 dB، والهستيريسيس +1 dB، ورفع TTT إلى 256 ms، مع إضافة +2 dB إزاحة خاصة للجوار نحو 3322/3323. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement these parameter changes.",
+      "message_ar": "موافَق على تنفيذ هذه التغييرات في المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed on NR-Suburban-Cell-3321 with guarded commit. No errors or alarms. Initial post-change snapshot: ping-pong attempts down ~10% in 10 minutes; edge SINR median +1 dB; HO failures stable. I will continue short-term monitoring.",
+      "message_ar": "تم تنفيذ التحسين على NR-Suburban-Cell-3321 مع تطبيق تدريجي آمن. لا توجد أخطاء أو إنذارات. نظرة أولية بعد التغيير: محاولات التأرجح انخفضت ~10٪ خلال 10 دقائق؛ تحسّن وسيط SINR على الأطراف بمقدار +1 dB؛ فشل التسليم مستقر. سأواصل المراقبة القصيرة المدى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field traces now show fewer rapid back-and-forth events on the sector border; p50 throughput nudged to ~10 Mbps and PRB utilization remains ~0.66.",
+      "message_ar": "تُظهر سجلات الحقل حالياً انخفاضاً في الأحداث السريعة ذهاباً وإياباً على حدود القطاع؛ الإنتاجية الوسيطة ارتفعت إلى ~10 ميجابت/ث بينما يبقى استخدام PRB حوالي ~0.66."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will watch return HO ratio for 3322/3323 and any change in HO failures through the corridor with enterprise users. No further changes planned while we observe.",
+      "message_ar": "تم. سنراقب نسبة عمليات العودة في التسليم مع 3322/3323 وأي تغيّر في فشل التسليم عبر الممر ذي المستخدمين المؤسسيين. لا تغييرات إضافية أثناء المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: ping-pong attempts trending down and HO success edging up during the last 30 minutes. Action taken was handover parameter optimization (A3/hysteresis/TTT with neighbor-specific offsets). Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسّن: محاولات التسليم المتأرجح في اتجاه هبوطي ونجاح التسليم في تحسّن خلال آخر 30 دقيقة. الإجراء المتخذ كان تحسين معلمات التسليم (A3/الهستيريسيس/TTT مع إزاحات خاصة للجوار). لنراقب خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and report updated HO success, ping-pong ratio, and user experience. If ping-pong rebounds or failures rise, we will roll back the last deltas and escalate to targeted neighbor tuning; otherwise we’ll keep the settings and confirm stabilization.",
+      "message_ar": "سنقوم نحن بمتابعة المراقبة خلال ساعة الانشغال القادمة وإبلاغ نتائج نجاح التسليم ونسبة التأرجح وتجربة المستخدم. إذا عاد التأرجح أو ارتفعت حالات الفشل، سنُرجع آخر التغييرات ونصعّد إلى ضبط موجّه للجيران؛ وإلا سنُبقي الإعدادات ونؤكد الاستقرار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburban-Cell-3321",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburban-Cell-3321",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3 offset +1 dB; hysteresis +1 dB; TTT 256 ms; +2 dB neighbor-specific offset to 3322/3323"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong on a suburban NR macro during the shoulder period with interference-driven oscillations between adjacent sectors. Verified via OSS counters and time series, then mitigated with site parameter tuning: increased A3 offset and hysteresis, longer TTT, and neighbor-specific offsets to top oscillating neighbors. Monitoring will continue through the next busy hour to confirm sustained improvement.",
+    "ar": "تم تشخيص ارتفاع التسليم المتأرجح في موقع ماكرو NR بضواحي خلال فترة ما بين الذروة مع تذبذب ناجم عن التداخل بين القطاعات المتجاورة. جرى التحقق عبر مؤشرات OSS والسلسلة الزمنية، ثم تمت المعالجة عبر ضبط معلمات الموقع: زيادة إزاحة A3 والهستيريسيس، إطالة TTT، وإزاحات خاصة للجوار لأكثر الجيران تذبذباً. ستستمر المراقبة خلال ساعة الانشغال القادمة لتأكيد استمرار التحسّن."
+  }
+}

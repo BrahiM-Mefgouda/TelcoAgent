@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0009",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro cell shows Timing Advance drift with 21% distant serving, interference / signal overlap, and slow data over the last 6 hours.",
+    "ar": "خلية ماكرو NR في منطقة ضاحية تُظهر انجراف توقيت الوصول مع خدمة بعيدة بنسبة 21%، وتداخل/تراكب الإشارات، وبطء في البيانات خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has rising Timing Advance over the last 6 hours, more distant-serving users, median DL ~5 Mbps, and SINR near 3 dB; mixed hours with some streaming buffering complaints.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية تُظهر ارتفاعاً في توقيت الوصول خلال آخر 6 ساعات مع زيادة للمستخدمين المخدومين من مسافات بعيدة، ومعدل تنزيل وسيط ~5 Mbps، وSINR حوالي 3 dB؛ ساعات استخدام مختلطة مع شكاوى تعثر في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics. Step 1: pull network operations data and current mobility/beam settings for this cell over 6h. Please confirm the cell ID and grant read access.",
+      "message_ar": "سأتولى التشخيص. الخطوة 1: جلب بيانات التشغيل وإعدادات الحركة/الحيز التوجيهي للخلية خلال 6 ساعات. يرجى تأكيد معرف الخلية ومنح صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_Site_331A_S1; read access approved.",
+      "message_ar": "معرف الخلية NR_Site_331A_S1؛ تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 6h ops data: TA histogram shifted right (~+90), distant-serving at 21%, RSRP ~ -105 dBm, RSRQ ~ -11 dB, SINR ~3 dB; no alarms; PRB ~67%. Step 2: analyze TA trend versus time to localize drift—proceed?",
+      "message_ar": "تم جمع بيانات التشغيل لـ6 ساعات: انزاح مخطط TA إلى اليمين (~+90)، نسبة الخدمة البعيدة 21%، RSRP ~ -105 dBm، RSRQ ~ -11 dB، وSINR ~3 dB؛ لا إنذارات؛ إشغال PRB ~67%. الخطوة 2: تحليل اتجاه TA مع الزمن لتحديد الانجراف—هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed.",
+      "message_ar": "موافق. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series confirms drift: median elevated with peaks in mixed hours; p95 ~462; handovers to farther cells increased while HO success ~86%. Diagnosis: beam overshoot/mis-association causing interference and distant serving. Remediation: apply light parameter tuning (minor downtilt/power trim and tighter HO trigger toward nearer cells). Proceed with the change now?",
+      "message_ar": "سلسلة زمنية لـTA تؤكد الانجراف: ارتفاع في الوسيط مع قمم خلال الساعات المختلطة؛ p95 ~462؛ ازدياد التسليمات إلى خلايا أبعد مع نجاح HO ~86%. التشخيص: تمدد الحزم/سوء الارتباط يسبب تداخلاً وخدمة بعيدة. المعالجة: ضبط طفيف للمعلمات (إمالة بسيطة/خفض طاقة خفيف وتشديد مُحفّز HO نحو الخلايا الأقرب). هل ننفذ التغيير الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—apply the light tuning with minimal impact.",
+      "message_ar": "موافق—نفّذ الضبط الطفيف بأقل تأثير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied cleanly: minor beam downtilt and power trim plus slightly tighter HO margins toward nearer cells. No service drops observed. Early effect (first minutes): distant-serving down to ~14%, TA median down ~10%, HO success stable. Starting a brief verification.",
+      "message_ar": "تم تطبيق التغيير بنجاح: إمالة طفيفة للحزمة وخفض بسيط للطاقة مع تضييق طفيف لهوامش HO نحو الخلايا الأقرب. لم تُسجّل انقطاعات. الأثر الأولي (الدقائق الأولى): انخفاض الخدمة البعيدة إلى ~14%، انخفاض وسيط TA ~10%، واستقرار نجاح HO. أبدأ تحققاً قصيراً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback shows fewer buffering events during streaming and steadier signal; initial speed tests look better.",
+      "message_ar": "ملاحظات الميدان تُظهر انخفاضاً في التقطعات أثناء البث وثباتاً أفضل للإشارة؛ اختبارات السرعة الأولية أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Live KPIs reflect the shift: median DL rising from ~5 to ~6.8 Mbps, SINR improving toward ~4.5 dB, RSRQ by ~1 dB, and the TA tail contracting. I will continue to watch counters for stability.",
+      "message_ar": "تعكس مؤشرات الأداء الحية التحسن: ارتفاع معدل التنزيل الوسيط من ~5 إلى ~6.8 Mbps، تحسن SINR نحو ~4.5 dB، وRSRQ بحوالي 1 dB، مع تقلص ذيل TA. سأستمر في متابعة العدّادات للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data complaints dropping and the long TA tail is shortening. Action taken was site parameter tuning to curb overshoot and bias toward nearer cells. Let's monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسّن: انخفاض شكاوى بطء البيانات وقصر الذيل الطويل لـTA. الإجراء الذي تم هو ضبط معلمات الموقع للحد من التمدد وتحييز الخدمة نحو الخلايا الأقرب. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and share an update on TA distribution, SINR, and median throughput. If performance degrades, we will roll back the parameter change; if drift persists, we will escalate for a targeted field alignment check.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك بتحديث حول توزيع TA وSINR ومعدل التنزيل الوسيط. إذا تدهور الأداء سنعيد التغيير إلى الإعداد السابق؛ وإذا استمر الانجراف سنصعّد لإجراء فحص ميداني موجه للمحاذاة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "TA distribution drift was confirmed with a high distant-serving ratio and poor radio quality, causing slow data. We reviewed operational data, analyzed the TA trend, and then applied site parameter tuning to reduce overshoot and bias handovers toward nearer cells. We will monitor the next busy hour to ensure the improvement holds.",
+    "ar": "تم تأكيد انجراف توزيع TA مع نسبة خدمة بعيدة مرتفعة وجودة راديوية ضعيفة مما سبب بطء البيانات. قمنا بمراجعة بيانات التشغيل وتحليل اتجاه TA ثم تنفيذ ضبط لمعلمات الموقع لتقليل التمدد وتحييز التسليم نحو الخلايا الأقرب. سنراقب خلال ساعة الذروة القادمة للتأكد من ثبات التحسن."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0021",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro shows two configuration mismatches in the last 24h with handover failures around 7% and median throughput near 14 Mbps, indicating post-maintenance drift impacting eMBB streaming.",
+    "ar": "موقع ماكرو 5G NR في الضواحي يظهر اختلافين في الإعدادات خلال آخر 24 ساعة مع فشل تسليم يقارب 7% ومعدل نقل وسطي نحو 14 ميجابت/ث، مما يشير إلى انجراف بعد الصيانة يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-maintenance 18h ago on a suburban 5G NR macro, we’re seeing higher handover failures (~7%) across mixed hours and some eMBB streaming stutters; no active alarms.",
+      "message_ar": "بعد صيانة قبل 18 ساعة على موقع ماكرو 5G NR في منطقة الضواحي، نلاحظ ارتفاعاً في فشل التسليم (~7%) عبر أوقات مختلطة وبعض تقطعات في بث eMBB؛ لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will verify live vs OSS parameters over the last 24h to isolate any configuration mismatches impacting mobility and throughput; please confirm the cell ID and approve read access.",
+      "message_ar": "سأتحقق من اتساق الإعدادات بين الواقع وOSS خلال آخر 24 ساعة لعزل أي اختلافات تؤثر على التنقل والأداء؛ يرجى تأكيد معرف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUBURBAN-MACRO-001; read access approved for the last 24h.",
+      "message_ar": "معرّف الخلية هو NR-SUBURBAN-MACRO-001؛ تمت الموافقة على صلاحية القراءة لآخر 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected live snapshot and OSS baseline: two mismatches found since the maintenance window—(1) A3 offset live = +2 dB vs baseline 0 dB; (2) conditional HO time-to-trigger live = 80 ms vs baseline 160 ms; drift timestamp aligns ~18h ago.",
+      "message_ar": "جمعت لقطات الواقع وخط الأساس في OSS: وُجد اختلافان منذ نافذة الصيانة—(1) إزاحة A3 في الواقع +2 dB مقابل 0 dB في الأساس؛ (2) زمن بدء التسليم الشرطي 80 مللي ثانية في الواقع مقابل 160 مللي ثانية في الأساس؛ طابع الانجراف يطابق ~قبل 18 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "That matches field notes: users drop when moving between sectors 2/3; median throughput ~14 Mbps, BLER ~1.8%, PRB ~48%.",
+      "message_ar": "هذا يتوافق مع ملاحظات الميدان: انقطاعات عند الانتقال بين القطاعين 2/3؛ معدل النقل الوسطي ~14 ميجابت/ث، وBLER ~1.8%، وPRB ~48%."
+    },
+    {
+      "role": "agent",
+      "message_en": "To restore design consistency, I propose pushing the OSS baseline to the cell; short, low-risk action. Please approve.",
+      "message_ar": "لاستعادة اتساق التصميم، أقترح دفع خط الأساس من OSS إلى الخلية؛ إجراء قصير ومنخفض المخاطر. يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the baseline.",
+      "message_ar": "موافق على دفع خط الأساس."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline applied successfully; live now matches OSS: A3 offset 0 dB and HO time-to-trigger 160 ms. No errors observed; KPI collection ongoing.",
+      "message_ar": "تم تطبيق خط الأساس بنجاح؛ القيم الحية الآن تطابق OSS: إزاحة A3 = 0 dB وزمن بدء التسليم = 160 مللي ثانية. لم تُلاحظ أخطاء؛ جمع مؤشرات الأداء مستمر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early checks show HO failures starting to decline and fewer short calls.",
+      "message_ar": "فحوصات مبكرة تُظهر تراجعاً في حالات فشل التسليم وتقلص المكالمات القصيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and post-change monitoring, I have opened a record and attached before/after metrics.",
+      "message_ar": "لأغراض التتبع ومراقبة ما بعد التغيير، فتحتُ تسجيلاً وأرفقتُ مؤشرات قبل/بعد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures trending down; action taken was a configuration push aligning live with the baseline. Let’s monitor through the next busy hour; tracking under DU-CFG-01234.",
+      "message_ar": "تحسن ملحوظ: حالات فشل التسليم في اتجاه انخفاض؛ الإجراء كان دفع الإعدادات لمواءمة الواقع مع خط الأساس. لنتابع خلال ساعة الذروة التالية؛ المتابعة تحت DU-CFG-01234."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring for the next busy hour and will update the ticket afterward. If degradation returns, we will roll back to pre-change values and escalate to field for spot checks; otherwise we keep the fix. Summary: verified mismatch, pushed baseline, and opened tracking.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية وسنحدّث التذكرة بعد النافذة. إذا عادت التدهورات سنرجع إلى القيم السابقة للتغيير ونصعّد إلى الميدان لفحوصات فورية؛ وإلا سنُبقي الإصلاح. الملخص: تحققنا من الاختلاف، ودفعنا خط الأساس، وفتحنا متابعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUBURBAN-MACRO-001",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG_BASELINE_NR-SUBURBAN-MACRO-001_2025-09-12-0000Z"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Post-maintenance config mismatch on NR-SUBURBAN-MACRO-001 corrected via baseline push; monitor HO failures next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a post-maintenance configuration mismatch between live and OSS on the suburban 5G NR macro, elevating handover failures. Executed a configuration push to align with the OSS baseline and created a tracking ticket. We will monitor handover performance and user experience through the next busy hour.",
+    "ar": "تم تشخيص اختلاف إعدادات بعد الصيانة بين الواقع وOSS على موقع ماكرو 5G NR في الضواحي أدى إلى ارتفاع فشل التسليم. تم تنفيذ دفع للإعدادات لمواءمة خط الأساس في OSS وفتح تذكرة متابعة. سنراقب أداء التسليم وتجربة المستخدم خلال ساعة الذروة التالية."
+  }
+}

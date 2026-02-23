@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0028",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell shows 7 config mismatches with 0.78 parameter drift persisting ~27 hours, elevated handover failures (10%) and BLER at 11.7%, moderate load (~62% PRB), median downlink 27 Mbps, and an active alarm indicating possible congestion/outage in the past 12 hours.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تُظهر 7 اختلافات في الإعدادات مع انجراف للمعاملات بنسبة 0.78 مستمر لنحو 27 ساعة، وارتفاعًا في فشل التسليم (10%) وBLER عند 11.7%، وحِملًا متوسطًا (~62% PRB)، وسرعة تنزيل وسيطة 27 ميجابت/ث، مع إنذار نشط يشير لاحتمال ازدحام/انقطاع خلال آخر 12 ساعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector has alarms in the last 12h. HO failures ~10%, BLER ~11–12%, PRB ~62%, median DL ~27 Mbps. Can you check for configuration drift?",
+      "message_ar": "قطاع NR ماكرو حضري لديه إنذارات خلال آخر 12 ساعة. فشل التسليم ~10%، وBLER ~11–12%، وPRB ~62%، وسرعة تنزيل وسيطة ~27 ميجابت/ث. هل يمكنك التحقق من انجراف الإعدادات؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a 12h configuration/state audit versus baseline; given eMBB traffic with streaming, we’ll correlate with mobility and BLER. Please share the cell ID and approve read/change access.",
+      "message_ar": "تم. سأبدأ بتدقيق تكوين/حالة لآخر 12 ساعة مقابل الخط الأساسي؛ ونظرًا لأن الحركة eMBB مع بث، سأربط النتائج بحركية الشبكة وBLER. يرجى مشاركة مُعرّف الخلية والموافقة على صلاحيات القراءة/التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-310-015-00123. Read and change access approved.",
+      "message_ar": "مُعرّف الخلية: NR-URB-310-015-00123. تمت الموافقة على صلاحيات القراءة والتغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit results: 7 mismatches between OSS baseline and live config, drift age ~27h. Notable drifts include HO control offsets, SSB timing, PDCCH aggregation, AMC thresholds, and power scaling. Correlated with 10% HO failures and 11.7% BLER at ~62% load. Proposal: normalize to baseline via config push now (shoulder hour). Do you approve?",
+      "message_ar": "نتائج التدقيق: 7 اختلافات بين خط الأساس في OSS والتكوين الحالي، عمر الانجراف ~27 ساعة. أبرز الانحرافات تشمل إزاحات التحكم في التسليم، توقيت SSB، تجميع PDCCH، عتبات AMC، وضبط القدرة. هناك ترابط مع فشل التسليم 10% وBLER 11.7% عند حمل ~62%. المقترح: التطبيع إلى الخط الأساسي عبر دفع التكوين الآن (فترة متوسطة). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to normalize now.",
+      "message_ar": "موافَق على التطبيع الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing baseline config push (CFG-NR-MACRO-BASELINE-v42) on NR-URB-310-015-00123. Commit completed; parameters aligned to template. Post-change checks: alarms cleared, neighbor relations intact, no spike in retransmissions.",
+      "message_ar": "جارٍ تنفيذ دفع التكوين إلى خط الأساس (CFG-NR-MACRO-BASELINE-v42) على NR-URB-310-015-00123. اكتمل الاعتماد؛ تَمّت محاذاة المعلمات مع القالب. فحوصات ما بعد التغيير: تم مسح الإنذارات، علاقات الجوار سليمة، ولا توجد زيادة في إعادة الإرسال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No user impact observed during the change. What’s next?",
+      "message_ar": "لم يُلاحظ تأثير على المستخدم أثناء التغيير. ما الخطوة التالية؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I will open a change record with the diff and validation notes. Please watch BLER and HO failures for a few minutes and share a quick observation.",
+      "message_ar": "لأغراض التتبع، سأفتح سجل تغيير يتضمن الفروق وملاحظات التحقق. يرجى متابعة BLER وفشل التسليم لبضع دقائق ومشاركة ملاحظة سريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after 10 minutes: BLER trending down from ~11.7% to ~6%, HO failure alarms cleared.",
+      "message_ar": "ملاحظة أولية بعد 10 دقائق: BLER يتراجع من ~11.7% إلى ~6%، وتمت إزالة إنذارات فشل التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. Health probes are green, and throughput median holding at ~27–30 Mbps with fewer mobility errors. Recommend a focused monitoring window across the next busy hour. Please confirm the window you prefer.",
+      "message_ar": "مؤشرات جيدة. فحوصات السلامة طبيعية، ومتوسط الإنتاجية ~27–30 ميجابت/ث مع أخطاء حركة أقل. أوصي بنافذة متابعة مركزة خلال ساعة الانشغال القادمة. يرجى تأكيد النافذة المفضلة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement continues: handover failures trending down and BLER improving. Action taken was a config push to align parameters to baseline. Let’s monitor over the next busy hour (about 2–4 hours). I’ll reference ticket DU-CFG-04257.",
+      "message_ar": "التحسن مستمر: فشل التسليم في تراجع وBLER يتحسن. الإجراء كان دفع التكوين لمحاذاة المعلمات مع الخط الأساسي. سنراقب خلال ساعة الانشغال القادمة (حوالي 2–4 ساعات). سأشير إلى التذكرة DU-CFG-04257."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and update the ticket after the window. If degradation returns, we will roll back to the previous config and escalate to vendor support; otherwise we’ll keep the baseline and close out.",
+      "message_ar": "تم. سنكون مسؤولين عن المراقبة خلال ساعة الانشغال القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عادت التدهورات، سنرجع إلى التكوين السابق ونصعّد إلى دعم المورّد؛ وإلا سنُثبت الخط الأساسي ونغلق الحالة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a live-to-OSS configuration mismatch on an urban NR macro cell with 7 deviations and ~27 hours of drift, correlating with elevated handover failures and BLER. Executed a configuration push to align the cell to the baseline and opened a change record for traceability. Post-change KPIs improved; continued monitoring through the next busy hour is planned.",
+    "ar": "تم تشخيص عدم تطابق بين التكوين الفعلي وOSS في خلية NR ماكرو حضرية بواقع 7 فروقات وانجراف ~27 ساعة، مرتبط بارتفاع فشل التسليم وBLER. تم تنفيذ دفع التكوين لمحاذاة الخلية مع الخط الأساسي وفتح سجل تغيير لأغراض التتبع. تحسنت مؤشرات الأداء بعد التغيير، وسيستمر الرصد خلال ساعة الانشغال القادمة."
+  }
+}

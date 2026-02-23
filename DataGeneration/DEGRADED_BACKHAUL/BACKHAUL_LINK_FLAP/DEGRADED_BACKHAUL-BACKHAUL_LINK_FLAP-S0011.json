@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0011",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows backhaul link flaps (~3 per hour), burst packet loss ~28%, p95 latency 78 ms with 34 ms jitter, 104 interface errors, 204 users, and downlink throughput around 9 Mbps over the last 6h.",
+    "ar": "موقع ماكرو 5G NR في منطقة سكنية يظهر اهتزازاً في وصلة الباكهول (~3 مرات/ساعة)، فقدان حِزَم متقطع ~28%، كمون p95 = 78 مللي ثانية مع تذبذب 34 مللي ثانية، 104 أخطاء على الواجهة، 204 مستخدمين وسرعة تنزيل نحو 9 ميجابت/ث خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-12345-S1-L08 has intermittent user complaints over mixed hours; eMBB streaming buffers; no alarms. Please investigate possible backhaul degradation over last 6h.",
+      "message_ar": "الموقع الماكرو NR في منطقة سكنية، الخلية NR-12345-S1-L08، يعاني شكاوى متقطعة عبر فترات زمنية مختلطة؛ بث eMBB يتوقف مؤقتاً؛ لا يوجد إنذار. الرجاء التحقق من تدهور محتمل في الباكهول خلال آخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling 6h counters to validate link flaps, loss bursts, latency/jitter, and interface errors. Confirm read/execute access on NR-12345-S1-L08?",
+      "message_ar": "سأبدأ بسحب مؤشرات 6 ساعات للتحقق من اهتزاز الوصلة، فقدان الحِزَم، الكمون/التذبذب، وأخطاء الواجهة. هل تؤكد صلاحية القراءة والتنفيذ على NR-12345-S1-L08؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for that cell; proceed.",
+      "message_ar": "تمت الموافقة على الوصول لتلك الخلية؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters show ~3 link flaps/hour, burst loss ~28%, p95 latency 78 ms, jitter 34 ms, and 104 interface errors; radio load ~45% with SINR ~8 dB and RSRP -98 dBm. Backhaul instabilities are the bottleneck. I propose transport-profile tuning to harden against flaps and error bursts; approve?",
+      "message_ar": "المؤشرات تُظهر ~3 اهتزازات/ساعة، فقدان حِزَم ~28%، p95 كمون 78 مللي ثانية، تذبذب 34 مللي ثانية، و104 أخطاء على الواجهة؛ حمل الراديو ~45% مع SINR ~8 dB و RSRP -98 dBm. عدم استقرار الباكهول هو عنق الزجاجة. أقترح ضبط ملف النقل لتعزيز مقاومة الاهتزاز وفقدان الحِزَم؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "موافَق على تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying backhaul resilience tuning on the cell’s transport settings: increased hold/debounce on link detection, prioritized control traffic, and stricter drop for errored frames. Change is live with no outage. I will watch live counters for 15 minutes; may I also raise a ticket for transport follow-up?",
+      "message_ar": "أطبّق ضبط تحسين متانة الباكهول في إعدادات النقل للخلية: زيادة فترات التثبيت/إزالة الارتعاش لاكتشاف الوصلة، أولوية لحركة التحكم، وتشديد إسقاط الإطارات المعيبة. التغيير فعّال دون انقطاع. سأراقب المؤشرات الحية لمدة 15 دقيقة؛ هل يمكنني كذلك فتح تذكرة لمتابعة النقل؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with monitoring and create the ticket.",
+      "message_ar": "نعم، تابع المراقبة وقم بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-04172 opened for transport team with summary of link flaps, loss bursts, and interface errors; requested optical and cabling checks. Initial post-change snapshot: no new flaps in 10 minutes, jitter trending down. Please share any field/user feedback.",
+      "message_ar": "تم فتح التذكرة DU-BH-04172 لفريق النقل مع ملخص الاهتزازات وفقدان الحِزَم وأخطاء الواجهة؛ وطُلِب فحص بصري وكوابل. لقطة أولية بعد التغيير: لا اهتزازات جديدة خلال 10 دقائق، والتذبذب يتراجع. يُرجى مشاركة أي ملاحظات ميدانية/مستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field confirms buffering has eased; downlink now ~18 Mbps for several users and jitter appears around 20 ms; a few latency spikes remain.",
+      "message_ar": "الفريق الميداني يؤكد تراجع التوقف المؤقت؛ سرعة التنزيل الآن ~18 ميجابت/ث لعدة مستخدمين والتذبذب نحو 20 مللي ثانية؛ ما زالت هناك بعض طفرات الكمون."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. I’ll continue to watch for zero flaps and burst loss below 5%, and verify p95 latency trending under 50 ms. I’ll update if any regression appears.",
+      "message_ar": "مؤشرات جيدة. سأواصل متابعة غياب الاهتزاز وخفض فقدان الحِزَم إلى أقل من 5%، والتحقق من اتجاه p95 للكمون إلى أقل من 50 مللي ثانية. سأبلغ في حال ظهور تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, link flaps have stopped and jitter is trending down; throughput is improved. The action taken was backhaul parameter optimization, and the ticket DU-BH-04172 is in place. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "بعد التغيير، توقفت اهتزازات الوصلة ويتناقص التذبذب؛ وتحسنت سرعة التحميل. الإجراء المتخذ كان تحسين معلمات الباكهول، وهناك التذكرة DU-BH-04172. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next 2–4 hours, track flaps, burst loss, latency, and user throughput, and update DU-BH-04172 after the window. If issues reappear, we will escalate to transport for physical layer repair; if adverse effects are seen, we will revert the tuning.",
+      "message_ar": "مفهوم—سنتولى المتابعة خلال الساعتين إلى الأربع ساعات القادمة، مع تتبع الاهتزاز، فقدان الحِزَم، الكمون، وسرعات المستخدمين، وسنحدّث التذكرة DU-BH-04172 بعد انتهاء الفترة. إذا عادت المشكلة سنصعّد لفريق النقل لإصلاح الطبقة الفيزيائية؛ وإذا ظهرت آثار سلبية سنعيد الضبط كما كان."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro: frequent link flaps, burst loss, and elevated latency/jitter with moderate radio load indicated transport as the bottleneck. Applied site parameter tuning to harden the transport path, which reduced flaps and stabilized jitter, and opened a ticket for transport physical checks. We will monitor for the next hours and update the ticket with results.",
+    "ar": "تم تشخيص تدهور في الباكهول لموقع ماكرو NR في منطقة سكنية: اهتزازات متكررة للوصلة وفقدان حِزَم وارتفاع في الكمون/التذبذب مع حمل راديو متوسط مما يشير إلى اختناق في النقل. تم تطبيق ضبط لمعلمات الموقع لتعزيز مسار النقل مما خفّض الاهتزاز واستقر التذبذب، وتم فتح تذكرة لفحوصات طبقة النقل الفيزيائية. سنراقب خلال الساعات القادمة ونحدّث التذكرة بالنتائج."
+  }
+}

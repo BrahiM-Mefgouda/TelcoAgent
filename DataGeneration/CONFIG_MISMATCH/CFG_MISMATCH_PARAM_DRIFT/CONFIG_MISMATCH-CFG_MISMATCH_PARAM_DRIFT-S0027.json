@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0027",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell during peak eMBB shows slow data with active alarms; 10 config mismatches and 39h drift coincide with 9% handover failures and ~6% BLER.",
+    "ar": "خلية NR ماكرو حضرية خلال ذروة eMBB تُظهر بطءاً في البيانات مع إنذارات نشطة؛ يوجد 10 حالات عدم تطابق في الإعدادات وانحراف لمدة 39 ساعة بالتزامن مع 9% فشل تسليم وBLER ~6%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell is under peak load; users report slow data and more HO failures. Alarm is active. Drift age ~39h with 10 mismatches. Please investigate.",
+      "message_ar": "الخلية NR ماكرو في منطقة حضرية تحت حمل ذروة؛ المستخدمون يبلغون عن بطء في البيانات وزيادة في فشل التسليم. يوجد إنذار نشط. عمر الانحراف ~39 ساعة مع 10 حالات عدم تطابق. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will perform a config consistency check for the last 12h against the baseline via OSS. Please confirm access and the target cell ID.",
+      "message_ar": "تم الاستلام. سأجري فحص اتساق الإعدادات لآخر 12 ساعة مقابل الخط الأساسي عبر نظام الإدارة. يرجى تأكيد الوصول ومعرّف الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell: NR-Cell-1234. You can proceed now.",
+      "message_ar": "الوصول مُعتمد. الخلية المستهدفة: NR-Cell-1234. يمكنك المتابعة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running audit on NR-Cell-1234 (last 12h). Found 10 mismatches: HO thresholds/TTT off baseline, SSB periodicity, PRACH/TA settings, PDCCH/SS power split, timer values, and a stale neighbor list. This aligns with ~9% HO failures and ~6% BLER and explains slow data during eMBB streaming. I propose pushing the baseline config to realign. Approve?",
+      "message_ar": "أجري تدقيقاً على NR-Cell-1234 (آخر 12 ساعة). تم العثور على 10 حالات عدم تطابق: عتبات/زمن TTT للتسليم مختلفة عن الأساس، دورية SSB، إعدادات PRACH/TA، تقسيم طاقة PDCCH/SS، قيم المؤقتات، وقائمة الجوار قديمة. هذا يتوافق مع ~9% فشل تسليم و~6% BLER ويُفسّر بطء البيانات أثناء بث eMBB. أقترح دفع التهيئة الأساسية لإعادة المحاذاة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the baseline. Proceed.",
+      "message_ar": "موافق على دفع الخط الأساسي. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline config NR-Cell-1234_CFG_BASELINE pushed without service reset. Corrected: HO thresholds/TTT, SSB periodicity to baseline, PRACH/TA, power split, and neighbor list. Post-apply checks are clean. I will watch immediate counters for stabilization.",
+      "message_ar": "تم دفع التهيئة الأساسية NR-Cell-1234_CFG_BASELINE دون إعادة خدمة. تم تصحيح: عتبات/TTT للتسليم، دورية SSB إلى الأساس، إعدادات PRACH/TA، تقسيم الطاقة، وقائمة الجوار. فحوصات ما بعد التطبيق سليمة. سأراقب المؤشرات الفورية للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early sign: HO failures trending down (from ~9% to ~6%) and median downlink speed rising toward 8–9 Mbps. Complaints decreasing.",
+      "message_ar": "مؤشر مبكر: فشل التسليم في اتجاه هابط (من ~9% إلى ~6%) والسرعة المتوسطة للوصل الهابط ترتفع نحو 8–9 ميجابت/ث. الشكاوى تتناقص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Documenting the change: opening ticket DU-CFG-04215 for traceability and ongoing monitoring notes. I will continue watching KPIs during busy traffic.",
+      "message_ar": "توثيق التغيير: فتح تذكرة DU-CFG-04215 لأغراض التتبع وتدوين المراقبة المستمرة. سأواصل متابعة مؤشرات الأداء أثناء الحركة العالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Alarm has cleared and streaming is stable. No new user complaints so far.",
+      "message_ar": "تمت إزالة الإنذار والبث مستقر. لا توجد شكاوى جديدة حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. Please confirm your preferred monitoring window—next busy hour or a 2–4 hour observation—so I can own the watch and update the ticket accordingly.",
+      "message_ar": "جيد. يرجى تأكيد نافذة المراقبة المفضلة لديك—ساعة الانشغال التالية أو نافذة 2–4 ساعات—حتى أتولى المتابعة وأحدّث التذكرة وفقاً لذلك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Let’s monitor through the next busy hour. Handover failures are trending down and slow data improved after the config push. I will reference DU-CFG-04215.",
+      "message_ar": "لنراقب خلال ساعة الانشغال التالية. فشل التسليم في اتجاه هابط وبطء البيانات تحسّن بعد دفع التهيئة. سأشير إلى DU-CFG-04215."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will own monitoring for the next busy hour and update DU-CFG-04215 afterward. If issues recur, we will escalate to vendor support; if adverse effects appear, we will roll back to the previous snapshot.",
+      "message_ar": "تم. سأتولى المراقبة خلال ساعة الانشغال التالية وسأحدّث DU-CFG-04215 بعدها. إذا عادت المشكلة سنقوم بالتصعيد إلى دعم المورّد، وإذا ظهرت آثار سلبية سنعود إلى اللقطة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-1234",
+        "last_12h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "NR-Cell-1234_CFG_BASELINE"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config mismatch resolved: baseline pushed on NR-Cell-1234 after 39h drift; monitor HO failures/throughput."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a configuration mismatch on an urban NR macro cell with 10 parameters drifting for ~39 hours, correlating with slow data and elevated handover failures. Performed a baseline configuration push to realign parameters and documented the change with a ticket. Post-change checks show improvement; we will monitor through the next busy hour and adjust if needed.",
+    "ar": "تم تشخيص عدم تطابق في الإعدادات على خلية NR ماكرو حضرية مع انحراف 10 معلمات لمدة ~39 ساعة، مترافق مع بطء البيانات وارتفاع فشل التسليم. تم دفع التهيئة الأساسية لإعادة محاذاة المعلمات وتوثيق التغيير بتذكرة. أظهرت فحوصات ما بعد التغيير تحسناً؛ سنواصل المراقبة خلال ساعة الانشغال التالية مع اتخاذ إجراءات إضافية عند الحاجة."
+  }
+}

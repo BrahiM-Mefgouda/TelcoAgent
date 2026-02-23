@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0013",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate an indoor office NR micro cell with a congestion alarm and slow data (~8 Mbps downlink) over the last 4h, high PRB (~87%), 167 users, and elevated scheduling latency.",
+    "ar": "التحقيق في خلية NR داخلية للمكتب مع إنذار ازدحام وبطء بيانات (~8 ميجابت/ث) خلال آخر 4 ساعات، مع ارتفاع استهلاك الموارد (~87%)، 167 مستخدمًا، وزمن جدولة مرتفع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Business-hours complaints on the indoor NR micro cell serving the office: downlink around 8 Mbps, PRB ~87%, 167 users, p95 scheduling latency 58 ms, congestion alarm active. Please check.",
+      "message_ar": "شكاوى خلال ساعات العمل على خلية NR داخلية تخدم المكتب: التنزيل حوالي 8 ميجابت/ث، استهلاك الموارد ~87%، 167 مستخدمًا، وزمن جدولة p95 عند 58 مللي ثانية، وإنذار ازدحام نشط. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics for the DL throughput drop on this indoor small site. Step 1: review OSS counters/alarms for the last 4 hours. Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأتولى تشخيص هبوط سرعة التنزيل في هذا الموقع الداخلي الصغير. الخطوة 1: مراجعة عدادات/إنذارات نظام الإدارة لآخر 4 ساعات. الرجاء تأكيد معرف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-IND-245-S1. Read-only access approved. Users report streaming issues (eMBB).",
+      "message_ar": "معرف الخلية هو NR-IND-245-S1. تمت الموافقة على وصول للقراءة فقط. المستخدمون يبلغون عن مشاكل في البث (eMBB)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-IND-245-S1 over 4h. Findings: high DL load (PRB avg 85–88%, peaks ~92%), active users up to ~180, congestion flag present; BLER normal (~2–3%); no backhaul/RF faults; p95 scheduling latency ~55–60 ms. Next, I’ll analyze DL KPI trends.",
+      "message_ar": "أجري فحص نظام الإدارة للخلية NR-IND-245-S1 خلال 4 ساعات. النتائج: حمل تنزيل مرتفع (متوسط استهلاك الموارد 85–88%، بلوغًا ~92%)، المستخدمون النشطون يصلون ~180، وراية ازدحام موجودة؛ نسبة أخطاء الكتل طبيعية (~2–3%)؛ لا أعطال في الربط الخلفي/الواجهة الراديوية؛ زمن جدولة p95 حوالي 55–60 مللي ثانية. بعد ذلك سأحلّل اتجاهات مؤشرات التنزيل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Most complaints are from office wing B, floor 3. Continue.",
+      "message_ar": "تم. معظم الشكاوى من الجناح B، الطابق الثالث. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 4h DL throughput time series for NR-IND-245-S1. Result: 11:00–13:30 shows median 5–7 Mbps and p10 ~2 Mbps; off-peak median ~18–22 Mbps. Pattern aligns with business-hours surge. I propose a light capacity/scheduler optimization to ease contention; approve?",
+      "message_ar": "أستخرج سلسلة زمنية لسرعة التنزيل خلال 4 ساعات للخلية NR-IND-245-S1. النتيجة: من 11:00 إلى 13:30 كان الوسيط 5–7 ميجابت/ث والـ p10 حوالي 2 ميجابت/ث؛ وخارج الذروة الوسيط ~18–22 ميجابت/ث. النمط يتماشى مع ذروة ساعات العمل. أقترح تحسينًا خفيفًا للسعة/الجدولة لتخفيف التزاحم؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافَق على تنفيذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing targeted optimization: applied conservative DL capacity and scheduler tuning on NR-IND-245-S1; no changes to coverage or neighbors. Change committed successfully; starting live checks.",
+      "message_ar": "أُنفّذ تحسينًا مستهدفًا: تطبيق ضبط محافظ لسعة التنزيل والجدولة على NR-IND-245-S1؛ دون تغييرات على التغطية أو الجيران. تم اعتماد التعديل بنجاح؛ أبدأ فحوصات مباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial result: p95 scheduling latency now ~38 ms; trial downloads in wing B show ~14 Mbps. Fewer user complaints.",
+      "message_ar": "النتيجة الأولية: زمن جدولة p95 الآن ~38 مللي ثانية؛ تنزيلات تجريبية في الجناح B حوالي ~14 ميجابت/ث. الشكاوى أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I’ll keep watching key counters; please continue spot-checks in the office and tell me if any residual slow data remains.",
+      "message_ar": "مؤشر جيد. سأواصل متابعة العدادات الأساسية؛ يرجى متابعة الاختبارات السريعة في المكتب وأبلغني إن بقي أي بطء في البيانات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained ~20 minutes: slow data incidents down, and median throughput >12 Mbps. Action taken was site parameter tuning focused on downlink scheduling. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن مستمر لمدة ~20 دقيقة: انخفاض حالات بطء البيانات، والوسيط الآن >12 ميجابت/ث. الإجراء كان ضبط معلمات الموقع مع التركيز على جدولة التنزيل. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and report results afterward. If performance regresses, we’ll roll back the recent tuning; if congestion persists, we’ll escalate to capacity planning.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ بالنتائج بعدها. إذا تدهور الأداء سنعود عن الضبط الأخير؛ وإن استمر الازدحام سنصعّد إلى تخطيط السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-IND-245-S1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-IND-245-S1",
+        "DL",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL capacity/scheduler tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a business-hours downlink throughput drop on an indoor NR micro site driven by high PRB utilization and user load, while BLER remained normal. Verified the pattern via OSS checks and DL throughput time series. Applied site parameter tuning to improve downlink scheduling and capacity, yielding lower scheduling latency and higher median throughput; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص هبوط سرعة التنزيل خلال ساعات العمل في موقع NR داخلي صغير بسبب ارتفاع استهلاك الموارد وكثافة المستخدمين مع بقاء نسبة أخطاء الكتل طبيعية. تم التحقق من النمط عبر فحص نظام الإدارة والسلسلة الزمنية لسرعات التنزيل. تم تطبيق ضبط معلمات الموقع لتحسين جدولة التنزيل والسعة، ما أدى إلى خفض زمن الجدولة ورفع الوسيط؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

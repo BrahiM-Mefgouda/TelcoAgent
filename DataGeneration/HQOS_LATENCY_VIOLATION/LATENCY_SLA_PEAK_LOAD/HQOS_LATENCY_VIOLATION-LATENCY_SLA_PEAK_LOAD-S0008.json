@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0008",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G macro cell raised a congestion alarm over the last 2 hours; 256 users, ~83% resource use, BLER ~5.5%, median latency 44 ms with p95 at 79 ms, and median throughput 10 Mbps.",
+    "ar": "خلية ماكرو 5G حضرية أطلقت إنذار ازدحام خلال آخر ساعتين؛ 256 مستخدمًا، استخدام موارد ~83%، BLER ~5.5%، زمن تأخير وسطي 44 مللي ثانية مع p95 عند 79 مللي ثانية، ومعدل نقل وسطي 10 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell in the last 2h shows a congestion alarm during peak evening (eMBB). Median latency is 44 ms, p95 scheduling delay 79 ms, PRB ~83%, 256 users, BLER ~5.5%. Users report streaming stutters.",
+      "message_ar": "خلية ماكرو NR حضرية خلال آخر ساعتين تُظهر إنذار ازدحام في ذروة المساء (eMBB). زمن التأخير الوسطي 44 مللي ثانية، وتأخير الجدولة p95 يبلغ 79 مللي ثانية، وPRB ~83%، و256 مستخدمًا، وBLER ~5.5%. المستخدمون يبلّغون عن تقطعات في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead triage. Please confirm the cell ID and approve pulling the last 2h controller stats for QoS/latency and load.",
+      "message_ar": "سأتولى التشخيص. يرجى تأكيد مُعرّف الخلية والموافقة على سحب إحصاءات آخر ساعتين من وحدة التحكم لزمن التأخير وجودة الخدمة والحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-778. Read-only access approved for the last 2h.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-778. تمت الموافقة على وصول للقراءة فقط لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 2h stats for NR-URB-MACRO-778 now; reviewing QoS latency, queue depths, active users, and errors. Snapshot shows high user count with PRB >80%, no faults, and elevated scheduler queues at busy minutes.",
+      "message_ar": "أقوم الآن بسحب إحصاءات آخر ساعتين للخلية NR-URB-MACRO-778؛ أراجع زمن تأخير QoS، أعماق الطوابير، عدد المستخدمين والأخطاء. اللقطة تُظهر عدد مستخدمين مرتفعًا مع PRB>80% دون أعطال وبروز طوابير المجدول في الدقائق المزدحمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will analyze the 2h latency trend to correlate p95 delay with load and BLER; approve proceeding.",
+      "message_ar": "التالي، سأحلّل منحنى زمن التأخير لآخر ساعتين لربط تأخير p95 بالحمل وBLER؛ يرجى الموافقة على المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافَق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend confirms spikes coincide with PRB >80% and >230 users; BLER remains modest, pointing to queuing under load. I propose site parameter tuning to prioritize latency-sensitive traffic and trim queue thresholds while keeping fairness. Please approve immediate change with rollback if needed.",
+      "message_ar": "يؤكد المنحنى أن الارتفاعات تتزامن مع PRB>80% ومع أكثر من 230 مستخدمًا؛ ويبقى BLER معتدلًا، ما يشير إلى تكدس الطوابير تحت الحمل. أقترح ضبط معلمات الموقع لإعطاء أولوية للحركة الحساسة للتأخير وتقليل حدود الطوابير مع الحفاظ على العدالة. يرجى الموافقة على تنفيذ التغيير فورًا مع إمكانية التراجع عند الحاجة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافقة على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying tuning now on NR-URB-MACRO-778 with a safe change set; rollback ready. Initial post-change samples show p95 delay easing by ~20% while throughput is steady. I’ll monitor closely through the next busy minutes.",
+      "message_ar": "أطبّق الضبط الآن على NR-URB-MACRO-778 بمجموعة تغييرات آمنة؛ وخطة تراجع جاهزة. العينات الأولى بعد التغيير تُظهر انخفاض p95 بنحو 20% مع ثبات معدل النقل. سأراقب عن كثب خلال الدقائق المزدحمة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement from our probes: high-percentile latency is trending down and streaming stalls are rarer after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسنًا من قياساتنا: زمن التأخير عند النسب العالية يتراجع وتقليل تقطعات البث بعد ضبط معلمات الموقع. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and share an update afterward. If latency regresses, we will escalate to deeper capacity actions; if side effects appear, we will roll back the tuning promptly.",
+      "message_ar": "سنتولى متابعة ساعة الذروة القادمة وسنشارك تحديثًا بعدها. إذا عاد التأخير للتدهور فسوف نتصعّد إلى إجراءات سعة أعمق؛ وإذا ظهرت آثار جانبية فسوف نرجع عن الضبط فورًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-778",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-778",
+        "latency",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "latency_scheduler_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed latency SLA violations on an urban NR macro during peak load: p95 delay spikes aligned with PRB >80% and high user counts, with no faults and moderate BLER, indicating queuing under load. Executed site parameter tuning to prioritize latency-sensitive traffic and adjust queue thresholds, yielding immediate reduction in high-percentile delay. Monitoring will continue through the next busy hour to confirm stability.",
+    "ar": "تم تشخيص انتهاكات SLA لزمن التأخير على خلية NR حضرية أثناء الحمل الذروي: ارتفاعات p95 تزامنت مع PRB>80% وكثرة المستخدمين دون أعطال ومع BLER معتدل، مما يشير إلى تكدس الطوابير تحت الحمل. نُفِّذ ضبط معلمات الموقع لإعطاء أولوية للحركة الحساسة للتأخير وضبط حدود الطوابير، ما أدى إلى خفض فوري في زمن التأخير عند النسب العالية. ستستمر المراقبة خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+  }
+}

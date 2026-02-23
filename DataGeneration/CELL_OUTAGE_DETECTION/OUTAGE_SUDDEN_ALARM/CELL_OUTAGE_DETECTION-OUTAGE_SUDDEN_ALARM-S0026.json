@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0026",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban NR macro cell shows an outage alarm within the last hour with availability near 4%, slow data, high drops, and access failures.",
+    "ar": "خلية NR ماكرو حضرية تعرض إنذار انقطاع خلال الساعة الماضية مع توفر يقارب 4% وبيانات بطيئة وارتفاع الانقطاعات وإخفاقات النفاذ."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Sudden outage alarm on an urban NR macro cell within the last hour (off-peak). Availability ~4%, call setup failures ~81%, user drops ~85%, and median DL throughput 0 Mbps, impacting eMBB streaming.",
+      "message_ar": "إنذار انقطاع مفاجئ على خلية NR ماكرو حضرية خلال الساعة الماضية (خارج أوقات الذروة). التوفر ~4%، فشل بدء المكالمات ~81%، انقطاع المستخدمين ~85%، ومتوسط سرعة التحميل 0 ميجابت/ث، مما أثر على بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged outage. I will begin by checking the cell status in the OSS for the last 1h; if it is unreachable, I will raise an outage ticket. Please share the exact cell ID and confirm access approval.",
+      "message_ar": "تم تأكيد الانقطاع. سأبدأ بفحص حالة الخلية عبر نظام الإدارة لآخر ساعة؛ وإذا كانت غير قابلة للوصول فسأقوم بفتح تذكرة انقطاع. يرجى تزويدي بمعرف الخلية وتأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-41023A-S1. Access approved.",
+      "message_ar": "معرّف الخلية: NR-41023A-S1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing OSS health check for NR-41023A-S1 over the last 1h. Result: cell out of service; last heartbeat lost 37 minutes ago. Critical alarms present: DU link down and power feed loss (started ~37–40 min ago). Connected users: 0; DL resource use: 0%; handovers to this cell near 0. This is a site outage.",
+      "message_ar": "أقوم بتنفيذ فحص الحالة عبر نظام الإدارة للخلية NR-41023A-S1 خلال آخر ساعة. النتيجة: الخلية خارج الخدمة؛ آخر نبضة حياة فُقدت منذ 37 دقيقة. إنذارات حرجة: انقطاع رابط DU وفقدان تغذية الطاقة (بدأ منذ ~37–40 دقيقة). المستخدمون المتصلون: 0؛ استخدام موارد التحميل: 0%؛ عمليات التسليم إلى هذه الخلية شبه معدومة. هذا انقطاع في الموقع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observations align: no UEs seen attaching and neighbors divert handovers away. No planned work at the site.",
+      "message_ar": "المشاهدات متطابقة: لا توجد أجهزة مستخدم تتصل والجيران يحولون عمليات التسليم بعيداً. لا توجد أعمال مخططة في الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will open an outage ticket with a clear summary (urban NR macro, heartbeat lost, DU link down/power loss, availability 4%) and request field dispatch. Any local access constraints to note?",
+      "message_ar": "سأقوم بفتح تذكرة انقطاع بملخص واضح (NR ماكرو حضرية، فقدان نبضة الحياة، انقطاع رابط DU/فقدان طاقة، توفر 4%) وطلب إرسال فريق ميداني. هل توجد قيود وصول محلية يجب ذكرها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No local constraints. Please proceed.",
+      "message_ar": "لا توجد قيود محلية. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Outage ticket has been created and dispatched to field ops; remote watch is active for heartbeat and availability. I will monitor for auto-recovery signs.",
+      "message_ar": "تم إنشاء تذكرة الانقطاع وتحويلها للعمليات الميدانية؛ تمت تفعيل المراقبة عن بُعد لنبضات الحياة والتوفر. سأراقب مؤشرات التعافي التلقائي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: heartbeat restored just now, a few users reattached, and initial call attempts are completing.",
+      "message_ar": "تحديث: تم استعادة نبضة الحياة الآن، وأعاد بعض المستخدمين الارتباط، وتتم محاولات بدء المكالمات بنجاح مبدئي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted. I will verify that critical alarms clear and that accessibility and drops trend back to normal as traffic returns. I will keep counters under observation.",
+      "message_ar": "تم. سأتحقق من زوال الإنذارات الحرجة وأن إمكانية الوصول والانقطاعات تعود إلى الوضع الطبيعي مع عودة الحركة. سأبقي المؤشرات تحت المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "KPIs are improving—call setup failures are trending down. Action taken: OSS health check confirmed outage and an outage ticket DU-OUT-03427 was opened. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "مؤشرات الأداء تتحسن — حالات فشل بدء المكالمات في اتجاه هبوطي. الإجراء المُتخذ: تحقق عبر نظام الإدارة أكد الانقطاع وتم فتح تذكرة انقطاع DU-OUT-03427. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and update the ticket after the window. If KPIs regress or heartbeat drops again, we will escalate to on-site intervention; if stability holds, we will close with a brief recovery summary.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنحدث التذكرة بعد انتهاء الفترة. إذا تراجعت المؤشرات أو فُقدت نبضة الحياة مجدداً، سنصعّد لتدخل ميداني؛ وإذا استقرت الحالة سنغلق مع ملخص للتعافي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41023A-S1",
+        "1h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "Urban NR macro cell NR-41023A-S1 outage: heartbeat lost ~37m, DU link down and power feed loss; availability 4%, access failures 81%, user drops 85% (off-peak)."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Outage detected on urban NR macro cell NR-41023A-S1. An OSS health check confirmed the cell was out of service with lost heartbeat, DU link down, and power feed loss. An outage ticket was raised for field remediation and remote monitoring started; we will track recovery and close once stability is confirmed.",
+    "ar": "تم رصد انقطاع على خلية NR ماكرو حضرية NR-41023A-S1. تحقق عبر نظام الإدارة أكد أن الخلية خارج الخدمة مع فقدان نبضة الحياة وانقطاع رابط DU وفقدان التغذية الكهربائية. تم فتح تذكرة انقطاع للإصلاح الميداني وبدء المراقبة عن بُعد؛ سنابع التعافي ونغلق بعد تأكيد الاستقرار."
+  }
+}

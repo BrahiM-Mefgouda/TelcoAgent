@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0010",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro over the last 5h shows 11% ping‑pong handovers with HO success ~89.6%, weak signal (RSRP ~-110 dBm), SINR 6 dB, and p50 throughput ~10 Mbps.",
+    "ar": "موقع ماكرو 5G في منطقة شبه حضرية خلال آخر 5 ساعات يُظهر 11% عمليات تسليم ذهاب‑إياب مع نجاح تسليم ~89.6% وإشارة ضعيفة (RSRP ~‑110 dBm) وSINR بقيمة 6 dB ومعدل نقل وسيطي ~10 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has elevated ping‑pong over the last 5h: ping‑pong 11%, HO success 89.6%, RSRP ~‑110 dBm, RSRQ ‑12 dB, SINR 6 dB, PRB ~76%, p50 DL ~10 Mbps. Please investigate.",
+      "message_ar": "خلية ماكرو NR في منطقة شبه حضرية لديها ارتفاع في عمليات التسليم ذهاب‑إياب خلال آخر 5 ساعات: 11%، نجاح التسليم 89.6%، RSRP نحو ‑110 dBm، RSRQ ‑12 dB، SINR 6 dB، إشغال PRB ~76%، وسرعة تنزيل وسيط ~10 ميجابت/ث. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the diagnostics. Plan: check live counters for the last 5h, review recent neighbor HO events, then analyze HO trends; if ping‑pong is confirmed, I’ll tune mobility thresholds. Share the cell ID and confirm access.",
+      "message_ar": "سأقود إجراءات التشخيص. الخطة: فحص العدادات لآخر 5 ساعات، مراجعة أحداث التسليم مع الجيران، ثم تحليل اتجاهات التسليم؛ وإذا تأكدت الظاهرة سأقوم بضبط عتبات الحركة. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_Macro_4321_S3. Access is approved.",
+      "message_ar": "معرّف الخلية: NR_Macro_4321_S3. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checked live counters and events for 5h. Finding: high bidirectional HO attempts with short dwell (<3s) between NR_Macro_4321_S3 ↔ NR_Macro_4321_S2 and NR_Suburb_219_S1. Current mobility set: A3 offset 2 dB, hysteresis 2 dB, TTT 180 ms. Next, I’ll pull HO time series split by neighbor to quantify returns.",
+      "message_ar": "تم فحص العدادات والأحداث الحية لمدة 5 ساعات. النتيجة: ارتفاع محاولات التسليم ثنائية الاتجاه مع إقامة قصيرة (<3 ث) بين NR_Macro_4321_S3 ↔ NR_Macro_4321_S2 وNR_Suburb_219_S1. إعدادات الحركة الحالية: A3 = 2 dB، هيستيري sis = 2 dB، TTT = 180 ms. التالي: سأسحب سلسلة زمنية للتسليم لكل جار لقياس العودة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the HO trend analysis.",
+      "message_ar": "تفضل بإجراء تحليل اتجاهات التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series confirms ping‑pong: returns within 60s peaked ~12% during shoulder hours, mostly eMBB streaming traffic. HO failures ~8% align with rapid return events. I recommend tuning: A3 +1 dB, hysteresis +1 dB, and TTT +60 ms for pairs S3↔S2 and S3↔NR_Suburb_219_S1. Ready to apply.",
+      "message_ar": "السلسلة الزمنية للتسليم تؤكد الذهاب‑الإياب: عودة خلال 60 ثانية بلغت ذروتها ~12% خلال ساعات الذروة الجزئية، مع حركة eMBB (بث). حالات فشل التسليم ~8% متزامنة مع العودة السريعة. أوصي بضبط: زيادة A3 بمقدار 1 dB، والهستيري sis بمقدار 1 dB، وTTT بمقدار 60 ms للأزواج S3↔S2 وS3↔NR_Suburb_219_S1. جاهز للتطبيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the parameter tuning now. No conflicting work ongoing.",
+      "message_ar": "موافَق على تنفيذ ضبط المعلمات الآن. لا توجد أعمال متعارضة حالياً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the tuning on NR_Macro_4321_S3 neighbor relations (S2, NR_Suburb_219_S1). Change verified. I’ll monitor counters for 30–60 minutes; baseline ping‑pong was ~11% with HO success ~89.6%.",
+      "message_ar": "تم تطبيق الضبط على علاقات الجوار للخلية NR_Macro_4321_S3 (S2 وNR_Suburb_219_S1). تم التحقق من التغيير. سأراقب العدادات لمدة 30–60 دقيقة؛ الأساس كان ذهاب‑إياب ~11% مع نجاح تسليم ~89.6%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes: return HOs per 15‑min fell from 58 to 31; HO success is ~92%. No drop‑call alarms; edge RSRP still ~‑110 dBm.",
+      "message_ar": "بعد ~20 دقيقة: انخفضت عوائد التسليم لكل 15 دقيقة من 58 إلى 31؛ نجاح التسليم ~92%. لا إنذارات انقطاع مكالمات؛ RSRP على الحافة ما زال ~‑110 dBm."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. Devices should stabilize further as filters and timers take effect. I will keep observing the same neighbors and return‑within‑60s ratio through the upcoming busy period.",
+      "message_ar": "استجابة مبكرة جيدة. يُتوقع مزيد من الاستقرار مع تفعيل المرشحات والمؤقتات. سأواصل مراقبة نفس الجيران ونسبة العودة خلال 60 ثانية خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: ping‑pong events are trending down and HO success is up. The action taken was site parameter tuning on mobility thresholds. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: أحداث الذهاب‑الإياب في انخفاض ونجاح التسليم في ارتفاع. الإجراء المُتخذ كان ضبط معلمات الموقع لعتبات الحركة. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will own the next busy hour monitoring and share an update afterward. If ping‑pong remains high, we will roll back the changes and escalate to RF design for neighbor/coverage review; otherwise, we will keep the tuning.",
+      "message_ar": "تم. سأتولى مراقبة ساعة الذروة القادمة وأشارك تحديثاً بعدها. إذا بقيت ظاهرة الذهاب‑الإياب مرتفعة فسنعيد التغييرات ونصعّد إلى فريق تصميم الترددات لمراجعة الجيران والتغطية؛ وإلا فسنُبقي الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_Macro_4321_S3",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_Macro_4321_S3",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase A3 offset +1 dB, increase hysteresis +1 dB, extend TTT +60 ms for neighbors S3↔S2 and S3↔NR_Suburb_219_S1"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping‑pong handovers on a suburban NR macro by reviewing live counters and handover trends, confirming short‑dwell return events concentrated during shoulder eMBB traffic. Mitigated by site parameter tuning of mobility thresholds (A3, hysteresis, and TTT) for the dominant neighbor pairs. Post‑change, ping‑pong events trended down and HO success improved; continued monitoring is planned through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم ذهاب‑إياب في موقع ماكرو NR شبه حضري عبر مراجعة العدادات الحية واتجاهات التسليم، مع تأكيد عودات قصيرة الإقامة خلال ساعات الذروة الجزئية لحركة eMBB. تم التخفيف عبر ضبط معلمات الموقع لعتبات الحركة (A3 والهيستيري sis وTTT) لأزواج الجيران الأكثر تأثيراً. بعد التغيير انخفضت أحداث الذهاب‑الإياب وتحسّن نجاح التسليم؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

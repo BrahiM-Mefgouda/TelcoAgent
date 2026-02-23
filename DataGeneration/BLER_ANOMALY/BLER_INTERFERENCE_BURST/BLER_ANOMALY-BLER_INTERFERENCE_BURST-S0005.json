@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0005",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell shows ~10% BLER, low SINR (~1 dB) indicating interference / signal overlap, high utilization, and slow data (p50 ~8 Mbps) over the last 2h, with an active alarm suggesting congestion/outage.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر BLER ~10%، وSINR منخفض (~1 dB) يدل على تداخل/تراكب إشارة، مع استغلال عالٍ وبطء بيانات (p50 ~8 Mbps) خلال آخر ساعتين، مع إنذار نشط يشير إلى ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing alarms on a suburban NR macro sector over the last 2h during shoulder hours; users report slow streaming and sluggish pages.",
+      "message_ar": "نرى إنذارات على قطاع NR ماكرو في منطقة ضاحية خلال آخر ساعتين في وقت الذروة الجزئية؛ المستخدمون يشتكون من بطء البث وبطء تحميل الصفحات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. Please share the exact cell ID and approve access; I will first check health, load, and interference indicators for the last 2h.",
+      "message_ar": "سأتولى التشخيص. الرجاء تزويدي بمعرّف الخلية الدقيق والموافقة على الوصول؛ سأتحقق أولاً من الحالة والحمولة ومؤشرات التداخل لآخر ساعتين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Suburb-045-S1; access approved.",
+      "message_ar": "معرّف الخلية هو NR-Suburb-045-S1؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying live counters for NR-Suburb-045-S1 over 2h: RSRP ≈ -110 dBm, RSRQ ≈ -10 dB, SINR ≈ 1 dB, PRB ≈ 75%, neighbor load ≈ 75%, users ≈ 243; alarm present. This suggests intermittent interference bursts under load. Proceed to pull the BLER trend?",
+      "message_ar": "أتحقق من العدّادات الحية للخلية NR-Suburb-045-S1 خلال ساعتين: RSRP ≈ -110 dBm، وRSRQ ≈ -10 dB، وSINR ≈ 1 dB، وPRB ≈ 75%، وحمولة الجيران ≈ 75%، وعدد المستخدمين ≈ 243؛ يوجد إنذار. هذا يشير إلى نبضات تداخل متقطعة تحت الحمل. هل أتابع باستخراج منحنى BLER؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the BLER trend.",
+      "message_ar": "موافَق على استخراج منحنى BLER."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER timeseries (2h): baseline 9–12% with bursts up to 20–22% aligned with SINR dips (~0 dB) and PRB peaks; HO-in stable (~6). Diagnosis: interference / signal overlap during eMBB demand. I propose parameter optimization to harden against interference (link-adaptation safeguards and scheduling bias). Approve?",
+      "message_ar": "منحنى BLER (ساعتان): خط أساس 9–12% مع نبضات تصل إلى 20–22% متزامنة مع هبوط SINR (~0 dB) وذرى PRB؛ handover الوارد مستقر (~6). التشخيص: تداخل/تراكب إشارة أثناء طلب eMBB. أقترح ضبط معلمات الخلية لتعزيز التحمل ضد التداخل (حمايات في تكييف الارتباط وانحياز الجدولة). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the parameter changes now.",
+      "message_ar": "موافَق على تطبيق تغييرات المعلمات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on NR-Suburb-045-S1: strengthened interference protection and slightly more robust coding under low SINR; commit successful. Starting a 15‑minute observation—please share quick feedback from live KPIs and user experience (streaming).",
+      "message_ar": "أقوم بتطبيق التحسين على NR-Suburb-045-S1: تعزيز الحماية من التداخل وزيادة طفيفة في متانة الترميز عند SINR منخفض؛ تم الاعتماد بنجاح. أبدأ مراقبة لمدة 15 دقيقة—يرجى تزويدي بسرعة بالمؤشرات الحية وتجربة المستخدم (البث)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: BLER now ~6–7%, p50 DL throughput ~12 Mbps, SINR ~3 dB; user feedback improving, but a few short spikes remain.",
+      "message_ar": "تحقق أولي: BLER الآن ~6–7%، ومعدل تنزيل p50 حوالي 12 Mbps، وSINR ~3 dB؛ تحسّن في ملاحظات المستخدمين، لكن ما زالت هناك نبضات قصيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. These residual spikes may be transient; I will continue watching counters and correlate with neighbors. No further changes for now unless spikes persist after the busy period.",
+      "message_ar": "تم الاستلام. قد تكون هذه النبضات المتبقية عابرة؛ سأواصل مراقبة العدّادات وربطها بالجيران. لا تغييرات إضافية حالياً ما لم تستمر النبضات بعد فترة الانشغال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: BLER bursts trending down. Action taken: site parameter tuning/config change applied. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "لوحظ تحسّن: نبضات BLER في اتجاه هبوطي. الإجراء المتخذ: ضبط معلمات الموقع/تغيير التهيئة. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and report BLER, SINR, and user impact afterward. If performance regresses, we will roll back the changes; if spikes persist, we will escalate to interference hunting and coordinate with neighbors.",
+      "message_ar": "سنكون مسؤولين عن المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونقدم تقريراً لاحقاً عن BLER وSINR وتأثير المستخدم. إذا تراجعت الأداء، سنقوم بالتراجع عن التغييرات؛ وإذا استمرت النبضات، سنصعّد إلى تتبّع مصادر التداخل والتنسيق مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-045-S1",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburb-045-S1",
+        "BLER",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "interference_mitigation+link_adaptation+scheduling_bias"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed BLER anomaly on a suburban NR macro cell as interference-driven, evidenced by low SINR (~1 dB), high load, and BLER bursts aligning with SINR dips. Executed site parameter tuning to strengthen interference protection and adjust link adaptation/scheduling for stability. Post-change, BLER and throughput improved; continued monitoring is planned to ensure sustained performance.",
+    "ar": "تم تشخيص شذوذ BLER في خلية NR ماكرو بضاحية بأنه مدفوع بالتداخل، بدليل SINR منخفض (~1 dB) وحمولة مرتفعة ونبضات BLER متزامنة مع هبوط SINR. تم تنفيذ ضبط معلمات الموقع لتعزيز الحماية من التداخل وضبط تكييف الارتباط/الجدولة لتحقيق الاستقرار. بعد التغيير تحسّن BLER ومعدل النقل؛ ستستمر المراقبة للتأكد من استدامة الأداء."
+  }
+}

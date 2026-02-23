@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0017",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban macro 5G cell breached latency SLA in the last 2h (latency 78 ms, p95 queuing 49 ms, PRB 91%, 258 users, median downlink 15 Mbps); congestion alarm acknowledged.",
+    "ar": "خلية 5G ماكرو حضرية تجاوزت اتفاقية مستوى الخدمة للتأخير خلال آخر ساعتين (تأخير 78 مللي ثانية، p95 لزمن الصفوف 49 مللي ثانية، PRB 91%، 258 مستخدمًا، وسيط التحميل 15 ميغابت/ث)؛ تم تأكيد إنذار الازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Evening peak alarm on an urban macro NR site; last 2h latency 78 ms, p95 queuing 49 ms, PRB ~91%, 258 users, median DL 15 Mbps. Users reported video buffering.",
+      "message_ar": "إنذار وقت الذروة على موقع ماكرو NR في منطقة حضرية؛ خلال آخر ساعتين التأخير 78 مللي ثانية، وp95 لزمن صفوف MAC عند 49 مللي ثانية، وحمل PRB ~91%، و258 مستخدمًا، ووسيط التحميل 15 ميغابت/ث. وردت شكاوى من تعثر البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead triage. First step: pull the last 2h network stats for the serving cell. Please confirm the cell ID and approve access.",
+      "message_ar": "سأتولى الاستكشاف. الخطوة الأولى: سحب إحصاءات الشبكة لآخر ساعتين للخلية الخدمية. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-41023A (sector 1). Read/write access approved for this window.",
+      "message_ar": "معرف الخلية NR-41023A (القطاع 1). تم اعتماد إذن القراءة/الكتابة خلال هذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 2h stats for NR-41023A: PRB 90–92%, BLER ~4.8%, mean latency ~78 ms, p95 queuing 49 ms, backhaul clear. This points to load-driven queuing, not radio faults. Next, I’ll extract a latency time series to correlate with load—proceed?",
+      "message_ar": "تم جمع إحصاءات الساعتين لِـ NR-41023A: حمل PRB بين 90–92%، BLER نحو 4.8%، متوسط التأخير ~78 مللي ثانية، p95 لزمن الصفوف 49 مللي ثانية، والربط الخلفي سليم. هذا يشير إلى اصطفاف ناتج عن الحمل لا أعطال راديوية. الخطوة التالية استخراج سلسلة زمنية للتأخير وربطها بالحمل—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with the latency time series.",
+      "message_ar": "نعم، تابع استخراج السلسلة الزمنية للتأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series shows spikes aligned with PRB peaks and user surges; median DL ~15 Mbps; no error bursts. The SLA breach stems from contention in MAC queues for eMBB during streaming. I propose a targeted optimization to raise low-latency priority and rebalance resource allocation. Approve the change?",
+      "message_ar": "السلسلة الزمنية للتأخير تُظهر قممًا متزامنة مع ذروات PRB وزيادة المستخدمين؛ الوسيط ~15 ميغابت/ث؛ لا طفرات أخطاء. الخلل سببه تنافس في صفوف MAC لحركة eMBB أثناء البث. أقترح تحسينًا موجّهًا لرفع أولوية الحركة منخفضة التأخير وإعادة موازنة تخصيص الموارد. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization on NR-41023A.",
+      "message_ar": "موافق على تنفيذ التحسين على NR-41023A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-41023A; change successful with no faults. Expect latency reduction within minutes; monitoring live.",
+      "message_ar": "تم تطبيق التحسين على NR-41023A؛ التغيير ناجح دون أعطال. من المتوقع انخفاض التأخير خلال دقائق؛ تتم المراقبة لحظيًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs: p95 queuing ~32 ms, overall latency trending down; throughput steady; error rates unchanged.",
+      "message_ar": "مؤشرات مبكرة: p95 لزمن الصفوف ~32 مللي ثانية، التأخير الإجمالي في اتجاه هابط؛ التحميل مستقر؛ معدلات الأخطاء دون تغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We’ll keep observing load, latency percentiles, PRB utilization, and queue depth through the busy period and summarize impact.",
+      "message_ar": "جيد. سنواصل مراقبة الحمل، فئات التأخير المئوية، استخدام PRB، وعمق الصف خلال فترة الانشغال وتلخيص الأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: 95th-percentile queuing down to 28 ms with smoother interactions; the action was site parameter tuning for resource allocation. Propose monitoring over the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: p95 لزمن الصفوف انخفض إلى 28 مللي ثانية مع تفاعل أكثر سلاسة؛ الإجراء كان ضبط معلمات الموقع لتوزيع الموارد. أقترح المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and provide an update afterward. If latency regresses or PRB remains >90% persistently, we will escalate for capacity relief; if adverse effects emerge, we will roll back the change.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة وسنوافيك بتحديث بعدها. إذا عاد التأخير أو بقي استخدام PRB أعلى من 90% بشكل مستمر، سنصعّد لزيادة السعة؛ وإذا ظهرت آثار سلبية سنرجع التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a peak-hour latency SLA violation on an urban macro 5G cell. OSS counters and a latency time series confirmed high PRB load with MAC queue build-up causing queuing delay rather than radio faults. Applied site parameter tuning to prioritize low-latency traffic and rebalance resource allocation, reducing the 95th-percentile queuing delay; continued monitoring is in place.",
+    "ar": "تم التحقيق في انتهاك اتفاقية مستوى الخدمة للتأخير خلال ساعة الذروة على خلية 5G ماكرو حضرية. أكدت عدادات OSS والسلسلة الزمنية للتأخير وجود حمل PRB عالٍ مع تراكم في صفوف MAC يسبب تأخيرًا في الاصطفاف بدلاً من أعطال راديوية. تم تنفيذ ضبط لمعلمات الموقع لإعطاء أولوية أعلى للحركة منخفضة التأخير وإعادة موازنة تخصيص الموارد، مما خفّض p95 لزمن الاصطفاف؛ والمتابعة مستمرة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0018",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows ~92% radio resource utilization over the last 4 hours off-peak with 147 users, 11 Mbps DL/UL, BLER ~3.9%, and p95 scheduling delay 48 ms, impacting eMBB streaming.",
+    "ar": "خلية 5G NR ماكرو في منطقة ضاحية تُظهر استهلاك موارد ~92% خلال آخر 4 ساعات خارج الذروة مع 147 مستخدمًا، سرعات تنزيل/رفع 11 ميجابت/ث، BLER ~3.9%، وتأخر جدولة p95 بمقدار 48 مللي ثانية، ما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows sustained high PRB utilization ~92% over the last 4h off-peak; ~147 users, DL/UL ~11 Mbps, BLER ~3.9%, scheduler p95 48 ms, RLF ~2%. No alarms; traffic is mostly eMBB streaming. Please check.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية تظهر ارتفاعاً مستمراً في استهلاك موارد الراديو (~92%) خلال آخر 4 ساعات خارج أوقات الذروة؛ حوالي 147 مستخدم، تنزيل/رفع ~11 ميجابت/ث، BLER ~3.9%، زمن جدولة p95 عند 48 مللي ثانية، ومعدل RLF ~2%. لا توجد إنذارات؛ الحركة غالبها eMBB (بث). يرجى الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 4h OSS counters and configuration for the affected cell to validate the load profile and scheduler metrics. Please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ بسحب مؤشرات وآخر إعدادات من OSS لآخر 4 ساعات للخلية المعنية للتحقق من نمط الحمل ومقاييس المجدول. الرجاء تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Suburb-043-S1. Access approved for the 4h data review.",
+      "message_ar": "معرّف الخلية: NR-Suburb-043-S1. الوصول معتمد لمراجعة بيانات 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review confirms PRB load 88–95% off-peak, p95 scheduler delay elevated, DL/UL throughput capped around 11 Mbps, BLER mildly elevated; users peaked near 150. This indicates resource saturation rather than RF coverage issues. I propose a light parameter optimization to ease contention: adjust scheduler fairness for eMBB, refine PRB admission thresholds, and smooth UL grant pacing. Approve change?",
+      "message_ar": "مراجعة OSS تؤكد حمل PRB بين 88–95% خارج الذروة، تأخر المجدول p95 مرتفع، سرعات التنزيل/الرفع محصورة ~11 ميجابت/ث، وBLER مرتفع بشكل طفيف؛ عدد المستخدمين بلغ ~150. هذا يشير إلى تشبع موارد وليس مشكلة تغطية راديوية. أقترح تحسيناً خفيفاً للمعلمات لتخفيف التزاحم: ضبط عدالة المجدول لـ eMBB، تحسين عتبات قبول PRB، وتنعيم وتيرة منح الرفع. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the optimization on NR-Suburb-043-S1.",
+      "message_ar": "موافَق على تنفيذ التحسين على NR-Suburb-043-S1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing the tuning now; changes applied successfully with no errors. The update provides modest relief for eMBB contention and enables gentle load steering to suitable neighbors. I will start a 15-minute post-change observation; please share any immediate field feedback.",
+      "message_ar": "أقوم بتنفيذ الضبط الآن؛ تم تطبيق التغييرات بنجاح دون أخطاء. التحديث يوفر تخفيفاً معتدلاً لتزاحم eMBB ويمكّن توجيهاً خفيفاً للحمل نحو الجيران المناسبين. سأبدأ مراقبة لمدة 15 دقيقة بعد التغيير؛ يرجى مشاركة أي ملاحظات فورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: PRB dropped to ~78%, p95 scheduler delay ~32 ms, DL throughput ~17 Mbps; BLER unchanged; users around 140.",
+      "message_ar": "ملاحظة أولية: انخفض PRB إلى ~78%، تأخر المجدول p95 ~32 مللي ثانية، سرعة التنزيل ~17 ميجابت/ث؛ BLER دون تغيير؛ عدد المستخدمين حوالي 140."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. Given the earlier off-peak saturation, I will create a tracking ticket to monitor and coordinate follow-ups if load rises again. Do you approve opening it?",
+      "message_ar": "تحسّن جيد. نظراً للتشبع السابق خارج الذروة، سأقوم بإنشاء تذكرة متابعة للمراقبة وتنسيق الإجراءات إذا عاد الحمل للارتفاع. هل توافق على فتحها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the tracking ticket.",
+      "message_ar": "موافَق على فتح تذكرة المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket DU-PRB-02841 is created to document the change and monitor PRB and latency trends. I will watch the cell over the next few hours and flag any regression.",
+      "message_ar": "تم إنشاء تذكرة المتابعة DU-PRB-02841 لتوثيق التغيير ومراقبة توجهات PRB والزمن. سأراقب الخلية خلال الساعات القادمة وأبلغ عن أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: scheduler delays trending down and PRB load stabilized after the parameter optimization; DL user rates are higher. Let's monitor through the next 2–4 hours to confirm stability, and track via DU-PRB-02841.",
+      "message_ar": "تمت ملاحظة تحسّن: تأخيرات المجدول في اتجاه هابط واستقر حمل PRB بعد تحسين المعلمات؛ وسرعات المستخدمين في التحميل أعلى. لنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة للتأكد من الثبات، والمتابعة عبر DU-PRB-02841."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next 2–4 hours of monitoring and update the ticket after the window. If PRB spikes persist or latency worsens, we will escalate to capacity planning; if any adverse effects appear, we will roll back the tuning.",
+      "message_ar": "مفهوم—سنتولّى مراقبة الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا استمرت ارتفاعات PRB أو ساءت فترات التأخير، سنصعّد إلى تخطيط السعة؛ وإذا ظهرت آثار سلبية سنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated off-peak resource saturation on the suburban 5G NR macro cell by reviewing OSS data, confirming sustained high PRB with elevated scheduler delay and capped throughput. Applied targeted site parameter tuning to reduce contention and enable gentle load steering, which lowered PRB load and improved latency/throughput. A tracking ticket was opened to monitor stability and follow up on capacity if needed.",
+    "ar": "تم التحقق من تشبّع الموارد خارج الذروة على خلية 5G NR الماكرو في الضاحية عبر مراجعة بيانات OSS، مؤكداً ارتفاع PRB المستمر مع تأخر مجدول مرتفع وسرعات محدودة. تم تنفيذ ضبط انتقائي لمعلمات الموقع لتقليل التزاحم وتمكين توجيه حمل خفيف، ما خفّض الحمل وحسّن التأخير/السرعات. تم فتح تذكرة متابعة لمراقبة الاستقرار واتخاذ إجراءات سعة عند الحاجة."
+  }
+}

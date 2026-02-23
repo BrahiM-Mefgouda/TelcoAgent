@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0021",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G macro shows a rush-hour alarm over the last 2h with a radio link failure spike (~4.2%), handover success ~88%, elevated T310 expiries, RSRQ -12 dB, PRB ~73%, and ~294 users indicating congestion.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر إنذار ساعة الذروة خلال آخر ساعتين مع ارتفاع في فشل رابط الراديو (~4.2%)، نجاح التسليم ~88%، ارتفاع في انتهاء مهلة T310، RSRQ = -12 dB، واستخدام PRB ~73% مع نحو 294 مستخدماً مما يشير إلى ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell in the last 2h shoulder window raised an alarm: RLF ~4.17%, HO success 87.9%, T310 expiry rate 17, PRB ~73%, RSRQ -12 dB, users ~294. Please check.",
+      "message_ar": "خلية ماكرو NR حضرية خلال نافذة الساعتين في فترة الكتف أطلقت إنذاراً: RLF حوالي 4.17%، نجاح التسليم 87.9%، معدل انتهاء مهلة T310 يساوي 17، استخدام PRB حوالي 73%، وRSRQ يساوي -12 dB، وعدد المستخدمين يقارب 294. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling the last 2h OSS snapshot to validate RLF/HO counters; please confirm the target cell ID and grant access. Given eMBB traffic (streaming), we’ll focus on mobility under load.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب لقطات OSS لآخر ساعتين للتحقق من مؤشرات RLF/HO؛ يرجى تأكيد معرف الخلية المستهدفة ومنحي الإذن. نظراً لحركة eMBB (البث)، سنركز على الحركة تحت الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-115. Access approved for a 2h lookback.",
+      "message_ar": "معرّف الخلية هو NR-URB-MACRO-115. الوصول مُعتمد للرجوع ساعتين للخلف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS counters/alarms for NR-URB-MACRO-115 (2h): RLF rose from ~1.8% baseline to ~4.3%; HO failure rate ~22%; T310 expiry rate ~17. PRB peaked ~78%, no outages logged. Proceed to RLF time series to isolate the burst?",
+      "message_ar": "تم سحب عدادات/إنذارات OSS للخلية NR-URB-MACRO-115 (ساعتان): ارتفع RLF من خط أساس ~1.8% إلى ~4.3%؛ معدل فشل التسليم ~22%؛ معدل انتهاء مهلة T310 ~17. بلغ استخدام PRB ذروته ~78%، ولا توجد أعطال مسجلة. هل أتابع بسلسلة زمنية لـ RLF لتحديد فترة الذروة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time series.",
+      "message_ar": "موافق على المتابعة بالسلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "RLF time series (2h) shows spikes between 17:10–18:30, aligned with RSRQ dips to ~-13 dB and higher PRB. Diagnosis: late handovers under moderate load causing T310 expiries. I propose a low-risk mobility tuning to advance handovers and stabilize radio link supervision. Approve?",
+      "message_ar": "السلسلة الزمنية لـ RLF (ساعتان) تُظهر ارتفاعات بين 17:10–18:30 متزامنة مع هبوط RSRQ إلى ~-13 dB وارتفاع استخدام PRB. التشخيص: تسليمات متأخرة تحت حمل متوسط تؤدي إلى انتهاء مهلة T310. أقترح ضبطاً منخفض المخاطر لمعلمات الحركة لتقديم التسليمات وتثبيت إشراف رابط الراديو. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility tuning on NR-URB-MACRO-115.",
+      "message_ar": "موافق على تنفيذ ضبط معلمات الحركة على NR-URB-MACRO-115."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility parameter optimization on NR-URB-MACRO-115; commit succeeded with no errors. Starting short observation: target is lower T310 expiries and improved HO success while keeping BLER stable.",
+      "message_ar": "تم تطبيق تحسين معلمات الحركة على NR-URB-MACRO-115؛ تم الاعتماد بدون أخطاء. أبدأ مراقبة قصيرة: الهدف خفض انتهاء مهلة T310 وتحسين نجاح التسليم مع إبقاء BLER مستقراً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: T310 expiries are trending down and HO success is improving.",
+      "message_ar": "المؤشرات الأولية إيجابية: انتهاء مهلة T310 في انخفاض ونجاح التسليم يتحسن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial 10-min post-change: RLF ~2.8% (down from ~4.3%), HO success ~92%, BLER ~7%, RSRQ improving toward -11.5 dB, median DL throughput ~18 Mbps. Recommend continued monitoring to confirm stability.",
+      "message_ar": "أول 10 دقائق بعد التغيير: RLF ~2.8% (انخفاضاً من ~4.3%)، نجاح التسليم ~92%، BLER ~7%، وRSRQ يتحسن نحو -11.5 dB، ومتوسط سرعة التنزيل ~18 ميجابت/ث. أوصي بالاستمرار في المراقبة لتأكيد الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed radio link failures trending down with the site parameter tuning applied; let’s monitor over the next 2–4 hours to validate during the next busy period.",
+      "message_ar": "تمت ملاحظة انخفاض في حالات فشل رابط الراديو بعد تطبيق ضبط معلمات الموقع؛ دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة للتحقق أثناء الفترة المزدحمة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own the next 2–4 hours of monitoring and update you on RLF, HO success, and T310 expiry trends. If degradation returns, we will roll back the tuning and escalate for a focused RF investigation on interference and neighbor relations.",
+      "message_ar": "متفقون—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونوافيك بتحديثات حول RLF ونجاح التسليم واتجاهات انتهاء مهلة T310. إذا عادت الحالة للتدهور، سنُعيد الضبط السابق ونصعّد لإجراء فحص RF مركّز على التداخل وعلاقات الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-115",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-115",
+        "RLF",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated an urban NR macro RLF spike during the shoulder period via counters and time series, showing peaks aligned with degraded RSRQ and moderate load. Mitigated by site parameter tuning to advance handovers and stabilize radio link supervision. Early results show reduced RLF and improved handover success, with continued monitoring to confirm stability.",
+    "ar": "تم التحقق من ارتفاع RLF في خلية ماكرو NR حضرية خلال فترة الكتف عبر العدادات والسلسلة الزمنية، مع قمم متزامنة مع تدهور RSRQ وحمل متوسط. تم التخفيف من المشكلة عبر ضبط معلمات الموقع لتقديم التسليمات وتثبيت إشراف رابط الراديو. تُظهر النتائج الأولية انخفاضاً في RLF وتحسناً في نجاح التسليم، مع استمرار المراقبة لتأكيد الاستقرار."
+  }
+}

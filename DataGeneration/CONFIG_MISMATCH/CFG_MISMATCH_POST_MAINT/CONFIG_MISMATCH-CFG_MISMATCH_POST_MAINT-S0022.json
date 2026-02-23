@@ -1,0 +1,108 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0022",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Post-maintenance drift suspected on a suburban NR macro over the last 24h: 5 settings out of sync (drift age ~21h) with handover failures ~7%, BLER ~5.5%, median downlink ~10 Mbps, and PRB load ~37%.",
+    "ar": "يُشتبه بوجود انحراف بعد الصيانة على موقع NR ماكرو في منطقة ضاحية خلال آخر 24 ساعة: 5 إعدادات خارج التزامن (عمر الانحراف ~21 ساعة) مع فشل تسليم ~7% وBLER ~5.5% ومتوسط تنزيل ~10 ميجابت/ث وإشغال PRB ~37%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Since yesterday’s maintenance on the suburban NR macro, users report intermittent buffering on streaming and slower handovers. No active alarms. Current stats: ~7% HO failures, BLER ~5.5%, p50 DL ~10 Mbps, PRB ~37%.",
+      "message_ar": "منذ صيانة الأمس على موقع NR ماكرو في منطقة ضاحية، هناك بلاغات عن تقطّع متقطع في البث وبطء في التسليم بين الخلايا. لا توجد إنذارات نشطة. الإحصاءات الحالية: فشل تسليم ~7%، BLER ~5.5%، وسيط التنزيل ~10 ميجابت/ث، وإشغال PRB ~37%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will verify OSS versus live configuration over the last 24h to detect post-maintenance drift tied to the 5 mismatches and mobility impact. Please share the cell ID and approve read-only access.",
+      "message_ar": "تم. سأتحقق من اتساق الإعدادات بين النظام المركزي والحالة الحية خلال آخر 24 ساعة لرصد أي انحراف بعد الصيانة مرتبط بـ5 الفروقات وتأثير الحركة. الرجاء تزويدي بمعرّف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR12345_A. Read-only checks approved.",
+      "message_ar": "معرّف الخلية: NR12345_A. الموافقة على الفحص للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Comparing OSS baseline and live state for NR12345_A over 24h. Findings: 5 parameters out of sync — neighbor list version, A3 offset (-2 dB vs -1 dB), TTT (160 ms vs 80 ms), SSB burst periodicity, and a power cap flag. Drift age ~21h. This explains the elevated HO failures and modest BLER.",
+      "message_ar": "أقارن بين خط الأساس في النظام المركزي والحالة الحية للخلية NR12345_A خلال 24 ساعة. النتائج: 5 إعدادات خارج التزامن — نسخة قائمة الجيران، إزاحة A3 (-2 dB مقابل -1 dB)، زمن TTT (160 مللي ثانية مقابل 80 مللي ثانية)، دورية دفعات SSB، وعلَم تقييد القدرة. عمر الانحراف ~21 ساعة. هذا يفسّر ارتفاع فشل التسليم وBLER المتوسّط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Requesting approval to push the OSS baseline to live to realign these 5 parameters. Expected minimal impact; rollback is immediate to the pre-change snapshot if KPIs regress.",
+      "message_ar": "أطلب الموافقة على دفع إعدادات خط الأساس من النظام المركزي إلى الحالة الحية لإعادة محاذاة هذه الإعدادات الخمسة. التأثير متدنٍ، والتراجع فوري إلى لقطة ما قبل التغيير إذا تدهورت مؤشرات الأداء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing configuration push to align neighbor relations, HO thresholds, and SSB settings. Push completed successfully; cell remains in service.",
+      "message_ar": "جارٍ دفع الإعدادات لمحاذاة علاقات الجيران، عتبات التسليم، وإعدادات SSB. تم الإنهاء بنجاح والخلية بقيت في الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-push verification: neighbor relations re-synced, HO control consistent, beam/SSB parameters unified. No error spikes observed. Initiating short-term KPI watch (HO failure, BLER, DL throughput).",
+      "message_ar": "تحقق بعد الدفع: تمت مزامنة علاقات الجيران، اتساق عناصر التحكم في التسليم، وتوحيد معاملات الحزمة/SSB. لا ارتفاعات أخطاء. بدء مراقبة قصيرة المدى لمؤشرات الأداء (فشل التسليم، BLER، وسرعة التنزيل)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Opened a change record for traceability and attached pre/post snapshots; follow-up notes will be added.",
+      "message_ar": "تم فتح سجل تغيير لتتبّع الأثر وإرفاق لقطات قبل/بعد؛ ستُضاف ملاحظات المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: handover failures trending down and BLER stabilizing. The baseline configuration push looks effective. Let’s monitor through the next busy hour; I’ll track via DU-CFG-04231.",
+      "message_ar": "تحسن مبكر: فشل التسليم يتناقص وBLER يستقر. دفع إعدادات خط الأساس يبدو فعّالاً. لنتابع المراقبة خلال ساعة الذروة القادمة؛ سأتتبّع عبر DU-CFG-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and update the ticket after the window. If metrics worsen, we will roll back to the pre-change snapshot; if stable or improving, we will keep the baseline and extend observation to the evening peak.",
+      "message_ar": "تم الاستلام. سنراقب خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا ساءت المؤشرات سنعود إلى لقطة ما قبل التغيير؛ وإذا استقرت أو تحسنت سنُبقي على خط الأساس ونمدد المراقبة حتى ذروة المساء."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR12345_A",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG_BASELINE_NR12345_A"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Post-maintenance config realignment for NR12345_A; 5 parameters corrected; monitoring mobility KPIs."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Post-maintenance checks found five mismatched settings between OSS and the live NR macro, driving elevated handover failures and moderate BLER. The baseline configuration was pushed to realign mobility and SSB controls, and a change record was opened for traceability. KPIs will be monitored through the next busy hour with rollback to the pre-change snapshot if degradation reappears.",
+    "ar": "أظهرت فحوصات ما بعد الصيانة وجود خمسة إعدادات غير متطابقة بين النظام المركزي والحالة الحية لخلية NR ماكرو، ما أدى إلى ارتفاع فشل التسليم وBLER متوسط. تم دفع إعدادات خط الأساس لإعادة محاذاة عناصر الحركة وإعدادات SSB وفتح سجل تغيير للتتبّع. ستُراقَب مؤشرات الأداء خلال ساعة الذروة القادمة مع إمكانية الرجوع إلى لقطة ما قبل التغيير إذا ظهر تدهور."
+  }
+}

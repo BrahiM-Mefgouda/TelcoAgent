@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0026",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "In the stadium NR micro-cell over the last 3h, timing advance distribution is drifting outward (p50≈274 m, p95≈320 m, drift index 0.225) with weak signal (-107 dBm), high PRB (~94%), and handover failures ~15%.",
+    "ar": "في خلية NR ميكرو داخل الملعب خلال آخر 3 ساعات، يظهر انحراف في توزيع زمن الوصول (TA) نحو الأطراف (الوسيط≈274 م، p95≈320 م، مؤشر الانحراف 0.225) مع إشارة ضعيفة (-107 dBm)، واستغلال PRB مرتفع (~94%)، وإخفاقات تسليم (~15%)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-event egress at the stadium: the NR micro cell has TA skewing larger over the last 3h; signal around -107 dBm, PRB ~94%, HO failures ~15%, median DL ~14 Mbps. Please investigate.",
+      "message_ar": "خلال خروج الجمهور بعد الحدث في الملعب: خلية NR الميكرو تُظهر انحراف TA نحو قيم أكبر خلال آخر 3 ساعات؛ الإشارة حوالي -107 dBm، استغلال PRB ~94%، إخفاقات التسليم ~15%، والتحميل المتوسط ~14 Mbps. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by checking the last 3h OSS snapshot for cell NR-STAD-MICRO-01 to validate TA skew, distant serving, and mobility stats. Approve access?",
+      "message_ar": "سأبدأ بفحص لقطة OSS لآخر 3 ساعات للخلية NR-STAD-MICRO-01 للتحقق من انحراف TA، ونسبة الخدمة البعيدة، ومؤشرات التنقل. هل توافق على الوصول؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell is NR-STAD-MICRO-01, window 3h during egress; earlier traffic was mostly eMBB streaming.",
+      "message_ar": "موافق. المعرّف هو NR-STAD-MICRO-01، النافذة 3 ساعات خلال مرحلة الخروج؛ كان المرور سابقاً يغلب عليه بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot confirms: TA p50 274 m, p95 320 m, std 66; drift index 0.225; distant-serving 22%; PRB 94%; RSRP -107 dBm; HO failures 15%. Next, I’ll pull the TA time series for this window to isolate drift periods. Proceed?",
+      "message_ar": "تؤكد لقطة OSS: وسيط TA 274 م، p95 عند 320 م، الانحراف المعياري 66؛ مؤشر الانحراف 0.225؛ نسبة الخدمة البعيدة 22%؛ استغلال PRB 94%؛ RSRP = -107 dBm؛ إخفاقات التسليم 15%. التالي، سأستخرج السلسلة الزمنية لـ TA لهذه النافذة لتحديد فترات الانحراف. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows TA climbing between 18:00–20:30 with peaks in 280–320 m bins; HO failures correlate and PRB pressure aligns. Likely overserving during egress leading to distant serving. I propose a light mobility retune: tighten TA boundary and slightly bias handovers to nearer neighbors. Approve to implement now?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاع TA بين 18:00–20:30 مع قمم ضمن 280–320 م؛ وهناك ترابط مع ارتفاع إخفاقات التسليم وضغط PRB. السبب المرجح هو تغطية زائدة أثناء الخروج تؤدي إلى خدمة بعيدة. أقترح تعديلًا خفيفًا لمعاملات التنقل: تضييق حدود TA وإضافة انحياز طفيف للتسليم نحو الجيران الأقرب. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: small TA boundary tightening and minor HO offset bias toward closer sectors; no service interruption. We’ll monitor for stability and reduction in distant serving and HO failures.",
+      "message_ar": "تم التنفيذ: تضييق طفيف لحدود TA وتحيز بسيط في إزاحات التسليم نحو القطاعات الأقرب؛ دون انقطاع خدمة. سنراقب الاستقرار وانخفاض الخدمة البعيدة وإخفاقات التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial 15 minutes look better: distant-serving ratio ~16–17% and handover failures easing; user experience steady.",
+      "message_ar": "أول 15 دقيقة تبدو أفضل: نسبة الخدمة البعيدة ~16–17% وإخفاقات التسليم في انخفاض؛ تجربة المستخدم مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will keep watching the TA histogram for a left shift toward 200–260 m and confirm improved mobility success.",
+      "message_ar": "تم. سنواصل متابعة مخطط TA للانزياح إلى اليسار نحو 200–260 م وتأكيد تحسن نجاح التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing continued improvement—handover failures trending down and TA bins shifting left. Action taken was site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "هناك تحسن مستمر—إخفاقات التسليم تتجه للانخفاض وصناديق TA تتحرك إلى اليسار. الإجراء المتخذ كان ضبط معاملات الموقع. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we’ll own the next busy hour monitoring and update you on TA distribution, distant serving ratio, and handover success. If drift reappears, we’ll escalate with additional mobility tuning; if any negative impact is observed, we’ll roll back to the prior settings.",
+      "message_ar": "تم—سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيك بتوزيع TA، ونسبة الخدمة البعيدة، ومعدل نجاح التسليم. إذا عاد الانحراف، سنصعّد بتعديل إضافي لمعاملات التنقل؛ وإذا ظهر تأثير سلبي، سنعود للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TA_boundary_and_HO_offsets"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed timing advance distribution drift on the stadium NR micro cell during the egress window using OSS data and TA time series, with weak serving signal, high PRB utilization, and elevated distant serving. Applied site parameter tuning by tightening the TA boundary and biasing handover offsets toward nearer neighbors to reduce overserving and improve mobility. Early indicators show improvement; continued monitoring is in place to ensure stability.",
+    "ar": "تم تأكيد انحراف توزيع زمن الوصول (TA) في خلية NR الميكرو بالملعب خلال فترة الخروج باستخدام بيانات OSS والسلسلة الزمنية لـ TA، مع إشارة خدمة ضعيفة، واستغلال PRB مرتفع، وارتفاع في الخدمة البعيدة. تم تنفيذ ضبط لمعاملات الموقع عبر تضييق حدود TA وإضافة تحيز في إزاحات التسليم لصالح الجيران الأقرب لتقليل التغطية الزائدة وتحسين التنقل. المؤشرات الأولية تُظهر تحسناً؛ وسيستمر الرصد لضمان الاستقرار."
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0009",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro shows a radio link failure spike over the last 6h with weak coverage (RSRP ~ -117 dBm), poor quality (RSRQ ~ -14 dB), and interference / signal overlap (SINR ~ -3 dB), handovers ~0.83 success, serving mainly FWA users.",
+    "ar": "موقع NR ماكروي ريفي يظهر ارتفاعًا في فشل رابط الراديو خلال آخر 6 ساعات مع تغطية ضعيفة (RSRP ~ -117 dBm)، وجودة منخفضة (RSRQ ~ -14 dB)، وتداخل/تراكب الإشارة (SINR ~ -3 dB)، ونسبة نجاح التسليمات ~0.83، ويخدم أساسًا مستخدمي FWA."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing a 6h spike in radio link failures on a rural NR macro; users are mostly FWA CPEs at the edge with RSRP ~-117 dBm, RSRQ ~-14 dB, SINR ~-3 dB. Please investigate.",
+      "message_ar": "هناك ارتفاع خلال 6 ساعات في حالات فشل رابط الراديو على موقع NR ماكروي ريفي؛ المستخدمون غالبًا أجهزة CPE عند الحافة مع RSRP ~-117 dBm وRSRQ ~-14 dB وSINR ~-3 dB. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling the last 6h OSS counters to verify RLF, HO, RF quality, and TA spread. Please share the cell ID and approve read access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات آخر 6 ساعات للتحقق من RLF وHO وجودة الإشارة وتشتت TA. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-CLL-48291. You have read access for the 6h window.",
+      "message_ar": "معرّف الخلية: NR-CLL-48291. لديك صلاحية القراءة لفترة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS for NR-CLL-48291 over 6h now. Findings: RLF rate peaked ~3.7%, HO success ~83%; average RSRP -117 dBm, RSRQ -14 dB, SINR -3 dB; TA spread high (std ≈175 m). No active alarms.",
+      "message_ar": "أقوم الآن بجلب بيانات OSS لـ NR-CLL-48291 خلال 6 ساعات. النتائج: ذروة معدل RLF ~3.7%، نجاح التسليم ~83%؛ متوسط RSRP -117 dBm وRSRQ -14 dB وSINR -3 dB؛ تشتت TA مرتفع (الانحراف المعياري ≈175 م). لا إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will pull the RLF time series for the same 6h window to isolate spike intervals and correlate with HO and TA.",
+      "message_ar": "بعد ذلك، سأجلب السلسلة الزمنية لـ RLF لنفس نافذة 6 ساعات لعزل فترات الارتفاع وربطها بالتسليم وTA."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "RLF timeline shows spikes in mixed hours, often after attempts to hand over to two northern neighbors; drops align with SINR dips <0 dB and large TA. Diagnosis: mobility thresholds/timers are too aggressive for rural edge FWA. I propose targeted mobility tuning to widen margins and stabilize edge handovers.",
+      "message_ar": "السلسلة الزمنية لـ RLF تُظهر ارتفاعات في ساعات متباينة، غالبًا بعد محاولات التسليم إلى جارين في الشمال؛ الانقطاعات تتوافق مع هبوط SINR إلى أقل من 0 dB ومع TA كبير. التشخيص: عتبات/مؤقتات الحركة عدوانية أكثر من اللازم لسيناريو FWA عند الحافة الريفية. أقترح ضبطًا انتقائيًا لمعلمات الحركة لتوسيع الهوامش وتثبيت التسليمات عند الحافة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility tuning on NR-CLL-48291.",
+      "message_ar": "موافق على تنفيذ ضبط معلمات الحركة على NR-CLL-48291."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying a small mobility optimization on NR-CLL-48291 now: slightly relaxed event thresholds and stability timers to reduce premature handovers and RLFs. Change applied successfully; starting post-checks over the next 30–60 minutes.",
+      "message_ar": "أقوم الآن بتطبيق تحسين بسيط لمعلمات الحركة على NR-CLL-48291: تخفيف طفيف لعتبات الأحداث ومؤقتات الثبات للحد من التسليمات المبكرة وRLF. تم تطبيق التغيير بنجاح؛ سنبدأ فحوصات المتابعة خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early counters show RLF attempts trending down ~20% and handover success inching up. Action taken: mobility parameter optimization on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "المؤشرات المبكرة تظهر انخفاضًا بحوالي 20% في محاولات RLF وتحسنًا طفيفًا في نجاح التسليم. الإجراء المتخذ: تحسين معلمات الحركة على الخلية. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will monitor through the next busy hour and report RLF rate, HO success, and edge quality trends. If RLFs rise or handovers degrade, we will roll back the tuning and escalate for a broader RF/neighbor review.",
+      "message_ar": "تم الفهم. سنراقب خلال ساعة الذروة القادمة ونقدم تقريرًا عن معدل RLF ونجاح التسليم واتجاهات جودة الحافة. إذا ارتفع RLF أو تدهورت التسليمات، سنُعيد الضبط السابق ونصعّد لمراجعة أوسع على مستوى التغطية والجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural NR macro RLF spike driven by edge conditions and interference, validated via OSS counters and an RLF time series showing drops after handover attempts with poor SINR and large TA. Implemented site parameter tuning to relax mobility thresholds and timers to stabilize edge handovers. Early results indicate reduced RLFs; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع في RLF على موقع NR ماكروي ريفي بسبب ظروف الحافة والتداخل، وتم التحقق عبر مؤشرات OSS وسلسلة زمنية لـ RLF أظهرت انقطاعات بعد محاولات تسليم مع SINR منخفض وTA كبير. تم تنفيذ ضبط لمعلمات الموقع بتخفيف عتبات ومؤقتات الحركة لتثبيت التسليمات عند الحافة. النتائج المبكرة تشير إلى انخفاض RLF، وستستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

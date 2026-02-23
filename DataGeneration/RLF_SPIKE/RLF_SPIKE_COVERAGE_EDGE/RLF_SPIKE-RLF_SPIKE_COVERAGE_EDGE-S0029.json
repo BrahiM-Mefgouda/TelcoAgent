@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0029",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows an RLF spike over the last 6h with weak coverage (RSRP ~ -119 dBm) and interference / signal overlap (SINR ~ 4 dB), HO success ~86% and median downlink 12 Mbps.",
+    "ar": "خلية NR ماكرو ريفية تُظهر ارتفاعاً في فقدان رابط الراديو خلال آخر 6 ساعات مع تغطية ضعيفة (RSRP ≈ -119 dBm) وتداخل/تراكب الإشارات (SINR ≈ 4 dB)، ونسبة نجاح التسليم ~86% ومعدل تنزيل وسطي 12 Mbps."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector is seeing a radio link failure spike in the last 6h. Edge users report drops; RSRP ~-119 dBm, RSRQ -14 dB, SINR ~4 dB. HO success ~86%, BLER ~10%. Traffic is mostly eMBB streaming. No alarms.",
+      "message_ar": "القطاع الماكرو في منطقة ريفية يشهد ارتفاعاً في فقدان رابط الراديو خلال آخر 6 ساعات. مستخدمو الحافة يبلغون عن انقطاعات؛ RSRP ~-119 dBm وRSRQ -14 dB وSINR ~4 dB. نجاح التسليم ~86% وBLER ~10%. الحركة أغلبها eMBB (بث فيديو). لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the recovery. First, I’ll pull the last 6h OSS counters for the impacted cell to confirm the RLF surge and check load/alarms. Please share the sector ID and confirm access.",
+      "message_ar": "سأتولى المعالجة. أولاً سأجلب عدادات آخر 6 ساعات من النظام للتحقق من زيادة RLF وفحص الحمل/الإنذارات. يرجى مشاركة معرف القطاع وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRR-ALP-03-S1. You have access for this window.",
+      "message_ar": "معرف الخلية: NRR-ALP-03-S1. لديك صلاحية الوصول خلال هذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NRR-ALP-03-S1 (6h): RLF avg 3.3% with peaks >4%; HO success 85–87%; BLER ~10%; PRB ~40%. RF is weak (RSRP ~-119), quality low (RSRQ -14, SINR ~4) indicating interference/overlap; no active alarms. Next I’ll chart the RLF time series to pinpoint timing and correlation.",
+      "message_ar": "تم سحب العدادات لـ NRR-ALP-03-S1 (6 ساعات): متوسط RLF ‏3.3% بقمم >4%؛ نجاح التسليم 85–87%؛ BLER حوالي 10%؛ استهلاك الموارد ~40%. الإشارة ضعيفة (RSRP ~-119) والجودة منخفضة (RSRQ -14 وSINR ~4) ما يشير إلى تداخل/تراكب؛ لا توجد إنذارات. بعد ذلك سأرسم سلسلة زمنية لـ RLF لتحديد التوقيت والترابط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood, proceed.",
+      "message_ar": "مفهوم، تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series over 6h shows mixed-hour elevation with an evening bump; spikes align with low SINR and wider TA spread (~100 m), suggesting edge instability and border stickiness toward neighbor NRR-ALP-02. I will apply a targeted mobility/beam optimization: refine handover thresholds/hysteresis, slightly extend drop-protection timers, and nudge beam edge weighting. Approve change now?",
+      "message_ar": "السلسلة الزمنية خلال 6 ساعات تُظهر ارتفاعاً عبر أوقات مختلطة مع زيادة مسائية؛ الارتفاعات تتطابق مع انخفاض SINR واتساع تشتت زمن الوصول (~100 م)، ما يشير إلى عدم استقرار عند الحافة وتمسك بالحدود باتجاه الجار NRR-ALP-02. سأطبق تحسيناً مستهدفاً للتنقل/الحزم: ضبط عتبات وحساسية التسليم، تمديداً طفيفاً لمؤقتات حماية السقوط، وتعديل وزن الحزمة عند الحافة. هل توافق على تنفيذ التغيير الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate controlled change.",
+      "message_ar": "موافق على تنفيذ التغيير فوراً بشكل مضبوط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed on NRR-ALP-03-S1: mobility and beam edge parameter tuning completed successfully, no service resets observed. Initial readout (10 min): RLF ~1.5%, HO success ~89%, BLER steady ~9–10%. I will continue close monitoring.",
+      "message_ar": "تم تنفيذ التغيير على NRR-ALP-03-S1: تم ضبط معلمات التنقل وحافة الحزمة بنجاح دون أي إعادة تشغيل للخدمة. قراءة أولية (10 دقائق): RLF ~1.5%، نجاح التسليم ~89%، وBLER مستقر ~9–10%. سأستمر في المراقبة الدقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing steadier sessions at the edge and fewer instant drops from probes. Any further short-term checks from your side?",
+      "message_ar": "نلاحظ جلسات أكثر استقراراً عند الحافة وتقليل الانقطاعات الفورية حسب القياسات. هل لديك فحوصات قصيرة الأجل إضافية من طرفك؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change snapshot (15–20 min): RLF 1.2–1.5%, HO success 89–91%, median DL ~12 Mbps unchanged, PRB ~40%. No abnormal retries. I’ll watch the next busy hour to confirm stability in this rural macro.",
+      "message_ar": "لقطة بعد التغيير (15–20 دقيقة): RLF بين 1.2–1.5%، نجاح التسليم 89–91%، التنزيل الوسطي ~12 Mbps دون تغيير، واستهلاك الموارد ~40%. لا توجد محاولات غير طبيعية. سأراقب ساعة الذروة التالية للتأكد من الاستقرار في هذا الموقع الريفي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: radio link failures trending down and handovers smoother. After the mobility/beam parameter optimization, let’s monitor for the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: حالات فقدان الرابط الراديوي في انخفاض وتسليمات أكثر سلاسة. بعد تحسين معلمات التنقل/الحزم، لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and report updated RLF/HO/BLER. If degradation reappears, we will escalate to a field check; if user impact rises, we will roll back to the previous settings.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونقدم تقريراً بتحديث RLF/HO/BLER. إذا عاد التدهور فسنصعّد إلى فحص ميداني؛ وإذا زاد أثر المستخدمين فسنرجع إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRR-ALP-03-S1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRR-ALP-03-S1",
+        "RLF",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_and_beam_edge_tuning_v1"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an RLF spike on a rural NR macro by pulling OSS counters and analyzing the 6h RLF time series, confirming edge instability driven by weak coverage and interference. Applied site parameter tuning for mobility thresholds/timers and beam edge weighting to stabilize handovers. Early results show reduced RLF and improved handover success; we will continue monitoring over the next 2–4 hours.",
+    "ar": "تم تشخيص ارتفاع RLF على موقع NR ماكرو ريفي عبر جلب عدادات النظام وتحليل السلسلة الزمنية لـ RLF خلال 6 ساعات، مما أكد عدم الاستقرار عند الحافة بسبب ضعف التغطية والتداخل. تم تنفيذ ضبط معلمات الموقع لعتبات/مؤقتات التنقل وتعديل وزن الحزمة عند الحافة لتحسين التسليمات. تظهر النتائج الأولية انخفاضاً في RLF وتحسناً في نجاح التسليم، وسنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0029",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro cell shows high ping-pong handovers and interference / signal overlap in the last 4h, causing slow data despite off-peak eMBB traffic.",
+    "ar": "موقع NR ماكرو في منطقة حضرية يعاني من ارتفاع في التحويلات المتأرجحة وتداخل/تراكب الإشارات خلال آخر 4 ساعات، مما يسبب بطئاً في البيانات رغم كون الفترة خارج الذروة لحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Off-peak on dense urban NR macro NB-41023-3, ping-pong is high at ~23% with ~135 HO attempts per 5 min. HO success ~84%, SINR ~1 dB, RSRP -104 dBm, RSRQ -8 dB; users ~367. Throughput median ~6 Mbps affecting eMBB streaming. No alarms.",
+      "message_ar": "خارج الذروة على موقع NR ماكرو حضري NB-41023-3، معدل التحويلات المتأرجحة ~23% مع ~135 محاولة تحويل كل 5 دقائق. نجاح التحويل ~84%، قيمة SINR حوالي 1 dB، وRSRP -104 dBm، وRSRQ -8 dB؛ عدد المستخدمين ~367. الوسيط للسرعة ~6 Mbps يؤثر على بث eMBB. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. I’ll lead diagnostics. Suspect interference/signal overlap plus tight mobility thresholds. I will baseline the last 4h and neighbor relations. Please confirm cell NB-41023-3 and approve read access.",
+      "message_ar": "شكرًا. سأقود التشخيص. يُشتبه بوجود تداخل/تراكب في الإشارات مع حدود تنقل ضيقة. سأجري خط أساس لآخر 4 ساعات وعلاقات الجوار. يرجى تأكيد الخلية NB-41023-3 والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed NB-41023-3 and approved read access for the last 4 hours.",
+      "message_ar": "تم التأكيد على NB-41023-3 والموافقة على صلاحية القراءة لآخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline pulled: bidirectional toggling concentrated with neighbors NB-41024-2 and NB-40988-1; short dwell times. Current thresholds: A3 3 dB, TTT 283 ms, hysteresis 2 dB. Next, I’ll run detailed HO trend analysis over the same window to quantify ping-pong. Proceed?",
+      "message_ar": "تم سحب خط الأساس: تبديل ثنائي الاتجاه يتركز مع الجيران NB-41024-2 وNB-40988-1؛ أزمنة مكوث قصيرة. العتبات الحالية: A3 بمقدار 3 dB، وTTT 283 ms، وhysteresis بمقدار 2 dB. التالي، سأجري تحليل اتجاهات التحويل بالتفصيل لنفس الفترة لقياس التأرجح. المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the HO trend analysis.",
+      "message_ar": "تمت الموافقة على متابعة تحليل اتجاهات التحويل."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO trends show repeated back-and-forth within 10–20 s dwell, peaking ~25% ping-pong ~45 min ago. SINR dips to 0–2 dB at cell edges during toggles. Proposal: tune mobility—raise TTT to 400 ms, increase hysteresis to 3 dB, trim A3 offset to 2 dB, and apply a small +0.5 dB CIO to anchor vs NB-41024-2. Expect >30% ping-pong reduction with low risk. Approve execution now (off-peak)?",
+      "message_ar": "تُظهر الاتجاهات تكرار التحويل ذهابًا وإيابًا خلال مكوث 10–20 ثانية، مع ذروة تأرجح ~25% قبل ~45 دقيقة. تنخفض قيمة SINR إلى 0–2 dB عند الحواف أثناء التبديل. الاقتراح: ضبط التنقل—رفع TTT إلى 400 ms، وزيادة hysteresis إلى 3 dB، وتخفيض إزاحة A3 إلى 2 dB، وتطبيق CIO بسيط +0.5 dB لترسيخ الخلية مقابل NB-41024-2. متوقع خفض التأرجح بأكثر من 30% مع مخاطر منخفضة. الموافقة على التنفيذ الآن (خارج الذروة)؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility tuning now.",
+      "message_ar": "تمت الموافقة على تنفيذ ضبط معايير التنقل الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing mobility parameter optimization on NB-41023-3 and key neighbor pairs. Changes committed with rollback ready. I will monitor for 30–45 minutes; please watch for HO attempts, ping-pong rate, and failures.",
+      "message_ar": "أجري تحسينًا لمعايير التنقل على NB-41023-3 وأزواج الجيران الرئيسيين. تم تطبيق التغييرات مع جاهزية التراجع. سأراقب لمدة 30–45 دقيقة؛ يرجى متابعة محاولات التحويل، ومعدل التأرجح، وحالات الفشل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look positive: HO attempts/5 min down from ~135 to ~95, ping-pong down to ~12–13%, HO failures steady around 7–8%. No new complaints.",
+      "message_ar": "المؤشرات الأولية إيجابية: محاولات التحويل كل 5 دقائق انخفضت من ~135 إلى ~95، ومعدل التأرجح إلى ~12–13%، وإخفاقات التحويل مستقرة حول 7–8%. لا شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. Please also check median user throughput and edge SINR after the change to ensure user experience improved.",
+      "message_ar": "ممتاز. يرجى التحقق أيضًا من الوسيط لسرعة المستخدم وقيمة SINR عند الحواف بعد التغيير للتأكد من تحسن تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: slow data easing—median throughput now ~9–10 Mbps and ping-pong trending down. Action taken: mobility parameter optimization on NB-41023-3 and neighbors. Suggest monitoring through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: بطء البيانات يتلاشى—الوسيط للسرعة الآن ~9–10 Mbps مع استمرار انخفاض التأرجح. الإجراء المتخذ: تحسين معايير التنقل على NB-41023-3 والجيران. أقترح المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the busy-hour monitoring and report KPI deltas and any anomalies. If degradation returns, we will roll back the tuning and escalate to interference mitigation; if stable, we will retain the optimization.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال ساعة الذروة ونوافيكم بفروقات مؤشرات الأداء وأي شواذ. إذا عاد التدهور سنرجع الضبط ونتجه لتخفيف التداخل؛ وإذا استقرت المؤشرات سنُبقي على التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NB-41023-3",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NB-41023-3",
+        "HO",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_params: TTT↑, hysteresis↑, A3↓, small CIO bias"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong handovers on a dense urban NR macro cell driven by interference/signal overlap and aggressive mobility thresholds. Baseline and HO trend analysis confirmed short dwell back-and-forth between specific neighbors. Applied site parameter tuning (TTT and hysteresis increased, A3 offset trimmed, small CIO bias) to reduce oscillations; early KPIs improved and monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التحويلات المتأرجحة في موقع NR ماكرو حضري نتيجة تداخل/تراكب الإشارات وحدود تنقل حادة. أكد تحليل خط الأساس واتجاهات التحويل وجود تبديل سريع قصير المكوث بين جيران محددين. تم تنفيذ ضبط معايير الموقع (رفع TTT وhysteresis، وخفض إزاحة A3، وتحيز CIO بسيط) لتقليل التأرجح؛ تحسنت المؤشرات الأولية وستستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

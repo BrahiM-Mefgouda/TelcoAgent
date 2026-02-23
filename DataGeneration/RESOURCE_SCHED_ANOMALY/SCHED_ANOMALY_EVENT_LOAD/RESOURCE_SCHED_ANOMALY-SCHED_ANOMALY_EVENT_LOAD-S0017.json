@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0017",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell shows ~95% resource use, low fairness, and 120 ms tail latency with ~930 users over the last 3h; a congestion alarm is active.",
+    "ar": "خلية NR مصغّرة في الملعب تسجّل استخدام موارد بنحو 95%، وعدالة منخفضة، وزمن تأخير ذيلي 120 مللي ثانية مع نحو 930 مستخدماً خلال آخر 3 ساعات؛ إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is alarming during ingress; 3h KPIs show ~95% resource use, fairness ~0.52 with allocation skew, p95 latency ~120 ms, and ~930 users. Please take a look.",
+      "message_ar": "خلية NR مصغّرة في الملعب تُصدر إنذاراً أثناء دخول الجمهور؛ مؤشرات آخر 3 ساعات تُظهر استخدام موارد ~95%، وعدالة ~0.52 مع انحياز في التوزيع، وزمن تأخير p95 حوالي 120 مللي ثانية، ونحو 930 مستخدماً. يرجى المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Given ingress with eMBB streaming, I'll first query the OSS for the affected cell over the last 3h to validate utilization, QoS class shares, and RF/backhaul health. Please confirm the cell ID and approve read access.",
+      "message_ar": "تم. نظراً لمرحلة الدخول وحركة eMBB المرتبطة بالبث، سأستعلم أولاً من نظام OSS عن الخلية المعنية خلال آخر 3 ساعات للتحقق من الاستخدام، وحصص فئات QoS، وصحة التغطية/الربط الخلفي. يرجى تأكيد معرّف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-12. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-STAD-MICRO-12. تمّت الموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR-STAD-MICRO-12 (last 3h): on-air, no backhaul alarms. PRB utilization 94.6%, fairness index 0.52, allocation skew 24. QoS shares: high-priority 18%, best-effort 57%. DL median 12 Mbps, p95 39 Mbps. Scheduler tail latency p95 120 ms. RF: RSRQ -15 dB, SINR 10 dB.",
+      "message_ar": "نتيجة فحص OSS للخلية NR-STAD-MICRO-12 (آخر 3 ساعات): الخلية عاملة دون إنذارات في الربط الخلفي. استخدام PRB ‏94.6%، مؤشر العدالة 0.52، انحياز التخصيص 24. حصص QoS: أولوية عالية 18%، أفضل جهد 57%. متوسط تنزيل 12 ميجابت/ث، p95 ‏39 ميجابت/ث. كمون المُجدول p95 ‏120 مللي ثانية. RF: قيمة RSRQ ‏-15 dB، وSINR ‏10 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will pull PRB and delay time series for the same 3h window to confirm the ingress pattern and quantify the imbalance. Please approve.",
+      "message_ar": "الخطوة التالية: سأسحب سلسلة زمنية لاستخدام PRB وزمن التأخير لنفس نافذة 3 ساعات لتأكيد نمط الدخول وقياس عدم التوازن. يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms the pattern: PRB pinned ~93–97% for ~70 minutes around ingress, fairness dips to 0.47–0.54, best-effort share dominates. Median DL stays ~12 Mbps with wide spread (p95–p50 gap ~14 Mbps). Scheduler latency peaks near 120 ms then eases.",
+      "message_ar": "السلسلة الزمنية تؤكد النمط: PRB عند ~93–97% لمدة ~70 دقيقة حول الدخول، ومؤشر العدالة ينخفض إلى 0.47–0.54، وحصة أفضل جهد مهيمنة. يبقى متوسط التنزيل ~12 ميجابت/ث مع تشتت واسع (الفارق بين p95 وp50 نحو 14 ميجابت/ث). يصل كمون المُجدول إلى ~120 مللي ثانية ثم ينخفض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: apply targeted site parameter tuning to rebalance the allocator—raise weight for high-priority traffic during peaks, pace best-effort bursts, and tighten queue thresholds to reduce delay. Non-service-impacting. Proceed now?",
+      "message_ar": "الاقتراح: تطبيق ضبط مُوجّه لمعلمات الموقع لإعادة موازنة الموزّع—رفع وزن المرور عالي الأولوية أثناء الذروة، تهدئة دفعات أفضل جهد، وتشديد عتبات الطوابير لخفض التأخير. دون تأثير على الخدمة. هل أمضي الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning now; change approved.",
+      "message_ar": "امضِ في الضبط الآن؛ التغيير معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on NR-STAD-MICRO-12; commit successful. Initial 5-min check: high-priority share up to ~28–30%, best-effort moderated; tail latency down to ~90–100 ms. No new alarms. I will keep observing.",
+      "message_ar": "تم تطبيق الضبط على NR-STAD-MICRO-12؛ التثبيت ناجح. فحص أولي 5 دقائق: ارتفعت حصة الأولوية العالية إلى ~28–30% مع تهدئة أفضل جهد؛ انخفض الكمون الذّيلي إلى ~90–100 مللي ثانية. لا إنذارات جديدة. سأواصل المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: queuing delay trending down and allocation more even after the scheduler parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: تأخر الطوابير يتجه للانخفاض والتوزيع أصبح أكثر توازناً بعد تحسين معلمات المُجدول. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and share KPI deltas afterward. If congestion resurges or delay worsens, we will roll back the tuning and escalate to broader load balancing with neighbors.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تغيّرات المؤشرات بعدها. إذا عاد الازدحام أو ساء التأخير، سنرجع عن الضبط ونصعّد إلى توازن حمل أوسع مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During stadium ingress, the NR micro cell showed a resource scheduling anomaly with PRB saturation, low fairness, and high tail latency. We validated the issue via OSS and PRB time-series analysis, then applied site parameter tuning to rebalance QoS weights and pacing. Early results indicate improved fairness and reduced delay; monitoring will continue through the next busy hour.",
+    "ar": "خلال دخول الجمهور في الملعب، ظهرت في الخلية NR المصغّرة حالة شذوذ في إدارة الموارد مع تشبع PRB وعدالة منخفضة وزمن تأخير ذيلي مرتفع. تم التحقق من المشكلة عبر OSS وتحليل السلاسل الزمنية لـPRB، ثم تطبيق ضبط لمعلمات الموقع لإعادة موازنة أوزان QoS وإيقاع أفضل جهد. تُظهر النتائج الأولية تحسناً في العدالة وانخفاضاً في التأخير؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

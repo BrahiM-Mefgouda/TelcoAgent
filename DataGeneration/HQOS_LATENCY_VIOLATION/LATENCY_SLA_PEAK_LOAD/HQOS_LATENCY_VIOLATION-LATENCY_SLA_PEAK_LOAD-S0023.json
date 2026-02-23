@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0023",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell has a latency SLA breach with a congestion alarm: median latency ~43 ms and p95 scheduling delay ~85 ms over the last 2 hours with ~95% PRB and 290 users.",
+    "ar": "خلية NR ماكرو حضرية لديها خرق لاتفاقية التأخير مع إنذار ازدحام: التأخير الوسطي ~43 مللي ثانية وتأخير المجدول p95 ~85 مللي ثانية خلال آخر ساعتين مع إشغال موارد ~95% و290 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell is breaching latency SLA during the last 2h shoulder window; congestion alarm active. PRB ~95%, ~290 users, p95 scheduler latency ~85 ms, E2E latency ~43 ms, BLER ~6%, p50 DL throughput ~13 Mbps; traffic is eMBB streaming-heavy.",
+      "message_ar": "خلية NR ماكرو حضرية تتجاوز حد اتفاقية التأخير خلال نافذة ساعتين (فترة متوسطة)، مع إنذار ازدحام نشط. إشغال الموارد ~95%، ~290 مستخدمًا، تأخير المجدول p95 ~85 مللي ثانية، التأخير طرف-إلى-طرف ~43 مللي ثانية، BLER ~6%، السرعة المتوسطة للتنزيل ~13 ميجابت/ث؛ الحركة eMBB مع بث مرتفع."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead the triage. First, I'll pull the last 2h cell counters and scheduler health to confirm congestion and queueing. Please share the cell ID and approve read-only access.",
+      "message_ar": "سأتولى التشخيص. أولاً سأجلب عدادات الخلية وصحة المجدول لآخر ساعتين للتحقق من الازدحام وطوابير الانتظار. يرجى تزويدي بمعرّف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRCell-URB-145. You have read-only access for the 2h window.",
+      "message_ar": "معرّف الخلية: NRCell-URB-145. لديك صلاحية قراءة فقط لنافذة الساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NRCell-URB-145 over 2h: PRB sustained 92–97%, DL buffer queue depth peaks align with shoulder load, p95 scheduler latency 84–88 ms; no hardware/backhaul alarms; BLER 5–7%. Next, I will extract the latency time series by class to locate the violating flows—proceed?",
+      "message_ar": "تم جلب العدادات لـ NRCell-URB-145 خلال ساعتين: إشغال PRB بين 92–97%، قمم عمق طوابير DL متزامنة مع الحمل، تأخير المجدول p95 بين 84–88 مللي ثانية؛ لا إنذارات عتاد/وصلات خلفية؛ BLER بين 5–7%. التالي سأستخرج سلسلة زمنية للتأخير حسب الفئة لتحديد التدفقات المخالفة—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency series confirms spikes co-occurring with PRB peaks; GBR traffic is within target while non-GBR eMBB shows elevated delay. Diagnosis: queue buildup under high load. I propose low-risk site parameter tuning to prioritize low-latency flows and tighten queue thresholds to cut scheduler delay. Approve execution now?",
+      "message_ar": "السلسلة الزمنية للتأخير تؤكد ارتفاعات متزامنة مع قمم إشغال PRB؛ حركة GBR ضمن الهدف بينما eMBB غير المضمون يظهر تأخيرًا مرتفعًا. الخلاصة: تراكم طوابير تحت حمل عالٍ. أقترح ضبطًا منخفض المخاطر لمعاملات الموقع لإعطاء أولوية للتدفقات منخفضة التأخير وتشديد عتبات الطوابير لخفض تأخير المجدول. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site tuning on NRCell-URB-145: rebalanced scheduler weights toward low-latency treatment, tightened DL queue thresholds, and capped short PRB bursts per UE to smooth contention. Change committed successfully; observing stabilization for 10–15 minutes.",
+      "message_ar": "تم تطبيق ضبط الموقع على NRCell-URB-145: إعادة موازنة أوزان المجدول لصالح المعالجة منخفضة التأخير، تشديد عتبات طوابير DL، وتحديد سقف للاندفاعات القصيرة من PRB لكل مستخدم لتسوية التزاحم. تم اعتماد التغيير بنجاح؛ أراقب الاستقرار لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial snapshot (10 min post-change): PRB 88–92%, p95 scheduler latency 58–62 ms, E2E latency ~34–36 ms, BLER ~5–6%; no alarms raised. Continuing to watch during the shoulder load.",
+      "message_ar": "لقطة أولية (بعد 10 دقائق من التغيير): PRB بين 88–92%، تأخير المجدول p95 بين 58–62 مللي ثانية، التأخير طرف-إلى-طرف ~34–36 مللي ثانية، BLER ~5–6%؛ لا إنذارات. مستمر بالمراقبة خلال حمل الفترة المتوسطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field checks align: buffering reports dropped and ping RTTs moved to mid-30 ms.",
+      "message_ar": "التحقق الميداني متوافق: انخفضت تقارير التقطيع في البث وانتقلت قيم RTT في القياس إلى منتصف 30 مللي ثانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: scheduler delay trending down and latency spikes reduced. Action taken was site parameter tuning to relieve queueing. Please monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: تأخير المجدول يتناقص وانخفضت ذروات التأخير. الإجراء المتخذ كان ضبط معاملات الموقع لتخفيف الطوابير. يرجى المتابعة بالمراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and report back on p95 scheduler delay and PRB trends. If latency regresses, we will escalate to capacity planning; if adverse effects appear, we will roll back the tuning.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بتحديث حول اتجاهات تأخير المجدول p95 وإشغال PRB. إذا عاد التأخير للارتفاع سنصعّد إلى تخطيط السعة؛ وإذا ظهرت آثار سلبية فسنرجع الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell-URB-145",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell-URB-145",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The latency SLA violation on the urban NR macro was caused by queue buildup under high PRB load during the shoulder period, with p95 scheduling delay near 85 ms. We validated congestion using recent counters, analyzed the latency time series, and mitigated by site parameter tuning to prioritize low-latency traffic and tighten queue thresholds. Post-change, scheduler delay and end-to-end latency decreased; we will monitor through the next busy hour.",
+    "ar": "كان خرق اتفاقية التأخير في خلية NR الحضرية بسبب تراكم الطوابير تحت إشغال PRB مرتفع خلال الفترة المتوسطة، مع تأخير مجدول p95 يقارب 85 مللي ثانية. تم التحقق من الازدحام عبر عدادات حديثة وتحليل السلسلة الزمنية للتأخير، وتمت المعالجة عبر ضبط معاملات الموقع لإعطاء أولوية لحركة منخفضة التأخير وتشديد عتبات الطوابير. بعد التغيير انخفض تأخير المجدول والتأخير طرف-إلى-طرف؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

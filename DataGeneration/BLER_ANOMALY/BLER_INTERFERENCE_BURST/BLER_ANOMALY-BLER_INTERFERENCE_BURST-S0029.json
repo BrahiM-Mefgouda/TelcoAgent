@@ -1,0 +1,120 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0029",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Off-peak alarm on a suburban NR macro cell over the last 2h shows BLER 14.7% with weak signal (-111 dBm RSRP) and moderate SINR (6 dB); the alarm indicates possible congestion.",
+    "ar": "إنذار خارج أوقات الذروة على خلية ماكرو NR في منطقة ضواحي خلال آخر ساعتين يظهر BLER بنسبة 14.7% مع إشارة ضعيفة (-111 dBm RSRP) وSINR متوسط (6 dB)؛ يشير الإنذار إلى احتمال وجود ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm on NR-Suburban-Macro-Cell-1023 in the last 2h off-peak. BLER ~14.7%, RSRP -111 dBm, RSRQ -12 dB, SINR 6 dB, PRB ~58%, 135 users, p50 DL 14 Mbps, high neighbor load. eMBB streaming users reported buffering.",
+      "message_ar": "إنذار على الخلية NR-Suburban-Macro-Cell-1023 خلال آخر ساعتين خارج أوقات الذروة. BLER ~14.7%، RSRP -111 dBm، RSRQ -12 dB، SINR 6 dB، إشغال PRB ~58%، عدد المستخدمين 135، وسرعة تنزيل p50 = 14 ميجابت/ث، وحمل الجيران مرتفع. مستخدمو eMBB للبث أبلغوا عن تقطيع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first review OSS health/counters for the last 2h, then pull a BLER trend to isolate burst noise vs capacity effects. Please approve access to NR-Suburban-Macro-Cell-1023.",
+      "message_ar": "تم الاستلام. سأراجع أولاً حالة وعدادات OSS لآخر ساعتين، ثم أسحب منحنى BLER لعزل الضوضاء المتقطعة مقابل تأثير السعة. يرجى اعتماد الوصول إلى NR-Suburban-Macro-Cell-1023."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved (read-only). Use a 2h window.",
+      "message_ar": "تمت الموافقة على الوصول (قراءة فقط). استخدم نافذة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Starting OSS review on NR-Suburban-Macro-Cell-1023 over 2h: checking active alarms, RF quality, interference flags, and neighbor load correlation.",
+      "message_ar": "أبدأ مراجعة OSS على NR-Suburban-Macro-Cell-1023 لمدة ساعتين: التحقق من الإنذارات النشطة، جودة RF، مؤشرات التداخل، وترابط حمل الجيران."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS findings: no outage, but short interference bursts are visible; coverage is weak (RSRP ~-111 dBm), PRB ~58%. Neighbor load peaks (~0.88) align with dips in quality. Next, I will fetch the BLER time series to confirm the bursty pattern—proceed?",
+      "message_ar": "نتائج OSS: لا يوجد انقطاع، لكن تظهر نبضات تداخل قصيرة؛ التغطية ضعيفة (RSRP ~-111 dBm)، وإشغال PRB ~58%. قمم حمل الجيران (~0.88) تتزامن مع تدهور الجودة. بعد ذلك، سأجلب سلسلة BLER الزمنية لتأكيد النمط المتقطع—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the BLER trend.",
+      "message_ar": "تفضل بمراجعة منحنى BLER."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series (2h) shows baseline 8–10% with frequent spikes to 28–32%, coincident with ~3 dB RSRQ dips and neighbor PRB surges. Diagnosis: bursty interference driving BLER. I propose targeted site parameter tuning (uplink power control bias and HARQ/ICI robustness). Approve to implement?",
+      "message_ar": "السلسلة الزمنية لـ BLER (ساعتان) تظهر خطاً أساسياً 8–10% مع قمم متكررة تصل إلى 28–32% متزامنة مع هبوط RSRQ بنحو ~3 ديسيبل وارتفاعات في PRB لدى الجيران. التشخيص: تداخل نبضي يرفع BLER. أقترح ضبطاً انتقائياً لمعلمات الموقع (تحيز تحكم طاقة الرفع وتعزيز متانة HARQ/ICI). هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "تمت الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully with no service interruption: tuned site parameters to harden against bursty interference. Initial counters show reduced retransmissions. I will observe immediate behavior for 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين بنجاح دون انقطاع الخدمة: تم ضبط معلمات الموقع لمقاومة التداخل النبضي. تظهر العدادات الأولية انخفاضاً في عمليات الإعادة. سأراقب السلوك فورياً لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~12 minutes, BLER median down to ~9% and spikes contained <15%. Streaming complaints are tapering. Do you expect further stabilization as neighbor load varies?",
+      "message_ar": "بعد ~12 دقيقة، انخفض متوسط BLER إلى ~9% وتم احتواء القمم إلى أقل من 15%. شكاوى البث تتراجع. هل تتوقع مزيداً من الاستقرار مع تغيّر حمل الجيران؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Yes. With the tuning in place, BLER should remain <10% with short peaks as traffic fluctuates. I will monitor against neighbor surges over the next couple of hours and compare trends.",
+      "message_ar": "نعم. مع الضبط الحالي، ينبغي أن يبقى BLER أقل من 10% مع قمم قصيرة عند تقلب الحركة. سأراقب مقابل ارتفاعات حمل الجيران خلال الساعتين القادمتين وأقارن الاتجاهات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: BLER spikes trending down and retransmissions reduced. Action taken: site parameter tuning to mitigate bursty interference. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تحسن ملحوظ: انخفاض اتجاه قمم BLER وتراجع عمليات الإعادة. الإجراء المتخذ: ضبط معلمات الموقع للتخفيف من التداخل النبضي. دعنا نراقب خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and report BLER stability, retransmissions, and user impact. If spikes return, we will roll back the change and escalate for inter-cell coordination and an on-site check.",
+      "message_ar": "سنستلم نافذة المراقبة لمدة 2–4 ساعات ونبلغ عن استقرار BLER وعمليات الإعادة وتأثير المستخدم. إذا عادت القمم، سنقوم بالتراجع عن التغيير والتصعيد لتنسيق بين الخلايا وفحص ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburban-Macro-Cell-1023",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburban-Macro-Cell-1023",
+        "BLER",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Targeted tuning for bursty BLER: UL power control bias and HARQ/ICI robustness"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated an off-peak alarm on a suburban NR macro cell. OSS checks showed no outage but indicated short interference bursts; BLER time series confirmed spiky behavior aligned with neighbor load and weak signal. Mitigated via site parameter tuning to harden against bursty interference, yielding immediate BLER reduction; we will monitor for the next hours.",
+    "ar": "تم التحقيق في إنذار خارج أوقات الذروة على خلية ماكرو NR في منطقة ضواحي. أظهرت فحوصات OSS عدم وجود انقطاع لكنها أشارت إلى نبضات تداخل قصيرة؛ وأكدت السلسلة الزمنية لـ BLER سلوكاً متقطعاً متزامناً مع حمل الجيران والإشارة الضعيفة. تم التخفيف عبر ضبط معلمات الموقع لتعزيز المناعة ضد التداخل النبضي مما أدى إلى انخفاض فوري في BLER؛ سنواصل المراقبة خلال الساعات القادمة."
+  }
+}

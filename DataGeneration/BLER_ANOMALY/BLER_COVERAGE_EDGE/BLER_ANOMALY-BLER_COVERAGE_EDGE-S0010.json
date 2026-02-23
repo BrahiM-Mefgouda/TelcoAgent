@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0010",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows high BLER (~10%), weak signal (RSRP -110 dBm), poor quality (RSRQ -17 dB) with interference/signal overlap (SINR -2 dB), and slow data (p50 4 Mbps) during peak eMBB hours.",
+    "ar": "خلية NR ماكرو ريفية تُظهر BLER مرتفعًا (~10%)، إشارة ضعيفة (RSRP -110 dBm)، جودة متدنية (RSRQ -17 dB) مع تداخل/تراكب إشارات (SINR -2 dB)، وبيانات بطيئة (p50 4 Mbps) خلال ساعات الذروة لخدمات eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour complaints on the rural NR macro sector—slow data and buffering on streaming. Live stats: RSRP ~-110 dBm, RSRQ -17 dB, SINR -2 dB, BLER ~10%, ~52 users. Can you check?",
+      "message_ar": "شكاوى خلال ساعة الذروة على قطاع NR ماكرو ريفي—بيانات بطيئة وتقطّع في البث. الإحصاءات: RSRP ~-110 dBm، RSRQ -17 dB، SINR -2 dB، BLER ~10%، ~52 مستخدمًا. هل يمكنك التحقق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis. First, I will pull the last 6h KPIs for the serving cell from OSS. Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأتولى التشخيص. أولاً، سأجلب مؤشرات الأداء لآخر 6 ساعات من النظام للإشراف والتشغيل للخلية المعنية. يرجى تأكيد معرف الخلية والموافقة على صلاحية القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRR-MACRO-123-S1. Read-only access approved.",
+      "message_ar": "معرف الخلية: NRR-MACRO-123-S1. تمت الموافقة على صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 6h counters: BLER hovered 8–14% at peak; SINR median ~-1 dB; RSRP weak (-108 to -114 dBm); users peaked at 54; PRB ~60%; no active alarms. Next, I’ll chart BLER over time to verify correlations. Proceed?",
+      "message_ar": "تم جلب عدادات آخر 6 ساعات: BLER بين 8–14% وقت الذروة؛ وسيط SINR نحو -1 dB؛ RSRP ضعيف (-108 إلى -114 dBm)؛ الذروة 54 مستخدمًا؛ إشغال الموارد ~60%؛ لا إنذارات. التالي، سأرسم BLER زمنيًا للتحقق من الارتباطات. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Timeseries confirms BLER spikes align with >50 users and low SINR; retransmissions are ~70% above baseline. Root cause: coverage-edge with interference/signal overlap. I propose targeted parameter optimization to bias link adaptation and scheduling toward robustness for low-SINR users. Approve implementation?",
+      "message_ar": "المنحنى الزمني يؤكد أن ارتفاعات BLER تتوافق مع أكثر من 50 مستخدمًا وSINR منخفض؛ عمليات الإعادة أعلى بنحو 70% من الأساس. السبب الجذري: طرف تغطية مع تداخل/تراكب إشارات. أقترح تحسين إعدادات موجه نحو المتانة لمستخدمي SINR المنخفض عبر تكييف الارتباط والجدولة. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NRR-MACRO-123-S1: tuned site parameters toward robust link adaptation for edge UEs and scheduler weighting. Change committed successfully with no service impact. I’m sampling immediate post-change KPIs—please share any quick user-side feedback.",
+      "message_ar": "تم تطبيق التحسين على NRR-MACRO-123-S1: ضبط معايير الخلية نحو تكيّف ارتباط أكثر متانة لمستخدمي الطرف وتوزين الجدولة. تم اعتماد التغيير بنجاح دون تأثير خدمي. أقوم بأخذ عينات فورية بعد التغيير—يرجى مشاركة أي ملاحظات سريعة من جانب المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: median throughput ~7 Mbps and BLER ~6–7% within minutes; fewer buffering reports.",
+      "message_ar": "فحص أولي: متوسط السرعة ~7 Mbps وBLER ~6–7% خلال دقائق؛ تقارير التقطّع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early impact: BLER down ~35% and retransmissions normalizing; handovers and PRB use stable. I’ll keep watching through the busy period and compare against the last 6h baseline.",
+      "message_ar": "تأثير مبكر جيد: انخفاض BLER بنحو 35% وتطبيع الإعادات؛ handover واستخدام الموارد مستقران. سأواصل المراقبة خلال فترة الانشغال ومقارنتها بخط الأساس لآخر 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend looks positive—BLER continues to drop and slow data is easing. The parameter optimization you applied matches the issue. Let’s monitor through the next busy hour.",
+      "message_ar": "الاتجاه إيجابي—BLER يواصل الانخفاض وبطء البيانات يتراجع. تحسين المعايير الذي قمت به ملائم للمشكلة. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I’ll own monitoring for the next busy hour and update you on BLER, SINR, and median throughput. If degradation reappears, I’ll escalate to interference mitigation with neighbors; otherwise we keep the change, or roll back if any regression is detected.",
+      "message_ar": "تم الاستلام. سأتولى المراقبة خلال ساعة الذروة القادمة وأوافيك بتحديث BLER وSINR وسرعة المنتصف. إذا عاد التدهور سأصعّد إلى إجراءات تخفيف التداخل مع الخلايا المجاورة؛ وإلا سنبقي التغيير، أو نتراجع عنه إذا ظهرت أي انتكاسة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRR-MACRO-123-S1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRR-MACRO-123-S1",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "BLER_edge_robustness"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on a rural NR macro cell by reviewing OSS KPIs and confirming BLER spikes via time-series analysis during peak load with low SINR at the coverage edge. Applied site parameter tuning to bias link adaptation and scheduling toward robustness for low-SINR users. Early results show reduced BLER and improved median throughput; continued monitoring through the next busy hour is in place.",
+    "ar": "تم تشخيص شذوذ BLER على خلية NR ماكرو ريفية عبر مراجعة مؤشرات OSS وتأكيد ارتفاعات BLER بمنحنى زمني خلال ذروة الحمل مع SINR منخفض عند طرف التغطية. جرى ضبط معايير الخلية لتوجيه تكيّف الارتباط والجدولة نحو المتانة لمستخدمي SINR المنخفض. النتائج الأولية تُظهر انخفاض BLER وتحسن سرعة المنتصف؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

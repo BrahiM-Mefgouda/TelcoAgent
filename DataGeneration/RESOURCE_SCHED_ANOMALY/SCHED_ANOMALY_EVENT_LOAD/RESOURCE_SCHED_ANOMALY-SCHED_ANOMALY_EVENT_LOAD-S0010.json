@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0010",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion during ingress over the last 3h: PRB ~95%, low scheduling fairness with skew, 414 users, median DL 13 Mbps, p95 latency 85 ms, SINR 7 dB.",
+    "ar": "خلية NR صغيرة في الاستاد تظهر ازدحاماً خلال مرحلة الدخول خلال آخر 3 ساعات: إشغال PRB ~95%، عدالة الجدولة منخفضة مع انحراف، 414 مستخدمًا، متوسط تنزيل 13 ميجابت/ث، زمن تأخير p95 يبلغ 85 مللي ثانية، وSINR ‏7 dB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Ingress at the stadium NR micro cell raised a scheduler alarm: ~414 users, PRB near 95%, fairness low, skew high, p95 latency 85 ms, median DL 13 Mbps. Need assistance.",
+      "message_ar": "مرحلة الدخول في خلية NR الصغيرة في الاستاد رفعت إنذاراً في المجدول: ~414 مستخدمًا، PRB قريب من 95%، العدالة منخفضة، الانحراف مرتفع، p95 للزمن 85 مللي ثانية، ومتوسط التنزيل 13 ميجابت/ث. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: check last 3h counters, then examine PRB allocation over time; if imbalance is confirmed, apply targeted scheduler tuning to protect high-priority traffic and smooth best-effort. Please confirm access and share the cell ID.",
+      "message_ar": "الخطة: فحص عدادات آخر 3 ساعات، ثم تحليل تخصيص PRB عبر الزمن؛ وإذا تأكد عدم التوازن، سنطبق ضبطًا مستهدفًا للمجدول لحماية المرور عالي الأولوية وتنعيم الأفضلية الدنيا. يرجى تأكيد صلاحية الوصول ومشاركة معرف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for read and controlled changes in this 3h window. Cell ID: NR_STAD_MICRO_12.",
+      "message_ar": "تمت الموافقة على الوصول للقراءة وإجراء تغييرات مضبوطة خلال نافذة 3 ساعات. معرف الخلية: NR_STAD_MICRO_12."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NR_STAD_MICRO_12 (3h): PRB 92–97%, fairness ≈0.37, allocation skew 25, best-effort 62% vs high-priority 18%, p95 scheduling latency 85 ms. Proceeding to time-series analysis of PRB and allocation.",
+      "message_ar": "تم سحب العدادات للخلية NR_STAD_MICRO_12 (3 ساعات): PRB بين 92–97%، العدالة ≈0.37، انحراف التخصيص 25، الأفضلية الدنيا 62% مقابل الأولوية العالية 18%، وp95 لزمن الجدولة 85 مللي ثانية. سأتجه لتحليل السلاسل الزمنية لـ PRB والتخصيص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed; onsite RF looks steady (RSRQ -13 dB, SINR 7 dB).",
+      "message_ar": "تفضل؛ حالة الترددات في الموقع مستقرة (RSRQ ‏-13 dB وSINR ‏7 dB)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series over 3h shows an ingress surge: 45–60 minutes with PRB >90% and fairness dips <0.4; queueing aligns with the spike; consistent with eMBB streaming load. Recommend mild scheduler rebalancing to lift priority share and limit per-UE bursts. Approve?",
+      "message_ar": "السلسلة الزمنية خلال 3 ساعات تُظهر موجة دخول: 45–60 دقيقة مع PRB>90% وانخفاض العدالة إلى أقل من 0.4؛ ازدحام الطوابير يتوافق مع الذروة؛ وهذا يتماشى مع حمل بث eMBB. أوصي بإعادة موازنة خفيفة للمجدول لرفع حصة الأولوية والحد من الاندفاع لكل مستخدم. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved within safe limits.",
+      "message_ar": "موافقة ضمن حدود الأمان."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied tuning on NR_STAD_MICRO_12: increased fairness, nudged priority weighting, and softened per-UE burstiness. Early read (5 min): fairness ~0.55, priority share ~25%, PRB 85–90%, p95 latency ~60 ms; median DL steady ~13–14 Mbps. Watching for side effects.",
+      "message_ar": "تم تطبيق الضبط على NR_STAD_MICRO_12: زيادة العدالة، رفع وزن الأولوية قليلًا، وتخفيف اندفاعية كل مستخدم. قراءة مبكرة (5 دقائق): العدالة ~0.55، حصة الأولوية ~25%، PRB بين 85–90%، p95 للزمن ~60 مللي ثانية؛ ومتوسط التنزيل ثابت ~13–14 ميجابت/ث. نراقب أي آثار جانبية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field note: users report smoother streaming and no abnormal drops.",
+      "message_ar": "ملاحظة ميدانية: المستخدمون يبلغون عن بث أكثر سلاسة دون حالات سقوط غير طبيعية."
+    },
+    {
+      "role": "agent",
+      "message_en": "KPIs are stabilizing and error counters remain clean over the last 10 minutes. I will continue to observe through the next busy period. Any additional site observations?",
+      "message_ar": "مؤشرات الأداء تستقر وعدادات الأخطاء نظيفة خلال آخر 10 دقائق. سأواصل المراقبة خلال فترة الذروة القادمة. هل هناك أي ملاحظات إضافية من الموقع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: lower queuing delay and more even airtime distribution; high-priority traffic is served more consistently. Action taken was scheduler parameter optimization on NR_STAD_MICRO_12. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: انخفاض تأخير الطوابير وتوزيع زمني أكثر توازناً؛ ويتم خدمة المرور عالي الأولوية بشكل أكثر اتساقاً. الإجراء كان تحسين معلمات المجدول على NR_STAD_MICRO_12. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next 2–4 hours and report back on fairness, latency, and PRB distribution. If congestion returns or fairness degrades, we will escalate with temporary load steering; if adverse effects appear, we will roll back the tuning.",
+      "message_ar": "تم. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونقدم تقريراً عن العدالة والكمون وتوزيع PRB. إذا عاد الازدحام أو تدهورت العدالة، سنصعّد عبر توجيه حمل مؤقت؛ وإذا ظهرت آثار سلبية، سنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STAD_MICRO_12",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STAD_MICRO_12",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler fairness and QoS weighting with per-UE burst limits"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling imbalance during stadium ingress, evidenced by sustained high PRB utilization, low fairness, skewed allocation, and elevated queuing delay. Verified with 3h counters and PRB time-series. Applied site parameter tuning to rebalance priorities and temper per-UE bursts, improving fairness and reducing latency; continued monitoring is in place.",
+    "ar": "تم تشخيص عدم توازن في إدارة الموارد أثناء دخول الاستاد، مع PRB مرتفع باستمرار، وعدالة منخفضة، وتخصيص منحاز، وزمن انتظار مرتفع. جرى التحقق عبر عدادات 3 ساعات وسلاسل زمنية لـ PRB. تم تطبيق ضبط معلمات على الموقع لإعادة توازن الأولويات وتخفيف اندفاعية كل مستخدم، مما حسّن العدالة وخفّض الكمون؛ وهناك مراقبة مستمرة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_INDOOR_MALL-S0030",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_INDOOR_MALL",
+  "query": {
+    "en": "Indoor NR micro cell shows very high PRB use (~95%) with 354 users over the last 3h, slow data (DL ~8 Mbps) and a congestion alarm active.",
+    "ar": "خلية NR مصغّرة داخلية تُظهر استعمالًا مرتفعًا جدًا للموارد (~95%) مع 354 مستخدمًا خلال آخر 3 ساعات، بيانات بطيئة (تنزيل ~8 ميجابت/ث) وتنبيه ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor mall NR micro cell is under peak-evening congestion; alarm is active. Users report slow data and streaming buffering. Last 3h: ~95% PRB, ~354 users, DL ~8 Mbps, UL ~6, BLER ~3–4%, p95 scheduler latency 34 ms.",
+      "message_ar": "خلية NR مصغّرة داخل مركز تجاري تعاني ازدحامًا في فترة المساء الذروة؛ التنبيه نشط. المستخدمون يشتكون من بطء البيانات وتقطّع البث. آخر 3 ساعات: ~95% استخدام للموارد، ~354 مستخدمًا، تنزيل ~8 ميجابت/ث، رفع ~6، BLER ~3–4%، وزمن جدولة p95 يساوي 34 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please confirm the cell ID and approve access; I will start by pulling the last 3h counters from the management system to assess load and bottlenecks on this indoor micro NR cell.",
+      "message_ar": "يرجى تأكيد معرّف الخلية والموافقة على الوصول؛ سأبدأ بسحب عدّادات آخر 3 ساعات من نظام إدارة الشبكة لتقييم الحمل ونقاط الاختناق في هذه الخلية المصغّرة الداخلية NR."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-MALL-3F-SEC2. Read/write access approved for immediate analysis and remediation.",
+      "message_ar": "معرّف الخلية هو NR-MALL-3F-SEC2. تمت الموافقة على الوصول قراءة/كتابة للتحليل والمعالجة فورًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing a 3h health check on NR-MALL-3F-SEC2 now: PRB load, user concurrency, scheduler delay, BLER, RLF, and basic neighbor load. Any recent site changes or events I should note?",
+      "message_ar": "أجري الآن فحصًا صحيًا لآخر 3 ساعات على NR-MALL-3F-SEC2: حمل الموارد، عدد المستخدمين المتزامنين، تأخير الجدولة، BLER، RLF، وحمل الجيران الأساسي. هل توجد تغييرات حديثة بالموقع أو فعالية يجب أخذها بالاعتبار؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No recent parameter changes. Foot traffic spike due to an in-mall event. Backhaul is 1 Gbps and clean.",
+      "message_ar": "لا توجد تغييرات مُعَلمَة على المعلمات مؤخرًا. هناك ارتفاع في الزوار بسبب فعالية داخل المركز. الربط الخلفي 1 جيجابت/ث وهو سليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: PRB utilization sustained 92–97% during 17:30–20:30 with users peaking ~360; DL p50 ~7–8 Mbps, UL ~5–6; BLER normal, RLF ~2.2%. Bottleneck is radio resource saturation causing slow data and buffering for eMBB streaming. I propose site parameter tuning: modest scheduler re-weighting for fairness, a temporary per-user eMBB cap during congestion, small resource reservation for control/VoNR, and an admission guard for new eMBB sessions. Approve to implement now?",
+      "message_ar": "النتائج: استمر استخدام الموارد بين 92–97% خلال 17:30–20:30 مع ذروة مستخدمين ~360؛ تنزيل p50 ~7–8 ميجابت/ث، رفع ~5–6؛ BLER طبيعي وRLF ~2.2%. الاختناق ناتج عن تشبع الموارد الراديوية مما يسبب بطء البيانات وتقطّع بث eMBB. أقترح ضبط معلمات الموقع: إعادة وزن طفيفة للمجدول لزيادة العدالة، سقف مؤقت لكل مستخدم eMBB أثناء الازدحام، حجز بسيط للموارد للتحكم/VoNR، وحارس قبول للجلسات الجديدة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the optimization on NR-MALL-3F-SEC2.",
+      "message_ar": "موافَق. تفضل بتنفيذ التحسين على NR-MALL-3F-SEC2."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the optimization: pushed conservative scheduler re-weighting, enabled a light congestion-time cap for eMBB, reserved a small PRB margin for control/VoNR, and activated admission guarding. Change is live with rollback ready. Early counters show ~6–8% PRB headroom and DL median trending ~10–11 Mbps.",
+      "message_ar": "أُطبّق التحسين: تم دفع إعادة وزن محافظة للمجدول، وتفعيل سقف خفيف لزمن الازدحام لـ eMBB، وحجز هامش صغير من الموارد للتحكم/VoNR، وتفعيل حارس القبول. أصبحت التغييرات فعّالة مع خطة رجوع جاهزة. المؤشرات الأولية تُظهر تحسنًا بهامش ~6–8% من الموارد وارتفاع الوسيط في التنزيل إلى ~10–11 ميجابت/ث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see fewer buffering events, DL median near 11 Mbps, active users ~340, and RLF steady. Looks better.",
+      "message_ar": "نلاحظ انخفاضًا في تقطّع البث، والوسيط في التنزيل قريب من 11 ميجابت/ث، وعدد المستخدمين النشطين ~340، وRLF مستقر. الوضع أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a tracking record for this change so we can monitor and document results. Ticket: DU-PRB-02384.",
+      "message_ar": "سأفتح تذكرة تتبّع لهذا التعديل لمراقبة النتائج وتوثيقها. التذكرة: DU-PRB-02384."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed—slow data complaints are down and throughput median is up. The parameter optimization on the cell helped. Let’s monitor through the next 2–4 hours of the busy period and track via DU-PRB-02384.",
+      "message_ar": "تمت ملاحظة تحسن—انخفضت شكاوى البيانات البطيئة وارتفع وسيط السرعة. تحسين معلمات الخلية ساعد. لنراقب خلال الساعتين إلى الأربع ساعات المقبلة من فترة الانشغال ونتابع عبر DU-PRB-02384."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring over the next 2–4 hours and update DU-PRB-02384 afterward. If congestion persists, we will escalate to capacity planning/neighbor offload; if any regressions appear, we will roll back the changes.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونحدّث DU-PRB-02384 بعد ذلك. إذا استمر الازدحام سنصعّد إلى تخطيط السعة/تفريغ إلى الجيران؛ وإذا ظهرت تراجعات سنعود عن التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-evening PRB congestion on an indoor NR micro cell causing slow data and buffering. Pulled 3-hour counters, then mitigated via site parameter tuning—scheduler re-weighting, a light congestion-time per-user cap for eMBB, a small resource reservation for control/VoNR, and admission guarding—and created ticket DU-PRB-02384 for tracking. Early results show added PRB headroom and higher median throughput; we will monitor through the next busy window.",
+    "ar": "تم تشخيص ازدحام موارد في فترة المساء على خلية NR مصغّرة داخلية تسبب بيانات بطيئة وتقطّع البث. تم سحب عدّادات 3 ساعات ثم التخفيف عبر ضبط معلمات الموقع—إعادة وزن للمجدول، سقف خفيف لكل مستخدم eMBB أثناء الازدحام، حجز بسيط للموارد للتحكم/VoNR، وحارس قبول—وتم إنشاء التذكرة DU-PRB-02384 للتتبع. النتائج الأولية تُظهر زيادة هامش الموارد وارتفاع الوسيط؛ سنواصل المراقبة خلال فترة الانشغال التالية."
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0028",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro shows backhaul link flaps (~6/hour) with burst loss, p95 latency 43 ms, jitter 29 ms, and 779 interface errors, slowing eMBB streaming to ~20 Mbps for 197 users over the last 6h.",
+    "ar": "موقع ماكرو NR في منطقة ضاحية يعاني من تقطعات في الوصلة الخلفية (~6/ساعة) مع فقدان انفجاري، وكمون p95 يبلغ 43 مللي ثانية، وتذبذب 29 مللي ثانية، و779 خطأ على الواجهة، ما خفّض سرعة بث eMBB إلى ~20 مبس لـ197 مستخدماً خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has frequent backhaul link flaps in the last 6 hours; users report buffering during streaming. Snapshots: ~6 flaps/hr, burst loss ~1.6%, p95 latency 43 ms, jitter 29 ms, 779 interface errors; DL ~20 Mbps with ~197 users.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية لديها تقطعات متكررة في الوصلة الخلفية خلال آخر 6 ساعات؛ المستخدمون يبلّغون عن تعثر أثناء البث. لقطات: ~6 تقطعات/ساعة، فقدان انفجاري ~1.6%، كمون p95 = 43 مللي ثانية، تذبذب 29 مللي ثانية، 779 خطأ على الواجهة؛ تنزيل ~20 مبس مع ~197 مستخدماً."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by checking OSS counters and backhaul status over 6h. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأبدأ بالتحقق من عدادات النظام وحالة الوصلة الخلفية خلال 6 ساعات. يرجى تأكيد معرف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-MACRO-0132; read access approved.",
+      "message_ar": "معرّف الخلية NR-SUB-MACRO-0132؛ تمت الموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: backhaul shows 5–7 link flaps/hr (avg ~6), burst loss 1.64%, p95 latency 43 ms, jitter 29 ms, and 779 CRC/PHY errors. Radio is stable (PRB ~63%, SINR 17 dB, RSRP -97 dBm). Root cause is transport. I propose low‑risk tuning to stabilize the backhaul (flap dampening and keepalive/hold‑off adjustments). Approve?",
+      "message_ar": "اكتمل الفحص: الوصلة الخلفية تُظهر 5–7 تقطعات/ساعة (متوسط ~6)، فقدان انفجاري 1.64%، كمون p95 43 مللي ثانية، تذبذب 29 مللي ثانية، و779 خطأ CRC/PHY. جانب الراديو مستقر (استخدام الموارد ~63%، SINR 17 ديسيبل، RSRP -97 ديسيبل ملي واط). السبب الجذري هو النقل. أقترح ضبطاً منخفض المخاطر لاستقرار الوصلة الخلفية (تخميد التقطعات وتعديل مؤقتات keepalive/hold‑off). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: increased flap dampening, adjusted keepalive/hold‑off to reduce renegotiations, and tuned error‑recovery thresholds. No service reset performed. Early signs: no new flaps in 5 minutes and jitter trending down. I also recommend opening a vendor ticket for transport path investigation. Approve?",
+      "message_ar": "تم التطبيق: زيادة تخميد التقطعات، ضبط keepalive/hold‑off لتقليل إعادة التفاوض، وضبط عتبات الاسترداد من الأخطاء. لم يتم إجراء إعادة تشغيل. المؤشرات الأولية: لا تقطعات خلال 5 دقائق وتراجع في التذبذب. أوصي كذلك بفتح تذكرة مع المورّد لفحص مسار النقل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open a vendor ticket.",
+      "message_ar": "موافق على فتح تذكرة مع المورّد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created DU-BH-04271: persistent backhaul flaps and interface errors on NR-SUB-MACRO-0132; site parameters tuned to mitigate; request transport path inspection. I will watch counters and user experience and notify of material changes.",
+      "message_ar": "تم إنشاء التذكرة DU-BH-04271: تقطعات مستمرة وأخطاء واجهة على NR-SUB-MACRO-0132؛ تم ضبط معلمات الموقع للتخفيف؛ نطلب فحص مسار النقل. سأراقب العدادات وتجربة المستخدم وأبلغ بأي تغييرات ملحوظة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial improvement observed: link flaps have halted and jitter is lower. Action taken: backhaul stability parameter optimization and ticket opened DU-BH-04271. Propose monitoring through the next busy hour.",
+      "message_ar": "تحسّن أولي: توقفت التقطعات وانخفض التذبذب. الإجراء المنفذ: تحسين معلمات استقرار الوصلة الخلفية وفتح التذكرة DU-BH-04271. أقترح المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own monitoring through the next busy hour and update DU-BH-04271 afterward. If flaps return or latency rises, we will escalate to transport operations; if regressions appear, we will roll back the tuning.",
+      "message_ar": "تم الاستلام؛ سنتولى المراقبة خلال ساعة الذروة التالية وسنحدّث DU-BH-04271 بعدها. إذا عادت التقطعات أو ارتفع الكمون، سنصعّد إلى عمليات النقل؛ وإذا ظهرت أي انتكاسات، سنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-0132",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_stability_params"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Backhaul link flaps and interface errors on NR-SUB-MACRO-0132; tuned site parameters to stabilize; request transport vendor investigation."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "OSS review confirmed degraded backhaul on NR-SUB-MACRO-0132 with frequent link flaps, burst loss, and elevated latency/jitter while radio resources were normal. We mitigated via site parameter tuning to stabilize the backhaul path and opened ticket DU-BH-04271 for transport vendor investigation. We will monitor to ensure flap rate remains zero and latency/jitter meet targets.",
+    "ar": "أكدت مراجعة النظام تدهور الوصلة الخلفية على NR-SUB-MACRO-0132 مع تقطعات متكررة وفقدان انفجاري وارتفاع الكمون/التذبذب بينما كانت موارد الراديو طبيعية. قمنا بالتخفيف عبر ضبط معلمات الموقع لاستقرار مسار الوصلة الخلفية وفتحنا التذكرة DU-BH-04271 للتحقيق من قبل المورّد. سنراقب لضمان بقاء معدل التقطعات صفراً وتحقيق الكمون/التذبذب للأهداف."
+  }
+}

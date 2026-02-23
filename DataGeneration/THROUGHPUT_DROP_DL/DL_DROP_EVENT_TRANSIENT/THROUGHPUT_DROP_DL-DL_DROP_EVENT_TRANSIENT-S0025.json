@@ -1,0 +1,105 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0025",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "In the stadium over the last 2 hours, the NR microcell shows slow data (~4 Mbps) with interference/signal overlap and an active congestion alarm.",
+    "ar": "في الملعب خلال آخر ساعتين، تُظهر الخلية الصغيرة NR بطئاً في البيانات (~4 ميجابت/ث) مع تداخل/تراكب إشارات ووجود إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR microcell has struggled over the last 2h during ingress: alarm active, ~510 users, downlink ~4 Mbps, SINR ~4 dB, RSRQ -10 dB, streaming buffering reported.",
+      "message_ar": "الخلية الصغيرة NR في الملعب تعاني خلال آخر ساعتين أثناء دخول الحشود: إنذار نشط، ~510 مستخدمين، سرعة تنزيل ~4 ميجابت/ث، SINR حوالي 4 dB و RSRQ -10 dB، وهناك شكاوى من تقطيع البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely congestion with interference/signal overlap. Please confirm the serving cell ID and permit a 2h read; I will pull OSS stats, review DL time series, then apply a safe optimization if confirmed.",
+      "message_ar": "تم الاستلام. يُرجّح وجود ازدحام مع تراكب إشارات. يرجى تأكيد معرف الخلية والسماح بقراءة لمدة ساعتين؛ سأجلب إحصاءات النظام، أراجع السلسلة الزمنية للتنزيل، ثم أنفذ تحسيناً آمناً إذا تأكدت النتائج."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-045; access approved for the last 2h. p95 scheduler latency ~51 ms; no backhaul alarms.",
+      "message_ar": "معرف الخلية هو NR-STAD-045؛ الموافقة على الوصول لآخر ساعتين. تأخير المُلَحِّم p95 حوالي 51 مللي ثانية؛ لا إنذارات في النقل الخلفي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS for NR-STAD-045 over 2h: PRB utilization ~92%, >500 active UEs, BLER ~7%, SINR ~4 dB. Congestion flag present; no HW/RF faults. Proceeding to chart downlink KPIs for trend confirmation.",
+      "message_ar": "تم جلب بيانات النظام لـ NR-STAD-045 خلال ساعتين: استهلاك PRB ~92%، أكثر من 500 مستخدم نشط، BLER حوالي 7%، وSINR نحو 4 dB. إنذار الازدحام موجود؛ لا أعطال عتادية/لاسلكية. سأتوجه لرسم مؤشرات التنزيل لتأكيد الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms a steep drop: median down from ~18 to ~4 Mbps during ingress; p95 scheduler latency rising to ~51 ms; BLER stable ~7%. Diagnosis: scheduler saturation under crowd load compounded by signal overlap among nearby cells. Request approval to push a targeted, reversible tuning for stadium ingress.",
+      "message_ar": "السلسلة الزمنية للتنزيل تؤكد هبوطاً حاداً: الوسيط انخفض من ~18 إلى ~4 ميجابت/ث أثناء دخول الحشود؛ تأخر المُلحِّم p95 ارتفع إلى ~51 مللي ثانية؛ BLER ثابت ~7%. التشخيص: تشبع المُلحِّم تحت حمولة الحشود مع تراكب إشارات بين خلايا مجاورة. أطلب الموافقة على دفع ضبط مُوجَّه قابل للرجوع لمشهد دخول الملعب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافق على التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying live tuning on NR-STAD-045: enable short-term congestion profile for DL, increase scheduler fairness and control robustness, and use conservative layer usage to stabilize low-SINR UEs. Change is live with no restart. I will monitor KPIs for 10 minutes; please report user-experience changes.",
+      "message_ar": "جارٍ تطبيق ضبط مباشر على NR-STAD-045: تفعيل ملف ازدحام قصير الأجل للتنزيل، تعزيز عدالة المُلحِّم ومتانة التحكم، واستخدام طبقات محافظة لاستقرار المستخدمين ذوي SINR المنخفض. التعديل أصبح نافذاً بدون إعادة تشغيل. سأراقب المؤشرات لمدة 10 دقائق؛ يرجى إفادتي بتغيرات تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: DL user rates up to ~8–9 Mbps and p95 scheduler latency down to ~34 ms; fewer buffering reports. Action taken: site parameter tuning applied. Propose monitoring through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: سرعات المستخدم في التنزيل ارتفعت إلى ~8–9 ميجابت/ث وتراجع تأخر المُلحِّم p95 إلى ~34 مللي ثانية؛ شكاوى التقطيع أقل. الإجراء المنفذ: ضبط معلمات الموقع. أقترح المتابعة خلال الساعة المزدحمة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and report throughput and latency trends. If performance regresses or errors rise, we will roll back the tuning and consider alternative load relief; if stable, we will keep the change.",
+      "message_ar": "سنقوم بمتابعة المراقبة خلال الساعة المزدحمة القادمة وتقديم تقرير عن اتجاهات السرعة والزمن. إذا تراجعت الأداءات أو زادت الأخطاء، سنرجع عن الضبط وننظر في وسائل تخفيف حمل بديلة؛ وإذا استقر الأداء، سنُبقي التعديل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a stadium NR microcell downlink throughput drop during ingress as congestion compounded by interference/signal overlap. Verified high resource utilization, low SINR, and elevated scheduler latency via OSS and downlink KPI trends. Applied targeted site parameter tuning to improve scheduling fairness and downlink robustness, and will monitor through the next busy hour.",
+    "ar": "تم تشخيص هبوط سرعات التنزيل في خلية NR صغيرة داخل الملعب أثناء دخول الحشود كازدحام تفاقم بسبب تراكب/تداخل الإشارات. تم التحقق من ارتفاع استهلاك الموارد وانخفاض SINR وارتفاع تأخر المُلحِّم عبر بيانات النظام واتجاهات مؤشرات التنزيل. تم تطبيق ضبط معلمات الموقع بشكل مُوجَّه لتحسين عدالة التوزيع ومتانة التنزيل، وسيتم المتابعة خلال الساعة المزدحمة القادمة."
+  }
+}

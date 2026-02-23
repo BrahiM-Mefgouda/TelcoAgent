@@ -1,0 +1,114 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0024",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural 5G NR macro with FWA traffic shows high resource use (~87%) and 164 users while nearby cells are lightly loaded (~27%); please assess and balance within the 6h window.",
+    "ar": "موقع 5G NR ماكرو في منطقة ريفية مع حركة FWA يظهر استخدام موارد مرتفعاً (~87%) مع 164 مستخدماً بينما الخلايا المجاورة منخفضة التحميل (~27%)؛ الرجاء التقييم والموازنة خلال نافذة 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell is consistently hot; mostly FWA users. No alarms. Neighbors look light. Can you investigate and address this within the next 6 hours?",
+      "message_ar": "خلية NR ماكرو ريفية ساخنة باستمرار؛ المستخدمون غالباً FWA. لا توجد إنذارات. الخلايا المجاورة تبدو خفيفة. هل يمكنك التحقيق والمعالجة خلال الست ساعات القادمة؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by reviewing neighboring cells to confirm imbalance and offload options. Please share the cell ID and approve read access.",
+      "message_ar": "تم الاستلام. سأبدأ بمراجعة الخلايا المجاورة لتأكيد عدم التوازن وخيارات تفريغ الحمل. الرجاء مشاركة معرف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-RURAL-7821-S1. Read-only access approved.",
+      "message_ar": "معرف الخلية: NR-RURAL-7821-S1. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review complete: nearest neighbors (~8 km) are ~20–35% utilized; this cell is ~87% with 164 users. Mobility is symmetric (~8 handovers in/out per 5 min). RF quality is fair (SINR ~12 dB, RSRQ -7 dB). I propose a small load-balancing bias toward the two underused neighbors with conservative limits to avoid ping-pong. Approve to proceed?",
+      "message_ar": "تمت مراجعة الجيران: أقرب الجيران (~8 كم) عند ~20–35% استخدام؛ هذه الخلية عند ~87% مع 164 مستخدماً. التنقل متماثل (~8 تسليمات دخول/خروج كل 5 دقائق). جودة الإشارة متوسطة (SINR ~12 dB، RSRQ -7 dB). أقترح انحيازاً بسيطاً لموازنة الحمل نحو الجارين منخفضي الاستخدام مع حدود محافظة لتجنب التقافز. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed now within the window.",
+      "message_ar": "موافق. تفضل بالتنفيذ الآن ضمن النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: reduced serving bias on the hot sector and enabled offload toward two underutilized neighbors; offsets/timers constrained to minimize oscillations. Scoped to NR only and fully reversible. I will observe counters for the next 15 minutes.",
+      "message_ar": "تم التطبيق: تقليل انحياز الخدمة على القطاع الساخن وتمكين تفريغ الحمل نحو جارين منخفضي الاستخدام؛ تم تقييد الحدود والمؤقتات لتقليل الاهتزازات. مقتصر على NR وقابل للعكس بالكامل. سأراقب المؤشرات خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: neighbor users increased by ~22, hot cell resource use dropped from ~87% to ~68%, handover success remains normal.",
+      "message_ar": "المؤشرات الأولية إيجابية: زاد عدد مستخدمي الجيران بحوالي 22، وانخفض استخدام موارد الخلية الساخنة من ~87% إلى ~68%، ونسبة نجاح التسليم طبيعية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I will continue watching resource use, throughput, and failures; I will alert if any regression appears. Any field complaints from FWA CPEs?",
+      "message_ar": "توجه جيد. سأواصل مراقبة استخدام الموارد ومعدل النقل والإخفاقات؛ وسأبلغ في حال ظهور تراجع. هل وردت شكاوى ميدانية من أجهزة FWA؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No complaints so far. Median downlink throughput improved to ~21 Mbps and stability looks good.",
+      "message_ar": "لا شكاوى حتى الآن. تحسن الوسيط لمعدل التحميل إلى ~21 ميجابت/ث، والاستقرار جيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Status is healthy and load is more even across the cluster. Please confirm your preferred monitoring window for this change.",
+      "message_ar": "الوضع صحي والحمل أصبح أكثر توازناً عبر المجموعة. يرجى تأكيد نافذة المراقبة المفضلة لهذا التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: resource use trending down and user distribution across neighbors is more balanced. Action taken was neighbor review followed by site parameter optimization for load balancing. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن الملحوظ: استخدام الموارد في اتجاه هابط وتوزيع المستخدمين عبر الجيران أصبح أكثر توازناً. الإجراء المتخذ كان مراجعة الجيران تلتها تحسين معلمات الموقع لموازنة الحمل. فلنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring through the next busy hour and share an update afterward. If congestion returns, we will roll back the change; if performance remains stable, we will keep the adjustment and consider broader balancing if needed.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنقدم تحديثاً بعدها. إذا عادت الازدحامات سنعيد التغيير كما كان؛ وإذا بقي الأداء مستقراً سنحافظ على الضبط وننظر في توسيع الموازنة عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a single hot rural NR macro serving FWA with ~87% resource use versus lightly loaded neighbors. Reviewed neighboring cells and applied site parameter tuning to bias traffic toward underutilized sectors, offloading the hot cell. Monitoring through the next busy hour to confirm stability, with rollback ready if adverse effects appear.",
+    "ar": "تم تشخيص خلية NR ماكرو ريفية ساخنة تخدم FWA بنسبة استخدام ~87% مقارنة بجيران منخفضي التحميل. تمت مراجعة الخلايا المجاورة وتطبيق ضبط لمعلمات الموقع لتحويل الحركة نحو القطاعات منخفضة الاستخدام وتخفيف الحمل عن الخلية الساخنة. سيتم المراقبة خلال ساعة الذروة القادمة للتأكد من الاستقرار، مع جاهزية التراجع إذا ظهرت آثار سلبية."
+  }
+}

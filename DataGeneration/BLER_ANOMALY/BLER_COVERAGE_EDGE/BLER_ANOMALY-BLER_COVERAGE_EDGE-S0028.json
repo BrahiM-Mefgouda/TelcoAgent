@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0028",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows ~14% BLER with weak signal (RSRP -112 dBm), poor quality (RSRQ -12 dB, SINR -1 dB), and interference / signal overlap over the last 6h during shoulder hours, impacting eMBB streaming for 107 users with median throughput around 10 Mbps.",
+    "ar": "خلية ماكرو NR ريفية تُظهر BLER بحوالي ~14% مع إشارة ضعيفة (RSRP -112 dBm) وجودة متدنية (RSRQ -12 dB، SINR -1 dB) ووجود interference / signal overlap خلال آخر 6 ساعات في فترة الكتف، مما يؤثر على بث eMBB لـ 107 مستخدمين مع متوسط سرعات يقارب 10 ميغابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell shows elevated BLER ~14% with weak RSRP (-112 dBm), RSRQ -12 dB, SINR -1 dB over the last 6h (shoulder hours). eMBB users report intermittent streaming. No active alarms—please investigate.",
+      "message_ar": "خلية ماكرو NR ريفية تُظهر BLER مرتفعًا (~14%) مع RSRP ضعيف (-112 dBm) وRSRQ -12 dB وSINR -1 dB خلال آخر 6 ساعات (فترة الكتف). أفاد مستخدمو eMBB بانقطاعات في البث. لا توجد إنذارات نشطة—يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by checking health and counters for the last 6h, then review the BLER trend to isolate the cause. Please share the cell ID and approve access.",
+      "message_ar": "سأبدأ بفحص الحالة والمؤشرات لآخر 6 ساعات ثم مراجعة منحنى BLER لعزل السبب. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRCell_410-92-120-3. Access approved for the 6h window.",
+      "message_ar": "معرّف الخلية: NRCell_410-92-120-3. تمت الموافقة على الوصول لفترة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "System check on NRCell_410-92-120-3 (6h): no alarms; DL load moderate; users peaked at 107; Tx power nominal; CQI skewed low; SINR ~ -1 dB; RSRP ~ -112 dBm; BLER 12–16%. Next, I'll pull the BLER time series to correlate with traffic.",
+      "message_ar": "فحص النظام للخلية NRCell_410-92-120-3 (6 ساعات): لا إنذارات؛ حمل الوصلة الهابطة متوسط؛ ذروة المستخدمين 107؛ قدرة الإرسال ضمن الحدود؛ CQI منخفض؛ SINR حوالي -1 dB؛ RSRP حوالي -112 dBm؛ BLER بين 12–16%. التالي، سأجلب السلسلة الزمنية لـ BLER لربطها بحركة المرور."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—go ahead.",
+      "message_ar": "موافق—تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series (6h) shows spikes during shoulder hour aligned with user peaks; error bursts coincide with low SINR and poor RSRQ. This indicates edge users under interference / signal overlap. I propose applying targeted edge-robustness tuning to cut BLER with minimal capacity impact; proceed now?",
+      "message_ar": "السلسلة الزمنية لـ BLER (6 ساعات) تُظهر ارتفاعات خلال فترة الكتف متزامنة مع ذروة المستخدمين؛ وتزامنًا مع SINR منخفض وRSRQ متدنٍ. هذا يشير إلى مستخدمين على حافة التغطية مع interference / signal overlap. أقترح تطبيق ضبط موجّه لتعزيز الاعتمادية على الحافة لخفض BLER بأقل تأثير على السعة؛ هل أتابع الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning.",
+      "message_ar": "تابع الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied edge-robustness tuning on NRCell_410-92-120-3. Immediate checks: BLER now ~7–8% over the last 10 minutes; retransmissions down ~20%; median downlink throughput improved from 10 to ~12 Mbps; no neighbor instability or alarms.",
+      "message_ar": "تم تطبيق ضبط تعزيز الاعتمادية على الحافة على NRCell_410-92-120-3. الفحوصات الفورية: BLER الآن ~7–8% خلال آخر 10 دقائق؛ عمليات إعادة الإرسال انخفضت ~20%؛ تحسّن متوسط سرعة الوصلة الهابطة من 10 إلى ~12 ميغابت/ث؛ لا عدم استقرار لدى الجيران ولا إنذارات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We also see fewer retransmissions and BLER trending down at the edge.",
+      "message_ar": "نلاحظ أيضًا انخفاضًا في عمليات إعادة الإرسال واتجاهاً هبوطيًا لـ BLER عند الحافة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please confirm if edge streaming stalls have subsided; I'll keep an eye on counters while traffic settles.",
+      "message_ar": "يرجى تأكيد ما إذا كانت حالات توقف البث عند الحافة قد تراجعت؛ سأواصل مراقبة العدّادات أثناء استقرار الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Edge stalls have largely cleared and BLER is trending lower; with the site parameter tuning applied, let's monitor through the next busy hour to confirm stability.",
+      "message_ar": "توقّفات البث عند الحافة تلاشت إلى حد كبير وBLER يتجه للانخفاض؛ مع تطبيق ضبط معلمات الموقع، دعنا نراقب خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We'll own the next busy-hour monitoring and provide an update afterward. If BLER regresses or user impact returns, we'll roll back the tuning and escalate for interference review; otherwise, we'll retain the change.",
+      "message_ar": "سنقوم نحن بمتابعة المراقبة خلال ساعة الذروة القادمة وتقديم تحديث بعد ذلك. إذا تراجع BLER أو عاد تأثير المستخدمين، سنُرجع الضبط ونصعّد لمراجعة التداخل؛ وإلا فسنُبقي على التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell_410-92-120-3",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell_410-92-120-3",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "edge_robustness_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated BLER at a rural NR macro cell under weak coverage and interference, confirmed via system health review and BLER time-series correlation during shoulder hours. Applied site parameter tuning to improve edge robustness, reducing BLER from ~14% to ~7–8% with a modest throughput gain. We will monitor through the next busy hour and adjust if degradation reappears.",
+    "ar": "تم تشخيص ارتفاع BLER في خلية ماكرو NR ريفية تحت تغطية ضعيفة وتداخل، وتم تأكيده عبر مراجعة حالة النظام وربط السلسلة الزمنية لـ BLER خلال فترة الكتف. تم تطبيق ضبط معلمات الموقع لتحسين الاعتمادية عند الحافة، مما خفّض BLER من ~14% إلى ~7–8% مع تحسن طفيف في السرعة. سنراقب خلال ساعة الذروة القادمة ونتخذ إجراءً إذا عاد التدهور."
+  }
+}

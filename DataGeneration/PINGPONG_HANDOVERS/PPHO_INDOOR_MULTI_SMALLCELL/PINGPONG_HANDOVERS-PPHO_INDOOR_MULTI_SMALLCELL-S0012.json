@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0012",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office wing NR micro cell shows high ping‑pong handovers and slow data over the last 3 hours; please investigate.",
+    "ar": "خلية NR صغيرة داخلية في جناح المكتب تُظهر تبديلات متكررة مرتفعة وبطء بيانات خلال آخر 3 ساعات؛ يرجى التحقيق."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor office wing NR micro cell shows high ping‑pong over the last 3h; off‑peak eMBB users reported buffering during streaming and slow data.",
+      "message_ar": "خلية NR صغيرة داخلية في جناح المكتب لديها نسبة تبديل متكرر مرتفعة خلال آخر 3 ساعات؛ مستخدمو eMBB أبلغوا عن تقطّع أثناء البث وبطء في البيانات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by pulling last 3h OSS counters for the affected cell to quantify ping‑pong, failures, load, and radio quality. Please share the exact cell ID and approve read-only access.",
+      "message_ar": "تم. سأبدأ بسحب مؤشرات آخر 3 ساعات من النظام لحساب التبديل المتكرر والإخفاقات والحمل وجودة الإشارة. يرجى تزويدي بالمعرّف الدقيق للخلية والموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_IN_BLDG_A_3F_SC1. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR_IN_BLDG_A_3F_SC1. تمّت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters. Findings: HO success ~80.6%, HO failure 9%, ping‑pong rate 19%, attempts ~129/5min, PRB utilization ~79%, RSRP −94 dBm, RSRQ −11 dB, SINR 7 dB, median DL ~8 Mbps. This points to aggressive mobility under moderate load. I will run a 3h HO time‑series to isolate dominant neighbor pairs and handback intervals—proceed?",
+      "message_ar": "تم سحب مؤشرات 3 ساعات. النتائج: نجاح التسليم ~80.6%، فشل التسليم 9%، معدل التبديل المتكرر 19%، محاولات ~129/5 دقائق، إشغال PRB ~79%، RSRP −94 dBm، RSRQ −11 dB، SINR ‏7 dB، متوسط التحميل ~8 ميجابت/ث. هذا يشير إلى إعدادات تنقل عدوانية مع حمل متوسط. سأشغّل سلسلة زمنية للتسليم 3 ساعات لتحديد الأزواج الجارة المسيطرة وفواصل الارتداد السريع—هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time‑series shows spikes at 10:20 and 10:55 with rapid handbacks <60s, dominated by NR_IN_BLDG_A_3F_SC2 and SC3; HO attempts 120–140/5min, HO success flat ~81%. For this indoor small site, I recommend tuning mobility: increase A3 offset by +2 dB for intra‑floor neighbors, raise TTT to 240 ms, and add +1 dB hysteresis to damp ping‑pong. Low risk; may slightly delay marginal HOs. Approve immediate change?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاعات عند 10:20 و10:55 مع ارتدادات سريعة <60 ثانية، يهيمن عليها SC2 وSC3 في نفس الطابق؛ محاولات التسليم 120–140/5 دقائق، نجاح التسليم ثابت ~81%. أقترح ضبط التنقل: رفع إزاحة A3 بمقدار +2 dB للجيران داخل الطابق، رفع TTT إلى 240 مللي ثانية، وإضافة +1 dB هسترة لتقليل التبديل المتكرر. المخاطر منخفضة وقد تؤخر تسليمات هامشية قليلاً. هل توافق على التنفيذ الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the proposed mobility tweaks now.",
+      "message_ar": "موافق على تطبيق تعديلات التنقل المقترحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied: A3 offset +2 dB (intra‑floor neighbors), TTT 240 ms, hysteresis +1 dB. Push successful; KPIs reloading every 5 minutes. Please watch for immediate behavior; I’ll monitor counters for the next 30 minutes.",
+      "message_ar": "تم التطبيق: رفع إزاحة A3 بمقدار +2 dB (لجيران نفس الطابق)، TTT إلى 240 مللي ثانية، والهسترة +1 dB. تم الدفع بنجاح؛ يتم تحديث المؤشرات كل 5 دقائق. يرجى ملاحظة السلوك فورًا؛ سأراقب المؤشرات خلال 30 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 20 minutes look better: ping‑pong down to ~10–12%, fewer rapid handbacks, and median downlink improved to ~10–12 Mbps. Fewer buffering complaints.",
+      "message_ar": "أول 20 دقيقة تبدو أفضل: انخفض التبديل المتكرر إلى ~10–12% مع تقليل الارتدادات السريعة، وتحسن التحميل الوسطي إلى ~10–12 ميجابت/ث. شكاوى التقطّع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I’ll keep tracking HO success/fail and handback rate through the next busy hour, and spot‑check neighbor pairs SC2/SC3. No alarms seen. Let me know if any corner shows lingering issues.",
+      "message_ar": "اتجاه جيد. سأواصل تتبّع نجاح/فشل التسليم ومعدل الارتداد خلال ساعة الذروة القادمة، مع التحقق من الأزواج الجارة SC2/SC3. لا توجد إنذارات حالياً. أخبرني إذا ظهرت مشاكل متبقية في أي زاوية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: rapid handbacks trending down and HO failures easing. The mobility parameter optimization you pushed is helping; suggest we monitor through the next 2–4 hours.",
+      "message_ar": "التحسّن مستمر: الارتدادات السريعة في انخفاض وفشل التسليم يتراجع. ضبط معلمات التنقل الذي قمت به يُحسن الأداء؛ أقترح متابعة المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours of monitoring and update you on ping‑pong rate, HO success, and user throughput. If degradation reappears, we’ll roll back the mobility tweaks and escalate to a focused RF check of the floor.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونزوّدك بتحديث عن معدل التبديل المتكرر ونجاح التسليم وسرعات المستخدمين. إذا عاد التدهور، سنعيد التعديلات على التنقل ونصعّد إلى فحص RF مركز للطابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_IN_BLDG_A_3F_SC1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_IN_BLDG_A_3F_SC1",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "a3_offset:+2dB; ttt:240ms; hysteresis:+1dB; neighbor_scope:intra-floor"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping‑pong in an indoor NR micro cell during off‑peak hours by pulling 3h OSS counters and HO time‑series, revealing rapid handbacks between intra‑floor neighbors under moderate load and mid SINR. Mitigated by site parameter tuning: increased A3 offset, extended TTT, and added hysteresis to stabilize handovers. Early results show reduced ping‑pong and improved median downlink; continued monitoring is in place.",
+    "ar": "تم تشخيص ارتفاع التبديل المتكرر في خلية NR داخلية صغيرة خلال ساعات الخمول عبر سحب مؤشرات 3 ساعات وسلسلة زمنية للتسليم، ما كشف ارتدادات سريعة بين جيران في نفس الطابق تحت حمل متوسط وSINR متوسط. تم التخفيف عبر ضبط معلمات الموقع: زيادة إزاحة A3، إطالة TTT، وإضافة هسترة لتثبيت التسليمات. تظهر النتائج الأولية انخفاضًا في التبديل المتكرر وتحسنًا في التحميل الوسطي؛ المراقبة مستمرة."
+  }
+}

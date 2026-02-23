@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0003",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban NR macro cell over the last 6h shows a congestion alarm with interference / signal overlap and slow data: SINR -3 dB, RSRQ -12 dB, PRB 87%, ~374 users, HO success ~72%, p50 DL ~8 Mbps.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات تظهر إنذار ازدحام مع تداخل/تراكب إشارة وبطء البيانات: SINR ‎-3 dB و RSRQ ‎-12 dB و PRB ‎87% ~ و374 مستخدمًا، نسبة نجاح التسليم ~72% وسرعة تنزيل وسيطة ~8 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing poor experience on the urban NR macro in the last 6h with a congestion alarm; users report streaming buffering and slow data. KPIs: SINR -3 dB, RSRQ -12 dB, HO success ~72%, ping-pong 19%, PRB 87%, p50 DL ~8 Mbps.",
+      "message_ar": "نلاحظ تجربة ضعيفة على خلية NR ماكرو حضرية خلال آخر 6 ساعات مع إنذار ازدحام؛ المستخدمون يبلغون عن تقطيع في البث وبطء البيانات. المؤشرات: SINR ‎-3 dB و RSRQ ‎-12 dB ونسبة نجاح التسليم ~72% وارتداد 19% وPRB ‎87% وسرعة تنزيل وسيطة ~8 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with a neighbor/PCI audit to check for duplicate PCI and signal overlap driving interference. Please confirm the target cell ID and approve using the last 6h window.",
+      "message_ar": "سأبدأ بتدقيق الجيران/PCI للتحقق من تكرار PCI وتراكب الإشارة المسبب للتداخل. يرجى تأكيد معرف الخلية المستهدفة والموافقة على استخدام نافذة آخر 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Target is NR-URB-MACRO-001-A; approved to proceed with the 6h window.",
+      "message_ar": "الهدف هو NR-URB-MACRO-001-A؛ مُوافق على المتابعة باستخدام نافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit result: neighboring sector NR-URB-MACRO-404-A is using the same PCI 20; the overlap with our cell is ~44% of the serving area in the downtown cluster, aligning with low SINR and ping-pong spikes.",
+      "message_ar": "نتيجة التدقيق: القطاع المجاور NR-URB-MACRO-404-A يستخدم نفس PCI 20؛ التداخل مع خلّيتنا يبلغ ~44% من منطقة الخدمة في وسط المدينة، ويتطابق مع انخفاض SINR وارتفاع الارتداد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "That matches the complaints near the overlap area; proceed with the fix.",
+      "message_ar": "هذا يتطابق مع الشكاوى قرب منطقة التداخل؛ تفضل بتنفيذ الإصلاح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: retune the target cell to a non-conflicting PCI (512) and refresh neighbor relations to remove duplicates; minimal impact expected. Requesting approval to apply now.",
+      "message_ar": "الخطة: إعادة ضبط الخلية المستهدفة إلى PCI غير متضارب (512) وتحديث علاقات الجوار لإزالة التكرارات؛ يتوقع تأثير طفيف. أطلب الموافقة للتطبيق الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply now.",
+      "message_ar": "موافق على التطبيق الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: PCI set on NR-URB-MACRO-001-A and neighbor relations refreshed. Immediate checks show SINR improving from -3 dB to +1.5 dB, BLER down from ~10% to ~6%, and ping-pong indications easing.",
+      "message_ar": "تم التطبيق: تم ضبط PCI على NR-URB-MACRO-001-A وتحديث علاقات الجوار. الفحوصات الفورية تُظهر تحسن SINR من ‎-3 dB إلى ‎+1.5 dB وانخفاض BLER من ~10% إلى ~6% وتراجع مؤشرات الارتداد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Live probes show streaming stabilizing and fewer handover flaps; continue.",
+      "message_ar": "اختبارات مباشرة تُظهر استقرار البث وانخفاض تقلبات التسليم؛ تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket DU-PCI-04567 opened with the PCI retune summary and post-change checks. We will monitor key mobility and interference indicators through the next busy hour.",
+      "message_ar": "تم فتح تذكرة متابعة DU-PCI-04567 بملخص إعادة الضبط والتحقق بعد التغيير. سنراقب مؤشرات الحركة والتداخل خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing ongoing improvement: handover failures trending down and median downlink rising; the PCI parameter optimization looks effective. Monitor for the next 2–4 hours and update DU-PCI-04567.",
+      "message_ar": "نرى تحسناً مستمراً: فشل التسليم يتجه للانخفاض والمتوسط الوسيط للتنزيل يرتفع؛ يبدو أن تحسين إعدادات PCI فعال. راقب خلال الساعتين إلى الأربع ساعات القادمة وحدّث DU-PCI-04567."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next 2–4 hours, track mobility, interference, and user rates, and update the ticket afterward. If performance degrades, we will roll back the change and escalate to RF for on-site interference validation.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة، مع تتبع الحركة والتداخل ومعدلات المستخدمين، وسنحدّث التذكرة بعد ذلك. إذا تدهور الأداء فسنعيد التغيير ونصعّد إلى فريق RF للتحقق الميداني من التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-URB-MACRO-001-A",
+        "all"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI retune on NR-URB-MACRO-001-A from 20 to 512; refresh neighbor relations; remove duplicates"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI collision on NR-URB-MACRO-001-A via retune; monitor mobility/interference KPIs over next busy hours"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on an urban NR macro: a neighbor shared PCI 20 with ~44% overlapping footprint, causing interference, mobility issues, and slow data during an alarmed period. Verified via neighbor audit, then mitigated by site parameter tuning to a non-conflicting PCI and neighbor cleanup, and a tracking ticket was opened for follow-up monitoring.",
+    "ar": "تم تشخيص تصادم PCI على خلية NR ماكرو حضرية: جار يستخدم نفس PCI 20 مع تداخل يقارب 44%، مما سبب تداخلًا ومشاكل حركة وبطء بيانات أثناء فترة الإنذار. جرى التحقق عبر تدقيق الجيران ثم التخفيف من خلال ضبط إعدادات الموقع إلى PCI غير متضارب وتنظيف الجوار، وتم فتح تذكرة متابعة للمراقبة اللاحقة."
+  }
+}

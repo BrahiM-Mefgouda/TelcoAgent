@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0023",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell shows PRB ~94% with 203 users and slow data (median ~7 Mbps) over the last 6h, while neighbors average ~38% load and handovers skew 14 out vs 6 in—requesting traffic rebalancing.",
+    "ar": "موقع ماكرو NR ريفي يُظهر استخدام موارد ~94% مع 203 مستخدمين وبطء بيانات (الوسيط ~7 ميجابت/ث) خلال آخر 6 ساعات، بينما الجيران بتحميل متوسط ~38% ونِسَب التسليم 14 خروج مقابل 6 دخول—نطلب إعادة توزيع الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NR-Cell-7931 has been hot over the last 6h. PRB ~94%, 203 users, median DL ~7 Mbps (slow data). Neighbors look light (~38% avg). HO out ~14/5min, HO in ~6/5min. Please assist.",
+      "message_ar": "الموقع الماكرو NR-Cell-7931 في منطقة ريفية كان ساخناً خلال آخر 6 ساعات. استخدام PRB ~94%، 203 مستخدمين، المتوسط للتحميل ~7 ميجابت/ث (بيانات بطيئة). الجيران خفيفو التحميل (~38% متوسط). تسليمات الخروج ~14/5 دقائق والدخول ~6/5 دقائق. نرجو المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by auditing neighboring relations and recent load to confirm imbalance and available offload paths. Approve read access to run the neighbor audit on NR-Cell-7931 and its defined neighbors?",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجوار والحِمل الأخير لتأكيد عدم التوازن ومسارات التفريغ المتاحة. هل توافق على صلاحية القراءة لإجراء تدقيق الجيران على NR-Cell-7931 وجيرانه المُعرفين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read access on NR-Cell-7931 and adjacent NR cells within ~7 km.",
+      "message_ar": "موافَق على صلاحية القراءة لـ NR-Cell-7931 وخلاياه المجاورة ضمن ~7 كم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: NBR-21/NBR-22/NBR-25 at 30–45% PRB, no collisions. Current mobility biases favor NR-Cell-7931; load-based HO trigger effectively inactive. With eMBB streaming traffic, this explains the skewed HO and slow data. I recommend tuning handover biases toward those neighbors and enabling load-based mobility. Approve optimization?",
+      "message_ar": "تم تدقيق الجيران: الخلايا NBR-21/NBR-22/NBR-25 عند 30–45% PRB، ولا توجد تعارضات. التحيزات الحالية في التنقل تُفضّل NR-Cell-7931؛ ومُحفّز التسليم القائم على الحِمل شبه غير فعّال. مع حركة eMBB (بث فيديو)، يفسّر ذلك انحراف التسليم وبطء البيانات. أوصي بضبط تحيزات التسليم نحو تلك الجيران وتفعيل التنقل القائم على الحِمل. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the optimization on NR-Cell-7931 and its relations.",
+      "message_ar": "موافَق على تنفيذ التحسين على NR-Cell-7931 وعلاقاته."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization: reduce serving bias toward NR-Cell-7931 and increase toward NBR-21/22/25, enable load-based HO around ~85% PRB, and apply a light admission cap to keep PRB <~85% on the hot cell. Changes committed. I will watch HO balance, PRB, and median throughput over the next 30–60 minutes.",
+      "message_ar": "جارٍ تنفيذ التحسين: خفض التحيّز نحو NR-Cell-7931 وزيادته نحو NBR-21/22/25، تفعيل التسليم القائم على الحِمل عند ~85% PRB، وتطبيق حد قبول خفيف للإبقاء على PRB أقل من ~85% في الخلية الساخنة. تم اعتماد التغييرات. سأراقب توازن التسليم، وPRB، والمتوسط للسرعة خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early effect: NR-Cell-7931 PRB now ~78–82%; NBR-21/22 at ~50–58%. HO out/in is ~11/10 per 5 min. Median DL up to ~11 Mbps. RF quality steady (SINR ~12 dB, RSRQ ~-12 dB).",
+      "message_ar": "تأثير مبكر: أصبح PRB في NR-Cell-7931 ~78–82%؛ وNBR-21/22 عند ~50–58%. التسليم خروج/دخول ~11/10 لكل 5 دقائق. ارتفع الوسيط للتحميل إلى ~11 ميجابت/ث. الجودة اللاسلكية مستقرة (SINR ~12 dB، RSRQ ~-12 dB)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. No RF degradation noted and offload is effective. Let’s hold this setting and monitor for ping-pong and neighbor congestion as traffic fluctuates.",
+      "message_ar": "ممتاز. لا يوجد تدهور لاسلكي ويظهر التفريغ فعّالاً. لنُبقِ الإعداد الحالي ونراقب ظاهرة التذبذب السريع بين الخلايا وازدحام الجيران مع تغير الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Ping-pong is minimal and error counters look normal. Neighbors remain below ~60% PRB.",
+      "message_ar": "التذبذب السريع بين الخلايا محدود ومؤشرات الأخطاء طبيعية. الجيران ما زالوا دون ~60% PRB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will continue to observe HO stability and throughput during mixed periods and the next heavier traffic interval.",
+      "message_ar": "تم. سأواصل مراقبة استقرار التسليم ومعدل التحميل خلال الفترات المختلطة والفترة الأعلى حركة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Looks good: PRB usage is trending down on the hot cell and median user speed improved. The action taken was site parameter tuning for load-based handover and bias adjustments. Propose monitoring through the next busy hour.",
+      "message_ar": "الوضع جيد: استخدام PRB يتناقص في الخلية الساخنة وسرعة المستخدم المتوسطة تحسنت. الإجراء كان ضبط معلمات الموقع للتسليم القائم على الحِمل وتعديل الانحياز. أقترح المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed. We’ll own monitoring through the next busy hour and share an update afterward. If congestion returns or HO failures rise, we’ll roll back the bias change; if neighbors get saturated, we’ll escalate for further tuning or capacity options.",
+      "message_ar": "متفق. سنقوم بمتابعة المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً بعد ذلك. إذا عاد الازدحام أو ارتفعت إخفاقات التسليم، سنُرجِع تعديل الانحياز؛ وإذا تشبّع الجيران سنصعّد لمزيد من الضبط أو خيارات زيادة السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on a rural NR macro: serving cell PRB ~94% with slow data while neighbors were lightly loaded. Completed a neighbor audit and applied site parameter tuning to shift handover bias toward underutilized neighbors and enable load-based mobility. Post-change, PRB on the hot cell dropped to ~80% and median throughput improved; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص عدم توازن في الحمل على موقع NR ماكرو ريفي: PRB للخلية الخادمة ~94% مع بطء بيانات بينما الجيران منخفضو التحميل. أُنجز تدقيق الجيران وتم تطبيق ضبط معلمات الموقع لتحويل انحياز التسليم نحو الجيران منخفضي الاستخدام وتفعيل التنقل القائم على الحِمل. بعد التغيير انخفض PRB في الخلية الساخنة إلى ~80% وتحسّن الوسيط للسرعة؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

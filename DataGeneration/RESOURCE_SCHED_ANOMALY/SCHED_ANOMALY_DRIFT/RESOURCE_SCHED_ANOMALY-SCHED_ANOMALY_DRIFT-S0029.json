@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0029",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows uneven scheduling over the last 6 hours during peak: PRB utilization ~78%, fairness 0.67, allocation skew 34, best-effort share 62% vs high-priority 21%, median DL 20 Mbps, and scheduler p95 latency 81 ms; please investigate.",
+    "ar": "خلية ماكرو NR حضرية تُظهر عدم اتساق في الجدولة خلال آخر 6 ساعات في وقت الذروة: إشغال PRB ~78%، مؤشر العدالة 0.67، انحراف التخصيص 34، حصة أفضل‑جهد 62% مقابل 21% للفئات عالية الأولوية، متوسط تنزيل 20 ميغابت/ث وزمن انتظار المُجدول p95 = 81 مللي ثانية؛ يرجى التحقيق."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell in peak hours shows uneven resource scheduling over the last 6h: PRB ~78%, fairness 0.67, allocation skew 34, best-effort 62% vs high-priority 21%, median DL 20 Mbps, p95 scheduler latency 81 ms; SINR ~14 dB. Investigate impact to eMBB streaming.",
+      "message_ar": "خلية ماكرو NR حضرية في وقت الذروة تُظهر خللاً في جدولة الموارد خلال آخر 6 ساعات: إشغال PRB ~78%، مؤشر العدالة 0.67، انحراف التخصيص 34، أفضل‑جهد 62% مقابل 21% للفئات عالية الأولوية، متوسط تنزيل 20 ميغابت/ث، وزمن انتظار المُجدول p95 = 81 مللي ثانية؛ وSINR نحو 14 dB. الرجاء التحقيق في أثر ذلك على بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics and mitigation in three steps: 1) pull last 6h OSS counters, 2) inspect PRB scheduling time series to confirm drift vs QoS mix, 3) if confirmed, tune scheduler parameters to rebalance QoS shares and improve fairness. Please share the cell ID and approve access.",
+      "message_ar": "سأتولى التشخيص والمعالجة بثلاث خطوات: 1) سحب عدادات OSS لآخر 6 ساعات، 2) فحص السلسلة الزمنية لتخصيص PRB لتأكيد الانحراف مقابل مزيج QoS، 3) عند التأكيد، ضبط معلمات المُجدول لإعادة موازنة حصص QoS وتحسين العدالة. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-41023-LN1. Access approved for the last 6 hours.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-41023-LN1. تم اعتماد الوصول لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 6h OSS counters now. Findings: PRB utilization averages ~78% with peaks >90%; fairness index ~0.66; best-effort dominates 60–65% while high-priority stays ~20–22%; queueing delay elevated (scheduler p95 ~80+ ms). RF looks stable (SINR/RSRQ consistent). Proceed to PRB time-series drill-down to confirm scheduling drift?",
+      "message_ar": "أقوم بسحب عدادات OSS لآخر 6 ساعات الآن. النتائج: متوسط إشغال PRB ~78% مع ذُرى تتجاوز 90%؛ مؤشر العدالة ~0.66؛ أفضل‑جهد يهيمن بنسبة 60–65% بينما تبقى الفئات عالية الأولوية ~20–22%؛ تأخر قوائم الانتظار مرتفع (p95 لزمن المُجدول ~80+ مللي ثانية). طبقة الراديو مستقرة (SINR/RSRQ متسقان). المتابعة إلى تحليل السلسلة الزمنية لـPRB لتأكيد انحراف الجدولة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series drill-down.",
+      "message_ar": "تفضل بالمتابعة في تحليل السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "PRB scheduling time series confirms drift starting ~3h ago: best-effort bursts align with peak usage, high-priority share suppressed; p50-to-p95 throughput gap widened by ~13 Mbps; scheduler latency spikes coincide with BE dominance. I recommend tuning scheduler weights to lift high-priority share and cap BE bursts to restore fairness. Approve execution now?",
+      "message_ar": "تؤكد السلسلة الزمنية لجدولة PRB حدوث انحراف منذ نحو 3 ساعات: اندفاعات أفضل‑جهد تتزامن مع الذروة، وحصة الفئات عالية الأولوية منخفضة؛ اتسع الفارق بين الوسيط وp95 في معدل التحميل بحوالي 13 ميغابت/ث؛ قمم زمن المُجدول تتوافق مع هيمنة أفضل‑جهد. أوصي بضبط أوزان المُجدول لرفع حصة الفئات عالية الأولوية وتقييد اندفاعات أفضل‑جهد لاستعادة العدالة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now. No special events on this sector.",
+      "message_ar": "موافَق على تنفيذ الضبط الآن. لا توجد فعاليات خاصة على هذا القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying scheduler parameter tuning to rebalance QoS shares and improve fairness (no RF changes). Target outcomes: +10 pp high-priority share, reduced BE burstiness, p95 scheduler latency <60 ms. Changes applied; starting short observation.",
+      "message_ar": "أقوم بتطبيق ضبط معلمات المُجدول لإعادة موازنة حصص QoS وتحسين العدالة (من دون تغييرات راديوية). الأهداف: +10 نقاط مئوية لحصة الفئات عالية الأولوية، تقليل اندفاعية أفضل‑جهد، وخفض p95 لزمن المُجدول إلى أقل من 60 مللي ثانية. تم تطبيق التغييرات؛ أبدأ مراقبة قصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: high-priority throughput up, scheduler p95 down to ~64–68 ms, fairness index ~0.74, PRB utilization steady.",
+      "message_ar": "المؤشرات الأولية إيجابية: تحسن إنتاجية الفئات عالية الأولوية، وانخفاض p95 لزمن المُجدول إلى ~64–68 مللي ثانية، ومؤشر العدالة ~0.74، وثبات إشغال PRB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. QoS mix is normalizing (high-priority ~30–32%, BE ~55–58%); no packet drops observed; eMBB streaming unaffected. I will continue to watch stability and tail latency.",
+      "message_ar": "تم الاستلام. مزيج QoS يعود للوضع الطبيعي (عالية الأولوية ~30–32%، وأفضل‑جهد ~55–58%)؛ لا فقد في الحزم؛ بث eMBB غير متأثر. سأواصل متابعة الاستقرار وزمن الذيل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: scheduler p95 latency trending near 64 ms after the scheduler parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: زمن المُجدول p95 يتجه نحو 64 مللي ثانية بعد ضبط معلمات المُجدول. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and report results afterward. If performance regresses, we’ll revert the change; if latency remains high, we’ll escalate with additional QoS tuning and coordinate load with neighbors.",
+      "message_ar": "سنقود المراقبة خلال ساعة الذروة القادمة ونوافيك بالنتائج بعد انتهائها. إذا تراجع الأداء سنرجع التغيير؛ وإذا بقي التأخير مرتفعاً فسوف نُصعّد عبر ضبط QoS إضافي والتنسيق على الحمل مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling drift on an urban 5G macro cell where best-effort traffic dominated, increasing scheduler latency and reducing fairness during eMBB peak. Pulled OSS data and PRB time series to confirm the drift, then applied site parameter tuning to rebalance QoS shares and improve fairness. Monitoring through the next busy hour with rollback on regression.",
+    "ar": "تم تشخيص انحراف في جدولة الموارد على خلية ماكرو 5G حضرية حيث هيمن ترافق أفضل‑جهد، ما رفع زمن المُجدول وخفّض العدالة خلال ذروة eMBB. تم سحب بيانات OSS وتحليل السلسلة الزمنية لـPRB لتأكيد الانحراف، ثم تطبيق ضبط معلمات على الموقع لإعادة موازنة حصص QoS وتحسين العدالة. تتم المراقبة خلال ساعة الذروة القادمة مع الرجوع عند حدوث تراجع."
+  }
+}

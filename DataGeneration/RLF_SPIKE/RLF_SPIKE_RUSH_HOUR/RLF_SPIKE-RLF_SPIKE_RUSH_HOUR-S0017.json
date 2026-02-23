@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0017",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G macro cell shows a 2h RLF spike during peak evening with slow data and interference/signal overlap, and there is a congestion/outage alarm.",
+    "ar": "موقع ماكرو 5G حضري يُظهر ارتفاعاً في RLF خلال ساعتين وقت الذروة مع بيانات بطيئة وتداخل/تراكب للإشارة، وهناك إنذار ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro NR-UGB-12345-S1 shows a 2h RLF spike in peak evening. HO success ~82%, t310 expiries elevated, PRB ~71%, SINR 3 dB, RSRQ -11 dB, BLER ~9.7%, 287 users. p95 latency 97 ms and median throughput 6 Mbps causing slow data for eMBB streaming. A congestion/outage alarm is active.",
+      "message_ar": "موقع ماكرو NR حضري NR-UGB-12345-S1 يظهر ارتفاع RLF خلال ساعتين في وقت الذروة. نجاح التسليم ~82%، ارتفاع انتهاء t310، استعمال PRB ~71%، SINR عند 3 dB و RSRQ -11 dB، وBLER ~9.7%، مع 287 مستخدماً. زمن كمون p95 عند 97 مللي ثانية ومعدل نقل متوسط 6 ميجابت/ث مما يسبب بطئاً لمرور eMBB. يوجد إنذار ازدحام/انقطاع نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Low SINR indicates interference/signal overlap driving late HOs and RLF. I will start with an OSS health and counter check for the last 2h on NR-UGB-12345-S1. Please confirm access.",
+      "message_ar": "تم. انخفاض SINR يشير إلى تداخل/تراكب إشارة يؤدي إلى تأخر التسليم وRLF. سأبدأ بفحص حالة وعدادات OSS لآخر ساعتين على NR-UGB-12345-S1. يرجى تأكيد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-UGB-12345-S1 over the last 2 hours.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-UGB-12345-S1 خلال آخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ran OSS check. Findings: RLF attempts and t310 expiries spiked between 19:10–20:00; HO success dipped to ~82%. PRB busy (~71%) but not saturated. No hardware/backhaul faults. RF quality poor (RSRQ -11 dB). Next, I will pull RLF time series for the same 2h to isolate burst periods. Proceed?",
+      "message_ar": "تم فحص OSS. النتائج: ارتفاع محاولات RLF وانتهاءات t310 بين 19:10–20:00؛ نجاح التسليم انخفض إلى ~82%. الإشغال مرتفع (~71%) لكنه غير مشبع. لا أعطال عتادية/وصلات خلفية. جودة RF ضعيفة (RSRQ -11 dB). التالي: سأسحب سلسلة زمنية لـ RLF لنفس الساعتين لعزل فترات الذروة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the RLF time series for the last 2 hours.",
+      "message_ar": "تابع بالسلسلة الزمنية لـ RLF لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "RLF time series shows baseline ~3–4% rising to 9–10% at 19:25–19:55; HO failure rate peaked ~15%. Many RLFs preceded by degraded RSRQ, indicating interference and late HO. Proposal: apply targeted mobility and beam tuning (slightly lower HO delay, tighter thresholds, minor beam balance) to reduce late HOs and stabilize service. Approve execution now?",
+      "message_ar": "السلسلة الزمنية لـ RLF تُظهر خط أساس ~3–4% يرتفع إلى 9–10% بين 19:25–19:55؛ معدل فشل التسليم بلغ ~15%. كثير من RLF سبقته RSRQ متدهورة، ما يشير إلى تداخل وتأخر التسليم. المقترح: ضبط دقيق لمعاملات الحركة والحزم (تقليل طفيف لتأخير التسليم، تشديد العتبات، موازنة بسيطة للحزم) لتقليل التأخر وتثبيت الخدمة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute the parameter optimization now.",
+      "message_ar": "موافقة على تنفيذ تحسين المعاملات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed on NR-UGB-12345-S1: modest mobility threshold/timer tuning and small beam-balance adjustment committed successfully. Expected impact: earlier HO under interference and fewer RLFs. I will observe immediate post-change counters for 10–15 minutes.",
+      "message_ar": "تم تنفيذ التحسين على NR-UGB-12345-S1: ضبط طفيف لعتبات/مؤقتات الحركة وتعديل بسيط لتوازن الحزم، وتم اعتماده بنجاح. الأثر المتوقع: تسليم أبكر تحت التداخل وتقليل RLF. سأراقب مؤشرات ما بعد التغيير لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes, early signs look positive: RLF attempts down ~35%, HO success ~88%, median throughput ~7.3 Mbps, p95 latency ~82 ms.",
+      "message_ar": "بعد ~10 دقائق، المؤشرات الأولية إيجابية: انخفاض محاولات RLF بنحو ~35%، نجاح التسليم ~88%، معدل نقل متوسط ~7.3 ميجابت/ث، وزمن كمون p95 نحو ~82 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I recommend continued observation to confirm stability across the next busy interval. Please indicate your preferred monitoring window.",
+      "message_ar": "تحسن جيد. أوصي بالمتابعة للتأكد من الاستقرار عبر فترة الذروة التالية. يرجى تحديد نافذة المراقبة المفضلة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: RLF events trending down and handover failures easing. Action taken: site parameter optimization on mobility/beam settings. Monitor over the next 2–4 hours during peak and review afterward.",
+      "message_ar": "تم تأكيد التحسن: أحداث RLF في اتجاه هبوطي وفشل التسليم يتناقص. الإجراء المتخذ: تحسين معاملات الموقع للحركة/الحزم. لنراقب خلال الساعتين إلى الأربع ساعات المقبلتين وقت الذروة ثم نراجع النتائج."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and report updated RLF and handover trends afterward. If degradation returns, we will escalate to a regional interference investigation; if adverse effects appear, we will roll back to the prior settings.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونقدم تقريراً باتجاهات RLF والتسليم بعدها. إذا عاد التدهور سنصعّد إلى تحقيق تداخل إقليمي؛ وإذا ظهرت آثار سلبية سنعود للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-UGB-12345-S1",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-UGB-12345-S1",
+        "RLF",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_and_beam_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a peak-evening RLF spike on an urban 5G macro: OSS checks and RLF time series confirmed a surge aligned with low SINR (interference) and late handovers. Mitigation was applied via site parameter tuning of mobility thresholds/timers and minor beam balance, yielding early improvement in RLF and handover success. We will monitor for the next 2–4 hours to ensure stability.",
+    "ar": "تم تشخيص ارتفاع RLF وقت الذروة في موقع 5G حضري: أكد فحص OSS والسلسلة الزمنية لـ RLF وجود ذروة متزامنة مع SINR منخفض (تداخل) وتسليمات متأخرة. تم التخفيف عبر ضبط معاملات الموقع لعتبات/مؤقتات الحركة مع موازنة بسيطة للحزم، مما أعطى تحسناً مبكراً في RLF ونجاح التسليم. سنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة لضمان الاستقرار."
+  }
+}

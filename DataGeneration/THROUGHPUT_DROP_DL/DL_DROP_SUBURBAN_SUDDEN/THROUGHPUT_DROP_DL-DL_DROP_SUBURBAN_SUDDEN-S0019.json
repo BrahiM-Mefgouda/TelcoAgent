@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0019",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban 5G macro cell shows downlink throughput around 18 Mbps over the last 2 hours during peak eMBB streaming, with interference/signal overlap (SINR ~0 dB), poor RSRQ (-18 dB), moderate PRB load (~75%), and elevated BLER (~8%).",
+    "ar": "خلية ماكرو 5G في منطقة ضواحٍ تسجّل سرعة تنزيل تقارب 18 ميجابت/ث خلال آخر ساعتين أثناء ذروة استخدام eMBB للبث، مع تداخل/تراكب إشارات (SINR ~0 ديسيبل)، وRSRQ سيئ (-18 ديسيبل)، وحمل PRB متوسط (~75%)، وBLER مرتفع (~8%)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour DL throughput on a suburban NR macro cell has dropped to ~18 Mbps in the last 2 hours; ~256 users, SINR ~0 dB, RSRQ -18 dB, PRB ~75%, BLER ~8%, no alarms. Please investigate.",
+      "message_ar": "انخفضت سرعة التنزيل خلال ساعة الذروة في خلية NR ماكرو بضواحي المدينة إلى ~18 ميجابت/ث خلال آخر ساعتين؛ حوالي 256 مستخدمًا، SINR ~0 ديسيبل، RSRQ -18 ديسيبل، PRB ~75%، وBLER ~8%، ولا توجد إنذارات. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull the last 2 hours of OSS counters and then analyze the DL throughput trend. Please share the cell ID and approve read-only access.",
+      "message_ar": "تم الاستلام. سأسترجع أولاً مؤشرات التشغيل لآخر ساعتين، ثم أحلل منحنى سرعة التنزيل. الرجاء تزويدي بمعرّف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-31211-3. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-31211-3. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 2h OSS data for NR-SUB-31211-3: users peaked ~270; DL PRB 72–80%; median SINR 0–2 dB; RSRQ ~-18 dB; BLER 8–12% spikes; backhaul OK; no active site alarms; HO success ~84% stable. Next, I’ll chart the DL throughput time series.",
+      "message_ar": "تم جلب بيانات الساعتين الأخيرتين للخلية NR-SUB-31211-3: المستخدمون بلغوا ذروة ~270؛ استخدام PRB للتنزيل 72–80%؛ الوسيط لـSINR بين 0–2 ديسيبل؛ RSRQ حوالي -18 ديسيبل؛ ارتفاعات BLER بين 8–12%؛ الربط الخلفي سليم؛ لا إنذارات نشطة؛ نجاح التسليم ~84% ثابت. التالي سأرسم سلسلة زمنية لسرعة التنزيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series indicates the drop began ~90 minutes ago; p50 ~18 Mbps, p95 ~42 Mbps. Dips align with BLER spikes and low SINR, strongest during eMBB video streaming periods. This points to quality limitations rather than hard PRB saturation.",
+      "message_ar": "تشير السلسلة الزمنية للتنزيل إلى أن الانخفاض بدأ قبل ~90 دقيقة؛ الوسيط ~18 ميجابت/ث، والـp95 ~42 ميجابت/ث. الانخفاضات تتزامن مع ارتفاع BLER وانخفاض SINR، وتبلغ ذروتها أثناء فترات بث eMBB. هذا يوحي بأن القيد ناتج عن الجودة وليس تشبع PRB فعلي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes: customer reports of buffering near the sector edge and some overlap with the eastern site.",
+      "message_ar": "ملاحظات ميدانية: بلاغات عن تقطّع البث قرب حافة القطاع وبعض التداخل مع الموقع الشرقي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Likely cause: inter-cell interference/signal overlap under moderate load. I propose a safe parameter optimization to improve edge robustness (scheduler weighting and interference coordination) with minimal capacity impact. Approve immediate change?",
+      "message_ar": "السبب المرجّح: تداخل بين الخلايا/تراكب إشارات تحت حمل متوسط. أقترح تحسين إعدادات آمنًا لتعزيز صمود مستخدمي الحافة (ترجيح المجدول وتنسيق التداخل) مع تأثير طفيف على السعة. هل توافق على التطبيق فورًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization applied successfully at 12:07 local. Expected: BLER down ~2–3 pp, SINR +1–2 dB, smoother DL for edge users while keeping PRB fairness. I’ll watch counters for the next 30–60 minutes.",
+      "message_ar": "تم تطبيق تحسين الإعدادات بنجاح عند 12:07 بالتوقيت المحلي. المتوقع: انخفاض BLER بنحو 2–3 نقاط مئوية، ارتفاع SINR بـ1–2 ديسيبل، وتحسّن السلاسة لمستخدمي الحافة مع الحفاظ على عدالة PRB. سأراقب المؤشرات خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please confirm if streaming stalls have reduced in the last few minutes and any change in typical user speeds, then we can lock a monitoring window.",
+      "message_ar": "يرجى تأكيد ما إذا كانت حالات توقف البث قد انخفضت في الدقائق الأخيرة وأي تغير في سرعات المستخدمين المعتادة، ثم يمكننا تحديد نافذة متابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: fewer stalls reported and average user speeds trending up (~25–28 Mbps); BLER trending down. The parameter optimization you applied seems effective. Let’s monitor through the next busy hour.",
+      "message_ar": "المؤشرات الأولية إيجابية: تقليل في التقطّع وارتفاع سرعات المستخدمين المتوسطة (~25–28 ميجابت/ث)؛ وBLER في اتجاه هابط. يبدو أن تحسين الإعدادات الذي طبّقته فعّال. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We’ll own monitoring through the next busy hour and update with throughput, BLER, and SINR trends. If degradation reappears, we will roll back the change; if interference persists, we will escalate for coordinated tuning across neighbors.",
+      "message_ar": "تم. سنتولى المتابعة خلال ساعة الذروة القادمة ونوافينا باتجاهات السرعة وBLER وSINR. إذا ظهرت تدهورات سنقوم بالتراجع عن التغيير؛ وإذا استمر التداخل سنصعّد لإجراء ضبط منسق مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a suburban 5G macro downlink throughput drop driven by interference/signal overlap during peak eMBB traffic, evidenced by low SINR, poor RSRQ, and BLER spikes correlated with the throughput time series. After reviewing recent OSS data and the DL trend, we applied site parameter tuning to improve scheduler robustness and inter-cell interference coordination. Early results show higher user speeds and lower BLER; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص هبوط سرعة التنزيل في خلية ماكرو 5G بضواحي المدينة على أنه ناتج عن تداخل/تراكب إشارات أثناء ذروة حركة eMBB، وذلك وفق SINR منخفض وRSRQ سيئ وارتفاعات BLER متزامنة مع منحنى السرعة. بعد مراجعة بيانات التشغيل الأخيرة والسلسلة الزمنية للتنزيل، تم تنفيذ ضبط إعدادات للموقع لتعزيز صمود المجدول وتنسيق التداخل بين الخلايا. النتائج الأولية تُظهر ارتفاع السرعات وانخفاض BLER؛ سنواصل المتابعة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0011",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate an indoor NR micro cell with a congestion alarm showing slow data: PRB utilization 85%, 138 users, DL throughput 4 Mbps, and p95 scheduler latency 76 ms over the last 4h.",
+    "ar": "التحقق من خلية NR داخلية صغيرة مع إنذار ازدحام حيث توجد بيانات بطيئة: إشغال الموارد 85%، 138 مستخدمًا، معدل تنزيل 4 ميجابت/ث، وتأخر الجدولة p95 يساوي 76 مللي ثانية خلال آخر 4 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a DL throughput drop on an NR micro serving the office wing in the last 4h (off-peak). A congestion alarm is active. Users report slow data; PRB ~85%, 138 users, DL ~4 Mbps, p95 scheduler latency 76 ms.",
+      "message_ar": "لدينا هبوط في معدل تنزيل البيانات على خلية NR صغيرة تخدم جناح المكاتب خلال آخر 4 ساعات (خارج الذروة). يوجد إنذار ازدحام نشط. المستخدمون يشتكون من بيانات بطيئة؛ إشغال الموارد ~85%، 138 مستخدمًا، معدل التنزيل ~4 ميجابت/ث، وتأخر الجدولة p95 يبلغ 76 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by checking live network counters for the last 4h on the target cell to validate the congestion and KPIs. Please confirm the cell ID and grant access.",
+      "message_ar": "مفهوم. سأبدأ بفحص العدّادات الحية للشبكة خلال آخر 4 ساعات على الخلية المستهدفة للتحقق من الازدحام ومؤشرات الأداء. يرجى تأكيد معرّف الخلية ومنحي صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_INDOOR_MICRO_24501. Access approved.",
+      "message_ar": "معرّف الخلية هو NR_INDOOR_MICRO_24501. تمت الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters check complete: PRB utilization 84–88%, active users peaked at 140; user DL throughput collapsed to 3–5 Mbps; BLER ~2–3% (normal); p95 scheduler latency 70–80 ms; no transport alarms. This indicates capacity scheduling pressure on the indoor small site. Next, I’ll pull DL KPI time series over 4h to confirm trend and correlation.",
+      "message_ar": "تم فحص العدّادات: إشغال الموارد 84–88%، وعدد المستخدمين النشطين بلغ ذروة 140؛ معدل تنزيل المستخدمين انخفض إلى 3–5 ميجابت/ث؛ نسبة أخطاء الكتل ~2–3% (طبيعي)؛ تأخر الجدولة p95 بين 70–80 مللي ثانية؛ لا توجد إنذارات نقل. يشير ذلك إلى ضغط سَعوي في الجدولة على الموقع الداخلي الصغير. التالي، سأجلب سلسلة زمنية لمؤشرات DL خلال 4 ساعات لتأكيد الاتجاه والارتباط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time series analysis.",
+      "message_ar": "تفضل بإجراء تحليل السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows periodic stalls aligned with application peaks (eMBB streaming), 10–15 min PRB saturation windows, moderate MCS, and stable HARQ—pointing to resource contention rather than radio errors. I propose site parameter tuning to improve DL scheduler efficiency and PRB distribution for NR_INDOOR_MICRO_24501. Approve to proceed?",
+      "message_ar": "تُظهر السلسلة الزمنية للتحميل نزعات توقف دورية متزامنة مع ذُرى التطبيقات (بث eMBB)، ونوافذ تشبّع PRB لمدة 10–15 دقيقة، ومعدلات ترميز معتدلة، وHARQ مستقرة—ما يشير إلى تنازع على الموارد وليس أخطاء راديوية. أقترح ضبط معلمات الموقع لتحسين كفاءة مجدول التحميل وتوزيع PRB للخلية NR_INDOOR_MICRO_24501. هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the tuning.",
+      "message_ar": "موافق. تابع الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted optimization: adjusted DL scheduler weights and throughput-related settings for NR_INDOOR_MICRO_24501. Change is minimal and reversible. I’ll validate immediate impact on key counters.",
+      "message_ar": "تم تطبيق تحسين مستهدف: تعديل أوزان مجدول التنزيل وبعض الإعدادات المرتبطة بالمعدل للخلية NR_INDOOR_MICRO_24501. التغيير طفيف وقابل للرجوع. سأتحقق من الأثر الفوري على المؤشرات الأساسية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: downloads are faster and streaming is smoother; quick tests show ~20 Mbps.",
+      "message_ar": "ملاحظات ميدانية: التنزيلات أسرع والبث أكثر سلاسة؛ اختبارات سريعة تُظهر حوالي 20 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change counters: median user DL 18–22 Mbps, p95 scheduler latency down to ~40–45 ms; PRB utilization remains high but stable without stalls. I’ll continue to watch for stability.",
+      "message_ar": "عدّادات ما بعد التغيير: وسيط تنزيل المستخدم 18–22 ميجابت/ث، وتأخر الجدولة p95 انخفض إلى ~40–45 مللي ثانية؛ يظل إشغال PRB مرتفعًا لكنه مستقر دون توقفات. سأستمر بالمراقبة للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing download speeds trending up and scheduler delays trending down after the site parameter tuning. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "نلاحظ اتجاهًا صاعدًا لسرعات التنزيل وانخفاضًا في تأخيرات الجدولة بعد ضبط معلمات الموقع. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the 2–4 hour monitoring window and update with results. If performance degrades, we’ll roll back the change; if congestion persists, we’ll escalate for capacity relief.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات ونوافيكم بالنتائج. إذا تدهور الأداء سنرجع التغيير؛ وإذا استمر الازدحام فسنصعّد لزيادة السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_INDOOR_MICRO_24501",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_INDOOR_MICRO_24501",
+        "DL",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "NR scheduler and DL throughput tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The indoor NR micro cell showed slow data with high resource utilization and elevated scheduler delay. We validated the downlink degradation over the last 4 hours and then applied site parameter tuning to improve the downlink scheduler and PRB distribution. Immediate counters and user feedback indicate improved throughput and lower scheduling delay; we will monitor for the next 2–4 hours.",
+    "ar": "أظهرت الخلية الداخلية NR الصغيرة بيانات بطيئة مع إشغال موارد عالٍ وارتفاعًا في تأخر الجدولة. تم التحقق من تدهور التحميل خلال آخر 4 ساعات ثم تطبيق ضبط لمعلمات الموقع لتحسين مجدول التنزيل وتوزيع PRB. تشير العدّادات الفورية وملاحظات المستخدمين إلى تحسن في معدل التحميل وانخفاض في تأخر الجدولة؛ سنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

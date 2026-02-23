@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0013",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Off-peak suburban 5G NR macro cell shows sustained high PRB ~88% over the last 4h with ~202 users, downlink 15 Mbps and p95 scheduling latency 42 ms.",
+    "ar": "خلية NR ماكرو في منطقة سكنية خارج أوقات الذروة تُظهر إشغالاً مرتفعاً ومستداماً لموارد الراديو (~88%) خلال آخر 4 ساعات مع ~202 مستخدم، وسرعة تنزيل 15 ميجابت/ث وكمون جدولة p95 يساوي 42 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell with sustained high PRB ~88% during off-peak over the last 4h, ~202 users, DL 15 Mbps, UL 10 Mbps, BLER 3.7%, p95 scheduling latency 42 ms. No alarms. Please assist.",
+      "message_ar": "خلية ماكرو NR في منطقة سكنية تُظهر إشغال PRB مرتفعاً ومستداماً (~88%) خارج أوقات الذروة خلال آخر 4 ساعات، مع ~202 مستخدم، تنزيل 15 ميجابت/ث، رفع 10 ميجابت/ث، BLER عند 3.7%، وكمون جدولة p95 عند 42 مللي ثانية. لا توجد إنذارات. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull OSS stats for the last 4 hours to validate PRB load and capacity symptoms. Approve read-only access?",
+      "message_ar": "سأبدأ بسحب إحصاءات OSS لآخر 4 ساعات للتحقق من حمل الـPRB وأعراض السعة. هل توافق على منح صلاحية القراءة فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Read-only access granted.",
+      "message_ar": "موافق. تم منح صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: PRB load persisted at 85–92%; connected users peaked ~210; DL 15–18 Mbps, UL 9–11 Mbps; BLER 3–4%; RLF ~2.3%; p95 scheduling latency 40–45 ms. Traffic is eMBB with streaming. I will apply targeted scheduler/PRB allocation tuning to relieve contention, low-risk and reversible. Approve execution?",
+      "message_ar": "النتائج: حمل الـPRB مستمر عند 85–92%؛ وصل عدد المستخدمين المتصلين إلى ذروة ~210؛ تنزيل 15–18 ميجابت/ث، رفع 9–11 ميجابت/ث؛ BLER بين 3–4%؛ معدل فشل الاتصال ~2.3%؛ وكمون جدولة p95 بين 40–45 مللي ثانية. نوع الحركة eMBB مع بث فيديو. سأطبق ضبطاً موجهاً لمعايرات الجدولة وتخصيص الـPRB لتخفيف التزاحم، منخفض المخاطر وقابل للرجوع. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: conservative site parameter tuning for PRB distribution and scheduler fairness; no service interruption. Please recheck PRB, throughput, and p95 scheduling latency over the next few minutes.",
+      "message_ar": "تم تطبيق التغيير: ضبط محافظ لمعايرات الموقع لتوزيع الـPRB وعدالة المجدول؛ بدون انقطاع خدمة. يرجى إعادة التحقق من الـPRB ومعدل النقل وكمون الجدولة p95 خلال الدقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change: PRB ~74%, DL ~20 Mbps, p95 scheduling latency ~34 ms; drop events stable.",
+      "message_ar": "بعد التغيير: الـPRB ~74%، التنزيل ~20 ميجابت/ث، كمون الجدولة p95 ~34 مللي ثانية؛ أحداث السقوط مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. To document and plan longer-term relief, I will open a capacity review ticket and attach before/after metrics. OK to proceed?",
+      "message_ar": "تحسن جيد. لتوثيق الحالة والتخطيط لمعالجة طويلة المدى، سأفتح تذكرة لمراجعة السعة مع إرفاق مؤشرات قبل/بعد. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Capacity review ticket created with summary and metrics attached. Please confirm your preferred monitoring window.",
+      "message_ar": "تم إنشاء تذكرة لمراجعة السعة مع ملخص ومؤشرات مرفقة. يرجى تأكيد نافذة المراقبة المفضلة لديك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Visible improvement: p95 scheduling latency is trending down and PRB utilization is steady in the mid-70s after the site parameter tuning. Let's monitor for the next 2–4 hours and track via DU-PRB-02317.",
+      "message_ar": "تحسن واضح: كمون الجدولة p95 في اتجاه هابط وإشغال الـPRB مستقر في منتصف السبعينيات بعد ضبط معايير الموقع. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونتتبع عبر DU-PRB-02317."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next 2–4 hours of monitoring and update the ticket afterward. If PRB rises above 85% again or throughput degrades, we will roll back the change and escalate for capacity expansion; if stable, we will keep the tuning and provide a 24h follow-up. Summary: validated off-peak high PRB via OSS, applied site parameter tuning to ease contention, and opened a capacity review ticket; monitoring is in place.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد ذلك. إذا عاد الـPRB ليتجاوز 85% أو تدهور معدل النقل، سنرجع التغيير ونصعّد لزيادة السعة؛ وإن استقر الوضع، سنبقي على الضبط ونقدم متابعة بعد 24 ساعة. الملخص: تم التحقق من ارتفاع الـPRB خارج الذروة عبر OSS، وتطبيق ضبط لمعايرات الموقع لتخفيف التزاحم، وفتح تذكرة لمراجعة السعة؛ وخطة المراقبة قيد التنفيذ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed sustained high PRB load on a suburban NR macro during off-peak by reviewing the last 4h performance. Applied site parameter tuning to improve PRB distribution and scheduler behavior, which reduced PRB to the mid-70s and lowered scheduling latency. Created a capacity review ticket to track the case and plan longer-term relief.",
+    "ar": "تم التأكد من ارتفاع مستدام في إشغال الـPRB لخلية ماكرو NR سكنية خارج أوقات الذروة عبر مراجعة أداء آخر 4 ساعات. جرى تطبيق ضبط لمعايرات الموقع لتحسين توزيع الـPRB وسلوك المجدول، ما خفّض الإشغال إلى منتصف السبعينيات وخفّض كمون الجدولة. تم إنشاء تذكرة لمراجعة السعة لتتبع الحالة والتخطيط لمعالجة طويلة المدى."
+  }
+}

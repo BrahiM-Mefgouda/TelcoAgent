@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0002",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban 5G macro cell shows an outage alarm in the last hour with slow data, very high drops, and call setup failures.",
+    "ar": "خلية 5G ماكرو حضرية بها إنذار انقطاع خلال الساعة الماضية مع بيانات بطيئة، ارتفاع كبير في الانقطاعات، وإخفاقات في إعداد المكالمات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell raised a sudden outage alarm in the past hour; users report slow data, high drops, and call setup failures during off-peak with some streaming complaints.",
+      "message_ar": "خلية ماكرو NR حضرية أطلقت إنذار انقطاع خلال الساعة الماضية؛ المستخدمون يبلغون عن بيانات بطيئة، ارتفاع في الانقطاعات، وإخفاقات في إعداد المكالمات خلال وقت خارج الذروة مع شكاوى بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will check the cell’s live status and alarms for the last 1h; please confirm the cell ID and approve access.",
+      "message_ar": "تم الاستلام. سأتحقق من حالة الخلية الحية والتنبيهات لآخر ساعة؛ يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-0103. Access approved; no known maintenance.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-0103. الوصول مُعتمد؛ لا توجد صيانة معروفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check shows the cell unavailable for ~1h, last heartbeat lost; zero traffic and accessibility failures spiking. This is a hard outage. I will open an outage ticket for field dispatch and keep monitoring—proceed?",
+      "message_ar": "فحص OSS يظهر أن الخلية غير متاحة منذ ~ساعة مع فقدان آخر نبضة؛ حركة المرور صفر وارتفاع كبير في إخفاقات النفاذ. هذا انقطاع كامل. سأفتح تذكرة انقطاع للتوجيه الميداني مع متابعة المراقبة—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the ticket, please.",
+      "message_ar": "يرجى المتابعة بفتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Outage ticket has been created with full context (urban 5G macro, ~1h down, user impact). I’m monitoring for recovery and stability.",
+      "message_ar": "تم فتح تذكرة انقطاع مع تضمين السياق الكامل (5G ماكرو حضري، توقف ~ساعة، تأثير على المستخدمين). سأراقب الاستعادة والاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Users remain impacted; the node is still unreachable from our side.",
+      "message_ar": "لا يزال التأثير واضحاً؛ العقدة غير قابلة للوصول من جهتنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Trend unchanged; neighbors show increased load consistent with spillover. No configuration changes were applied. Awaiting field action while I watch for any heartbeat.",
+      "message_ar": "مفهوم. الاتجاه لم يتغير؛ الجيران يظهرون حملاً متزايداً بما يتوافق مع التحويل. لم تُطبّق أي تغييرات ضبط. بانتظار الإجراء الميداني بينما أتابع أي نبضات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: intermittent ping replies just started; any change on your side?",
+      "message_ar": "تحديث: بدأت ردود ping متقطعة للتو؛ هل هناك تغيير لديكم؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Yes—cell is now reachable; KPIs are recovering (access failures dropping, traffic resuming). Keeping the ticket open until stability is confirmed.",
+      "message_ar": "نعم—الخلية أصبحت قابلة للوصول؛ مقاييس الأداء تتحسن (انخفاض إخفاقات النفاذ وعودة الحركة). سأبقي التذكرة مفتوحة حتى تأكيد الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good—call setup failures are trending down. With the outage ticket raised and field action in progress, let’s monitor for the next 2–4 hours under DU-OUTAGE-04567.",
+      "message_ar": "جيد—إخفاقات إعداد المكالمات في اتجاه نزولي. بعد رفع تذكرة الانقطاع وبدء الإجراء الميداني، دعنا نراقب خلال الساعتين إلى الأربع القادمة تحت DU-OUTAGE-04567."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update the ticket after the window. If the site drops again, we will escalate to field and backhaul teams; no rollback is needed since no parameters were changed.",
+      "message_ar": "سنتولى نافذة المراقبة 2–4 ساعات وسنحدّث التذكرة بعد انتهاء النافذة. إذا انقطعت الخلية مجدداً فسنصعّد إلى الفرق الميدانية وفريق النقل؛ لا حاجة لاسترجاع إعدادات لأننا لم نغيّر شيئاً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-0103",
+        "1h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "Outage on NR-URB-MACRO-0103 (urban 5G macro): unavailable ~1h with zero traffic and high access failures; request field dispatch and restoration."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Detected a hard outage on the urban 5G macro cell via OSS over the last hour: the site was unreachable with zero traffic and severe access failures. An outage ticket was opened for field dispatch and continuous monitoring was initiated. We will monitor through the stabilization window and confirm closure once KPIs remain normal.",
+    "ar": "تم اكتشاف انقطاع كامل على خلية 5G ماكرو حضرية عبر OSS خلال الساعة الماضية: الموقع غير قابل للوصول مع حركة مرور صفر وإخفاقات نفاذ شديدة. تم فتح تذكرة انقطاع للتوجيه الميداني وبدأت المراقبة المستمرة. سنواصل المراقبة خلال فترة الاستقرار ونؤكد الإقفال عند بقاء المقاييس ضمن الوضع الطبيعي."
+  }
+}

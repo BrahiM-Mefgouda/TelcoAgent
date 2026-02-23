@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0030",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban 5G macro cell shows a congestion alarm in the last 3h peak window: backhaul at 92% with 34 ms latency, 2.6% loss, jitter 7 ms, queue 66%, slow data (~6 Mbps) for ~342 eMBB users.",
+    "ar": "خلية 5G ماكرو حضرية تظهر إنذار ازدحام خلال نافذة الذروة الأخيرة (3 ساعات): الربط الخلفي 92% مع زمن تأخير 34 مللي ثانية، فقدان 2.6%، تذبذب 7 مللي ثانية، امتلاء قائمة 66%، بيانات بطيئة (~6 ميجابت/ث) لنحو 342 مستخدماً eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour alarm on the urban NR macro cell; users report slow data and streaming buffering. Backhaul ~92% with ~34 ms latency and ~2.6% loss over the last 3h. Can you take a look?",
+      "message_ar": "هناك إنذار خلال ساعة الذروة على خلية NR ماكرو حضرية؛ المستخدمون يبلغون عن بطء البيانات وتقطّع في البث. الربط الخلفي ~92% مع ~34 مللي ثانية تأخير و~2.6% فقدان خلال آخر 3 ساعات. هل يمكنك المتابعة؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 3h OSS counters to validate backhaul congestion and radio load. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بسحب مؤشرات النظام لآخر 3 ساعات للتحقق من ازدحام الربط الخلفي وحمل الراديو. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-0451-S1. Access approved for the 3h window.",
+      "message_ar": "معرّف الخلية: NR-URB-0451-S1. تم اعتماد الوصول لنافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check over 3h complete: backhaul utilization 88–95% (peaks 97%), latency 12→35 ms, loss 2–3%, jitter ~7 ms, queue 60–70%. PRB ~64% and RSRP −103 dBm suggest radio is not the bottleneck—this is peak backhaul saturation. I propose cell-side parameter tuning to cut queuing and prioritize eMBB traffic. Approve?",
+      "message_ar": "تم فحص النظام لآخر 3 ساعات: استخدام الربط الخلفي 88–95% (يبلغ الذروة 97%)، التأخير 12→35 مللي ثانية، الفقد 2–3%، التذبذب ~7 مللي ثانية، وامتلاء القائمة 60–70%. استخدام الموارد ~64% وRSRP −103 dBm يشيران إلى أن الراديو ليس عنق الزجاجة—إنه ازدحام ربط خلفي في الذروة. أقترح ضبط معلمات الخلية لتقليل الطوابير وإعطاء أولوية لحركة eMBB. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the parameter tuning.",
+      "message_ar": "موافَق على المتابعة بضبط المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on the cell interface to reduce queue depth and prioritize eMBB bearers. Change committed; observing immediate counters for 10 minutes.",
+      "message_ar": "تم تطبيق ضبط على واجهة الخلية لتقليل عمق قائمة الانتظار وإعطاء أولوية لتدفقات eMBB. التغيير نُفِّذ؛ أراقب المؤشرات فورياً لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: busy-user downlink moved from ~6 to ~9 Mbps, latency trending 22–25 ms, and queue occupancy dropping.",
+      "message_ar": "تحسن مبكر ملحوظ: ازداد تنزيل المستخدمين المزدحمين من ~6 إلى ~9 ميجابت/ث، والزمن يتجه إلى 22–25 مللي ثانية، وامتلاء القائمة في انخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Peak load still >85%, so for sustained relief I will raise a capacity upgrade ticket with transport while we keep these optimizations in place.",
+      "message_ar": "جيد. لا يزال الحمل عند الذروة >85%، لذا ولحل مستدام سأرفع تذكرة ترقية سعة مع فريق النقل مع الإبقاء على تحسيناتنا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Go ahead with the capacity ticket.",
+      "message_ar": "تم الاستلام. تفضل برفع تذكرة السعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Capacity ticket submitted to transport. I will continue watching KPIs through the next checks and share an update.",
+      "message_ar": "تم إرسال تذكرة السعة إلى فريق النقل. سأواصل متابعة مؤشرات الأداء خلال الفحوصات القادمة وأشارك تحديثاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Further improvement noted: packet loss ~1% and latency ~20 ms. The cell parameter tuning helped. Let’s monitor through the next busy hour; please update ticket DU-BHUP-04172 afterward.",
+      "message_ar": "تمت ملاحظة تحسن إضافي: فقدان الحزم ~1% وزمن التأخير ~20 مللي ثانية. ضبط معلمات الخلية كان مفيداً. لنتابع خلال ساعة الذروة القادمة؛ يرجى تحديث التذكرة DU-BHUP-04172 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—I will own monitoring for the next busy hour and update the ticket afterward. If congestion returns or user rates drop again, I will escalate to transport for temporary reroute/priority adjustments; if any side effects appear, I will revert the tuning.",
+      "message_ar": "مفهوم—سأتولى المتابعة خلال ساعة الذروة القادمة وأحدث التذكرة بعد ذلك. إذا عاد الازدحام أو انخفضت سرعات المستخدمين مجدداً، سأصعّد إلى فريق النقل لإعادة توجيه مؤقت/تعديل الأولويات؛ وإذا ظهرت آثار جانبية فسأرجع الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed peak-hour degraded backhaul via OSS review over the last 3 hours: utilization persistently >90% with elevated latency, loss, and queueing while radio load was moderate. Applied site parameter tuning to reduce queuing and prioritize eMBB, improving latency and user throughput. Opened a capacity upgrade ticket to transport for sustained mitigation and will monitor through the next busy hour.",
+    "ar": "تم تأكيد تدهور الربط الخلفي خلال ساعة الذروة عبر مراجعة النظام لآخر 3 ساعات: استخدام يتجاوز 90% مع ارتفاع التأخير والفقد وامتلاء القوائم بينما كان حمل الراديو متوسطاً. تم تنفيذ ضبط معلمات الخلية لتقليل الطوابير وإعطاء أولوية لـeMBB مما حسّن التأخير ومعدل المستخدمين. فُتحت تذكرة ترقية سعة لفريق النقل كحل مستدام وسيتم المتابعة خلال ساعة الذروة القادمة."
+  }
+}

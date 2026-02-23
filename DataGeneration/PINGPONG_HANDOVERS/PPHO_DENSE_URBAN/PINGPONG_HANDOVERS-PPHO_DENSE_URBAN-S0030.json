@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0030",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban 5G macro cell shows elevated ping-pong handovers (~14%) during the peak evening 4h window, with low SINR (~1 dB) indicating interference / signal overlap and handover success around 88%.",
+    "ar": "خلية ماكرو 5G في منطقة حضرية كثيفة تُظهر زيادة في عمليات التسليم المتأرجحة (~14%) خلال نافذة الأربع ساعات في ذروة المساء، مع SINR منخفض (~1 dB) يشير إلى تداخل/تراكب إشارة ومعدل نجاح تسليم بنحو 88%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing frequent ping-pong between NR-URB-1123-S1C2 and nearby neighbors this evening; streaming users report jitter. Current 4h KPIs: ping-pong ~14%, HO success ~88%, HO fail ~7%, RSRP −111 dBm, RSRQ −13 dB, SINR ~1 dB, PRB ~75%. No alarms.",
+      "message_ar": "نلاحظ تكراراً لعمليات التسليم المتأرجحة بين NR-URB-1123-S1C2 والجيران القريبين هذا المساء؛ مستخدمو البث يُبلغون عن تقطّع. مؤشرات الأربع ساعات: تسليم متأرجح ~14%، نجاح التسليم ~88%، فشل ~7%، RSRP −111 dBm، RSRQ −13 dB، SINR ~1 dB، واستخدام PRB ~75%. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will 1) pull last 4h stats for NR-URB-1123-S1C2, 2) review handover time series to isolate bouncing neighbor pairs and thresholds, 3) apply a small mobility parameter tune to damp ping-pong. Please confirm cell ID and approve read access for step 1.",
+      "message_ar": "مفهوم. سأقوم بـ 1) سحب إحصاءات آخر 4 ساعات للخلية NR-URB-1123-S1C2، 2) مراجعة السلاسل الزمنية للتسليم لعزل الأزواج المتذبذبة والمعايير، 3) تطبيق ضبط طفيف لمعاملات الحركة لتخفيف التأرجح. يرجى تأكيد معرف الخلية والموافقة على الوصول للقراءة للخطوة الأولى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID confirmed: NR-URB-1123-S1C2. Read access approved.",
+      "message_ar": "تم تأكيد معرف الخلية: NR-URB-1123-S1C2. تمت الموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 4h stats. Observations: elevated bi-directional HO between S1C2↔S1C3 and S1C2↔S1C4; A3 offset 0 dB, hysteresis 2 dB, TTT 113 ms; PRB 70–80%; SINR centered 0–2 dB. No active alarms. Proceed to time-series drill-down on HO behavior?",
+      "message_ar": "تم سحب إحصاءات آخر 4 ساعات. الملاحظات: ارتفاع في التسليم ثنائي الاتجاه بين S1C2↔S1C3 و S1C2↔S1C4؛ إزاحة A3 تساوي 0 dB، الهسترة 2 dB، TTT عند 113 ms؛ استخدام PRB بين 70–80%؛ وSINR بين 0–2 dB. لا توجد إنذارات نشطة. هل نتابع بالتحليل الزمني التفصيلي لسلوك التسليم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series review.",
+      "message_ar": "تفضل بمراجعة السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows ping-pong peaking 14–16% during 19:00–21:00 with rapid back-and-forth within 1–2 minutes; HO failures 6–8% concentrated toward S1C3 edges. Proposal: raise hysteresis to 3 dB, increase TTT to 160 ms, and add +1 dB A3 offset to strengthen serving dominance. Approve change?",
+      "message_ar": "السلاسل الزمنية تُظهر ذروة للتسليم المتأرجح 14–16% بين 19:00–21:00 مع عودة سريعة خلال 1–2 دقيقة؛ فشل التسليم 6–8% يتركز باتجاه أطراف S1C3. المقترح: رفع الهسترة إلى 3 dB، زيادة TTT إلى 160 ms، وإضافة +1 dB لإزاحة A3 لتعزيز هيمنة الخلية الخادمة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility parameter adjustment now.",
+      "message_ar": "موافق على تنفيذ ضبط معاملات الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility tuning on NR-URB-1123-S1C2: hysteresis 2→3 dB, TTT 113→160 ms, A3 offset 0→+1 dB. Changes committed. Early counters show HO attempts steady and ping-pong easing to ~10–11%. I’ll watch live indicators for 10–15 minutes; please share any immediate field observations.",
+      "message_ar": "تم تطبيق ضبط الحركة على NR-URB-1123-S1C2: الهسترة 2→3 dB، وTTT من 113→160 ms، وإزاحة A3 من 0→+1 dB. تم اعتماد التغييرات. المؤشرات الأولية تُظهر ثباتاً في محاولات التسليم وانخفاض التأرجح إلى ~10–11%. سأراقب المؤشرات الحية لمدة 10–15 دقيقة؛ يرجى مشاركة أي ملاحظات ميدانية فورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial view: ping-pong now around 9–10%, HO success up to ~91%. Median throughput holds near 23 Mbps; SINR remains about 1 dB.",
+      "message_ar": "المشاهدة الأولية: التأرجح الآن حوالي 9–10%، ونسبة نجاح التسليم ارتفعت إلى ~91%. الوسيط للسرعة ثابت قرب 23 Mbps؛ وSINR ما زال حوالي 1 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. We’ll keep short-term observation and, if needed later, address interference jointly with neighbors. I suggest monitoring through the next busy hour; I’ll track neighbor-specific bounce rates.",
+      "message_ar": "تحسن جيد. سنستمر بالمراقبة القصيرة المدى، وإذا لزم الأمر لاحقاً سنعالج التداخل بالتنسيق مع الخلايا المجاورة. أقترح المتابعة خلال ساعة الذروة القادمة؛ وسأتتبع معدلات التأرجح لكل جار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement continues with fewer rapid back-and-forth events after the mobility parameter optimization. Let’s monitor for the next 2–4 hours covering the upcoming busy hour.",
+      "message_ar": "التحسن مستمر مع انخفاض الأحداث السريعة ذهاباً وإياباً بعد تحسين معاملات الحركة. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة التي تشمل ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next 2–4 hours and update you on ping-pong rate, HO success, and user complaints. If degradation returns, we will roll back to prior settings; if it worsens on specific neighbor pairs, we will escalate to interference mitigation with neighbor coordination.",
+      "message_ar": "تم. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونوافيك بمعدل التأرجح، نجاح التسليم، وشكاوى المستخدمين. إذا عاد التدهور سنعيد الإعدادات السابقة؛ وإذا ساء الأمر مع أزواج جيران محددين فسنصعّد إلى تخفيف التداخل بالتنسيق مع الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on a dense urban 5G macro cell during peak hours using recent stats and handover time series, with low SINR indicating interference/overlap. Mitigated by site parameter tuning: increased hysteresis and TTT, and a small positive A3 offset to strengthen serving dominance. Early results show reduced ping-pong and improved handover success; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التسليم المتأرجح في خلية ماكرو 5G ضمن منطقة حضرية كثيفة خلال ساعات الذروة باستخدام الإحصاءات الحديثة والسلاسل الزمنية للتسليم، مع SINR منخفض يشير إلى تداخل/تراكب. تمت المعالجة عبر ضبط معلمات الموقع: رفع الهسترة ووقت TTT وإضافة إزاحة A3 إيجابية صغيرة لتعزيز هيمنة الخلية الخادمة. النتائج الأولية تُظهر انخفاض التأرجح وتحسناً في نجاح التسليم؛ وستستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

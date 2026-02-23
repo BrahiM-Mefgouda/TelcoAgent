@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0024",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6h shows uneven resource allocation at peak eMBB: PRB use ~82%, fairness ~0.53, allocation skew 14, median throughput 12 Mbps, p95 scheduler latency 90 ms, SINR 12 dB.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات تُظهر تخصيص موارد غير متوازن في ذروة eMBB: استغلال PRB ~82%، الإنصاف ~0.53، انحراف التخصيص 14، الوسيط 12 ميغابت/ث، كمون المُجدول p95 عند 90 مللي ثانية، وSINR ‏12 dB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell at peak eMBB hours; users report fluctuating rates during streaming. Last 6h: PRB util ~82%, fairness ~0.53, allocation skew 14, p50 12 Mbps, p95 scheduler latency 90 ms, SINR ~12 dB.",
+      "message_ar": "خلية NR ماكرو حضرية خلال ساعات الذروة eMBB؛ المستخدمون يبلغون عن تذبذب السرعات أثناء البث. آخر 6 ساعات: استغلال PRB ~82%، مؤشر الإنصاف ~0.53، انحراف التخصيص 14، الوسيط 12 ميغابت/ث، كمون المُجدول p95 عند 90 مللي ثانية، وSINR ~12 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by checking configuration and counters for the last 6h on the affected cell. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأبدأ بفحص الإعدادات والعدادات لآخر 6 ساعات على الخلية المعنية. يرجى تأكيد معرف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-UGB123. Read access approved.",
+      "message_ar": "معرف الخلية: NR-Cell-UGB123. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Check complete: no active alarms; QoS mix shows best-effort at 47% vs high-priority 32%, queueing delays elevated, per-UE PRB variance high. RF looks stable (RSRQ -10 dB, SINR 12 dB). This points to a resource allocation imbalance under load. Next, I will pull 6h PRB/fairness time series to verify drift—proceed?",
+      "message_ar": "اكتمل الفحص: لا إنذارات نشطة؛ مزيج QoS يُظهر حصة Best-Effort 47% مقابل أولوية عالية 32%، تأخيرات الطوابير مرتفعة، وتفاوت PRB لكل مستخدم مرتفع. طبقة الراديو مستقرة (RSRQ ‎-10 dB، SINR ‏12 dB). يشير ذلك إلى اختلال في تخصيص الموارد تحت الحمل. بعد ذلك سأجلب سلسلة زمنية لـ PRB/الإنصاف لمدة 6 ساعات للتحقق من الانحراف—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms peaks: fairness dips to 0.45–0.55 with allocation skew 14–16 during 18:00–20:00; PRB util 78–88% with latency spikes aligned; RF steady. This is a scheduling anomaly, not interference. I propose tuning the NR scheduler QoS weights, adding a fairness guard, and capping burstiness to protect high-priority flows. Approve the change?",
+      "message_ar": "السلسلة الزمنية تؤكد القمم: ينخفض الإنصاف إلى 0.45–0.55 مع انحراف تخصيص 14–16 خلال 18:00–20:00؛ استغلال PRB عند 78–88% مع ارتفاعات في الكمون؛ طبقة الراديو ثابتة. هذه شذوذ في المُجدول وليس تداخلًا. أقترح ضبط أوزان QoS في مُجدول NR، إضافة حارس إنصاف، وتقييد الاندفاعية لحماية التدفقات عالية الأولوية. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: increased high-priority weighting, set a minimum PRB floor, tightened per-UE burst limits, and enabled a latency guard. Validation OK; counters updating—QoS share trending toward 40% high-priority, instantaneous fairness ~0.60, and queueing delay starting to drop.",
+      "message_ar": "تم تطبيق التغيير: زيادة وزن أولوية عالية، تعيين حد أدنى لـ PRB، تشديد حدود الاندفاع لكل مستخدم، وتفعيل حارس الكمون. التحقق ناجح؛ العدادات تتحدث—حصة QoS تتجه نحو 40% للأولوية العالية، والإنصاف اللحظي ~0.60، وتأخيرات الطوابير بدأت بالانخفاض."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: streaming is steadier and p95 scheduler latency is trending down to ~75 ms.",
+      "message_ar": "ملاحظة أولية: البث أصبح أكثر استقرارًا وكمون المُجدول p95 يتراجع إلى ~75 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. Please watch user feedback while we stabilize; let me know if any stalls or spikes reappear.",
+      "message_ar": "إشارة جيدة. يرجى متابعة ملاحظات المستخدمين أثناء الاستقرار؛ أخبرني إذا ظهرت توقفات أو ارتفاعات مفاجئة من جديد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: fairness index is rising and allocation skew is moderating; the action taken was scheduler parameter tuning. Let's monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: مؤشر الإنصاف يرتفع وانحراف التخصيص يتراجع؛ الإجراء الذي تم هو ضبط معاملات المُجدول. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor through the next busy hour and share an update afterward. If performance degrades (fairness drops or latency rises), we will roll back to the prior settings; if issues persist despite the change, we will escalate for broader capacity and load distribution review.",
+      "message_ar": "تم الاستلام—سنراقب خلال ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا تدهور الأداء (انخفض الإنصاف أو ارتفع الكمون)، سنعود إلى الإعدادات السابقة؛ وإذا استمرت المشكلة رغم التعديل، سنصعّد لمراجعة أوسع للسعة وتوزيع الحمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-UGB123",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-UGB123",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "NR scheduler QoS weights + fairness guard + burst limits"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro during peak eMBB, confirmed by PRB and fairness time series showing high allocation skew and latency spikes with stable RF. Executed site parameter tuning to adjust NR scheduler QoS weights, enable a fairness guard, and limit burstiness. Post-change checks show improved fairness and lower queueing delay; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص شذوذ في جدولة الموارد على خلية NR ماكرو حضرية خلال ذروة eMBB، وأكّدته سلسلة زمنية لـ PRB والإنصاف مع انحراف تخصيص مرتفع وارتفاعات في الكمون مع ثبات طبقة الراديو. نُفذت عملية ضبط لمعاملات الخلية بتعديل أوزان QoS في مُجدول NR، وتفعيل حارس الإنصاف، وتقييد الاندفاعية. أظهرت الفحوصات بعد التغيير تحسنًا في الإنصاف وانخفاضًا في تأخيرات الطوابير؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

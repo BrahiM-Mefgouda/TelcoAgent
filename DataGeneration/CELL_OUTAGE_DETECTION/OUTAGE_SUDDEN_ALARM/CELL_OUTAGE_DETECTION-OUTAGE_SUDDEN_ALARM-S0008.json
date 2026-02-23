@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0008",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban NR macro cell shows an outage alarm in the last hour with slow data, very low availability, high drops, and call setup failures.",
+    "ar": "خلية ماكرو NR في منطقة حضرية تظهر إنذار انقطاع خلال الساعة الماضية مع بيانات بطيئة، توفر منخفض جدًا، ونسب ارتفاع في الانقطاعات وفشل إعداد المكالمات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell flagged in the last hour with an outage alarm; KPIs show ~1% availability, slow data (~1 Mbps median), user drops at 84%, and call setup failures at 85% during shoulder hour eMBB streaming.",
+      "message_ar": "تم رفع إنذار انقطاع لخلية ماكرو NR حضرية خلال الساعة الماضية؛ المؤشرات تظهر توفرًا بحوالي 1%، بيانات بطيئة (~1 ميجابت/ث)، معدل انقطاعات 84% وفشل إعداد مكالمات 85% خلال فترة الحمل المتوسط مع بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll validate the cell state from OSS for the last hour to confirm an outage. Please share the cell ID and approve access.",
+      "message_ar": "سأتحقق من حالة الخلية عبر نظام التشغيل خلال الساعة الماضية لتأكيد الانقطاع. يرجى مشاركة معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UGB-123-1. Read access approved for the last hour.",
+      "message_ar": "معرف الخلية: NR-UGB-123-1. تمت الموافقة على وصول القراءة للساعة الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS health check for NR-UGB-123-1 over 1h: reviewing alarms, service state, heartbeat, RRC setup success, and traffic counters.",
+      "message_ar": "أجري فحص الحالة عبر النظام للخلية NR-UGB-123-1 خلال ساعة: مراجعة الإنذارات، حالة الخدمة، نبضات الاتصال، نجاح إعداد RRC، ومؤشرات الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed, access is open.",
+      "message_ar": "تفضل، الوصول متاح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: NR-UGB-123-1 is Out-of-Service for 47 minutes; DU heartbeat lost; zero successful call setups; traffic/PRB at 0; neighbors showing elevated load. I will open an outage ticket for dispatch and recovery. Please confirm.",
+      "message_ar": "النتائج: الخلية NR-UGB-123-1 خارج الخدمة منذ 47 دقيقة؛ فقدان نبضات DU؛ نجاح إعداد المكالمات صفر؛ الحركة/PRB تساوي صفر؛ الجيران بحمل مرتفع. سأفتح تذكرة انقطاع للإرسال والمعالجة. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, please open the outage ticket.",
+      "message_ar": "مؤكد، يرجى فتح تذكرة الانقطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Outage ticket DU-OUT-04567 created with high severity including alarm snapshots, KPI impact, and last-good timestamp. NOC and field teams notified. We'll monitor for auto-recovery and user impact.",
+      "message_ar": "تم إنشاء تذكرة الانقطاع DU-OUT-04567 بدرجة خطورة عالية مع لقطات الإنذارات، تأثير المؤشرات، وآخر وقت سليم. تم إخطار مركز العمليات والفرق الميدانية. سنراقب التعافي التلقائي وتأثير المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Neighbors are absorbing more load; local complaints persist with streaming buffering. No change on the down cell yet.",
+      "message_ar": "الخلايا المجاورة تستوعب حملاً أعلى؛ الشكاوى المحلية مستمرة مع تقطع في البث. لا تغيير على الخلية المتوقفة بعد."
+    },
+    {
+      "role": "agent",
+      "message_en": "We'll track alarms and KPIs; once the site comes back, we'll verify call setup and throughput normalization. If not restored within the hour, we will escalate in the ticket for on-site power and fiber checks.",
+      "message_ar": "سنراقب الإنذارات والمؤشرات؛ عند عودة الموقع سنؤكد عودة نجاح إعداد المكالمات وسرعات التحميل. إذا لم تتم الاستعادة خلال ساعة، سنصعّد في التذكرة لعمل فحوصات طاقة وألياف في الموقع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: the cell just recovered; call setup failures are trending down and traffic is returning. Action taken: outage ticket raised (DU-OUT-04567). Propose monitoring through the next busy hour.",
+      "message_ar": "تحديث: عادت الخلية للتو؛ فشل إعداد المكالمات يتناقص وحركة المرور تعود. الإجراء المتخذ: رفع تذكرة انقطاع (DU-OUT-04567). أقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we'll own monitoring through the next busy hour and update the ticket afterward. If degradation returns, we'll escalate to vendor/field for immediate intervention; if instability appears, we'll request a controlled rollback of any temporary on-site changes.",
+      "message_ar": "تم التأكيد؛ سنتولى المراقبة خلال ساعة الذروة القادمة ونقوم بتحديث التذكرة بعدها. إذا عاد التدهور سنصعّد إلى المورّد/الفريق الميداني للتدخل الفوري؛ وإذا ظهرت عدم استقرار فسنطلب تراجعًا مضبوطًا لأي تغييرات ميدانية مؤقتة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-UGB-123-1",
+        "1h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "Urban NR macro outage confirmed over last hour; OOS 47m; zero traffic; neighbors overloaded."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated the urban NR macro cell status over the last hour and confirmed an outage with zero traffic and lost heartbeat. Opened an outage ticket (DU-OUT-04567) to dispatch field recovery and notified operations. Monitoring continues through the next busy hour to confirm stability after mitigation.",
+    "ar": "تم التحقق من حالة خلية ماكرو NR الحضرية خلال الساعة الماضية وتأكيد الانقطاع مع حركة صفر وفقدان نبضات الاتصال. تم فتح تذكرة انقطاع (DU-OUT-04567) لإرسال فريق ميداني وإخطار العمليات. ستستمر المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار بعد المعالجة."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0019",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban NR macro shows an outage alarm in the last hour with slow data; availability ~3%, very high drops, and call setup failures.",
+    "ar": "موقع NR ماكرو حضري يظهر إنذار انقطاع خلال الساعة الماضية مع بيانات بطيئة؛ التوافر ~3% ومعدلات انقطاع عالية جداً وفشل في إعداد المكالمات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell raised an outage alarm in the last hour: availability ~3%, median DL ~1 Mbps (slow data), drop rate ~80%, call setup failures ~84%. Shoulder hour with eMBB streaming users impacted.",
+      "message_ar": "خلية NR ماكرو حضرية أطلقت إنذار انقطاع خلال الساعة الماضية: التوافر ~3%، متوسط تنزيل ~1 Mbps (بيانات بطيئة)، معدل الانقطاع ~80%، وفشل إعداد المكالمات ~84٪. فترة كتف مع تأثر مستخدمي eMBB (بث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking OSS health for the last 1h to confirm service state and alarms. Please confirm the cell ID and grant access.",
+      "message_ar": "سأبدأ بفحص حالة النظام عبر OSS لآخر ساعة لتأكيد حالة الخدمة والتنبيهات. يرجى تأكيد معرف الخلية ومنح الإذن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-04567-S1. Access approved for 1h diagnostics.",
+      "message_ar": "معرف الخلية: NR-URB-04567-S1. تم منح الإذن لفحص ساعة واحدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing health check on NR-URB-04567-S1 over the 1h window to verify service state, alarms, and counters.",
+      "message_ar": "أجري فحص الحالة للخلية NR-URB-04567-S1 خلال نافذة الساعة للتحقق من حالة الخدمة والتنبيهات والعدّادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS returns: cell Out-of-Service for ~58/60 minutes (availability ≈3%); call setup failures ≈84%, user drops ≈80%, median DL ≈1 Mbps. Alarms indicate sector down and transport heartbeat lost. This confirms an active outage.",
+      "message_ar": "نتيجة OSS: الخلية خارج الخدمة لنحو 58 من 60 دقيقة (توافر ≈3%)؛ فشل إعداد المكالمات ≈84%، انقطاعات المستخدمين ≈80%، ومتوسط التنزيل ≈1 Mbps. التنبيهات تشير إلى تعطل القطاع وفقد نبض النقل. هذا يؤكد وجود انقطاع نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will open a fault ticket to RAN/Transport for dispatch and restoration, including the alarm context and KPIs. Please confirm.",
+      "message_ar": "التالي: سأفتح تذكرة عطل لقسم الراديو/النقل لإرسال فريق ميداني واستعادة الخدمة، متضمنة سياق التنبيهات ومؤشرات الأداء. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—proceed with the fault ticket and include the outage details.",
+      "message_ar": "موافق—تابع إنشاء تذكرة العطل وضمّن تفاصيل الانقطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fault ticket created to field and transport teams with full context (OOS state, counters, and alarm timeline). Requested urgent site check and transport recovery. I will monitor for auto-recovery and stability.",
+      "message_ar": "تم إنشاء تذكرة عطل للفرق الميدانية والنقل مع السياق الكامل (خارج الخدمة، العدّادات، وتسلسل التنبيهات). طُلب فحص موقعي عاجل واستعادة النقل. سأقوم بالمراقبة للتحسن التلقائي والاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing intermittent recovery attempts; a few successful registrations occurred but service remains unstable.",
+      "message_ar": "نلاحظ محاولات تعافٍ متقطعة؛ حدثت بعض عمليات التسجيل الناجحة لكن الخدمة ما زالت غير مستقرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-ticket triage, call setup failures are trending down and access attempts are improving. Action taken: fault ticket created for restoration. Propose monitoring through the next busy hour; reference DU-OUT-10452.",
+      "message_ar": "بعد فرز التذكرة، معدلات فشل إعداد المكالمات تتجه للانخفاض ومحاولات النفاذ تتحسن. الإجراء المتخذ: إنشاء تذكرة عطل لاستعادة الخدمة. أقترح المراقبة خلال ساعة الذروة التالية؛ المرجع DU-OUT-10452."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring through the next busy hour and update the ticket after the window. If degradation returns, we will escalate to field and transport for on-site intervention; since no configuration was changed, no rollback is needed—if stable, we will proceed to closure.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة التالية وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد التدهور فسوف نصعّد للفرق الميدانية والنقل لتدخل موقعي؛ وبما أنه لم يتم تغيير أي إعدادات فلا حاجة للتراجع، وإذا استقرّت الخدمة سنمضي إلى الإغلاق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "A sudden outage on the urban NR macro cell was confirmed via an OSS health check, showing near-zero availability with severe call setup failures, high drops, and slow data. A fault ticket was logged to RAN/transport with dispatch requested to restore service. Monitoring will continue through the next busy hour with updates provided.",
+    "ar": "تم تأكيد انقطاع مفاجئ في خلية NR ماكرو حضرية عبر فحص الحالة في OSS، حيث ظهر توافر شبه معدوم مع فشل شديد في إعداد المكالمات وانقطاعات عالية وبيانات بطيئة. تم تسجيل تذكرة عطل لقسم الراديو/النقل مع طلب إرسال فريق لاستعادة الخدمة. ستستمر المراقبة خلال ساعة الذروة التالية وسيتم تقديم التحديثات."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0009",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban 5G macro cell shows slow data and mobility instability over the last 12h, with median downlink 7 Mbps, SINR 7 dB, RSRQ -14 dB, BLER ~9.7%, 85% handover success, 11% ping-pong, and notable neighbor PCI overlap.",
+    "ar": "خلية ماكرو 5G في منطقة شبه حضرية تُظهر بيانات بطيئة وعدم استقرار في الحركة خلال آخر 12 ساعة، بوسيط تنزيل 7 ميجابت/ث، SINR ‏7 dB،‏ RSRQ ‎-14 dB،‏ BLER ~9.7%، نجاح تسليم 85%، 11% تبديل متكرر، وتداخل ملحوظ في PCI مع الجوار."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has slow data and unstable mobility over the last 12h: median DL ~7 Mbps, SINR ~7 dB, RSRQ -14 dB, BLER ~9–10%, HO success ~85% with 11% ping-pong; no alarms; enterprise/private users impacted.",
+      "message_ar": "خلية ماكرو NR في منطقة شبه حضرية تعاني من بطء البيانات وعدم استقرار التنقل خلال آخر 12 ساعة: وسيط التحميل ~7 ميجابت/ث، SINR ~7 dB، RSRQ ‎-14 dB، BLER ~9–10%، نجاح التسليم ~85% مع 11% تبديل متكرر؛ لا إنذارات؛ مستخدمو الشركات/الخاص متضررون."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by auditing neighbor relations and PCI reuse to confirm any collision causing the mobility degradation. Please share the serving cell ID and approve read-only checks for the last 12h.",
+      "message_ar": "تم. سأبدأ بتدقيق العلاقات المجاورة وإعادة استخدام PCI للتحقق من أي تعارض قد يسبب تدهور الحركة. الرجاء مشاركة معرف الخلية والموافقة على فحوصات قراءة فقط لآخر 12 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-224-A; neighbors include NR-SUB-314-B and NR-SUB-224-C. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-224-A؛ الجيران يشملون NR-SUB-314-B وNR-SUB-224-C. موافقة على الوصول قراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review: NR-SUB-224-A broadcasts PCI 224; adjacent NR-SUB-224-C also uses PCI 224 with ~11% coverage overlap. A↔C handovers show elevated failures and ping-pong consistent with PCI confusion. Root cause: PCI collision in the overlap zone.",
+      "message_ar": "مراجعة الجيران: NR-SUB-224-A يبث PCI 224؛ الجار NR-SUB-224-C يستخدم أيضاً PCI 224 مع تداخل تغطية ≈11%. عمليات التسليم بين A↔C تُظهر فشلًا مرتفعًا وتبديلًا متكررًا بما يتوافق مع ارتباك PCI. السبب الجذري: تصادم PCI في منطقة التداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with your corrective plan. Note: A carries more enterprise load than C.",
+      "message_ar": "يمكنك المتابعة بخطتك التصحيحية. ملاحظة: A تحمل حركة مؤسسية أكثر من C."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying PCI parameter change: reassigning NR-SUB-224-C from PCI 224 to 179 (free in adjacency), refreshing neighbor definitions, and activating. Change committed; no new alarms. Starting post-change checks.",
+      "message_ar": "تطبيق تغيير معلمة PCI: إعادة تعيين NR-SUB-224-C من PCI 224 إلى 179 (متاح ضمن الجوار)، تحديث تعريفات الجيران وتفعيل التغيير. تم التنفيذ دون إنذارات جديدة. بدء فحوصات ما بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No user complaints so far; spot checks show stable pings.",
+      "message_ar": "لا توجد شكاوى مستخدمين حتى الآن؛ الفحوصات السريعة تُظهر استقراراً في الاستجابات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early checks (≈15 min): HO success +3 pp, ping-pong −2–3 pp; RSRQ in the overlap improved ~1 dB; BLER steady. Requesting approval to open a tracking ticket for traceability and monitoring.",
+      "message_ar": "فحوصات مبكرة (~15 دقيقة): نجاح التسليم +3 نقاط مئوية، وانخفاض التبديل المتكرر −2–3 نقاط؛ تحسن RSRQ في منطقة التداخل ~1 dB؛ BLER ثابت. أطلب الموافقة على فتح تذكرة متابعة للتوثيق والمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create a tracking ticket.",
+      "message_ar": "موافق على إنشاء تذكرة متابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket created and annotated with the PCI reassignment and neighbor update. I’ll continue watching mobility KPIs and user experience.",
+      "message_ar": "تم إنشاء تذكرة متابعة وتوثيق إعادة تعيين PCI وتحديث الجيران. سأواصل متابعة مؤشرات الحركة وتجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: ping-pong rate is trending down and handover failures are easing. Action taken was PCI parameter tuning to remove the collision; let’s monitor through the next busy hour and update DU-PCI-04239 afterward.",
+      "message_ar": "نلاحظ تحسناً: معدل التبديل المتكرر في اتجاه الانخفاض وفشل التسليم يتراجع. الإجراء المنفذ كان ضبط معلمات PCI لإزالة التصادم؛ لنتابع المراقبة خلال ساعة الذروة القادمة ونحدّث DU-PCI-04239 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will monitor through the next busy hour and update the ticket after the window. If issues return, we’ll escalate to regional RF for deeper analysis; if any regression appears, we’ll roll back the PCI change.",
+      "message_ar": "تم التأكيد—سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء النافذة. إذا عادت المشاكل سنصعّد إلى فريق الترددات الإقليمي للتحليل الأعمق؛ وإذا ظهرت آثار سلبية سنُرجع تغيير PCI."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor review confirmed a PCI collision between the serving NR cell (PCI 224) and an adjacent neighbor within an overlapping footprint, driving handover failures and ping-pong with slow data. We mitigated via site parameter tuning by reassigning the neighbor’s PCI to a free value and refreshing neighbor relations, then created a tracking ticket for follow-up. Early checks show mobility stabilizing; we will monitor through the next busy hour.",
+    "ar": "أكدت مراجعة الجيران وجود تصادم PCI بين الخلية الخادمة (PCI 224) وجار مجاور ضمن منطقة تداخل، ما أدى إلى فشل التسليم وتبديل متكرر مع بطء البيانات. خففنا المشكلة عبر ضبط معلمات الموقع بإعادة تعيين PCI للجار إلى قيمة متاحة وتحديث العلاقات، ثم إنشاء تذكرة متابعة. تظهر الفحوصات المبكرة تحسناً في الحركة؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

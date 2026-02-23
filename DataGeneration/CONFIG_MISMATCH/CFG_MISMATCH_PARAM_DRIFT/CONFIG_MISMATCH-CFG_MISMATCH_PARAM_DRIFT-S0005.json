@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0005",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows configuration drift (5 mismatches, drift score 0.81 for ~31h) with handover failures at 9%, BLER ~3.8%, PRB ~53%, and p50 throughput ~30 Mbps during shoulder hours, with an active alarm indicating possible congestion; eMBB streaming is likely impacted.",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر انحرافًا في التهيئة (5 اختلافات، درجة الانحراف 0.81 لمدة ~31 ساعة) مع فشل تسليم 9% وBLER ~3.8% واستهلاك PRB ~53% وسرعة وسيط ~30 ميغابت/ث خلال ساعات الكتف، مع إنذار نشط يدل على ازدحام محتمل؛ من المرجح تأثر بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell over the last 12h (shoulder period) raised a config drift alarm: 5 mismatches, drift score ~0.81 aged ~31h. Handover failures ~9%, BLER ~3.8%, PRB ~53%, and median DL throughput ~30 Mbps.",
+      "message_ar": "خلية ماكرو 5G NR حضرية خلال آخر 12 ساعة (فترة الكتف) أطلقت إنذار انحراف تهيئة: 5 اختلافات، درجة ~0.81 بعمر ~31 ساعة. فشل التسليم ~9%، وBLER ~3.8%، واستهلاك PRB ~53%، والسرعة المتوسطة للتحميل ~30 ميغابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead a live vs baseline configuration audit and KPI check for the last 12h. Please share the cell ID and approve read access.",
+      "message_ar": "سأتولى تدقيق التهيئة بين الحالة الحية والمرجعية وفحص مؤشرات الأداء لآخر 12 ساعة. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRCell-41023. Read access approved.",
+      "message_ar": "معرّف الخلية: NRCell-41023. تمت الموافقة على القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit result: 5 settings are off the baseline with ~31h age—handover thresholds, beam weights, and power offsets. This aligns with the 9% HO failures under moderate load. I propose restoring the baseline and enforcing the template now. Approve write access?",
+      "message_ar": "نتيجة التدقيق: 5 إعدادات خارجة عن المرجع بعمر ~31 ساعة—عتبات التسليم وأوزان الحزم وتعويضات القدرة. هذا يتوافق مع 9% فشل تسليم تحت حمل متوسط. أقترح استعادة النسخة المرجعية وتطبيق القالب الآن. هل الموافقة على الكتابة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Write access approved for NRCell-41023.",
+      "message_ar": "تمت الموافقة على الكتابة لـ NRCell-41023."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline restored and committed; mismatches cleared. Immediate post-check shows HO failures trending ~2 points lower with stable BLER and no outage. We'll watch counters for the next 10–15 minutes. Any field observations?",
+      "message_ar": "تم استعادة النسخة المرجعية وتثبيتها؛ تمت إزالة الاختلافات. الفحص الفوري يُظهر انخفاضًا بحوالي نقطتين في فشل التسليم مع BLER مستقر ودون انقطاع. سنراقب العدادات لمدة 10–15 دقيقة. هل توجد ملاحظات ميدانية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Radio looks stable; early HO failure alerts are easing. No new customer complaints so far.",
+      "message_ar": "الراديو مستقر؛ تنبيهات فشل التسليم بدأت بالانخفاض. لا توجد شكاوى جديدة حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "To ensure traceability and RCA on the drift source, I will open a tracking ticket and include the alarm context and 12h metrics. OK to proceed?",
+      "message_ar": "لضمان التتبع وتحليل السبب الجذري لمصدر الانحراف، سأفتح تذكرة متابعة وأضمّن سياق الإنذار وبيانات الـ12 ساعة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket created and linked. We'll observe through the next busy hour; targets: HO failures <5%, BLER <3%, p50 throughput ≥35 Mbps. Do you anticipate any site work that could reintroduce drift?",
+      "message_ar": "تم إنشاء تذكرة المتابعة وربطها. سنراقب خلال ساعة الذروة القادمة؛ الأهداف: فشل التسليم <5%، وBLER <3%، وسرعة وسيط ≥35 ميغابت/ث. هل تتوقع أي أعمال ميدانية قد تعيد الانحراف؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-action, handover failures are trending down and early drops reduced. The action was a config push to restore the baseline. Let’s monitor for the next 2–4 hours and through the next busy hour; I’ll track it under DU-CFG-10437.",
+      "message_ar": "بعد الإجراء، فشل التسليم يتناقص والانقطاعات الأولية انخفضت. كان الإجراء دفع تهيئة لاستعادة المرجع. لنراقب خلال الساعتين إلى الأربع القادمات وخلال ساعة الذروة القادمة؛ سأتتبعه تحت DU-CFG-10437."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own this monitoring window and update the ticket after it. If degradation returns, we will roll back the change and escalate to the vendor; otherwise we maintain the baseline and close with a summary.",
+      "message_ar": "سنكون مسؤولين عن نافذة المراقبة وسنحدّث التذكرة بعدها. إذا عادت التدهورات، سنتراجع عن التغيير ونصعّد إلى المورد؛ وإلا فسنحافظ على المرجع ونغلق مع ملخص."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a live vs baseline configuration drift on the urban 5G NR macro cell (5 mismatches, ~31h old) correlating with elevated handover failures. Restored the baseline via a config push, confirmed mismatch clearance, and observed initial improvement. A tracking ticket was opened for ongoing observation and RCA; we will monitor through the next busy hour and revert/escalate if degradation returns.",
+    "ar": "تم تشخيص انحراف بين التهيئة الحية والمرجعية في خلية ماكرو 5G NR حضرية (5 اختلافات بعمر ~31 ساعة) ارتبط بارتفاع فشل التسليم. تم استعادة المرجع عبر دفع تهيئة، وتأكيد إزالة الاختلافات، وملاحظة تحسن أولي. تم فتح تذكرة متابعة للمراقبة المستمرة وتحليل السبب الجذري؛ سنراقب خلال ساعة الذروة القادمة ونتراجع/نصعّد إذا عاد التدهور."
+  }
+}

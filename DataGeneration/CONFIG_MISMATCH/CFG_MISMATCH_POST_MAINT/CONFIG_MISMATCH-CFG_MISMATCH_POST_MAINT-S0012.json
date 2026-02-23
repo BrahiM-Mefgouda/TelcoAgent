@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0012",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro cell over the last 24h shows two config mismatches with moderate drift (~22h), mild handover failures (~2%), BLER around 8%, and median downlink throughput near 30 Mbps.",
+    "ar": "خلال آخر 24 ساعة في خلية ماكرو 5G NR بمنطقة شبه حضرية، هناك تعارضان في الإعدادات مع انجراف معتدل (~22 ساعة)، ارتفاع طفيف في فشل التسليم (~2%)، BLER حوالي 8%، ومتوسط سرعة تنزيل يقارب 30 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-maintenance check on a suburban 5G NR macro cell in the last 24h: slight rise in handover failures (~2%) and DL BLER (~8%), median DL throughput ~30 Mbps, no alarms. Some eMBB users noted brief streaming stutters.",
+      "message_ar": "فحص ما بعد الصيانة على خلية ماكرو 5G NR في منطقة شبه حضرية خلال آخر 24 ساعة: ارتفاع طفيف في فشل التسليم (~2%) وBLER في التنزيل (~8%)، ومتوسط سرعة تنزيل ~30 ميجابت/ث، دون إنذارات. أبلغ بعض مستخدمي eMBB عن تقطعات قصيرة في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first retrieve the recent OSS view for the cell to confirm any config drift, then align to baseline if mismatches are found. Please share the cell ID and approve read/write access.",
+      "message_ar": "تم الفهم. سأسترجع أولاً عرض نظام الإدارة للشبكة للخلية للتحقق من أي انحراف بالإعدادات، ثم أعيد المواءمة إلى الخط الأساسي إذا وُجدت تعارضات. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحيات القراءة/الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-41321. Read/write access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-41321. تمت الموافقة على صلاحيات القراءة/الكتابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying OSS for NR-SUB-41321 over the last 24h… Found two mismatches: HO A3 offset is +2 dB vs baseline, and CSI-RS reporting periodicity is 20 ms vs 10 ms baseline. Drift age ~22h; this can bias HO decisions and slightly worsen link adaptation, matching the mild BLER and HO trends.",
+      "message_ar": "أستعلم من نظام الإدارة لخلية NR-SUB-41321 خلال آخر 24 ساعة… تم العثور على تعارضين: إزاحة A3 للتسليم +2 ديسيبل مقابل الخط الأساسي، ودورية تقارير CSI-RS هي 20 مللي ثانية بدل 10 مللي ثانية. عمر الانجراف ~22 ساعة؛ ما قد يؤثر على قرارات التسليم ويزيد تدهور التكيّف على الرابط بشكل طفيف، وهو ما يطابق مؤشرات BLER وفشل التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose reverting these two settings to the site baseline. Impact is minimal (brief control reconfiguration). Proceed to push now?",
+      "message_ar": "أقترح إعادة هذين الإعدادين إلى خط الموقع الأساسي. التأثير طفيف (إعادة تهيئة تحكم قصيرة). هل أمضي في التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push baseline now.",
+      "message_ar": "موافق على دفع الخط الأساسي الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing baseline parameters to NR-SUB-41321… Completed successfully. No alarms raised; only transient control updates observed.",
+      "message_ar": "جاري دفع المعلمات الأساسية إلى NR-SUB-41321… تم بنجاح. لم يتم توليد إنذارات؛ لوحظت تحديثات تحكم عابرة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Immediate post-change check shows HO command success stabilizing and initial BLER samples trending slightly down within the first few minutes. I will keep watching for further settling.",
+      "message_ar": "التحقق الفوري بعد التغيير يُظهر استقرار نجاح أوامر التسليم وأن عينات BLER الأولية تتجه للانخفاض بشكل طفيف خلال الدقائق الأولى. سأستمر بالمراقبة لمزيد من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback is positive: streaming looks stable and short tests show BLER nearer 6–7%.",
+      "message_ar": "المؤشرات الميدانية إيجابية: البث مستقر والاختبارات القصيرة تُظهر BLER أقرب إلى 6–7%."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I have logged a change record for the baseline restore and will attach before/after snapshots.",
+      "message_ar": "لأغراض التتبع، قمت بتسجيل تغيير لاستعادة الخط الأساسي وسأرفق لقطات ما قبل/ما بعد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: handover failures trending down and BLER easing after the configuration push to restore baseline. Let’s monitor through the next busy hour; reference ticket DU-CFG-02473.",
+      "message_ar": "تحسن ملحوظ: فشل التسليم يتجه للانخفاض وBLER يتراجع بعد دفع الإعدادات لاستعادة الخط الأساسي. لنتابع المراقبة خلال ساعة الذروة القادمة؛ المرجع للتذكرة DU-CFG-02473."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and update the ticket afterward with KPI deltas. If degradation reappears, we will roll back the specific changes; if issues persist, we will escalate for on-site verification.",
+      "message_ar": "تم التأكيد. سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة لاحقاً بفروقات المؤشرات. إذا عاد التدهور، سنعكس التغييرات المحددة؛ وإذا استمرت المشكلة، سنصعّد للتحقق الميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-41321",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG-NR-MACRO-BL-Q3"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Post-maintenance config mismatch corrected on NR-SUB-41321; baseline pushed; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed post-maintenance configuration drift on a suburban 5G NR macro cell by checking recent OSS data, revealing two mismatched parameters affecting handover decisions and link adaptation. Restored the site baseline via a configuration push and recorded the change for traceability. We will monitor during the next busy hour and confirm sustained stability.",
+    "ar": "تم تشخيص انجراف في الإعدادات بعد الصيانة على خلية ماكرو 5G NR في منطقة شبه حضرية عبر مراجعة بيانات نظام الإدارة مؤخراً، حيث وُجد تعارضان أثّرا في قرارات التسليم وتكيّف الرابط. تم استعادة الخط الأساسي للموقع عبر دفع الإعدادات وتوثيق التغيير لأغراض التتبع. سنراقب خلال ساعة الذروة القادمة للتأكد من استقرار الأداء."
+  }
+}

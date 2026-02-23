@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0024",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban 5G NR macro cell over the past 12h shows PCI confusion with 9 overlapping neighbors, ping-pong ~9% and handover failures ~7%, moderate signal quality (SINR ~10 dB, RSRQ −8 dB), BLER ~9.6%, PRB ~71%, p50 throughput ~27 Mbps, with typical eMBB streaming traffic.",
+    "ar": "خلية NR ماكرو في منطقة سكنية خلال آخر 12 ساعة تُظهر التباس PCI مع 9 جيران متداخلين، ping‑pong نحو 9% وإخفاقات التسليم ~7%، جودة إشارة متوسطة (SINR ~10 dB وRSRQ −8 dB)، BLER ~9.6%، وPRB ~71%، وسرعة وسيطة ~27 Mbps، مع حركة eMBB لبث المحتوى."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro over the last 12h shows rising ping-pong (~9%) and handover failures (~7%). p50 throughput ~27 Mbps, SINR ~10 dB, RSRQ −8 dB, BLER ~9.6%, PRB ~71%, ~275 users. We see overlapping neighbor PCIs around our PCI 233 and neighbor 117. Please check.",
+      "message_ar": "موقع NR ماكرو في منطقة سكنية خلال آخر 12 ساعة يُظهر ارتفاعاً في الـ ping‑pong (~9%) وإخفاقات التسليم (~7%). سرعة وسيطة ~27 Mbps، وSINR ~10 dB، وRSRQ −8 dB، وBLER ~9.6%، وPRB ~71% مع ~275 مستخدم. نلاحظ تداخل PCIs لدى الجيران حول PCI 233 والجارة 117. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. The symptoms indicate PCI confusion. I will begin with a neighbor audit to confirm PCI collisions and adjacency inconsistencies. Please approve read access to the cell and neighbors.",
+      "message_ar": "تم الاستلام. الأعراض تشير إلى التباس في PCI. سأبدأ بتدقيق الجيران للتحقق من تصادمات PCI وعدم اتساق علاقات الجوار. يرجى الموافقة على صلاحية القراءة للخلية والجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID: NR-SUB-233A, window 12h.",
+      "message_ar": "موافق. هوية الخلية: NR-SUB-233A، نافذة 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing neighbor audit on NR-SUB-233A and its adjacency set. Result: 9 PCI/group overlaps detected—2 direct collisions and 7 same-group conflicts, with highest overlap around neighbor PCI 117. This aligns with the observed ping-pong and HO failures.",
+      "message_ar": "أُجري تدقيق الجيران على NR-SUB-233A ومجموعة الجوار. النتيجة: تم اكتشاف 9 تداخلات PCI/ضمن المجموعة—تصادمان مباشران و7 تعارضات ضمن المجموعة، مع أعلى تداخل حول الجارة ذات PCI 117. هذا يتماشى مع الـ ping‑pong وإخفاقات التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed action: realign the serving PCI to a non-conflicting value and refresh neighbor relations to eliminate ambiguity. Low-risk change; proceed?",
+      "message_ar": "الإجراء المقترح: إعادة محاذاة PCI للخلية إلى قيمة غير متضاربة وتحديث علاقات الجوار لإزالة الالتباس. تغيير منخفض المخاطر؛ هل أمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالتنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization now: changed serving PCI from 233 to 331, cleaned up neighbor relations to remove duplicate/group conflicts, and synchronized adjacencies. Change completed; starting post-change checks.",
+      "message_ar": "أطبّق التحسين الآن: تم تغيير PCI للخدمة من 233 إلى 331، وتنظيف علاقات الجوار لإزالة التعارضات المكرّرة/ضمن المجموعة، ومزامنة العلاقات. اكتمل التغيير؛ أبدأ فحوصات ما بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: ping-pong indications easing and RSRQ improved by ~1 dB on live traces.",
+      "message_ar": "المؤشرات الأولية أفضل: تراجع في الـ ping‑pong وتحسّن RSRQ بنحو 1 dB في القياسات الحية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Documenting the change and monitoring plan. Creating a tracking ticket to record the PCI realign and neighbor cleanup.",
+      "message_ar": "أوثّق التغيير وخطة المراقبة. أقوم بإنشاء تذكرة متابعة لتسجيل إعادة محاذاة PCI وتنظيف الجوار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PCI-04217 created and linked to the affected cell and neighbors.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-04217 وربطها بالخلية والجيران المتأثرين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see HO failures trending down and fewer ping-pong events after the PCI realignment and neighbor relation update. Let’s monitor through the next busy hour; we’ll use DU-PCI-04217 for tracking.",
+      "message_ar": "نلاحظ انخفاضاً في إخفاقات التسليم وتراجع أحداث الـ ping‑pong بعد إعادة محاذاة PCI وتحديث علاقات الجوار. لنراقب خلال ساعة الذروة القادمة؛ سنستخدم DU-PCI-04217 للمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own the next busy-hour monitoring and update DU-PCI-04217 afterward. If KPIs regress, we will roll back to the prior PCI and neighbor set and escalate to RF planning.",
+      "message_ar": "مفهوم. سنتولى مراقبة ساعة الذروة القادمة ونحدّث DU-PCI-04217 بعدها. إذا تراجعت مؤشرات الأداء، سنرجع إلى PCI والإعدادات السابقة للجوار ونصعّد لفريق تخطيط الترددات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision/confusion on a suburban 5G NR macro: neighbor audit confirmed 9 PCI/group overlaps driving ping-pong and handover failures. Applied site parameter tuning by realigning the serving PCI and cleaning up neighbor relations, then recorded the change in a tracking ticket. Will monitor through the next busy hour to confirm stabilization.",
+    "ar": "تم تشخيص تصادم/التباس PCI في موقع NR ماكرو سكني: أكد تدقيق الجيران وجود 9 تداخلات PCI/ضمن المجموعة أدت إلى ping‑pong وإخفاقات التسليم. تم تنفيذ ضبط معلمات الموقع عبر إعادة محاذاة PCI للخدمة وتنظيف علاقات الجوار، ثم توثيق التغيير في تذكرة متابعة. سيتم المراقبة خلال ساعة الذروة القادمة للتحقق من الاستقرار."
+  }
+}

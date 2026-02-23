@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0026",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G NR macro shows a 2h alarm with congestion, an RLF spike and degraded handovers during shoulder-hour eMBB streaming, with interference/signal overlap and slow data.",
+    "ar": "موقع 5G NR ماكرو حضري يظهر إنذاراً لمدة ساعتين مع ازدحام، ارتفاعاً في انقطاعات الاتصال وتدهوراً في التسليم خلال فترة الكتف مع حركة eMBB (بث)، مع تداخل/تراكب إشارة وبيانات بطيئة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing a shoulder-hour RLF spike on the urban 5G NR macro in the last 2h: HO success ~78%, T310 expiries ~7%, PRB >90%, SINR ~1 dB, p95 scheduling latency 95 ms. eMBB streaming is heavy (~392 users). Alarm indicates congestion.",
+      "message_ar": "نلاحظ ارتفاعاً في انقطاعات الاتصال خلال فترة الكتف على موقع 5G NR ماكرو حضري خلال آخر ساعتين: نجاح التسليم ~78%، انتهاء مؤقّت T310 ~7%، إشغال الموارد >90%، SINR ~1 dB، وزمن الجدولة p95 عند 95 مللي ثانية. حركة eMBB (بث) مرتفعة (~392 مستخدم). يوجد إنذار يشير إلى ازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with an OSS snapshot for the last 2h to baseline mobility and load. Please confirm the serving cell ID and approve read access.",
+      "message_ar": "تم التأكيد. سأبدأ بالتقاط لقطة من مؤشرات النظام خلال آخر ساعتين لقياس التنقل والحمل. يرجى تأكيد معرف الخلية الخادمة والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Serving cell: NRCell-41023. Read-only access approved for 2h.",
+      "message_ar": "الخلية الخادمة: NRCell-41023. تمت الموافقة على صلاحية القراءة لمدة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot for NRCell-41023 over 2h confirms: RLF 7.3%, HO failures 14%, T310 expiries 7%, PRB utilization 91%, p95 scheduling latency 95 ms, BLER 7.3%, RSRQ -9 dB, SINR 1 dB, median DL throughput 6 Mbps. Next, I will pull the RLF time series for correlation with load/interference in the same window—proceed?",
+      "message_ar": "لقطة OSS لخلية NRCell-41023 خلال ساعتين تؤكد: RLF 7.3%، فشل التسليم 14%، انتهاء T310 بنسبة 7%، إشغال الموارد 91%، زمن الجدولة p95 عند 95 مللي ثانية، BLER بنسبة 7.3%، RSRQ -9 dB، SINR عند 1 dB، ومعدل تنزيل وسطي 6 ميجابت/ث. الخطوة التالية سأسحب سلسلة زمنية لـ RLF لربطها بالحمل/التداخل ضمن نفس النافذة—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the time series.",
+      "message_ar": "موافق. تابع السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "RLF time series shows bursty peaks aligned with PRB saturation and low SINR; drops cluster ~5–15 s before handover triggers, indicating late HOs under interference/signal overlap. Proposal: targeted mobility/beam tuning (adjust margins and reaction timing) to accelerate HO and reduce drops with minimal impact. Approve optimization?",
+      "message_ar": "السلسلة الزمنية لـ RLF تُظهر قمماً متقطعة متزامنة مع تشبع الموارد وانخفاض SINR؛ تتجمع الانقطاعات قبل ~5–15 ثانية من تفعيل التسليم، مما يدل على تأخر التسليم تحت التداخل/تراكب الإشارة. الاقتراح: ضبط موجّه للمتحركات/الحزم (تعديل الهوامش وتوقيت الاستجابة) لتسريع التسليم وتقليل الانقطاعات بتأثير طفيف. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافق على إجراء التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on the serving cell and key neighbors: tightened handover margins toward dominant neighbors, slightly reduced reaction delay, and softened beam bias to mitigate overlap. Change committed; starting a short soak while watching RLF, HO success, and T310 expiries.",
+      "message_ar": "تم تطبيق التحسين على الخلية الخادمة والجيران الرئيسيين: تضييق هوامش التسليم نحو الجيران المهيمنين، تقليل طفيف في زمن الاستجابة، وتخفيف انحياز الحزمة لتقليل التراكب. تم اعتماد التغيير؛ نبدأ فترة مراقبة قصيرة مع متابعة RLF ونجاح التسليم وانتهاءات T310."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change (15 min): RLF ~4.2%, HO success ~86%, fewer T310 expiries. Traffic level unchanged; slow data is easing slightly.",
+      "message_ar": "بعد التغيير (15 دقيقة): RLF حوالي 4.2%، نجاح التسليم ~86%، وانخفاض في انتهاءات T310. مستوى الحركة ثابت؛ البطء في البيانات يتحسن قليلاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trajectory. We will keep observing through the next busy interval; targets are RLF <3% and HO success >90%. If interference persists, we can plan additional interference mitigation with adjacent cells.",
+      "message_ar": "المسار جيد. سنستمر في المتابعة خلال الفترة المزدحمة القادمة؛ الأهداف هي RLF أقل من 3% ونجاح التسليم أعلى من 90%. إذا استمر التداخل، يمكننا التخطيط لتخفيف إضافي للتداخل مع الخلايا المجاورة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: RLF down to ~3.5% and beam-related failures trending down. Action taken: site parameter tuning for mobility/beam behavior. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: RLF انخفض إلى ~3.5% وإخفاقات مرتبطة بالحزم تتناقص. الإجراء المتخذ: ضبط معلمات الموقع لسلوك التنقل/الحزم. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Actions completed: diagnostics (counters and RLF trend) and site parameter tuning. We will monitor through the next busy hour and share status afterward. If performance degrades, we will roll back to previous settings; if stable but drops remain high, we will escalate to interference mitigation with adjacent cells.",
+      "message_ar": "مفهوم. الإجراءات المكتملة: التشخيص (المؤشرات واتجاه RLF) وضبط معلمات الموقع. سنراقب خلال ساعة الذروة القادمة ونشارك الحالة بعدها. إذا تدهور الأداء سنعود إلى الإعدادات السابقة؛ وإذا بقيت الانقطاعات مرتفعة رغم الاستقرار فسنصعّد إلى تخفيف التداخل مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell-41023",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell-41023",
+        "RLF",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility/beam parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a shoulder-hour RLF spike on an urban 5G macro: OSS counters and RLF time series confirmed PRB saturation and low SINR causing late handovers. Applied site parameter tuning to mobility and beam behavior, which reduced RLF and improved handover success. We will continue monitoring through the next busy hour to ensure stability.",
+    "ar": "تم تشخيص ارتفاع RLF خلال فترة الكتف على موقع 5G ماكرو حضري: أكدت مؤشرات النظام والسلسلة الزمنية لـ RLF أن تشبع الموارد وانخفاض SINR تسببا في تأخر التسليم. تم تطبيق ضبط لمعلمات الموقع لسلوك التنقل والحزم، مما خفّض RLF وحسّن نجاح التسليم. سنواصل المراقبة خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

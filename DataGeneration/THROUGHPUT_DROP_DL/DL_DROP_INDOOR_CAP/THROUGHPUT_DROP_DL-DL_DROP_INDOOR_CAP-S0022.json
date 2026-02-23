@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0022",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor office 5G NR micro cell shows slow data over the last 4h with PRB ~93%, 183 users, and DL ~5 Mbps; a congestion alarm is active—please investigate.",
+    "ar": "خلية 5G NR ميكرو داخلية في مكتب تُظهر بطء بيانات خلال آخر 4 ساعات مع إشغال PRB ~93% و183 مستخدمًا وسرعة تنزيل ~5 ميجابت/ث؛ يوجد إنذار ازدحام نشط—يرجى التحقيق."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor enterprise floor on a 5G NR micro cell saw slow data in the last 4h: PRB ~93%, 183 users, DL ~5 Mbps, BLER ~3%, p95 scheduler latency 34 ms; a congestion alarm is active during business hours and staff are streaming.",
+      "message_ar": "طابق مؤسسي داخلي على خلية 5G NR ميكرو شهد بطء بيانات في آخر 4 ساعات: إشغال PRB ~93%، 183 مستخدمًا، سرعة تنزيل ~5 ميجابت/ث، BLER ~3%، كمون المُجدول p95 = 34 مللي ثانية؛ إنذار ازدحام نشط في ساعات العمل مع بث داخلي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; I’ll lead diagnosis and mitigation. First, I will pull last 4h OSS counters for the cell. Please share the exact cell name and approve access; this is an indoor small site, correct?",
+      "message_ar": "مفهوم؛ سأقود التشخيص والمعالجة. أولًا سأسحب عدادات الفترة الأخيرة (4 ساعات) للخلية. الرجاء مشاركة اسم الخلية الدقيق والموافقة على الوصول؛ هل هو موقع داخلي صغير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NR_Micro_Indo_22_S2. Access approved.",
+      "message_ar": "الخلية: NR_Micro_Indo_22_S2. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS for 4h: users peaked at 192; DL PRB >90% for 2.1h; no RF alarms; backhaul OK; BLER stable ~3%. Congestion is capacity-driven. Next, I will chart DL throughput and congestion trend over the same window.",
+      "message_ar": "تم سحب بيانات OSS لمدة 4 ساعات: ذروة المستخدمين 192؛ إشغال DL PRB أعلى من 90% لمدة 2.1 ساعة؛ لا إنذارات RF؛ النقل الخلفي سليم؛ BLER ثابت ~3%. الازدحام سببه السعة. بعد ذلك سأرسم اتجاه معدل التنزيل والازدحام للفترة نفسها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL trends: median 4–6 Mbps; p95 latency spikes align with 11:30–13:40; throughput dips while BLER is steady, indicating PRB saturation. Proposal: site parameter tuning to rebalance scheduler weights and burst handling for enterprise traffic to relieve PRB pressure. Approve?",
+      "message_ar": "اتجاهات التنزيل: الوسيط 4–6 ميجابت/ث؛ ارتفاعات كمون p95 متزامنة مع 11:30–13:40؛ انخفاض السرعة مع ثبات BLER يشير إلى تشبع PRB. الاقتراح: ضبط معلمات الموقع لإعادة توازن أوزان المُجدول والتعامل مع الاندفاع لحركة المؤسسة لتخفيف الضغط على PRB. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the parameter optimization.",
+      "message_ar": "موافق. تفضل بتنفيذ ضبط المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied low-risk parameter changes: rebalanced priority allocations, increased short-burst allowance, and slightly tightened latency target. Change is reversible; effects expected within 5–10 minutes. I will watch initial counters.",
+      "message_ar": "تم تطبيق تغييرات معلمات منخفضة المخاطر: إعادة توازن تخصيصات الأولوية، زيادة سماحية الاندفاع القصير، وتحسين هدف الكمون قليلًا. التغيير قابل للإرجاع؛ يُتوقع ظهور الأثر خلال 5–10 دقائق. سأراقب المؤشرات الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes: DL median ~11 Mbps; PRB utilization ~83%; users ~180; no new alarms.",
+      "message_ar": "بعد 10 دقائق: الوسيط في التنزيل ~11 ميجابت/ث؛ إشغال PRB ~83%؛ المستخدمون ~180؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early recovery. I’ll continue observing through the next busy hour; if load shifts, we can consider offload options later.",
+      "message_ar": "تحسن مبكر جيد. سأواصل المراقبة خلال ساعة الذروة القادمة؛ وإذا تغيّر الحمل يمكن النظر لاحقًا في خيارات التفريغ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: slow data eased and latency spikes are lower after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: بطء البيانات انخفض وتراجعت ارتفاعات الكمون بعد ضبط معلمات الموقع. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We reviewed live counters and DL trend, then tuned site parameters to ease congestion. We will own monitoring for the next busy hour and report post-window DL throughput and PRB levels. If performance regresses, we will roll back the change or escalate to add capacity/offload.",
+      "message_ar": "راجعنا المؤشرات الحية واتجاه التنزيل ثم قمنا بضبط معلمات الموقع لتخفيف الازدحام. سنكون مسؤولين عن المراقبة خلال ساعة الذروة القادمة وسنبلغ بنتائج سرعة التنزيل وإشغال PRB بعدها. إذا تراجع الأداء، سنرجع التغيير أو نصعّد للنظر في إضافة سعة/تفريغ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated the indoor NR micro cell’s last 4h and confirmed capacity-driven congestion: PRB >90%, median DL around 5 Mbps, and latency spikes during business hours. Reviewed the DL trend and executed site parameter tuning to rebalance the resource scheduler and improve burst handling. Post-change, DL throughput and PRB utilization improved; we will continue monitoring through the next busy hour.",
+    "ar": "تم التحقيق في الخلية الصغيرة الداخلية NR خلال آخر 4 ساعات وثُبّت أن الازدحام سببه السعة: إشغال PRB أعلى من 90%، والوسيط في التنزيل نحو 5 ميجابت/ث، وارتفاعات كمون أثناء ساعات العمل. تم مراجعة اتجاه التنزيل وتنفيذ ضبط معلمات الموقع لإعادة توازن مُجدول الموارد وتحسين التعامل مع الاندفاع. بعد التغيير تحسنت سرعة التنزيل وإشغال PRB؛ وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0025",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban macro NR cell shows heavy evening load over 4h (PRB ≈88% with 301 users vs neighbors ≈62%, imbalance ≈0.35) and interference/signal overlap (RSRQ -11 dB, SINR 4 dB); load balancing toward lighter neighbors is needed.",
+    "ar": "موقع حضري ماكرو NR يظهر حملاً عالياً خلال 4 ساعات مسائية (استغلال الموارد ≈88% مع 301 مستخدماً مقابل الجيران ≈62% وعدم توازن ≈0.35) مع تداخل/تراكب إشارة (RSRQ ‎-11 dB وSINR ‎4 dB)؛ هناك حاجة لموازنة الحمل نحو الجيران الأخف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR cell during peak evening (eMBB streaming). Last 4h: PRB ~88% with 301 users; neighbors ~62%; imbalance ~0.35. HO out 33/5min vs in 28/5min. RSRQ -11 dB and SINR ~4 dB indicate interference/signal overlap. No alarms.",
+      "message_ar": "موقع ماكرو NR حضري خلال ذروة المساء (حركة eMBB مع بث فيديو). آخر 4 ساعات: استغلال الموارد ~88% مع 301 مستخدماً؛ متوسط الجيران ~62%؛ عدم التوازن ~0.35. معدل التسليم إلى الخارج 33/5 دقائق مقابل الداخل 28/5 دقائق. RSRQ ‎-11 dB وSINR ~4 dB يشيران إلى تداخل/تراكب إشارة. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a neighbor/load audit to quantify the skew and handover thresholds, then proceed with targeted load balancing if confirmed. Please share the cell ID and approve read access for the last 4h.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق الحمل والجيران لقياس الانحراف وعَتبات التسليم، ثم أتابع بموازنة حمل مستهدفة إذا تأكدت. الرجاء مشاركة معرف الخلية والموافقة على صلاحية القراءة لآخر 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UGB-310-1. Read access for the last 4h is approved.",
+      "message_ar": "معرّف الخلية: NR-UGB-310-1. تمت الموافقة على صلاحية القراءة لآخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit findings: serving NR-UGB-310-1 PRB 88%; neighbors NR-UGB-312-1 ~58% and NR-UGB-309-3 ~61%. Handover egress to these neighbors is late, with edge UE stickiness; moderate co-sector interference present. Plan: apply small handover bias toward NR-UGB-312-1 (+3 dB equiv.) and NR-UGB-309-3 (+2 dB) to offload ~10–15%. Proceed?",
+      "message_ar": "نتائج التدقيق: الخلية NR-UGB-310-1 باستغلال 88%؛ الجارتان NR-UGB-312-1 بحوالي 58% وNR-UGB-309-3 بحوالي 61%. التسليم نحو هاتين الجارتين متأخر مع التصاق مستخدمي الحافة؛ يوجد تداخل معتدل من نفس القطاع. الخطة: تطبيق تحيّز تسليم بسيط نحو NR-UGB-312-1 (+3 dB تقريبي) وNR-UGB-309-3 (+2 dB) لتفريغ حوالي 10–15%. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the minor tuning on NR-UGB-310-1 toward those neighbors.",
+      "message_ar": "موافق على تنفيذ الضبط البسيط على NR-UGB-310-1 باتجاه هاتين الجارتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing load-balancing tuning now: increasing neighbor preference to NR-UGB-312-1/NR-UGB-309-3 and slightly relaxing serving retention. Change committed; monitoring for PRB <75% and stable handovers.",
+      "message_ar": "جارٍ تنفيذ ضبط موازنة الحمل الآن: زيادة تفضيل الجارتين NR-UGB-312-1 وNR-UGB-309-3 مع تخفيف بسيط لاحتفاظ الخلية الخادمة. تم تطبيق التغيير؛ سنراقب وصول استغلال الموارد لأقل من 75% واستقرار التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 10 minutes: HO out ~36/5min, PRB ~80–82%, users ~280; SINR improved to ~5 dB.",
+      "message_ar": "أول 10 دقائق: التسليم إلى الخارج ~36/5 دقائق، استغلال الموارد ~80–82%، عدد المستخدمين ~280؛ تحسّن SINR إلى ~5 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early trend. I’ll continue tracking PRB on NR-UGB-312-1/NR-UGB-309-3 and the return HO rate to catch oscillations. Please report any throughput issues.",
+      "message_ar": "مؤشر مبكر جيد. سأستمر في تتبع استغلال الموارد على NR-UGB-312-1 وNR-UGB-309-3 ومعدل التسليم العكسي لاكتشاف أي تذبذبات. يرجى إبلاغي بأي مشاكل في الإنتاجية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~25 minutes: serving PRB 74–76%, neighbors ~68%; SINR ~6 dB. No user complaints; streaming remains stable.",
+      "message_ar": "بعد ~25 دقيقة: استغلال الخلية الخادمة 74–76%، الجيران ~68%؛ SINR ~6 dB. لا شكاوى من المستخدمين؛ البث مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted. We’ll maintain the current bias and keep watching for ping‑pong or undue neighbor load. If instability appears, we will slightly reduce the bias.",
+      "message_ar": "تم التدوين. سنحافظ على التحيّز الحالي ونواصل مراقبة أي تبادلية سريعة أو حمل زائد على الجيران. إذا ظهرت عدم استقرار، سنقلّل التحيّز قليلاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: serving utilization is now in the mid‑70s and interference signs have eased. Action taken: load‑balancing parameter adjustment toward underutilized neighbors. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: استغلال الخلية الخادمة أصبح في منتصف السبعينيات وتراجعت مؤشرات التداخل. الإجراء المتخذ: ضبط معلمات موازنة الحمل باتجاه الجيران الأقل ازدحاماً. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We applied targeted load‑balancing biases toward NR-UGB-312-1 and NR-UGB-309-3; we will own monitoring through the next busy hour and update on PRB, HO distribution, and SINR. If congestion returns, we will extend offload to additional neighbors; if adverse effects arise, we will roll back to pre‑change settings.",
+      "message_ar": "تم التأكيد. قمنا بتطبيق تحيّزات موجهة لموازنة الحمل نحو NR-UGB-312-1 وNR-UGB-309-3؛ سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بتحديث حول استغلال الموارد وتوزيع التسليم وSINR. إذا عاد الازدحام سنوسّع التفريغ إلى جيران إضافيين؛ وإذا ظهرت آثار سلبية سنعود إلى الإعدادات قبل التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed uneven load on an urban macro NR cell with high utilization and signs of interference compared to lighter neighbors. Performed a neighbor audit and applied targeted load‑balancing parameter tuning toward underutilized neighbors, offloading traffic and reducing PRB to the mid‑70s with improved SINR. We will monitor during the next busy hour and adjust or roll back if instability appears.",
+    "ar": "تم تشخيص عدم توازن الحمل على خلية ماكرو NR حضرية مع استغلال مرتفع ومؤشرات تداخل مقارنة بجيران أخف. تم إجراء تدقيق للجيران وتطبيق ضبط موجه لمعادلة الحمل باتجاه الجيران الأقل ازدحاماً، مما خفّض استغلال الموارد إلى منتصف السبعينيات مع تحسن في SINR. سنواصل المراقبة خلال ساعة الذروة القادمة مع التعديل أو الرجوع في حال ظهور عدم استقرار."
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0015",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban NR macro cell shows an outage with slow data, extreme drops, and access failures over the last 1h; investigating peak-hour impact.",
+    "ar": "خلية ماكرو NR حضرية تُظهر انقطاعًا مع بيانات بطيئة وانقطاعات شديدة وإخفاقات وصول خلال آخر ساعة؛ يتم التحقيق في تأثير ساعة الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alert: sudden outage alarms on an urban NR macro sector during peak hour; last 1h shows ~3% availability, slow data, ~95% drops, and ~92% access failures.",
+      "message_ar": "تنبيه: إنذارات انقطاع مفاجئ على قطاع ماكرو NR حضري خلال ساعة الذروة؛ آخر ساعة تُظهر توفرًا ~3%، بيانات بطيئة، ~95% انقطاعات و~92% إخفاقات وصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics: first, check live OSS status and counters for the impacted cell over the last 1h. Please confirm the cell ID and permit read access.",
+      "message_ar": "سأقود التشخيص: أولاً، سأفحص حالة النظام الحي والعدادات للخلية المتأثرة خلال آخر ساعة. يرجى تأكيد معرّف الخلية والسماح بالوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-12345-A; 1h window is fine. Access approved. Traffic is mainly eMBB with streaming impacted.",
+      "message_ar": "معرّف الخلية NR-12345-A؛ نافذة ساعة مناسبة. الوصول مُعتمد. الحركة أساسًا eMBB مع تأثر البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-12345-A over 1h. Findings: availability collapsed to 0% for ~47 min; zero attach attempts; no uplink activity; neighbor reselection spikes; site power alarm active. This is a confirmed cell outage. Next, I propose raising an outage ticket for NOC/field recovery. Approve?",
+      "message_ar": "أُجري فحص OSS لخلية NR-12345-A خلال ساعة. النتائج: هبوط التوفر إلى 0% لمدة ~47 دقيقة؛ صفر محاولات دخول؛ لا نشاط رفع؛ ارتفاع إعادة اختيار الجوار؛ إنذار طاقة الموقع نشط. هذا يؤكد انقطاع الخلية. الخطوة التالية: أقترح فتح تذكرة انقطاع لاستعادة الخدمة عبر التشغيل/الميدان. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. No planned works on that site from our side.",
+      "message_ar": "موافق. لا أعمال مخططة على ذلك الموقع من جانبنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Outage ticket raised with critical priority and full context (urban NR macro, peak hour, severe access failures). NOC engaged for remote recovery and field dispatch if needed. I will monitor for service restoration and side effects on neighbors.",
+      "message_ar": "تم فتح تذكرة انقطاع بأولوية حرجة مع كامل السياق (NR ماكرو حضري، ساعة ذروة، إخفاقات وصول شديدة). تم إشعار مركز التشغيل للاستعادة عن بُعد وإيفاد ميداني إن لزم. سأراقب استعادة الخدمة والتأثيرات على الخلايا المجاورة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Customers reported no service; neighbor sectors show high load. I will share any changes I observe.",
+      "message_ar": "مفهوم. العملاء أبلغوا عن عدم وجود خدمة؛ القطاعات المجاورة تُظهر حملاً مرتفعًا. سأشارك أي تغييرات ألاحظها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. While recovery progresses, success criteria are: availability >90%, access failures <5%, and slow data complaints subsiding. I will confirm as soon as the sector starts broadcasting again.",
+      "message_ar": "شكرًا. أثناء تقدم الاستعادة، معايير النجاح هي: توفر >90%، إخفاقات وصول <5%، وتراجع شكاوى بطء البيانات. سأؤكد بمجرد عودة بث القطاع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: the sector is back on-air; call setup failures are trending down. With the outage ticket you raised (DU-OUT-10482), let’s monitor through the next busy hour to ensure stability.",
+      "message_ar": "تحديث: عاد القطاع للبث؛ إخفاقات إعداد المكالمات في اتجاه تنازلي. مع تذكرة الانقطاع التي فتحتها (DU-OUT-10482)، دعنا نراقب خلال ساعة الذروة القادمة لضمان الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and update the ticket after the window. If symptoms recur, we will escalate to field intervention; since no config was changed, no rollback is required.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عادت الأعراض سنصعّد للتدخل الميداني؛ وبما أنه لم يتم تغيير ضبط، فلا حاجة لأي تراجع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-12345-A",
+        "1h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "Urban 5G NR macro cell outage on NR-12345-A in last 1h during peak eMBB; availability near 0%, severe access failures and drops; power alarm active; request NOC/field recovery."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnostics confirmed a hard outage on NR-12345-A in the urban macro layer during the last hour, with availability near zero, no attach activity, and a site power alarm. We mitigated by creating a critical outage ticket to engage NOC/field teams and initiated active monitoring through the busy hour. Service has been restored and we will continue monitoring and update the ticket.",
+    "ar": "أكّد التشخيص وجود انقطاع كامل على الخلية NR-12345-A في طبقة الماكرو الحضرية خلال الساعة الأخيرة، مع توفر شبه معدوم وعدم وجود نشاط دخول وإنذار طاقة للموقع. قمنا بالتخفيف عبر إنشاء تذكرة انقطاع حرجة لإشراك فرق التشغيل/الميدان وبدأنا مراقبة نشطة خلال ساعة الذروة. تمت استعادة الخدمة وسنواصل المراقبة وتحديث التذكرة."
+  }
+}

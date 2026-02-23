@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0021",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Over the last 2h at the stadium, the 5G micro cell shows slow data with DL throughput ~3 Mbps, very high PRB use (~92.7%), 583 users, and elevated scheduling delay; a congestion alarm is active.",
+    "ar": "خلال آخر ساعتين في الملعب، تُظهر خلية 5G الميكرو بيانات بطيئة مع سرعة تحميل ~3 ميجابت/ث، واستخدام PRB مرتفع جدًا (~92.7%)، و583 مستخدمًا، وتأخير مجدول مرتفع؛ ويوجد إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell showing slow data in the last 2h with an active congestion alarm during crowd egress: DL throughput ~3 Mbps, PRB utilization ~93%, ~583 users, p95 scheduling latency 61 ms, RSRQ -11 dB, SINR 8 dB, BLER ~7%.",
+      "message_ar": "الخلية الميكرو NR في الملعب تُظهر بيانات بطيئة خلال آخر ساعتين مع إنذار ازدحام نشط أثناء خروج الحشود: سرعة التحميل ~3 ميجابت/ث، استخدام PRB ~93%، ~583 مستخدمًا، تأخير المجدول p95 يبلغ 61 مللي ثانية، RSRQ -11 ديسيبل، SINR 8 ديسيبل، وBLER ~7%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Event-driven load on this 5G micro is likely. I will start by pulling network stats for the last 2h; please confirm the affected cell ID and approve read access.",
+      "message_ar": "تم الاستلام. يُرجّح أن الحمل مرتبط بالفعالية على هذه الخلية 5G. سأبدأ بسحب إحصاءات الشبكة لآخر ساعتين؛ يرجى تأكيد معرف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_STAD_M3. Access approved.",
+      "message_ar": "معرف الخلية: NR_STAD_M3. الموافقة ممنوحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 2h stats for NR_STAD_M3: sustained PRB >90% for ~70 min; median DL UE throughput ~3 Mbps; users peaked at 580+; scheduler queues deep; no backhaul or hardware faults. This points to congestion, not outage. Proceed to a DL KPI trend deep dive?",
+      "message_ar": "تم سحب إحصاءات آخر ساعتين لـ NR_STAD_M3: بقاء استخدام PRB >90% لمدة ~70 دقيقة؛ وسيط سرعة التحميل للمستخدم ~3 ميجابت/ث؛ بلغ عدد المستخدمين ذروته فوق 580؛ صفوف المجدول عميقة؛ ولا أعطال في الوصلة الخلفية أو العتاد. هذا يشير إلى ازدحام وليس انقطاعًا. المتابعة إلى تحليل اتجاهات مؤشرات التحميل التفصيلية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms throughput collapse aligned with PRB saturation and p95 scheduling delay spikes (~61 ms). RF is stable (SINR ~8 dB, RSRQ -11 dB) and BLER moderate (~7%), so not RF-limited. I propose a temporary congestion profile: bias DL scheduler toward throughput for eMBB/streaming, widen the active bandwidth part, and slightly raise load-based handover offsets to offload. Change is reversible and low-risk. Approve execution now?",
+      "message_ar": "تؤكد السلسلة الزمنية للتحميل انهيار السرعة بالتزامن مع تشبع PRB وارتفاعات تأخير المجدول p95 (~61 مللي ثانية). تبدو مؤشرات RF مستقرة (SINR ~8 ديسيبل، RSRQ -11 ديسيبل) وBLER متوسط (~7%)، لذا ليست مشكلة تغطية. أقترح ضبطًا مؤقتًا لتخفيف الازدحام: تحييز مجدول التحميل نحو الإنتاجية لتطبيقات eMBB/البث، توسيع جزء عرض النطاق النشط، ورفعًا طفيفًا لإزاحات التسليم المعتمدة على الحمل للتفريغ. التغيير قابل للعكس ومنخفض المخاطر. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now; no conflicting activity.",
+      "message_ar": "موافق على التنفيذ الآن؛ لا يوجد تعارض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR_STAD_M3: enabled throughput-biased DL scheduling, widened active BWP, and increased load-based offsets slightly. No service interruption observed. Starting a 15‑min fast check on throughput, PRB, latency, and BLER.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR_STAD_M3: تفعيل تحيّز المجدول للإنتاجية في التحميل، توسيع BWP النشط، وزيادة طفيفة لإزاحات التحميل. لم يُرصد انقطاع للخدمة. سنبدأ تحققًا سريعًا لمدة 15 دقيقة لسرعة التحميل، واستخدام PRB، والتأخير، وBLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation (10 min): DL UE throughput improved to ~10 Mbps, PRB eased to ~82–85%, and p95 scheduling latency ~35 ms; video stalls reported down.",
+      "message_ar": "ملاحظة مبكرة (10 دقائق): تحسنت سرعة تحميل المستخدم إلى ~10 ميجابت/ث، وانخفض استخدام PRB إلى ~82–85%، وتأخير p95 للمجدول ~35 مللي ثانية؛ تراجعت توقفات الفيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signal. We'll keep watching for stability and side effects (BLER, handovers, RRC drops) while the crowd exits. I will update with trends after more samples.",
+      "message_ar": "إشارة جيدة. سنواصل المراقبة من حيث الاستقرار والآثار الجانبية (BLER، عمليات التسليم، حالات رفض RRC) أثناء خروج الحشود. سأوافيك بالاتجاهات بعد مزيد من العينات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Performance is trending up—higher downlink throughput and lower queueing delay after the site parameter tuning/config push. Let's monitor through the next busy hour to confirm.",
+      "message_ar": "الأداء في تحسن—سرعة التحميل أعلى وتأخيرات الصف أقل بعد ضبط معلمات الموقع/دفع الإعداد. فلنراقب خلال ساعة الذروة التالية للتأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We'll own monitoring through the next busy hour and report on throughput, PRB load, and delay. If degradation returns, we'll roll back the tuning; if congestion persists, we'll escalate for added capacity or temporary offload.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال ساعة الذروة التالية ونبلغك باتجاهات السرعة، وحمل PRB، والتأخير. إذا عادت التدهورات سنُرجِع الضبط، وإذا استمر الازدحام سنصعّد لزيادة السعة أو تفريغ مؤقت للموقع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STAD_M3",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STAD_M3",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler bias + active BWP widen + load-based offsets"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Event-driven congestion at the stadium 5G micro cell caused slow data. Analysis of recent stats and downlink trends confirmed PRB saturation with stable RF, indicating capacity congestion. We executed site parameter tuning—throughput‑biased DL scheduling, widened active bandwidth part, and slight load‑based offsets—to improve throughput, and will monitor over the next busy hour.",
+    "ar": "تسبب ازدحام مرتبط بالفعالية في خلية 5G الميكرو في الملعب ببطء البيانات. أكد تحليل الإحصاءات الحديثة واتجاهات التحميل تشبع PRB مع استقرار مؤشرات RF، مما يشير إلى ازدحام سِعوي. نفذنا ضبط معلمات الموقع—تحيّز المجدول نحو الإنتاجية في التحميل، وتوسيع جزء عرض النطاق النشط، وزيادة طفيفة لإزاحات التحميل—لتحسين السرعة، وسنراقب خلال ساعة الذروة التالية."
+  }
+}

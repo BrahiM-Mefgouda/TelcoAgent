@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0005",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G NR macro over the last 6h shows an alarmed congestion with ~45% PCI overlap, HO failures 17%, ping‑pong 18%, RSRQ −15 dB, SINR 6 dB, BLER 16%, and median DL 11 Mbps amid eMBB streaming—please investigate a PCI collision.",
+    "ar": "خلال آخر 6 ساعات في بيئة حضرية 5G NR (ماكرو) يوجد إنذار يدل على ازدحام مع تداخل PCI بنحو 45%، وفشل تسليم 17%، وتبديل ذهاب‑إياب 18%، وRSRQ −15 dB، وSINR 6 dB، وBLER 16%، ومعدل تنزيل وسيط 11 Mbps مع حركة eMBB للبث—يرجى التحقيق في تصادم PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell over the last 6h shows an alarm, with handover failures ~17%, ping‑pong 18%, RSRQ around −15 dB, SINR ~6 dB, BLER ~16%, and median DL ~11 Mbps; neighbor PCI overlap is about 45% and eMBB streaming users are complaining.",
+      "message_ar": "خلال آخر 6 ساعات في موقع ماكرو NR حضري لدينا إنذار، مع فشل تسليم بين الخلايا ~17%، وتبديل ذهاب‑إياب 18%، وRSRQ نحو −15 dB، وSINR ~6 dB، وBLER ~16%، ومعدل تنزيل وسطي ~11 Mbps؛ تداخل PCI بين الجيران يقارب 45% ومستخدمو eMBB للبث يشتكون."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead. First, I will audit PCI reuse and neighbor relations for the affected cell across the last 6h to confirm a collision. Please share the exact cell ID and confirm read access.",
+      "message_ar": "سأتولى الأمر. أولاً سأدقق إعادة استخدام PCI وعلاقات الجوار للخدمة خلال آخر 6 ساعات لتأكيد التصادم. الرجاء مشاركة معرف الخلية والتأكيد على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is gNB-48211-NR-1. Access approved.",
+      "message_ar": "معرف الخلية هو gNB-48211-NR-1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review shows a nearby sector (gNB-48212-NR-3) also using PCI 158 with ~45% coverage overlap, aligning with the HO failures and ping‑pong. I propose retuning gNB-48211-NR-1 to a free PCI 167 (clean within a three‑site radius) and refreshing neighbor relations to remove the conflict. Proceed?",
+      "message_ar": "أظهر تدقيق الجوار أن القطاع المجاور (gNB-48212-NR-3) يستخدم أيضاً PCI 158 مع تداخل تغطية ~45%، وهو ما يتماشى مع إخفاقات التسليم والذهاب‑الإياب. أقترح إعادة ضبط PCI لخلية gNB-48211-NR-1 إلى 167 (خالي ضمن نطاق ثلاث محطات) وتحديث علاقات الجوار لإزالة التعارض. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the PCI retune and neighbor refresh now.",
+      "message_ar": "موافَق على تنفيذ إعادة ضبط PCI وتحديث الجوار الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing: change PCI 158 → 167 on gNB-48211-NR-1, refresh neighbor relations, and slightly tighten handover margins to curb ping‑pong. Applying now; brief re‑camping may occur without service impact.",
+      "message_ar": "جارٍ التنفيذ: تغيير PCI من 158 إلى 167 على gNB-48211-NR-1، وتحديث علاقات الجوار، وتشديد بسيط لهوامش التسليم للحد من الذهاب‑الإياب. يجري التطبيق الآن؛ قد يحدث إعادة تموضع سريعة دون تأثير على الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post‑apply, no spike in drops; UEs remained attached.",
+      "message_ar": "بعد التطبيق لا توجد زيادة في الانقطاعات؛ الأجهزة بقيت متصلة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early counters indicate RSRQ improving toward −12 dB and fewer ping‑pong attempts. Can you confirm if throughput and user experience are improving on your side?",
+      "message_ar": "المؤشرات الأولية تُظهر تحسناً في RSRQ نحو −12 dB وتراجعاً في محاولات الذهاب‑الإياب. هل يمكنك تأكيد تحسّن السرعة وتجربة المستخدم لديكم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing median DL rising to ~14–15 Mbps and fewer handover errors so far. Looks better.",
+      "message_ar": "نرى ارتفاع الوسيط في التنزيل إلى حوالي 14–15 Mbps وأخطاء تسليم أقل حتى الآن. الوضع أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a change record for traceability and ongoing monitoring: DU-PCI-04173. I’ll continue watching stability and mobility KPIs.",
+      "message_ar": "تم إنشاء سجل تغيير لأغراض التتبع والمتابعة: DU-PCI-04173. سأواصل مراقبة مؤشرات الاستقرار والتنقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed—handover failures trending down. Action taken: PCI retune with neighbor parameter update. Let’s monitor through the next busy hour; reference DU-PCI-04173.",
+      "message_ar": "تمت ملاحظة تحسّن—إخفاقات التسليم في اتجاه هبوطي. الإجراء المتخذ: إعادة ضبط PCI مع تحديث معلمات الجوار. لنتابع الرصد خلال ساعة الذروة القادمة؛ مرجع DU-PCI-04173."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next busy hour and update the ticket after the window. If degradation returns, we’ll roll back the PCI change or adjust the interfering neighbor as a fallback.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد التدهور سنرجع التغيير في PCI أو نعدّل الجار المتداخل كخطة بديلة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "gNB-48211-NR-1",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Retune PCI to 167; refresh neighbor relations; fine‑tune HO margins"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision resolved on gNB-48211-NR-1 by retuning to PCI 167 and updating neighbors; tracking under DU-PCI-04173; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision: a nearby sector shared PCI 158 across ~45% overlap, driving handover failures and ping‑pong. We mitigated by retuning the affected cell to PCI 167 and refreshing neighbor relations with minor mobility parameter tuning, then opened a change record for follow‑up. Initial KPIs improved, and we will monitor through the next busy hour.",
+    "ar": "أكد تحليل الجوار وجود تصادم PCI: قطاع قريب يشارك PCI 158 مع تداخل يقارب 45% ما أدى إلى إخفاقات التسليم والذهاب‑الإياب. تم التخفيف عبر إعادة ضبط الخلية المتأثرة إلى PCI 167 وتحديث علاقات الجوار مع ضبط طفيف لمعلمات التنقل، ثم فتحنا سجل تغيير للمتابعة. ظهرت تحسينات أولية في المؤشرات وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

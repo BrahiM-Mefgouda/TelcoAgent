@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0030",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows a latency SLA breach over the last 2h in peak evening with a congestion alarm; PRB ~91%, 355 users, median latency 39 ms and p95 70 ms affecting eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية تُظهر تجاوزًا لاتفاقية زمن الاستجابة خلال آخر ساعتين في ذروة المساء مع تنبيه ازدحام؛ استهلاك الموارد ~91%، 355 مستخدمًا، الزمن الوسيط 39 مللي ثانية و95 بالمئة 70 مللي ثانية تؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on urban NR macro cell NR123-1; alarm active for latency breach: PRB ~91%, 355 users, median ~39 ms, p95 ~70 ms; eMBB streaming complaints reported.",
+      "message_ar": "فترة الذروة المسائية على خلية ماكرو NR حضرية NR123-1؛ إنذار فعّال بتجاوز زمن الاستجابة: استهلاك الموارد ~91%، 355 مستخدمًا، الوسيط ~39 مللي ثانية و95 بالمئة ~70 مللي ثانية؛ توجد شكاوى من بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll pull last 2h OSS statistics for NR123-1 to validate counters and faults; confirm read access.",
+      "message_ar": "سأستخرج إحصاءات الساعتين الماضيتين من منصة الإدارة لـ NR123-1 للتحقق من العدّادات والأعطال؛ يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed; NR123-1, read-only approved.",
+      "message_ar": "مؤكد؛ NR123-1، صلاحية القراءة معتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "No outages or backhaul issues; BLER ~2.6%; PRB >90% sustained; latency counters rising over the last 90 minutes. Next, I will fetch a 2h latency time series (p50/p95) to locate peaks.",
+      "message_ar": "لا توجد انقطاعات أو مشاكل وصل خلفي؛ BLER نحو 2.6%؛ استهلاك الموارد يتجاوز 90% بشكل مستمر؛ عدّادات التأخير ترتفع خلال آخر 90 دقيقة. التالي: سأسحب سلسلة زمنية لزمن الاستجابة خلال ساعتين (p50/p95) لتحديد القمم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "The series shows p95 spikes at 75–80 ms around 19:30–20:10, median 35–40 ms; queueing aligns with high PRB. Diagnosis: HQoS pressure under peak eMBB traffic. I propose a small QoS weight and buffer-threshold uplift to favor low-latency flows. Approve change?",
+      "message_ar": "السلسلة تُظهر قمماً لـ p95 عند 75–80 مللي ثانية حوالي 19:30–20:10، والوسيط 35–40 مللي ثانية؛ تراكم الطوابير يتوافق مع ارتفاع استهلاك الموارد. التشخيص: ضغط HQoS تحت حمل eMBB في الذروة. أقترح زيادة بسيطة لأوزان QoS وحدود المخازن لصالح التدفقات منخفضة التأخير. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply now.",
+      "message_ar": "موافق على التطبيق الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted parameter optimization on NR123-1: conservative QoS weight uplift and buffer thresholds adjusted; no service interruption. Monitoring stabilization for 15 minutes.",
+      "message_ar": "تم تطبيق تحسين معلمات مُستهدف على NR123-1: رفع محافظ لأوزان QoS وضبط حدود المخازن؛ دون انقطاع خدمة. أراقب الاستقرار لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial result: p95 down to ~58–62 ms, median ~32 ms; queueing reduced while PRB remains ~90%.",
+      "message_ar": "النتيجة الأولية: p95 انخفض إلى ~58–62 مللي ثانية، والوسيط ~32 مللي ثانية؛ انخفض التراكم مع بقاء استهلاك الموارد ~90%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I will continue watching throughput and retransmissions alongside latency to ensure stability.",
+      "message_ar": "اتجاه جيد. سأواصل متابعة الإنتاجية وإعادة الإرسال مع زمن الاستجابة لضمان الثبات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted—latency peaks trending down and queueing reduced after site parameter optimization. Let's monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسّن—قمم زمن الاستجابة في اتجاه هابط وانخفاض التراكم بعد تحسين معلمات الموقع. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and report updated latency and load trends. If performance regresses, we will roll back the change and escalate for capacity relief.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة ونوافيكم باتجاهات محدثة لزمن الاستجابة والحمل. إذا تدهور الأداء سنقوم بعكس التغيير وتصعيد الأمر لدعم السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a latency SLA violation on an urban NR macro cell during peak evening under a congestion alarm. Validated counters and reviewed a 2h latency time series, confirming p95 spikes aligned with high PRB load and low BLER. Mitigated by site parameter tuning to adjust QoS weights and buffer thresholds, which reduced queueing and lowered latency peaks.",
+    "ar": "تم التحقيق في تجاوز اتفاقية زمن الاستجابة على خلية ماكرو NR حضرية خلال ذروة المساء مع تنبيه ازدحام. جرى التحقق من العدّادات ومراجعة سلسلة زمنية لساعتين لزمن الاستجابة، ما أكد قمم p95 المتزامنة مع ارتفاع استهلاك الموارد وانخفاض BLER. تمت المعالجة عبر ضبط معلمات الموقع لزيادة أوزان QoS وحدود المخازن، مما خفّض التراكم وقلّل قمم التأخير."
+  }
+}

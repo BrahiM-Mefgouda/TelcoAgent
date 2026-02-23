@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0015",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban NR macro cell shows rising radio link failures during the evening peak with a congestion alarm active; moderate quality (SINR ~9 dB, RSRQ ~-14 dB), high PRB utilization (~86%), elevated latency (p95 ~101 ms), and ~395 users.",
+    "ar": "خلية NR ماكرو حضرية تُظهر ارتفاعًا في فقدان رابط الراديو خلال ذروة المساء مع إنذار ازدحام نشط؛ جودة متوسطة (SINR ~9 dB وRSRQ ~-14 dB)، إشغال PRB مرتفع (~86%)، كمون مرتفع (p95 ~101 مللي ثانية)، وحوالي 395 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on urban NR macro cell NR-Cell-UTR-0453 raised a congestion alarm: RLF ~6%, HO success ~87%, T310 expiries 13, PRB ~86%, ~395 users, p95 scheduling latency 101 ms. Heavy eMBB traffic with streaming. Please investigate.",
+      "message_ar": "خلال ساعة الذروة المسائية على خلية NR ماكرو حضرية NR-Cell-UTR-0453 ظهر إنذار ازدحام: RLF حوالي 6%، نجاح التسليم ~87%، انتهاء T310 يساوي 13، إشغال PRB ~86%، نحو 395 مستخدمًا، وكمون الجدولة p95 يساوي 101 مللي ثانية. حركة eMBB ثقيلة مع بث. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling last 2 hours of OSS stats for NR-Cell-UTR-0453 to validate the RLF spike and handover context. Please confirm read-only access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب إحصاءات الساعتين الماضيتين من نظام الإدارة للخلية NR-Cell-UTR-0453 للتحقق من ارتفاع RLF وسياق التسليم. يرجى تأكيد صلاحية الوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the last 2 hours on NR-Cell-UTR-0453. No maintenance constraints.",
+      "message_ar": "تمت الموافقة على الوصول للساعتين الماضيتين على NR-Cell-UTR-0453. لا توجد قيود صيانة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: RLF climbed from ~2% baseline to 7–8% between 18:05–19:15. Handover failures concentrated on sectors A/B toward neighbors N7 and N12. T310 expiries dominate. Load >85% PRB with RSRQ ~-14 dB and SINR ~9 dB. No outages; coverage footprint stable.",
+      "message_ar": "اكتمل فحص نظام الإدارة: ارتفع RLF من خط أساس ~2% إلى 7–8% بين 18:05 و19:15. تركزت إخفاقات التسليم في القطاعات A/B باتجاه الجيران N7 وN12. انتهاء T310 هو السائد. الحمل >85% PRB مع RSRQ ~-14 dB وSINR ~9 dB. لا توجد انقطاعات؛ بصمة التغطية مستقرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: users near the adjacent intersection report brief drops.",
+      "message_ar": "ملاحظات ميدانية: المستخدمون قرب التقاطع المجاور يبلغون عن انقطاعات قصيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling RLF time series for the last 2 hours to correlate with load and handovers. Result: two peaks at ~18:08 and ~18:42 aligned with PRB >85%; late-trigger patterns toward N7/N12; ~70% of RLF from T310 expiry. This points to conservative mobility thresholds under congestion.",
+      "message_ar": "أقوم بسحب سلسلة زمنية لـ RLF للساعتين الماضيتين لربطها بالحمل والتسليمات. النتيجة: ذروتان عند ~18:08 و~18:42 متوافقتان مع PRB >85%؛ أنماط تحفيز متأخر نحو N7/N12؛ حوالي 70% من RLF بسبب انتهاء T310. هذا يشير إلى عتبات حركة محافظة تحت الازدحام."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. You have clearance to proceed with mitigation while preserving voice quality.",
+      "message_ar": "مفهوم. لديك صلاحية المضي في إجراء التخفيف مع الحفاظ على جودة الصوت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: advance handovers slightly and stabilize the link under load by modestly lowering trigger margins and TTT, extending the dropout guard, and applying mild load-based offsets toward healthier neighbors. No RF power changes. Expected HO success +2–3 pts and RLF down 20–30%. Proceed to implement?",
+      "message_ar": "الخطة: تقديم التسليمات قليلًا وتثبيت الرابط تحت الحمل عبر خفض طفيف لهوامش التحفيز ووقت TTT، تمديد هامش الحماية من الانقطاع، وتطبيق تحيزات خفيفة مبنية على الحمل نحو الجيران الأفضل. دون تغييرات قدرة RF. المتوقع: زيادة نجاح التسليم 2–3 نقاط وانخفاض RLF بنسبة 20–30%. هل أمضي بالتنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for NR-Cell-UTR-0453. Proceed.",
+      "message_ar": "موافقة لخلية NR-Cell-UTR-0453. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied and committed. Health checks clean; no new alarms. We will observe in-cell RLF, T310 expiries, and HO failures over the next 2 hours.",
+      "message_ar": "تم تطبيق التحسين واعتماده. فحوصات السلامة سليمة؛ لا إنذارات جديدة. سنراقب RLF داخل الخلية وانتهاءات T310 وإخفاقات التسليم خلال الساعتين القادمتين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial improvement observed: fewer short drops and T310 expiries trending down. The site parameter optimization you pushed is showing effect. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن أولي ملحوظ: انقطاعات أقل وانخفاض اتجاهي في انتهاء T310. تحسين معلمات الموقع الذي قمت بدفعه يظهر أثرًا. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring for the next busy hour and report RLF, T310, and handover outcomes. If degradation returns, we will roll back the change and escalate to interference and capacity specialists; otherwise we will retain the tuning.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة التالية ونبلغ بنتائج RLF وT310 والتسليم. إذا عادت الحالة للتدهور، سنقوم بإرجاع التغيير ونصعّد إلى مختصي التداخل والسعة؛ وإلا سنبقي على الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-UTR-0453",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-UTR-0453",
+        "RLF",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility thresholds, TTT, T310 guard, load-based HO margins"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rush-hour RLF spike on an urban NR macro cell by reviewing recent OSS data and RLF time series, revealing late handovers under high load with many T310 expiries. Mitigated by site parameter tuning to advance handovers, extend dropout guard, and apply mild load-based offsets. We will monitor RLF, T310, and handover failures during the next busy hour and retain or roll back based on stability.",
+    "ar": "تم تشخيص ارتفاع RLF خلال ساعة الذروة على خلية NR ماكرو حضرية عبر مراجعة بيانات نظام الإدارة والسلاسل الزمنية لـ RLF، ما أظهر تسليمات متأخرة تحت حمل مرتفع مع العديد من حالات انتهاء T310. تم التخفيف عبر ضبط معلمات الموقع لتقديم التسليمات، وتمديد هامش الحماية من الانقطاع، وتطبيق تحيزات خفيفة مبنية على الحمل. سنراقب RLF وT310 وإخفاقات التسليم خلال ساعة الذروة التالية ونبقي أو نرجع التغييرات وفق الاستقرار."
+  }
+}

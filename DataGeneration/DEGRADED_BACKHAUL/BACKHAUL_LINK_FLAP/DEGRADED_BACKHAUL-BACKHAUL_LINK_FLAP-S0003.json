@@ -1,0 +1,108 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0003",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows backhaul link flaps ~1/hr with bursty loss ~1.65%, p95 latency 45 ms, jitter 11 ms, 343 interface errors, ~296 users, PRB ~60%, SINR 16 dB, RSRP -104 dBm, and downlink ~16 Mbps over the last 6 hours with no alarms.",
+    "ar": "موقع ماكرو 5G NR في منطقة ضواحي يُظهر تقطّعاً في رابط الباكهول بمعدل ~1/ساعة مع فقدان متقطع ~1.65%، كمون p95 يبلغ 45 مللي ثانية، تذبذب 11 مللي ثانية، 343 خطأ على الواجهة، نحو 296 مستخدماً، إشغال موارد ~60%، SINR = 16 dB، RSRP = -104 dBm، ومعدل تنزيل ~16 ميجابت/ث خلال آخر 6 ساعات بدون إنذارات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell NR-SUB-045A has user complaints at mixed hours; last 6h show backhaul link flaps ~1/hr, burst loss 1.65%, p95 latency 45 ms, jitter 11 ms, and 343 interface errors. RF looks fair (SINR 16 dB, RSRP -104 dBm). No active alarms; eMBB streaming buffering reported.",
+      "message_ar": "موقع ماكرو 5G NR في الضواحي NR-SUB-045A لديه شكاوى مستخدمين خلال أوقات مختلطة؛ آخر 6 ساعات تُظهر تقطّع رابط الباكهول ~1/ساعة، فقدان متقطع 1.65%، كمون p95 = 45 مللي ثانية، تذبذب 11 مللي ثانية، و343 خطأ على الواجهة. مؤشرات الراديو مقبولة (SINR 16 dB وRSRP -104 dBm). لا توجد إنذارات فعّالة؛ سُجّل تقطيع في بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by pulling OSS counters for the past 6h to isolate backhaul vs RF impact. Please confirm NR-SUB-045A and approve read-only access.",
+      "message_ar": "سأبدأ بسحب عدادات OSS لآخر 6 ساعات لعزل تأثير الباكهول مقابل الراديو. يرجى تأكيد NR-SUB-045A والموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed NR-SUB-045A; access approved.",
+      "message_ar": "تم التأكيد NR-SUB-045A؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete (6h). Backhaul port shows rising CRC/alignment errors and microburst discards; link state transitions logged ~1/hr; queue peaks align with load. PRB ~60% and RF stable. Root cause points to degraded backhaul. Next, I propose targeted backhaul parameter tuning to mitigate loss and flaps. Approve?",
+      "message_ar": "اكتمل فحص OSS (6 ساعات). منفذ الباكهول يُظهر أخطاء CRC/محاذاة متزايدة وتخلصاً من الحزم أثناء النبضات؛ تبدلات حالة الرابط ~1/ساعة؛ ذروة الطوابير تتوافق مع الحمل. إشغال الموارد ~60% والراديو مستقر. السبب الجذري يشير إلى تدهور الباكهول. أقترح ضبطاً مستهدفاً لمعاملات الباكهول للتخفيف من الفقد والتقطّع. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning.",
+      "message_ar": "موافق على المضي قدماً في الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied backhaul QoS/buffer and failover dampening on NR-SUB-045A; change successful. Immediate effect: discard bursts down, p95 latency ~34 ms, jitter ~7 ms over the last 10 minutes, and streaming throughput stabilizing.",
+      "message_ar": "تم تطبيق ضبط QoS/المخازن المؤقتة على الباكهول مع تخميد الفشل السريع على NR-SUB-045A؛ تم التنفيذ بنجاح. الأثر الفوري: انخفاض دفعات التخلص، كمون p95 ~34 مللي ثانية، التذبذب ~7 مللي ثانية خلال آخر 10 دقائق، وتحسّن استقرار سرعات البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given the historical physical errors and flaps, I will open a transport ticket for optical/media inspection and path stability verification. Please approve raising a DU-BH ticket with our findings.",
+      "message_ar": "نظراً للأخطاء الفيزيائية التاريخية والتقطّع، سأفتح تذكرة لدى فريق النقل لفحص الألياف/الوسائط والتحقق من استقرار المسار. يرجى الموافقة على فتح تذكرة DU-BH مع النتائج."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, proceed.",
+      "message_ar": "موافق، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-BH-10428. Summary: recurrent backhaul link flaps (~1/hr), burst loss 1.65%, 343 interface errors; post-tuning shows improved latency/jitter. Request transport to inspect optics/SFPs, clean/replace fibers, and verify L2 path resilience.",
+      "message_ar": "تم إنشاء التذكرة: DU-BH-10428. الملخص: تقطّع متكرر في الباكهول (~1/ساعة)، فقدان متقطع 1.65%، 343 خطأ واجهة؛ بعد الضبط تحسن الكمون/التذبذب. نرجو من فريق النقل فحص البصريات/SFP، تنظيف/استبدال الألياف، والتحقق من متانة مسار الطبقة الثانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, buffering complaints dropped and p95 latency is trending in the mid-30 ms; no link flaps seen in the last 30 minutes. The backhaul parameter tuning helped; let’s monitor for the next 2–4 hours and track on DU-BH-10428.",
+      "message_ar": "بعد التغيير، انخفضت شكاوى التقطيع والكمون p95 يتجه إلى منتصف 30 مللي ثانية؛ لم تُسجّل تقطعات للرابط في آخر 30 دقيقة. ضبط معاملات الباكهول أفاد؛ لنراقب خلال الساعتين إلى الأربع القادمات ونتابع على DU-BH-10428."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 4 hours of monitoring and update DU-BH-10428 afterward. If errors recur, we will escalate to transport for hardware/media replacement; if any negative impact is observed, we will roll back the tuning.",
+      "message_ar": "سنستلم مراقبة الساعات الأربع القادمة وسنحدّث DU-BH-10428 بعدها. إذا عادت الأخطاء سنصعّد إلى فريق النقل لاستبدال العتاد/الوسائط؛ وإذا ظهر أي أثر سلبي فسنقوم بالتراجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-045A",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul QoS/buffer tuning and failover dampening"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Backhaul flaps ~1/hr with burst loss and interface errors; mitigated via parameter tuning; request transport media/optics check and path validation."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban 5G NR macro: link flaps, burst loss, and interface errors indicated transport issues rather than RF. Applied site parameter tuning to prioritize and buffer backhaul traffic and dampen failover, improving latency and jitter. Opened DU-BH-10428 for transport to inspect optics/media and validate the path, with continued monitoring.",
+    "ar": "تم تشخيص تدهور الباكهول في موقع ماكرو 5G NR بالضواحي: تقطّع الرابط وفقدان متقطع وأخطاء واجهة أشارت إلى مشكلة نقل وليست راديوية. تم تنفيذ ضبط معاملات بالموقع لإعطاء أولوية وتوسيع المخازن المؤقتة لحركة الباكهول وتخميد الفشل، مما حسّن الكمون والتذبذب. فُتحت التذكرة DU-BH-10428 لفريق النقل لفحص البصريات/الوسائط والتحقق من المسار مع الاستمرار بالمراقبة."
+  }
+}

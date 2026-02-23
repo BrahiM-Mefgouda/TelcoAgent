@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0013",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban NR macro cell shows QoS 0.205 vs SLA 0.965 over the last 24h with a congestion alarm active; latency 86 ms, BLER 7.8%, PRB 66%, 309 users, and median throughput 13 Mbps.",
+    "ar": "خلية ماكرو NR حضرية تُظهر جودة خدمة 0.205 مقابل SLA 0.965 خلال آخر 24 ساعة مع إنذار ازدحام مُفعّل؛ زمن التأخير 86 مللي ثانية، BLER بنسبة 7.8%، استخدام PRB 66%، 309 مستخدمين، ومتوسط تنزيل 13 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell triggered an SLA breach in the last 24h: QoS 0.205 vs 0.965 target; latency 86 ms, BLER 7.8%, PRB 66%, 309 users, p50 DL 13 Mbps. Congestion alarm is active; please assist.",
+      "message_ar": "خلية ماكرو NR حضرية أطلقت إنذار خرق SLA خلال آخر 24 ساعة: جودة الخدمة 0.205 مقابل الهدف 0.965؛ زمن التأخير 86 مللي ثانية، BLER ‎7.8%‎، استخدام PRB ‎66%‎، 309 مستخدمين، ووسيط التنزيل 13 ميجابت/ث. إنذار الازدحام مفعّل؛ يرجى المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will 1) pull last-24h counters, 2) chart the QoS trend, and 3) open an incident if the degradation is persistent. Please confirm access and share the exact cell ID.",
+      "message_ar": "تم. سأقوم بـ 1) سحب مؤشرات آخر 24 ساعة، 2) رسم اتجاه جودة الخدمة، و3) فتح بلاغ إذا كان التدهور مستمراً. يرجى تأكيد صلاحية الوصول وتزويدي بمعرّف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID: NR-URB-MACRO-0456. Window: last 24h.",
+      "message_ar": "الوصول مُعتمد. معرّف الخلية: NR-URB-MACRO-0456. النافذة: آخر 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NR-URB-MACRO-0456 over 24h: busy-hour PRB 78–85%, latency peaks 110–120 ms, BLER up to 9%; no outage flags, config unchanged. Proceed to plot the QoS time series?",
+      "message_ar": "تم سحب المؤشرات للخلية NR-URB-MACRO-0456 خلال 24 ساعة: PRB في ساعة الذروة 78–85%، قمم التأخير 110–120 مللي ثانية، BLER حتى 9%؛ لا أعطال مسجلة، والإعدادات دون تغيير. هل أتابع برسم السلسلة الزمنية لجودة الخدمة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series confirms sustained decline from ~0.62 down to 0.18–0.24, worst at 19:00–22:00, correlating with eMBB streaming load. This is a persistent SLA violation. I will open an incident for customer impact and capacity review unless you object.",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة تؤكد هبوطاً مستمراً من ~0.62 إلى 0.18–0.24، والأسوأ بين 19:00–22:00، ويتوافق مع حمل eMBB (البث). هذا خرق مستمر لـSLA. سأفتح بلاغ تأثير عملاء ومراجعة سعة ما لم يكن لديك اعتراض."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No objection; proceed. Use tag QOS.",
+      "message_ar": "لا مانع؛ تفضل. استخدم الوسم QOS."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident opened for NR-URB-MACRO-0456 describing QoS degradation with peak-hour latency and elevated BLER/PRB. I will monitor the next busy hour and share updates. Any site-side observations to add?",
+      "message_ar": "تم فتح بلاغ للخلية NR-URB-MACRO-0456 يصف تدهور جودة الخدمة مع تأخير مرتفع في ساعات الذروة وارتفاع BLER/PRB. سأراقب ساعة الذروة القادمة وأشارك التحديثات. هل توجد ملاحظات ميدانية لإضافتها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field reports no power or backhaul issues; live users ~280, current latency ~70–75 ms.",
+      "message_ar": "التقارير الميدانية: لا مشاكل طاقة أو وصل خلفي؛ المستخدمون الحاليون ~280، وزمن التأخير حالياً ~70–75 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. We'll keep the cell on a watchlist and alert if QoS drops below 0.30 or latency exceeds 90 ms during load. Expect higher demand this evening.",
+      "message_ar": "شكرًا. سنبقي الخلية تحت المراقبة وننبه إذا انخفضت جودة الخدمة دون 0.30 أو تجاوز التأخير 90 مللي ثانية مع الحمل. من المتوقع طلب أعلى هذا المساء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement now: latency trending ~60 ms off-peak and QoS briefly recovered to ~0.32. Action taken: QoS trend analysis completed and an incident opened (DU-QOS-04217). Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً مبدئياً الآن: التأخير يتجه إلى ~60 مللي ثانية خارج الذروة وجودة الخدمة تعافت مؤقتاً إلى ~0.32. الإجراء المتخذ: تم تحليل اتجاه جودة الخدمة وفتح بلاغ (DU-QOS-04217). دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and update the ticket after the window. If QoS degrades again, we’ll escalate to capacity and transport for immediate actions; if it stabilizes, we’ll keep the incident in observation and then close with a summary—no rollback needed.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث البلاغ بعد انتهاء النافذة. إذا تدهورت جودة الخدمة مجدداً سنصعّد إلى فرق السعة والنقل لاتخاذ إجراءات فورية؛ وإذا استقرت سنُبقي البلاغ تحت الملاحظة ثم نغلقه مع ملخص—لا حاجة لتراجع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-0456",
+        "last_24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-0456",
+        "QoS",
+        "last_24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA QoS trend down on NR-URB-MACRO-0456; peak-hour latency spikes; elevated BLER/PRB; eMBB user impact; request capacity/backhaul checks."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed SLA QoS degradation on the urban NR macro cell by reviewing 24h counters and trending the QoS time series, revealing peak-hour latency spikes and elevated load linked to eMBB usage. An incident ticket DU-QOS-04217 was opened to mitigate impact and coordinate capacity/backhaul checks. The site is under focused monitoring through the next busy hour with updates to follow in the ticket.",
+    "ar": "تم تأكيد تدهور جودة الخدمة وفق SLA على خلية NR حضرية ماكرو عبر مراجعة مؤشرات 24 ساعة ورسم السلسلة الزمنية لجودة الخدمة، مما أظهر ارتفاع التأخير في ساعات الذروة وحِملًا مرتفعًا مرتبطًا بـ eMBB. تم فتح بلاغ DU-QOS-04217 للتخفيف من التأثير وتنسيق فحوصات السعة والوصل الخلفي. الموقع تحت مراقبة مركزة خلال ساعة الذروة القادمة مع تحديثات ستُضاف إلى البلاغ."
+  }
+}

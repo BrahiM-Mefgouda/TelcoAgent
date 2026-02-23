@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0016",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a possible outage in the last hour peak with slow data (p50 1 Mbps), availability near 4%, and extreme drops and setup failures impacting eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR حضرية تشير إلى احتمال انقطاع خلال الساعة الأخيرة في وقت الذروة مع بيانات بطيئة (وسيط 1 ميجابت/ث)، وتوافر يقارب 4%، وانقطاعات شديدة وإخفاقات إعداد مكالمات تؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR sector NR-URB-0401-S1 raised a sudden alarm in the last hour at peak. Availability ~4%, p50 throughput 1 Mbps (slow data), user drops ~99%, call setup failures ~92%—eMBB streaming users report no service.",
+      "message_ar": "القطاع NR-URB-0401-S1 (موقع ماكرو حضري 5G NR) أطلق إنذاراً مفاجئاً خلال الساعة الأخيرة في وقت الذروة. التوافر ~4%، وسيط السرعة 1 ميجابت/ث (بيانات بطيئة)، انقطاعات المستخدمين ~99%، وإخفاقات إعداد المكالمات ~92%—مستخدمي بث eMBB يبلغون عن عدم توفر الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "This looks like a cell outage. I will run an OSS health check for the last 1h to confirm root cause—please confirm access and the cell ID.",
+      "message_ar": "يبدو أنه انقطاع للخلية. سأجري فحص حالة عبر OSS لآخر ساعة لتأكيد السبب الجذري—يرجى تأكيد السماح بالوصول وتزويدي بمعرف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID: NR-URB-0401-S1. Window: last 1 hour.",
+      "message_ar": "الوصول مُعتمد. معرف الخلية: NR-URB-0401-S1. النافذة: الساعة الأخيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows NR-URB-0401-S1 operationally down for ~58 minutes within the last hour, zero carriers on-air, DU heartbeat lost since 17:05, and active power alarm. Neighbors show spikes in access failures. Likely site power/baseband outage. Shall I proceed to raise an incident for field dispatch?",
+      "message_ar": "يعرض OSS أن الخلية NR-URB-0401-S1 خارج الخدمة لمدة ~58 دقيقة ضمن الساعة الأخيرة، ولا توجد حوامل فعّالة، فقدان نبض DU منذ 17:05، وإنذار طاقة فعّال. الجوار يُظهر ارتفاعاً في إخفاقات الوصول. الاحتمال الأكبر انقطاع طاقة/وحدة أساسية. هل أمضي برفع تذكرة عطل لإرسال فريق ميداني؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with the incident. Priority should be critical.",
+      "message_ar": "نعم، امضِ برفع تذكرة العطل. الأولوية يجب أن تكون حرجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Raising a critical outage incident now with OSS evidence (down state, heartbeat loss, power alarm) and affected neighbors; will keep it open until recovery and share the reference shortly.",
+      "message_ar": "أقوم الآن برفع تذكرة انقطاع حرجة مع إرفاق أدلة OSS (حالة خارج الخدمة، فقدان النبض، إنذار طاقة) والجيران المتأثرين؛ سأُبقيها مفتوحة حتى استعادة الخدمة وسأشارك المرجع قريباً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Neighbor macros are getting heavy load and users still cannot attach.",
+      "message_ar": "تم الاستلام. مواقع الماكرو المجاورة تتعرض لحمل مرتفع والمستخدمون ما زالوا غير قادرين على الالتحاق بالشبكة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. No config changes applied; neighbors will continue to offload as designed. I’ll watch availability and access success for stabilization and alert on any flaps.",
+      "message_ar": "مفهوم. لم تُطبَّق أي تغييرات ضبط؛ سيستمر الجوار في الاستيعاب كما هو مصمم. سأراقب التوافر ونجاح الوصول للتأكد من الاستقرار وسأنبّه عند أي تذبذب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: power team reports generator is up; the sector is rebooting and some attaches are succeeding.",
+      "message_ar": "تحديث: فريق الطاقة أفاد بأن المولد يعمل؛ القطاع يعيد الإقلاع وبعض عمليات الالتحاق تنجح."
+    },
+    {
+      "role": "agent",
+      "message_en": "I see the service state returning to in-service, active users increasing, and access failures dropping. Keeping the incident open while we observe recovery.",
+      "message_ar": "أرى حالة الخدمة تعود إلى ضمن الخدمة، وعدد المستخدمين النشطين في ازدياد، وإخفاقات الوصول في انخفاض. سأُبقي التذكرة مفتوحة أثناء مراقبة الاستعادة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: call setup failures are trending down and users are reconnecting. You performed the OSS check and raised an incident; let’s monitor for the next 2–4 hours under DU-OUTAGE-04567.",
+      "message_ar": "تمت ملاحظة تحسن: إخفاقات إعداد المكالمات في اتجاه هابط والمستخدمون يعاودون الاتصال. قمتم بفحص OSS ورفعتم تذكرة عطل؛ لنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة تحت DU-OUTAGE-04567."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we’ll own the next 2–4 hours, track availability, access success, and drop incidents, and update the ticket after the window. If alarms return or the cell flaps, we’ll escalate to field maintenance for on-site action; if stability holds, no rollback is needed and we’ll proceed to closure.",
+      "message_ar": "متفق—سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة، مع تتبع التوافر ونجاح الوصول وحالات الانقطاع، وسنحدّث التذكرة بعد انتهاء النافذة. إذا عادت الإنذارات أو حدث تذبذب في الخلية فسوف نصعّد إلى الصيانة الميدانية لاتخاذ إجراء في الموقع؛ وإن بقي الاستقرار فلا حاجة لأي تراجع وسنمضي نحو الإغلاق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-0401-S1",
+        "1h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "Critical outage: NR-URB-0401-S1 urban macro 5G NR cell down in last hour with power alarm; severe access failures and drops; field dispatch required."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "OSS health check confirmed a sudden outage on the urban macro 5G NR cell, with the sector out of service for most of the last hour and a concurrent power alarm. A critical incident ticket (DU-OUTAGE-04567) was created to engage field operations. We will continue monitoring for stability and service restoration before closure.",
+    "ar": "أكد فحص OSS حدوث انقطاع مفاجئ في خلية ماكرو حضرية 5G NR، حيث كان القطاع خارج الخدمة معظم الساعة الأخيرة مع وجود إنذار طاقة. تم إنشاء تذكرة حادث حرجة (DU-OUTAGE-04567) لإشراك فرق الميدان. سنواصل المراقبة لضمان الاستقرار واستعادة الخدمة قبل الإغلاق."
+  }
+}

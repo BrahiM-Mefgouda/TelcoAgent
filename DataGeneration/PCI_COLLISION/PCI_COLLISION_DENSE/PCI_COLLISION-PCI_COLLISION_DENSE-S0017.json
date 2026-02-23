@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0017",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G NR macro cell shows an alarm indicating congestion over the last 6h with interference/signal overlap (SINR -1 dB), high ping-pong (22%), and slow data (p50 7 Mbps), likely tied to PCI overlap.",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر إنذاراً يشير إلى ازدحام خلال آخر 6 ساعات مع تداخل/تراكب للإشارة (SINR -1 dB) ومعدل بينغ-بونغ مرتفع (22%) وبطء في البيانات (p50 7 Mbps)، ويرجح أن يكون مرتبطاً بتداخل PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell NR-Cell-346-Macro-U01 has an active alarm over the last 6h; users report slow data and unstable mobility. SINR ~ -1 dB, RSRQ -9 dB, HO failures ~15%, ping-pong ~22%, PRB ~82% with ~318 users (eMBB streaming peak). Please investigate.",
+      "message_ar": "خلية ماكرو 5G NR حضرية NR-Cell-346-Macro-U01 لديها إنذار نشط خلال آخر 6 ساعات؛ المستخدمون يشتكون من بطء البيانات وعدم استقرار التنقل. قيمة SINR حوالي -1 dB وRSRQ -9 dB وفشل التسليم ~15% والبينغ-بونغ ~22% واستخدام PRB ~82% مع حوالي 318 مستخدماً (ذروة eMBB للبث). يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Interference/signal overlap is evident; I will start by auditing neighbor PCI usage and overlap for NR-Cell-346-Macro-U01 over the last 6h to confirm any PCI collision. Please approve read-only access to topology and counters.",
+      "message_ar": "شكراً. يوجد مؤشر واضح على تداخل/تراكب الإشارة؛ سأبدأ بتدقيق استخدام PCI لدى الجوار ونِسَب التداخل لـ NR-Cell-346-Macro-U01 خلال آخر 6 ساعات لتأكيد أي تصادم PCI. يرجى الموافقة على صلاحية القراءة للطوبولوجيا والعدادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Use the 6h window; access to topology and counters is granted.",
+      "message_ar": "موافق. استخدم نافذة 6 ساعات؛ تم منح الوصول إلى الطوبولوجيا والعدادات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit results: PCI reuse conflict detected in the footprint—serving PCI 346 collides with a nearby sector; high overlap with neighbor PCI 240 covers ~38%. This aligns with low SINR, ping-pong, and slow data. Root cause: PCI collision/ambiguity in the dense urban grid.",
+      "message_ar": "نتائج التدقيق: تم اكتشاف تعارض في إعادة استخدام PCI ضمن البصمة—PCI الخادم 346 يتصادم مع قطاع قريب؛ كما أن التداخل العالي مع الجار ذي PCI 240 يغطي نحو ~38%. هذا يتوافق مع انخفاض SINR والبينغ-بونغ وبطء البيانات. السبب الجذري: تصادم/غموض PCI في شبكة حضرية كثيفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. You may proceed with a safe correction.",
+      "message_ar": "مفهوم. يمكنك المتابعة بتصحيح آمن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: retune the serving PCI from 346 to 347 (validated free in the cluster) and refresh neighbor relations to clear ambiguity; brief service impact expected (<60s). Please approve immediate execution.",
+      "message_ar": "الخطة: إعادة ضبط PCI الخادم من 346 إلى 347 (تم التحقق من خلوّه ضمن المجموعة) وتحديث علاقات الجوار لإزالة الغموض؛ تأثير خدمة قصير متوقع (<60 ثانية). يرجى الموافقة على التنفيذ الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate execution.",
+      "message_ar": "موافق على التنفيذ الفوري."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: serving PCI set to 347 and neighbor relations refreshed. Post-checks show no duplicate PCI; early counters indicate SINR median up ~3 dB and ping-pong declining. I will keep watching KPIs.",
+      "message_ar": "تم التطبيق: تم ضبط PCI الخادم إلى 347 وتحديث علاقات الجوار. الفحوصات البعدية تُظهر عدم وجود تكرار PCI؛ المؤشرات المبكرة تشير إلى تحسّن متوسط SINR بحوالي +3 dB وانخفاض البينغ-بونغ. سأستمر بمراقبة مؤشرات الأداء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement on my side: RSRQ trending to -7 dB and median user throughput increasing; mobility looks steadier.",
+      "message_ar": "أرى تحسناً لدي: RSRQ يتجه إلى -7 dB ومتوسط إنتاجية المستخدم يرتفع؛ التنقل يبدو أكثر استقراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will create a documentation ticket for the PCI retune and attach pre/post metrics.",
+      "message_ar": "سأنشئ تذكرة لتوثيق إعادة ضبط PCI وإرفاق مؤشرات ما قبل/ما بعد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: ping-pong handovers trending down and slow data easing. Action taken: PCI parameter retune on the serving cell. Let’s monitor through the next busy hour and reference DU-PCI-04291.",
+      "message_ar": "تحسّن ملحوظ: انخفاض توجه عمليات البينغ-بونغ وتراجع بطء البيانات. الإجراء المُتخذ: إعادة ضبط معلمة PCI في الخلية الخادمة. لنراقب خلال ساعة الذروة التالية مع الإشارة إلى DU-PCI-04291."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Summary: neighbor audit confirmed PCI collision; we retuned the serving PCI and refreshed neighbor relations, and a documentation ticket is in place. We will monitor through the next busy hour and update the ticket afterward. If issues recur, we will escalate for on-site interference checks; if regressions are seen, we will roll back to the previous PCI and re-evaluate.",
+      "message_ar": "تم الاستلام. الملخص: أكد تدقيق الجوار وجود تصادم PCI؛ قمنا بإعادة ضبط PCI للخلية الخادمة وتحديث علاقات الجوار، وتم إنشاء تذكرة توثيق. سنراقب خلال ساعة الذروة التالية ونقوم بتحديث التذكرة بعدها. إذا عادت المشاكل سنصعّد للتحقق الميداني من التداخل؛ وإذا ظهرت تراجعات سنرجع إلى PCI السابق ونعيد التقييم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision in a dense urban 5G NR macro cell, causing interference/signal overlap, ping-pong, and slow data. The team retuned the serving PCI and refreshed neighbor relations to remove ambiguity, then documented the change with a ticket. Early KPIs improved and the cell will be monitored through the next busy hour.",
+    "ar": "أكد تحليل الجوار وجود تصادم PCI في خلية ماكرو 5G NR حضرية كثيفة، ما تسبب في تداخل/تراكب للإشارة وبِـينغ-بونغ وبطء في البيانات. تم إعادة ضبط PCI للخلية الخادمة وتحديث علاقات الجوار لإزالة الغموض، ثم توثيق التغيير عبر تذكرة. تحسنت المؤشرات المبكرة وسيتم مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

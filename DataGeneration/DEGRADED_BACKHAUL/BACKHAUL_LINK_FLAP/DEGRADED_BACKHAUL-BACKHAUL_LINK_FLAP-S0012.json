@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0012",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro shows degraded backhaul over 6h with ~3 link flaps/hr, burst loss ~0.61, p95 latency 83 ms, 791 interface errors, and downlink near 10 Mbps for 126 users.",
+    "ar": "موقع ماكرو NR في منطقة ضواحٍ يظهر تدهوراً في الوصلة الخلفية خلال 6 ساعات مع ~3 تقطعات/ساعة، فقدان متفجر ~0.61، تأخر p95 عند 83 مللي ثانية، 791 خطأ على الواجهة، وسرعة تنزيل تقارب 10 ميجابت/ث لـ126 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has backhaul instability over the last 6h: ~3 link flaps/hr, burst loss ~0.61, p95 latency 83 ms, jitter 9 ms, and 791 interface errors; ~126 users on eMBB with streaming stalls; downlink ~10 Mbps; no active alarms.",
+      "message_ar": "خلية ماكرو NR في منطقة ضواحٍ تعاني من عدم استقرار في الوصلة الخلفية خلال آخر 6 ساعات: حوالي 3 تقطعات/ساعة، فقدان متفجر ~0.61، تأخر p95 عند 83 مللي ثانية، تذبذب 9 مللي ثانية، و791 خطأ على الواجهة؛ نحو 126 مستخدم eMBB مع توقفات في البث؛ سرعة تنزيل ~10 ميجابت/ث؛ بدون إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 6h counters and backhaul event logs to pinpoint the fault domain; please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بجلب عدّادات آخر 6 ساعات وسجلات أحداث الوصلة الخلفية لتحديد نطاق العطل؛ الرجاء تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-045-S1; access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-045-S1؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm 18 link flaps (~3/hr), RX/TX CRC errors 790+, and micro-bursts aligned with throughput dips; radio looks stable (SINR ~12 dB, PRB ~55%), indicating transport-side bottleneck. I will mitigate by applying site parameter tuning to pace bursts and increase buffering to mask loss—proceed?",
+      "message_ar": "العدّادات تؤكد 18 تقطعاً (~3/ساعة)، وأخطاء CRC في الإرسال/الاستقبال تتجاوز 790، وتدفقات قصيرة تتزامن مع هبوط السرعة؛ حالة الراديو مستقرة (SINR ~12 dB، واستخدام PRB ~55%) ما يشير إلى اختناق في النقل. سأخفف الأثر عبر ضبط معلمات الموقع لتهدئة الاندفاعات وزيادة التخزين المؤقت لتقليل الفقد—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning.",
+      "message_ar": "موافَق على المضي في الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter tuning applied successfully with no user impact. Early telemetry shows p95 latency improving from 83 ms to ~64 ms and loss bursts dropping toward ~0.22; downlink rates stabilizing around low-teens Mbps for active users. I recommend opening a transport ticket with evidence—shall I do that now?",
+      "message_ar": "تم تطبيق ضبط المعلمات بنجاح دون تأثير على المستخدمين. المؤشرات الأولية تظهر تحسّن تأخر p95 من 83 مللي ثانية إلى ~64 مللي ثانية وانخفاض الفقد المتفجر نحو ~0.22؛ واستقرار سرعات التنزيل عند نطاق عشرات الميجابت المنخفض للمستخدمين النشطين. أوصي بفتح بلاغ للنقل مع الأدلة—أقوم بذلك الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please open it.",
+      "message_ar": "نعم، يرجى فتحه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Transport ticket created with attached logs, counters, and before/after snapshots; it flags recurring link flaps and interface errors impacting user experience. We will continue short-term observation and coordinate with transport.",
+      "message_ar": "تم إنشاء بلاغ للنقل مع إرفاق السجلات والعدّادات ولقطات قبل/بعد؛ يوضح تقطعات متكررة وأخطاء الواجهة تؤثر على تجربة المستخدم. سنواصل المراقبة القصيرة الأجل والتنسيق مع فريق النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer streaming stalls and more stable page loads in the last few minutes.",
+      "message_ar": "ألاحظ انخفاضاً في توقفات البث واستقراراً أفضل في تحميل الصفحات خلال الدقائق الأخيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; metrics continue trending better. Please confirm the monitoring window you prefer so I can own updates.",
+      "message_ar": "تم؛ تتجه المؤشرات للتحسّن. يرجى تأكيد نافذة المراقبة المفضّلة لديكم لأتولى التحديثات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Let’s monitor through the next 2–4 hours covering one busy hour; since we applied site parameter tuning, link flap incidents are trending down. Please track and update DU-BH-01257 afterward.",
+      "message_ar": "لنراقب خلال الساعتين إلى الأربع ساعات القادمتين مع تغطية ساعة الانشغال؛ بعد تطبيق ضبط معلمات الموقع، حوادث تقطع الوصلة تتناقص. الرجاء المتابعة والتحديث على DU-BH-01257 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the 2–4 hour window, track latency, loss bursts, and user rates, and update the ticket after the window. If errors persist or worsen, we will escalate to transport NOC; if any adverse effects appear, we will roll back the tuning.",
+      "message_ar": "مفهوم—سنتولى نافذة 2–4 ساعات، ونتابع التأخر والفقد المتفجر وسرعات المستخدمين، ونحدّث البلاغ بعد انتهاء النافذة. إذا استمرت الأخطاء أو تفاقمت فسنصعّد إلى مركز تشغيل النقل، وإذا ظهرت آثار سلبية فسنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-045-S1",
+        "last_6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_relief_params"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul with link flaps and interface errors on NR-SUB-045-S1"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro: frequent link flaps, high interface errors, and burst loss drove latency and low downlink rates while radio load was moderate. Executed site parameter tuning to pace bursts and increase buffering, which immediately reduced latency and loss and stabilized throughput. A transport ticket was opened to address the persistent link flaps, and the site will be monitored with updates provided after the window.",
+    "ar": "تم تشخيص تدهور في الوصلة الخلفية لموقع ماكرو NR في الضواحي: تقطعات متكررة وأخطاء واجهة مرتفعة وفقدان متفجر سببت ارتفاع التأخر وانخفاض سرعة التنزيل رغم حمولة راديوية معتدلة. نُفِّذ ضبط لمعلمات الموقع لتهدئة الاندفاعات وزيادة التخزين المؤقت، مما خفّض التأخر والفقد واستقرّت السرعات فوراً. تم فتح بلاغ للنقل لمعالجة التقطعات المستمرة وسيتم مراقبة الموقع وتقديم التحديثات بعد نافذة المتابعة."
+  }
+}

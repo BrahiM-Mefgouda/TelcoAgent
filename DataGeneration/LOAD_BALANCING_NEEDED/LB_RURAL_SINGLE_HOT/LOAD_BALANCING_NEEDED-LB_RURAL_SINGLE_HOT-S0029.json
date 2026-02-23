@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0029",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural 5G NR macro cell shows high resource usage (~85% PRB) with 196 users, neighbors at ~49% and modest SINR (~6 dB) over the last 6 hours, indicating load imbalance.",
+    "ar": "خلية ماكرو 5G NR ريفية تُظهر استخدام موارد مرتفعًا (~85% PRB) مع 196 مستخدمًا وجيرانًا عند ~49% وSINR معتدل (~6 dB) خلال آخر 6 ساعات، ما يشير إلى عدم توازن في الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural 5G NR macro cell NR123-1 has been running hot over the last 6 hours: ~85% PRB with 196 users, median DL ~18 Mbps, neighbors average ~49% PRB; RSRQ -12 dB, SINR ~6 dB. Users report buffering on eMBB streaming. No active alarms.",
+      "message_ar": "الموقع الريفي 5G NR خلية ماكرو NR123-1 كان مرتفع الحمل خلال آخر 6 ساعات: استخدام PRB ~85% مع 196 مستخدمًا، وسيط التحميل الهابط ~18 Mbps، ومتوسط استخدام الجيران ~49%؛ RSRQ -12 dB وSINR ~6 dB. يوجد تباطؤ/تقطيع في بث eMBB. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnosis and mitigation. Plan: first review neighbor relationships and load to confirm imbalance; then apply gentle load-balancing tuning. Please confirm cell_id NR123-1 and approve a non-service-affecting change.",
+      "message_ar": "سأتولى التشخيص والمعالجة. الخطة: مراجعة العلاقات مع الجيران والحمولة للتحقق من عدم التوازن، ثم تطبيق ضبط خفيف لموازنة الحمل. يرجى تأكيد cell_id NR123-1 والموافقة على تغيير غير مؤثر على الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed: NR123-1. You have approval for the change.",
+      "message_ar": "تم التأكيد: NR123-1. لديك الموافقة على التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 1: Neighbor audit completed. Findings: neighbors present and reachable at ~7.4 km; average neighbor PRB ~49%, serving at 85%; HO out/in ~22/15 per 5 min; imbalance index ~0.27. This is a single-hot cell with room to offload to cooler neighbors.",
+      "message_ar": "الخطوة 1: تم تدقيق الجيران. النتائج: الجيران متاحون وقابلون للوصول على ~7.4 كم؛ متوسط استخدام PRB لدى الجيران ~49% مقابل 85% على الخلية؛ معدلات التحويل خروج/دخول ~22/15 لكل 5 دقائق؛ مؤشر عدم التوازن ~0.27. هذه خلية ساخنة منفردة مع مجال لتحويل الحمل إلى الجيران الأقل حملاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Proceed with the tuning.",
+      "message_ar": "مفهوم. تابع الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 2: Applied load-balancing parameter tuning to NR123-1: reduced serving bias, increased preference toward lower-loaded neighbors, and slight mobility hysteresis/offset adjustments targeting a 10–20% offload. Changes are live; please observe KPIs for the next 10–15 minutes.",
+      "message_ar": "الخطوة 2: تم تطبيق ضبط معلمات موازنة الحمل على NR123-1: تقليل انحياز الخلية الخادمة، زيادة تفضيل الجيران الأقل حملاً، وتعديلات طفيفة في العتبات/الهيستريس في التنقل بهدف تحويل 10–20% من الحمل. التغييرات فعّالة الآن؛ يرجى مراقبة مؤشرات الأداء خلال 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: PRB trending down to ~72%, median DL improving to ~23 Mbps; no error spikes or alarms.",
+      "message_ar": "ملاحظة أولية: استخدام PRB يتجه إلى ~72%، والتحمل الهابط الوسيط يتحسن إلى ~23 Mbps؛ لا توجد زيادات في الأخطاء أو إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Continue to watch handover balance and short-term stability—target is closer out/in rates and no ping-pong increase. eMBB streaming should smooth out as load evens.",
+      "message_ar": "جيد. الرجاء مواصلة مراقبة توازن التحويل والاستقرار قصير المدى—الهدف تقارب معدلات الخروج/الدخول دون زيادة في التنقل المتذبذب. من المفترض أن يتحسن بث eMBB مع توازن الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 more minutes: HO out/in ~19/18, PRB ~68%, RSRQ improved to ~-10 dB, SINR ~7 dB. User buffering reports have dropped.",
+      "message_ar": "بعد ~20 دقيقة إضافية: معدلات التحويل خروج/دخول ~19/18، استخدام PRB ~68%، تحسّن RSRQ إلى ~-10 dB وSINR ~7 dB. انخفضت تقارير التقطيع لدى المستخدمين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Stability looks acceptable. I’ll document the change and keep an eye on utilization and HO performance during mixed hours.",
+      "message_ar": "الاستقرار يبدو مقبولاً. سأوثّق التغيير وأراقب الاستخدام وأداء التحويل خلال الساعات المختلطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: PRB utilization trending down and handover asymmetry reduced. Action taken was load-balancing parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: استخدام PRB في انخفاض وعدم تماثل التحويل تقلّص. الإجراء الذي تم هو ضبط معلمات موازنة الحمل. لنواصل المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own monitoring through the next busy hour and share results afterward. If degradation appears, we’ll escalate to RF for deeper review; if adverse effects emerge, we will roll back the offsets.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الانشغال القادمة ونشارك النتائج بعدها. إذا ظهر تدهور سنصعّد إلى فريق الترددات لمراجعة أعمق؛ وإذا ظهرت آثار سلبية سنعود إلى القيم السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a single-hot rural NR macro cell with high PRB utilization and handover asymmetry versus cooler neighbors. Performed a neighbor review followed by site parameter tuning for load balancing to shift traffic from the hot cell to underutilized neighbors. Utilization and HO balance improved; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص خلية ماكرو NR ريفية ساخنة منفردة مع استخدام PRB مرتفع وعدم تماثل في التحويل مقارنة بالجيران الأقل حملاً. تم إجراء مراجعة للجيران تلاها ضبط لمعلمات الموقع لموازنة الحمل لتحويل الحركة من الخلية الساخنة إلى الجيران منخفضي الاستخدام. تحسنت نسبة الاستخدام وتوازن التحويل؛ سنواصل المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

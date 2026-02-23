@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0001",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban macro 5G NR cell is ~90% PRB with 274 users during the shoulder period while neighbors average ~40% and imbalance ~0.40; radio quality (RSRQ -8 dB, SINR 6 dB) is acceptable, suggesting load balancing can offload eMBB streaming traffic.",
+    "ar": "خلية NR ماكرو حضرية عند ~90% من موارد PRB مع 274 مستخدماً خلال فترة الذروة المتوسطة بينما متوسط الجيران ~40% وعدم توازن ~0.40؛ جودة الراديو (RSRQ -8 dB، SINR 6 dB) مقبولة، ما يشير إلى إمكانية تخفيف الحمل عبر موازنة التحميل لحركة eMBB (البث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR cell shows sustained high load this shoulder period: PRB ~90%, 274 users; neighbors average ~40% with imbalance index ~0.40; HO out/in 29/25; RSRQ -8 dB, SINR 6 dB; heavy eMBB streaming.",
+      "message_ar": "الخلية NR الماكرو الحضرية تُظهر حملاً مرتفعاً خلال فترة الذروة المتوسطة: استخدام PRB ~90%، 274 مستخدماً؛ متوسط الجيران ~40% مع مؤشر عدم توازن ~0.40؛ معدلات التسليم بين الخلايا 29 خروج/25 دخول؛ RSRQ ‏-8 dB وSINR ‏6 dB؛ حركة eMBB للبث كثيفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by auditing neighbor relations to confirm the load asymmetry and any HO bias. Please share the target cell ID and approve a 4h window for diagnostics and changes.",
+      "message_ar": "مفهوم. سأبدأ بتدقيق علاقات الجيران لتأكيد عدم تماثل الحمل وأي انحياز في التسليم بين الخلايا. يرجى تزويدي بمعرف الخلية المستهدفة والموافقة على نافذة 4 ساعات للتشخيص والتنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-3321-S1. Approval granted for diagnostics and safe changes within the next 4 hours. No current site alarms.",
+      "message_ar": "معرف الخلية هو NR-URB-3321-S1. تمت الموافقة على التشخيص والتنفيذ الآمن خلال الساعات الأربع القادمة. لا توجد إنذارات حالية في الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit completed for NR-URB-3321-S1: N2 and N5 are underutilized (~40–45% PRB). Current HO thresholds show slight stickiness to the serving cell; neighbor list is complete and healthy. Proposal: enable light load-based offload with small positive offsets toward N2/N5 and apply a conservative RRC user cap on the serving cell. Proceed?",
+      "message_ar": "تم إنهاء تدقيق الجيران للخلية NR-URB-3321-S1: الجاران N2 وN5 منخفضا الاستخدام (~40–45% PRB). عتبات التسليم الحالية تُظهر ميلاً بسيطاً للبقاء على الخلية الخادمة؛ قائمة الجيران مكتملة وسليمة. الاقتراح: تفعيل تفريغ خفيف قائم على الحمل مع إزاحات بسيطة باتجاه N2/N5 وتطبيق حد محافظ لعدد مستخدمي RRC على الخلية الخادمة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the conservative load-balancing adjustments.",
+      "message_ar": "موافق. تابع تعديلات موازنة التحميل بشكل محافظ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed: activated gentle load-based offload and applied small offsets toward N2/N5; set a conservative admission cap on the serving cell. No power or PCI changes. Changes are committed; starting live observation over the next 15 minutes.",
+      "message_ar": "تم تنفيذ التحسين: تفعيل تفريغ خفيف قائم على الحمل وتطبيق إزاحات صغيرة باتجاه N2/N5؛ وضع حد قبول محافظ على الخلية الخادمة. لم يتم تغيير القدرة أو PCI. تم اعتماد التغييرات؛ أبدأ مراقبة فورية خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Initial observation: slight increase in HO out to N2/N5; no errors reported.",
+      "message_ar": "تم. الملاحظة الأولية: ارتفاع طفيف في عمليات التسليم الخارجة نحو N2/N5؛ لا توجد أخطاء مُبلّغ عنها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please provide updated quick stats after 15 minutes: serving PRB/utilization and user count, HO out/in, and PRB on N2/N5, plus any change in RSRQ/SINR.",
+      "message_ar": "يرجى تزويدي بإحصاءات سريعة بعد 15 دقيقة: استخدام PRB وعدد المستخدمين على الخلية الخادمة، التسليم خروج/دخول، وPRB على N2/N5، وأي تغير في RSRQ/SINR."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 min: serving PRB ~78%, users ~230; N2 PRB ~58%, N5 ~52%; HO out/in 33/27; RSRQ stable at -8 dB, SINR ~6 dB.",
+      "message_ar": "بعد 15 دقيقة: استخدام الخلية الخادمة ~78%، المستخدمون ~230؛ N2 عند ~58% وN5 عند ~52%؛ التسليم 33 خروج/27 دخول؛ RSRQ مستقر عند -8 dB وSINR ~6 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend—load reduced and distribution improved, with radio quality stable. No further adjustments now; let’s continue monitoring through the next busy hour.",
+      "message_ar": "اتجاه جيد—انخفض الحمل وتحسن التوزيع مع استقرار جودة الراديو. لا توجد تعديلات إضافية حالياً؛ لنواصل المراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: PRB utilization trending down and users shifting to N2/N5. Action taken was neighbor load-balancing parameter tuning. Propose monitoring over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن: انخفاض في استخدام PRB وتحويل المستخدمين نحو N2/N5. الإجراء المتخذ كان ضبط معلمات موازنة التحميل مع الجيران. أقترح المراقبة خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own the next 2–4 hours of monitoring and report updates on load levels, HO distribution, and radio quality. If congestion returns or HO failures rise, we will roll back the offsets and relax the admission cap; if stable yet still high, we will escalate for broader balancing across the cluster.",
+      "message_ar": "متفقون—سنتولى المراقبة خلال الساعات 2–4 القادمة ونقدم تحديثات حول مستويات الحمل وتوزيع التسليم وجودة الراديو. إذا عاد الازدحام أو ارتفعت إخفاقات التسليم، سنقوم بالتراجع عن الإزاحات وتخفيف حد القبول؛ وإذا بقي الوضع مستقراً لكن مرتفعاً، سنصعّد لموازنة أوسع على مستوى مجموعة الخلايا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-URB-3321-S1",
+        "all_neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Enable light load-based offload; small positive offsets toward N2/N5; conservative RRC admission cap on serving cell"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a pronounced load imbalance: the serving urban macro NR cell was heavily utilized while neighbors N2/N5 were underused. We mitigated by site parameter tuning to enable light load-based offload with small offsets toward N2/N5 and a conservative admission cap, resulting in reduced PRB utilization and better distribution. We will continue monitoring over the next hours to ensure stability and adjust if congestion or handover issues reappear.",
+    "ar": "أكد تدقيق الجيران وجود عدم توازن واضح في الحمل: الخلية الخادمة في الماكرو الحضري كانت عالية الاستخدام بينما كان الجاران N2/N5 منخفضَي الاستخدام. تمت المعالجة عبر ضبط معلمات الموقع لتفعيل تفريغ خفيف قائم على الحمل مع إزاحات صغيرة باتجاه N2/N5 وحد قبول محافظ، مما خفّض استخدام PRB وحسّن التوزيع. سنواصل المراقبة خلال الساعات القادمة لضمان الاستقرار وإجراء التعديلات إذا عاد الازدحام أو ظهرت مشكلات في التسليم."
+  }
+}

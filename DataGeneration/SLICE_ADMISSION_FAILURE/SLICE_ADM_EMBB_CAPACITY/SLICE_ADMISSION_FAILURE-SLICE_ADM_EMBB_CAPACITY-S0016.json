@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_EMBB_CAPACITY-S0016",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_EMBB_CAPACITY",
+  "query": {
+    "en": "Stadium 5G NR micro site shows congestion: eMBB slice admission denials ~40% over the last 4 hours with PRB ~96%, slice utilization 97%, latency ~79 ms, ~106 requests/min, and a minimum guarantee policy of 67 Mbps at priority 2.",
+    "ar": "موقع 5G NR صغير في الملعب يظهر ازدحامًا: فشل قبول شريحة eMBB ~40% خلال آخر 4 ساعات مع إشغال موارد ~96%، استخدام الشريحة 97%، كمون ~79 مللي ثانية، حوالي 106 طلبات/دقيقة، وسياسة حد أدنى مضمون 67 ميجابت/ث عند أولوية 2."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro site during ingress has an active congestion alarm: eMBB slice admissions failing ~40% over 4h, ~106 requests/min, PRB ~96%, slice utilization 97%, latency ~79 ms, p50 DL 13 Mbps; ~525 users; min guarantee 67 Mbps (priority 2). Heavy streaming.",
+      "message_ar": "موقع NR صغير من نوع micro في الملعب خلال فترة الدخول يظهر إنذار ازدحام فعّال: فشل قبول شريحة eMBB بنحو 40% خلال آخر 4 ساعات، حوالي 106 طلبات/دقيقة، إشغال الموارد ~96%، استخدام الشريحة 97%، كمون ~79 مللي ثانية، وسيط التحميل 13 ميجابت/ث؛ نحو 525 مستخدمًا؛ الحد الأدنى المضمون 67 ميجابت/ث (أولوية 2). حركة بث ثقيلة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking OSS counters and slice admission logs for the last 4 hours; please confirm the cell ID and grant read access.",
+      "message_ar": "سأبدأ بالاطلاع على عدادات OSS وسجلات قبول الشريحة لآخر 4 ساعات؛ يرجى تأكيد معرّف الخلية ومنحي صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MICRO-03; access approved. Impact is limited to the eMBB slice.",
+      "message_ar": "معرّف الخلية هو NR-STAD-MICRO-03؛ الصلاحية معتمدة. التأثير مقتصر على شريحة eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR-STAD-MICRO-03 (last 4h): PRB sustained 94–98% with repeated admission throttling; the 67 Mbps per-UE minimum at priority 2 is reserving capacity and driving denials. Proposal: temporary ingress policy update—reduce per-UE minimum to 20 Mbps and increase admission headroom to admit more sessions without breaching latency. Approve?",
+      "message_ar": "فحص OSS لـ NR-STAD-MICRO-03 (آخر 4 ساعات): إشغال الموارد 94–98% مع خنق قبول متكرر؛ الحد الأدنى 67 ميجابت/ث لكل مستخدم عند أولوية 2 يحجز سعة ويدفع إلى الرفض. المقترح: تحديث مؤقت لسياسة فترة الدخول—خفض الحد الأدنى لكل مستخدم إلى 20 ميجابت/ث وزيادة هامش القبول للسماح بمزيد من الجلسات دون خرق الكمون. موافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the temporary eMBB policy adjustment on NR-STAD-MICRO-03 during ingress.",
+      "message_ar": "موافقة على تعديل سياسة eMBB المؤقت على NR-STAD-MICRO-03 خلال الدخول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding to apply the eMBB slice policy update on NR-STAD-MICRO-03 now; the change is reversible and limited to the ingress window.",
+      "message_ar": "سأطبق الآن تحديث سياسة شريحة eMBB على NR-STAD-MICRO-03؛ التغيير قابل للرجوع ومحصور بفترة الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Policy update applied; first 5 minutes show denials dropping from ~40% toward ~22%, accepted requests up by ~30/min, PRB easing to ~90–92%, and latency trending down by ~15 ms. I will keep watching stabilization.",
+      "message_ar": "تم تطبيق تحديث السياسة؛ أول 5 دقائق تُظهر انخفاض الرفض من ~40% إلى ~22%، وزيادة المقبول بحوالي 30/دقيقة، وتراجع إشغال الموارد إلى ~90–92%، واتجاه هبوطي في الكمون بنحو 15 مللي ثانية. سأواصل المتابعة حتى الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing more new sessions admitted and fewer reattempts on the stadium cell; user feedback shows smoother streaming.",
+      "message_ar": "نرى قبول المزيد من الجلسات الجديدة وتقليل المحاولات المتكررة في خلية الملعب؛ تعليقات المستخدمين تشير إلى بث أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will create an operational record for traceability and post-event review with details of the eMBB policy update and ingress KPIs.",
+      "message_ar": "سأنشئ سجلًا تشغيليًا للتتبع ومراجعة ما بعد الحدث مع تفاصيل تحديث سياسة eMBB ومؤشرات فترة الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed—admission denials are trending down and latency is easing. We performed a slice policy update. Let’s monitor through the next busy hour; please track on DU-SLICE-04587.",
+      "message_ar": "تمت ملاحظة التحسن—رفض القبول يتناقص والكمون يتحسن. قمنا بتحديث سياسة الشريحة. لنراقب خلال ساعة الذروة التالية؛ الرجاء المتابعة على DU-SLICE-04587."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own monitoring through the next busy hour and update the ticket afterward. If congestion resurges, we will tighten per-UE limits further; if adverse effects appear, we will roll back to the pre-change policy.",
+      "message_ar": "تم التأكيد؛ سنتولى المتابعة خلال ساعة الذروة التالية ونحدّث التذكرة بعدها. إذا عاد الازدحام سنُحكم حدود كل مستخدم أكثر؛ وإن ظهرت آثار سلبية سنعود إلى السياسة قبل التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Admission failures were driven by extreme PRB load and an aggressive eMBB minimum‑guarantee reserving capacity per user on the NR micro site at the stadium during ingress. We confirmed the condition via OSS, then applied a targeted slice policy update to lower the per‑UE guarantee and increase admission headroom, which immediately reduced denials and improved latency. A ticket was opened for tracking and post‑event review.",
+    "ar": "كانت حالات فشل القبول ناتجة عن حمل مرتفع جدًا على الموارد وسياسة حد أدنى صارمة لشريحة eMBB تحجز سعة لكل مستخدم في موقع NR الصغير بالملعب خلال الدخول. تم تأكيد الحالة عبر OSS، ثم طُبِّق تحديث مستهدف لسياسة الشريحة لخفض الحد الأدنى لكل مستخدم وزيادة هامش القبول، مما خفّض الرفض فورًا وحسّن الكمون. تم فتح تذكرة للتتبع ومراجعة ما بعد الحدث."
+  }
+}

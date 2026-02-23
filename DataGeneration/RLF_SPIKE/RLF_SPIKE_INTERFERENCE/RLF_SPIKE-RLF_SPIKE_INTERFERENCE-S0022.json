@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0022",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "Suburban 5G NR macro shows a 3h shoulder-period spike in radio link failures (~6.5%) with BLER ~11%, RSRQ -11 dB, SINR 10 dB, HO success ~90%, and median downlink 12 Mbps affecting eMBB streaming users.",
+    "ar": "موقع ماكرو 5G NR في منطقة شبه حضرية يظهر ارتفاعاً خلال 3 ساعات في فترة الكتف في فشل رابط الراديو (~6.5%) مع BLER ~11% وRSRQ -11 dB وSINR 10 dB ونسبة نجاح التسليم ~90% ومتوسط تنزيل 12 ميجابت/ث يؤثر على مستخدمي eMBB مع البث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has a 3h shoulder-period rise in radio link failures; BLER ~11%, RSRQ ~-11 dB, SINR ~10 dB, HO failures ~16%. Traffic is mostly eMBB streaming. No site alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة شبه حضرية تشهد ارتفاعاً خلال 3 ساعات في فترة الكتف في فشل رابط الراديو؛ BLER ~11% وRSRQ ~-11 dB وSINR ~10 dB وإخفاقات التسليم ~16%. الحركة أغلبها eMBB مع بث. لا توجد إنذارات للموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 3h performance counters from OSS for the affected cell. Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بجلب مؤشرات الأداء لآخر 3 ساعات من نظام الإدارة للخلية المتأثرة. يرجى تأكيد مُعرّف الخلية والموافقة على الوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SBR-201-A. Read-only access approved.",
+      "message_ar": "مُعرّف الخلية هو NR-SBR-201-A. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS stats (last 3h) for NR-SBR-201-A: RLF count 2.3x baseline, HO fail rate ~16%, BLER ~11%, PRB ~54%, users peak 176. Spike clusters between 14:20–16:10. Proceed to an RLF time-series drilldown?",
+      "message_ar": "تم سحب إحصاءات الإدارة لآخر 3 ساعات للخلية NR-SBR-201-A: عدد RLF أعلى بـ2.3x من الأساس، معدل فشل التسليم ~16%، BLER ~11%، إشغال الموارد ~54%، الذروة 176 مستخدماً. التكدس بين 14:20–16:10. هل نتابع بتحليل تسلسلي زمني لـRLF؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the RLF time-series analysis.",
+      "message_ar": "موافقة للمتابعة في التحليل الزمني لـRLF."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series confirms RLF peaks align with short SINR dips and degraded RSRQ; most events occur near cell edge with late inter-cell transfers to adjacent sectors. I recommend mobility optimization: slightly earlier handovers toward top neighbors and a modest increase to the radio link failure tolerance timer. Approve applying this safe, reversible change now?",
+      "message_ar": "يؤكد التحليل الزمني أن قمم RLF تتوافق مع هبوطات قصيرة في SINR وتدهور في RSRQ؛ معظم الأحداث قرب حافة التغطية مع انتقالات بين خلايا متأخرة إلى القطاعات المجاورة. أوصي بتحسين معلمات الحركة: جعل التسليم بين الخلايا أبكر قليلاً نحو الجيران الرئيسيين مع زيادة طفيفة في مؤقت تحمل فشل الرابط. هل توافق على تطبيق هذا التغيير الآمن والقابل للرجوع الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility tuning now; revert if drop issues worsen.",
+      "message_ar": "موافقة على تنفيذ تحسين معلمات الحركة الآن؛ يُعاد الوضع السابق إذا ساءت حالات الانقطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility tuning on NR-SBR-201-A: earlier handover bias to top three neighbors and slight increase to RLF tolerance. Changes committed cleanly; no errors or alarms. Please observe live KPIs for the next 10–15 minutes.",
+      "message_ar": "تم تطبيق تحسين معلمات الحركة على NR-SBR-201-A: انحياز تسليم أبكر إلى أفضل ثلاثة جيران وزيادة طفيفة في تحمل فشل الرابط. تم اعتماد التغييرات بدون أخطاء أو إنذارات. يرجى متابعة مؤشرات الأداء الحية خلال 10–15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: drop events are decreasing and HO success up ~3% over the last 15 minutes; BLER stable; no user complaints reported.",
+      "message_ar": "ملاحظة أولية: أحداث الانقطاع في انخفاض ونسبة نجاح التسليم ارتفعت ~3% خلال آخر 15 دقيقة؛ BLER مستقر؛ لا شكاوى مستخدمين مُبلّغ عنها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Instant KPIs show RLF density about halved vs. pre-change and access procedures normal. I will continue close observation as traffic builds.",
+      "message_ar": "تم. مؤشرات الأداء اللحظية تظهر انخفاض كثافة RLF إلى نحو النصف مقارنة بما قبل التغيير وإجراءات الوصول طبيعية. سأواصل المتابعة الدقيقة مع ازدياد الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: radio link failures trending down and handover failures easing. Action taken was mobility parameter tuning on NR-SBR-201-A. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: فشل رابط الراديو يتجه للانخفاض وإخفاقات التسليم في تراجع. الإجراء المتخذ كان تحسين معلمات الحركة على NR-SBR-201-A. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and provide an update afterward. If regressions appear, we will roll back the change and escalate to field for on-site interference checks; otherwise we keep the optimization.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونقدم تحديثاً بعد ذلك. إذا ظهرت انتكاسات سنعيد التغيير ونصعّد إلى الفريق الميداني لفحوصات التداخل في الموقع؛ وإلا سنُبقي على التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SBR-201-A",
+        "last 3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SBR-201-A",
+        "RLF",
+        "last 3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility thresholds and RLF timer tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a shoulder-period RLF spike on a suburban NR macro by pulling OSS counters and confirming via an RLF time series that peaks coincided with signal quality dips and late inter-cell transfers. Mitigated by site parameter tuning of mobility thresholds and radio link failure tolerance. Post-change checks showed reduced RLFs and improved handovers, with continued monitoring through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع RLF خلال فترة الكتف على خلية NR ماكرو شبه حضرية عبر سحب مؤشرات الإدارة والتأكد بتحليل زمني أن القمم تزامنت مع تدهور جودة الإشارة وانتقالات بين خلايا متأخرة. تم التخفيف عبر ضبط معلمات الموقع الخاصة بالحركة وزيادة تحمل فشل الرابط. أظهرت فحوصات ما بعد التغيير انخفاضاً في RLF وتحسناً في التسليم، مع الاستمرار في المراقبة خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0017",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell has a congestion alarm with slow data and interference/signal overlap over the last 8 hours; PCI is 346 with 32 overlapping neighbors, SINR ~0 dB and HO success ~82%.",
+    "ar": "خلية NR ماكرو حضرية لديها إنذار ازدحام مع بطء البيانات وتداخل/تراكب الإشارة خلال آخر 8 ساعات؛ PCI يساوي 346 مع 32 جاراً متداخلين، وSINR حوالي 0 dB ونسبة نجاح التسليم ~82%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration on an urban NR macro, users on cell NR-UGB-123-1 report slow data and unstable mobility; congestion alarm active. SINR ~0 dB, median DL ~6 Mbps, HO failures and ping-pong up over the last 8h (eMBB with streaming).",
+      "message_ar": "بعد دمج جار جديد على موقع NR ماكرو حضري، يبلّغ المستخدمون على الخلية NR-UGB-123-1 عن بطء بيانات وعدم استقرار في التنقل؛ إنذار الازدحام نشط. SINR حوالي 0 dB، الوسيط للتحميل ~6 Mbps، فشل التسليم والبينغ-بونغ مرتفعان خلال آخر 8 ساعات (eMBB مع بث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Likely PCI conflict causing interference and HO issues. I will run a neighbor/PCI audit on NR-UGB-123-1 over the last 8h to confirm; please approve access.",
+      "message_ar": "من المحتمل وجود تعارض PCI يسبب التداخل ومشاكل التسليم. سأجري تدقيق الجيران/PCI على NR-UGB-123-1 لآخر 8 ساعات للتأكيد؛ يرجى اعتماد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-UGB-123-1; no window restrictions. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-UGB-123-1؛ لا قيود على النافذة. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit result: our sector uses PCI 346 and an adjacent newly integrated sector is also broadcasting PCI 346; 32 overlapping neighbor relations align with the observed HO failures. I propose reassigning our PCI to a non-conflicting value from the cluster plan with minimal impact (<1s). Approve the parameter change?",
+      "message_ar": "نتيجة التدقيق: قطاعنا يستخدم PCI 346 وقطاع مجاور مدمج حديثاً يبث أيضاً PCI 346؛ يوجد 32 تداخلاً في علاقات الجوار بما يتماشى مع فشل التسليم الملحوظ. أقترح إعادة تعيين PCI لقيمة غير متعارضة وفق مخطط العنقود مع تأثير طفيف (<1 ثانية). هل توافق على تغيير المعلمة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to reassign PCI on NR-UGB-123-1. Proceed.",
+      "message_ar": "موافق على إعادة تعيين PCI على NR-UGB-123-1. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI reallocation now: changing NR-UGB-123-1 from 346 to 503 and updating neighbor relations. Change applied successfully; starting quick health checks (alarms, mobility, interference) for the next 10 minutes.",
+      "message_ar": "أقوم الآن بإعادة تخصيص PCI: تغيير NR-UGB-123-1 من 346 إلى 503 وتحديث علاقات الجوار. تم تطبيق التغيير بنجاح؛ أبدأ فحوصات صحة سريعة (إنذارات، تنقل، تداخل) خلال الدقائق العشر القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Immediate checks look clean: no new alarms; early stats show ping-pong easing and RSRQ improving toward -8 dB.",
+      "message_ar": "الفحوصات الفورية نظيفة: لا إنذارات جديدة؛ الإحصاءات المبكرة تظهر انخفاض البينغ-بونغ وتحسن RSRQ نحو -8 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Documenting the change for traceability and post-checks: created DU-PCI-04127 covering the PCI reassignment and neighbor updates.",
+      "message_ar": "توثيق التغيير لأغراض التتبع وفحوصات ما بعد التنفيذ: تم إنشاء DU-PCI-04127 يتضمن إعادة تعيين PCI وتحديثات الجوار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early counters show HO success improving from ~82% to ~86%, and median user throughput trending from 6 to about 7–8 Mbps; traffic remains eMBB with streaming.",
+      "message_ar": "المؤشرات المبكرة تُظهر تحسن نسبة نجاح التسليم من ~82% إلى ~86%، والوسيط لسرعة المستخدم يرتفع من 6 إلى نحو 7–8 Mbps؛ ما زال المزيج eMBB مع بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I will keep validating interference metrics (SINR, RSRQ) and mobility events as the cell stabilizes; please confirm your preferred observation window.",
+      "message_ar": "اتجاه جيد. سأواصل التحقق من مقاييس التداخل (SINR، RSRQ) وأحداث التنقل أثناء استقرار الخلية؛ يرجى تأكيد نافذة المراقبة المرغوبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: signal overlap reduced and handover failures trending down. Action taken: PCI reassignment on NR-UGB-123-1 via parameter tuning; let's monitor through the next busy hour. We'll track via DU-PCI-04127.",
+      "message_ar": "تمت ملاحظة تحسن: تقلص تراكب الإشارة وانخفاض فشل التسليم. الإجراء المتخذ: إعادة تعيين PCI على NR-UGB-123-1 عبر ضبط المعلمات؛ لنتابع المراقبة خلال ساعة الذروة التالية. سنتابع عبر DU-PCI-04127."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and update DU-PCI-04127 afterward with KPI deltas. If issues reappear, we will roll back the PCI change and escalate to RF planning and field teams for on-site checks.",
+      "message_ar": "تم الاستلام—سنتولى المراقبة خلال ساعة الذروة التالية وسنحدّث DU-PCI-04127 بعدها بفروقات مؤشرات الأداء. إذا عادت المشكلات، سنقوم بإرجاع تغيير PCI وتصعيد الأمر إلى تخطيط الترددات والفريق الميداني لفحوصات ميدانية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a PCI collision after integration: the target sector (PCI 346) matched a nearby sector, driving interference and mobility errors. We resolved it by site parameter tuning, reassigning the cell PCI to a non-conflicting value and updating relations, then recorded the change for traceability. Early KPIs improved (higher HO success, better RSRQ/throughput) and we will monitor through the next busy hour.",
+    "ar": "أكد تدقيق الجيران وجود اصطدام PCI بعد الدمج: القطاع المستهدف (PCI 346) يطابق قطاعاً مجاوراً، ما سبب تداخلاً وأخطاء في التنقل. تم الحل عبر ضبط معلمات الموقع بإعادة تعيين PCI لقيمة غير متعارضة وتحديث العلاقات، مع توثيق التغيير لأغراض التتبع. ظهرت تحسينات مبكرة في المؤشرات (ارتفاع نجاح التسليم وتحسن RSRQ/السرعة) وسيتم المراقبة خلال ساعة الذروة التالية."
+  }
+}

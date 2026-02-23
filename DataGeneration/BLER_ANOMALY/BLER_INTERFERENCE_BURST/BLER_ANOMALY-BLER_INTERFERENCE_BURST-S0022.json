@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0022",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell shows elevated BLER (~15%), high load (~80% resource use), and moderate radio quality (SINR ~7 dB, RSRQ ~-13 dB) over the last 2 hours; a congestion alarm is active.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر BLER مرتفعًا (~15%)، وحملًا عاليًا (~80% من الموارد)، وجودة راديو متوسطة (SINR ~7 dB، RSRQ ~-13 dB) خلال آخر ساعتين؛ يوجد إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell showing elevated BLER ~15% over the last 2h shoulder window; 121 users with eMBB (streaming) traffic, p50 DL throughput ~18 Mbps. Congestion alarm currently active.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية تُظهر BLER مرتفعًا (~15%) خلال آخر ساعتين (فترة متوسطة)، مع 121 مستخدمًا وحركة eMBB (بث). يوجد إنذار ازدحام نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Please confirm OSS read access for this cell and share the cell ID; I will pull the last 2h stats to assess load, radio quality, and error trends.",
+      "message_ar": "تم الاستلام. يرجى تأكيد صلاحية القراءة من OSS لهذه الخلية وتزويدي بمعرّف الخلية؛ سأجلب إحصاءات آخر ساعتين لتقييم الحمل وجودة الراديو واتجاهات الأخطاء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID: NR-Suburb-311-662-CellA. Window: last 2 hours.",
+      "message_ar": "تمت الموافقة على الوصول. معرّف الخلية: NR-Suburb-311-662-CellA. النافذة: آخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS KPIs now. Snapshot shows RSRP ~ -101 dBm, RSRQ ~ -13 dB, SINR median ~7 dB; PRB utilization avg 80% (peaks ~92%); BLER avg 15–16% with short spikes; neighbor load ~68%. This points to bursty interference under high load. Next, I'll chart BLER over the 2h window to correlate with load and retransmissions.",
+      "message_ar": "أقوم بجلب مؤشرات الأداء من OSS الآن. الملخص: RSRP نحو -101 dBm، وRSRQ نحو -13 dB، وSINR وسطي ~7 dB؛ استغلال PRB بمتوسط 80% (قمم ~92%)؛ BLER بمتوسط 15–16% مع ارتفاعات قصيرة؛ حمل الجيران ~68%. يشير ذلك إلى تداخل متقطع مع الحمل المرتفع. بعد ذلك سأرسم BLER خلال نافذة الساعتين لربطه بالحمل وإعادة الإرسال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series confirms burst patterns: 30–60s spikes up to ~28% aligning with PRB >85%, SINR dips to ~5–6 dB, and HARQ retransmissions rising. Mitigation proposal: apply a modest downlink robustness profile—slightly lower MCS aggressiveness under load, a small PDSCH power boost within limits, and cap sustained PRB at ~95% to avoid saturation. Approve to implement?",
+      "message_ar": "سلسلة BLER الزمنية تؤكد نمط الارتفاعات: زيادات 30–60 ثانية تصل إلى ~28% وتتزامن مع PRB >85%، وانخفاضات SINR إلى ~5–6 dB، وارتفاع إعادة الإرسال. المقترح: تطبيق ملف مرونة بسيط للوصلة الهابطة—تقليل طفيف لاندفاعية MCS عند الحمل، وزيادة طفيفة لطاقة PDSCH ضمن الحدود، ووضع حد للاستخدام المستمر للـPRB عند ~95% لتفادي التشبع. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing the optimization to NR-Suburb-311-662-CellA now: applied conservative link adaptation under high load, minor DL power boost, and PRB headroom guard. Change committed without errors. Let's observe for 15 minutes.",
+      "message_ar": "أقوم بتطبيق التحسين على NR-Suburb-311-662-CellA الآن: تكييف ربط محافظ عند الحمل المرتفع، زيادة طفيفة في طاقة الوصلة الهابطة، وحماية بهامش PRB. تم اعتماد التغيير دون أخطاء. دعنا نراقب لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 min: BLER average down to ~9–10%, spikes capped ~14%; p50 DL throughput up to ~21–22 Mbps; radio quality slightly steadier.",
+      "message_ar": "بعد 15 دقيقة: انخفض متوسط BLER إلى ~9–10%، والقمم حدها ~14%؛ ارتفع الوسيط للسرعة الهابطة إلى ~21–22 Mbps؛ واستقرار جودة الراديو أصبح أفضل قليلًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. If acceptable, we'll track trends through the next busy hour and reassess; ready to roll back if any regressions are seen.",
+      "message_ar": "تحسّن جيد. إذا كان مناسبًا، سنتابع الاتجاهات خلال ساعة الذروة القادمة ونعيد التقييم؛ ومستعدون للتراجع إذا ظهرت أي تراجعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed—BLER spikes are trending down and retransmissions reduced after the site parameter tuning. Please monitor over the next 2–4 hours and during the next busy hour to confirm stability.",
+      "message_ar": "متفق—ارتفاعات BLER في اتجاه هبوطي وانخفضت عمليات إعادة الإرسال بعد ضبط معلمات الموقع. يرجى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وخلال ساعة الذروة القادمة للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the monitoring over the next 2–4 hours and the next busy hour and report back with a trend summary. If BLER or errors regress, we will roll back the last change and escalate for deeper interference analysis with neighbor coordination.",
+      "message_ar": "سنقوم نحن بعملية المراقبة خلال الساعتين إلى الأربع ساعات القادمة وخلال ساعة الذروة التالية وسنزودكم بملخص الاتجاهات. إذا تدهور BLER أو الأخطاء، سنرجع التعديل الأخير ونصعّد لتحليل التداخل بشكل أعمق مع تنسيق الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed bursty BLER under high load on a suburban NR macro by reviewing OSS KPIs and confirming with a BLER time series correlation to PRB utilization and slight SINR dips. Mitigated via site parameter tuning: more conservative downlink link adaptation under load, a small power boost, and PRB headroom guard. Post-change, BLER and retransmissions decreased and median throughput improved; we will continue monitoring to ensure stability.",
+    "ar": "تم تشخيص BLER متقطع تحت حمل مرتفع على خلية NR ماكرو في الضواحي من خلال مراجعة مؤشرات OSS وتأكيد ذلك بسلسلة زمنية لـ BLER مرتبطة باستغلال PRB وانخفاضات طفيفة في SINR. تمت المعالجة عبر ضبط معلمات الموقع: تكييف ربط أكثر تحفظًا عند الحمل، زيادة طاقة بسيطة، وحماية بهامش للـPRB. بعد التعديل انخفض BLER وانخفضت عمليات إعادة الإرسال وتحسّن الوسيط للسرعة؛ سنواصل المراقبة لضمان الاستقرار."
+  }
+}

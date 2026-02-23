@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0009",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows peak-hour backhaul congestion (alarm active) over the last 3h with 88% utilization, 84 ms latency, ~1% packet loss, 12 ms jitter, 74% queue occupancy, PRB ~72%, 384 users, and ~11 Mbps downlink amid FWA-heavy traffic.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تُظهر ازدحامًا في الواجهة الخلفية خلال ساعة الذروة (تنبيه الازدحام نشط) خلال آخر 3 ساعات مع إشغال 88% وكمون 84 مللي ثانية وفقدان ~1% وتذبذب 12 مللي ثانية وامتلاء طوابير 74%، وإشغال PRB ~72%، و384 مستخدمًا ومعدل تحميل ~11 Mbps مع حركة FWA كثيفة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour complaints on the urban NR macro. Past 3h the congestion alarm is active. FWA-heavy load. KPIs: backhaul util 88%, latency 84 ms, ~1% loss, 12 ms jitter; PRB ~72%, DL ~11 Mbps over 384 users.",
+      "message_ar": "شكاوى ساعة الذروة على خلية NR ماكرو في منطقة حضرية؛ خلال آخر 3 ساعات تنبيه الازدحام نشط. الحمل يغلب عليه FWA. المؤشرات: إشغال الواجهة الخلفية 88%، الكمون 84 مللي ثانية، فقدان ~1%، تذبذب 12 مللي ثانية؛ إشغال PRB حوالي 72%، ومعدل التحميل ~11 Mbps عبر 384 مستخدمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead triage. First step: check OSS counters for the last 3h on the affected cell. Please share the cell ID and confirm read access.",
+      "message_ar": "سأتولى التشخيص. الخطوة الأولى: التحقق من عدادات نظام الإدارة لآخر 3 ساعات على الخلية المتأثرة. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is 5G-URB-145. Read-only access for the last 3h is approved.",
+      "message_ar": "المعرّف هو 5G-URB-145. صلاحية القراءة لآخر 3 ساعات مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS query complete: backhaul utilization sustained 80–92% with latency 70–95 ms and packet loss 0.9–1.2%. PRB ~72% and SINR ~7 dB indicate radio is not the bottleneck. This points to peak-time backhaul congestion. Next, I propose conservative cell-side traffic shaping and queue tuning to reduce bufferbloat for FWA. Approve?",
+      "message_ar": "تم الاستعلام من نظام الإدارة: إشغال الواجهة الخلفية مستمر بين 80–92% مع كمون 70–95 مللي ثانية وفقدان 0.9–1.2%. إشغال PRB ~72% وSINR ~7 dB يشيران إلى أن الواجهة الراديوية ليست عنق الزجاجة. هذا يدل على ازدحام الواجهة الخلفية في الذروة. أقترح تطبيق تشكيل حركة محافظ وضبط الطوابير لتقليل تضخم المخازن مع FWA. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization on 5G-URB-145.",
+      "message_ar": "الموافقة مُنحت لتطبيق التحسين على 5G-URB-145."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing tuning now: prioritize latency-sensitive flows, temper burstiness from bulk FWA, and reduce egress buffer thresholds. Change is reversible. I will validate immediately after.",
+      "message_ar": "أقوم الآن بضبط المعلمات: إعطاء أولوية للتدفقات الحساسة للكمون، تقليل اندفاعية حِمل FWA، وخفض عتبات المخزن الصادر. التغيير قابل للرجوع. سأتحقق فورًا بعده."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change snapshot shows latency ~52 ms, jitter ~8 ms, loss ~0.4%; DL throughput stable; no PRB strain.",
+      "message_ar": "بعد التغيير: الكمون ~52 مللي ثانية، التذبذب ~8 مللي ثانية، الفقد ~0.4%؛ معدل التحميل ثابت؛ دون ضغط إضافي على PRB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. Because peak backhaul still trends above 85%, I will open a capacity/transport follow-up ticket to track augmentation and attach before/after evidence. We’ll keep the optimization active.",
+      "message_ar": "تحسن جيد. وبما أن الذروة ما زالت تتجاوز 85% على الواجهة الخلفية، سأفتح تذكرة متابعة للقدرة/النقل لتتبع التوسعة وإرفاق أدلة قبل/بعد. سنبقي التحسين مُفعّلًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Customer probes report fewer video stalls for FWA users now.",
+      "message_ar": "قياسات العملاء تُظهر انخفاض توقفات الفيديو لدى مستخدمي FWA الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Current 10-minute trend: latency holding <60 ms, loss <0.5%, and queue occupancy <55%. I will continue to watch the next busy cycle.",
+      "message_ar": "اتجاه آخر 10 دقائق: الكمون أقل من 60 مللي ثانية، الفقد أقل من 0.5%، وامتلاء الطوابير أقل من 55%. سأواصل المراقبة خلال دورة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: latency trending around 50–60 ms and packet loss under 0.5%. Let’s monitor through the next busy hour (next 2–3 hours) after the site parameter tuning; please track via DU-BH-04192.",
+      "message_ar": "تم تأكيد التحسن: الكمون بحدود 50–60 مللي ثانية والفقد دون 0.5%. لنراقب خلال ساعة الذروة التالية (2–3 ساعات) بعد ضبط معلمات الخلية؛ يرجى المتابعة عبر DU-BH-04192."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own monitoring for the next busy hour and update the ticket after the window. If latency spikes again, we will escalate to the transport team for capacity action; if adverse effects appear, we will roll back the tuning.",
+      "message_ar": "تم الاستلام؛ سنتولى المراقبة خلال ساعة الذروة التالية ونحدّث التذكرة بعد انتهاء النافذة. إذا ارتفع الكمون مجددًا، سنصعّد إلى فريق النقل لاتخاذ إجراءات قدرة؛ وإذا ظهرت آثار سلبية سنرجع التعديلات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Backhaul degradation was confirmed during peak hours on the urban NR macro via OSS, showing high utilization with elevated latency and packet loss while radio load was moderate. The agent applied site parameter tuning to prioritize latency and reduce bufferbloat for FWA traffic, then created a capacity follow-up ticket for transport augmentation. Monitoring will continue through the next busy hour to ensure stability.",
+    "ar": "تم تأكيد تدهور الواجهة الخلفية خلال ساعات الذروة على خلية NR حضرية عبر نظام الإدارة، مع إشغال مرتفع وارتفاع في الكمون وفقدان الحزم بينما كان حمل الراديو متوسطًا. قام الوكيل بضبط معلمات الخلية لإعطاء أولوية للكمون وتقليل تضخم المخازن لحركة FWA، ثم أنشأ تذكرة متابعة للقدرة لتوسعة النقل. ستستمر المراقبة خلال ساعة الذروة التالية لضمان الاستقرار."
+  }
+}

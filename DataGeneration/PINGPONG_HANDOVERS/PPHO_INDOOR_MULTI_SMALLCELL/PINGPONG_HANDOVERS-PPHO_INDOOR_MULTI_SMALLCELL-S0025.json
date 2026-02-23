@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0025",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office 5G micro site shows high ping‑pong handovers over the last 3h during peak, impacting eMBB streaming stability.",
+    "ar": "موقع 5G صغير داخلي يُظهر تنقلات ذهاب‑إياب مرتفعة خلال آخر 3 ساعات وقت الذروة، ما يؤثر على استقرار بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor office 5G micro cell cluster shows frequent ping‑pong over the last 3h during peak; HO success ~81%, failures ~16%, ping‑pong ~30%, RSRP about -104 dBm and SINR ~6 dB. eMBB streaming users report jitter.",
+      "message_ar": "مجموعة خلايا 5G صغيرة داخلية تُظهر تنقلات ذهاب‑إياب متكررة خلال آخر 3 ساعات وقت الذروة؛ نجاح التسليم ~81%، فشل ~16%، معدل الذهاب‑الإياب ~30%، RSRP نحو ‎-104 dBm و SINR ~6 dB. مستخدمو eMBB (بث) يشتكون من تقطّع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling 3h counters for the primary impacted cell to verify bounce pairs and current mobility thresholds; please share the cell ID and confirm access.",
+      "message_ar": "تم. سأبدأ بسحب عدادات آخر 3 ساعات للخلية المتأثرة للتحقق من أزواج الجيران والعتبات الحالية للتنقّل؛ رجاء مشاركة معرّف الخلية وتأكيد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-IND-MICRO-17-SC2; access approved.",
+      "message_ar": "معرّف الخلية هو NR-IND-MICRO-17-SC2؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NR-IND-MICRO-17-SC2 (3h window). Findings: HO attempts ~130 per 5 min at peak; ping‑pong dominated by SC2⇄SC3/SC1; current A3 offset 2 dB, TTT 113 ms, hysteresis 4 dB; PRB ~56%, no alarms; radio levels low (RSRP ~‑104 dBm, SINR ~6 dB). Next, I will analyze HO time series to quantify rapid returns.",
+      "message_ar": "تم سحب العدادات لـ NR-IND-MICRO-17-SC2 (نافذة 3 ساعات). النتائج: محاولات التسليم ~130 كل 5 دقائق عند الذروة؛ الذهاب‑الإياب يهيمن بين SC2⇄SC3/SC1؛ القيم الحالية: A3‎ 2 dB، TTT‏ 113 ms، hysteresis‏ 4 dB؛ إشغال PRB ~56%، لا إنذارات؛ مستويات الراديو منخفضة (RSRP ~‑104 dBm، SINR ~6 dB). الخطوة التالية: سأحلّل السلاسل الزمنية للتسليم لقياس العودات السريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Site context: open‑plan office aisle with users moving between pods; no recent changes on this indoor small site.",
+      "message_ar": "سياق الموقع: ممر مكتب مفتوح مع انتقال المستخدمين بين مجموعات المكاتب؛ لا تغييرات حديثة في هذا الموقع الداخلي الصغير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding to extract HO time series over the same 3h to isolate SC2↔SC3 oscillations and event patterns; please confirm to proceed.",
+      "message_ar": "سأستخرج السلاسل الزمنية للتسليم خلال نفس 3 ساعات لعزل تذبذبات SC2↔SC3 وأنماط الأحداث؛ يرجى التأكيد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "مؤكد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows recurring bursts every 10–12 minutes during peak, with SC2↔SC3 contributing ~68% of returns within 60 s; short dwell before return indicates permissive thresholds. I recommend targeted mobility tuning: raise TTT to 160 ms, increase hysteresis to 5 dB, and lift A3 offset to 3 dB for the SC2 cluster. Safe to apply now?",
+      "message_ar": "تُظهر السلاسل الزمنية اندفاعات متكررة كل 10–12 دقيقة وقت الذروة، مع مساهمة SC2↔SC3 بحوالي 68% من العودات خلال 60 ثانية؛ مدة مكوث قصيرة تشير إلى عتبات متساهلة. أوصي بضبط تنقّل مستهدف: رفع TTT إلى 160 ms، زيادة hysteresis إلى 5 dB، ورفع A3 إلى 3 dB لمجموعة SC2. هل يمكن التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply now.",
+      "message_ar": "موافق على التطبيق الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on SC2 cluster: TTT 113→160 ms, hysteresis 4→5 dB, A3 offset 2→3 dB, neighbor list unchanged. Change committed; initial counters are stabilizing. Please observe immediate impact.",
+      "message_ar": "تم تطبيق التحسين على مجموعة SC2: TTT 113→160 ms، hysteresis 4→5 dB، و A3 2→3 dB مع إبقاء قائمة الجيران دون تغيير. تم اعتماد التغيير؛ العدادات الأولية بدأت بالاستقرار. يرجى متابعة الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: rapid back‑and‑forth handovers are dropping with fewer short‑stay returns; the mobility parameter tuning looks effective. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسناً: انخفاض التنقلات ذهاباً وإياباً مع قلة العودات القصيرة؛ يبدو أن ضبط معلمات التنقّل فعّال. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and report the ping‑pong rate, return‑within‑60s ratio, and HO success. If degradation recurs, we will roll back the last parameter changes; if issues persist without regression, we will escalate to a deeper neighbor and beam review.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونقدّم تقريراً بمعدل الذهاب‑الإياب، ونسبة العودة خلال 60 ثانية، ونجاح التسليم. إذا ظهرت تراجعات سنعيد القيم السابقة؛ وإن استمرت المشكلة دون تدهور، سنصعّد بمراجعة أعمق للجيران والحيّز الشعاعي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-IND-MICRO-17-SC2",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-IND-MICRO-17-SC2",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TTT=160ms;HYST=5dB;A3=3dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed indoor ping‑pong handovers by reviewing recent counters and HO time series, revealing SC2↔SC3 rapid returns driven by permissive mobility thresholds under peak movement. Mitigated by site parameter tuning on the SC2 cluster (increasing TTT and hysteresis, and raising A3 offset). Post‑change indicators show fewer short‑stay returns; continue monitoring through the next busy hour.",
+    "ar": "تم تشخيص تنقلات الذهاب‑الإياب الداخلية عبر مراجعة العدادات الحديثة والسلاسل الزمنية للتسليم، ما كشف عن عودات سريعة بين SC2↔SC3 ناتجة عن عتبات تنقّل متساهلة أثناء الذروة. تم التخفيف عبر ضبط معلمات الموقع في مجموعة SC2 (رفع TTT و hysteresis ورفع إزاحة A3). المؤشرات بعد التغيير تُظهر عودات قصيرة أقل؛ ستستمر المتابعة خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_INDOOR_MALL-S0013",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_INDOOR_MALL",
+  "query": {
+    "en": "Indoor mall NR micro cell shows PRB ~92% over 3h with 370 users and slow data; congestion alarm active during peak evening eMBB traffic.",
+    "ar": "خلية 5G داخلية في المول تسجل استخدام موارد ~92% خلال 3 ساعات مع 370 مستخدماً وبطء في البيانات؛ إنذار ازدحام مفعّل أثناء ذروة المساء لحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Evening congestion alarm on the indoor mall NR micro cell—about 370 users, slow data and high scheduling delay observed.",
+      "message_ar": "إنذار ازدحام مسائي على خلية 5G داخلية في المول (ميكرو)—حوالي 370 مستخدماً، بيانات بطيئة وتأخير جدولة مرتفع."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first verify live performance for the last 3 hours to confirm PRB loading and latency; please share the exact cell ID and approve access.",
+      "message_ar": "سأبدأ بالتحقق من الأداء لآخر 3 ساعات لتأكيد تحميل الموارد والزمن؛ الرجاء تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_MALL_MICRO_03, access approved for 3h lookback.",
+      "message_ar": "معرّف الخلية: NR_MALL_MICRO_03، تمت الموافقة على الوصول بنافذة مراجعة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check confirms sustained PRB >90% over 3h on this indoor micro cell; p95 scheduling delay ~62 ms, DL median ~8 Mbps, users peaked ~390; BLER ~5%. Neighbor load is moderate.",
+      "message_ar": "يفيد فحص النظام باستمرار استخدام الموارد فوق 90% خلال 3 ساعات على هذه الخلية الداخلية الصغيرة؛ تأخير الجدولة p95 ≈62 مللي ثانية، وسيط التنزيل ≈8 ميجابت/ث، وذروة المستخدمين ~390؛ BLER ≈5%. حمل الجوار متوسط."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate congestion for eMBB, I will tune parameters: increase proportional-fair weights for short flows, enable eMBB congestion control, and apply a conservative per-UE PRB cap. No service interruption expected—confirm to proceed.",
+      "message_ar": "لتخفيف الازدحام لحركة eMBB، سأضبط المعلمات: زيادة أوزان التناسب العادل للتدفقات القصيرة، تفعيل ضبط الازدحام لـ eMBB، وتطبيق حد محافظ لموارد PRB لكل مستخدم. لا يُتوقع انقطاع خدمة—يرجى التأكيد للمضي قدماً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the parameter tuning.",
+      "message_ar": "موافق على المضي بضبط المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: scheduler fairness weights adjusted, eMBB congestion control enabled, per-UE PRB cap tightened. Commit successful.",
+      "message_ar": "تم التنفيذ: تعديل أوزان عدالة المجدول، تفعيل ضبط الازدحام لـ eMBB، وتشديد حد PRB لكل مستخدم. تم اعتماد التغيير بنجاح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early impact (5–10 min): PRB down to ~82%, DL median up to ~11–12 Mbps, latency tail easing; BLER stable. Please confirm from the floor.",
+      "message_ar": "الأثر الأولي (5–10 دقائق): انخفاض استخدام الموارد إلى ~82%، ارتفاع وسيط التنزيل إلى ~11–12 ميجابت/ث، تراجع ذيل التأخير؛ BLER مستقر. يرجى التأكيد من الموقع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "On-site feedback: fewer stalls on video streams and faster page loads; still busy but usable.",
+      "message_ar": "ملاحظة ميدانية: تجمد أقل في البث وصفحات أسرع؛ ما زال مزدحماً لكنه قابل للاستخدام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Background tracking for post-change metrics is active; I will continue close watch and prepare a concise report.",
+      "message_ar": "تم تفعيل تتبع خلفي لمؤشرات ما بعد التغيير؛ سأواصل المراقبة عن كثب وأعد تقريراً موجزاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good improvement—median download now above 10 Mbps. Your site parameter tuning helped; let’s monitor through the next busy hour. Refer to DU-PRB-10421.",
+      "message_ar": "تحسن جيد—التحميل المتوسط الآن فوق 10 ميجابت/ث. ضبط معلمات الموقع أفاد؛ لنتابع المراقبة خلال ساعة الذروة القادمة. المرجع DU-PRB-10421."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy hour and update the ticket afterward with PRB, throughput, and latency deltas. If congestion resurges, we will escalate to add capacity options; if side effects appear, we will roll back the tuning.",
+      "message_ar": "تم—سنتولى ساعة الذروة القادمة وسنحدّث التذكرة بعدها ببيانات PRB ومعدل النقل والزمن. إذا عاد الازدحام سنصعّد لخيارات زيادة السعة؛ وإن ظهرت آثار جانبية فسنرجع الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_MALL_MICRO_03",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness+eMBB_congestion_control+perUE_PRB_cap"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Indoor mall micro: sustained high PRB and slow data at peak; applied scheduler/QoS tuning; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained high resource usage on the indoor mall 5G micro cell during peak evening, leading to slow data and elevated scheduling latency. Reviewed recent performance, then applied site parameter tuning to relieve congestion by adjusting scheduler fairness, enabling eMBB congestion control, and tightening per-UE PRB allocation; a tracking record was opened for follow-up.",
+    "ar": "تم تشخيص استخدام مرتفع ومستمر للموارد على خلية 5G داخلية في المول خلال ذروة المساء مما أدى إلى بطء البيانات وارتفاع تأخير الجدولة. بعد مراجعة الأداء الحديث، تم تنفيذ ضبط معلمات الموقع لتخفيف الازدحام عبر تعديل عدالة المجدول وتفعيل ضبط الازدحام لـ eMBB وتشديد تخصيص PRB لكل مستخدم؛ وتم فتح سجل متابعة للمراقبة."
+  }
+}

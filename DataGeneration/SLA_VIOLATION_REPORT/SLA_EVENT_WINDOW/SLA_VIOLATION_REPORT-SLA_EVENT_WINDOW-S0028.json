@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0028",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium 5G NR micro site over the last 6h shows a congestion alarm with QoS index ~0.27 vs 0.99 target, latency ~118 ms, PRB ~94%, ~873 users, and median downlink ~8 Mbps (slow data).",
+    "ar": "موقع 5G NR ميكرو في الاستاد خلال آخر 6 ساعات لديه إنذار ازدحام مع مؤشر جودة خدمة ~0.27 مقابل هدف 0.99، وزمن تأخير ~118 مللي ثانية، وإشغال موارد ~94%، وحوالي 873 مستخدمًا، ومعدل تنزيل وسطي ~8 ميجابت/ث (بيانات بطيئة)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium micro 5G site in event over the last 6h shows service degradation: ~873 users, PRB ~94%, latency ~118 ms, median downlink ~8 Mbps (slow data). Please assess.",
+      "message_ar": "موقع 5G ميكرو في الاستاد خلال آخر 6 ساعات وفي أثناء الحدث يظهر تدهورًا في الخدمة: نحو 873 مستخدمًا، إشغال الموارد ~94%، زمن التأخير ~118 مللي ثانية، والتنزيل الوسطي ~8 ميجابت/ث (بيانات بطيئة). الرجاء التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Plan: 1) run a health check on the affected micro cell for the past 6h, 2) analyze QoS time series to quantify the breach, 3) file an SLA violation report for coordination. Approve access to proceed?",
+      "message_ar": "تم الاستلام. الخطة: 1) فحص الحالة للخلية الميكرو المتأثرة لآخر 6 ساعات، 2) تحليل السلسلة الزمنية لجودة الخدمة لتحديد حجم الخرق، 3) رفع تقرير خرق لاتفاقية مستوى الخدمة للتنسيق. هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. The impacted sector is the stadium NR micro layer; neighboring macros look normal.",
+      "message_ar": "موافَق. القطاع المتأثر هو طبقة الميكرو NR في الاستاد؛ الخلايا الماكرو المجاورة تبدو طبيعية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Health check over the last 6h completed: no hardware or backhaul faults; load very high (PRB ~94%), BLER ~7%, latency ~118 ms, p50 downlink ~8 Mbps. Proceeding to pull the QoS trend next.",
+      "message_ar": "اكتمل فحص الحالة لآخر 6 ساعات: لا أعطال عتادية أو في الربط الخلفي؛ الحمل مرتفع جدًا (إشغال الموارد ~94%)، معدل أخطاء الكتل ~7%، زمن التأخير ~118 مللي ثانية، والتنزيل الوسطي ~8 ميجابت/ث. سأنتقل لاستخراج منحنى جودة الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Go ahead.",
+      "message_ar": "مفهوم. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series for the 6h window shows index ~0.27 versus target ~0.99 with about 33% of intervals breaching, aligned with in-event peaks and eMBB streaming. Root cause: capacity saturation on the micro layer.",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة خلال نافذة 6 ساعات تُظهر مؤشرًا ≈0.27 مقابل هدف ≈0.99 مع نحو 33% من الفواصل متجاوزة للحد، ويتطابق ذلك مع ذروة الحدث وبث eMBB. السبب الجذري: تشبّع السعة في طبقة الميكرو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted.",
+      "message_ar": "تمت الملاحظة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating an SLA violation ticket with analysis and requesting temporary capacity relief via coordination. Ticket raised: DU-SLA-01238.",
+      "message_ar": "أقوم بإنشاء تذكرة خرق لاتفاقية مستوى الخدمة مرفقة بالتحليل وطلب تخفيف مؤقت للحمل عبر التنسيق. تم فتح التذكرة: DU-SLA-01238."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Crowd remains dense; complaints about slow data continue.",
+      "message_ar": "الكثافة ما زالت عالية؛ الشكاوى بشأن بطء البيانات مستمرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will keep watching load, latency, and user experience during the ongoing event and look for relief effects as traffic shifts.",
+      "message_ar": "سأواصل مراقبة الحمل والزمن وجودة التجربة أثناء الحدث الجاري والبحث عن أي تحسن مع تغير الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing a slight improvement now—median downlink a bit higher and slow data complaints easing. Action taken: QoS trend analysis and SLA ticket creation. Let's monitor through the next busy hour; we will track via DU-SLA-01238.",
+      "message_ar": "نلاحظ تحسنًا طفيفًا الآن—ازداد الوسيط للتنزيل قليلًا وتراجعت شكاوى بطء البيانات. الإجراء المتخذ: تحليل منحنى جودة الخدمة وإنشاء تذكرة خرق SLA. لنتابع خلال ساعة الذروة القادمة؛ سنتابع عبر DU-SLA-01238."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we own the next busy-hour monitoring and will update the ticket after the window. If KPIs worsen, we will escalate for temporary capacity measures; if conditions stabilize, no rollback is needed since no parameters were changed and we will move to closure after confirmation.",
+      "message_ar": "تم—سنتولى متابعة ساعة الذروة القادمة ونقوم بتحديث التذكرة بعد انتهاء النافذة. إذا ساءت مؤشرات الأداء فسنصعّد لطلب إجراءات سعة مؤقتة؛ وإذا استقرت الحالة فلا حاجة للتراجع لأننا لم نغيّر أي إعدادات، وسنتجه للإغلاق بعد التأكيد."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event window, the micro NR cell showed capacity saturation: very high resource utilization, elevated latency, and low median downlink, resulting in a depressed QoS index and 33% breach intervals. We performed a health check and QoS trend analysis, then created an SLA violation ticket to coordinate temporary capacity relief and track resolution.",
+    "ar": "خلال نافذة الحدث في الاستاد، أظهر موقع الميكرو NR تشبّعًا في السعة: إشغال موارد مرتفع جدًا وزمن تأخير مرتفع وتنزيل وسطي منخفض، مما أدى إلى انخفاض مؤشر جودة الخدمة و33% من الفواصل المتجاوزة. قمنا بفحص الحالة وتحليل منحنى جودة الخدمة، ثم أنشأنا تذكرة خرق لاتفاقية مستوى الخدمة للتنسيق على تخفيف مؤقت للحمل ومتابعة الحل."
+  }
+}

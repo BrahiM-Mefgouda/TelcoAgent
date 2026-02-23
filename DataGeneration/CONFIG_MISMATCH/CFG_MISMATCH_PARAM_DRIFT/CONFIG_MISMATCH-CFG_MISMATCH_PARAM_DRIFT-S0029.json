@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0029",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell shows configuration drift (5 mismatches, score 0.68 over 58h) with 74% resource use, 7.6% BLER, 4% handover failures, and 11 Mbps median throughput; an active alarm indicates possible congestion/outage.",
+    "ar": "خلية NR ماكرو حضرية تُظهر انجرافًا في الإعدادات (5 اختلافات، درجة 0.68 خلال 58 ساعة) مع استخدام موارد 74% وBLER ‏7.6% وإخفاقات تسليم 4% ومتوسط إنتاجية 11 ميجابت/ث؛ يوجد إنذار فعّال يشير إلى ازدحام/انقطاع محتمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have an urban 5G NR macro cell with a config-mismatch alarm in the last 12h; during off-peak some eMBB streaming stutter was noted. Please check.",
+      "message_ar": "لدينا خلية NR ماكرو حضرية ظهر بها إنذار عدم تطابق التكوين خلال آخر 12 ساعة؛ لوحظ تقطع بسيط في بث eMBB خارج أوقات الذروة. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll compare live versus OSS configurations over the last 12h and correlate with BLER/PRB/HO symptoms. Share the cell ID and confirm read-only access.",
+      "message_ar": "سأقارن التكوينات الحية مقابل بيانات OSS لآخر 12 ساعة وأربطها بأعراض BLER/PRB/عمليات التسليم. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRCell-URB-105. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NRCell-URB-105. تمت الموافقة على صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Diagnostics show 5 parameters drifted from the OSS baseline for ~58h (e.g., HO thresholds, SSB power offset, PDCCH aggregation, RACH power, MIMO layer cap). This aligns with ~7.6% BLER, ~74% resource use, ~4% HO failures, and ~11 Mbps median DL. I propose restoring the OSS baseline now—approve?",
+      "message_ar": "تشير التشخيصات إلى انجراف 5 معلمات عن خط أساس OSS لمدة ~58 ساعة (مثل عتبات التسليم، إزاحة قدرة SSB، تجميع PDCCH، قدرة RACH، حد طبقات MIMO). يتماشى ذلك مع ~7.6% BLER، واستخدام موارد ~74%، وإخفاقات تسليم ~4%، ومتوسط تنزيل ~11 ميجابت/ث. أقترح استعادة خط أساس OSS الآن—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—proceed with the baseline restore now.",
+      "message_ar": "موافق—تابع استعادة خط الأساس الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline restoration completed; mismatches cleared (count 0). Initial post-change checks show BLER easing and fewer HO rejects. Please observe user experience for a few minutes.",
+      "message_ar": "تم إكمال استعادة خط الأساس؛ تمت إزالة عدم التطابق (العدد 0). فحوصات ما بعد التغيير الأولية تُظهر انخفاض BLER وقلة رفضات التسليم. يُرجى ملاحظة تجربة المستخدم لبضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Playback is smoother; decoding errors are down and fewer handover failures observed.",
+      "message_ar": "تشغيل الفيديو أصبح أكثر سلاسة؛ أخطاء فك التشفير انخفضت وتمت ملاحظة إخفاقات تسليم أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and follow-up, I'll open a change record and attach pre/post metrics. Proceed?",
+      "message_ar": "من أجل التتبع والمتابعة، سأفتح سجل تغيير وأرفق مؤشرات ما قبل/بعد. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change record created and linked to NRCell-URB-105; notes and KPIs attached. Share any immediate anomalies while we define the observation window.",
+      "message_ar": "تم إنشاء سجل التغيير وربطه بالخلية NRCell-URB-105؛ أُرفقت الملاحظات والمؤشرات. أخبرني بأي شذوذ فوري ريثما نحدد نافذة المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—BLER is stabilizing near 3% and handover failures are trending down after the configuration push. Let's monitor through the next busy hour; tracking under ticket DU-CFG-04287.",
+      "message_ar": "تم التأكيد على التحسن—BLER يستقر قرب 3% وإخفاقات التسليم تتناقص بعد دفع الإعدادات. لنتابع المراقبة خلال ساعة الذروة القادمة؛ والمتابعة تحت التذكرة DU-CFG-04287."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy-hour monitoring and update the ticket after the window. If KPIs regress, we’ll roll back to the prior settings and escalate to the vendor; otherwise we’ll keep the optimized baseline.",
+      "message_ar": "تم الاستلام. سنتولى مراقبة ساعة الذروة القادمة ونحدّث التذكرة بعد النافذة. إذا تراجعت المؤشرات، سنعود إلى الإعدادات السابقة ونصعّد للمورّد؛ وإلا سنبقي على خط الأساس المحسّن."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a live-vs-OSS configuration drift on an urban NR macro cell: 5 parameters diverged for ~58 hours, correlating with elevated BLER and handover failures under moderate load. Restored the OSS baseline to clear the mismatches and created a change record for traceability. We will monitor through the next busy hour and roll back if degradation reappears.",
+    "ar": "تم تشخيص انجراف بين التكوين الحي وOSS في خلية NR ماكرو حضرية: 5 معلمات انحرفت لمدة ~58 ساعة، وارتبطت بارتفاع BLER وإخفاقات التسليم تحت حمل متوسط. تم استعادة خط أساس OSS لإزالة عدم التطابق وإنشاء سجل تغيير للتتبع. سنراقب خلال ساعة الذروة القادمة وسنعود للخلف إذا ظهر تدهور."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0001",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell over the last 8h shows an alarm indicating possible congestion, high neighbor PCI overlap (31) with cell PCI 184 vs neighbor 295, low SINR (-2 dB) suggesting interference/signal overlap, elevated handover failures (25%) and ping-pong (16%), PRB ~85%, median DL 19 Mbps, 233 users, and RSRQ -10 dB with BLER ~7.8%.",
+    "ar": "خلية NR ماكرو في منطقة حضرية خلال آخر 8 ساعات تُظهر إنذاراً يشير لاحتمال وجود ازدحام، وتداخل عالٍ في PCI للجوار (31) مع PCI الخلية 184 مقابل الجار 295، وSINR منخفض (-2 dB) يدل على تداخل/تراكب إشارة، وارتفاع في فشل التسليم (25%) والبينغ بونغ (16%)، واستخدام PRB ~85%، وسرعة تنزيل متوسطة 19 Mbps، و233 مستخدماً، وRSRQ -10 dB مع BLER ~7.8%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration on an urban NR macro, we’re seeing an alarm and mobility issues: SINR -2 dB (interference/overlap), RSRQ -10 dB, HO failures ~25%, ping-pong 16%. Traffic is mixed with eMBB streaming; PRB ~85%, p50 DL 19 Mbps, 233 users. Our cell PCI is 184; a known neighbor is 295.",
+      "message_ar": "بعد التكامل على خلية NR ماكرو حضرية، نرى إنذاراً ومشكلات في الحركة: SINR عند -2 dB (تداخل/تراكب)، وRSRQ -10 dB، وفشل تسليم ~25%، وبينغ بونغ 16%. الحركة مختلطة مع بث eMBB؛ استخدام PRB ~85%، والسرعة المتوسطة للتنزيل 19 Mbps، و233 مستخدماً. PCI الخلية 184؛ وجار معروف 295."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. Suspecting a PCI collision introduced by the recent integration. I will first run a neighbor audit over the last 8h to verify any PCI reuse or missing relations. Please confirm access to proceed.",
+      "message_ar": "شكراً. أشتبه في تصادم PCI نتج عن التكامل الأخير. سأجري أولاً تدقيق الجوار لآخر 8 ساعات للتحقق من أي إعادة استخدام لـ PCI أو علاقات مفقودة. يرجى تأكيد الصلاحية للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the 8h audit.",
+      "message_ar": "تمت الموافقة على الصلاحية لإجراء التدقيق لآخر 8 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: a new NR sector (URB-22B-S2) went live using PCI 184 and overlaps ~31% of our footprint; it is not fully modeled in neighbor relations. This aligns with interference and unstable handovers. Proposal: retune our cell to PCI 186 to remove the collision and avoid group conflicts with nearby cells. Proceed?",
+      "message_ar": "اكتمل تدقيق الجوار: قطاع NR جديد (URB-22B-S2) بدأ العمل مستخدماً PCI 184 ويتداخل مع ~31% من تغطيتنا؛ وهو غير مُعرّف بالكامل في علاقات الجوار. هذا يفسر التداخل وعدم استقرار التسليمات. الاقتراح: إعادة ضبط PCI للخلية إلى 186 لإزالة التصادم وتجنب تعارض المجموعات مع الخلايا القريبة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the change.",
+      "message_ar": "موافق على تنفيذ التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: serving cell updated to the new PCI with neighbor relations refreshed; impact was limited to brief reselections. Immediate checks show consistent broadcasts and no new alarms. I will watch HO and interference counters for early impact.",
+      "message_ar": "تم تنفيذ التغيير: تم تحديث الخلية الخادمة إلى PCI الجديد مع تحديث علاقات الجوار؛ واقتصر الأثر على إعادة اختيار قصيرة. الفحوصات الفورية تُظهر بثاً متسقاً ولا توجد إنذارات جديدة. سأراقب مؤشرات التسليم والتداخل للأثر المبكر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: fewer ping-pongs and handovers are succeeding more; no abnormal drops.",
+      "message_ar": "ملاحظة مبكرة: انخفاض في البينغ بونغ وازدياد نجاح التسليمات؛ لا توجد انقطاعات غير طبيعية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. For traceability, I will open a change ticket and set focused monitoring on SINR, HO failures, ping-pong, and BLER through the next busy hour. Please confirm to file the ticket.",
+      "message_ar": "جيد. من أجل تتبع التغيير، سأفتح تذكرة تغيير وأضبط مراقبة مركزة على SINR وفشل التسليم والبينغ بونغ وBLER خلال ساعة الذروة القادمة. يرجى التأكيد لرفع التذكرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Please proceed with the ticket.",
+      "message_ar": "يرجى المتابعة وفتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PCI-01724 created and linked to the change. Monitoring is active; expectation is SINR to move into positive single digits and HO failures to normalize below 10% if the mitigation holds.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-01724 وربطها بالتغيير. المراقبة فعالة؛ التوقع أن يتحسن SINR إلى قيم موجبة أحادية وأن تنخفض حالات فشل التسليم إلى أقل من 10% إذا استمرت المعالجة بالفاعلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "So far, interference is trending down and handover failures are easing. The PCI parameter tuning appears effective. Let’s monitor over the next 2–4 hours and review against DU-PCI-01724.",
+      "message_ar": "حتى الآن، التداخل يتجه للانخفاض وتراجع في فشل التسليم. ضبط معلمة PCI يبدو فعالاً. دعنا نراقب خلال الساعتين إلى الأربع القادمة ونراجع مقابل DU-PCI-01724."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will own the 2–4 hour monitoring window and update the ticket after the window with results. If metrics regress, we will roll back to the prior settings or escalate to the field team to re-verify the newly integrated sector.",
+      "message_ar": "تم التأكيد. سأتولى نافذة المراقبة لمدة 2–4 ساعات وسأحدّث التذكرة بعد انتهاء النافذة بالنتائج. إذا تراجعت المؤشرات، سنعود للإعدادات السابقة أو نُصعّد إلى فريق الحقل لإعادة التحقق من القطاع المُدمج حديثاً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR_URBAN_MACRO_CELL_184",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "retune PCI to 186; refresh neighbor relations"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision after integration; change applied; monitor SINR/HO/BLER"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision introduced by a newly integrated NR sector overlapping the urban macro cell, causing interference and unstable handovers. We mitigated it via site parameter tuning by reassigning the serving cell’s PCI and refreshing neighbor relations, and recorded the change in a ticket. Early indicators improved; continued monitoring will ensure stability under load.",
+    "ar": "أكد تحليل الجوار وجود تصادم PCI سببه قطاع NR مُدمج حديثاً يتداخل مع خلية الماكرو الحضرية، ما أدى إلى تداخل وعدم استقرار التسليمات. قمنا بالمعالجة عبر ضبط معلمات الموقع بإعادة تعيين PCI للخلية الخادمة وتحديث علاقات الجوار، وتم توثيق التغيير في تذكرة. المؤشرات المبكرة تحسنت؛ وستستمر المراقبة للتأكد من الاستقرار تحت الحمل."
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0021",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell over the last 2h shows BLER ~9%, SINR 6 dB, weak RSRP (-113 dBm) with high resource use (~82%) and an active alarm indicating congestion; eMBB traffic (streaming) sees median downlink 10 Mbps.",
+    "ar": "خلال آخر ساعتين في خلية NR ماكرو بمنطقة ضواحي، تظهر BLER ~9%، وSINR 6 dB، وRSRP ضعيف (-113 dBm) مع استخدام موارد عالٍ (~82%) وإنذار نشط يشير إلى ازدحام؛ حركة eMBB (بث مرئي) تسجل سرعة تنزيل وسطية 10 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro, off-peak last 2h: BLER ~9%, SINR ~6 dB, RSRP -113 dBm, PRB ~82%, p50 DL 10 Mbps. Alarm active. eMBB streaming users reported dips.",
+      "message_ar": "بيئة ضواحي لخلية NR ماكرو، خارج أوقات الذروة خلال آخر ساعتين: BLER ~9%، وSINR ~6 dB، وRSRP -113 dBm، واستخدام PRB ~82%، وسرعة تنزيل وسطية 10 ميجابت/ث. الإنذار نشط. تم الإبلاغ عن تذبذب لدى مستخدمي بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Likely short interference bursts aggravated by load. I will 1) pull OSS counters for the past 2h, 2) inspect BLER time series, and 3) if consistent, apply low-risk interference and link-adaptation tuning. Approve access to proceed?",
+      "message_ar": "تم الفهم. يُحتمل وجود نبضات تداخل قصيرة تتفاقم مع الحمل. سأقوم بـ 1) سحب مؤشرات OSS لآخر ساعتين، 2) فحص السلاسل الزمنية لـ BLER، و3) إذا تأكد ذلك، تطبيق ضبط منخفض المخاطر للتخفيف من التداخل وضبط التكيّف على الوصلة. هل توافقون على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the 2h window.",
+      "message_ar": "تمت الموافقة على الوصول خلال نافذة الساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 1 complete: OSS baseline (2h) pulled. Findings: DL HARQ re-tx elevated, BLER median ~9–10% with short spikes, neighbor load high (~76%), RSRQ -10 dB. This aligns with bursty interference. Proceed to BLER time-series drill-down?",
+      "message_ar": "الخطوة 1 اكتملت: تم سحب الخط الأساس من OSS (ساعتان). النتائج: ارتفاع في إعادة الإرسال DL HARQ، متوسط BLER ~9–10% مع قمم قصيرة، حمل الجوار مرتفع (~76%)، وRSRQ -10 dB. هذا يتماشى مع تداخل نابض. هل نتابع إلى تحليل السلاسل الزمنية لـ BLER؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 2: BLER at 1–5 min granularity shows bursts every ~10–15 min peaking 16–20% when PRB >80% and SINR dips to ~4–5 dB. Diagnosis: bursty external/neighbor interference under load. Plan: apply minor tuning (interference-aware scheduling, slight link-adaptation margin, modest signal protection). Approve change?",
+      "message_ar": "الخطوة 2: يُظهر BLER بدقة 1–5 دقائق نبضات كل ~10–15 دقيقة تصل إلى 16–20% عندما يتجاوز PRB 80% مع هبوط SINR إلى ~4–5 dB. التشخيص: تداخل خارجي/من الجوار نابض تحت الحمل. الخطة: تطبيق ضبط طفيف (جدولة واعية بالتداخل، هامش بسيط لتكيّف الوصلة، وتعزيز بسيط لحماية الإشارة). هل توافقون على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, with rollback if degradation appears.",
+      "message_ar": "موافق، مع التراجع إذا ظهر تدهور."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 3 executed: optimization applied successfully. No new alarms. Immediate post-check shows BLER easing to ~7–8% and re-transmissions down ~12%. I will watch transient behavior for the next few minutes.",
+      "message_ar": "تم تنفيذ الخطوة 3: تم تطبيق التحسين بنجاح دون إنذارات جديدة. الفحص الفوري يُظهر تراجع BLER إلى ~7–8% وانخفاض عمليات إعادة الإرسال بحوالي ~12%. سأراقب السلوك العابر للدقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: BLER bursts are less frequent and median BLER is trending down; throughput median nudged to ~12–13 Mbps. The site parameter tuning (config push) seems effective. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "نلاحظ تحسناً: نبضات BLER أصبحت أقل تواتراً والمتوسط يتراجع؛ كما ارتفعت السرعة الوسطية إلى ~12–13 ميجابت/ث. يبدو أن ضبط معلمات الموقع (دفع الإعدادات) كان فعالاً. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring and update with BLER, retransmissions, and user throughput trends. If bursts return, we will rollback the change and escalate for interference source investigation and on-site checks.",
+      "message_ar": "تم. سنكون مسؤولين عن مراقبة الساعتين إلى الأربع ساعات وتحديث حالة BLER وإعادة الإرسال وسرعات المستخدمين. إذا عادت النبضات، سنرجع التغيير ونصعّد للتحقيق في مصدر التداخل وإجراء فحوصات ميدانية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on a suburban NR macro with weak signal and high load, confirming bursty interference via recent counters and BLER time-series. Applied site parameter tuning to strengthen interference-aware scheduling and link adaptation. Post-change checks showed BLER and retransmissions decreasing; the cell will be monitored for stability over the next hours.",
+    "ar": "تم تشخيص شذوذ في BLER على خلية NR ماكرو في الضواحي مع إشارة ضعيفة وحمل مرتفع، وتم تأكيد تداخل نابض عبر مؤشرات حديثة وسلاسل BLER الزمنية. جرى ضبط معلمات الموقع لتعزيز الجدولة الواعية بالتداخل وتكيّف الوصلة. أظهرت الفحوصات بعد التغيير انخفاضاً في BLER وإعادة الإرسال؛ وسيتم مراقبة استقرار الخلية خلال الساعات القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0027",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a congestion alarm during peak evening with high latency (37 ms, p95 scheduling 32 ms), ~299 users, PRB ~92%, and slow data (median 5 Mbps) over the last 2h.",
+    "ar": "خلية ماكرو 5G NR حضرية لديها إنذار ازدحام خلال ذروة المساء مع زمن تأخير مرتفع (37 مللي ثانية، p95 للجدولة 32 مللي ثانية)، حوالي 299 مستخدمًا، إشغال PRB ~92%، وبيانات بطيئة (وسيط 5 ميجابت/ث) خلال آخر ساعتين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-evening congestion alarm on an urban 5G NR macro. Users report slow data and high latency. Snapshot: PRB ~92%, ~299 users, p95 scheduling latency 32 ms, end-to-end latency ~37 ms; median throughput 5 Mbps.",
+      "message_ar": "يوجد إنذار ازدحام في ذروة المساء على خلية ماكرو 5G NR حضرية. المستخدمون يبلغون عن بيانات بطيئة وزمن تأخير مرتفع. اللقطة الحالية: إشغال PRB ~92%، حوالي 299 مستخدمًا، p95 لزمن جدولة 32 مللي ثانية، زمن تأخير طرف لطرف ~37 مللي ثانية؛ وسيط السرعة 5 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will diagnose the latency SLA breach: first pull the last 2h network status for the cell, then review detailed latency trends, and if confirmed, apply targeted QoS/scheduler tuning. Please share the cell ID and confirm access.",
+      "message_ar": "مفهوم. سأشخّص خرق زمن التأخير: أولًا سأسحب حالة الشبكة لآخر ساعتين للخلية، ثم أراجع اتجاهات زمن التأخير التفصيلية، وإذا تأكدت الحالة سأطبّق ضبطًا مستهدفًا لمعاملات QoS والجدولة. الرجاء تزويدي بمعرّف الخلية وتأكيد الصلاحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-1123. The 2h window is fine. Access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-1123. نافذة ساعتين مناسبة. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Network check for NR-URB-MACRO-1123 over the last 2h: no outages, congestion flag active; PRB utilization 88–95%, BLER stable at ~2–3%, active users 280–310. Latency breaches align with busy eMBB streaming. Next, I will extract latency time-series to pinpoint spikes.",
+      "message_ar": "فحص الشبكة للخلية NR-URB-MACRO-1123 خلال آخر ساعتين: لا توجد أعطال، علم الازدحام نشط؛ إشغال PRB بين 88–95%، BLER مستقر ~2–3%، المستخدمون النشطون 280–310. تجاوزات زمن التأخير تتوافق مع ازدحام حركة eMBB للبث. بعد ذلك سأستخرج سلسلة زمنية لزمن التأخير لتحديد القمم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Proceed.",
+      "message_ar": "تم الاستلام. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency trend (last 2h): p95 scheduling latency peaked at 38–41 ms around 19:05–19:25; UL normal, DL queuing dominates. This indicates QoS weight imbalance under high PRB load. I propose a conservative site parameter tuning to rebalance eMBB queue weights and tighten latency bounds within policy. Approve to apply?",
+      "message_ar": "اتجاه زمن التأخير (آخر ساعتين): بلغت قمم p95 لزمن جدولة 38–41 مللي ثانية حوالي 19:05–19:25؛ الوصل الصاعد طبيعي، والانتظار في الوصل الهابط هو المسيطر. يشير ذلك إلى اختلال أوزان QoS مع ارتفاع إشغال PRB. أقترح ضبطًا محافظًا لمعاملات الموقع لإعادة موازنة أوزان طوابير eMBB وتشديد حدود التأخير ضمن السياسة. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning.",
+      "message_ar": "موافَق على المتابعة بالضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on NR-URB-MACRO-1123 now: reduced eMBB queue bias and slightly tightened latency targets within safe limits. Change committed; KPIs remain healthy post-apply. I will watch live KPIs for stabilization.",
+      "message_ar": "أقوم الآن بتطبيق التحسين على NR-URB-MACRO-1123: تقليل انحياز طوابير eMBB وتشديد طفيف لهدف التأخير ضمن الحدود الآمنة. تم اعتماد التغيير؛ مؤشرات الأداء سليمة بعد التطبيق. سأراقب مؤشرات الأداء المباشرة للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check after 10 minutes: p95 scheduling latency down to ~24–26 ms, end-to-end latency ~28–30 ms; median throughput improved to ~7 Mbps; no error spikes.",
+      "message_ar": "فحص أولي بعد 10 دقائق: p95 لزمن الجدولة انخفض إلى ~24–26 مللي ثانية، وزمن التأخير طرف لطرف ~28–30 مللي ثانية؛ تحسن وسيط السرعة إلى ~7 ميجابت/ث؛ لا توجد قمم أخطاء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early improvement. I will continue observing live trends during the ongoing busy period and hold further changes. Please confirm your preferred monitoring window.",
+      "message_ar": "تحسّن مبكر جيد. سأستمر بمراقبة الاتجاهات الحية خلال فترة الانشغال الحالية وأمتنع عن تغييرات إضافية. يرجى تأكيد نافذة المراقبة المفضلة لديك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Scheduler latency is trending down. Since we performed site parameter tuning, let’s monitor over the next 2–4 hours covering the next busy hour.",
+      "message_ar": "زمن جدولة الحزم يتجه للانخفاض. بما أننا قمنا بضبط معاملات الموقع، لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة لتغطية ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We’ll own monitoring for the next 2–4 hours and report back on latency, PRB load, and user experience. If latency worsens, we will roll back the tuning; if congestion persists, we will escalate to capacity planning for relief on adjacent sectors.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنوافيكم بتحديث حول التأخير، وإشغال PRB، وتجربة المستخدم. إذا ساء التأخير سنعيد التغييرات، وإذا استمر الازدحام سنصعّد لفريق التخطيط السعوي لتخفيف الحمل على القطاعات المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-1123",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-1123",
+        "latency",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "QoS_latency_sched_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a peak-load latency SLA violation on an urban 5G NR macro: network status showed high PRB utilization with normal BLER, and latency time-series confirmed p95 spikes during busy hours. Applied site parameter tuning to rebalance QoS/scheduler behavior and reduce queueing delay. Early KPIs improved (lower scheduling and end-to-end latency, better median throughput), and the cell will be monitored over the next busy window.",
+    "ar": "تم تشخيص خرق SLA لزمن التأخير أثناء ذروة الحمل على خلية ماكرو 5G NR حضرية: حالة الشبكة أظهرت إشغال PRB مرتفعًا مع BLER طبيعي، وسلسلة زمنية لزمن التأخير أكدت قمم p95 خلال ساعات الانشغال. جرى تنفيذ ضبط معاملات الموقع لإعادة موازنة سلوك QoS والجدولة وتقليل زمن الانتظار. تحسنت المؤشرات مبكرًا (انخفاض زمن جدولة وحافة لطرف وتحسن الوسيط)، وسيتم مراقبة الخلية خلال نافذة الانشغال التالية."
+  }
+}

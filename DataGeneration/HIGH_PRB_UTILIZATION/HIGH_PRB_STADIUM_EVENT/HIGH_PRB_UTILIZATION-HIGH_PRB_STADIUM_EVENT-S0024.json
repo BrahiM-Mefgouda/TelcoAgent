@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0024",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion over the last 2h egress window with ~95% PRB, 361 users, elevated latency/BLER, and slow data.",
+    "ar": "تظهر خلية NR صغيرة في الملعب ازدحامًا خلال نافذة الساعتين الأخيرتين لمرحلة الخروج مع ~95% PRB و361 مستخدمًا وارتفاع التأخير/BLER وبيانات بطيئة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is raising a congestion alarm over the last 2h (egress). PRB ~95%, 361 users, DL ~8 Mbps, UL ~6 Mbps, BLER ~7.7%, p95 queuing latency ~97 ms; users report slow data.",
+      "message_ar": "خلية NR صغيرة في الملعب ترفع إنذار ازدحام خلال آخر ساعتين (خروج الحشود). إشغال PRB ~95%، 361 مستخدمًا، تنزيل ~8 ميجابت/ث، رفع ~6 ميجابت/ث، BLER ~7.7%، تأخير اصطفاف p95 ~97 مللي ثانية؛ شكاوى من بيانات بطيئة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will begin by pulling performance counters for the impacted cell over the last 2 hours to validate load, throughput, and errors—heavy eMBB streaming during egress is likely. Please share the exact cell ID and approve read-only access.",
+      "message_ar": "مفهوم. سأبدأ بسحب مؤشرات الأداء للخلية المتأثرة خلال آخر ساعتين للتحقق من الحمل ومعدلات النقل والأخطاء—من المرجح وجود بث كثيف eMBB أثناء الخروج. يرجى تزويدي بمعرف الخلية الدقيق والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_STAD_MICRO_042, window 2h; read-only access approved.",
+      "message_ar": "معرف الخلية: NR_STAD_MICRO_042، نافذة 2 ساعة؛ تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing performance check for NR_STAD_MICRO_042 over 2h; I will review PRB utilization, active users, throughput, BLER, and latency, then propose mitigation.",
+      "message_ar": "أجري فحص الأداء للخلية NR_STAD_MICRO_042 خلال ساعتين؛ سأراجع إشغال PRB وعدد المستخدمين النشطين ومعدلات النقل وBLER والتأخير ثم أقترح إجراء تخفيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: sustained PRB 94–98% (peaks 98%), active users 330–380; DL ~8 Mbps, UL ~6 Mbps; BLER 6–9%; RLF ~3.2%; p95 queuing delay ~90–100 ms—consistent with congestion on a stadium micro cell during egress. I recommend a temporary load and resource-allocation tuning on this 5G cell to relieve PRB pressure and stabilize latency; no neighbor or coverage changes. Proceed?",
+      "message_ar": "النتائج: إشغال PRB مستمر 94–98% (قمم 98%)، مستخدمون نشطون 330–380؛ تنزيل ~8 ميجابت/ث، رفع ~6 ميجابت/ث؛ BLER بين 6–9%؛ RLF حوالي 3.2%؛ تأخير اصطفاف p95 بين 90–100 مللي ثانية—يتوافق مع ازدحام على خلية صغيرة في الملعب أثناء خروج الحشود. أوصي بضبط مؤقت للحمل وتخصيص الموارد في هذه الخلية 5G لتخفيف ضغط PRB وتثبيت التأخير؛ دون تغيير للجيران أو التغطية. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the temporary tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط المؤقت الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted site parameter tuning on NR_STAD_MICRO_042: event capacity profile with adjusted allocation weights and slightly tighter admission to ease PRB contention; no changes to bands or neighbors.",
+      "message_ar": "أطبق ضبط معلمات موجهًا على NR_STAD_MICRO_042: نمط سعة خاص بالحدث مع تعديل أوزان التخصيص وتشديدًا طفيفًا للقبول لتخفيف التنافس على PRB؛ دون تغييرات على الحزم أو الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: PRB is dipping to about 89–91%, DL throughput rising to ~11–12 Mbps, BLER trending down.",
+      "message_ar": "ملاحظة أولية: إشغال PRB ينخفض إلى حوالي 89–91%، معدل تنزيل يرتفع إلى ~11–12 ميجابت/ث، BLER في اتجاه هبوطي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will log this event-time change for traceability and rollback planning—creating ticket DU-LOAD-04372 with before/after metrics.",
+      "message_ar": "جيد. سأقوم بتوثيق تغيير وقت الحدث لتتبع الأثر وخطة الرجوع—إنشاء تذكرة DU-LOAD-04372 مع مؤشرات قبل/بعد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Keeping the temporary tuning active through the egress phase; please flag any remaining complaints around stadium exits.",
+      "message_ar": "سأبقي الضبط المؤقت فعالًا خلال مرحلة خروج الحشود؛ يرجى الإبلاغ عن أي شكاوى متبقية حول مخارج الملعب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data reports reduced and downlink now >11 Mbps with PRB headroom improving. Action taken: site parameter tuning for load and resource allocation. Suggest monitoring over the next 2–4 hours. Reference: DU-LOAD-04372.",
+      "message_ar": "تحسّن ملحوظ: انخفضت بلاغات البيانات البطيئة وأصبح التنزيل >11 ميجابت/ث مع تحسن هامش PRB. الإجراء المتخذ: ضبط معلمات الموقع للحمل وتخصيص الموارد. أقترح المراقبة خلال الساعتين إلى الأربع القادمة. المرجع: DU-LOAD-04372."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next 2–4 hours and update the ticket after the window. If congestion returns, we will escalate with temporary traffic shaping; if any adverse effects appear, we will roll back to baseline immediately.",
+      "message_ar": "تم الاستلام—سنتولى المراقبة خلال الساعتين إلى الأربع القادمتين وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد الازدحام، سنصعّد عبر تقييد مؤقت لحركة المرور؛ وإذا ظهرت آثار سلبية سنرجع فورًا إلى الإعدادات الأساسية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "High PRB congestion on the stadium NR micro cell during the egress window was confirmed by load and degraded throughput/latency indicators. Site parameter tuning focused on event capacity and resource allocation was applied to reduce PRB contention and stabilize user experience, and a tracking ticket was opened for rollback planning. We will monitor for 2–4 hours to validate sustained improvement.",
+    "ar": "تم تأكيد ازدحام PRB المرتفع على خلية NR الصغيرة في الملعب خلال فترة خروج الحشود عبر مؤشرات الحمل وتدهور معدل النقل/التأخير. تم تطبيق ضبط معلمات الموقع مع تركيز على سعة الحدث وتخصيص الموارد لتقليل التنافس على PRB وتثبيت تجربة المستخدم، وتم فتح تذكرة للتتبع وخطة الرجوع. سنراقب لمدة 2–4 ساعات للتحقق من استمرار التحسن."
+  }
+}

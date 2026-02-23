@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0014",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban macro 5G NR cell shows downlink throughput at 12 Mbps over the last 3 hours with 85% resource use, 261 users, SINR 8 dB, and p95 scheduling latency 28 ms; congestion alarm is active.",
+    "ar": "خلية 5G NR ماكرو حضرية تُظهر معدل تنزيل 12 ميجابت/ث خلال آخر 3 ساعات مع إشغال موارد 85% و261 مستخدمًا وSINR بقيمة 8 ديسيبل وزمن تأخر جدولة p95 يساوي 28 مللي ثانية؛ إنذار الازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR cell has DL throughput around 12 Mbps over the last 3 hours during peak evening; 261 eMBB users with streaming complaints and a congestion alarm. Can you check?",
+      "message_ar": "الخلية الماكرو NR الحضرية لديها معدل تنزيل حوالي 12 ميجابت/ث خلال آخر 3 ساعات في ذروة المساء؛ 261 مستخدم eMBB مع شكاوى من التقطيع في البث وإنذار ازدحام. هل يمكنك الفحص؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll diagnose the DL throughput drop. Please share the target cell ID and approve read access for the past 3 hours so I can run health and load checks first.",
+      "message_ar": "سأقوم بتشخيص هبوط معدل التنزيل. يرجى مشاركة معرف الخلية المستهدفة والموافقة على وصول القراءة لآخر 3 ساعات لكي أبدأ بفحوصات الحالة والحِمل أولاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-UGB-221. You have read access for the last 3 hours.",
+      "message_ar": "معرّف الخلية: NR-Cell-UGB-221. لديك صلاحية قراءة لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checked the last 3 hours: PRB utilization ~85%, users 261, RSRQ -13 dB, SINR 8 dB, BLER ~5.2%, and p95 scheduling latency 28 ms. No HW/backhaul faults, congestion present. I’ll now pull DL throughput time-series to confirm the degradation window.",
+      "message_ar": "تم فحص آخر 3 ساعات: إشغال PRB حوالي 85%، عدد المستخدمين 261، RSRQ يساوي -13 ديسيبل، SINR ‏8 ديسيبل، BLER حوالي 5.2%، وزمن تأخر الجدولة p95 يساوي 28 مللي ثانية. لا أعطال عتادية/وصلات خلفية، ويوجد ازدحام. سأجلب الآن سلسلة زمنية لمعدل التنزيل لتأكيد فترة التدهور."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time-series shows 18:30–21:30 drop to 10–15 Mbps versus baseline 45–60 Mbps; PRB peaks >90%, BLER stable, radio quality steady. Root cause points to capacity congestion. I propose targeted site parameter tuning: optimize DL scheduler behavior and resource allocation with a minor power-control touch to stabilize RSRQ. Safe and reversible. Proceed?",
+      "message_ar": "السلسلة الزمنية لمعدل التنزيل تُظهر هبوطًا بين 18:30–21:30 إلى 10–15 ميجابت/ث مقارنة بخط الأساس 45–60 ميجابت/ث؛ قمم إشغال PRB تتجاوز 90%، وBLER مستقر، وجودة الراديو ثابتة. السبب المرجح ازدحام السعة. أقترح ضبطًا مُوجّهًا لمعلمات الموقع: تحسين سلوك الجدولة والتنظيم الديناميكي لموارد التنزيل مع لمسة بسيطة في التحكم بالقدرة لاستقرار RSRQ. آمن وقابل للتراجع. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning.",
+      "message_ar": "تابع الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the tuning without service interruption. Initial 5-min snapshot: DL median up to ~18–22 Mbps, PRB peaks reduced by ~5%, p95 scheduling latency down from 28 ms to ~23 ms, BLER unchanged. I’ll keep watching for stabilization over the next 30–60 minutes.",
+      "message_ar": "تم تطبيق الضبط دون انقطاع خدمة. لقطة أولية لمدة 5 دقائق: ارتفع الوسيط لمعدل التنزيل إلى حوالي 18–22 ميجابت/ث، وانخفضت قمم إشغال PRB بنحو 5%، وتراجع زمن تأخر الجدولة p95 من 28 مللي ثانية إلى نحو 23 مللي ثانية، وBLER دون تغيير. سأستمر بالمراقبة حتى الاستقرار خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: fewer streaming buffering reports; DL median near 20 Mbps, user count unchanged.",
+      "message_ar": "ملاحظة مبكرة: تقليل في تقارير التقطيع بالبث؛ الوسيط لمعدل التنزيل قريب من 20 ميجابت/ث، وعدد المستخدمين دون تغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signal. I will continue tracking load, throughput, and latency during the busy period and verify no adverse spillover to adjacent cells via standard dashboards.",
+      "message_ar": "إشارة جيدة. سأواصل تتبع الحمل، ومعدل التنزيل، والزمن خلال فترة الانشغال، والتأكد من عدم حدوث تأثيرات جانبية على الخلايا المجاورة عبر لوحات المتابعة الاعتيادية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: scheduling delays are trending down and DL median stabilized near 20 Mbps. Action taken was site parameter tuning on the DL scheduler and resource allocation. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: تأخيرات الجدولة في اتجاه انخفاض واستقرار الوسيط لمعدل التنزيل قرب 20 ميجابت/ث. الإجراء الذي تم هو ضبط معلمات الموقع لجدولة التنزيل وتخصيص الموارد. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy hour monitoring and share an update afterward. If KPIs regress, we’ll roll back the tuning; if congestion persists, we’ll escalate for capacity measures. Summary: diagnosed congestion, tuned site parameters, and will monitor for sustained gains.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا تراجعت مؤشرات الأداء سنقوم بالتراجع عن الضبط؛ وإذا استمر الازدحام فسنصعّد لخيارات زيادة السعة. الملخص: تم تشخيص الازدحام، وضبط معلمات الموقع، وسنراقب لاستدامة التحسن."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The urban NR macro cell’s DL throughput drop was validated during the peak evening window with high PRB load, stable radio quality, and elevated scheduling latency, indicating congestion. We confirmed the degradation via time-series analysis and mitigated it by site parameter tuning focused on DL scheduling and resource allocation. Early results show improved throughput and lower latency; we will continue monitoring to ensure the gains persist.",
+    "ar": "تم التحقق من هبوط معدل التنزيل في خلية NR الماكرو الحضرية خلال فترة ذروة المساء مع ارتفاع إشغال الموارد وثبات جودة الراديو وارتفاع زمن الجدولة، مما يشير إلى ازدحام. تم تأكيد التدهور عبر تحليل السلاسل الزمنية وتمت معالجته من خلال ضبط معلمات الموقع مع التركيز على جدولة التنزيل وتخصيص الموارد. النتائج الأولية تُظهر تحسنًا في المعدل وانخفاضًا في التأخير؛ سنواصل المراقبة لضمان استدامة المكاسب."
+  }
+}

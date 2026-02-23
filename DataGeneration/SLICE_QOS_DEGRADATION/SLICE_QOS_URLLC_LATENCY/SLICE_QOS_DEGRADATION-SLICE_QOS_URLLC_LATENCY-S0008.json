@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0008",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban macro NR sector over the last 4h shows URLLC latency 18 ms and jitter 7 ms with 46% slice QoS violations, ~80% resource use at peak, 132 users and 53 slice requests/min, slow data, and a congestion alarm is active.",
+    "ar": "قطاع ماكرو NR حضري خلال آخر 4 ساعات يُظهر كمون URLLC ‏18 مللي ثانية وتذبذب ‏7 مللي ثانية مع 46% مخالفات QoS للشريحة وحوالي 80% استخدام للموارد وقت الذروة و132 مستخدمًا و53 طلب شريحة/دقيقة وبيانات بطيئة، ويوجد إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour alarm on an urban NR macro sector: URLLC latency ~18 ms, jitter ~7 ms, PRB ~80%, 132 users; median throughput ~4 Mbps (slow data) and 46% slice QoS violations over the last 4h; heavy eMBB streaming observed.",
+      "message_ar": "إنذار وقت الذروة على قطاع ماكرو NR حضري: كمون URLLC ~18 مللي ثانية، تذبذب ~7 مللي ثانية، استخدام الموارد ~80%، 132 مستخدمًا؛ وسيط السرعة ~4 ميجابت/ث (بيانات بطيئة) و46% مخالفات QoS للشريحة خلال آخر 4 ساعات؛ لوحظ ضغط بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—this points to URLLC QoS degradation under congestion. I will pull last 4h counters for the impacted cell; please share the cell ID and confirm access.",
+      "message_ar": "تم الفهم—يُحتمل تدهور QoS لشريحة URLLC تحت الازدحام. سأجلب عدادات آخر 4 ساعات للخلية المتأثرة؛ يرجى تزويدي بمعرّف الخلية وتأكيد الإذن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRU-URB-MACRO-1123-S1. Approved for read access over the 4h window.",
+      "message_ar": "معرّف الخلية: NRU-URB-MACRO-1123-S1. موافقة على وصول القراءة خلال نافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching OSS counters for NRU-URB-MACRO-1123-S1 over 4h now. Initial view: sustained PRB 78–85% in the busy hour, URLLC queueing delay spikes, and eMBB dominates. Next, I’ll pull the slice QoS-class time series for the same window—please confirm the slice ID to proceed.",
+      "message_ar": "جارٍ قراءة عدادات النظام لـ NRU-URB-MACRO-1123-S1 خلال 4 ساعات. المعطيات الأولية: PRB مستمر 78–85% وقت الذروة، ارتفاع تأخير اصطفاف URLLC، وهيمنة eMBB. بعد ذلك سأستخرج السلسلة الزمنية لفئة QoS للشريحة لنفس الفترة—يرجى تأكيد معرّف الشريحة للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Slice ID: SLC-URLLC-01. Proceed.",
+      "message_ar": "معرّف الشريحة: SLC-URLLC-01. تفضل المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling QoS-class time series for NRU-URB-MACRO-1123-S1 (4h). Findings: violation ratio ~46% with latency tail >20 ms and jitter peaks ~8 ms; demand ~53 requests/min. I propose a slice policy update to raise URLLC priority with reserved headroom and preemption during peak—approve immediate apply?",
+      "message_ar": "جارٍ سحب السلسلة الزمنية لفئة QoS لـ NRU-URB-MACRO-1123-S1 (4 ساعات). النتائج: نسبة مخالفات ~46% مع ذيل كمون >20 مللي ثانية وقمم تذبذب ~8 مللي ثانية؛ الطلب ~53 طلب/دقيقة. أقترح تحديث سياسة الشريحة لرفع أولوية URLLC مع حجز هامش وإتاحة الإزاحة وقت الذروة—هل توافق على التطبيق الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the slice policy change now.",
+      "message_ar": "موافَق على تطبيق تغيير سياسة الشريحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying policy update to SLC-URLLC-01 to prioritize URLLC and reserve peak headroom; change committed. I’ll watch live counters for 15 minutes for latency reduction and fewer violations.",
+      "message_ar": "تم تطبيق تحديث السياسة على SLC-URLLC-01 لإعطاء أولوية لـ URLLC وحجز هامش وقت الذروة؛ تم تثبيت التغيير. سأراقب العدادات الحية لمدة 15 دقيقة لرصد خفض الكمون وتقليل المخالفات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 minutes, median latency ~12 ms and jitter ~4 ms; violation alerts are easing; no notable impact on eMBB throughput.",
+      "message_ar": "بعد 15 دقيقة، الوسيط للكمون ~12 مللي ثانية والتذبذب ~4 مللي ثوانٍ؛ تنخفض تنبيهات المخالفات؛ ولا تأثير ملحوظ على سرعة eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. I’ll continue tracking violation ratio and URLLC latency, aiming for <10% violations through the next busy interval.",
+      "message_ar": "استجابة مبكرة جيدة. سأواصل متابعة نسبة المخالفات وكمون URLLC، مع استهداف <10% مخالفات خلال فترة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—violations trending down and the latency tail is shrinking; action taken was a slice policy update. Please monitor over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن—المخالفات في اتجاه هبوطي وذيل الكمون يتقلص؛ الإجراء كان تحديث سياسة الشريحة. يرجى المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring for the next 2–4 hours and report results. If degradation returns, we’ll escalate to regional optimization and revert the change; otherwise we’ll keep the policy active.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونبلغ بالنتائج. إذا عادت المشكلة، سنصعّد إلى تحسين إقليمي ونعيد التغيير؛ وإلا سنبقي السياسة مفعّلة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRU-URB-MACRO-1123-S1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRU-URB-MACRO-1123-S1",
+        "QoS cls",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "SLC-URLLC-01",
+        "URLLC priority with preemption and reserved peak headroom"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice QoS degradation on an urban NR macro cell during peak, driven by high resource load and eMBB pressure, confirmed by a 4h QoS-class time series showing a 46% violation ratio with elevated latency and jitter. We applied a slice policy update to increase URLLC priority, reserve headroom, and allow preemption during busy periods. Early metrics improved; we will monitor to ensure sustained compliance.",
+    "ar": "تم تشخيص تدهور QoS لشريحة URLLC على خلية ماكرو NR حضرية وقت الذروة بسبب ارتفاع الحمل وتأثير eMBB، وتم التأكيد عبر سلسلة زمنية لمدة 4 ساعات لفئة QoS أظهرت نسبة مخالفات 46% مع ارتفاع الكمون والتذبذب. قمنا بتطبيق تحديث لسياسة الشريحة لزيادة أولوية URLLC مع حجز هامش والسماح بالإزاحة خلال الفترات المزدحمة. تحسنت المؤشرات الأولية؛ سنواصل المراقبة لضمان استدامة الامتثال."
+  }
+}

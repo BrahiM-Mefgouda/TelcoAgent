@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0014",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro after integration shows slow data (p50 DL 6 Mbps), HO failures 22%, ping-pong 18%, SINR 6 dB, RSRQ -15 dB over 8h, with an active congestion/outage alarm.",
+    "ar": "موقع ماكرو NR حضري بعد الدمج يظهر بيانات بطيئة (متوسط 6 ميجابت/ث)، فشل تسليم 22%، تذبذب تسليم 18%، قيمة SINR 6 ديسيبل وRSRQ -15 ديسيبل خلال 8 ساعات، مع إنذار نشط للاختناق/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration on the urban NR macro over the last 8 hours, users report slow data and streaming stalls; alarm is active. HO failures ~22%, ping-pong 18%, median DL 6 Mbps, SINR 6 dB, RSRQ -15 dB.",
+      "message_ar": "بعد الدمج على موقع ماكرو NR حضري خلال آخر 8 ساعات، يشتكي المستخدمون من بطء البيانات وتوقف البث؛ الإنذار نشط. فشل التسليم ~22%، تذبذب التسليم 18%، متوسط التحميل 6 ميجابت/ث، SINR عند 6 ديسيبل وRSRQ -15 ديسيبل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Thanks. This pattern suggests a PCI collision after the integration. Please confirm the serving cell ID and approve me to run a neighbor audit for the past 8 hours; if confirmed, I will apply a safe PCI reassign and refresh neighbor relations.",
+      "message_ar": "شكرًا. هذا النمط يوحي بتصادم PCI بعد الدمج. فضلاً أكد مُعرّف الخلية واسمح لي بإجراء تدقيق للجيران لآخر 8 ساعات؛ وإذا تأكد ذلك سأقوم بتغيير PCI بشكل آمن وتحديث علاقات الجوار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-263A-S1. Window is 8 hours. You are approved for diagnostics and the corrective change.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-263A-S1. النافذة 8 ساعات. لديك موافقة للتشخيص والتنفيذ التصحيحي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor audit now. Findings: serving PCI is 263; a close neighbor (NR-URB-MACRO-263B-S2) also advertises PCI 263, and there is 45% coverage overlap with a sector using PCI 115. This explains the HO failures and ping-pong. Proposal: reassign the serving cell to a free PCI (e.g., 271) and refresh neighbor relations. Approve to proceed?",
+      "message_ar": "أقوم الآن بتدقيق الجيران. النتائج: PCI للخلية الخادمة هو 263؛ ويوجد جار قريب (NR-URB-MACRO-263B-S2) يبث أيضاً PCI 263، مع تداخل تغطية بنسبة 45% مع قطاع يستخدم PCI 115. هذا يفسّر فشل التسليم والتذبذب. الاقتراح: إعادة تعيين الخلية إلى PCI متاح (مثل 271) وتحديث علاقات الجوار. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please proceed with minimal service impact.",
+      "message_ar": "موافق. تفضل بالتنفيذ مع أقل تأثير ممكن على الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed the optimization: applied PCI reassign to a free value and refreshed neighbor relations. Brief interruption <2s. Immediate post-checks show HO success trending toward ~89%, BLER ~9%, and RSRQ improving to around -12 dB. I will keep watching throughput as load builds.",
+      "message_ar": "تم التنفيذ: إعادة تعيين PCI إلى قيمة متاحة وتحديث علاقات الجوار. انقطاع بسيط أقل من ثانيتين. الفحوصات الأولية تشير إلى تحسن نجاح التسليم نحو ~89%، وBLER ~9%، وتحسن RSRQ إلى حوالي -12 ديسيبل. سأواصل متابعة سرعة التحميل مع ارتفاع الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early field checks show fewer ping-pongs and faster reattachments; user browsing seems normalizing.",
+      "message_ar": "التحقق الميداني المبكر يُظهر تراجع التذبذب وتسارع إعادة الارتباط؛ تصفح المستخدمين يبدو أنه يعود للوضع الطبيعي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a follow-up record for planning confirmation and audit trail: DU-PCI-04257. I will monitor KPIs through this hour and the next busy period. Do you still see any active alarms?",
+      "message_ar": "سأقوم بإنشاء سجل متابعة لتأكيد التخطيط والتوثيق: DU-PCI-04257. سأراقب مؤشرات الأداء خلال هذه الساعة وخلال فترة الذروة القادمة. هل لا تزال هناك أي إنذارات نشطة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Alarm cleared. Median DL is rising to 12–14 Mbps. PRB utilization around 0.7 is steady. No new complaints.",
+      "message_ar": "تمت إزالة الإنذار. المتوسط الوسيط للتحميل يرتفع إلى 12–14 ميجابت/ث. استخدام PRB حول 0.7 مستقر. لا توجد شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. I will continue watching HO failures and ping-pong to ensure stability under eMBB streaming traffic. Let me know your preferred monitoring window to close the change.",
+      "message_ar": "جيد جدًا. سأستمر في متابعة فشل التسليم والتذبذب لضمان الاستقرار مع حركة eMBB الخاصة بالبث. أخبرني بفترة المراقبة المفضلة لديك لإغلاق التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Handover failures are trending down and slow data has eased; the PCI reassign (parameter optimization) looks effective. Let’s monitor through the next busy hour and update DU-PCI-04257 afterward.",
+      "message_ar": "فشل التسليم يتجه للانخفاض وبطء البيانات تَحسَّن؛ تبديل PCI (تحسين المعلمات) يبدو فعالاً. لنتابع خلال ساعة الذروة القادمة ثم نحدّث DU-PCI-04257."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the monitoring through the next busy hour and update the ticket afterward. If regressions appear, we will revert the change and escalate to planning for further tuning; otherwise we will finalize with post-check KPIs.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا ظهرت انتكاسات، سنرجع التغيير ونصعّد للجهة المختصة بالتخطيط لإجراء ضبط إضافي؛ وإلا فسنُنهي مع مؤشرات ما بعد التنفيذ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on the newly integrated urban NR macro: the serving cell (PCI 263) conflicted with a neighbor broadcasting the same PCI with significant overlap, driving HO failures and ping-pong with slow data. Mitigation was executed via site parameter tuning by reassigning the PCI and refreshing neighbor relations, followed by creating a follow-up record for planning alignment. Post-change KPIs improved, and the site will be monitored through the next busy hour.",
+    "ar": "تم تشخيص تصادم PCI في موقع ماكرو NR حضري جديد الدمج: الخلية الخادمة (PCI 263) تعارضت مع جار يبث نفس PCI مع تداخل ملحوظ، ما أدى إلى فشل التسليم وتذبذبه وبطء البيانات. تمت المعالجة عبر ضبط معلمات الموقع بإعادة تعيين PCI وتحديث علاقات الجوار، ثم إنشاء سجل متابعة للتنسيق مع التخطيط. تحسنت مؤشرات الأداء بعد التغيير وسيُراقَب الموقع خلال ساعة الذروة القادمة."
+  }
+}

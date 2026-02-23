@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0022",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban 5G NR macro shows post-integration mobility issues with low SINR (3 dB) indicating interference/signal overlap, HO success ~74%, ping-pong 20%, and an active alarm suggesting congestion/outage.",
+    "ar": "موقع ماكرو 5G NR حضري يعاني من مشاكل حركة بعد الدمج مع SINR منخفض (3 dB) يشير إلى تداخل/تراكب إشارة، نجاح التسليم ~74%، بينغ-بونغ 20%، مع إنذار نشط يوحي بوجود ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration on the urban NR macro (NR-Urb-Macro-410A) we have an active alarm and mobility degradation: HO success ~74%, HO failures 26%, ping-pong 20%; SINR ~3 dB, RSRQ -15 dB, p50 DL ~11 Mbps with heavy eMBB streaming. Please investigate.",
+      "message_ar": "بعد الدمج في موقع ماكرو NR حضري (NR-Urb-Macro-410A)، لدينا إنذار نشط وتدهور في الحركة: نجاح التسليم ~74%، فشل التسليم 26%، بينغ-بونغ 20%؛ SINR ~3 dB و RSRQ -15 dB، ومعدل تنزيل وسطي ~11 Mbps مع ضغط eMBB (بث). يرجى التحري."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion/outage alarm. The symptoms point to interference/signal overlap and possible PCI reuse after integration. I will audit the neighbor set and PCI relationships over the last 8 hours for NR-Urb-Macro-410A. Please confirm read access to proceed.",
+      "message_ar": "تم استلام إنذار الازدحام/الانقطاع. الأعراض تشير إلى تداخل/تراكب إشارة واحتمال إعادة استخدام PCI بعد الدمج. سأفحص مجموعة الجيران وعلاقات PCI لآخر 8 ساعات لِـ NR-Urb-Macro-410A. يرجى تأكيد صلاحية القراءة للمضي قدمًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved for NR-Urb-Macro-410A, window = last 8 hours.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة لِـ NR-Urb-Macro-410A، النافذة = آخر 8 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review confirms a PCI collision: serving cell uses PCI 410 and nearby sector NR-Urb-Macro-410B is also on 410 at ~1.1 km; coverage overlap ~56% in the dominant area. This aligns with the ping-pong and HO failures. I propose reassigning the serving PCI to a free value and refreshing neighbor relations. Approve the change now?",
+      "message_ar": "مراجعة الجيران تؤكد وجود تصادم PCI: الخلية الخادمة تستخدم PCI 410 والقطاع المجاور NR-Urb-Macro-410B يستخدم أيضًا 410 على بُعد ~1.1 كم؛ تداخل تغطية بنحو ~56% في المنطقة المهيمنة. هذا يتوافق مع ظواهر البينغ-بونغ وفشل التسليم. أقترح إعادة تعيين PCI للخلية الخادمة إلى قيمة خالية وتحديث علاقات الجيران. هل توافق على تنفيذ التغيير الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the PCI change and neighbor refresh.",
+      "message_ar": "موافق على تنفيذ تغيير PCI وتحديث علاقات الجيران."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed optimization: reassigned NR-Urb-Macro-410A from PCI 410 to PCI 503 (unused in cluster), updated neighbor relations and reselection priorities. No service interruption observed; brief access spikes only. Initial health checks are clean.",
+      "message_ar": "تم تنفيذ التحسين: إعادة تعيين NR-Urb-Macro-410A من PCI 410 إلى PCI 503 (غير مستخدم ضمن العنقود)، وتحديث علاقات الجيران وأولويات إعادة الاختيار. لم تُرصد انقطاعات خدمة؛ فقط ارتفاعات وصول وجيزة. فحوصات الصحة الأولية سليمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: SINR median up by ~3 dB, RSRQ improved ~2 dB, ping-pong events easing, and p50 DL rising toward ~13 Mbps.",
+      "message_ar": "ملاحظة أولية: ارتفاع وسيط SINR بحوالي ~3 dB، وتحسن RSRQ بنحو ~2 dB، وتراجع في أحداث البينغ-بونغ، وارتفاع في p50 DL نحو ~13 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will document the change and monitoring plan with before/after KPIs and the updated neighbor map. Ok to open a change record for traceability?",
+      "message_ar": "تحسن جيد. سأوثّق التغيير وخطة المراقبة مع مؤشرات قبْل/بعد وخريطة الجيران المحدّثة. هل نفتح سجل تغيير للتتبع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please include the PCI change details and affected neighbors.",
+      "message_ar": "موافق. يرجى تضمين تفاصيل تغيير PCI والجيران المتأثرين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change record created with baseline snapshots and post-change validations. We will track stabilization and include the reference in the summary.",
+      "message_ar": "تم إنشاء سجل التغيير مع لقطات خط الأساس والتحققات بعد التغيير. سنراقب الاستقرار وسنضمن المرجع في الملخص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement sustained: handover failures trending down and HO success edging up; interference indicators improved. Action taken was PCI parameter optimization and neighbor relation update. Let’s monitor through the next busy hour under DU-PCI-02873.",
+      "message_ar": "التحسن مستمر: حالات فشل التسليم في انخفاض ومعدل نجاح التسليم في تحسن؛ ومؤشرات التداخل تحسّنت. الإجراء المتخذ كان تحسين معلمة PCI وتحديث علاقات الجيران. لِنُراقب خلال ساعة الذروة القادمة ضمن DU-PCI-02873."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and update the ticket after the window. If issues recur, we will roll back to the previous PCI and escalate to RF planning; otherwise we will keep the new PCI and close after a stable period. Summary: audited neighbors, corrected PCI collision via reassignment, updated neighbor relations, and initiated documentation and monitoring.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا عادت المشكلة سنعود إلى PCI السابق ونصعّد إلى تخطيط الترددات؛ وإلا سنُبقي PCI الجديد ونغلق بعد فترة استقرار. الملخص: تم تدقيق الجيران، تصحيح تصادم PCI بإعادة التعيين، تحديث علاقات الجيران، وبدء التوثيق والمراقبة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision between NR-Urb-Macro-410A (PCI 410) and a nearby sector with significant overlap, driving interference and mobility issues. We mitigated by site parameter tuning: reassigned the serving PCI to a free value and refreshed neighbor relations, then logged a change record for traceability. Early indicators show improved SINR/RSRQ and handovers; we will monitor through the next busy hour.",
+    "ar": "أكد تحليل الجيران وجود تصادم PCI بين NR-Urb-Macro-410A (PCI 410) وقطاع مجاور مع تداخل كبير، ما تسبب في تداخل ومشاكل حركة. تم التخفيف عبر ضبط معلمات الموقع: إعادة تعيين PCI إلى قيمة خالية وتحديث علاقات الجيران، ثم توثيق ذلك بسجل تغيير للتتبع. المؤشرات المبكرة تظهر تحسنًا في SINR/RSRQ وعمليات التسليم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

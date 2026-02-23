@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0008",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural NR macro cell shows long-range dominance with interference / signal overlap and slow data over the last 12h; TA skewed long, distant users served, and mobility errors rising.",
+    "ar": "خلية ماكرو NR ريفية تُظهر تغطية بعيدة المدى مع تداخل / تراكب إشارة وبطء في البيانات خلال آخر 12 ساعة؛ توزيع زمن الوصول بعيد، ومستخدمون بعيدون يتم خدمتهم، وأخطاء الحركة تتزايد."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector NR-RURAL-78211-S1 over the last 12h: median SINR is -4 dB, RSRQ -14 dB, handover failures ~15%, ping-pong ~11%, TA long with many users beyond 1 km; p50 throughput ~3 Mbps. No active alarms. eMBB streaming complaints about buffering.",
+      "message_ar": "القطاع الماكرو الريفي NR-RURAL-78211-S1 خلال آخر 12 ساعة: متوسط SINR عند -4 dB، وRSRQ -14 dB، وفشل التسليم بين الخلايا ~15%، والبينغ بونغ ~11%، وزمن الوصول TA طويل مع كثير من المستخدمين أبعد من 1 كم؛ سرعة تحميل وسطية ~3 ميجابت/ث. لا توجد إنذارات نشطة. شكاوى من بث eMBB بسبب التقطيع."
+    },
+    {
+      "role": "agent",
+      "message_en": "This points to an overshooting cell causing interference and mobility instability. Plan: 1) review the coverage footprint vs nearby sites, 2) audit defined neighbors and handover relations, 3) apply minor site parameter tuning to rein in range and stabilize handovers. Please confirm the cell ID and approve read-only checks first.",
+      "message_ar": "هذا يشير إلى خلية تتجاوز حدود تغطيتها مما يسبب تداخلًا وعدم استقرار في الحركة. الخطة: 1) مراجعة بصمة التغطية مقابل المواقع المجاورة، 2) تدقيق الجيران والعلاقات بين التسليم، 3) تطبيق ضبط طفيف لمعاملات الموقع لتقليل المدى واستقرار التسليم. يرجى تأكيد معرف الخلية والموافقة على فحوصات قرائية أولاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-RURAL-78211-S1. Approved for read-only checks. Nearest sites are about 5 km apart. Traffic mix is eMBB with evening streaming peaks.",
+      "message_ar": "معرف الخلية هو NR-RURAL-78211-S1. الموافقة على الفحوصات القرائية. المواقع الأقرب تبعد حوالي 5 كم. مزيج الحركة eMBB مع ذروة بث مساءً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review complete: the sector’s footprint extends 7–9 km along the NNE corridor with weak RSRP (-107 to -112 dBm) and negative SINR, overlapping adjacent sites beyond the planned boundary. This confirms overshoot. Next, I will audit neighbor definitions and mobility thresholds for NR-RURAL-78211-S1. Approve?",
+      "message_ar": "تمت مراجعة التغطية: بصمة القطاع تمتد 7–9 كم على الممر الشمالي الشمالي الشرقي مع RSRP ضعيف (-107 إلى -112 dBm) وSINR سلبي، وتداخل مع المواقع المجاورة خارج الحدود المخطط لها. هذا يؤكد التجاوز. بعد ذلك، سأدقق تعريفات الجيران وعُتبات الحركة لـ NR-RURAL-78211-S1. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the neighbor and mobility audit.",
+      "message_ar": "موافق. تابع تدقيق الجيران والحركة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit shows a missing northern neighbor relation and late handover entry versus two sites, contributing to distant serving and ping-pong. I propose minor tuning: small down-tilt/power shaping to shrink excess footprint and modestly tighten handover thresholds toward the two northern neighbors. Non-service-affecting and reversible. Approve optimization?",
+      "message_ar": "تدقيق الجيران يُظهر افتقاد علاقة جار شمالية وتأخر الدخول في التسليم تجاه موقعين، مما يساهم في خدمة مستخدمين بعيدين والبينغ بونغ. أقترح ضبطًا طفيفًا: إمالة/تشكيل قدرة بسيط لتقليص البصمة الزائدة وتشديدًا معتدلًا لعُتبات التسليم نحو الجارين الشماليين. التأثير على الخدمة معدوم وقابل للرجوع. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed optimization now.",
+      "message_ar": "موافق على تنفيذ التحسين المقترح الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-RURAL-78211-S1: executed minor tilt/power shaping and adjusted mobility thresholds toward the northern neighbors. Changes committed and verified. I’ll monitor SINR/RSRQ, handover failures and ping-pong, TA distribution, distant serving ratio, and p50 throughput over the next hour.",
+      "message_ar": "تم تطبيق التحسين على NR-RURAL-78211-S1: تنفيذ تعديل طفيف في الإمالة/القدرة وضبط عتبات الحركة نحو الجارين الشماليين. تم اعتماد التغييرات والتحقق منها. سأراقب SINR/RSRQ، وفشل التسليم والبينغ بونغ، وتوزيع TA، ونسبة الخدمة البعيدة، وسرعة p50 خلال الساعة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes: median SINR improved from -4 dB to ~1 dB, RSRQ from -14 dB to -11 dB. Ping-pong down to ~5%. Distant serving ratio dropped from ~20% to ~9%. p50 throughput up to ~6 Mbps. No alarms triggered.",
+      "message_ar": "بعد حوالي 20 دقيقة: تحسن متوسط SINR من -4 dB إلى ~1 dB، وRSRQ من -14 dB إلى -11 dB. انخفض البينغ بونغ إلى ~5%. تراجعت نسبة الخدمة البعيدة من ~20% إلى ~9%. ارتفعت سرعة p50 إلى ~6 ميجابت/ث. لم تُطلق أي إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I expect handover failures to trend below 9% as the network settles. I’ll keep watching TA p95 and mobility stability through the next busy hour. Any additional field feedback is welcome.",
+      "message_ar": "تحسن جيد. أتوقع انخفاض فشل التسليم إلى أقل من 9% مع استقرار الشبكة. سأواصل مراقبة TA p95 واستقرار الحركة خلال ساعة الذروة القادمة. أي ملاحظات ميدانية إضافية مرحب بها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "KPIs continue improving: handover failures trending down and TA tail shrinking. The action taken was coverage review, neighbor audit, and site parameter tuning. Let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "تستمر مؤشرات الأداء في التحسن: فشل التسليم يتجه للانخفاض وذيل TA يتقلص. الإجراء الذي تم هو مراجعة التغطية، تدقيق الجيران، وضبط معاملات الموقع. دعنا نراقب خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy-hour monitoring and update with results. If metrics regress, we will roll back the tuning and escalate for field verification; otherwise we’ll keep the changes and close out after confirming stable mobility and throughput.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بالنتائج. إذا تراجعت المؤشرات سنرجع الضبط ونصعّد للتحقق الميداني؛ وإلا سنُبقي التغييرات ونُنهي بعد تأكيد استقرار الحركة وسرعة البيانات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural 5G NR macro overshooting issue: coverage review showed an elongated footprint with overlap, causing interference and mobility instability with slow data. Performed a neighbor audit and executed site parameter tuning (minor tilt/power shaping and mobility threshold adjustments), which reduced distant serving and improved SINR and median throughput. Monitoring continues through the next busy hour to confirm stable handovers and TA distribution.",
+    "ar": "تم تشخيص مشكلة تجاوز تغطية في خلية ماكرو 5G NR ريفية: أظهرت مراجعة التغطية بصمة ممتدة مع تداخل، ما سبب تداخلًا وعدم استقرار في الحركة وبطء البيانات. تم تدقيق الجيران وتنفيذ ضبط معاملات الموقع (تعديل طفيف للإمالة/القدرة وضبط عتبات الحركة)، مما خفّض خدمة المستخدمين البعيدين وحسّن SINR والمتوسط الوسيط للسرعة. تستمر المراقبة خلال ساعة الذروة القادمة لتأكيد استقرار التسليم وتوزيع TA."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0028",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro over the last 6 hours during peak eMBB shows high PRB utilization (~84%), uneven allocation (fairness 0.73, skew 21), elevated allocation latency (p95 67 ms), median throughput 16 Mbps, and stable SINR 16 dB—investigate potential resource allocation drift.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات وفي ذروة eMBB تُظهر استهلاك PRB مرتفعاً (~84%) وتوزيعاً غير متوازن (مؤشر العدالة 0.73 وانحراف 21) وزمن تأخير التخصيص مرتفعاً (p95 = 67 ms) مع سرعة وسطية 16 Mbps وSINR مستقر 16 dB—نحتاج للتحقق من احتمال انحراف في سياسة تخصيص الموارد."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro, last 6h peak: users report uneven throughput and higher app latency; some eMBB streaming stalls; no active alarms.",
+      "message_ar": "موقع NR ماكرو حضري خلال آخر 6 ساعات في أوقات الذروة: المستخدمون يبلغون عن تذبذب في السرعات وزمن أعلى في التطبيقات؛ توجد توقفات بسيطة في البث؛ لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Under peak load this looks like resource allocation drift. I will pull last 6h stats for the target cell—please confirm the cell ID and grant read access.",
+      "message_ar": "يبدو أنّ هناك انحرافاً في سياسة تخصيص الموارد تحت الحمل المرتفع. سأجلب إحصاءات آخر 6 ساعات للخلية المستهدفة—يرجى تأكيد معرف الخلية ومنحي صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-1102. Read-only access approved for the last 6 hours.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-1102. تمت الموافقة على صلاحية القراءة لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "6h counters for NR-URB-MACRO-1102: PRB utilization avg ~84% (peaks ~90%), allocation fairness 0.73, allocation skew 21, p95 allocation delay 67 ms; class mix shows best-effort 74% vs high-priority 35%. RF steady (SINR 16 dB, RSRQ -13 dB). This indicates allocator imbalance under load.",
+      "message_ar": "مؤشرات 6 ساعات للخلية NR-URB-MACRO-1102: استهلاك PRB متوسط ~84% (قمم ~90%)، عدالة التخصيص 0.73، انحراف التخصيص 21، وتأخير التخصيص p95 يساوي 67 ms؛ مزيج الفئات يُظهر أفضلية الجهود 74% مقابل عالية الأولوية 35%. مؤشرات الراديو مستقرة (SINR = 16 dB، RSRQ = -13 dB). هذا يشير إلى اختلال في المُخصص تحت الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted.",
+      "message_ar": "تم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will analyze PRB and allocation KPI time series across the 6h window to pinpoint the drift during peak.",
+      "message_ar": "التالي، سأحلّل السلاسل الزمنية لـ PRB ومؤشرات التخصيص عبر نافذة 6 ساعات لتحديد موقع الانحراف أثناء الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series: PRB climbs 60%→92% around 19:10; fairness drops 0.86→0.70; allocation delay spikes to ~70 ms. RF indicators steady. Root cause points to allocator weighting favoring best-effort at peak. Proposed mitigation: conservative tuning to raise priority-flow weighting, cap best-effort bursts, and add a latency guardrail. Approve live apply?",
+      "message_ar": "السلاسل الزمنية: يرتفع PRB من 60% إلى 92% حوالي 19:10؛ تنخفض العدالة من 0.86 إلى 0.70؛ تتصاعد تأخيرات التخصيص إلى ~70 ms. مؤشرات الراديو ثابتة. السبب الجذري يشير إلى أوزان مُخصص تميل لفئة أفضلية الجهود أثناء الذروة. الإجراء المقترح: ضبط تحفظي لرفع وزن التدفقات عالية الأولوية، ووضع حد لحِصص أفضلية الجهود، وإضافة حد تأخير. هل توافق على التطبيق الحي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply conservative tuning now.",
+      "message_ar": "موافَق على تطبيق ضبط تحفّظي الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR-URB-MACRO-1102. Immediate check (10 min): PRB ~78–82%, fairness ~0.86, p95 allocation delay ~48 ms, median throughput ~19 Mbps; no faults observed.",
+      "message_ar": "تم تطبيق التغيير على NR-URB-MACRO-1102. فحص فوري (10 دقائق): PRB بين ~78–82%، العدالة ~0.86، تأخير التخصيص p95 ~48 ms، السرعة المتوسّطة ~19 Mbps؛ لا أعطال ملحوظة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: allocation delays trending down and fairness improved. Action taken: site parameter tuning on the resource allocator. Propose monitoring through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: تأخيرات التخصيص في اتجاه نزولي وتحسّن العدالة. الإجراء المُتخذ: ضبط معلمات الموقع على مُخصص الموارد. أقترح المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and report updated PRB load, allocation fairness, and delay. Summary: diagnosed allocator imbalance under peak, applied conservative site parameter tuning to rebalance class weights and cap best-effort bursts, with immediate KPI gains. If metrics regress, we will roll back the change; if congestion returns, we will escalate to inter-cell load optimization.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بتحديثات حمل PRB وعدالة التخصيص وزمن التأخير. الملخّص: تم تشخيص اختلال المُخصص تحت الذروة، وتطبيق ضبط محافظ لمعلمات الموقع لإعادة موازنة الأوزان وتحديد حصص أفضلية الجهود، مع تحسن فوري في المؤشرات. إذا تراجعت المؤشرات سنرجع التغيير؛ وإذا عاد الازدحام سنصعّد إلى تحسين التحميل بين الخلايا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-1102",
+        "last 6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-1102",
+        "PRB",
+        "last 6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The urban NR macro showed resource allocation drift at peak: high PRB use, degraded fairness, and elevated allocation delay while RF indicators remained stable. We validated this via OSS counters and time-series analysis, then applied conservative site parameter tuning to rebalance class weights and cap best-effort bursts. Immediate KPI improvements were observed and short-term monitoring is in place.",
+    "ar": "الموقع NR الماكرو الحضري أظهر انحرافاً في تخصيص الموارد أثناء الذروة: استخدام PRB مرتفع، تدهور في العدالة، وارتفاع في تأخير التخصيص مع بقاء مؤشرات الراديو مستقرة. تم التحقق عبر مؤشرات OSS والتحليل الزمني، ثم جرى تطبيق ضبط محافظ لمعلمات الموقع لإعادة موازنة الأوزان وتحديد حصص أفضلية الجهود. لوحظ تحسن فوري في المؤشرات وتم تفعيل مراقبة قصيرة الأمد."
+  }
+}

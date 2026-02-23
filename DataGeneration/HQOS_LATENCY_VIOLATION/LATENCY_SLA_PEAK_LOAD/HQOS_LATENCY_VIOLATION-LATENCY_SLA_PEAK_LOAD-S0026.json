@@ -1,0 +1,120 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0026",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm in the last 2h with PRB utilization ~93%, 267 users, and p95 scheduling latency ~91 ms affecting eMBB during shoulder hours; median throughput ~18 Mbps.",
+    "ar": "خلية NR ماكرو حضرية يظهر عليها إنذار ازدحام خلال آخر ساعتين مع استهلاك PRB ~93% و267 مستخدمًا وتأخير جدولة p95 ~91 مللي ثانية يؤثر على eMBB خلال ساعات الكتف؛ السرعة المتوسطة ~18 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell over the last 2h has high latency during shoulder hours with eMBB streaming. Current snapshot: PRB ~93%, 267 users, BLER ~3–4%, p95 scheduling latency ~91 ms.",
+      "message_ar": "خلية NR ماكرو حضرية خلال آخر ساعتين تظهر تأخرًا مرتفعًا أثناء ساعات الكتف مع بث eMBB. الحالة الحالية: استهلاك PRB ~93%، 267 مستخدمًا، BLER ~3–4%، وتأخير جدولة p95 ~91 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead QoS latency troubleshooting. Step 1: with your approval, I will pull live counters for the target cell over the last 2h. Please confirm the cell ID.",
+      "message_ar": "سأتولى تشخيص تأخر QoS. الخطوة 1: بموافقتك سأجلب العدادات الحية للخلية المستهدفة لآخر ساعتين. يرجى تأكيد معرف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UTR-04567. Approval granted for a 2h window.",
+      "message_ar": "معرف الخلية: NR-UTR-04567. الموافقة ممنوحة لنطاق ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing the counter pull for NR-UTR-04567 (2h). I will review PRB load, buffer/queue depth, latency, and faults, then report.",
+      "message_ar": "أجري سحب العدادات لـ NR-UTR-04567 (ساعتان). سأراجع حمل PRB وعمق المخازن المؤقتة/الطوابير والتأخير والأعطال ثم أبلغك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: DL PRB sustained 92–96%, p95 scheduler latency peaked at 105 ms during the shoulder period; BLER ~3–4%; no active faults and backhaul normal. This indicates resource contention driving latency. Next, I will chart the latency time series for the same window to isolate bursts—proceed?",
+      "message_ar": "النتائج: استمر استهلاك PRB الهابط عند 92–96%، وبلغ p95 لتأخير الجدولة 105 مللي ثانية خلال فترة الكتف؛ BLER ~3–4%؛ لا أعطال نشطة والارتباط الخلفي طبيعي. هذا يشير إلى تزاحم الموارد كمسبب للتأخير. بعد ذلك سأرسم سلسلة زمنية للتأخير ضمن نفس النطاق لعزل الطفرات—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series confirms bursts aligned with user surges at 18:10–18:40; queueing component dominates. Median user throughput ~18 Mbps, but latency breaches QoS. I propose site parameter optimization to prioritize low-latency queues and add scheduler headroom. Approve change?",
+      "message_ar": "السلسلة الزمنية للتأخير تؤكد طفرات متزامنة مع ذروة المستخدمين 18:10–18:40؛ المكوّن الطوابيري هو الغالب. متوسط سرعة المستخدم ~18 ميجابت/ث، لكن التأخير يتجاوز QoS. أقترح تحسين معلمات الموقع لإعطاء أولوية لصفوف التأخير المنخفض وإضافة هامش للمجدول. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the optimization now: tuned scheduler priorities and headroom for latency-sensitive traffic; the change is reversible and non-disruptive. I will monitor counters for 15–20 minutes.",
+      "message_ar": "أطبق التحسين الآن: تم ضبط أولويات المجدول والهامش لحركة المرور الحساسة للتأخير؛ التغيير قابل للإرجاع وبدون انقطاع. سأراقب العدادات لمدة 15–20 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check: p95 scheduling latency dropped to ~58 ms; PRB remains high but more stable. No new alarms.",
+      "message_ar": "فحص مبكر: انخفض p95 لتأخير الجدولة إلى ~58 مللي ثانية؛ ما زال PRB مرتفعًا لكنه أكثر استقرارًا. لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I will keep observing burst behavior and user experience metrics while the load stays elevated.",
+      "message_ar": "مؤشر جيد. سأستمر بمراقبة سلوك الطفرات ومؤشرات تجربة المستخدم بينما يبقى الحمل مرتفعًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement sustained: high-percentile latency continues trending down, and queueing delays are reduced after the parameter optimization. Let's monitor through the next busy hour to confirm stability.",
+      "message_ar": "التحسن مستمر: يستمر انخفاض التأخير في النسب المئوية العليا، وتقلصت تأخيرات الطوابير بعد تحسين المعلمات. لنتابع المراقبة خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and share an update afterward. If latency breaches recur, we will roll back the change and escalate to assess additional capacity or offload options.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة ونوافيك بتحديث بعدها. إذا تكرر تجاوز التأخير، سنقوم بالتراجع عن التغيير وتصعيد الأمر لتقييم زيادة السعة أو خيارات التفريغ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on an urban NR macro cell during shoulder-hour peak load. Live counters and latency time series showed sustained high PRB utilization with queueing spikes driving high-percentile latency. Mitigation applied via site parameter tuning to prioritize low-latency scheduling and increase headroom; early results show p95 latency decreasing, and we will monitor through the next busy hour.",
+    "ar": "تم تشخيص انتهاك QoS للتأخير على خلية NR ماكرو حضرية خلال حمل ذروة بساعات الكتف. أظهرت العدادات الحية والسلسلة الزمنية للتأخير استهلاك PRB مرتفعًا باستمرار مع طفرات في الطوابير رفعت التأخير العالي النسبة. تم تنفيذ إجراء تخفيفي عبر تحسين معلمات الموقع لإعطاء أولوية للجدولة منخفضة التأخير وزيادة الهامش؛ النتائج الأولية تُظهر انخفاض p95 للتأخير، وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0030",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G NR macro shows slow data with BLER ~7%, weak signal at the coverage edge (RSRP -110 dBm, RSRQ -17 dB, SINR 6 dB) over the last 6h shoulder period with eMBB streaming.",
+    "ar": "موقع ماكرو NR ريفي يُظهر بيانات بطيئة مع BLER ~7% وإشارة ضعيفة عند حافة التغطية (RSRP -110 dBm، RSRQ -17 dB، SINR ‏6 dB) خلال آخر 6 ساعات من الفترة المتوسطة مع بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell over the last 6h shoulder shows slow data (p50 ~3 Mbps), weak RSRP (-110 dBm), poor RSRQ (-17 dB), SINR 6 dB, and BLER ~7% with ~46 users on eMBB streaming; please assess.",
+      "message_ar": "خلال آخر 6 ساعات في الفترة المتوسطة، خلية NR ماكرو ريفية تُظهر بيانات بطيئة (الوسيط ~3 ميجابت/ث)، RSRP ضعيف (-110 dBm)، RSRQ سيئ (-17 dB)، SINR ‏6 dB، وBLER ~7% مع ~46 مستخدماً لبث eMBB؛ الرجاء التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling OSS stats for the last 6h on the affected cell to validate errors, load, and radio health; share the cell ID and approve access so I can proceed.",
+      "message_ar": "سأبدأ بسحب إحصاءات النظام لآخر 6 ساعات للخلية المتأثرة للتحقق من الأخطاء والحمل وصحة الراديو؛ رجاء تزويدي بمعرّف الخلية والموافقة على الوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Cell-310-470-12345; read/write access approved.",
+      "message_ar": "معرّف الخلية هو NR-Cell-310-470-12345؛ تمت الموافقة على صلاحيات القراءة/الكتابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: no active alarms, backhaul and power nominal, utilization moderate; BLER elevated at low RSRP bins and at the coverage edge. Next, I'll chart BLER time series for the same 6h to correlate spikes with load and signal; approve to proceed.",
+      "message_ar": "اكتمل فحص النظام: لا إنذارات نشطة، الربط الخلفي والطاقة ضمن الطبيعي، الاستغلال متوسط؛ BLER مرتفع عند مستويات RSRP المنخفضة وعلى حافة التغطية. التالي، سأرسم السلسلة الزمنية لـ BLER لنفس 6 ساعات لربط الذروات بالحمل والإشارة؛ الرجاء الموافقة للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time series.",
+      "message_ar": "موافَق على المتابعة بالسلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows persistent BLER 6–9% with spikes during shoulder when 40–50 users; correlates with weak RSRP (-110) and poor RSRQ (-17). I propose a conservative parameter optimization to increase cell-edge robustness (less aggressive link adaptation, scheduler weighting, minor beam shaping); approve execution.",
+      "message_ar": "السلسلة الزمنية تُظهر BLER مستمراً بين 6–9% مع ذروات خلال الفترة المتوسطة عند 40–50 مستخدماً؛ ويتوافق ذلك مع RSRP ضعيف (-110) وRSRQ سيئ (-17). أقترح تحسيناً محافظاً للمعلمات لزيادة متانة أطراف الخلية (تخفيف عدوانية التكيّف الرابط، ترجيح المجدول، وتعديل طفيف لحزم الإشعاع)؛ الرجاء الموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization.",
+      "message_ar": "موافَق على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-Cell-310-470-12345: site parameter tuning for edge robustness with minor beam weighting adjustments; no service impact observed. I'll watch KPIs for 15–30 minutes; please share any quick observations.",
+      "message_ar": "تم تطبيق التحسين على NR-Cell-310-470-12345: ضبط معلمات الموقع لتعزيز متانة أطراف الخلية مع تعديلات طفيفة في أوزان الحزمة؛ دون تأثير خدمي ملحوظ. سأراقب مؤشرات الأداء لمدة 15–30 دقيقة؛ يرجى مشاركة أي ملاحظات سريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check: BLER is trending down from ~7% to ~3.5%, and median downlink speed improved to about 5 Mbps; this follows the parameter optimization. Let's monitor through the next busy hour.",
+      "message_ar": "فحص مبكر: BLER يتراجع من ~7% إلى ~3.5%، وسرعة التنزيل المتوسطة تحسّنت إلى نحو 5 ميجابت/ث؛ وهذا نتيجة تحسين المعلمات. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we'll own monitoring for the next busy hour and report BLER and user experience afterward. If degradation returns, we will escalate to RF field for on-site checks and roll back the change if KPIs regress.",
+      "message_ar": "تم، سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بتحديث حول BLER وتجربة المستخدم بعدها. إذا عاد التدهور، سنصعّد إلى فريق الترددات لإجراء فحص ميداني وسنرجع التغيير إذا تراجعت المؤشرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-310-470-12345",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-310-470-12345",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "edge-robustness tuning with minor beam weighting"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a BLER anomaly on a rural 5G NR macro cell. OSS and time-series analysis confirmed persistent ~6–9% BLER aligned with weak cell-edge signal during the shoulder period, driving slow data. Applied site parameter tuning to improve edge robustness with minor beam adjustments; BLER decreased and median throughput improved, and we will monitor through the next busy hour.",
+    "ar": "تم التحقيق في شذوذ BLER على خلية ماكرو NR ريفية. أكّد فحص النظام والسلسلة الزمنية وجود BLER مستمر ~6–9% مرتبط بإشارة ضعيفة على حافة التغطية خلال الفترة المتوسطة، ما أدى إلى بطء البيانات. تم تنفيذ ضبط لمعلمات الموقع لتعزيز متانة أطراف الخلية مع تعديلات طفيفة في الحزمة؛ انخفض BLER وتحسن الوسيط في السعة، وسيتم المراقبة خلال ساعة الذروة القادمة."
+  }
+}

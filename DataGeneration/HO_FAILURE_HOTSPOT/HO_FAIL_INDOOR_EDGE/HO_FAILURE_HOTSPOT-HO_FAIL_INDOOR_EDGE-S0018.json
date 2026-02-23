@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0018",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Investigate an indoor 5G NR handover failure hotspot in the north office wing over the last 4 hours, with HO success ~89.6%, failures ~10%, ping-pong 13%, elevated RLF, and moderate signal quality.",
+    "ar": "الرجاء التحقيق في بؤرة فشل التسليم بين الخلايا داخل المبنى في الجناح الشمالي خلال آخر 4 ساعات على شبكة 5G NR، مع نجاح تسليم ~89.6%، فشل ~10%، ارتداد 13%، ارتفاع في قطع الاتصال، وجودة إشارة متوسطة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing elevated 5G NR handover failures on an indoor micro cell over the last 4 hours (shoulder). HO success ~89.6%, failures ~10%, ping-pong 13%, RLF ~4%. RSRP around -106 dBm, RSRQ -14 dB, SINR 5 dB. About 208 users with eMBB streaming impacted in the north office wing.",
+      "message_ar": "نلاحظ ارتفاعًا في فشل التسليم بين الخلايا على خلية داخلية (مايكرو) خلال آخر 4 ساعات (فترة انتقالية). نجاح التسليم ~89.6%، الفشل ~10%، الارتداد 13%، وانقطاع الاتصال ~4%. قيمة RSRP نحو -106 dBm وRSRQ -14 dB وSINR عند 5 dB. حوالي 208 مستخدمين بخدمة eMBB وتأثير في الجناح الشمالي للمكاتب."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by mapping indoor coverage to localize the handover-failure hotspot around the north wing and edge zones for this 4h window. Please approve read access to floor plan and radio layers.",
+      "message_ar": "سأبدأ برسم خريطة التغطية الداخلية لتحديد بؤرة فشل التسليم حول الجناح الشمالي ومناطق الحافة خلال نافذة 4 ساعات. يرجى الموافقة على صلاحية القراءة لمخطط الطوابق وطبقات الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell is NR micro serving the north office wing, level 2. No active alarms. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول. الخلية NR مايكرو تخدم الجناح الشمالي للمكاتب في الطابق الثاني. لا توجد إنذارات فعالة. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage heatmap shows weak serving power (-108 to -112 dBm) along the north corridor with overlap from two neighbors. This suggests late handover toward the dominant neighbor and short ping-pong near the elevators. I propose targeted mobility tuning: add a small positive CIO toward the dominant neighbor in that corridor, reduce TTT for that relation, and lower hysteresis slightly to encourage earlier, stable HOs. Shall I apply?",
+      "message_ar": "خريطة التغطية تُظهر قدرة إرسال ضعيفة (-108 إلى -112 dBm) على طول الممر الشمالي مع تداخل من جارين. هذا يشير إلى تسليم متأخر نحو الجار المسيطر وارتداد قصير قرب المصاعد. أقترح ضبطًا انتقائيًا للتنقل: إضافة انحياز CIO صغير نحو الجار المسيطر في ذلك الممر، خفض TTT لتلك العلاقة، وخفض طفيف للهسترة لتشجيع عمليات تسليم أبكر وأكثر استقرارًا. هل أعتمد التغييرات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the targeted mobility tuning.",
+      "message_ar": "موافق على تنفيذ الضبط الانتقائي لمعاملات التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied: +1 dB CIO toward the dominant neighbor in the north corridor, A3/TTT reduced to 160 ms for that relation, hysteresis lowered to 1 dB, and increased return TTT to damp ping-pong. Expecting earlier and more stable handovers; monitoring starts now.",
+      "message_ar": "تم تطبيق التغييرات: CIO +1 dB نحو الجار المسيطر في الممر الشمالي، خفض A3/TTT إلى 160 ms لتلك العلاقة، خفض الهسترة إلى 1 dB، وزيادة TTT للعودة لتخفيف الارتداد. نتوقع عمليات تسليم أبكر وأكثر استقرارًا؛ يبدأ الرصد الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early spot-check on-site: fewer HO drops near the elevators and faster completion of HO attempts. No new alarms.",
+      "message_ar": "فحص ميداني سريع: انخفاض في حالات فشل التسليم قرب المصاعد وإتمام أسرع لمحاولات التسليم. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We'll track HO success, failure, ping-pong, and RLF for the corridor cluster through the next shoulder peaks. Targets: HO success ≥94%, ping-pong ≤8%, RLF trending down. Please share any user feedback that comes in.",
+      "message_ar": "جيد. سنراقب نجاح التسليم والفشل والارتداد وانقطاع الاتصال لمجموعة الممر خلال فترات الذروة الانتقالية القادمة. الأهداف: نجاح التسليم ≥94%، الارتداد ≤8%، وانخفاض اتجاه انقطاع الاتصال. يرجى مشاركة أي ملاحظات من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Median throughput nudged to ~13 Mbps and streaming is smoother per floor staff. Helpdesk has no new complaints.",
+      "message_ar": "تحسن الوسيط في معدل النقل إلى ~13 Mbps وأصبحت البثوث أكثر سلاسة حسب موظفي الطابق. لا توجد شكاوى جديدة لدى الدعم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. If residual issues persist at far corners, we’ll consider minor neighbor/beam refinement later; for now, continued observation should suffice. I’ll keep watching the corridor cluster KPIs closely.",
+      "message_ar": "تم. إذا استمرت مشكلات متبقية في الزوايا البعيدة، سننظر لاحقًا في تحسينات طفيفة على الجيران/الحزم؛ حاليًا المتابعة المستمرة كافية. سأواصل متابعة مؤشرات الأداء لمجموعة الممر عن كثب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, handover failures are trending down and ping-pong is easing in the north wing. The action taken was targeted mobility parameter tuning. Let’s monitor for the next 2–4 hours through the next busy period.",
+      "message_ar": "بعد التغيير، فشل التسليم في انخفاض والارتداد يتراجع في الجناح الشمالي. الإجراء كان ضبطًا انتقائيًا لمعاملات التنقل. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمتين حتى فترة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We’ll own the 2–4 hour monitoring window and update with HO success, ping-pong, and RLF trends. If degradation reappears, we will escalate to broader neighbor/beam retuning; if adverse effects arise, we will roll back the corridor-specific offsets to the previous state.",
+      "message_ar": "مفهوم. سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنزودك بتحديث حول اتجاهات نجاح التسليم والارتداد وانقطاع الاتصال. إذا عادت التدهورات سنصعّد إلى إعادة ضبط أوسع للجيران/الحزم؛ وإذا ظهرت آثار جانبية سنرجع الانحيازات الخاصة بالممر إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "25m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Targeted mobility tuning for north corridor: +1 dB CIO toward dominant neighbor; reduce A3/TTT to 160 ms for that relation; lower hysteresis to 1 dB; increase return TTT to mitigate ping-pong."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Indoor coverage analysis localized a handover failure hotspot along the north corridor with weak serving power and overlapping neighbors. We applied targeted mobility parameter tuning (neighbor bias, reduced time-to-trigger, lower hysteresis, and adjusted return timing) to enable earlier and more stable handovers. Initial observations show fewer drops and smoother service; we will keep monitoring KPIs over the next hours.",
+    "ar": "أظهر تحليل التغطية الداخلية وجود بؤرة لفشل التسليم على طول الممر الشمالي مع قدرة إرسال ضعيفة وتداخل من جيران. تم تنفيذ ضبط انتقائي لمعاملات التنقل (انحياز نحو الجار، خفض زمن التفعيل، تقليل الهسترة، وضبط توقيت العودة) لتمكين عمليات تسليم أبكر وأكثر استقرارًا. الملاحظات الأولية تُظهر انخفاض الأعطال وخدمة أكثر سلاسة؛ سنواصل مراقبة مؤشرات الأداء خلال الساعات القادمة."
+  }
+}

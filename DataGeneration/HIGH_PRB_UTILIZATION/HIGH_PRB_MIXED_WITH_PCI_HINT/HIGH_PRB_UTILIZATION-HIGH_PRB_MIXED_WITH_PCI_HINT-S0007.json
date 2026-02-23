@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0007",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows sustained high PRB utilization (~89%) over 3 hours with a congestion alarm and interference/signal overlap (SINR ~1 dB), pushing DL/UL to ~12/4 Mbps and raising failures.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تظهر ارتفاعاً مستمراً في استخدام موارد PRB (~89%) خلال 3 ساعات مع إنذار ازدحام وتداخل/تراكب الإشارة (SINR ~1 dB)، مما خفّض السرعات إلى نحو 12/4 Mbps ورفع معدلات الإخفاق."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has sustained high PRB (~89%) over the last 3 hours with a congestion alarm; ~252 users, SINR ~1 dB indicating interference/signal overlap, DL/UL ~12/4 Mbps, RLF ~4% during peak evening eMBB streaming.",
+      "message_ar": "خلية NR ماكرو في منطقة حضرية تُظهر ارتفاعاً مستمراً في PRB (~89%) خلال آخر 3 ساعات مع إنذار ازدحام؛ نحو 252 مستخدماً، وقيمة SINR ~1 dB تشير إلى تداخل/تراكب الإشارة، وسرعات تنزيل/رفع ~12/4 Mbps، ومعدل انقطاع اتصال ~4% خلال ذروة المساء مع eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please share the cell ID and approve access to pull last 3 hours of counters; if congestion is confirmed, I will proceed with a low-risk parameter optimization to relieve load and mitigate overlap.",
+      "message_ar": "يرجى تزويدي بمعرّف الخلية والموافقة على الوصول لسحب مؤشرات آخر 3 ساعات؛ وإذا تأكد الازدحام سأباشر تحسين إعدادات منخفضة المخاطر لتخفيف الحمل وتقليل التراكب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-KH-217-1. Access approved for the last 3 hours.",
+      "message_ar": "معرّف الخلية: NR-KH-217-1. تمت الموافقة على الوصول لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters for NR-KH-217-1 (3h): PRB 88–92% (avg 89.5%), users 240–260, p95 scheduler latency 47 ms, BLER 4.3%, RSRQ -13 dB, SINR 1 dB, neighbor PCI overlap index 23, DL/UL ~12/4 Mbps, HO fails ~4%, RLF ~4.3%. This is congestion compounded by interference/signal overlap. I propose targeted tuning: increase inter-cell load balancing bias to underutilized neighbors, refine scheduler fairness for best-effort traffic, and minor beam/power shaping to reduce overlap. Proceed?",
+      "message_ar": "المؤشرات لـ NR-KH-217-1 (3 ساعات): PRB بين 88–92% (متوسط 89.5%)، المستخدمون 240–260، كمون الجدولة p95 = 47 مللي ثانية، BLER = 4.3%، RSRQ = -13 dB، SINR = 1 dB، مؤشر تراكب PCI للجيران = 23، سرعات ~12/4 Mbps، فشل التسليم بين الخلايا ~4%، والانقطاعات ~4.3%. الحالة ازدحام معزَّز بتداخل/تراكب الإشارة. أقترح ضبطاً مستهدفاً: زيادة تحيز الموازنة باتجاه الجيران الأقل حملاً، تحسين عدالة المُجدول لحركة الأقل أولوية، وتشكيل طفيف للحزمة/القدرة لتقليل التراكب. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the proposed tuning.",
+      "message_ar": "موافَق على المضي قدماً في الضبط المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-KH-217-1: enabled inter-cell offload via biasing, adjusted scheduler fairness/PRB allocation for non-critical flows, and minor beam/power shaping to cut overlap. No downtime. Starting live counter monitoring.",
+      "message_ar": "تم تطبيق التحسين على NR-KH-217-1: تفعيل التفريغ بين الخلايا عبر تحيز الموازنة، ضبط عدالة المُجدول/تخصيص PRB للحركة غير الحرجة، وتشكيل طفيف للحزمة/القدرة لتقليل التراكب. بدون انقطاع خدمة. أبدأ مراقبة المؤشرات اللحظية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Share early indicators when available.",
+      "message_ar": "يرجى مشاركة المؤشرات المبكرة عند توفرها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early read (5–10 min): PRB ~76–80%, SINR ~3 dB, RSRQ ~-11 dB, p95 latency ~34 ms, DL/UL ~16/5 Mbps; RLF trending slightly down. Congestion impact appears reduced. Shall I open a tracking ticket for continued observation?",
+      "message_ar": "قراءة مبكرة (5–10 دقائق): PRB حوالي 76–80%، وSINR ~3 dB، وRSRQ ~-11 dB، وكمون p95 ~34 مللي ثانية، وسرعات ~16/5 Mbps؛ والانقطاعات في اتجاه هبوطي طفيف. يبدو أن أثر الازدحام قد انخفض. هل أفتح تذكرة متابعة للمراقبة المستمرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, open the tracking ticket.",
+      "message_ar": "نعم، افتح تذكرة المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-LOAD-02731 to track high PRB mitigation on NR-KH-217-1; pre/post counters and follow-ups are documented.",
+      "message_ar": "تم إنشاء التذكرة DU-LOAD-02731 لتتبع معالجة ارتفاع PRB على NR-KH-217-1؛ تم توثيق المؤشرات قبل/بعد والإجراءات اللاحقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: PRB occupancy is trending to the high-70s and scheduling delays are coming down. The site parameter optimization you applied looks effective; let’s monitor through the next busy hour and update DU-LOAD-02731.",
+      "message_ar": "نلاحظ تحسناً: إشغال PRB يتجه إلى أواخر السبعينات وتأخيرات الجدولة تنخفض. يبدو أن تحسين إعدادات الموقع الذي قمت به فعّالاً؛ فلنراقب خلال ساعة الذروة القادمة مع تحديث DU-LOAD-02731."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update DU-LOAD-02731 afterward. If load rebounds or overlap worsens, we will escalate to broader neighbor load balancing; if adverse effects appear, we will roll back to prior settings.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث DU-LOAD-02731 بعدها. إذا عاد الحمل للارتفاع أو ساء التراكب، سنصعّد إلى موازنة حمل أوسع مع الجيران؛ وإذا ظهرت آثار سلبية سنرجع إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-KH-217-1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_bias+scheduler_fairness+prb_allocation+minor_beam_power_shaping"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB with interference; tuning applied; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained high PRB utilization with low SINR and notable PCI overlap, indicating congestion compounded by interference. Applied site parameter tuning to offload traffic to neighbors, improve scheduler fairness/PRB allocation, and reduce overlap. A tracking ticket was created, and the cell will be monitored through the next busy hour for stability and further gains.",
+    "ar": "تم تشخيص ارتفاع مستمر في استخدام PRB مع انخفاض SINR وتراكب PCI ملحوظ، ما يشير إلى ازدحام مُعزَّز بتداخل. جرى تنفيذ ضبط إعدادات للموقع لتفريغ الحركة نحو الجيران، وتحسين عدالة المُجدول/تخصيص PRB، وتقليل التراكب. تم إنشاء تذكرة متابعة، وسيتم مراقبة الخلية خلال ساعة الذروة القادمة للتحقق من الاستقرار وتحقيق مزيد من التحسن."
+  }
+}

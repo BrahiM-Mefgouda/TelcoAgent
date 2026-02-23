@@ -1,0 +1,96 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0014",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Investigate an indoor wing handover failure hotspot on the NR micro cell over the last 4h during peak eMBB usage, with 11% failures, low SINR (2 dB) indicating interference/signal overlap, and weak RSRP (-107 dBm).",
+    "ar": "التحقيق في بؤرة فشل التسليم داخل الجناح على خلية NR ميكرو خلال آخر 4 ساعات في وقت الذروة لخدمات eMBB، مع 11% فشل، وSINR منخفض (2 dB) يدل على تداخل/تراكب إشارة، وRSRP ضعيف (-107 dBm)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a handover failure hotspot on the NR indoor micro at Building A, Level 2 east wing during peak. eMBB streaming users report interruptions. Last 4h: ~84% HO success, 11% failures, ping-pong ~20%, SINR ~2 dB, RSRP ~-107 dBm.",
+      "message_ar": "نلاحظ بؤرة فشل في التسليم على خلية NR ميكرو داخلية في المبنى A، الطابق 2 الجناح الشرقي خلال وقت الذروة. مستخدمو eMBB (بث الفيديو) يشتكون من انقطاعات. آخر 4 ساعات: نجاح التسليم ~84%، فشل 11%، تبادل متكرر ~20%، SINR ~2 dB، وRSRP ~-107 dBm."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin with an indoor coverage/overlap review across the east wing on a 5 m grid to localize the hotspot and dominance boundaries. Please confirm area access and the serving cell tag.",
+      "message_ar": "سأبدأ بمراجعة التغطية/التراكب داخل الجناح الشرقي بشبكة 5 م لتحديد البؤرة وحدود الهيمنة. يرجى تأكيد الوصول للمنطقة واسم الخلية الخادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Area: Building A, Level 2 east wing; use 5 m grid. Serving cell: NR_Indoor_Micro_12A.",
+      "message_ar": "الوصول مُعتمد. المنطقة: المبنى A، الطابق 2 الجناح الشرقي؛ استخدم شبكة 5 م. الخلية الخادمة: NR_Indoor_Micro_12A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review shows weak dominance for 12A along corridor bays E3–E6 with strong overlap from 12B and macro 7C; the HO trigger boundary falls inside the corridor, matching the hotspot. To mitigate, I propose: A3 offset 3→2 dB, add 1 dB hysteresis, and set TTT 236→256 ms on the 12A↔12B boundary. Approve?",
+      "message_ar": "مراجعة التغطية تُظهر هيمنة ضعيفة للخلية 12A على امتداد الممر E3–E6 مع تراكب قوي من 12B والماكرو 7C؛ حدود تفعيل التسليم تقع داخل الممر، وهو ما يطابق البؤرة. كإجراء تخفيفي أقترح: تعديل A3 من 3 إلى 2 dB، إضافة 1 dB هيستريسيس، وضبط TTT من 236 إلى 256 ms على حدود 12A↔12B. هل الموافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed mobility tuning.",
+      "message_ar": "موافَق على تنفيذ ضبط معلمات الحركة المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing now on NR_Indoor_Micro_12A with neighbor relation to 12B: A3 3→2 dB, hysteresis 0→1 dB, TTT 236→256 ms, plus +1 dB neighbor margin toward the corridor. Rollback is prepared. I will start post-change checks over the next 15–20 minutes.",
+      "message_ar": "جارٍ التنفيذ على NR_Indoor_Micro_12A مع علاقة الجار 12B: A3 من 3 إلى 2 dB، الهيستريسيس من 0 إلى 1 dB، TTT من 236 إلى 256 ms، إضافة هامش +1 dB نحو الممر. خطة الرجوع جاهزة. سأبدأ التحقق بعد التغيير خلال 15–20 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. No active alarms on the sector or backhaul. I’ll observe counters while users remain high.",
+      "message_ar": "تم. لا توجد إنذارات نشطة على القطاع أو النقل الخلفي. سأتابع المؤشرات مع بقاء عدد المستخدمين مرتفعاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please share a quick view after 15 minutes: HO failure ratio at corridor E3–E6 and ping-pong between 12A/12B.",
+      "message_ar": "يرجى مشاركة نظرة سريعة بعد 15 دقيقة: نسبة فشل التسليم عند الممر E3–E6 والتبادل المتكرر بين 12A/12B."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes, HO failures are trending down from ~11% to ~7% and ping-pong is easing. Action taken: mobility parameter optimization was pushed. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد ~20 دقيقة، فشل التسليم يتجه للانخفاض من ~11% إلى ~7% والتبادل المتكرر في تراجع. الإجراء المتخذ: تم دفع تحسين معلمات الحركة. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour window and update with HO success, ping-pong, and corridor user experience. If performance degrades, we will revert to the prior values; if the hotspot persists, we will extend tuning to the neighbor and refine thresholds.",
+      "message_ar": "سنتولى متابعة ساعة الذروة القادمة وتحديثكم بمعدل نجاح التسليم، التبادل المتكرر، وتجربة المستخدم في الممر. إذا تدهور الأداء سنعود إلى القيم السابقة؛ وإذا استمرت البؤرة سنوسع الضبط إلى الجار ونُحسّن العتبات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "Building A L2 east wing",
+        "5m grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility tuning: A3 offset 3→2 dB; Hysteresis 0→1 dB; TTT 236→256 ms; Neighbor CIO +1 dB towards 12B corridor"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor NR handover failure hotspot by reviewing coverage overlap in the east wing, which showed weak serving-cell dominance and interference from a neighboring micro and the macro layer. Applied site parameter tuning on the serving–neighbor boundary (A3 offset, hysteresis, and TTT) to trigger earlier yet more stable handovers and reduce ping-pong. Early indicators show failures decreasing; we will monitor through the next busy hour and adjust if needed.",
+    "ar": "تم تشخيص بؤرة فشل التسليم داخل المبنى في جناح شرقي لشبكة NR عبر مراجعة التغطية، حيث ظهر ضعف هيمنة الخلية الخادمة وتداخل من خلية مجاورة وطبقة الماكرو. تم تطبيق ضبط معلمات الموقع على حدود الخلية والجار (A3، الهيستريسيس، وTTT) لتمكين تسليمات أبكر وأكثر استقراراً وتقليل التبادل المتكرر. المؤشرات الأولية تُظهر انخفاض الفشل؛ سنواصل المتابعة خلال ساعة الذروة القادمة ونُجري التعديلات عند الحاجة."
+  }
+}

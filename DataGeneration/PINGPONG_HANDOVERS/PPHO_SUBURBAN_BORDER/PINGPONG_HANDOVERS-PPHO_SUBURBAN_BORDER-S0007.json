@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0007",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro shows elevated ping-pong handovers (~22%) over the last 5h shoulder period, with ~84% handover success and SINR at 2 dB indicating interference / signal overlap near borders.",
+    "ar": "موقع ماكرو NR في منطقة الضواحي يُظهر ازدياداً في عمليات التسليم المتأرجحة (~22%) خلال آخر 5 ساعات في الفترة شبه الذروية، مع نجاح تسليم ~84% وقياس SINR عند 2 dB مما يشير إلى تداخل/تراكب الإشارة قرب الحدود."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro border issue on NR-SUB-Macro-31012-1 over the last 5h shoulder period: users ~254, PRB ~66%, HO success ~84%, ping-pong ~22%, SINR ~2 dB. eMBB streaming users report back-and-forth.",
+      "message_ar": "مشكلة عند حدود موقع ماكرو NR في الضواحي على NR-SUB-Macro-31012-1 خلال آخر 5 ساعات في الفترة شبه الذروية: عدد المستخدمين ~254، إشغال PRB ~66%، نجاح التسليم ~84%، التسليم المتأرجح ~22%، وSINR ~2 dB. مستخدمو eMBB (بث) يشتكون من الانتقال ذهاباً وإياباً."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling recent mobility counters and neighbor events for NR-SUB-Macro-31012-1 over 5h to quantify ping-pong contributors and failures. Please confirm access.",
+      "message_ar": "سأبدأ بسحب عدادات الحركة الأخيرة وأحداث الجوار لـ NR-SUB-Macro-31012-1 خلال 5 ساعات لتحديد المساهمين في التأرجح وحالات الفشل. يرجى تأكيد الإتاحة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved.",
+      "message_ar": "تمت الموافقة على الإتاحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters show two north-border neighbors account for ~70% of ping-pong; HO failures ~10%. Serving RSRP ~-115 dBm, RSRQ -9 dB, SINR 2 dB point to interference/signal overlap. Current timer/offset levels are modest (TTT ~244 ms, hysteresis 2 dB, offset 2 dB). Next, I’ll chart HO and ping-pong over time to isolate spikes. Proceed?",
+      "message_ar": "تُظهر العدادات أن جارَيْن على الحدود الشمالية يشكّلان ~70% من التأرجح؛ فشل التسليم ~10%. قيم RSRP ~-115 dBm وRSRQ -9 dB وSINR 2 dB تشير إلى تداخل/تراكب الإشارة. مستويات المؤقت/العتبات الحالية متوسطة (TTT ~244 ms، الهسترة 2 dB، الإزاحة 2 dB). بعد ذلك سأرسم مؤشرات التسليم والتأرجح زمنياً لعزل الذروات. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series over 5h shows shoulder-period bursts: HO attempts and back-and-forth toggling spike with PRB 60–70% and streaming traffic. The border pair oscillates with sub-10s intervals. I recommend tuning handover thresholds and timers for those neighbor relations: increase timer by +40 ms, raise hysteresis +1 dB, add +1 dB offset toward the more stable cell, and apply stronger measurement smoothing for edge UEs. Approve implementation?",
+      "message_ar": "السلاسل الزمنية خلال 5 ساعات تُظهر اندفاعات في الفترة شبه الذروية: ترتفع محاولات التسليم والتأرجح مع PRB عند 60–70% وحركة البث. الزوج الحدودي يتأرجح بفواصل أقل من 10 ثوانٍ. أوصي بضبط عتبات ومؤقتات التسليم لتلك العلاقات: زيادة المؤقت بمقدار +40 ms، رفع الهسترة +1 dB، إضافة إزاحة +1 dB باتجاه الخلية الأكثر استقراراً، وتطبيق تنعيم قياسي أقوى لمشتركي الحافة. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-SUB-Macro-31012-1 and the two border neighbors: timer +40 ms, hysteresis +1 dB, neighbor offset +1 dB, stronger smoothing enabled. Change successful. We’ll watch live counters for 30–60 minutes aiming for ping-pong <12% and HO success >88%.",
+      "message_ar": "تم تطبيق التحسين على NR-SUB-Macro-31012-1 والجارتين الحدوديّتين: زيادة المؤقت +40 ms، ورفع الهسترة +1 dB، وإضافة إزاحة الجار +1 dB، وتفعيل تنعيم أقوى. نُفّذ التغيير بنجاح. سنراقب العدادات الحية لمدة 30–60 دقيقة بهدف خفض التأرجح لأقل من 12% ورفع نجاح التسليم لأكثر من 88%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 20-minute snapshot: back-and-forth toggles are down and HO failures easing. No new alarms.",
+      "message_ar": "أول لقطة بعد 20 دقيقة: انخفاض في التأرجح ذهاباً وإياباً وتراجع في حالات فشل التسليم. لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We’ll keep observing neighbor-specific ping-pong and event toggling along with user experience. If instability returns, we’ll extend tuning to additional neighbor pairs; otherwise we’ll hold and validate during the next heavy load interval.",
+      "message_ar": "جيد. سنواصل مراقبة التأرجح بحسب الجار وتبدّل الأحداث مع تجربة المستخدم. إذا عادت عدم الاستقرار، سنوسع الضبط لأزواج جيران إضافية؛ وإلا فسنثبت الإعداد ونتحقق خلال فترة الحمل الأعلى التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 1 hour, ping-pong trending down toward ~12% and handover success improving. Action taken: site parameter tuning on handover timers/offsets. Propose monitoring through the next busy hour.",
+      "message_ar": "بعد ساعة، يتجه التأرجح للانخفاض نحو ~12% وتحسن في نجاح التسليم. الإجراء المُتخذ: ضبط معلمات الموقع لمؤقتات/إزاحات التسليم. أقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and provide an update afterward. If performance degrades, we’ll escalate with deeper neighbor retuning; if adverse effects appear, we’ll roll back the change set.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً بعدها. إذا تدهور الأداء سنصعّد بإعادة ضبط أعمق للجيران؛ وإذا ظهرت آثار سلبية فسنعود عن مجموعة التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-Macro-31012-1",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-Macro-31012-1",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase HO timer +40 ms and hysteresis +1 dB for noisy border neighbors; add +1 dB neighbor offset toward stable cell; enable stronger measurement smoothing"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong on a suburban NR macro during the last 5h: analysis showed border neighbors driving back-and-forth under low SINR, indicating interference/signal overlap. Mitigation was site parameter tuning on handover timers, hysteresis, and neighbor offsets with stronger measurement smoothing. Early results show ping-pong trending down and handover success improving; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التأرجح في موقع ماكرو NR ضواحي خلال آخر 5 ساعات: التحليل أظهر أن الجيران الحدوديّين يقودون الانتقال ذهاباً وإياباً مع SINR منخفض، ما يشير إلى تداخل/تراكب الإشارة. تمت المعالجة عبر ضبط معلمات الموقع لمؤقتات التسليم والهسترة وإزاحات الجيران مع تنعيم قياسي أقوى. النتائج الأولية تُظهر انخفاض التأرجح وتحسن نجاح التسليم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

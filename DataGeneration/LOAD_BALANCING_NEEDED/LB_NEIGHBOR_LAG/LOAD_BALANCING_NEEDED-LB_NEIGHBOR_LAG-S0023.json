@@ -1,0 +1,96 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0023",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban 5G NR macro shows sustained high resource use (~97% with 287 users) during the shoulder hour for eMBB streaming, while neighbors average ~48% and handovers skew outward; propose targeted load balancing.",
+    "ar": "موقع ماكرو 5G NR حضري يُظهر إشغالاً مرتفعاً للموارد (~97% مع 287 مستخدماً) خلال فترة ما قبل الذروة مع حركة eMBB للبث، بينما الجيران بمتوسط ~48% وتسليمات منحازة للخروج؛ نقترح موازنة حمل مستهدفة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro, shoulder hour, no alarms. Over the last 4h: PRB ~97% with 287 users; neighbors average ~48%; imbalance index 0.308. HO out 24/5min vs in 11/5min. RSRQ -13 dB, SINR 10 dB. Heavy eMBB streaming.",
+      "message_ar": "موقع ماكرو NR حضري، فترة ما قبل الذروة، لا توجد إنذارات. خلال آخر 4 ساعات: إشغال الموارد ~97% مع 287 مستخدماً؛ متوسط الجيران ~48%؛ مؤشر عدم التوازن 0.308. تسليمات خروج 24/5 دقائق مقابل دخول 11/5 دقائق. RSRQ -13 dB و SINR 10 dB. حركة eMBB للبث مرتفعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first audit neighboring cells’ load and mobility relations to confirm skew and underused targets; if confirmed, I’ll apply load-balancing parameter tuning to bias handovers toward lighter macros. Please approve access.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق حمل الخلايا المجاورة وعلاقات الحركة للتحقق من الانحياز والجيران منخفضي الاستخدام؛ وإذا تأكد ذلك سأجري ضبطاً لمعلمات موازنة الحمل لتحييز التسليم نحو الماكرو الأخف حملاً. الرجاء اعتماد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the audit.",
+      "message_ar": "تمت الموافقة على الوصول لإجراء التدقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review: three primaries under target load—N1 ~41%, N2 ~52%, N3 ~35%. Serving cell is sticky (HO out/in ≈2.2:1), no faults detected. I recommend proceeding with conservative load-bias and threshold adjustments toward N1/N2/N3. Approve execution?",
+      "message_ar": "مراجعة الجيران: ثلاثة أساسيون دون مستوى الحمل المستهدف—N1 ~41%، N2 ~52%، N3 ~35%. الخلية الخادمة لاصقة (نسبة خروج/دخول ≈2.2:1)، دون أعطال. أوصي بالمضي قدماً بضبط متحفظ لتحيز الحمل والعتبات باتجاه N1/N2/N3. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute the tuning within the 4h window.",
+      "message_ar": "موافق على تنفيذ الضبط ضمن نافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed parameter tuning: increased offload bias toward N1/N2/N3 for eMBB and slightly relaxed stickiness to reduce retention; safeguarded quality given SINR 10 dB and RSRQ -13 dB. Monitoring for PRB re-distribution and stable handovers; target ≤85% on serving with neighbor uptick.",
+      "message_ar": "تم تنفيذ ضبط المعلمات: زيادة تحيز التفريغ نحو N1/N2/N3 لحركة eMBB وتخفيف طفيف للتماسك لتقليل الاحتفاظ؛ مع الحفاظ على الجودة نظراً لـ SINR 10 dB و RSRQ -13 dB. أراقب إعادة توزيع الإشغال وثبات التسليم؛ الهدف ≤85% للخدمة مع ارتفاع لدى الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check ~20 min after change: serving PRB peaks 86–88%, N1/N2 up to ~55–58%. HO imbalance narrowing (~1.3:1). No user complaints; streaming stable.",
+      "message_ar": "تحقق مبكر ~20 دقيقة بعد التغيير: ذروة إشغال الخدمة 86–88%، وN1/N2 ارتفعا إلى ~55–58%. تضيق عدم توازن التسليم (~1.3:1). لا شكاوى مستخدمين؛ البث مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. I’ll continue to watch for PRB >90% or any quality dips; if seen, I will partially roll back the bias. Next internal checkpoint during the busy period.",
+      "message_ar": "تقدم جيد. سأواصل المتابعة لأي ارتفاع في الإشغال >90% أو أي انخفاض في الجودة؛ وإن حدث سأقوم بالرجوع الجزئي عن التحيز. نقطة تحقق داخلية خلال فترة الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: resource pressure eased and handover imbalance trending down. The load-balancing parameter tuning was applied. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: انخفض الضغط على الموارد وتراجع عدم توازن التسليم. تم تطبيق ضبط معلمات موازنة الحمل. لنتابع خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own the next 2–4 hours of monitoring and update you on PRB, handover balance, and user experience afterward. If degradation appears, we will roll back the bias to prior values or escalate to field checks.",
+      "message_ar": "مفهوم. سنتولى متابعة الساعتين إلى الأربع القادمتين وسنوافيك بتحديث حول الإشغال، توازن التسليم، وتجربة المستخدم بعد ذلك. عند ظهور تدهور سنرجع التحيز للقيم السابقة أو نصعّد لفحوصات ميدانية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "The 5G macro showed heavy load with clear imbalance versus neighbors. We reviewed neighboring cell load and mobility skew, then applied conservative site parameter tuning to offload traffic toward underused neighbors and reduce stickiness. We will monitor for the next 2–4 hours to ensure PRB balance and stable handovers, with rollback if quality degrades.",
+    "ar": "أظهر موقع الماكرو 5G حملاً مرتفعاً مع عدم توازن واضح مقارنة بالجيران. قمنا بمراجعة أحمال الخلايا المجاورة وانحياز الحركة، ثم نفذنا ضبطاً متحفظاً لمعلمات الموقع لتحويل الحمل نحو الجيران منخفضي الاستخدام وتقليل الالتصاق. سنراقب خلال الساعتين إلى الأربع القادمتين لضمان توازن الإشغال واستقرار التسليم، مع الرجوع في حال تدهورت الجودة."
+  }
+}

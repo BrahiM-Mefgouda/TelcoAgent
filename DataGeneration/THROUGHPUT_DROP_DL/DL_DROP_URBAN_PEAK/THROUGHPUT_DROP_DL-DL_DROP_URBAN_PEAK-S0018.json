@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0018",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows slow data over the last 3h during peak evening eMBB streaming, with a congestion alarm active: PRB utilization 94%, SINR 9 dB, RSRQ -14 dB, 220 users, DL throughput ~7 Mbps, BLER 5.7%, and p95 scheduling latency 66 ms.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تظهر بيانات بطيئة خلال آخر 3 ساعات في ذروة المساء مع تشغيل إنذار الازدحام: إشغال PRB بنسبة 94%، وSINR بقيمة 9 dB، وRSRQ بقيمة -14 dB، و220 مستخدمًا، وسرعة تنزيل ~7 Mbps، وBLER بنسبة 5.7%، وزمن انتظار للمجدول p95 يبلغ 66 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell experiencing slow data this peak evening; congestion alarm raised. DL ~7 Mbps, PRB ~94%, ~220 users; streaming complaints (buffering). Please assist.",
+      "message_ar": "خلية NR ماكرو حضرية تعاني من بطء بالبيانات هذا المساء في الذروة؛ تم رفع إنذار ازدحام. سرعة التنزيل ~7 Mbps، وإشغال PRB ~94%، وحوالي 220 مستخدمًا؛ شكاوى بث (تخزين مؤقت). الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 3h health and counters for the affected NR macro. Please share the exact cell ID and approve read-only access.",
+      "message_ar": "سأبدأ باستخراج مؤشرات الصحة والعدادات لآخر 3 ساعات للخلية المتأثرة ضمن NR ماكرو. يرجى تزويدي بمعرّف الخلية والموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-1123. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-URB-1123. تم اعتماد وصول قراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check (last 3h) on NR-URB-1123: PRB 94%, users 220, p95 scheduling latency 66 ms, BLER 5.7%, RSRQ -14 dB, SINR 9 dB; no outages. This indicates heavy DL congestion. Next, I will review DL throughput time series for the same window to confirm correlation—please confirm.",
+      "message_ar": "نتيجة الفحص عبر OSS (آخر 3 ساعات) على NR-URB-1123: إشغال PRB 94%، 220 مستخدمًا، زمن انتظار المجدول p95 = 66 مللي ثانية، BLER = 5.7%، RSRQ = -14 dB، SINR = 9 dB؛ لا توجد انقطاعات. هذا يشير إلى ازدحام شديد في التنزيل. التالي، سأراجع سلسلة زمنية لسرعة التنزيل لنفس الفترة لتأكيد الارتباط—يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, proceed.",
+      "message_ar": "تم التأكيد، تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms the drop: median ~7 Mbps during 18:00–21:00, aligned with PRB saturation and higher eMBB/streaming share; it recovers outside peak. I propose targeted site parameter tuning to improve scheduler fairness and DL resource efficiency; minimal risk (<1 s blip). Approve?",
+      "message_ar": "السلسلة الزمنية للتنزيل تؤكد الانخفاض: الوسيط ~7 Mbps بين 18:00–21:00، متوافق مع تشبع PRB وارتفاع نسبة eMBB/البث؛ تتحسن خارج الذروة. أقترح ضبطًا مستهدفًا لمعاملات الموقع لتحسين عدالة المجدول وكفاءة موارد التنزيل؛ مخاطرة ضئيلة (أقل من 1 ثانية). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning.",
+      "message_ar": "تمت الموافقة على تطبيق الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-URB-1123 and committed successfully. Instant checks show PRB peak easing to ~88% and median DL rising to ~11–12 Mbps; BLER stable. Please validate from your side.",
+      "message_ar": "تم تطبيق التحسين على NR-URB-1123 واعتماده بنجاح. الفحوصات الفورية تُظهر انخفاض ذروة PRB إلى ~88% وارتفاع الوسيط لسرعة التنزيل إلى ~11–12 Mbps؛ BLER مستقر. يرجى التحقق من جانبكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Spot checks show better speeds and less buffering; median DL around 11 Mbps now. No adverse impacts observed.",
+      "message_ar": "التحقق السريع يُظهر سرعات أفضل وتقليلًا للتخزين المؤقت؛ الوسيط للتنزيل حوالي 11 Mbps الآن. لم تُلاحظ آثار سلبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good to hear. Please confirm your preferred monitoring window; I will keep tracking throughput, PRB, and latency and share updates.",
+      "message_ar": "سعيد بذلك. يرجى تأكيد نافذة المراقبة المفضلة لديكم؛ سأواصل تتبّع السرعة وإشغال PRB والزمنية ومشاركة المستجدات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data is easing with median DL trending up and PRB peaks lower. Action taken: site parameter tuning applied. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: بطء البيانات يتراجع مع ارتفاع الوسيط لسرعة التنزيل وانخفاض ذرى PRB. الإجراء المتخذ: تطبيق ضبط معاملات الموقع. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next busy hour and report on DL throughput, PRB utilization, and latency. If performance regresses, we will roll back the tuning; if congestion persists, we will escalate for capacity and neighbor optimization.",
+      "message_ar": "تم الاستلام—سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تقريرًا عن سرعة التنزيل وإشغال PRB والزمنية. إذا تراجعت الأداء، سنقوم بالرجوع عن الضبط؛ وإذا استمر الازدحام، سنصعّد لزيادة السعة وتحسين الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-1123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-1123",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Evening downlink throughput degradation on an urban NR macro was traced to congestion: high PRB utilization, many users, and elevated scheduling latency. We validated the DL drop over a 3-hour time series and executed site parameter tuning to enhance scheduler fairness and downlink resource efficiency. Early results show throughput recovery and lower PRB peaks; we will monitor through the next busy hour.",
+    "ar": "تم إرجاع تدهور سرعة التنزيل مساءً على خلية NR ماكرو حضرية إلى الازدحام: إشغال PRB مرتفع وعدد مستخدمين كبير وزمنية مجدول مرتفعة. تحققنا من الانخفاض عبر سلسلة زمنية لمدة 3 ساعات ونفذنا ضبط معاملات الموقع لتحسين عدالة المجدول وكفاءة موارد التنزيل. النتائج الأولية تُظهر تعافي السرعة وانخفاض ذرى PRB؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

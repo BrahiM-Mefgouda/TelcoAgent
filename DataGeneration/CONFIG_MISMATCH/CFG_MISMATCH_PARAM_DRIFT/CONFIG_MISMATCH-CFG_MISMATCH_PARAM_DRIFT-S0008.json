@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0008",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell with an active alarm shows 4 config mismatches and 19h of drift (score 0.65), BLER ~10.8%, PRB ~62%, and median downlink throughput ~20 Mbps; acknowledging potential congestion/outage impact.",
+    "ar": "خلية ماكرو NR حضرية مع إنذار نشط تُظهر 4 اختلافات في الإعداد وانحرافاً لمدة 19 ساعة (درجة 0.65)، ومعدل أخطاء كتلة ~10.8%، واستخدام موارد ~62%، ومتوسط سرعات تنزيل ~20 ميجابت/ث؛ مع الإقرار بتأثير محتمل للازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has an active alarm. Over the last 12h we see 4 config mismatches, drift score ~0.65 (age ~19h). KPIs: p50 DL ~20 Mbps, BLER ~10.8%, PRB ~62%, HO failures ~4%. It's shoulder time with eMBB streaming users.",
+      "message_ar": "خلية ماكرو NR حضرية لديها إنذار نشط. خلال آخر 12 ساعة نرى 4 اختلافات إعداد ودرجة انحراف ~0.65 (العمر ~19 ساعة). مؤشرات الأداء: وسطي تنزيل ~20 ميجابت/ث، BLER ~10.8%، استخدام الموارد ~62%، فشل التسليم بين الخلايا ~4%. الفترة انتقالية مع مستخدمي eMBB وبث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Alarm noted—possible congestion/outage effect. I will start by pulling OSS vs live configuration for the last 12h to verify the mismatches and impact. Please share the exact cell ID and approve read access.",
+      "message_ar": "تمت ملاحظة الإنذار—قد يكون هناك تأثير ازدحام/انقطاع. سأبدأ بجلب مقارنة الإعداد بين نظام الإدارة والحالة الحية لآخر 12 ساعة للتحقق من الاختلافات والأثر. يرجى مشاركة معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_CELL_41023. Read access approved.",
+      "message_ar": "معرف الخلية: NR_CELL_41023. تمت الموافقة على وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS consistency check on NR_CELL_41023 over 12h. Findings: 4 discrepancies—power control offsets inconsistent, mobility offsets deviated, SSB beam sweep periodicity drifted, and QoS profile mapping differs. This aligns with the drift score. I propose an immediate baseline config push to resync. Please approve.",
+      "message_ar": "أجري فحص الاتساق عبر نظام الإدارة على NR_CELL_41023 لآخر 12 ساعة. النتائج: 4 فروقات—اختلافات في إزاحات التحكم بالقدرة، انحراف في إزاحات التنقل، انجراف في دورية مسح SSB، واختلاف في تعيين ملفات QoS. هذا يتماشى مع درجة الانحراف. أقترح دفع الإعداد الأساسي لإعادة المزامنة فورًا. يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the baseline now.",
+      "message_ar": "موافق على دفع الإعداد الأساسي الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying baseline package CFG_BASELINE_2025Q3-NR41023; backup taken and push completed. Expect BLER to drop and handovers to stabilize within 5–10 minutes. Please observe live KPIs.",
+      "message_ar": "تطبيق الحزمة الأساسية CFG_BASELINE_2025Q3-NR41023؛ تم أخذ نسخة احتياطية واكتمل الدفع. من المتوقع انخفاض BLER واستقرار عمليات التسليم بين الخلايا خلال 5–10 دقائق. يرجى متابعة مؤشرات الأداء الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check (~7 min): BLER down to ~7.2%, p50 DL ~26 Mbps, and handover failures trending down.",
+      "message_ar": "فحص مبكر (~7 دقائق): انخفض BLER إلى ~7.2%، وسطي التنزيل ~26 ميجابت/ث، وفشل التسليم بين الخلايا في اتجاه تنازلي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will document the change and open a tracking ticket for audit and monitoring. Proceed?",
+      "message_ar": "تحسن جيد. سأوثق التغيير وأفتح تذكرة متابعة للتدقيق والمراقبة. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed to open the ticket.",
+      "message_ar": "تفضل بفتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-CFG-02871 for NR_CELL_41023 capturing the drift and the baseline push; we will continue watch through the next busy period and record outcomes.",
+      "message_ar": "تم إنشاء DU-CFG-02871 لخلية NR_CELL_41023 يتضمن الانحراف ودفع الإعداد الأساسي؛ سنستمر بالمراقبة خلال فترة الذروة التالية وتسجيل النتائج."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: BLER near 6.5% and handover failures trending down after the config push. Let's monitor through the next busy hour and update DU-CFG-02871 afterward.",
+      "message_ar": "التحسن مستمر: BLER قريب من 6.5% وفشل التسليم بين الخلايا في اتجاه تنازلي بعد دفع الإعداد. دعونا نراقب خلال ساعة الذروة القادمة ونحدث DU-CFG-02871 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update DU-CFG-02871 with results. If KPIs regress, we will rollback to the previous config and escalate to field support; otherwise we will close after stability is confirmed.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدث DU-CFG-02871 بالنتائج. إذا تراجعت المؤشرات، سنعود إلى الإعداد السابق ونصعد إلى دعم الميدان؛ وإلا فسنغلق بعد تأكيد الاستقرار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_CELL_41023",
+        "12h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG_BASELINE_2025Q3-NR41023"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config drift corrected on NR_CELL_41023 via baseline reapply; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an OSS vs live configuration mismatch on the urban NR macro cell, confirming four discrepancies consistent with a high drift score. We applied a baseline configuration push to realign settings and opened a tracking ticket for audit. Post-action, BLER and handovers improved; we will monitor through the next busy hour and adjust if regression appears.",
+    "ar": "تم تشخيص عدم تطابق بين إعدادات نظام الإدارة والحالة الحية في خلية NR الحضرية، مع تأكيد أربعة اختلافات متسقة مع درجة انحراف مرتفعة. قمنا بدفع الإعداد الأساسي لإعادة مواءمة الإعدادات وفتحنا تذكرة متابعة للتدقيق. بعد الإجراء تحسن BLER والتسليمات بين الخلايا؛ سنراقب خلال ساعة الذروة القادمة ونتخذ إجراءات إذا ظهرت انتكاسات."
+  }
+}

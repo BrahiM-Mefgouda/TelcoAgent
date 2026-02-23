@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0019",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell shows high resource use (~89% PRB) with 189 users and slow data (median ~6 Mbps) over mixed hours; neighbors average ~25% utilization with imbalance and higher handovers out than in—requesting load balancing within the last 6h.",
+    "ar": "قطاع ماكرو NR في منطقة ريفية يظهر استخدام موارد مرتفع (~89% PRB) مع 189 مستخدماً وبيانات بطيئة (وسيط ~6 Mbps) عبر ساعات مختلطة؛ الجيران بمتوسط ~25% مع عدم توازن ومعدلات خروجات أعلى من الدخول—نحتاج موازنة حمل ضمن آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector is running hot over mixed hours: PRB ~89%, 189 users, median throughput ~6 Mbps (slow data). Neighbor average utilization ~25%. Please assess for load balancing.",
+      "message_ar": "القطاع الماكرو NR في منطقة ريفية يعمل بحِمل عالٍ عبر ساعات مختلطة: PRB ~89%، 189 مستخدماً، وسيط السرعة ~6 Mbps (بيانات بطيئة). متوسط استخدام الجيران ~25%. يرجى التحقق من موازنة الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first audit neighbor load and handover profiles for the last 6h, then propose parameter tuning to shift traffic to underused cells. Please confirm read/change access for this window.",
+      "message_ar": "سأبدأ بتدقيق أحمال الجيران وملفات التسليم خلال آخر 6 ساعات، ثم أقترح ضبط إعدادات لتحويل الحركة إلى الخلايا قليلة الاستخدام. يرجى تأكيد صلاحية القراءة والتغيير لهذه النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Extra context: handovers out ~31/5min vs in ~12/5min; SINR ~16 dB, RSRQ -7 dB. Users report buffering on eMBB streaming.",
+      "message_ar": "موافق. سياق إضافي: التسليمات الخارجة ~31 لكل 5 دقائق مقابل الداخلة ~12 لكل 5 دقائق؛ SINR حوالي 16 dB وRSRQ -7 dB. المستخدمون يذكرون تقطعاً في بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding with the neighbor audit to confirm load disparity, overlap, and handover success across adjacent macros. Any planned works or backhaul constraints near these sites?",
+      "message_ar": "سأُجري تدقيق الجيران لتأكيد تفاوت الأحمال والتداخل ونِسَب نجاح التسليم عبر الماكرو المجاورة. هل توجد أعمال مجدولة أو قيود في الربط الخلفي قرب هذه المواقع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No planned work and backhaul is normal.",
+      "message_ar": "لا توجد أعمال مجدولة والربط الخلفي طبيعي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: two nearest neighbors are lightly loaded (~22–28% PRB), handover success is healthy, and coverage overlap is adequate (~3.4–3.8 km spacing). I propose gentle load bias toward these neighbors (increase load-based HO preference when PRB >70%, slight negative cell-selection bias on the hot cell, conservative UE cap). Approve optimization with rollback ready?",
+      "message_ar": "النتائج: أقرب جارين بحمل منخفض (~22–28% PRB)، نجاح التسليم جيد، وتداخل التغطية مناسب (تباعد ~3.4–3.8 كم). أقترح انحياز تحميل خفيف نحو هؤلاء الجيران (تعزيز تفضيل التسليم القائم على الحمل عند تجاوز PRB 70%، انحياز طفيف في انتقاء الخلية ضد الخلية الساخنة، وحد محافظ لعدد المستخدمين). هل توافق على التحسين مع جاهزية الرجوع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the optimization now; commit complete. Beginning 15-minute checks for the next hour. Expect PRB to normalize toward 70–75%, median throughput to improve, and HO in/out to balance.",
+      "message_ar": "أقوم بتطبيق التحسين الآن؛ تم الالتزام. أبدأ بفحوصات كل 15 دقيقة خلال الساعة القادمة. نتوقع عودة PRB إلى 70–75% تقريباً، تحسن الوسيط في السرعة، وتوازن التسليمات داخلاً وخارجاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early results: PRB ~73%, active users 160; neighbors now ~40–45% PRB. Median throughput ~11 Mbps; HO rates closer (out 22/in 19).",
+      "message_ar": "النتائج الأولية: PRB ~73%، المستخدمون النشطون 160؛ الجيران الآن ~40–45% PRB. وسيط السرعة ~11 Mbps؛ معدلات التسليم متقاربة (خروج 22/دخول 19)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Stabilization looks good. No further changes for now; we will watch for drift during the next mixed period and evening busy hour. Please share any user feedback.",
+      "message_ar": "الاستقرار جيد. لا تغييرات إضافية حالياً؛ سنراقب أي انحراف خلال الفترة المختلطة القادمة وساعة الذروة المسائية. يرجى مشاركة أي ملاحظات من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: slow data complaints eased and handovers are more balanced. Action taken was load-bias parameter tuning to offload to neighbors. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: تراجع بطء البيانات وتوازن أفضل في التسليمات. الإجراء كان ضبط معلمات الانحياز للتحميل لتفريغ الحركة نحو الجيران. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and report PRB, throughput, and HO balance afterward. If congestion returns, we will revert the bias and consider broader optimization; if neighbors degrade, we will roll back to the previous settings.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ بعد ذلك بحالة PRB والسرعة وتوازن التسليم. إذا عاد الازدحام سنعكس الانحياز وننظر في تحسين أشمل؛ وإذا تراجعت الجيران فسنعيد الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a single hot rural NR macro with 89% resource use, low median throughput, and underused neighbors via a neighbor audit. Executed site parameter tuning to bias handovers and cell selection toward lightly loaded neighbors to rebalance traffic. Monitoring PRB, throughput, and handover balance through the next busy hour with rollback if regressions appear.",
+    "ar": "تم تشخيص خلية ماكرو ريفية ساخنة بارتفاع استخدام الموارد (89%) وانخفاض الوسيط في السرعة، مع جيران منخفضي الاستخدام عبر تدقيق الجيران. نُفّذ ضبط معلمات الموقع لتهيئة انحياز التسليم وانتقاء الخلية نحو الجيران ذوي الحمل الخفيف لإعادة موازنة الحركة. تتم مراقبة PRB والسرعة وتوازن التسليم خلال ساعة الذروة القادمة مع جاهزية الرجوع إذا ظهرت تراجعات."
+  }
+}

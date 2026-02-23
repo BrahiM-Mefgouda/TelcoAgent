@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0015",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell shows elevated BLER (~16%) over the last 2 hours with SINR 6 dB, PRB 71%, 193 users, and an active congestion alarm during shoulder hours.",
+    "ar": "خلية NR ماكرو في منطقة سكنية تُظهر BLER مرتفعاً (~16%) خلال آخر ساعتين مع SINR ‏6 dB و PRB ‏71% و 193 مستخدماً، ومع وجود تنبيه ازدحام فعّال خلال فترة الذروة الجزئية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm raised for BLER spikes on a suburban NR macro in the last 2h (~16% BLER). eMBB streaming users reported buffering; RSRP -106 dBm, RSRQ -10 dB, SINR 6 dB, PRB ~71%. Please assist.",
+      "message_ar": "تم رفع تنبيه لارتفاع BLER في خلية NR ماكرو بمنطقة سكنية خلال آخر ساعتين (~16%). مستخدمو eMBB للبث اشتكوا من التقطيع؛ RSRP ‏-106 dBm و RSRQ ‏-10 dB و SINR ‏6 dB و PRB نحو 71%. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead the diagnostics. First, I will check recent counters and alarms from OSS for the last 2 hours; please share the cell ID and confirm access.",
+      "message_ar": "سأتولى التشخيص. أولاً سأتحقق من العدادات والتنبيهات الأخيرة عبر OSS لآخر ساعتين؛ يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-203-1. Access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-203-1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying OSS for NR-SUB-203-1 over 2h now. Observed short burst periods with spikes in downlink retransmissions and interference counters; neighbor load ~0.69; no backhaul or power alarms. Next, I'll analyze the BLER time series to correlate the bursts.",
+      "message_ar": "أقوم الآن بالاستعلام من OSS لمرور ساعتين على NR-SUB-203-1. لوحظت فترات قصيرة على شكل دفعات مع ارتفاعات في إعادة الإرسال على الوصلة الهابطة ومؤشرات التداخل؛ حمل الجيران ~0.69؛ لا تنبيهات على النقل الخلفي أو الطاقة. بعد ذلك سأحلّل سلسلة BLER الزمنية لربط هذه الدفعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافقة على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series shows bursty peaks up to ~28% aligned with PRB utilization surges; median during calm periods ~12%. Mobility looks stable (HO-in steady). This points to interference bursts rather than coverage. I propose site parameter tuning to increase robustness and interference avoidance so BLER stays under ~10% during bursts. Please approve the change.",
+      "message_ar": "سلسلة BLER الزمنية تُظهر قمماً متقطعة حتى ~28% متزامنة مع ارتفاعات استخدام الموارد؛ الوسيط أثناء الهدوء ~12%. الحركة مستقرة (عمليات التحويل الواردة ثابتة). هذا يشير إلى دفعات تداخل أكثر من كونه مشكلة تغطية. أقترح ضبط معلمات الموقع لزيادة المتانة وتفادي التداخل كي يبقى BLER دون ~10% أثناء الدفعات. الرجاء اعتماد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the live optimization.",
+      "message_ar": "تمت الموافقة. تفضل بتنفيذ التحسين الحي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on NR-SUB-203-1: interference mitigation and BLER tuning with slightly more robust link adaptation and scheduling. Change committed; minor capacity trade-off expected. I will observe counters for the next 10 minutes.",
+      "message_ar": "أطبق التحسين على NR-SUB-203-1: تخفيف التداخل وضبط BLER مع تهيئة أكثر متانة للتكيّف مع الوصلة والجدولة. تم اعتماد التغيير؛ قد يكون هناك تنازل طفيف في السعة. سأراقب العدادات خلال الدقائق العشر القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes, early signs are positive: BLER median around 9% with lower peak spikes (~14%), retransmissions down; SINR steady at 6 dB; p50 throughput near 12 Mbps.",
+      "message_ar": "بعد 10 دقائق، المؤشرات الأولية إيجابية: الوسيط لِـ BLER نحو 9% مع انخفاض الذروات (~14%) وانخفاض إعادة الإرسال؛ SINR ثابت عند 6 dB؛ وسطي السرعة p50 يقارب 12 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I'll continue to watch for stability and any side effects on neighbors; let me know if user buffering reports persist.",
+      "message_ar": "تحسن جيد. سأواصل المراقبة للاستقرار وأي آثار جانبية على الجيران؛ أعلمني إذا استمرت شكاوى التقطيع من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—BLER peaks are trending down and retransmissions are lower. The site parameter tuning for interference mitigation was applied. Let's monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن—ذروات BLER في انخفاض وإعادة الإرسال أقل. تم تطبيق ضبط معلمات الموقع لتخفيف التداخل. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We'll own monitoring through the next busy hour and share an update afterward. If BLER worsens, we'll roll back the tuning and escalate to interference hunting; otherwise we'll keep the change.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونوافيكم بتحديث بعدها. إذا ساء BLER سنرجع الضبط ونصعّد إلى فريق تتبّع التداخل، وإلا سنبقي التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-203-1",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-203-1",
+        "BLER",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "interference mitigation and BLER tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Burst-like BLER spikes were diagnosed on a suburban NR macro during shoulder hours. Using OSS checks and a BLER time series, we confirmed short interference-driven peaks correlated with resource surges. We applied site parameter tuning to increase robustness and interference mitigation; early results show lower BLER and fewer retransmissions, and we will monitor through the next busy hour.",
+    "ar": "تم تشخيص ارتفاعات BLER على شكل دفعات في خلية NR ماكرو بمنطقة سكنية خلال فترة الذروة الجزئية. عبر التحقق من OSS وسلسلة BLER الزمنية تأكدت قمم ناتجة عن التداخل القصير ومتزامنة مع ارتفاع استخدام الموارد. طُبّق ضبط لمعلمات الموقع لزيادة المتانة وتخفيف التداخل؛ وتُظهر النتائج الأولية انخفاض BLER وتقليل إعادة الإرسال، وسنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

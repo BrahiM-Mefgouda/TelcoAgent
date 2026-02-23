@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0021",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3 hours with ~89% resource use, 269 users, slow data around 8 Mbps, and degraded RSRQ (-13 dB).",
+    "ar": "موقع ماكرو NR حضري يعرض إنذار ازدحام خلال آخر 3 ساعات مع استخدام موارد ~89% و269 مستخدمًا وبطء بيانات نحو 8 Mbps وتدهور RSRQ (-13 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-Cell-41023 shows a congestion alarm over the last 3 hours: PRB ~89%, 269 users, DL ~8 Mbps, RSRQ -13 dB, BLER ~6.6%, HO failures elevated and 10 neighbor PCI overlaps observed; shoulder hour with eMBB/streaming.",
+      "message_ar": "الموقع الماكرو NR-Cell-41023 في منطقة حضرية يظهر إنذار ازدحام خلال آخر 3 ساعات: استخدام PRB ~89%، 269 مستخدمًا، تنزيل ~8 Mbps، RSRQ = -13 dB، BLER ~6.6%، فشل تسليم مرتفع وملاحظة تداخل PCI مع 10 جيران؛ فترة كتف وحركة eMBB/بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling a 3h OSS snapshot for NR-Cell-41023 to validate load, errors, and neighbor relations; please confirm access.",
+      "message_ar": "سأبدأ بسحب لقطة 3 ساعات من نظام الإدارة لـ NR-Cell-41023 للتحقق من الحمل والأخطاء وعلاقات الجيران؛ يرجى تأكيد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-Cell-41023 over the last 3 hours. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-Cell-41023 لآخر 3 ساعات. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: PRB 88–92% with sustained queueing; p95 scheduler latency ~59 ms; RLF ~4–5%; HO failures ~9%; SINR ~11 dB; 10 neighbors with PCI proximity. Primary issue is congestion. I propose targeted parameter tuning to relieve PRB pressure and gently steer load to neighbors. Approve?",
+      "message_ar": "اكتمل فحص النظام: PRB بين 88–92% مع صفوف انتظار مستمرة؛ كمون الجدولة p95 نحو 59 مللي ثانية؛ RLF حوالي 4–5%؛ فشل التسليم ~9%؛ SINR نحو 11 dB؛ و10 جيران مع تقارب PCI. المشكلة الأساسية هي الازدحام. أقترح ضبط معلمات مستهدف لتخفيف الضغط على PRB وتوجيه الحمل برفق إلى الجيران. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning now.",
+      "message_ar": "موافَق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying low-risk optimization now: enable congestion relief, tighten heavy-bearer admission, and small offsets to promote offload; minimal change magnitude and no service interruption. Executing and validating.",
+      "message_ar": "أقوم الآن بتطبيق تحسين منخفض المخاطر: تفعيل تخفيف الازدحام، تشديد قبول الحمولات الثقيلة، وانحرافات بسيطة لتعزيز التفريغ نحو الجيران؛ تغييرات طفيفة بدون انقطاع للخدمة. جارٍ التنفيذ والتحقق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted a brief control-plane blip only; user traffic remains stable.",
+      "message_ar": "تمت ملاحظة ومضة قصيرة على مستوى التحكم فقط؛ حركة المستخدمين مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change snapshot: instantaneous PRB trending down to ~78–82%, DL user rates rising toward >10–12 Mbps, BLER stable, RSRQ unchanged. I recommend opening a tracking ticket for follow-up and to record the PCI overlap hint for RF review. Do you agree?",
+      "message_ar": "بعد التعديل: يتجه استخدام PRB نحو الانخفاض إلى ~78–82%، وتحسن سرعات التنزيل نحو >10–12 Mbps، واستقرار BLER، وعدم تغير RSRQ. أوصي بفتح تذكرة متابعة وتسجيل إشارة تداخل PCI للمراجعة اللاسلكية. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agree to open a tracking ticket.",
+      "message_ar": "موافق على فتح تذكرة متابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket created and linked to the cell and cluster. We will monitor stability through the upcoming busy period.",
+      "message_ar": "تم إنشاء تذكرة متابعة وربطها بالخلية والعنقود. سنراقب الاستقرار خلال فترة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Metrics look better: slow data complaints easing and queueing latency trending down. After the site parameter tuning, let’s monitor for the next 2–4 hours and the next busy hour; please update DU-PRB-04217 accordingly.",
+      "message_ar": "المؤشرات أفضل: شكاوى بطء البيانات تتراجع وكمون الطوابير في انخفاض. بعد ضبط معلمات الموقع، دعنا نراقب خلال الساعتين إلى الأربع القادمـات وخلال ساعة الانشغال التالية؛ يرجى تحديث DU-PRB-04217 وفقًا لذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next 2–4 hours and the next busy hour and update the ticket after. If congestion returns, we will escalate for capacity or RF retune; if adverse effects appear, we will roll back today’s tuning.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال الساعتين إلى الأربع التاليات وساعة الانشغال التالية وسنحدّث التذكرة بعدها. إذا عاد الازدحام سنصعّد لزيادة السعة أو إعادة ضبط RF؛ وإذا ظهرت آثار سلبية سنرجع ضبط اليوم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high PRB utilization on an urban NR macro during the shoulder hour with eMBB traffic by validating load and error metrics via OSS. Applied site parameter tuning to relieve PRB congestion and gently offload to neighbors, then created a tracking ticket for follow-up. We will monitor throughput and latency to confirm sustained improvement and consider RF actions if PCI overlap continues.",
+    "ar": "تم تشخيص ارتفاع استخدام PRB على موقع ماكرو NR حضري خلال فترة الكتف مع حركة eMBB، وذلك بالتحقق من مؤشرات الحمل والأخطاء عبر النظام. تم تنفيذ ضبط معلمات الموقع لتخفيف الازدحام على PRB وتفريغ الحمل برفق نحو الجيران، ثم إنشاء تذكرة متابعة. سنراقب معدلات النقل والكمون للتحقق من استمرار التحسن والنظر في إجراءات RF إذا استمر تداخل PCI."
+  }
+}

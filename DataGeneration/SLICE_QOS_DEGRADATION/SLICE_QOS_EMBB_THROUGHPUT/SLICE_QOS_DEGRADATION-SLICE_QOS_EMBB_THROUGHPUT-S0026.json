@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_EMBB_THROUGHPUT-S0026",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_EMBB_THROUGHPUT",
+  "query": {
+    "en": "Urban NR macro slice shows QoS degradation over the last 4h: median throughput ~9 Mbps, latency ~57 ms, ~40% QoS violations, PRB utilization ~80%, and ~406 users.",
+    "ar": "شريحة على خلية NR ماكرو حضرية تُظهر تدهوراً في الجودة خلال آخر 4 ساعات: وسيط السرعة ~9 ميغابت/ث، الكمون ~57 مللي ثانية، انتهاكات الجودة ~40%، واستغلال الموارد ~80%، وعدد المستخدمين ~406."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing eMBB slice QoS dip on an urban NR macro cell in the last 4h: p50 ~9 Mbps, p95 ~16 Mbps, latency ~57 ms, ~40% QoS violations, ~406 users during the shoulder period. Please investigate.",
+      "message_ar": "أرى تدهوراً في جودة شريحة eMBB على خلية NR ماكرو حضرية خلال آخر 4 ساعات: p50 ~9 ميغابت/ث، p95 ~16 ميغابت/ث، الكمون ~57 مللي ثانية، انتهاكات الجودة ~40%، وعدد المستخدمين ~406 في فترة الكتف. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull last 4h cell stats, then review the QoS class timeline for the slice, and if confirmed, apply a targeted slice policy update. Please share the serving cell ID and slice ID, and confirm change approval.",
+      "message_ar": "سأقوم أولاً بسحب إحصاءات الخلية لآخر 4 ساعات، ثم أراجع خط الزمن لفئة الجودة للشريحة، وإذا تأكدت المشكلة سأطبق تحديثاً موجهاً لسياسة الشريحة. يرجى تزويدي بمعرف الخلية ومعرف الشريحة وتأكيد الموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UBN-1123, Slice ID: eMBB-01. Read/execute access approved.",
+      "message_ar": "معرف الخلية: NR-UBN-1123، ومعرف الشريحة: eMBB-01. موافقة على القراءة والتنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 4h cell stats: PRB utilization ~79–80%, no active alarms, backhaul normal; throughput p50 9 Mbps, p95 16 Mbps; median latency 57 ms. Indicators point to resource pressure rather than a fault. Proceeding to QoS class timeline deep-dive for the slice.",
+      "message_ar": "تم سحب إحصاءات الخلية لـ4 ساعات: استغلال PRB ~79–80%، لا إنذارات فعالة، الربط الخلفي طبيعي؛ وسيط السرعة 9 ميغابت/ث وp95 16 ميغابت/ث؛ الكمون الوسيط 57 مللي ثانية. المؤشرات تدل على ضغط موارد وليس عطلاً. سأنتقل لتحليل خط الزمن لفئة الجودة للشريحة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "User feedback mentions brief lags around the shoulder period.",
+      "message_ar": "ملاحظات المستخدمين تشير إلى تأخرات قصيرة خلال فترة الكتف."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS class timeline shows dips between 15:00–17:00 with violations peaking ~42%, aligned with user count spikes. Scheduler headroom is tight for this slice. I propose increasing the slice’s minimum resource floor and weight during the shoulder; low risk and reversible. Approve?",
+      "message_ar": "خط الزمن لفئة الجودة يُظهر هبوطاً بين 15:00–17:00 مع ذروة انتهاكات ~42% متزامنة مع ارتفاع عدد المستخدمين. هامش الجدولة للشريحة ضيق. أقترح رفع الحد الأدنى للموارد ووزن الجدولة للشريحة أثناء فترة الكتف؛ مخاطرة منخفضة وقابل للرجوع. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead with the slice policy adjustment.",
+      "message_ar": "موافق. يمكنك المضي في ضبط سياسة الشريحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied a targeted policy update to eMBB-01 on NR-UBN-1123: raised guaranteed share and weight for the shoulder window; no restart required. Post-check shows policy active and constraints respected. Expect improvement for streaming sessions.",
+      "message_ar": "تم تطبيق تحديث سياسة موجّه لشريحة eMBB-01 على الخلية NR-UBN-1123: رفع الحصة المضمونة والوزن لفترة الكتف؛ دون الحاجة لإعادة تشغيل. الفحص البعدي يُظهر أن السياسة فعّالة والقيود محترمة. نتوقع تحسناً لجلسات البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick check: QoS violations already dropping to ~28%, latency trending to low 50 ms; PRB still ~78–80%.",
+      "message_ar": "فحص سريع: انتهاكات الجودة انخفضت إلى ~28%، والكمون يتجه إلى أوائل 50 مللي ثانية؛ استغلال PRB ما زال ~78–80%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early impact (10–15 min): p50 throughput ~11–12 Mbps, latency ~48–50 ms, violations ~22–25%. No new alerts. I will continue comparing against the pre-change baseline.",
+      "message_ar": "الأثر المبكر (10–15 دقيقة): وسيط السرعة ~11–12 ميغابت/ث، الكمون ~48–50 مللي ثانية، والانتهاكات ~22–25%. لا تنبيهات جديدة. سأواصل المقارنة مع خط الأساس قبل التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is sustained: latency nearing 45 ms and violations trending down. Action taken: slice policy update. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: الكمون يقترب من 45 مللي ثانية والانتهاكات في اتجاه هابط. الإجراء المنفذ: تحديث سياسة الشريحة. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and provide an update afterward. If degradation returns, we’ll escalate to capacity planning; if adverse effects appear, we’ll roll back to the prior policy.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنقدم تحديثاً بعدها. إذا عادت الحالة للتدهور فسنصعّد إلى تخطيط السعة؛ وإذا ظهرت آثار سلبية فسنعود إلى السياسة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS cls",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Slice QoS degradation on an urban NR macro cell was traced to resource pressure during the shoulder period, with high PRB utilization and QoS class dips causing latency and violations. We reviewed cell statistics and the QoS class timeline, then performed a targeted slice policy update to increase the eMBB slice’s resource floor and weight during the busy interval. Post-change checks show improved latency and reduced violation rate; continued monitoring is in place.",
+    "ar": "تم تتبع تدهور جودة الشريحة على خلية NR ماكرو حضرية إلى ضغط الموارد خلال فترة الكتف، مع استغلال PRB مرتفع وهبوط في فئة الجودة أدى إلى ارتفاع الكمون والانتهاكات. راجعنا إحصاءات الخلية وخط الزمن لفئة الجودة، ثم نفذنا تحديثاً موجهاً لسياسة الشريحة لزيادة الحد الأدنى للموارد ووزن الشريحة eMBB خلال الفترة المزدحمة. فحوصات ما بعد التغيير تُظهر تحسناً في الكمون وانخفاضاً في معدل الانتهاكات، مع استمرار المراقبة."
+  }
+}

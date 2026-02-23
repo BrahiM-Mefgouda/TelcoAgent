@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0017",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G macro cell shows interference/signal overlap with high BLER (~9.9%), low signal quality (SINR -2 dB, RSRQ -14 dB, RSRP ~-110 dBm), 37 users, and median downlink 12 Mbps over the last 6 hours during peak eMBB; please investigate.",
+    "ar": "خلية ماكرو 5G ريفية تُظهر تداخل/تراكب إشارة مع BLER (~9.9%) وجودة إشارة منخفضة (SINR -2 dB و RSRQ -14 dB و RSRP نحو -110 dBm)، 37 مستخدمًا ومعدل تنزيل وسطي 12 ميجابت/ث خلال آخر 6 ساعات في ذروة eMBB؛ يرجى التحقق."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro at the coverage edge is showing BLER near 10% during peak; SINR ~-2 dB, RSRQ -14 dB, RSRP ~-110 dBm. 37 users, p50 DL ~12 Mbps. Please investigate.",
+      "message_ar": "موقع NR ماكرو ريفي على حافة التغطية يظهر BLER يقارب 10% أثناء الذروة؛ SINR حوالي -2 dB و RSRQ -14 dB و RSRP نحو -110 dBm. يوجد 37 مستخدمًا ومعدل تنزيل وسيطي ~12 ميجابت/ث. يرجى التحليل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull 6h OSS counters for the affected cell and window, then analyze BLER trends, and if confirmed, apply targeted parameter tuning. Please confirm the cell ID and approve read/execute access.",
+      "message_ar": "تم الاستلام. سأقوم أولًا باستخراج مؤشرات OSS لمدة 6 ساعات للخليّة والفترة نفسها، ثم تحليل اتجاهات BLER، وإذا تأكدت المشكلة سأطبّق ضبطًا انتقائيًا للمعايير. الرجاء تأكيد معرف الخلية والموافقة على صلاحيات القراءة/التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-RRL-31001-1. The 6h window is the last 6 hours covering the busy period. Access approved.",
+      "message_ar": "معرّف الخلية هو NR-RRL-31001-1. النافذة 6 ساعات الأخيرة وتشمل فترة الانشغال. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS 6h pull on NR-RRL-31001-1 complete: RSRP median -110 dBm, RSRQ -14 dB, SINR median -1.9 dB. BLER mean 9.7% with peaks ~13%. HARQ retransmissions elevated; p50 DL ~12 Mbps with 37 users, mainly eMBB streaming. This confirms an interference-limited edge.",
+      "message_ar": "تم استخراج بيانات OSS لمدة 6 ساعات للخلية NR-RRL-31001-1: وسيط RSRP -110 dBm، وRSRQ -14 dB، ووسيط SINR -1.9 dB. متوسط BLER 9.7% مع قمم ~13%. ارتفاع في عمليات إعادة الإرسال HARQ؛ p50 للتنزيل ~12 ميجابت/ث مع 37 مستخدمًا، معظمهم eMBB للبث. هذا يؤكد أن المشكلة نتيجة تداخل على حافة التغطية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will analyze the BLER time series over the same window to isolate peak behavior and correlation with load. Proceed?",
+      "message_ar": "بعد ذلك سأحلّل السلاسل الزمنية لـ BLER خلال نفس النافذة لعزل سلوك القمم والارتباط مع الحمل. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضّل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series shows a rise from ~6% to 12–14% between mid-window busy hours, coinciding with >35 users and SINR dips to ~-3 dB. MCS shifts to more robust schemes. Confirms interference/signal overlap at the edge.",
+      "message_ar": "السلسلة الزمنية لـ BLER تُظهر ارتفاعًا من ~6% إلى 12–14% خلال ساعات الانشغال في منتصف النافذة، بالتزامن مع أكثر من 35 مستخدمًا وانخفاض SINR إلى ~-3 dB. التحوّل في MCS نحو أنماط أكثر متانة. هذا يؤكد وجود تداخل/تراكب إشارة على حافة التغطية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Remediation plan: apply site parameter tuning to harden downlink (more conservative link adaptation and improved control-channel robustness) targeting BLER ≤8% without enlarging footprint. Requesting approval to implement now.",
+      "message_ar": "خطة المعالجة: تطبيق ضبط معايير في الموقع لتحسين الصمود في الوصلة الهابطة (تقليل عدوانية التكيّف الطبقي وتحسين متانة قنوات التحكم) لاستهداف BLER ≤8% دون توسيع البصمة. أطلب الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully; no new alarms. Initial 10-min post-check: BLER trending 7–8%, HARQ retransmissions down ~20%, p50 DL up to ~15–16 Mbps. SINR unchanged (external interference). I will keep a short observation.",
+      "message_ar": "تم تطبيق التحسين بنجاح دون إنذارات جديدة. فحص أولي لمدة 10 دقائق: BLER يتجه إلى 7–8%، وانخفاض عمليات إعادة الإرسال HARQ بنحو ~20%، وارتفاع p50 للتنزيل إلى ~15–16 ميجابت/ث. لم تتغير SINR (تداخل خارجي). سأستمر في الملاحظة القصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see BLER short-term average near 8% with fewer retries after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ أن متوسط BLER قصير المدى قريب من 8% مع محاولات أقل بعد ضبط معايير الموقع. لنراقب خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next busy hour and share an update. If BLER regresses or user throughput drops, we will roll back the tuning; if interference persists, we will escalate for broader interference mitigation with neighboring cells.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الانشغال القادمة ونشارك تحديثًا. إذا تدهور BLER أو انخفض معدل النقل للمستخدمين، سنرجع ضبط المعايير؛ وإذا استمر التداخل، سنصعّد لمعالجة أوسع للتداخل مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "BLER",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated a BLER anomaly on a rural NR macro coverage edge using OSS counters and BLER time series, showing interference/signal overlap during busy hours. Applied site parameter tuning to harden downlink behavior and reduce retransmissions, targeting BLER ≤8%. Post-check shows BLER improved to 7–8% with higher median throughput; continue monitoring through the next busy hour.",
+    "ar": "تم تأكيد شذوذ BLER على حافة تغطية موقع NR ريفي عبر مؤشرات OSS والسلسلة الزمنية لـ BLER، مع ظهور تداخل/تراكب إشارة خلال ساعات الانشغال. تم تطبيق ضبط معايير في الموقع لتعزيز سلوك الوصلة الهابطة وتقليل عمليات إعادة الإرسال مع استهداف BLER ≤8%. أظهر الفحص اللاحق تحسن BLER إلى 7–8% مع ارتفاع المعدل الوسيط للنقل؛ ستستمر المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

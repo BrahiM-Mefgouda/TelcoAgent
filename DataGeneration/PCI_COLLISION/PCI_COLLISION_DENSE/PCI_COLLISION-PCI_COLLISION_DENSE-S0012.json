@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0012",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G NR macro cell shows interference/signal overlap and slow data with an active alarm indicating possible congestion; HO success ~70%, SINR ~4 dB, RSRQ -14 dB, BLER 14%, and median throughput 5 Mbps over the last 6h impacting eMBB streaming.",
+    "ar": "خلية NR ماكرو حضرية تُظهر تداخل/تراكب إشارة وبطء بيانات مع إنذار فعّال يشير لاحتمال ازدحام؛ نجاح التسليم ~70%، SINR نحو 4 دB، RSRQ −14 دB، BLER ‏14%، ومعدل وسطي 5 Mbps خلال آخر 6 ساعات مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-URB-MACRO-023-S1 has a live alarm in the last 6h; users report slow data and HO issues during mixed hours with heavy eMBB streaming.",
+      "message_ar": "الخلية الماكرو NR الحضرية NR-URB-MACRO-023-S1 لديها إنذار فعّال خلال آخر 6 ساعات؛ المستخدمون يواجهون بطء في البيانات ومشكلات تسليم أثناء ساعات مختلطة مع حركة eMBB كثيفة للبث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I suspect PCI-related interference given low SINR and high neighbor overlap; I'll start by auditing neighbor relations to confirm any PCI collision on NR-URB-MACRO-023-S1. Do I have approval to run the read-only adjacency audit?",
+      "message_ar": "أشتبه بتداخل مرتبط بالـPCI نظراً لانخفاض SINR وارتفاع تداخل الجوار؛ سأبدأ بتدقيق العلاقات مع الجيران للتحقق من أي تصادم PCI على NR-URB-MACRO-023-S1. هل أملك الموافقة لتنفيذ تدقيق الجوار بالوضع القرائي فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the neighbor audit on NR-URB-MACRO-023-S1.",
+      "message_ar": "موافق على تنفيذ تدقيق الجوار للخلية NR-URB-MACRO-023-S1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit shows PCI collision: serving sector uses PCI 107, and adjacent NR-URB-MACRO-024-S2 also advertises 107, with 66% overlap across adjacencies. This aligns with HO failures and ping-pong plus interference. I propose to retune the serving PCI to an available value (e.g., 139) and refresh neighbor relations to remove duplicates. Approve live parameter optimization now?",
+      "message_ar": "أظهر تدقيق الجوار وجود تصادم PCI: القطاع الخادِم يستخدم PCI 107 والقطاع المجاور NR-URB-MACRO-024-S2 يعلن أيضاً 107، مع تداخل 66% عبر الجوار. هذا يتماشى مع ارتفاع فشل التسليم والـping‑pong والتداخل. أقترح إعادة تعيين PCI للقطاع الخادِم إلى قيمة متاحة (مثلاً 139) وتحديث علاقات الجوار لإزالة التكرارات. هل توافق على تنفيذ تحسين المعلمات مباشرة الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the live optimization; keep impact minimal.",
+      "message_ar": "موافق على المضي قدماً بالتحسين المباشر مع تقليل الأثر قدر الإمكان."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization: reassigning serving PCI from 107 to 139, updating neighbor relations, and clearing conflicting entries. Change applied; broadcasts reflect the new PCI. Expect a brief signaling blip (<20s). I’ll run a quick post-change sanity check and watch HO/RSRQ.",
+      "message_ar": "تنفيذ التحسين: إعادة تعيين PCI الخادِم من 107 إلى 139، تحديث علاقات الجوار، وإزالة الإدخالات المتعارضة. تم تطبيق التغيير؛ البث يعكس PCI الجديد. يُتوقَّع وميض إشارتي قصير (<20 ثانية). سأجري تحققاً سريعاً بعد التغيير وأراقب التسليم/RSRQ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: signal quality is improving (~2 dB RSRQ), ping‑pong indications are easing, and median user rates are creeping up.",
+      "message_ar": "ملاحظة أولية: تحسّن في جودة الإشارة (~2 دB في RSRQ)، مؤشرات الـping‑pong تتناقص، ومعدل المستخدم الوسيط يرتفع تدريجياً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. I will log a change record to document the PCI retune and set up monitoring for stability across the next busy period. Approve creating a tracking ticket?",
+      "message_ar": "مؤشرات جيدة. سأدوّن سجل تغيير لتوثيق إعادة ضبط الـPCI ووضع مراقبة للاستقرار خلال فترة الازدحام التالية. هل توافق على إنشاء تذكرة متابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the tracking ticket.",
+      "message_ar": "موافق على إنشاء تذكرة المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket DU-PCI-00137 created with summary: “Resolved PCI collision by reassigning serving PCI and refreshing neighbors for NR-URB-MACRO-023-S1; monitor HO/RSRQ/throughput.” I’ll continue to observe KPIs over the next interval.",
+      "message_ar": "تم إنشاء تذكرة المتابعة DU-PCI-00137 بالملخص: \"تم حل تصادم PCI عبر إعادة تعيين PCI للخدمة وتحديث الجيران لـ NR-URB-MACRO-023-S1؛ مراقبة التسليم/RSRQ/معدل النقل.\" سأواصل متابعة مؤشرات الأداء خلال الفترة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, interference symptoms are down and handover failures are trending lower; slow data complaints are easing. Action taken: PCI reassignment and neighbor relation cleanup. Let’s monitor through the next busy hour and review via DU-PCI-00137.",
+      "message_ar": "بعد التغيير، انخفضت أعراض التداخل وتراجعت حالات فشل التسليم؛ شكاوى بطء البيانات بدأت تقل. الإجراء المتخذ: إعادة تعيين PCI وتنظيف علاقات الجوار. لنراقب خلال ساعة الذروة القادمة ونراجع عبر DU-PCI-00137."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—I will own monitoring through the next busy hour and update DU-PCI-00137 with HO success, ping‑pong, and throughput results. Actions completed: PCI reassignment to a free value and neighbor cleanup. If performance degrades, I will roll back the PCI change and isolate the conflicting neighbor, then escalate to RF planning for a cluster-wide replan.",
+      "message_ar": "تم التأكيد—سأتولى المراقبة خلال ساعة الذروة القادمة وأحدّث DU-PCI-00137 بنتائج نجاح التسليم والـping‑pong ومعدل النقل. الإجراءات المُنجزة: إعادة تعيين PCI إلى قيمة متاحة وتنظيف الجوار. إذا تدهور الأداء، سأرجع تغيير الـPCI وأعزل الجار المتعارض، ثم أصعّد الأمر إلى تخطيط التردد لإعادة تخطيط على مستوى العنقود."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-URB-MACRO-023-S1",
+        "all_adjacent"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI reassignment to 139; neighbor relation refresh; remove duplicates"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision resolved on NR-URB-MACRO-023-S1 by reassigning PCI and refreshing neighbors; monitor HO/RSRQ/throughput for stability"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision between the serving sector and an adjacent cell, causing interference, mobility instability, and slow data. Applied site parameter tuning by reassigning the serving PCI and refreshing neighbor relations, then documented the change with a tracking ticket and set monitoring. Early indicators show improved signal quality and reduced handover issues.",
+    "ar": "تم تشخيص تصادم PCI بين القطاع الخادِم وخلية مجاورة مما تسبب في تداخل وعدم استقرار في الحركة وبطء في البيانات. تم تنفيذ ضبط معلمات بالموقع عبر إعادة تعيين PCI للخدمة وتحديث علاقات الجوار، ثم توثيق التغيير بتذكرة متابعة ووضع المراقبة. المؤشرات الأولية تُظهر تحسناً في جودة الإشارة وتراجعاً في مشكلات التسليم."
+  }
+}

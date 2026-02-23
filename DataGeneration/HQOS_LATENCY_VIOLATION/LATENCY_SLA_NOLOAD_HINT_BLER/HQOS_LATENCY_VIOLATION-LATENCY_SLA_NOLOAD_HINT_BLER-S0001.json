@@ -1,0 +1,105 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0001",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell shows 100 ms user-plane latency over the last 3h at peak eMBB, with interference/signal overlap (SINR 2 dB, RSRQ −15 dB), BLER 10.7%, PRB 64%, 221 users, and median downlink 11 Mbps.",
+    "ar": "خلية ماكرو NR في منطقة ضواحي تُظهر كمون طبقة المستخدم 100 مللي ثانية خلال آخر 3 ساعات في ذروة eMBB، مع تداخل/تراكب الإشارة (SINR 2 dB وRSRQ −15 dB)، وBLER بنسبة 10.7%، وإشغال PRB بنسبة 64%، و221 مستخدمًا، ومعدل تنزيل وسطي 11 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour suburban NR macro cell has elevated user-plane latency around 100 ms for the last 3h; SINR ~2 dB and RSRQ −15 dB suggest interference/signal overlap; BLER ~10.7%, PRB ~64%, 221 users; video streaming complaints from eMBB users. Need assistance.",
+      "message_ar": "خلية ماكرو NR في منطقة ضواحي خلال ساعة الذروة تُظهر كمون طبقة المستخدم نحو 100 مللي ثانية خلال آخر 3 ساعات؛ قيم SINR ~2 dB وRSRQ −15 dB توحي بتداخل/تراكب الإشارة؛ BLER ~10.7%، وإشغال PRB ~64%، و221 مستخدمًا؛ شكاوى من بث الفيديو لدى مستخدمي eMBB. أحتاج دعمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please provide the cell ID and approve read access. I will verify OSS counters for the last 3h to validate latency and load, then pull a latency time series and, if confirmed, apply a targeted optimization.",
+      "message_ar": "يرجى تزويدي بمعرّف الخلية والموافقة على وصول القراءة. سأتحقق من عدادات النظام لآخر 3 ساعات للتحقق من الكمون والحمل، ثم أسحب سلسلة زمنية للكمون وإذا تأكدت المشكلة سأطبق تحسينًا مستهدفًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Suburb-0421. Access approved for the last 3 hours.",
+      "message_ar": "معرّف الخلية: NR-Suburb-0421. الوصول معتمد لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checking OSS counters for NR-Suburb-0421 over 3h: no active faults; user-plane latency 95–130 ms above SLA; BLER 9–12% with low SINR; PRB 58–68% (no congestion). I will fetch the latency trend to isolate peak patterns; proceed?",
+      "message_ar": "جارٍ فحص عدادات النظام للخلية NR-Suburb-0421 خلال 3 ساعات: لا أعطال نشطة؛ كمون طبقة المستخدم 95–130 مللي ثانية أعلى من اتفاقية الخدمة؛ BLER بين 9–12% مع SINR منخفض؛ إشغال PRB 58–68% (لا ازدحام). سأجلب الاتجاه الزمني للكمون لعزل أنماط الذروة؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Continue.",
+      "message_ar": "موافق. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series over 3h shows a plateau near 100 ms with spikes up to 140 ms around 19:10–19:40, correlating with BLER bursts and >210 users; throughput median holds near 11 Mbps. Diagnosis: retransmissions from interference are inflating queueing delay despite moderate PRB use. I propose site parameter tuning to prioritize low-latency scheduling for eMBB and slightly tighten link adaptation to reduce BLER; approve apply?",
+      "message_ar": "السلسلة الزمنية للكمون خلال 3 ساعات تُظهر مستوى يقارب 100 مللي ثانية مع قمم تصل إلى 140 مللي ثانية حوالي 19:10–19:40، وتتطابق مع طفرات BLER وتجاوز عدد المستخدمين 210؛ ويبقى الوسيط نحو 11 ميجابت/ث. التشخيص: إعادة الإرسال بسبب التداخل ترفع تأخر الطوابير رغم إشغال PRB المتوسط. أقترح ضبط معلمات الخلية لإعطاء أولوية للجدولة منخفضة الكمون لـ eMBB وتشديدًا طفيفًا لتكيّف الوصلة لخفض BLER؛ هل تسمح بالتطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization.",
+      "message_ar": "موافَق على تطبيق التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying non-intrusive parameter optimization on NR-Suburb-0421: tuned latency-class scheduling weights and refined link adaptation margins. Commit completed. Early post-change indicators show BLER ~7–8% and median latency ~70–80 ms. We'll observe briefly.",
+      "message_ar": "أطبِّق تحسينًا غير تدخلي لمعلمات الخلية على NR-Suburb-0421: ضبطت أوزان الجدولة لفئة الكمون وقمت بتحسين هوامش تكيّف الوصلة. تم الاعتماد. المؤشرات الأولية بعد التغيير تُظهر BLER ~7–8% وكمونًا وسيطًا ~70–80 مللي ثانية. سنراقب لفترة وجيزة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: latency now around 72 ms and retransmissions trending down; action taken was site parameter tuning for scheduler and link adaptation. Propose monitoring through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسّن: الكمون الآن نحو 72 مللي ثانية وإعادة الإرسال في اتجاه هابط؛ الإجراء كان ضبط معلمات الخلية للجدولة وتكيّف الوصلة. أقترح المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; we will monitor through the next busy hour and share an update on latency and BLER stability afterward. If performance degrades, we will roll back the change; if interference persists, we will escalate for interference mitigation. Summary: validated KPIs, analyzed the latency trend, and executed site parameter tuning; continued monitoring in place.",
+      "message_ar": "مفهوم؛ سنراقب خلال ساعة الذروة التالية ونشارك تحديثًا بعد ذلك حول استقرار الكمون وBLER. إذا تدهور الأداء سنقوم بالتراجع عن التغيير؛ وإذا استمر التداخل سنصعّد لمعالجة التداخل. الملخّص: تم التحقق من مؤشرات الأداء، تحليل اتجاه الكمون، وتنفيذ ضبط معلمات الخلية؛ والمتابعة جارية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated a latency SLA breach on a suburban NR macro cell with moderate load but low SINR and elevated BLER, indicating interference-driven retransmissions. Reviewed the 3h latency time series to confirm peak behavior, then executed site parameter tuning on scheduling priorities and link adaptation. Post-change, latency and BLER improved, and the cell will be monitored through the next busy hour.",
+    "ar": "تم التحقق من خرق اتفاقية مستوى الخدمة للكمون على خلية ماكرو NR في منطقة ضواحي مع حمل متوسط لكن SINR منخفض وBLER مرتفع، ما يدل على إعادة إرسال مدفوعة بالتداخل. جرى مراجعة السلسلة الزمنية للكمون خلال 3 ساعات لتأكيد سلوك الذروة، ثم تنفيذ ضبط معلمات الخلية لأولوية الجدولة وتكيّف الوصلة. بعد التغيير تحسّن الكمون وBLER، وسيتم مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

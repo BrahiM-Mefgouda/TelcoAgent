@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0022",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "SLA breach in the stadium over the last 6h ingress window on the 5G NR micro cell with congestion, slow data (p50 ~6 Mbps), high resource use (~96%), latency ~92 ms, and QoS ~0.41 vs 0.98 target.",
+    "ar": "خرق لاتفاقية المستوى في الاستاد خلال نافذة 6 ساعات لمرحلة الدخول على خلية 5G NR الميكرو مع ازدحام، بيانات بطيئة (الوسيط ~6 ميجابت/ث)، ارتفاع استخدام الموارد (~96%)، زمن تأخير ~92 مللي ثانية، وجودة خدمة ~0.41 مقابل هدف 0.98."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 6h on the 5G NR micro cell shows an SLA breach: QoS ≈0.41 vs 0.98 target, latency ≈92 ms, PRB ≈96%, ~609 users, and slow data (p50 ≈6 Mbps). An alarm is active for congestion.",
+      "message_ar": "مرحلة الدخول في الاستاد خلال آخر 6 ساعات على خلية 5G NR الميكرو تُظهر خرقًا لاتفاقية المستوى: جودة الخدمة ≈0.41 مقابل هدف 0.98، زمن التأخير ≈92 مللي ثانية، استخدام الموارد ≈96%، حوالي 609 مستخدمين، وبيانات بطيئة (الوسيط ≈6 ميجابت/ث). هناك إنذار نشط بسبب الازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion. I will start by checking the cell status and counters over the last 6h in OSS for this stadium NR micro cell. Please confirm access.",
+      "message_ar": "تم الاستلام بوجود ازدحام. سأبدأ بفحص حالة الخلية والعدادات لآخر 6 ساعات عبر نظام الإدارة لهذا الموقع 5G NR الميكرو في الاستاد. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for that window and the target micro cell at the stadium. Proceed.",
+      "message_ar": "صلاحية الوصول معتمدة لتلك النافذة وعلى الخلية الميكرو المستهدفة في الاستاد. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: cell available, no outage; sustained high load (PRB >90% peaking ~96%); QoS below target; latency elevated; BLER ~4–5% steady. Likely ingress-driven eMBB streaming pressure. Next, I’ll pull the QoS time series for the same 6h to validate the pattern. Proceed?",
+      "message_ar": "تم فحص نظام الإدارة: الخلية متاحة ولا يوجد انقطاع؛ حمل مرتفع مستمر (استهلاك الموارد >90% ويبلغ الذروة ~96%)؛ جودة الخدمة دون الهدف؛ زمن التأخير مرتفع؛ معدل أخطاء الكتلة ~4–5% ثابت. يرجّح ضغط حركة eMBB أثناء الدخول. بعد ذلك سأستخرج السلسلة الزمنية لجودة الخدمة لنفس 6 الساعات للتحقق من النمط. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series retrieved: recurrent dips during ingress waves; throughput p50 ~6 Mbps; latency spikes >90 ms. Confirms SLA violation due to congestion. I will create an incident for capacity mitigation and vendor engagement. Approve?",
+      "message_ar": "تم استخراج السلسلة الزمنية لجودة الخدمة: هبوطات متكررة أثناء موجات الدخول؛ وسيط السرعة ~6 ميجابت/ث؛ ارتفاعات زمن التأخير >90 مللي ثانية. هذا يؤكد خرق الاتفاقية بسبب الازدحام. سأقوم بإنشاء بلاغ للتخفيف من سعة الشبكة والتصعيد للمورّد. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please create the incident.",
+      "message_ar": "موافق. يرجى إنشاء البلاغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident created for the stadium NR micro cell SLA breach with congestion symptoms and ingress correlation; included KPIs and timeframe. I’ll monitor for acute deterioration and liaise with ops if needed.",
+      "message_ar": "تم إنشاء البلاغ لخرق اتفاقية المستوى على خلية NR الميكرو في الاستاد مع أعراض الازدحام وارتباطها بمرحلة الدخول؛ تم تضمين مؤشرات الأداء والإطار الزمني. سأراقب أي تدهور حاد وأتواصل مع العمليات عند الحاجة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After the last crowd pulse, we see partial improvement: median throughput nudged up and latency eased slightly. No new alarms.",
+      "message_ar": "بعد موجة الجمهور الأخيرة، نلاحظ تحسنًا جزئيًا: ارتفع وسيط السرعة قليلًا وانخفض زمن التأخير بشكل طفيف. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I propose tracking the next busy hour to confirm stabilization; I’ll own the updates. Confirm?",
+      "message_ar": "مفهوم. أقترح المتابعة خلال ساعة الذروة القادمة لتأكيد الاستقرار؛ سأقوم بإدارة التحديثات. تأكيد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—throughput median is improving and latency spikes are trending down. We completed the OSS check, reviewed the QoS time series, and created the incident; let’s monitor through the next busy hour. Ticket DU-SLA-04219.",
+      "message_ar": "مؤكد—وسيط السرعة يتحسن وارتفاعات زمن التأخير في اتجاه هبوطي. أنهينا فحص نظام الإدارة، وراجعنا السلسلة الزمنية لجودة الخدمة، وأنشأنا البلاغ؛ لنتابع خلال ساعة الذروة القادمة. التذكرة DU-SLA-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket after the window. If QoS stays below target or load remains >90%, we’ll escalate to event operations and the vendor for temporary mitigation; otherwise we will close out. No rollback needed since no live changes were applied.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا بقيت جودة الخدمة دون الهدف أو استمر الحمل أعلى من 90% فسوف نُصعّد إلى عمليات الحدث والمورّد لإجراءات تخفيف مؤقتة؛ وإلا فسنُغلق الحالة. لا حاجة للتراجع لأننا لم نطبق تغييرات مباشرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium ingress window, the 5G NR micro cell showed heavy congestion with PRB near 96%, latency around 92 ms, and QoS far below the SLA target, resulting in slow data. We verified the condition via an OSS check and a QoS time-series review, then created an incident for event capacity mitigation and vendor follow-up. We will monitor through the next busy hour and update with outcomes.",
+    "ar": "خلال نافذة الدخول في الاستاد، أظهرت خلية 5G NR الميكرو ازدحامًا شديدًا مع استخدام موارد يقارب 96% وزمن تأخير حوالي 92 مللي ثانية وجودة خدمة أدنى بكثير من الهدف، مما أدى إلى بطء البيانات. تحققنا من الحالة عبر فحص نظام الإدارة ومراجعة السلسلة الزمنية لجودة الخدمة، ثم أنشأنا بلاغًا لتخفيف سعة الحدث والمتابعة مع المورّد. سنراقب خلال ساعة الذروة القادمة ونقوم بالتحديث بالنتائج."
+  }
+}

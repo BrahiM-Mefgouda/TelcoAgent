@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_EMBB_CAPACITY-S0026",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_EMBB_CAPACITY",
+  "query": {
+    "en": "Stadium NR micro cell has 40% eMBB slice admission denials over the last 4 hours with PRB at 94% and slice utilization at 77%; congestion alarm active, latency 36 ms, p50 DL 12 Mbps, about 43 requests/min across ~1008 users.",
+    "ar": "خلية NR صغيرة في الملعب تسجل 40% حالات رفض قبول لشريحة eMBB خلال آخر 4 ساعات مع إشغال PRB عند 94% واستخدام الشريحة 77%؛ إنذار ازدحام فعّال، الكمون 36 مللي ثانية، وسيط التحميل الهابط 12 ميجابت/ث، نحو 43 طلب/دقيقة بين ~1008 مستخدمين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is throwing a congestion alarm and eMBB slice admission denials are around 40% over the last 4 hours during egress. ~43 slice requests/min, ~1008 users, PRB ~94%, slice utilization 77%, latency ~36 ms, p50 DL ~12 Mbps.",
+      "message_ar": "خلية NR صغيرة في الملعب تُظهر إنذار ازدحام مع حالات رفض قبول لشريحة eMBB بحوالي 40% خلال آخر 4 ساعات أثناء مرحلة الخروج. ~43 طلب شريحة/دقيقة، ~1008 مستخدمين، إشغال PRB ~94%، استخدام الشريحة 77%، الكمون ~36 مللي ثانية، وسيط التحميل الهابط ~12 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely resource pressure with a policy constraint during egress. Please share the cell ID and approve read access so I can pull 4h stats; I will review admission causes and propose a targeted eMBB slice policy adjustment.",
+      "message_ar": "مفهوم. على الأرجح ضغط موارد مع قيد في السياسة أثناء الخروج. الرجاء تزويدي بمعرّف الخلية والموافقة على وصول القراءة كي أسحب إحصاءات 4 ساعات؛ سأراجع أسباب الرفض وأقترح ضبطاً مستهدفاً لسياسة شريحة eMBB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-012-micro-1. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-STAD-012-micro-1. تمت الموافقة على وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 4h stats for NR-STAD-012-micro-1. DL PRB 92–96% peaks; RRC users up to ~1.2k. eMBB admission rejects dominated by insufficient resources (~78%). Current eMBB policy enforces ~143 Mbps minimum guarantee at priority 3 with no preemption over lower tiers. I recommend lowering the minimum guarantee and enabling controlled preemption to admit more sessions. Approve?",
+      "message_ar": "تم سحب إحصاءات آخر 4 ساعات للخلية NR-STAD-012-micro-1. ذروة إشغال PRB للتحميل الهابط 92–96%؛ مستخدمو RRC يصلون إلى ~1.2 ألف. رفض قبول eMBB يهيمن عليه نقص الموارد (~78%). سياسة eMBB الحالية تفرض حد ضمان أدنى ~143 ميجابت/ث عند أولوية 3 دون إزاحة مسبقة على الطبقات الأدنى. أوصي بخفض الحد الأدنى للضمان وتفعيل إزاحة مضبوطة لقبول جلسات أكثر. الموافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to adjust the eMBB slice policy as proposed.",
+      "message_ar": "موافَق على ضبط سياسة شريحة eMBB كما اقترحت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied eMBB slice policy update: set minimum guarantee to 100 Mbps, enabled preemption against best-effort flows, and increased burst margin by +15% to better accommodate streaming during egress; priority remains 3. Change is reversible. I will watch admission and latency for the next 15 minutes.",
+      "message_ar": "تم تطبيق تحديث سياسة شريحة eMBB: ضبط الحد الأدنى للضمان إلى 100 ميجابت/ث، تفعيل الإزاحة المسبقة مقابل التدفقات ذات الجهد الأفضل، وزيادة هامش الاندفاع +15% لاستيعاب البث أثناء الخروج؛ تبقى الأولوية 3. التغيير قابل للعكس. سأراقب القبول والكمون خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with monitoring; I’m watching counters as well.",
+      "message_ar": "تابع المراقبة؛ أنا أتابع العدّادات أيضاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "After ~15 min: admission denials down from ~40% to ~18%; requests steady at ~40–45/min; PRB still high (~90–93%), latency improved to ~29 ms, p50 DL ~14 Mbps. To track this through the egress window, I will open a ticket documenting the change and trends. OK to proceed?",
+      "message_ar": "بعد ~15 دقيقة: انخفضت حالات الرفض من ~40% إلى ~18%؛ الطلبات ثابتة ~40–45/دقيقة؛ لا يزال إشغال PRB مرتفعاً (~90–93%)، تحسن الكمون إلى ~29 مللي ثانية، وسيط التحميل الهابط ~14 ميجابت/ث. لتتبّع ذلك خلال نافذة الخروج، سأفتح تذكرة توثّق التغيير والاتجاهات. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the ticket.",
+      "message_ar": "موافَق على فتح التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket opened for stadium eMBB admission pressure with the policy update and initial improvements recorded. I’ll continue monitoring through the remainder of egress and early offload.",
+      "message_ar": "تم فتح تذكرة تتبّع لضغط قبول شريحة eMBB في الملعب مع توثيق تحديث السياسة والتحسينات الأولية. سأواصل المراقبة خلال بقية مرحلة الخروج وبداية انخفاض الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good—admission denials are now trending near 12% and latency holds under 30 ms. Keep the slice policy update active and monitor for the next 2–4 hours; please track under DU-SLICE-02354.",
+      "message_ar": "جيد—حالات الرفض الآن تتجه نحو ~12% والكمون ثابت تحت 30 مللي ثانية. أبقِ تحديث سياسة الشريحة مفعّلاً وراقب خلال الساعتين إلى الأربع القادمتين؛ الرجاء التتبع تحت DU-SLICE-02354."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next 2–4 hours and update the ticket afterward with admission, latency, and PRB trends. If performance regresses, we will escalate by coordinating temporary traffic steering and engaging capacity relief; if side effects appear, we will roll back the slice policy change immediately.",
+      "message_ar": "تم—سنتولى المراقبة خلال الساعتين إلى الأربع القادمتين وسنحدّث التذكرة بعد النافذة باتجاهات القبول والكمون وإشغال PRB. إذا تدهور الأداء سنصعّد عبر تنسيق توجيه مؤقت لحركة المرور وطلب دعم سعة؛ وإذا ظهرت آثار جانبية سنرجع تغيير سياسة الشريحة فوراً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-012-micro-1",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "embb-stadium",
+        "min_guarantee=100Mbps;enable_preemption=true;burst=+15%"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "DU-SLICE-02354 | Stadium eMBB slice admission failures mitigated via slice policy update; monitor during egress"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium egress window, the NR micro cell experienced heavy congestion causing high eMBB slice admission denials. We confirmed resource saturation and a restrictive minimum guarantee policy, then executed a slice policy update (lowered guarantee, enabled preemption, increased burst) and opened a tracking ticket. Admission denials dropped and latency improved; we will monitor for the next 2–4 hours and adjust if needed.",
+    "ar": "خلال نافذة الخروج في الملعب، واجهت خلية NR الصغيرة ازدحاماً شديداً أدى إلى ارتفاع رفض قبول شريحة eMBB. تم تأكيد تشبع الموارد وقيود في الحد الأدنى للضمان، ثم نُفِّذ تحديث لسياسة الشريحة (خفض الضمان، تفعيل الإزاحة المسبقة، زيادة الهامش) وتم فتح تذكرة تتبع. انخفضت حالات الرفض وتحسن الكمون؛ سنراقب خلال الساعتين إلى الأربع القادمتين ونُجري التعديل عند الحاجة."
+  }
+}

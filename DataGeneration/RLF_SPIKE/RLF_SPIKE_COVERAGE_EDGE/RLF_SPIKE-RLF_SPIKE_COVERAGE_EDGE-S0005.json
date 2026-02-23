@@ -1,0 +1,110 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0005",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G macro cell shows a radio link failure spike over the last 6h with weak signal, interference / signal overlap at the coverage edge, and slow data.",
+    "ar": "خلية ماكرو 5G ريفية تُظهر ارتفاعاً في فشل رابط الراديو خلال آخر 6 ساعات مع إشارة ضعيفة وتداخل/تراكب إشارة على حافة التغطية وبطء في البيانات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell shows a spike in radio link failures over the last 6 hours with slow data and user drops at the coverage edge; eMBB streaming is affected.",
+      "message_ar": "خلية NR ماكرو ريفية تُظهر ارتفاعاً في فشل رابط الراديو خلال آخر 6 ساعات مع بطء في البيانات وسقوط جلسات عند حافة التغطية؛ يتأثر بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by checking last 6h network management counters to confirm the spike and RF conditions; share the cell ID and approve read access.",
+      "message_ar": "سأبدأ بفحص عدادات إدارة الشبكة لآخر 6 ساعات لتأكيد الارتفاع وحالة التغطية اللاسلكية؛ يُرجى مشاركة معرف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Rural-231; access approved.",
+      "message_ar": "معرّف الخلية: NR-Rural-231؛ تمت الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters over 6h show RLF ~5% above baseline, RSRP ≈ -119 dBm, RSRQ -12 dB, SINR -1 dB; handover success ~80%, BLER ~6–7%, PRB ~47%, TA spread ~218 m; no site alarms. Next, I'll pull the RLF time series to localize spike periods and correlate with low SINR—proceed?",
+      "message_ar": "تُظهر العدادات خلال 6 ساعات أن فشل الرابط ~5% فوق الأساس، RSRP ≈ ‎-119 dBm، وRSRQ ‎-12 dB، وSINR ‎-1 dB؛ نجاح التسليم ~80%، وBLER ~6–7%، وPRB ~47%، وتشتت TA ~218 م؛ لا توجد إنذارات للموقع. بعد ذلك سأسحب السلسلة الزمنية لفشل الرابط لتحديد فترات الارتفاع وارتباطها بانخفاض SINR—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "The time series clusters RLF spikes in late afternoon/evening (mixed hours) with many cell-edge users, interference / signal overlap, and delayed handovers to adjacent sectors. Diagnosis: coverage-edge mobility causing late handover and drops. I propose targeted mobility tuning: slightly lower event thresholds and refine timers for earlier, stable handover; approve?",
+      "message_ar": "تُظهر السلسلة الزمنية تجمّع ارتفاعات فشل الرابط بعد الظهر/المساء (ساعات مختلطة) مع كثير من المستخدمين على حافة الخلية وتداخل/تراكب إشارة وتأخر التسليم إلى القطاعات المجاورة. التشخيص: حركة عند حافة التغطية تؤدي إلى تسليم متأخر وسقوط. أقترح ضبطاً مستهدفاً للحركية: خفضاً طفيفاً لعتبات الأحداث وتحسين المؤقتات لتسليم مبكر ومستقر؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; implement.",
+      "message_ar": "موافق؛ نفّذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: mobility thresholds and timers tuned for earlier, stable handover; no other changes. Low risk; rollback is ready if side effects appear. Let's observe initial impact for 15–30 minutes; please share any immediate user experience changes.",
+      "message_ar": "تم تطبيق التحسين: تم ضبط عتبات الحركية والمؤقتات لتسليم مبكر ومستقر؛ دون تغييرات أخرى. المخاطر منخفضة؛ التراجع جاهز إذا ظهرت آثار جانبية. لنراقب الأثر الأولي لمدة 15–30 دقيقة؛ يرجى مشاركة أي تغيّر فوري في تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: fewer stalls and fewer reconnects; users report steadier sessions at the edge.",
+      "message_ar": "ملاحظة مبكرة: توقفات أقل وإعادة اتصال أقل؛ المستخدمون يبلغون عن جلسات أكثر استقراراً عند الحافة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "RLF events are trending down and handovers look cleaner after the mobility parameter optimization; recommend monitoring through the next busy hour.",
+      "message_ar": "حالات فشل الرابط تتجه للانخفاض وتسليمات أكثر سلاسة بعد تحسين معلمات الحركية؛ أقترح المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; we will monitor through the next busy hour and update with RLF rate, handover success, and median user throughput. If degradation reappears, we will roll back the change and escalate for deeper RF assessment.",
+      "message_ar": "مفهوم؛ سنراقب خلال ساعة الانشغال القادمة ونوافيكم بمعدل فشل الرابط ونجاح التسليم ومتوسط سرعة المستخدمين. إذا عادت المشكلة، سنعود عن التغيير ونصعّد لإجراء تقييم لاسلكي أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a radio link failure spike tied to weak signal and interference / signal overlap at the rural NR macro cell edge. Time-series analysis localized spikes to mixed hours with delayed handovers. Applied site parameter tuning of mobility thresholds and timers to trigger earlier, stable handovers; monitoring the next busy hour for sustained improvement.",
+    "ar": "تم تأكيد ارتفاع في فشل رابط الراديو مرتبط بإشارة ضعيفة وتداخل/تراكب إشارة عند حافة خلية NR الريفية. حدّدت السلسلة الزمنية الارتفاعات في ساعات مختلطة مع تأخر في التسليم. تم تنفيذ ضبط لمعلمات الموقع في الحركية (عتبات ومؤقتات) لتمكين تسليم مبكر ومستقر؛ تتم المراقبة خلال ساعة الانشغال القادمة للتحقق من استمرارية التحسن."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0022",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion in the last 3h with slow data—PRB near saturation, low allocation fairness, and ~895 users during ingress.",
+    "ar": "خلية NR صغيرة في ملعب تُظهر ازدحاماً خلال آخر 3 ساعات مع بطء البيانات—تشبع مرتفع في PRB، عدالة تخصيص منخفضة، ونحو 895 مستخدماً أثناء مرحلة الدخول."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell has an active alarm during ingress over the last 3h. Median DL throughput ~6 Mbps with ~895 users and very high PRB use. Please investigate.",
+      "message_ar": "هناك إنذار نشط على خلية NR صغيرة في الملعب خلال مرحلة الدخول خلال آخر 3 ساعات. متوسط سرعة التنزيل ~6 ميجابت/ث مع ~895 مستخدماً واستخدام PRB مرتفع جداً. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull last 3h OSS counters for the cell, then review the PRB allocation timeline to confirm an allocation anomaly, and if confirmed, apply targeted parameter tuning. Please confirm the cell ID and authorize read/write for this window.",
+      "message_ar": "تم. سأقوم أولاً بجلب مؤشرات آخر 3 ساعات من النظام، ثم مراجعة خط الزمن لتخصيص PRB لتأكيد وجود خلل في التخصيص، وإذا تأكد ذلك سأطبق ضبطاً انتقائياً للمعاملات. يرجى تأكيد معرف الخلية والتصريح بالقراءة/الكتابة لهذه النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MICRO-03. Read/write approved for this window within guarded limits.",
+      "message_ar": "معرف الخلية هو NR-STAD-MICRO-03. تمت الموافقة على القراءة/الكتابة لهذه النافذة ضمن حدود آمنة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NR-STAD-MICRO-03: PRB utilization 95–98%, allocation fairness ~0.54, high-priority class share 28% vs best-effort 71%, p95 allocation latency 70–80 ms; SINR ~6 dB (moderate). Clear congestion with best-effort dominating. Proceed to the PRB timeline analysis unless you object.",
+      "message_ar": "تم سحب المؤشرات لـ NR-STAD-MICRO-03: استخدام PRB بين 95–98%، عدالة التخصيص ~0.54، حصة الفئات عالية الأولوية 28% مقابل 71% للجهد الأفضل، وزمن تأخير التخصيص p95 بين 70–80 مللي ثانية؛ قيمة SINR ~6 dB (متوسطة). هناك ازدحام واضح مع هيمنة حركة الجهد الأفضل. سأتقدم لتحليل خط الزمن لتخصيص PRB ما لم يكن هناك اعتراض."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series over the last 3h confirms persistent allocation skew (index 42) peaking at ingress; median DL 6 Mbps with an 11 Mbps p95–p50 gap. Proposal: rebalance allocation weights to lift high-priority classes by ~5 pp, cap best-effort at 60% under congestion, and tighten queue thresholds to lower head‑of‑line delay. Requesting approval to apply now.",
+      "message_ar": "يؤكد خط الزمن خلال آخر 3 ساعات انحرافاً مستمراً في التخصيص (مؤشر 42) يبلغ ذروته أثناء الدخول؛ متوسط التنزيل 6 ميجابت/ث مع فجوة p95–p50 قدرها 11 ميجابت/ث. الاقتراح: إعادة موازنة أوزان التخصيص لرفع حصة الفئات عالية الأولوية بنحو 5 نقاط مئوية، وتحديد سقف للجهد الأفضل عند 60% أثناء الازدحام، وتشديد عتبات الطوابير لخفض التأخير في مقدمة الصف. أطلب الموافقة للتطبيق الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved within safe limits; keep impact minimal and observe for 10 minutes.",
+      "message_ar": "موافَق عليه ضمن حدود آمنة؛ حافظ على أقل تأثير وراقب لمدة 10 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter optimization on NR-STAD-MICRO-03: +5 pp floor for high-priority during congestion, best-effort cap at 60%, and conservative queue threshold tweak. Change committed and verified; starting a 10‑minute fast watch.",
+      "message_ar": "تم تطبيق ضبط المعاملات على NR-STAD-MICRO-03: رفع الحد الأدنى للفئات عالية الأولوية بمقدار 5 نقاط مئوية أثناء الازدحام، وتقييد حصة الجهد الأفضل عند 60%، وتعديل تحفظي لعتبات الطوابير. تم اعتماد التغيير والتحقق منه؛ أبدأ مراقبة سريعة لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 5 minutes: median throughput ~8.5 Mbps; p95 allocation latency trending 58–62 ms; user complaints are easing; no control instability observed.",
+      "message_ar": "بعد 5 دقائق: متوسط السرعة ~8.5 ميجابت/ث؛ زمن تأخير التخصيص p95 يتجه إلى 58–62 مللي ثانية؛ الشكاوى تقل؛ لا توجد عدم استقرارية في التحكم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. PRB distribution looks fairer and eMBB video streaming is smoother. I will retain the new settings through ingress and continue to watch utilization and delay.",
+      "message_ar": "تحسن جيد. توزيع PRB أصبح أكثر عدلاً وبث الفيديو eMBB أكثر سلاسة. سأبقي الإعدادات الجديدة خلال مرحلة الدخول وأستمر في مراقبة الاستخدام والتأخير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted—median throughput up and allocation delays down. Action taken: resource allocation parameter optimization on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة التحسن—ارتفاع متوسط السرعة وانخفاض تأخيرات التخصيص. الإجراء المتخذ: تحسين معاملات تخصيص الموارد على الخلية. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and report results. If performance degrades, we will roll back the parameter deltas; if congestion persists, we will escalate for temporary capacity relief via neighboring sectors.",
+      "message_ar": "تم—سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم النتائج. إذا تدهورت الأداء سنرجع تعديلات المعاملات؛ وإذا استمر الازدحام سنصعّد لطلب تخفيف سعة مؤقت عبر القطاعات المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "last_3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "PRB",
+        "last_3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "rebalance_allocation_weights_and_be_cap"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation anomaly on the stadium NR micro cell during ingress: PRB saturation, low fairness, and high best‑effort share causing slow data. We reviewed recent counters and the PRB timeline, then executed site parameter tuning to rebalance allocation weights and cap best‑effort during congestion. After the change, median throughput improved and allocation latency dropped; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص خلل في تخصيص الموارد على خلية NR صغيرة في الملعب أثناء مرحلة الدخول: تشبع في PRB، عدالة منخفضة، وحصة مرتفعة للجهد الأفضل مما تسبب في بطء البيانات. تمت مراجعة المؤشرات الحديثة وخط الزمن لـ PRB، ثم تنفيذ ضبط لمعاملات الموقع لإعادة موازنة أوزان التخصيص وتقييد الجهد الأفضل أثناء الازدحام. بعد التغيير تحسن متوسط السرعة وانخفضت تأخيرات التخصيص؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

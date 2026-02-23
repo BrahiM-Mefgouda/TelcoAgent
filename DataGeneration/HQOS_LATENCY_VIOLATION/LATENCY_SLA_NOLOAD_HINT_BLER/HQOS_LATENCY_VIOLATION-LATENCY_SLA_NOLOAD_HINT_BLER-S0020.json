@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0020",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows ~40 ms latency over the last 3h shoulder window with interference / signal overlap (SINR ~3 dB), moderate load (~79%), elevated BLER (~12%), and p50 throughput ~19 Mbps affecting eMBB streaming.",
+    "ar": "موقع ضواحي 5G NR ماكرو يعرض زمن تأخير ~40 مللي ثانية خلال آخر 3 ساعات (كتف اليوم) مع تداخل/تراكب الإشارة (SINR ~3 dB)، حمل متوسط (~79%)، BLER مرتفع (~12%)، ومتوسط سرعة p50 ~19 ميجابت/ث يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell over the last 3h shoulder window shows elevated user-plane latency around 40 ms with no alarms. PRB ~79%, BLER ~12%, SINR ~3 dB, p50 throughput ~19 Mbps. eMBB users reported streaming buffering.",
+      "message_ar": "موقع 5G NR ماكرو في منطقة ضواحي خلال آخر 3 ساعات (كتف اليوم) يُظهر زمن تأخير مرتفعًا بحوالي 40 مللي ثانية بدون إنذارات. استغلال PRB ~79%، BLER ~12%، SINR ~3 dB، ومتوسط سرعة p50 ~19 ميجابت/ث. مستخدمو eMBB أبلغوا عن تقطّع في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. SINR ~3 dB suggests interference / signal overlap. I will start by checking OSS counters for the affected cell over the last 3 hours. Please confirm the cell ID and grant access.",
+      "message_ar": "تم الاستلام. قيمة SINR ~3 dB تشير إلى تداخل/تراكب الإشارة. سأبدأ بفحص مؤشرات OSS للخليّة المتأثرة خلال آخر 3 ساعات. يرجى تأكيد معرف الخليّة والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NRCell-Suburb-123; access approved for the last 3 hours.",
+      "message_ar": "معرّف الخليّة هو NRCell-Suburb-123؛ تم منح صلاحية الوصول لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review complete for NRCell-Suburb-123 (last 3h): PRB 75–83%; DL BLER 10–14% with spikes aligned to latency; rising RLC buffers; HARQ retrans 18–22%; SINR 2–4 dB; no backhaul/node alarms; ~264 users. This indicates radio-quality–driven latency rather than pure congestion.",
+      "message_ar": "تمت مراجعة OSS لـ NRCell-Suburb-123 (آخر 3 ساعات): PRB بين 75–83%؛ BLER على الوصلة الهابطة 10–14% مع قمم متزامنة مع التأخير؛ ارتفاع في مخازن RLC؛ معدل إعادة الإرسال HARQ بين 18–22%؛ SINR بين 2–4 dB؛ لا إنذارات على الربط الخلفي أو العقدة؛ ~264 مستخدمًا. هذا يشير إلى تأخير ناتج عن جودة الراديو وليس ازدحامًا بحتًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I'll pull the latency time series to separate queueing from radio effects and correlate with BLER/SINR. Proceed?",
+      "message_ar": "التالي، سأستخرج سلسلة زمنية لزمن التأخير لتمييز تراصّ الصفوف عن تأثيرات الراديو وربطها مع BLER/SINR. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead.",
+      "message_ar": "موافق. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency series shows p50 38–45 ms, p95 70–95 ms; peaks coincide with BLER >12% and SINR dips; PRB not saturated. Queueing aligns with retransmissions. Conclusion: interference-driven errors are inflating scheduling delay.",
+      "message_ar": "السلسلة الزمنية للتأخير تُظهر p50 بين 38–45 مللي ثانية وp95 بين 70–95 مللي ثانية؛ القمم تتزامن مع BLER >12% وهبوط في SINR؛ PRB غير مشبعة. تراصّ الصفوف يتطابق مع عمليات إعادة الإرسال. الاستنتاج: أخطاء ناتجة عن التداخل تزيد تأخير الجدولة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose targeted site parameter tuning to favor robustness for latency-sensitive traffic: slightly lower BLER target via MCS adaptation, increase scheduler weight for low-delay flows, and a small UL power offset to stabilize control. Low risk, no service interruption. Approve to apply now?",
+      "message_ar": "أقترح ضبط معلمات موجّهًا لتعزيز المتانة لحركة المرور الحسّاسة للتأخير: خفض طفيف لهدف BLER عبر تكييف MCS، زيادة وزن الجدولة للتدفقات منخفضة التأخير، وانحراف بسيط لقدرة الرفع لتثبيت القناة التحكّمية. مخاطر منخفضة دون انقطاع خدمة. هل توافق على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "موافق على تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied and verified. Early 5–10 min trend: BLER down by ~4–5 points; latency p50 trending 28–32 ms; p95 ~20% lower; throughput stable. I will continue monitoring.",
+      "message_ar": "تم تطبيق الضبط والتحقق منه. اتجاه أولي خلال 5–10 دقائق: BLER انخفض بنحو 4–5 نقاط؛ p50 لزمن التأخير يتجه إلى 28–32 مللي ثانية؛ p95 أقل بحوالي 20%؛ والأداء ثابت. سأواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: median latency down toward ~30 ms and streaming buffering is subsiding. Action taken: site parameter tuning for latency robustness. Let's monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسّنًا: الوسيط لزمن التأخير انخفض نحو ~30 مللي ثانية وتناقصت شكاوى التقطّع في البث. الإجراء المتخذ: ضبط معلمات الموقع لتعزيز المتانة ضد التأخير. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and post an update afterward. If latency regresses, we will roll back the tuning; if BLER stays elevated, we will escalate for RF interference mitigation.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا تدهور التأخير سنقوم بالعودة عن الضبط، وإذا بقي BLER مرتفعًا سنصعّد لتخفيف التداخل على طبقة RF."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell-Suburb-123",
+        "last_3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell-Suburb-123",
+        "latency",
+        "last_3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "latency_robustness_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "We diagnosed a latency SLA violation on a suburban 5G NR macro cell: low SINR with ~12% BLER under moderate load indicated interference-driven retransmissions increasing delay. After reviewing OSS counters and latency trends, we applied site parameter tuning to favor robustness and reduce scheduling delay. Early results show BLER reduction and median latency improving toward 30 ms.",
+    "ar": "تم تشخيص انتهاك SLA لزمن التأخير على خلية 5G NR ماكرو في منطقة ضواحي: SINR منخفض وBLER ~12% مع حمل متوسط يشيران إلى عمليات إعادة إرسال مدفوعة بالتداخل تزيد التأخير. بعد مراجعة مؤشرات OSS واتجاهات التأخير، قمنا بضبط معلمات الموقع لتعزيز المتانة وتقليل تأخير الجدولة. النتائج الأولية تُظهر انخفاض BLER وتحسن الوسيط لزمن التأخير نحو 30 مللي ثانية."
+  }
+}

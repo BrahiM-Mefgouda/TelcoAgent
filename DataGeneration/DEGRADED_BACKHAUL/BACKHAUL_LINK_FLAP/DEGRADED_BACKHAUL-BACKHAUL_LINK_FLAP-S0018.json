@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0018",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro shows frequent backhaul link flaps (~10/hr) with bursty loss (~57%), p95 latency 30 ms and jitter 23 ms, 430 interface errors, and downlink throughput only 16 Mbps for 242 users, impacting eMBB streaming.",
+    "ar": "موقع ماكرو NR في منطقة ضواحي يعاني من تذبذب متكرر في الوصلة الخلفية (~10/ساعة) مع فقدان دُفعي (~57%)، كمون p95 يبلغ 30 مللي ثانية وتذبذب 23 مللي ثانية، و430 خطأ على الواجهة، ومعدل تنزيل 16 ميجابت/ث فقط لـ 242 مستخدمًا مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Over the last 6h on the suburban NR macro, we see frequent backhaul link flaps, bursty loss, p95 latency ~30 ms, jitter ~23 ms, and 430 interface errors. DL throughput sits near 16 Mbps for ~242 users; eMBB streaming is buffering. No active alarms. Please investigate.",
+      "message_ar": "خلال آخر 6 ساعات في موقع ماكرو NR بمنطقة ضواحي نلاحظ تذبذبًا متكررًا في الوصلة الخلفية، وفقدانًا دُفعيًا، وكمون p95 حوالي 30 مللي ثانية، وتذبذبًا 23 مللي ثانية، و430 خطأ على الواجهة. معدل التنزيل يقارب 16 ميجابت/ث لحوالي 242 مستخدمًا؛ بث eMBB يتعرّض للتخزين المؤقت. لا توجد إنذارات نشطة. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an OSS health check over the last 6h to validate backhaul state, loss/latency, and interface errors. Please share the cell ID and confirm access approval.",
+      "message_ar": "سأبدأ بفحص صحي عبر OSS لآخر 6 ساعات للتحقق من حالة الوصلة الخلفية، والخسارة/الكمون، وأخطاء الواجهة. يرجى تزويدي بمعرّف الخلية وتأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-MACRO-7821, window 6h. Access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-MACRO-7821، نافذة 6 ساعات. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Health check for NR-SUB-MACRO-7821 (6h): backhaul state flapping ~10/hr, burst loss ~57%, interface errors 430, p95 latency 30 ms, jitter 23 ms. Radio looks moderate (PRB ~46%, SINR 12 dB, RSRP -106 dBm). This is backhaul-driven. I plan to tune backhaul-facing QoS/queues and enable flap dampening on the cell. Approve?",
+      "message_ar": "نتيجة الفحص (NR-SUB-MACRO-7821، 6 ساعات): حالة الوصلة الخلفية تتذبذب ~10/ساعة، فقدان دُفعي ~57%، أخطاء الواجهة 430، كمون p95 يبلغ 30 مللي ثانية، تذبذب 23 مللي ثانية. جانب الراديو متوسط (PRB ~46%، SINR ‏12 dB، RSRP ‏-106 dBm). السبب من الوصلة الخلفية. أخطط لضبط أوزان جودة الخدمة والصفوف باتجاه الوصلة الخلفية وتمكين تخميد التذبذب على الخلية. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. No maintenance lock. Proceed.",
+      "message_ar": "موافق. لا يوجد قيد صيانة. تفضّل بالتنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Capturing pre-change snapshot. Executing parameter tuning now; a sub-second traffic blip may occur.",
+      "message_ar": "أقوم بأخذ لقطة قبل التغيير. أنفّذ ضبط المعلمات الآن؛ قد يحدث انقطاع وجيز أقل من ثانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood.",
+      "message_ar": "مفهوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: adjusted backhaul QoS weights, set loss-mitigation thresholds, and enabled flap dampening on the cell. Initial check shows stable link state and no rapid error increments. Please watch KPIs for 10–15 minutes and share a quick readout.",
+      "message_ar": "تم تطبيق التغيير: ضبطنا أوزان جودة الخدمة باتجاه الوصلة الخلفية، وحدود تخفيف الفقد، ومكّنا تخميد التذبذب على الخلية. الفحص الأولي يُظهر استقرار حالة الوصلة وعدم زيادة الأخطاء بسرعة. يرجى مراقبة مؤشرات الأداء لـ10–15 دقيقة ومشاركة قراءة سريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes: no new link flaps, interface errors have flattened, UE tests show better throughput, and latency samples dropped to ~22–25 ms with tighter jitter.",
+      "message_ar": "بعد 12 دقيقة: لا توجد تذبذبات جديدة في الوصلة، أخطاء الواجهة استقرت، اختبارات أجهزة المستخدم تُظهر تحسّنًا في السرعة، والكمون انخفض إلى ~22–25 مللي ثانية مع تذبذب أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Logging the remediation and requesting transport-side validation via ticket DU-BH-03291, detailing the link flaps, burst loss, and tuning performed. We will continue observing for stability.",
+      "message_ar": "أقوم بتوثيق المعالجة وطلب تحقق من جهة النقل عبر التذكرة DU-BH-03291 مع تفاصيل التذبذب في الوصلة، والفقد الدُفعي، والتعديل الذي تم. سنواصل المراقبة للتحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend looks better: link flaps trending to zero and latency improving. The site parameter tuning has taken effect; let’s monitor through the next busy hour and track via DU-BH-03291.",
+      "message_ar": "الاتجاه يتحسّن: تذبذبات الوصلة تتجه إلى الصفر والكمون يتحسن. ضبط معلمات الموقع أصبح فعّالًا؛ لنتابع المراقبة خلال ساعة الذروة القادمة مع المتابعة عبر DU-BH-03291."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update DU-BH-03291 afterward. If instability returns, we will roll back the recent tuning and escalate to the transport provider; if stability holds, we will keep the change and close the loop.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث DU-BH-03291 بعدها. إذا عادت عدم الاستقرار سنعيد التعديلات الأخيرة ونصعّد إلى مزوّد النقل؛ وإن استمر الاستقرار سنُبقي التغيير ونغلق الموضوع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-7821",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_qos_tuning, flap_dampening"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Backhaul link flaps with burst loss; tuned cell-side backhaul QoS and dampening; request provider validation"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro: frequent link flaps, bursty loss, and rising interface errors while radio load was moderate. Executed site parameter tuning to adjust backhaul-facing QoS and enable flap dampening, then opened a ticket for transport validation. We will monitor through the next busy hour and update the record accordingly.",
+    "ar": "تم تشخيص تدهور في الوصلة الخلفية لموقع ماكرو NR في الضواحي: تذبذبات متكررة في الوصلة، وفقدان دُفعي، وارتفاع أخطاء الواجهة مع حمل راديو متوسط. تم تنفيذ ضبط لمعلمات الموقع لضبط جودة الخدمة باتجاه الوصلة الخلفية وتمكين تخميد التذبذب، ثم فُتحت تذكرة للتحقق من جهة النقل. سنراقب خلال ساعة الذروة القادمة ونحدّث السجل وفقًا لذلك."
+  }
+}

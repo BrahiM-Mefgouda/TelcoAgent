@@ -1,0 +1,110 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0027",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "In the indoor office wing, 5G handovers show 15% ping-pong with 87% success and SINR ≈ 2 dB, indicating interference / signal overlap.",
+    "ar": "في جناح مكتبي داخلي، تظهر عمليات التسليم في 5G معدل ping‑pong بنسبة 15% مع نجاح 87% وSINR ≈ 2 dB، مما يشير إلى تداخل/تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing frequent ping-pong handovers in the indoor office wing on a 5G micro cell during peak eMBB hours; no alarms. KPIs show ping‑pong ~15%, HO success ~87%, SINR ~2 dB, RSRP ~‑105 dBm.",
+      "message_ar": "نلاحظ عمليات تسليم ذهاباً وإياباً (ping‑pong) بشكل متكرر في جناح مكتبي داخلي على خلية 5G صغيرة أثناء ساعة الذروة لتطبيقات eMBB، بدون إنذارات. المؤشرات: ping‑pong ~15%، نجاح التسليم ~87%، SINR ~2 dB وRSRP ~‑105 dBm."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by checking recent OSS mobility stats for this indoor small site over the last 3 hours to confirm neighbor behavior and thresholds. Please share the serving cell ID and approve access.",
+      "message_ar": "تم الاستلام. سأبدأ بالتحقق من إحصاءات التنقل الحديثة من نظام الإدارة خلال آخر 3 ساعات لهذا الموقع الداخلي الصغير لتأكيد سلوك الجوار والعتبات. يرجى مشاركة معرّف الخلية الخادمة والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-IND-MICRO-2456-S1. You have approval.",
+      "message_ar": "معرّف الخلية: NR-IND-MICRO-2456-S1. لديك الموافقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR-IND-MICRO-2456-S1 (last 3h): HO attempts per 5 min ~84; dominant ping‑pong pairs S1↔S2 and S1↔S3; current settings show TTT ~129 ms, hysteresis 1 dB, event offset 1 dB. SINR at edges 0–3 dB; PRB ~50%. This suggests interference/signal overlap plus aggressive mobility thresholds. Next, I’ll pull HO time series to inspect oscillation patterns—proceed?",
+      "message_ar": "نتيجة التحقق من نظام الإدارة للخلية NR-IND-MICRO-2456-S1 (آخر 3 ساعات): محاولات التسليم لكل 5 دقائق ~84؛ أزواج ping‑pong السائدة S1↔S2 وS1↔S3؛ الإعدادات الحالية TTT ~129 ms، هيستريزيس 1 dB، وإزاحة الحدث 1 dB. قيمة SINR على الأطراف بين 0–3 dB؛ إشغال الموارد ~50%. هذا يشير إلى تداخل/تراكب الإشارة مع عتبات تنقل عدوانية. التالي، سأسحب سلسلة زمنية لعمليات التسليم لفحص نمط التذبذب—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series (last 3h): bursts every 2–3 min with short dwell <5 s between S1 and S2/S3; ping‑pong peaks ~18% in the busiest interval; load remains moderate, so not capacity-driven. Diagnosis: overlapping indoor cells and low stability margins (TTT/hysteresis) cause rapid toggling. I propose a targeted mobility retune: slightly increase stability margins and raise the event offset for S2/S3. Approve the change?",
+      "message_ar": "السلسلة الزمنية لعمليات التسليم (آخر 3 ساعات): اندفاعات كل 2–3 دقائق مع إقامة قصيرة <5 ثوانٍ بين S1 وS2/S3؛ يبلغ ping‑pong ذروته ~18% في أكثر الفترات ازدحاماً؛ الحمل متوسط، لذا ليست مشكلة سعة. التشخيص: تداخل تغطية خلايا داخلية وهوامش استقرار منخفضة (TTT/هيستريزيس) تسبب تبديلًا سريعًا. أقترح تحسيناً مستهدفاً لمعلمات التنقل: زيادة طفيفة لهوامش الاستقرار ورفع إزاحة الحدث تجاه S2/S3. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility parameter tuning on NR-IND-MICRO-2456-S1: increased stability margins (TTT ~256 ms, hysteresis 2 dB) and raised event offset to 2 dB toward S2/S3. Change is active; beginning post-change verification.",
+      "message_ar": "تم تطبيق ضبط معلمات التنقل على NR-IND-MICRO-2456-S1: زيادة هوامش الاستقرار (TTT ~256 ms، هيستريزيس 2 dB) ورفع إزاحة الحدث إلى 2 dB نحو S2/S3. التغيير فعّال؛ أبدأ التحقق بعد التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please watch HO counters and user experience for 10–15 minutes and share the trend, especially short-stay handovers and ping‑pong percentage.",
+      "message_ar": "يرجى متابعة عدادات التسليم وتجربة المستخدم لمدة 10–15 دقيقة ومشاركتنا الاتجاه، خصوصاً التسليمات قصيرة الإقامة ونسبة ping‑pong."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early trend: short-stay handovers down noticeably; ping‑pong now ~8–9%. Sessions feel more stable. Action taken was site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "الاتجاه الأولي: انخفاض ملحوظ في التسليمات قصيرة الإقامة؛ معدل ping‑pong الآن ~8–9%. الجلسات أكثر استقراراً. الإجراء الذي تم هو تحسين معلمات الموقع. نقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and report the updated ping‑pong rate and HO success afterward. If instability returns, we will revert the thresholds to prior values or further isolate the problematic neighbors; if degradation is observed, we will roll back. Summary: diagnosed ping‑pong driven by interference/signal overlap and low stability margins, validated via OSS and HO time series, then mitigated with site parameter tuning.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة القادمة ونبلغكم لاحقاً بمعدل ping‑pong المحدث ونسبة نجاح التسليم. إذا عادت حالة عدم الاستقرار سنعيد العتبات للقيم السابقة أو نعزل الجيران الإشكاليين بشكل أكبر؛ وإذا ظهر تدهور سنقوم بالرجوع. الملخص: تم تشخيص ping‑pong الناتج عن تداخل/تراكب الإشارة وهوامش استقرار منخفضة، وتأكيده عبر نظام الإدارة والسلسلة الزمنية لعمليات التسليم، ثم تمت المعالجة عبر ضبط معلمات الموقع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-IND-MICRO-2456-S1",
+        "last 3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-IND-MICRO-2456-S1",
+        "HO",
+        "last 3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_TTT,hysteresis,A3_offset tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The agent confirmed high ping‑pong handovers on an indoor micro 5G cell with low SINR and aggressive mobility thresholds. Using OSS data and HO time series, the issue was attributed to interference/signal overlap and low stability margins. The fix was site parameter tuning by increasing stability margins and adjusting offsets, with monitoring planned over the next busy hour.",
+    "ar": "أكد العميل ارتفاع عمليات التسليم ping‑pong على خلية 5G داخلية صغيرة مع SINR منخفضة وعتبات تنقل عدوانية. وبالاعتماد على بيانات نظام الإدارة والسلسلة الزمنية لعمليات التسليم، تم عزو المشكلة إلى تداخل/تراكب الإشارة وهوامش استقرار منخفضة. تمت المعالجة عبر ضبط معلمات الموقع برفع هوامش الاستقرار وتعديل الإزاحات، مع خطة متابعة خلال ساعة الذروة القادمة."
+  }
+}

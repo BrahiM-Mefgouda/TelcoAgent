@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0021",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "In a suburban 5G NR macro cell over the last 3h off-peak, radio link failures spiked to ~5.9% with BLER ~13.7% and low SINR (~3 dB) indicating interference/signal overlap; median downlink throughput is ~10 Mbps.",
+    "ar": "في خلية ماكرو 5G NR بمنطقة شبه حضرية خلال آخر 3 ساعات خارج أوقات الذروة، ارتفع انقطاع الرابط إلى ~5.9% مع BLER ~13.7% وSINR منخفض (~3 dB) مما يشير إلى تداخل/تراكب الإشارة؛ وسيط سرعة التحميل حوالي 10 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Off-peak over the last 3h, our suburban 5G NR macro cell shows a spike in drops; users reported buffering during eMBB streaming. Current stats: SINR ~3 dB, RSRQ -17 dB, BLER ~13.7%, RLF ~5.9%.",
+      "message_ar": "خلال آخر 3 ساعات خارج أوقات الذروة، تظهر خلية ماكرو 5G NR لدينا في منطقة شبه حضرية ارتفاعاً في الانقطاعات؛ وقد أبلغ المستخدمون عن تقطّع أثناء البث eMBB. الإحصاءات الحالية: SINR ~3 dB، وRSRQ -17 dB، وBLER ~13.7%، وRLF ~5.9%."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll begin by pulling a 3h OSS snapshot for the impacted cell to validate RLF/BLER/load and neighbor context. Please share the serving cell ID and confirm access.",
+      "message_ar": "سأبدأ بأخذ لقطة بيانات لمدة 3 ساعات من المنصة للتحقق من RLF/BLER/التحميل وسياق الجيران. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Suburb-0812-S1; you have access.",
+      "message_ar": "معرّف الخلية هو NR-Suburb-0812-S1؛ لديك صلاحية الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot complete for NR-Suburb-0812-S1 (3h, off-peak): RLF 5.9%, BLER 13.7%, SINR 3 dB, PRB 64%, users 221, HO success 90.9%. This points to interference-driven instability rather than congestion. Next, I'll run an RLF time-series over 3h to isolate spike intervals; proceed?",
+      "message_ar": "تمت لقطة البيانات لـ NR-Suburb-0812-S1 (3 ساعات، خارج الذروة): RLF 5.9%، BLER 13.7%، SINR 3 dB، إشغال PRB بنسبة 64%، عدد المستخدمين 221، نجاح التسليم 90.9%. يشير ذلك إلى عدم استقرار سببه التداخل وليس الازدحام. بعد ذلك سأجري سلسلة زمنية لـ RLF على 3 ساعات لتحديد فترات الذروة؛ هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "The RLF time-series shows a pronounced burst around 01:10–01:55 with concurrent SINR dips and higher BLER; edges involve two adjacent sectors. I propose a light mobility parameter tuning on the serving cell (earlier handover triggering and drop-prevention margins) to reduce interference-induced drops. Approve to apply now?",
+      "message_ar": "تُظهر السلسلة الزمنية لـ RLF اندفاعاً واضحاً بين 01:10–01:55 مع هبوط متزامن في SINR وارتفاع BLER؛ والانتقالات على الحواف تشمل قطاعين متجاورين. أقترح ضبطاً خفيفاً لمعاملات الحركة على الخلية الخادمة (تحفيز تسليم أبكر وهوامش لمنع السقوط) للحد من الانقطاعات الناتجة عن التداخل. هل توافق على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply now.",
+      "message_ar": "موافق على التطبيق الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mobility optimization applied on NR-Suburb-0812-S1. Quick post-check: HO success +1–2 pts, short-term RLF ~20% lower than prior interval, BLER slightly improved; no abnormal load or alarms. I will observe counters for stability.",
+      "message_ar": "تم تطبيق تحسين الحركة على NR-Suburb-0812-S1. فحص سريع بعد التنفيذ: تحسن نجاح التسليم بمقدار 1–2 نقطة، وانخفض RLF قصير المدى بنحو 20% مقارنة بالفترة السابقة، وتحسن طفيف في BLER؛ دون حمل غير طبيعي أو إنذارات. سأراقب المؤشرات لاستقرارها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer short session drops and smoother streaming; no new alarms.",
+      "message_ar": "أرى انخفاضاً في انقطاعات الجلسات القصيرة وتحسناً في البث؛ ولا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "No further changes for now. We'll watch interference and mobility KPIs over the next 2–4 hours and confirm there’s no adverse neighbor impact; I will share a delta update.",
+      "message_ar": "لا تغييرات إضافية حالياً. سنراقب مؤشرات التداخل والحركة خلال الساعتين إلى الأربع ساعات القادمة ونؤكد عدم وجود أثر سلبي على الجيران؛ سأشارك بتحديث بالفروقات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial improvement observed: radio link failures trending down after the mobility parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "لوحظ تحسن أولي: حالات انقطاع الرابط تتجه للانخفاض بعد ضبط معاملات الحركة. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will monitor through the next busy hour and update you on RLF, BLER, and handover outcomes afterward. If degradation returns, we will escalate to interference mitigation and, if needed, roll back the tuning to prior values.",
+      "message_ar": "تم التأكيد؛ سنراقب خلال ساعة الذروة القادمة ونوافيك بنتائج RLF وBLER والتسليم بعدها. إذا عادت التدهورات سنصعّد إلى تخفيف التداخل، وإذا لزم الأمر سنعود إلى القيم السابقة للضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "An off-peak RLF spike on the suburban NR macro cell was traced to interference/signal overlap, evidenced by low SINR, elevated BLER, and a bursty RLF time profile. We validated counters via an OSS snapshot, analyzed the RLF time trend, and applied targeted mobility parameter tuning on the serving cell. Early indications show fewer drops and improved handovers; continued monitoring will confirm stability.",
+    "ar": "تم إرجاع ارتفاع RLF خارج أوقات الذروة في خلية NR الماكرو شبه الحضرية إلى تداخل/تراكب الإشارة، كما يتضح من SINR المنخفض وBLER المرتفع وملف RLF الزمني المتقطع. قمنا بالتحقق من المؤشرات عبر لقطة بيانات من المنصة، وحللنا الاتجاه الزمني لـ RLF، وطبقنا ضبطاً مستهدفاً لمعاملات الحركة على الخلية الخادمة. المؤشرات الأولية تُظهر انخفاضاً في الانقطاعات وتحسناً في التسليم؛ وستؤكد المراقبة المستمرة الاستقرار."
+  }
+}

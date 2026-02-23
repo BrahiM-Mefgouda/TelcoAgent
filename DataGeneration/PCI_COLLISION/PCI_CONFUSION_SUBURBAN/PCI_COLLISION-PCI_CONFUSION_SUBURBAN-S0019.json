@@ -1,0 +1,103 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0019",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban NR macro cell over the last 12h shows PCI 302 with neighbor overlap (8), HO success 84%, ping-pong 12%, SINR 5 dB, RSRQ −8 dB, BLER 11.8%, and p50 DL 16 Mbps during eMBB streaming; investigate potential PCI confusion.",
+    "ar": "خلية ماكرو NR في منطقة ضاحية خلال آخر 12 ساعة تُظهر PCI 302 مع تداخل الجيران (8)، ونسبة نجاح التسليم 84%، وبنغ‑بونغ 12%، وSINR ‏5 dB، وRSRQ ‏−8 dB، وBLER ‏11.8%، وتنزيل وسيط 16 Mbps أثناء تدفق eMBB؛ نرجو التحقق من احتمال تعارض PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell (PCI 302) over the last 12h shows HO success 83.98% with 13% failures, ping-pong 12%, SINR 5 dB, RSRQ −8 dB, BLER 11.8%, and p50 DL 16 Mbps; neighbor PCI overlap metric is 8 with mostly eMBB streaming.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية (PCI 302) خلال آخر 12 ساعة تُظهر نجاح تسليم 83.98% مع فشل 13%، وبنغ‑بونغ 12%، وSINR ‏5 dB، وRSRQ ‏−8 dB، وBLER ‏11.8%، وتنزيل وسيط 16 Mbps؛ مقياس تداخل PCI مع الجيران = 8 وحركة المرور غالبها eMBB (بث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by auditing neighbor relations and PCI usage to confirm any collision/duplication across the last 12h. Please approve read access and readiness for a quick corrective action if confirmed.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجيران واستخدام PCI للتحقق من أي تضارب/تكرار خلال آخر 12 ساعة. الرجاء الموافقة على الوصول للقراءة والاستعداد لإجراء تصحيح سريع إذا تأكد ذلك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the audit and a quick corrective action within this window.",
+      "message_ar": "موافق على التدقيق وإجراء تصحيح سريع ضمن هذه النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit result: neighbor gNB SB-12 S2 is using the same PCI 302 with ~21% overlap toward 220°, plus dense reuse in the PCI group (8 overlaps). This aligns with elevated ping-pong and HO failures. Request approval to retune the serving sector to PCI 356 and refresh neighbor relations to eliminate the conflict.",
+      "message_ar": "نتيجة تدقيق الجيران: الجار gNB SB-12 S2 يستخدم نفس PCI 302 مع تداخل تغطية يقارب 21% باتجاه 220°، إضافة إلى إعادة استخدام كثيف ضمن مجموعة PCI (8 تداخلات). هذا يتماشى مع ارتفاع البينغ‑بونغ وفشل التسليم. أطلب الموافقة على إعادة ضبط القطاع الخادم إلى PCI 356 وتحديث علاقات الجيران لإزالة التعارض."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to retune the PCI as proposed.",
+      "message_ar": "موافق على إعادة ضبط PCI كما اقترحت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI change 302→356 on the NR sector and refreshing neighbor relations; no other thresholds modified. Change completed successfully with negligible impact.",
+      "message_ar": "تنفيذ تغيير PCI من 302→356 على قطاع NR وتحديث علاقات الجيران؛ دون تعديل عتبات أخرى. اكتمل التغيير بنجاح وبأثر طفيف جداً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create a change record for traceability.",
+      "message_ar": "موافق على إنشاء سجل تغيير لأغراض التتبع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-PCI-02147 documenting the PCI retune and neighbor refresh. Beginning short burn-in watch on HO outcomes and ping-pong rate.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-02147 لتوثيق إعادة ضبط PCI وتحديث الجيران. نبدأ مراقبة قصيرة لمخرجات التسليم ومعدل البينغ‑بونغ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: ping-pong trending down toward 7–8% and handover failures decreasing; consistent with the PCI parameter optimization. Let’s monitor through the next busy hour under DU-PCI-02147.",
+      "message_ar": "ملاحظة أولية: انخفاض معدل البينغ‑بونغ نحو 7–8% وتراجع فشل التسليم؛ وهذا يتماشى مع تحسين معلمة PCI. لنواصل المراقبة حتى ساعة الذروة القادمة تحت DU-PCI-02147."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update the ticket after the window. If regressions appear, we will roll back to the prior PCI; if interference persists, we will escalate for a field survey/tilt adjustment. Summary: neighbor audit confirmed PCI collision, retuned PCI to a free value, refreshed neighbor relations, and logged DU-PCI-02147.",
+      "message_ar": "تم الاستلام. سنقوم نحن بمتابعة المراقبة حتى ساعة الذروة القادمة ونحدّث التذكرة بعد النافذة. إذا ظهرت تراجعات سنعود إلى PCI السابق؛ وإذا استمر التداخل سنصعّد لإجراء مسح ميداني/تعديل الميل. الملخص: أكد تدقيق الجيران تعارض PCI، وتمت إعادة ضبط PCI إلى قيمة خالية، وتحديث علاقات الجيران، وتوثيق ذلك في DU-PCI-02147."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor audit confirmed a PCI collision between the NR macro sector (302) and an overlapping neighbor, correlating with high ping-pong and handover failures. We performed site parameter tuning by retuning the sector to a free PCI and refreshing neighbor relations, then created a change record for traceability. We will monitor HO success and ping-pong through the next busy hour.",
+    "ar": "أكد تدقيق الجيران وجود تعارض PCI بين قطاع NR الماكرو (302) وجار متداخل، بما يتوافق مع ارتفاع البينغ‑بونغ وفشل التسليم. قمنا بضبط معلمات الموقع عبر إعادة ضبط القطاع إلى PCI خالٍ وتحديث علاقات الجيران، ثم أنشأنا تذكرة للتتبع. سنراقب نجاح التسليم ومعدل البينغ‑بونغ خلال ساعة الذروة القادمة."
+  }
+}

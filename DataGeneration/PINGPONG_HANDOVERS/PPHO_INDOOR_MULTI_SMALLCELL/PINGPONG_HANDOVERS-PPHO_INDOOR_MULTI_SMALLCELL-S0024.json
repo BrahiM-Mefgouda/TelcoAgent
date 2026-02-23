@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0024",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Investigate indoor 5G NR microcell ping-pong handovers over the last 3h; HO success ~84% with ping-pong around 19%, RSRP −111 dBm and median throughput ~29 Mbps under eMBB streaming load.",
+    "ar": "التحقيق في تسليمات ping‑pong ضمن موقع داخلي 5G NR من نوع مايكرو خلال آخر 3 ساعات؛ نجاح التسليم ~84% مع ping‑pong نحو 19%، RSRP −111 dBm وسطي السرعة ~29 ميغابت/ث مع حمل eMBB يتضمن بثاً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing elevated ping-pong handovers on an indoor 5G NR microcell in the last 3h shoulder period: HO success ~84%, failures ~16%, median DL ~29 Mbps, about 232 users with eMBB streaming.",
+      "message_ar": "نلاحظ ارتفاعاً في عمليات التسليم المتكرر (ping‑pong) على خلية مايكرو داخلية 5G NR خلال آخر 3 ساعات بفترة الكتف: نجاح التسليم ~84%، الإخفاق ~16%، وسطي التحميل ~29 ميغابت/ث، وعدد المستخدمين نحو 232 مع حركة eMBB تشمل بثاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking recent mobility and neighbor event data for the last 3h window. Please share the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بفحص بيانات الحركة وأحداث الجوار لآخر نافذة 3 ساعات. يرجى تزويدي بمعرّف الخلية والموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SC-IND-3F-A2. Read access approved. Current RF snapshots show RSRP ~−111 dBm, RSRQ −12 dB, SINR ~13 dB, PRB ~75%.",
+      "message_ar": "معرّف الخلية: NR-SC-IND-3F-A2. تم اعتماد وصول القراءة. لقطات RF الحالية تُظهر RSRP نحو −111 dBm، وRSRQ −12 dB، وSINR حوالي 13 dB، وPRB نحو 75%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying OSS now for the 3h window. Findings: HO attempts ~38 per 5 min; ping-pong loops concentrated between NR-SC-IND-3F-A2 and neighbors A1/A3. Current mobility margins: A3 offset 3 dB, hysteresis 1 dB, TTT 256 ms—permissive given weak RSRP.",
+      "message_ar": "أقوم الآن بالاستعلام من نظام التشغيل للشبكة لآخر 3 ساعات. النتائج: محاولات التسليم ~38 لكل 5 دقائق؛ حلقات ping‑pong متركزة بين NR-SC-IND-3F-A2 والجيران A1/A3. هوامش الحركة الحالية: تعويض A3 قدره 3 dB، الهسترة 1 dB، وTTT 256 ms—متساهلة مع ضعف RSRP."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Proceed with deeper analysis.",
+      "message_ar": "مفهوم. تفضل بمتابعة التحليل المتعمق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll pull the 3h handover time series to inspect ping-pong trends versus load and event distribution across neighbors.",
+      "message_ar": "سأسحب سلسلة الزمن لعمليات التسليم خلال 3 ساعات لفحص توجهات الـ ping‑pong مقابل الحمل وتوزيع الأحداث عبر الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافَق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series review: ping-pong peaks at 18–21% during shoulder minutes and aligns with PRB 70–78%; SINR remains ~13 dB, so instability is threshold-driven rather than interference. I propose targeted tuning: raise hysteresis to 2 dB, increase TTT to 320 ms, and set A3 offset to 4 dB for A1/A3 neighbors only. Proceed?",
+      "message_ar": "مراجعة السلاسل الزمنية: تبلغ ذروة الـ ping‑pong 18–21% خلال دقائق فترة الكتف وتتطابق مع PRB عند 70–78%؛ يبقى SINR ~13 dB، لذا عدم الاستقرار سببه العتبات وليس التداخل. أقترح ضبطاً مستهدفاً: رفع الهسترة إلى 2 dB، زيادة TTT إلى 320 ms، وضبط تعويض A3 إلى 4 dB لجاري A1/A3 فقط. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now; no active alarms on the site. I’ll observe locally.",
+      "message_ar": "موافَق على التنفيذ الآن؛ لا توجد إنذارات نشطة على الموقع. سأراقب محلياً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted mobility parameter tuning to NR-SC-IND-3F-A2 and neighbors A1/A3, then running quick checks. Initial 10 min post-change: HO success ~88%, ping-pong down to ~12%. I’ll continue to watch for stability; rollback is ready if degradation appears.",
+      "message_ar": "أقوم بتطبيق ضبط مستهدف لمعاملات الحركة على NR-SC-IND-3F-A2 والجيران A1/A3 ثم إجراء فحوصات سريعة. أول 10 دقائق بعد التغيير: نجاح التسليم ~88%، والـ ping‑pong انخفض إلى ~12%. سأستمر بالمراقبة للتأكد من الاستقرار؛ التراجع جاهز إذا ظهر تدهور."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing ping-pong events trending down and handover success improving in the last two 5‑min intervals after the handover parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "أرى انخفاضاً في أحداث الـ ping‑pong وتحسناً في نجاح التسليم خلال آخر فترتين (5 دقائق) بعد تحسين معاملات التسليم. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and share an update on ping-pong rate and handover success. If performance worsens, we will revert to previous settings and escalate to RF for broader retuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنزودكم بتحديث حول معدل الـ ping‑pong ونجاح التسليم. إذا تدهور الأداء، سنعود إلى الإعدادات السابقة ونصعّد إلى فريق الترددات لإعادة ضبط أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong handovers on an indoor NR microcell, driven by weak RSRP and permissive mobility thresholds during shoulder-hour load. Reviewed OSS data and HO time series, then applied targeted site parameter tuning (A3 offset, hysteresis, TTT) for the main neighbor pairs to stabilize mobility. Monitoring will confirm sustained reduction in ping-pong and improved handover success.",
+    "ar": "تم تشخيص ارتفاع الـ ping‑pong في التسليم على خلية NR داخلية من نوع مايكرو بسبب ضعف RSRP وهوامش حركة متساهلة خلال فترة الكتف. جرى الاطلاع على بيانات النظام وسلاسل زمنية للتسليم ثم تطبيق ضبط مستهدف لمعاملات الموقع (تعويض A3، الهسترة، وTTT) لأزواج الجيران الرئيسية لاستقرار الحركة. ستؤكد المراقبة استمرار انخفاض الـ ping‑pong وتحسن نجاح التسليم."
+  }
+}

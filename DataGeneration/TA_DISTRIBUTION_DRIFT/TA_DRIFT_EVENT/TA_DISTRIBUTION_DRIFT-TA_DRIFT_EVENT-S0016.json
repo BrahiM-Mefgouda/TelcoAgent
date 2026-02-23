@@ -1,0 +1,110 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0016",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium 5G NR micro during ingress over the last 3h shows long timing advance (p95 ≈ 484 m), distant serving 23%, weak signal (-116 dBm), slow data (~5 Mbps), and elevated handover failures.",
+    "ar": "خلال دخول الجماهير في الملعب على موقع 5G NR micro خلال آخر 3 ساعات، يظهر توقيت متقدم طويل (p95 ≈ 484 م) وخدمة بعيدة 23% وإشارة ضعيفة (-116 dBm) وبيانات بطيئة (~5 Mbps) وارتفاع في فشل التسليم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Ingress at the stadium over the past 3 hours: the NR micro is showing long TA, weak RSRP around -116 dBm, slow data near 5 Mbps, and ~15% HO failures. Please investigate.",
+      "message_ar": "خلال آخر 3 ساعات أثناء دخول الجماهير في الملعب: موقع NR micro يظهر TA طويل، و RSRP ضعيف حوالي -116 dBm، وبيانات بطيئة قرابة 5 Mbps، ومعدل فشل تسليم ~15%. يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics for TA drift on the stadium NR micro. Confirm target as NR_STADIUM_MICRO_01 and approve access for a 3h review.",
+      "message_ar": "سأقود التشخيص لانحراف توزيع TA على موقع NR micro في الملعب. يرجى تأكيد الهدف كـ NR_STADIUM_MICRO_01 والموافقة على الوصول لمراجعة 3 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed NR_STADIUM_MICRO_01 and access approved. Crowd is entering; heavy video streaming traffic.",
+      "message_ar": "تم التأكيد على NR_STADIUM_MICRO_01 والموافقة على الوصول. الجمهور يدخل؛ هناك حركة بث فيديو كثيفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS KPIs for NR_STADIUM_MICRO_01 over the last 3 hours to baseline TA, HO, PRB, and RF state.",
+      "message_ar": "جاري سحب مؤشرات OSS لـ NR_STADIUM_MICRO_01 لآخر 3 ساعات لعمل خط أساس لـ TA وعمليات التسليم وPRB وحالة التغطية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: TA p50 ≈ 275 m, p95 ≈ 484 m, high spread; distant serving ≈ 23%; PRB ≈ 74%; median RSRP ≈ -116 dBm; HO failures ≈ 15%. This indicates overserving during ingress. Next, I’ll analyze the TA time series to confirm drift and spatial peaks. Proceed?",
+      "message_ar": "النتائج: TA p50 ≈ 275 م و p95 ≈ 484 م بانتشار عالٍ؛ نسبة الخدمة البعيدة ≈ 23%؛ إشغال PRB ≈ 74%؛ متوسط RSRP ≈ -116 dBm؛ فشل التسليم ≈ 15%. هذا يشير إلى فرط خدمة أثناء الدخول. الخطوة التالية: تحليل السلسلة الزمنية لـ TA لتأكيد الانحراف والبؤر المكانية. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing TA time series for 3h: median drifts from ~190 m pre-ingress to >300 m at gate peaks; spikes align with higher PRB and HO failures. Confirmed TA distribution drift causing distant serving. I propose a low-risk tuning to pull coverage in and improve handovers.",
+      "message_ar": "أحلّل السلسلة الزمنية لـ TA لثلاث ساعات: الوسيط ينتقل من ~190 م قبل الدخول إلى >300 م عند ذروة البوابات؛ القمم تتطابق مع ارتفاع PRB وفشل التسليم. تم تأكيد انحراف توزيع TA المسبب للخدمة البعيدة. أقترح ضبطًا منخفض المخاطر لسحب التغطية إلى الداخل وتحسين التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "تمت الموافقة على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted site parameter tuning: tighten cell selection and handover behavior and slightly narrow the beam footprint for ingress conditions. Change is live; starting close-loop monitoring.",
+      "message_ar": "أطبق ضبطًا مستهدفًا لمعاملات الموقع: تشديد اختيار الخلية وسلوك التسليم وتقليصًا طفيفًا لبصمة الحزمة لظروف الدخول. التغيير أصبح فعّالًا؛ أبدأ المراقبة المباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change I see TA p50 down to ~210 m and HO failures trending down; median user throughput improved to ~8 Mbps. This matches the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد التغيير أرى انخفاض TA p50 إلى ~210 م وانخفاضًا في اتجاه فشل التسليم؛ تحسن متوسط سرعات المستخدمين إلى ~8 Mbps. هذا يتماشى مع ضبط معاملات الموقع. فلنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and report TA spread, HO failures, and user throughput. If performance regresses, we will roll back the tuning; if stable or better, we will keep it and consider further optimization after the event.",
+      "message_ar": "تم. سنراقب خلال ساعة الذروة القادمة ونبلغ عن انتشار TA وفشل التسليم وسرعات المستخدمين. إذا تدهورت المؤشرات سنرجع الضبط؛ وإن استقرت أو تحسنت فسنُبقيه وننظر في تحسينات إضافية بعد الحدث."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STADIUM_MICRO_01",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STADIUM_MICRO_01",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "ingress TA/HO/beam footprint tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a TA distribution drift on the stadium 5G NR micro during ingress, with long-distance serving, weak signal, and increased handover failures causing slow data. Verified the drift via TA time-series and implemented site parameter tuning to narrow coverage and improve handover behavior. Early results show reduced TA spread and better throughput; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص انحراف في توزيع TA على موقع 5G NR micro في الملعب أثناء دخول الجماهير، مع خدمة بعيدة وإشارة ضعيفة وزيادة في فشل التسليم ما أدى إلى بطء البيانات. تم تأكيد الانحراف عبر السلسلة الزمنية لـ TA وتنفيذ ضبط لمعاملات الموقع لتضييق التغطية وتحسين سلوك التسليم. النتائج الأولية تشير إلى انخفاض انتشار TA وتحسن في السرعات؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

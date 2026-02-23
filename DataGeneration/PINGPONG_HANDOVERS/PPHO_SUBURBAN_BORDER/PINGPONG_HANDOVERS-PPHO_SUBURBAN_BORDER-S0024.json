@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0024",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro cell shows 14% ping-pong handovers over the last 5 hours at peak with 87% success and weak signal (RSRP -105 dBm, RSRQ -14 dB, SINR 12 dB).",
+    "ar": "خلية ماكرو NR في الضواحي تُظهر معدل تبادل متكرر 14% خلال آخر 5 ساعات في الذروة مع نجاح 87% وإشارة ضعيفة (RSRP -105 dBm و RSRQ -14 dB و SINR 12 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro sector has high ping-pong over the last 5h at peak; HO success 87%, failures 7%. RSRP ~ -105 dBm, RSRQ -14 dB, SINR 12 dB. eMBB streaming users report jitter; no alarms.",
+      "message_ar": "قطاع ماكرو 5G NR في الضواحي يعاني من تبادل متكرر مرتفع خلال آخر 5 ساعات في الذروة؛ نجاح التسليم 87% والإخفاقات 7%. RSRP ≈ -105 dBm و RSRQ -14 dB و SINR 12 dB. مستخدمو eMBB للبث يشتكون من تذبذب؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will diagnose and stabilize mobility. First, I will pull last 5h performance counters for the impacted cell to isolate oscillating neighbors. Please confirm access and the serving cell/sector.",
+      "message_ar": "سأقوم بتشخيص المشكلة وتثبيت التنقل. أولاً سأجمع عدادات الأداء لآخر 5 ساعات للخلية المتأثرة لعزل الجيران المسببين للاهتزاز. يرجى تأكيد الوصول وتحديد الخلية/القطاع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; the impacted node is the NR macro sector facing the Northwood suburb. Proceed.",
+      "message_ar": "الوصول معتمد؛ العقدة المتأثرة هي قطاع NR الماكرو المواجه لضاحية نورثوود. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters from the last 5h show short-dwell returns between the serving sector and two east-side neighbors; HO success is average but reversals inflate attempts at peak; load ~60%. Next, I will extract handover event time series to quantify ping-pong per neighbor and hour. Proceed?",
+      "message_ar": "تُظهر عدادات آخر 5 ساعات عودات قصيرة الإقامة بين القطاع الخادم وجارين إلى الشرق؛ نجاح التسليم متوسط لكن الانعكاسات ترفع المحاولات في الذروة؛ الحمل ~60%. الخطوة التالية: سأستخرج سلسلة زمنية لأحداث التسليم لتكميم التبادل المتكرر لكل جار ولكل ساعة. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "The time series confirms spikes 17:00–20:00 with repeated A3-triggered swaps on the two east neighbors; many dwell times <3 s. To mitigate, I propose targeted mobility tuning on those relations: modestly increase time-to-trigger and hysteresis, plus +1 dB margin. Approve implementation?",
+      "message_ar": "تؤكد السلسلة الزمنية قمماً بين 17:00 و20:00 مع تبديلات متكررة بفعل A3 على الجارين الشرقيين؛ كثير من أزمنة الإقامة <3 ثوانٍ. للتخفيف أقترح ضبطاً انتقائياً على تلك العلاقات: زيادة معتدلة لوقت التحفيز والهسترة مع إضافة +1 dB هامش. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; apply carefully.",
+      "message_ar": "موافق؛ طبّق بحذر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on the impacted relations of the serving sector; no service interruption expected. I will run quick post-change checks and watch early indicators (HO attempts, reversals, drops) for 30 minutes.",
+      "message_ar": "تم تطبيق التحسين على العلاقات المتأثرة في القطاع الخادم؛ دون انقطاع خدمة متوقع. سأجري فحوصات سريعة بعد التغيير وأراقب المؤشرات المبكرة (محاولات التسليم، الانعكاسات، السقوط) لمدة 30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: reversals are trending down with fewer rapid returns; median throughput unchanged. Continue checks.",
+      "message_ar": "ملاحظة مبكرة: الانعكاسات في اتجاه هبوطي مع عودات سريعة أقل؛ الوسيط للسرعة لم يتغير. تابع الفحوصات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. The initial 20-minute snapshot shows fewer oscillations and stable drop rate; we will keep observing into the next busy interval.",
+      "message_ar": "تم. تُظهر لقطة أولية لمدة 20 دقيقة اهتزازات أقل ومعدل سقوط مستقر؛ سنواصل المراقبة حتى الفترة المزدحمة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed—ping-pong indications are decreasing with fewer rapid returns after the handover parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "لوحِظ تحسن—انخفاض في مؤشرات التبادل المتكرر وعودات سريعة أقل بعد تحسين معلمات التسليم. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If ping-pong rises or failures increase, we will roll back the tuning and escalate to RF for neighbor/coverage review. Summary: analyzed 5h mobility, tuned handover thresholds on the two east neighbors, and will monitor the outcome.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا زاد التبادل المتكرر أو ارتفعت الإخفاقات، سنرجع الضبط ونصعّد إلى فريق RF لمراجعة الجيران/التغطية. الملخص: حلّلنا تنقل 5 ساعات، وضبطنا عتبات التسليم على الجارين الشرقيين، وسنراقب النتائج."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell_410-22-1001-1",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell_410-22-1001-1",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility tuning on east neighbors: increase time-to-trigger and hysteresis, +1 dB margin"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The suburban 5G macro cell had elevated ping-pong handovers during peak hours with weak signal quality. We analyzed network counters and the handover time series, identified oscillation with two east neighbors, and applied targeted site parameter tuning to handover thresholds (time-to-trigger, hysteresis, margin). Early indicators improved, and we will monitor through the next busy hour.",
+    "ar": "شهدت خلية ماكرو 5G في الضواحي ارتفاعاً في التبادل المتكرر خلال ساعات الذروة مع جودة إشارة ضعيفة. قمنا بتحليل العدادات وسلسلة أحداث التسليم وحددنا الاهتزاز مع جارَين شرقيين، وطبقنا ضبطاً انتقائياً لمعلمات الموقع على عتبات التسليم (وقت التحفيز والهسترة والهامش). تحسنت المؤشرات الأولية وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

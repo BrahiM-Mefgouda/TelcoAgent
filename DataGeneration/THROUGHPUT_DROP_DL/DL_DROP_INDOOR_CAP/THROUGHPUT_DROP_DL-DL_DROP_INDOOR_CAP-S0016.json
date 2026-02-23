@@ -1,0 +1,105 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0016",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor 5G micro cell shows slow data over the last 4h during business hours with a congestion alarm active (PRB ~94%, ~208 users, DL ~4 Mbps, p95 scheduling latency ~72 ms).",
+    "ar": "خلية 5G داخلية صغيرة تُظهر بيانات بطيئة خلال آخر 4 ساعات في ساعات العمل مع تنبيه ازدحام مفعّل (استغلال PRB ~94%، ~208 مستخدمين، تنزيل ~4 ميجابت/ث، كمون الجدولة p95 ~72 مللي ثانية)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor 5G micro cell in the office wing is reporting slow data during business hours; congestion alarm active. Current snapshot: ~208 users, PRB utilization ~94%, DL throughput ~4 Mbps, p95 scheduling latency ~72 ms, BLER ~2.5%. Can you investigate?",
+      "message_ar": "خلية 5G صغيرة داخلية في جناح المكتب تُبلغ عن بطء في البيانات خلال ساعات العمل؛ يوجد تنبيه ازدحام. القياسات الحالية: ~208 مستخدمين، استغلال PRB ~94%، معدل تنزيل ~4 ميجابت/ث، كمون الجدولة p95 ~72 مللي ثانية، BLER ~2.5%. هل يمكنك المتابعة؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first pull the last 4h OSS counters for the target cell to validate load, users, and any active faults. Please confirm the cell ID and access approval.",
+      "message_ar": "تم الفهم. سأقوم أولاً بجلب عدادات OSS لآخر 4 ساعات للخلية المستهدفة للتحقق من الحمل وعدد المستخدمين وأي أعطال نشطة. يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-IND-MICRO-123; read access approved.",
+      "message_ar": "معرّف الخلية هو NR-IND-MICRO-123؛ تم منح موافقة الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review complete: no outage, ~208 active UEs, PRB ~93–95%, BLER ~2–3%, p95 scheduling latency >70 ms. This indicates capacity congestion on the indoor small site with heavy eMBB streaming. Next, I'll analyze the downlink throughput time series for the last 4h to quantify the dips. Proceed?",
+      "message_ar": "تمت مراجعة OSS: لا يوجد انقطاع، ~208 أجهزة نشطة، استغلال PRB ~93–95%، BLER ~2–3%، كمون الجدولة p95 أكبر من 70 مللي ثانية. هذا يشير إلى ازدحام سعة في موقع داخلي صغير مع حركة eMBB كثيفة (بث). الخطوة التالية: سأحلل السلسلة الزمنية لمعدل تنزيل البيانات خلال آخر 4 ساعات لقياس الانخفاضات. هل أمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms p50 ~3–5 Mbps with recurring dips to ~2 Mbps around 12:00–14:00, recovering outside peaks. This aligns with PRB pegging and elevated queueing. Remediation: apply targeted site parameter optimization to improve scheduler fairness and burst capacity (no coverage changes). Request approval to execute now.",
+      "message_ar": "السلسلة الزمنية للتنزيل تؤكد وسيطاً ~3–5 ميجابت/ث مع هبوطات متكررة إلى ~2 ميجابت/ث بين 12:00–14:00، مع تعافٍ خارج الذروة. يتوافق ذلك مع تشبع PRB وارتفاع طوابير الانتظار. المعالجة: تطبيق ضبط معلمات مستهدف للموقع لتحسين عدالة الجدولة وزيادة السعة اللحظية (بدون تغييرات تغطية). أطلب الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed and verified. Immediate post-check (5–10 min): PRB utilization eased to ~86–89%, p50 DL throughput ~9 Mbps, p95 latency down to ~55–58 ms, BLER stable. No faults observed. We'll continue monitoring through the next busy period.",
+      "message_ar": "تم تنفيذ الضبط والتحقق منه. فحص فوري بعد التغيير (5–10 دقائق): استغلال PRB انخفض إلى ~86–89%، وسيط معدل التنزيل ~9 ميجابت/ث، كمون p95 انخفض إلى ~55–58 مللي ثانية، BLER ثابت. لا توجد أعطال. سنواصل المراقبة خلال فترة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: p50 downlink throughput is now around 9 Mbps and slow data events are less frequent. The site parameter optimization looks effective; please monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: وسيط معدل التنزيل يقارب الآن 9 ميجابت/ث وأصبحت حالات بطء البيانات أقل تكراراً. ضبط معلمات الموقع يبدو فعّالاً؛ يرجى المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and update on median throughput, PRB utilization, and latency trends. If performance regresses, we will roll back the tuning; if congestion persists, we will escalate to capacity planning.",
+      "message_ar": "تم. سنقوم بامتلاك مراقبة ساعة الذروة القادمة وتقديم تحديث حول وسيط معدل التنزيل، واستغلال PRB، واتجاهات الكمون. إذا تدهورت الأداء سنعود عن الضبط، وإذا استمر الازدحام سنصعّد إلى فريق التخطيط للسعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-IND-MICRO-123",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-IND-MICRO-123",
+        "DL",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "capacity_tuning_DL"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor NR micro cell with slow data and an active congestion alarm. Validated high PRB utilization and elevated scheduling latency via recent OSS checks and downlink throughput trends, confirming busy-hour congestion. Applied site parameter tuning to improve downlink capacity; post-change checks showed higher median throughput and lower latency, and we will monitor the next busy hour.",
+    "ar": "تم تشخيص خلية NR داخلية صغيرة تعاني من بطء في البيانات مع تنبيه ازدحام نشط. تم التحقق من ارتفاع استغلال PRB وارتفاع كمون الجدولة عبر مراجعة OSS واتجاهات معدل التنزيل، مما أكد ازدحام ساعة الذروة. تم تطبيق ضبط معلمات للموقع لتحسين سعة التنزيل؛ وأظهرت الفحوصات بعد التغيير ارتفاع الوسيط وتحسناً في الكمون، وسيتم المراقبة خلال ساعة الذروة القادمة."
+  }
+}

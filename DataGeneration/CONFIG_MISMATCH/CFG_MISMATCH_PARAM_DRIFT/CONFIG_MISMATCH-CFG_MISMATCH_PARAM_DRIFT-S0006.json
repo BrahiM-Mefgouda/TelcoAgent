@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0006",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows an active alarm with 7 configuration mismatches (drift ~20h); HO failures ~12%, BLER ~7.3%, PRB ~71%, and p50 downlink 20 Mbps during off-peak on enterprise private traffic—acknowledging possible congestion/outage.",
+    "ar": "خلية ماكرو NR حضرية تعرض إنذاراً نشطاً مع 7 حالات عدم تطابق في الإعدادات (انحراف ~20 ساعة)؛ معدل فشل التسليم بين الخلايا ~12%، ومعدل خطأ الكتلة ~7.3%، واستخدام PRB ~71%، وسرعة تنزيل وسيطة 20 ميجابت/ث خلال خارج الذروة لحركة مؤسسات خاصة—مع الإقرار باحتمال وجود ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-ULB-1234 has an active alarm. Last 12h: 7 config mismatches (drift ~20h), HO failures ~12%, BLER 7.3%, PRB ~71%, p50 DL 20 Mbps. Enterprise private users impacted during off-peak.",
+      "message_ar": "الخلية NR الماكرو NR-ULB-1234 في منطقة حضرية لديها إنذار نشط. آخر 12 ساعة: 7 حالات عدم تطابق في الإعدادات (انحراف ~20 ساعة)، فشل تسليم ~12%، BLER 7.3%، استخدام PRB ~71%، وسرعة تنزيل وسطية 20 ميجابت/ث. حركة مؤسسات خاصة متأثرة خلال خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling OSS vs live configuration and KPIs for the last 12h to confirm the mismatch scope. Please confirm access and the target cell ID.",
+      "message_ar": "تم الاستلام. سأبدأ باستخراج التكوين من نظام الإدارة مقارنةً بالحالة الحية مع مؤشرات الأداء لآخر 12 ساعة لتأكيد نطاق عدم التطابق. يرجى تأكيد صلاحية الوصول ومعرف الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell: NR-ULB-1234. It is currently off-peak.",
+      "message_ar": "تمت الموافقة على الوصول. الخلية المستهدفة: NR-ULB-1234. الفترة حالياً خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS vs live for NR-ULB-1234 (12h): found 7 drifts affecting handover thresholds, beam sweep interval, and RRC timers; live deviates from the approved baseline, which aligns with the HO failures and BLER. Proposal: align live to OSS-approved baseline via a config push now (low risk off-peak). Approve?",
+      "message_ar": "تم سحب بيانات نظام الإدارة مقابل الحالة الحية للخلية NR-ULB-1234 (12 ساعة): وُجدت 7 انحرافات تؤثر على عتبات التسليم بين الخلايا، وفاصل مسح الحزم، ومؤقتات RRC؛ الحالة الحية تنحرف عن الخط الأساس المعتمد، وهذا يفسر فشل التسليم وBLER. الاقتراح: مواءمة الحالة الحية مع الخط الأساس المعتمد بدفع إعدادات الآن (مخاطر منخفضة خارج الذروة). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the baseline config now.",
+      "message_ar": "موافق على دفع الإعدادات الأساسية الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline config push executed for NR-ULB-1234 (CFG-NR-ULB-1234-001). Change succeeded; brief user impact <60s. Initiating quick post-change checks.",
+      "message_ar": "تم تنفيذ دفع الإعدادات الأساسية للخلية NR-ULB-1234 (CFG-NR-ULB-1234-001). نجحت العملية؛ تأثير بسيط على المستخدمين أقل من 60 ثانية. جارٍ بدء فحوصات ما بعد التغيير السريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change: the alarm cleared, handover failures are trending down, BLER steady, PRB similar; no new complaints reported.",
+      "message_ar": "بعد التغيير: تم مسح الإنذار، وفشل التسليم يتجه للانخفاض، وBLER مستقر، وPRB مماثل؛ لا توجد شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I recommend creating a tracking record for this drift correction and keeping short-term monitoring in place. Shall I proceed to log it?",
+      "message_ar": "جيد. أوصي بإنشاء سجل تتبع لتصحيح الانحراف والإبقاء على مراقبة قصيرة المدى. هل أمضي قدماً في تسجيل ذلك؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket created for the drift correction on NR-ULB-1234 with summary and rollback details. We will monitor KPIs through the next window and update the record.",
+      "message_ar": "تم إنشاء تذكرة تتبع لتصحيح الانحراف على NR-ULB-1234 مع ملخص وتفاصيل الرجوع. سنراقب مؤشرات الأداء خلال النافذة القادمة ونحدّث السجل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: handover failures trending down and the alarm remains clear after the config push. Let’s monitor for the next 2–4 hours; reference DU-CFG-03491.",
+      "message_ar": "نلاحظ تحسناً: فشل التسليم يتراجع والإنذار ما زال صافياً بعد دفع الإعدادات. لنراقب خلال الساعتين إلى الأربع القادمة؛ المرجع DU-CFG-03491."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the 2–4 hour monitoring window and update the ticket after the window with KPI trends and any field feedback. If degradation reappears, we will roll back to the previous config and escalate to vendor/RF for deeper investigation.",
+      "message_ar": "تم الفهم—سنتولى نافذة المراقبة لمدة 2–4 ساعات ونحدّث التذكرة بعد النافذة باتجاهات مؤشرات الأداء وأي ملاحظات ميدانية. إذا عاد التدهور، سنرجع إلى الإعداد السابق ونصعّد إلى المورّد/فريق الترددات للتحقيق الأعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a configuration mismatch on the urban NR macro cell with seven drifts over ~20 hours impacting handovers and BLER. Pulled network management data, confirmed deviations from the approved baseline, and executed a configuration push to realign parameters. Opened a tracking ticket and set short-term monitoring to ensure stability after the site parameter tuning.",
+    "ar": "تم تشخيص عدم تطابق في الإعدادات على خلية NR حضرية مع سبعة انحرافات خلال ~20 ساعة أثّرت على التسليم وBLER. جرى سحب بيانات نظام الإدارة، وتأكيد الانحرافات عن الخط الأساس المعتمد، ثم تنفيذ دفع الإعدادات لإعادة محاذاة المعلمات. تم فتح تذكرة تتبع ووضع مراقبة قصيرة المدى لضمان الاستقرار بعد ضبط معلمات الموقع."
+  }
+}

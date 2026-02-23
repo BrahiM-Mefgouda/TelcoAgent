@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0026",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban NR macro cell shows 96% PRB utilization with 238 users over the last 4h while nearby cells average 43%, HO out/in 52/28, indicating load imbalance during shoulder hours with heavy eMBB streaming.",
+    "ar": "خلية NR ماكرو حضرية عند 96% استخدام PRB مع 238 مستخدمًا خلال آخر 4 ساعات بينما المتوسط لدى الجيران 43%، ومعدل تسليم مكالمات خارجة/داخلة 52/28، ما يدل على عدم توازن الحمل خلال ساعات الذروة الجزئية مع بث eMBB كثيف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector S1 is hot in the last 4h: PRB ~96%, 238 users; neighbors ~43%. HO out/in is 52/28, RSRQ -10 dB, SINR 11 dB. Shoulder period with eMBB streaming. Please check and balance load.",
+      "message_ar": "القطاع S1 لنظام NR الماكرو في منطقة حضرية مرتفع خلال آخر 4 ساعات: استخدام PRB ~96% مع 238 مستخدمًا؛ الجيران ~43%. التسليم خارج/داخل 52/28، RSRQ -10 dB وSINR 11 dB. فترة ذروة جزئية مع بث eMBB. الرجاء التحقق وموازنة الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start with a neighbor and load distribution review on S1. Please confirm the target cell ID and approve access for analysis.",
+      "message_ar": "تم الاستلام. سأبدأ بمراجعة الجيران وتوزيع الحمل على S1. يرجى تأكيد معرف الخلية الهدف والموافقة على الوصول للتحليل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Cell-310-260-12345-S1. Access approved for diagnostics and safe parameter changes if needed.",
+      "message_ar": "معرّف الخلية هو NR-Cell-310-260-12345-S1. تم اعتماد الوصول للتشخيص وتعديلات المعلمات الآمنة عند الحاجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor audit on S1 and adjacent sectors to assess utilization gaps and handover readiness.",
+      "message_ar": "أقوم الآن بتدقيق الجيران على S1 والقطاعات المجاورة لتقييم فجوات الاستفادة وجهوزية التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: neighbors S2/S3 at 35–50% PRB, good RF quality; no adjacency gaps. S1 shows imbalance index ~0.20 with higher HO-out than HO-in. Proposal: apply a light load-bias—slightly increase neighbor bias and reduce serving bias to steer ~10–12% traffic to S2/S3. Approve?",
+      "message_ar": "النتائج: الجاران S2/S3 عند 35–50% PRB مع جودة RF جيدة؛ لا فجوات ترابط. S1 يظهر مؤشر عدم توازن ~0.20 مع HO للخارج أعلى من الداخل. المقترح: تطبيق انحياز حملي خفيف—زيادة طفيفة لانحياز الجيران وتقليل انحياز الخلية الخادمة لتوجيه ~10–12% من الحركة إلى S2/S3. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the light bias for load balancing on S1 toward S2/S3.",
+      "message_ar": "موافقة على المضي في الانحياز الخفيف لموازنة الحمل على S1 باتجاه S2/S3."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted mobility tuning: small positive bias to S2/S3 and slight reduction on S1 to encourage offload, with conservative timers to avoid ping-pong.",
+      "message_ar": "تطبيق ضبط موجه للحركة: انحياز إيجابي بسيط نحو S2/S3 وتقليل طفيف على S1 لتشجيع التفريغ، مع مؤقتات محافظة لتجنب التذبذب بين الخلايا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change is live. Monitoring immediate effects: PRB on S1, PRB on S2/S3, HO out/in symmetry, and user distribution. Please share observations in the next 10–15 minutes.",
+      "message_ar": "التغيير أصبح فعّالًا. أراقب التأثيرات الفورية: PRB على S1، وPRB على S2/S3، وتوازن HO خارج/داخل، وتوزيع المستخدمين. يرجى مشاركة الملاحظات خلال 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early read: S1 PRB down to ~87%, S2/S3 up to ~55%; HO out/in closer now. User experience complaints on streaming subsided.",
+      "message_ar": "قراءة أولية: انخفض PRB على S1 إلى ~87%، وارتفع على S2/S3 إلى ~55%؛ تقارب أفضل في HO خارج/داخل. انخفضت شكاوى تجربة المستخدم في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement with balanced load and stable RF. I will keep an eye on handover stability and any edge degradations. Let me know if you notice anomalies.",
+      "message_ar": "تحسن جيد مع توازن في الحمل واستقرار في RF. سأواصل متابعة استقرار التسليم وأي تدهور عند الأطراف. أبلغني إن لاحظت أي شذوذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend remains positive: utilization on S1 stays below 90% and handover asymmetry is narrowing. Action taken was parameter tuning for load-based bias. Suggest monitoring for the next 2–4 hours.",
+      "message_ar": "الاتجاه ما زال إيجابيًا: الاستفادة على S1 بقيت تحت 90% وعدم التماثل في التسليم يتقلص. الإجراء كان ضبط المعلمات بانحياز يعتمد على الحمل. أقترح المتابعة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next 2–4 hours and update with final KPIs. If KPIs degrade or ping-pong increases, we will roll back the bias; if congestion persists, we will escalate for capacity augmentation.",
+      "message_ar": "تم. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونوافيك بالنتائج النهائية. إذا تدهورت المؤشرات أو زاد التذبذب بين الخلايا، سنرجع الانحياز؛ وإذا استمر الازدحام، سنصعّد لبحث تعزيز السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban NR macro sector with 96% PRB and higher HO-out than HO-in, while neighbors were underutilized. Performed a neighbor review and applied light mobility biasing to steer traffic to adjacent cells. Load rebalanced and KPIs improved; we will continue monitoring and fine-tune if needed.",
+    "ar": "تم تشخيص عدم توازن في الحمل على قطاع NR ماكرو حضري بنسبة PRB 96% ومعدل تسليم للخارج أعلى من الداخل بينما الجيران منخفضو الاستفادة. أُجريت مراجعة للجيران وتم تطبيق انحياز حركي خفيف لتوجيه الحركة إلى الخلايا المجاورة. تمت إعادة توازن الحمل وتحسنت المؤشرات؛ سنواصل المراقبة وإجراء الضبط الدقيق عند الحاجة."
+  }
+}

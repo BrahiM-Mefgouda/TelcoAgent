@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0028",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G macro cell over the last 6 hours shows interference/signal overlap with SINR ~2 dB, handover failures ~30%, ping‑pong 20%, BLER 14.6%, p50 throughput 17 Mbps, and a congestion alarm is active—please investigate a possible PCI collision.",
+    "ar": "خلية ماكرو 5G حضرية خلال آخر 6 ساعات تُظهر تداخل/تراكب إشارات مع SINR حوالي 2 dB، فشل تسليم حوالي 30%، تقلبات بين الخلايا 20%، BLER بنسبة 14.6%، ومنتصف سرعة 17 ميجابت/ث، مع وجود إنذار ازدحام—يرجى التحقق من احتمال تعارض PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro NR-Cell-41027A shows 6h degradation: SINR ~2 dB, RSRQ -11 dB, ping‑pong 20%, BLER 14.6%, ~299 users; eMBB streaming complaints observed. Please investigate.",
+      "message_ar": "خلية NR ماكرو حضرية NR-Cell-41027A تُظهر تدهوراً خلال 6 ساعات: SINR حوالي 2 dB، وRSRQ بقيمة -11 dB، وتقلبات بين الخلايا 20%، وBLER بنسبة 14.6%، وحوالي 299 مستخدماً؛ توجد شكاوى في بث eMBB. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. The metrics indicate interference/signal overlap and mobility instability, suggestive of a PCI issue. I will start with a neighbor audit on NR-Cell-41027A over the past 6 hours to check PCI conflicts and SSB overlap. Do I have approval to proceed?",
+      "message_ar": "مفهوم. المؤشرات تدل على تداخل/تراكب في الإشارة وعدم استقرار في التنقل، ما يرجح وجود مشكلة في PCI. سأبدأ بتدقيق الجوار على NR-Cell-41027A لآخر 6 ساعات للتحقق من تعارضات PCI وتراكب SSB. هل أملك الموافقة للمتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Target is NR-Cell-41027A; access granted.",
+      "message_ar": "موافق. الهدف هو NR-Cell-41027A؛ الوصول مُتاح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: adjacent sector NR-Cell-41033C (~0.7 km) also uses PCI 277 with significant SSB footprint overlap; events align with the 20% ping‑pong. This is a PCI collision. I propose retuning NR-Cell-41027A PCI to 139 (free in cluster), updating neighbor relations accordingly, and leaving HO offsets unchanged. Approve execution?",
+      "message_ar": "اكتمل تدقيق الجوار: القطاع المجاور NR-Cell-41033C (~0.7 كم) يستخدم PCI 277 أيضاً مع تراكب ملحوظ لبصمة SSB؛ وتتوافق الأحداث مع تقلبات 20%. هذه حالة تعارض PCI. أقترح إعادة ضبط PCI لخلية NR-Cell-41027A إلى 139 (متاح ضمن العنقود)، وتحديث علاقات الجوار بما يتوافق، مع إبقاء إزاحات التسليم دون تغيير. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the PCI retune and neighbor relation update now.",
+      "message_ar": "موافق على تنفيذ إعادة ضبط PCI وتحديث علاقات الجوار الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: NR-Cell-41027A PCI set to 139 and neighbor relations updated; only a brief broadcast blip observed. I will watch immediate SINR, HO failures, and BLER for stabilization. Share any instant field feedback.",
+      "message_ar": "تم التنفيذ: تم ضبط PCI لخلية NR-Cell-41027A إلى 139 وتحديث علاقات الجوار؛ لوحظ انقطاع بث قصير فقط. سأراقب فوراً قيم SINR وفشل التسليم وBLER حتى الاستقرار. يرجى مشاركة أي ملاحظات ميدانية فورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: links look cleaner; median SINR ~5 dB, RSRQ improved to -8 dB; handover failures trending down and ping‑pong decreasing.",
+      "message_ar": "ملاحظة أولية: الروابط أنظف؛ متوسط SINR حوالي 5 dB وتحسن RSRQ إلى -8 dB؛ فشل التسليم في اتجاه هابط والتقلبات بين الخلايا في انخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. I will create a record to document the collision and the PCI retune with a 6h monitoring note. Do you approve opening the ticket?",
+      "message_ar": "مؤشرات جيدة. سأُنشئ تسجيلاً لتوثيق التعارض وإعادة ضبط PCI مع ملاحظة مراقبة لمدة 6 ساعات. هل توافق على فتح تذكرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-PCI-01234. I will continue monitoring through the current and next busy hour focusing on SINR, HO failures, BLER, and user throughput, and will correlate with mobility events.",
+      "message_ar": "تم إنشاء التذكرة: DU-PCI-01234. سأواصل المراقبة خلال هذه الساعة المزدحمة والساعة المزدحمة التالية مع التركيز على SINR وفشل التسليم وBLER وسرعة المستخدم، وسأربط النتائج بأحداث الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change update: handover failures are trending down and interference events are fewer after the PCI parameter change; let’s monitor through the next busy hour per DU-PCI-01234.",
+      "message_ar": "تحديث بعد التغيير: فشل التسليم في اتجاه هابط وأحداث التداخل أقل بعد تغيير إعداد PCI؛ دعنا نراقب خلال الساعة المزدحمة القادمة وفقاً للتذكرة DU-PCI-01234."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and update DU-PCI-01234 afterward. Summary: identified a PCI collision, retuned PCI to 139, and updated neighbor relations. If issues recur, we will escalate by expanding checks to adjacent sectors; if adverse effects appear, we will roll back the PCI change.",
+      "message_ar": "تم الاستلام—سنكون مسؤولين عن المراقبة خلال الساعة المزدحمة القادمة وسنحدّث DU-PCI-01234 بعدها. الملخص: تم تحديد تعارض PCI، إعادة ضبط PCI إلى 139، وتحديث علاقات الجوار. إذا عادت المشكلات سنصعّد عبر توسيع الفحوصات للقطاعات المجاورة؛ وإذا ظهرت آثار سلبية سنُجري تراجعاً لتغيير PCI."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-Cell-41027A",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Retune PCI to 139; update neighbor relations; keep HO offsets unchanged"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision on NR-Cell-41027A; applied PCI retune and neighbor updates; monitor 6h and next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A PCI collision was identified between NR-Cell-41027A and a nearby sector, driving interference and mobility instability. We mitigated by site parameter tuning: retuned the PCI to 139 and updated neighbor relations, then documented the action with ticket DU-PCI-01234. We will monitor through the next busy hour to confirm sustained improvement.",
+    "ar": "تم تحديد تعارض PCI بين NR-Cell-41027A وقطاع مجاور، ما تسبب في تداخل وعدم استقرار في الحركة. تم التخفيف عبر ضبط معلمات الموقع: إعادة ضبط PCI إلى 139 وتحديث علاقات الجوار، ثم توثيق الإجراء بالتذكرة DU-PCI-01234. سنواصل المراقبة خلال الساعة المزدحمة القادمة للتأكد من استمرار التحسن."
+  }
+}

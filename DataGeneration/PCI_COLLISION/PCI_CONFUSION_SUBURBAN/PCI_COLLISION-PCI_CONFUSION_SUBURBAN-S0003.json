@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0003",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban 5G macro over the last 12h shows interference/signal overlap with degraded handovers (84% success, 11% ping-pong), SINR ~0 dB, and median throughput ~11 Mbps—possible PCI confusion.",
+    "ar": "موقع ماكرو 5G في منطقة ضاحية خلال آخر 12 ساعة يظهر تداخل/تراكب إشارة مع تدهور في عمليات التسليم (نجاح 84%، بينغ بونغ 11%)، وقيمة SINR تقارب 0 dB، ومتوسط سرعة يقارب 11 ميجابت/ث—احتمال ارتباك PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over 12h: HO success ~84%, ping-pong 11%, SINR ~0 dB, RSRQ -10 dB, p50 throughput ~11 Mbps. eMBB streaming users reporting instability. Please review for PCI confusion.",
+      "message_ar": "موقع ماكرو NR في الضواحي خلال 12 ساعة: نجاح التسليم ~84%، بينغ بونغ 11%، SINR ~0 dB، وRSRQ -10 dB، ومتوسط السرعة ~11 ميجابت/ث. مستخدمو eMBB للبث يبلّغون عن عدم استقرار. الرجاء المراجعة لاحتمال ارتباك PCI."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a neighbor relation audit for this NR macro over the last 12h to detect any PCI reuse/collision. Approve OSS access to neighbor data?",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجوار لهذا موقع NR خلال آخر 12 ساعة لاكتشاف أي إعادة استخدام/تصادم في PCI. هل توافق على الوصول إلى بيانات الجوار عبر OSS؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for neighbor data and last 12h window.",
+      "message_ar": "موافق على بيانات الجوار ونطاق 12 ساعة الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit shows a PCI collision: serving cell uses PCI 20 and neighbor SB-142-S2 within ~0.9 km also advertises PCI 20. 13 neighbors show overlapping SSB detections increasing confusion, aligning with HO issues. I propose retuning our PCI to a free index (e.g., 312). Approve immediate change (brief impact <1 min)?",
+      "message_ar": "أظهر تدقيق الجوار وجود تصادم PCI: الخلية الحالية تستخدم PCI 20 وجار SB-142-S2 على بعد ~0.9 كم يعلن أيضًا PCI 20. هناك 13 جارًا مع اكتشافات SSB متداخلة تزيد الارتباك، وهو ما يتماشى مع مشاكل التسليم. أقترح إعادة ضبط PCI لدينا إلى قيمة خالية (مثلاً 312). هل توافق على التغيير الفوري (تأثير بسيط أقل من دقيقة)؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to retune PCI to 312 now. Proceed.",
+      "message_ar": "موافق على إعادة ضبط PCI إلى 312 الآن. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI retune from 20 to 312 and updating neighbor relations. Change applied; SSB re-advertised. Initial checks: no neighbor with PCI 312, RSRQ stabilizing, RACH success normal. Monitoring short-term counters.",
+      "message_ar": "تنفيذ إعادة ضبط PCI من 20 إلى 312 وتحديث علاقات الجوار. تم تطبيق التغيير؛ إعادة بث SSB. الفحوصات الأولية: لا يوجد جار يستخدم PCI 312، واستقرار RSRQ، ونجاح RACH طبيعي. أراقب عدادات المدى القصير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: fewer immediate HO failures and less ping-pong in call traces.",
+      "message_ar": "المؤشرات الأولية أفضل: عمليات فشل تسليم أقل وبنغ بونغ أقل في سجلات المكالمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I’ve documented the change for traceability and will share the reference in the wrap-up. Continuing to observe interference and mobility KPIs for stabilization.",
+      "message_ar": "جيد. قمت بتوثيق التغيير للتتبع وسأشارك المرجع في الختام. أواصل مراقبة مؤشرات التداخل والتنقل حتى الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing RSRQ improve from about -10 dB to -7 dB and ping-pong events are dropping.",
+      "message_ar": "أرى تحسّن RSRQ من حوالي -10 dB إلى -7 dB وانخفاض أحداث البينغ بونغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change snapshot: HO success trending toward ~90%, BLER down slightly, SINR improving from ~0 dB to ~2–3 dB. PRB load steady with 200+ users. I recommend monitoring through the next busy hour for confirmation.",
+      "message_ar": "لقطة بعد التغيير: نجاح التسليم يتجه نحو ~90%، وانخفاض طفيف في BLER، وتحسّن SINR من ~0 dB إلى ~2–3 dB. حمل PRB ثابت مع أكثر من 200 مستخدم. أوصي بالمراقبة خلال ساعة الذروة التالية للتأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed—handover failures are trending down and interference has eased after the PCI parameter retune. Let’s monitor through the next busy hour; the change is logged under DU-PCI-03457.",
+      "message_ar": "متفق—عمليات فشل التسليم تتراجع والتداخل خف بعد إعادة ضبط معلمة PCI. لنراقب خلال ساعة الذروة القادمة؛ التغيير موثق تحت DU-PCI-03457."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and update the ticket after the window. If degradation reappears, we will roll back to the previous PCI and reassess the neighbor plan; if stable, we will keep the new PCI and close with results summary.",
+      "message_ar": "سنقوم بمتابعة المراقبة خلال ساعة الذروة القادمة وتحديث التذكرة بعد انتهاء الفترة. إذا عاد التدهور سنعود إلى PCI السابق ونعيد تقييم مخطط الجوار؛ وإذا استقر الأداء سنبقي على PCI الجديد ونغلق مع ملخص النتائج."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on the suburban 5G macro: the serving cell (PCI 20) conflicted with a nearby neighbor also using PCI 20, leading to interference and mobility instability. Mitigated by site parameter tuning—retuned the serving cell to a free PCI (312) and updated relations, then documented the change with a ticket. Post-change indicators show improved SINR and handover performance; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص تصادم PCI في موقع ماكرو 5G ضمن الضواحي: الخلية الخادمة (PCI 20) تتعارض مع جار قريب يستخدم PCI 20، مما سبب تداخلًا وعدم استقرار في التنقل. تم التخفيف عبر ضبط معلمات الموقع—إعادة تعيين PCI للخلية الخادمة إلى قيمة خالية (312) وتحديث العلاقات، ثم توثيق التغيير بتذكرة. تُظهر المؤشرات بعد التغيير تحسّنًا في SINR وأداء التسليم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0015",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate indoor downlink slow data on the NR micro cell over the last 4 hours; congestion alarm active with ~90% resource use and ~5 Mbps throughput.",
+    "ar": "التحقق من بطء بيانات التنزيل الداخلي على خلية NR صغيرة خلال آخر 4 ساعات؛ إنذار ازدحام نشط مع استخدام موارد ~90% وسرعة ~5 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor office users on NR micro cell NR-IND-MICRO-445 report slow data during business hours; DL ~5 Mbps, ~204 users, PRB ~90%, p95 queuing latency ~75 ms, BLER ~3%. A congestion alarm is active on this indoor micro site, affecting enterprise private traffic including some streaming.",
+      "message_ar": "مستخدمو المكتب الداخلي على الخلية الصغيرة NR-IND-MICRO-445 يواجهون بيانات بطيئة خلال ساعات العمل؛ سرعة التنزيل ~5 ميجابت/ث، حوالي 204 مستخدمين، إشغال الموارد ~90%، كمون الاصطفاف p95 ~75 مللي ثانية، BLER ~3%. إنذار ازدحام نشط على هذا الموقع الداخلي الصغير، ويؤثر على حركة المؤسسة الخاصة بما فيها بعض البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with a 4-hour OSS/controller pull to validate load, admission limits, and faults. Please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ بسحب بيانات 4 ساعات من OSS/جهة التحكم للتحقق من الحمل، وحدود القبول، والأعطال. يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-IND-MICRO-445. Window: last 4 hours. Access approved.",
+      "message_ar": "معرّف الخلية: NR-IND-MICRO-445. النافذة: آخر 4 ساعات. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows sustained DL resource use 88–95% across the last 4 hours, users peaking ~210, no radio/backhaul faults, and long MAC queues. Median per-user DL throughput is ~4–6 Mbps.",
+      "message_ar": "تُظهر بيانات OSS استخدام موارد التنزيل بين 88–95% خلال آخر 4 ساعات، وعدد المستخدمين يصل إلى ~210، ولا توجد أعطال راديوية/وصلات خلفية، مع طوابير MAC طويلة. متوسط سرعة التنزيل لكل مستخدم ~4–6 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will chart DL throughput and latency time series for the same 4-hour window to correlate with load. Approve to proceed.",
+      "message_ar": "بعد ذلك، سأرسم السلاسل الزمنية لسرعة التنزيل والكمون لنفس نافذة 4 ساعات لربطها بالحمل. هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms a busy-hour dip from 10:30–14:30: p50 DL ~4–6 Mbps while PRB ≥90% and p95 latency spikes; BLER stays stable. This points to a capacity and resource-allocation bottleneck on the indoor micro cell. I propose a non-intrusive parameter optimization to improve PRB allocation and fairness for enterprise traffic. Approve execution now?",
+      "message_ar": "تؤكد السلاسل الزمنية هبوط ساعة الذروة من 10:30–14:30: وسيط التنزيل ~4–6 ميجابت/ث مع بقاء إشغال الموارد ≥90% وارتفاع كمون p95؛ بينما يبقى BLER مستقراً. هذا يشير إلى اختناق في السعة وتخصيص الموارد على الخلية الداخلية الصغيرة. أقترح تحسينًا غير تدخلي للمعلمات لتحسين تخصيص الموارد والإنصاف لحركة المؤسسة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافق على التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization applied without service interruption. Immediate check shows PRB peaks easing toward 82–85%, p95 latency trending ~55 ms, and spot DL rates 9–12 Mbps on test traffic. Please validate on-site user experience.",
+      "message_ar": "تم تطبيق تحسين المعلمات دون انقطاع خدمة. الفحص الفوري يُظهر انخفاض قمم إشغال الموارد إلى نحو 82–85%، واتجاه كمون p95 إلى ~55 مللي ثانية، ومعدلات تنزيل فورية 9–12 ميجابت/ث على حركة اختبار. يرجى التحقق من تجربة المستخدم ميدانيًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "On-ground tests show downloads around 10 Mbps and streaming is stable now.",
+      "message_ar": "اختبارات الموقع تُظهر تنزيلًا بحوالي 10 ميجابت/ث والبث أصبح مستقراً الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Throughput is trending up and latency spikes are down after the parameter optimization. Let’s monitor during the next busy hour (next 2–4 hours) to confirm stability.",
+      "message_ar": "السرعة تتجه للارتفاع وتراجعت ذروات الكمون بعد تحسين المعلمات. لنواصل المراقبة خلال ساعة الذروة القادمة (خلال الساعتين إلى الأربع ساعات القادمة) للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Copy—we diagnosed a capacity/resource-allocation bottleneck, applied parameter optimization, and will monitor the cell during the next busy hour, reporting throughput, resource use, and latency trends. If congestion returns, we will escalate with additional tuning and potential offload; if any adverse effect appears, we will roll back to the prior settings.",
+      "message_ar": "تم—قمنا بتشخيص اختناق في السعة/تخصيص الموارد، وطبقنا تحسينًا للمعلمات، وسنراقب الخلية خلال ساعة الذروة القادمة مع الإبلاغ عن اتجاهات السرعة، واستخدام الموارد، والكمون. إذا عاد الازدحام فسنصعّد بتحسينات إضافية وإمكانات تفريغ الحمل؛ وإذا ظهر أي تأثير سلبي فسنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The downlink slow data indoors was driven by sustained high resource utilization during business hours on the NR indoor micro cell. After reviewing 4-hour trends, we executed site parameter tuning to improve resource allocation and fairness, which reduced latency spikes and lifted user throughput. We will monitor the next busy hour and adjust further if congestion reappears.",
+    "ar": "كان بطء بيانات التنزيل في الداخل ناتجًا عن استخدام مرتفع مستمر للموارد خلال ساعات العمل على خلية NR الداخلية الصغيرة. بعد مراجعة اتجاهات 4 ساعات، نفّذنا ضبط معلمات للموقع لتحسين تخصيص الموارد والإنصاف، مما خفّض ذروات الكمون ورفع سرعة المستخدمين. سنراقب ساعة الذروة القادمة ونجري تعديلات إضافية إذا عاد الازدحام."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0008",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows high ping-pong handovers over the last 5h with interference/signal overlap and slow data around the shoulder period.",
+    "ar": "خلية ماكرو 5G NR في منطقة سكنية تسجل ذهابًا وإيابًا مرتفعًا خلال آخر 5 ساعات مع تداخل/تراكب إشارات وبطء بيانات خلال فترة الكتف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell is seeing elevated ping-pong handovers over the last 5h in the shoulder period; HO success ~84%, ping-pong ~19%, SINR ~1 dB, RSRP ~-112 dBm, ~192 users, PRB ~70%, p50 throughput ~8 Mbps. Streaming users are complaining.",
+      "message_ar": "خلية ماكرو NR في منطقة سكنية تسجل ارتفاعًا في تسليمات الذهاب والعودة خلال آخر 5 ساعات في فترة الكتف؛ نجاح التسليم ~84%، الذهاب والعودة ~19%، SINR حوالي 1 dB، RSRP ~-112 dBm، نحو 192 مستخدمًا، استغلال PRB ~70%، والسرعة المتوسطة ~8 Mbps. هناك شكاوى من مستخدمي البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. Please confirm the target cell ID and grant access; I’ll start by pulling the last 5h performance and neighbor events, then proceed to a handover time-series review.",
+      "message_ar": "سأتولى التشخيص. يرجى تأكيد معرف الخلية ومنح صلاحية الوصول؛ سأبدأ بسحب أداء آخر 5 ساعات وأحداث الجوار ثم أتابع بمراجعة السلاسل الزمنية للتسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NRCell-Suburb-1023; access approved.",
+      "message_ar": "معرف الخلية هو NRCell-Suburb-1023؛ تمت الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled the 5h baseline: increased bidirectional handovers with quick returns mainly between NRCell-Suburb-1023 and neighbors NRT-Suburb-1024/1025 during shoulder hours. No alarms present. Next I will analyze HO time series and ping-pong cycles per neighbor pair.",
+      "message_ar": "تم جمع خط الأساس لآخر 5 ساعات: زيادة في التسليمات باتجاهين مع عودات سريعة خاصة بين NRCell-Suburb-1023 والجوار NRT-Suburb-1024/1025 خلال ساعات الكتف. لا توجد إنذارات. الخطوة التالية تحليل السلاسل الزمنية للتسليم ودورات الذهاب والعودة لكل زوج جوار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time-series shows recurring 30–60 s ping-pong loops, with HO failures peaking around 8%. SINR ~1 dB, RSRQ -9 dB, serving RSRP ~-112 dBm, PRB ~70%. Likely border interference/signal overlap and permissive mobility thresholds. I propose a targeted mobility tune: slight uptick to handover hysteresis and time-to-trigger toward 1024/1025 plus a short ping-pong guard. OK to implement now?",
+      "message_ar": "تُظهر السلاسل الزمنية دورات ذهاب وعودة متكررة 30–60 ثانية، مع فشل تسليم يصل إلى نحو 8%. قيمة SINR ~1 dB وRSRQ -9 dB وRSRP للخدمة ~-112 dBm واستغلال PRB ~70%. يُرجح وجود تداخل/تراكب إشارات على الحدود مع عتبات حركة متساهلة. أقترح ضبطًا مستهدفًا للحركة: زيادة طفيفة لهسترة التسليم ووقت التفعيل باتجاه 1024/1025 مع تفعيل حاجز قصير للذهاب والعودة. هل نطبق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility tune now.",
+      "message_ar": "موافق على تنفيذ ضبط الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NRCell-Suburb-1023: minor HO threshold increase and a guard timer between pairs with 1024/1025; conservative to avoid coverage loss. I’m watching immediate post-change counters for 15 minutes.",
+      "message_ar": "تم تطبيق التحسين على NRCell-Suburb-1023: زيادة طفيفة في عتبات التسليم مع مؤقت حاجز بين الأزواج مع 1024/1025؛ تغييرات تحفظية لتفادي فقدان التغطية. أراقب عدادات ما بعد التغيير لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: ping-pong returns trending down and session stability improving.",
+      "message_ar": "ملاحظة مبكرة: عودات الذهاب والعودة في اتجاه هبوطي واستقرار الجلسات يتحسن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—initial KPIs show stabilization. I will continue observing for further reduction and verify HO success remains healthy.",
+      "message_ar": "تم الاستلام — المؤشرات الأولية تُظهر استقرارًا. سأواصل المراقبة لمزيد من الانخفاض والتحقق من بقاء نجاح التسليم بمستوى جيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing fewer rapid returns (down from ~19% toward ~10%) and higher successful handovers after the mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى عودات سريعة أقل (انخفضت من ~19% نحو ~10%) ونجاح تسليم أعلى بعد تحسين معلمات الحركة. دعنا نراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we’ll own monitoring through the next busy hour and share post-change HO and drop metrics. If degradation reappears, we will roll back the tuning and escalate to RF for deeper interference mitigation. Summary: pulled 5h data, analyzed HO time trends, and applied targeted site parameter tuning; we’ll update after the monitoring window.",
+      "message_ar": "مفهوم — سنتولى المراقبة خلال ساعة الذروة التالية ونشارك مقاييس التسليم والسقوط بعد التغيير. إذا عاد التدهور، سنلغي التعديل ونصعّد إلى فريق الترددات لمعالجة التداخل بعمق. الملخص: سحبنا بيانات 5 ساعات، وحللنا السلاسل الزمنية للتسليم، وطبقنا ضبطًا مستهدفًا لمعلمات الموقع؛ سنوافيك بالتحديث بعد نافذة المراقبة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell-Suburb-1023",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell-Suburb-1023",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Mobility parameters tuning: slight increase to HO hysteresis and time-to-trigger toward NRT-Suburb-1024/1025 and enable short ping-pong guard"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Ping-pong handovers were traced to border interference and permissive mobility thresholds in a suburban 5G NR macro cell during shoulder hours. We pulled 5h OSS data, reviewed handover time trends, and applied targeted site parameter tuning to thresholds and guard timers for the dominant neighbor pairs. Early results show fewer rapid returns and improved handover success; we will monitor through the next busy hour.",
+    "ar": "تم ربط تسليمات الذهاب والعودة بتداخل حدودي وعتبات حركة متساهلة في خلية ماكرو 5G NR سكنية خلال ساعات الكتف. قمنا بسحب بيانات 5 ساعات من النظام، ومراجعة اتجاهات التسليم زمنياً، وتطبيق ضبط مستهدف لمعلمات الموقع على العتبات ومؤقتات الحاجز لأزواج الجوار السائدة. تُظهر النتائج الأولية عودات أسرع أقل وتحسنًا في نجاح التسليم؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

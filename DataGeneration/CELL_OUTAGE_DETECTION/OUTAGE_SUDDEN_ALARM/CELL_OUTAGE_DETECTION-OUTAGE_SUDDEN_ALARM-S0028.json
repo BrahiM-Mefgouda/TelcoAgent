@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0028",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a sudden outage alarm in the last 1h with availability at 3%, slow data (p50 1 Mbps), user drops at 86%, and call setup failures at 96% — investigate immediate outage.",
+    "ar": "خلية ماكرو 5G NR في منطقة حضرية تُظهر إنذار انقطاع مفاجئ خلال آخر ساعة مع توفر 3%، بيانات بطيئة (الوسيط 1 ميغابت/ث)، إسقاط مستخدمين 86% وفشل إعداد مكالمات 96% — نحتاج التحقيق الفوري في الانقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm just triggered on an urban 5G NR macro cell in the last hour: availability 3%, p50 throughput 1 Mbps (slow data), user drops 86%, call setup failures 96%. Shoulder hour with eMBB streaming complaints. Please take lead.",
+      "message_ar": "تم إطلاق إنذار على خلية ماكرو 5G NR حضرية خلال الساعة الماضية: التوفر 3%، وسيط الإنتاجية 1 ميغابت/ث (بيانات بطيئة)، إسقاط مستخدمين 86%، وفشل إعداد مكالمات 96%. فترة انتقالية مع شكاوى بث eMBB. تفضل بالاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling last 1h OSS status and alarms for the impacted cell. Please share the cell ID and confirm access.",
+      "message_ar": "تم. سأبدأ بسحب حالة الشبكة والتنبيهات لآخر ساعة للخلية المتأثرة من نظام الإدارة. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRK-UTB-045-1. Access approved.",
+      "message_ar": "معرّف الخلية: NRK-UTB-045-1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS query for NRK-UTB-045-1 over 1h now. Initial result: cell unreachable; traffic and RRC sessions dropped to zero at T−58m; heartbeat lost; neighbor PRB surged, indicating a local outage.",
+      "message_ar": "أُجري استعلام النظام للخلية NRK-UTB-045-1 خلال ساعة الآن. النتيجة الأولية: الخلية غير قابلة للوصول؛ انخفضت الحركة وجلسات RRC إلى الصفر منذ 58 دقيقة؛ فقد نبضات الحياة؛ ارتفع حمل الجيران، ما يشير إلى انقطاع محلي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes say downtown users report streaming failing; no prior planned work on this site.",
+      "message_ar": "تفيد ملاحظات الميدان بأن مستخدمي وسط المدينة يبلغون عن فشل البث؛ لا أعمال مخطط لها مسبقاً على هذا الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Additional OSS checks confirm persistent unreachability, zero PRB, and DU link down since 09:14; no power alarms before the drop. This is a hard outage. I propose opening a P1 fault ticket for transport/field engagement. Approve?",
+      "message_ar": "التحقق الإضافي من النظام يؤكد استمرار عدم الوصول، وصفر موارد مستخدمة، ورابط DU متعطل منذ 09:14؛ لا إنذارات طاقة قبل الانقطاع. هذا انقطاع كامل. أقترح فتح بلاغ طارئ P1 لإشراك فرق النقل والميدان. موافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved as P1. Proceed.",
+      "message_ar": "موافق كـ P1. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating the outage ticket now with a concise summary of OSS evidence and impact; routing to transport and field teams. I will monitor for auto-recovery and share the reference in the closing update.",
+      "message_ar": "أقوم بإنشاء بلاغ الانقطاع الآن مع ملخّص موجز للأدلة والتأثير من النظام؛ وتوجيهه لفرق النقل والميدان. سأراقب أي تعافٍ تلقائي وسأشارك المرجع في التحديث الختامي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing some users latching to LTE with limited service; the 5G cell still appears down from the NOC view.",
+      "message_ar": "نلاحظ بعض المستخدمين ينتقلون إلى LTE مع خدمة محدودة؛ وتبدو خلية 5G لا تزال متوقفة من منظور مركز العمليات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Neighbor LTE/NR load is elevated but stable; no recovery yet on the target cell. Continuing close watch and keeping stakeholders informed.",
+      "message_ar": "تم. حمل LTE/NR في الجوار مرتفع لكنه مستقر؛ لا تعافٍ بعد على الخلية المستهدفة. مستمر بالمتابعة الدقيقة وإبلاغ المعنيين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: availability is recovering and call setup failures are trending down after the outage ticket creation; early traffic is returning. Let's monitor through the next 2–4 hours. Ticket reference: DU-OUT-04257.",
+      "message_ar": "تحديث: التوفر يتحسن وفشل إعداد المكالمات يتجه للانخفاض بعد إنشاء البلاغ؛ بدأت الحركة بالعودة. لنتابع خلال الساعتين إلى الأربع ساعات القادمة. مرجع البلاغ: DU-OUT-04257."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and post an update after it. If the cell drops again, we will escalate to the vendor and request an on-site check; if stability holds, we will proceed with normal closure and roll back any temporary mitigations.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنزود بتحديث بعدها. إذا حدث تعطل مجدداً سنصعّد إلى المورّد ونطلب فحصاً ميدانياً؛ وإذا استقرت الخدمة سنمضي بإغلاق اعتيادي ونعكس أي إجراءات مؤقتة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a hard outage on the urban 5G NR macro cell within the last hour: zero traffic, unreachable state, and neighbor load spike. Executed OSS diagnostics to validate the failure and raised a P1 outage ticket with a concise summary for transport/field dispatch. We will monitor recovery and follow through for permanent resolution.",
+    "ar": "تم تأكيد انقطاع كامل على خلية ماكرو 5G NR حضرية خلال الساعة الأخيرة: حركة صفر، عدم قابلية للوصول، وارتفاع حمل الجيران. تم تنفيذ تشخيص عبر نظام الإدارة لتأكيد العطل وفتح بلاغ طارئ P1 بملخص موجز للتصعيد إلى فرق النقل والميدان. سنواصل المراقبة ونتابع حتى الوصول إلى حل دائم."
+  }
+}

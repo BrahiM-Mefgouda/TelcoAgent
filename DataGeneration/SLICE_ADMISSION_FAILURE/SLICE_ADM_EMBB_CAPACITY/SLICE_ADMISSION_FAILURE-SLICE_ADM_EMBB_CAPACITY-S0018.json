@@ -1,0 +1,109 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_EMBB_CAPACITY-S0018",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_EMBB_CAPACITY",
+  "query": {
+    "en": "Stadium NR micro cell over the last 4h shows 86% PRB, 44% slice admissions denied at 41 req/min, slice utilization 74%, latency 77 ms, and p50 throughput 8 Mbps (slow data); congestion alarm active.",
+    "ar": "خلية NR صغيرة في ملعب خلال آخر 4 ساعات تُظهر إشغال PRB بنسبة 86%، ورفض قبول الشريحة بنسبة 44% عند 41 طلب/دقيقة، واستخدام الشريحة 74%، وكمون 77 مللي ثانية، ووسيط سرعة 8 ميجابت/ث (بيانات بطيئة)؛ إنذار ازدحام مفعّل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell under in-event load for 4h: PRB 86%, 44% of eMBB slice admissions denied (41 req/min), slice utilization 74%, latency 77 ms, p50 throughput 8 Mbps, 524 users; congestion alarm active.",
+      "message_ar": "خلية NR صغيرة في ملعب تحت حمل الحدث منذ 4 ساعات: إشغال PRB ‏86%، رفض قبول شريحة eMBB بنسبة 44% (41 طلب/دقيقة)، استخدام الشريحة ‏74%، كمون ‏77 مللي ثانية، وسيط السرعة 8 ميجابت/ث، 524 مستخدمًا؛ إنذار ازدحام مفعّل."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking the cell’s admission and resource counters over the last 4h to pinpoint the bottleneck; please approve access.",
+      "message_ar": "سأبدأ بالتحقق من عدّادات القبول والموارد للخلية خلال آخر 4 ساعات لتحديد نقطة الاختناق؛ يرجى اعتماد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell: NR-STAD-TRIB-A-MICRO-1; target slice: eMBB-01; event ongoing.",
+      "message_ar": "مُعتمد. الخلية: NR-STAD-TRIB-A-MICRO-1؛ الشريحة المستهدفة: eMBB-01؛ الحدث مستمر."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check shows PRB ~86% with admission queueing; minimum guarantee 118 Mbps exceeds fair share under 524 users, and traffic is heavy video streaming. Proposal: update the eMBB-01 slice policy on this cell—temporarily reduce the minimum guarantee to 80 Mbps, align admission threshold, keep priority level 1. Do you approve?",
+      "message_ar": "يُظهر الفحص عبر النظام التشغيلي إشغال PRB يقارب 86% مع طوابير قبول؛ الحد الأدنى المضمون 118 ميجابت/ث أعلى من الحصة العادلة مع 524 مستخدمًا، وحركة المرور يغلب عليها بث الفيديو. الاقتراح: تحديث سياسة شريحة eMBB-01 على هذه الخلية—خفض مؤقت للحد الأدنى المضمون إلى 80 ميجابت/ث، ومواءمة عتبة القبول، مع الإبقاء على أولوية المستوى 1. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the temporary slice policy adjustment.",
+      "message_ar": "موافق على تطبيق ضبط سياسة الشريحة المؤقت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Slice policy updated on NR-STAD-TRIB-A-MICRO-1 for eMBB-01: minimum guarantee lowered to 80 Mbps, admission threshold aligned, priority preserved; change applied immediately and being observed.",
+      "message_ar": "تم تحديث سياسة الشريحة على NR-STAD-TRIB-A-MICRO-1 لشريحة eMBB-01: خفض الحد الأدنى المضمون إلى 80 ميجابت/ث، مواءمة عتبة القبول، والحفاظ على الأولوية؛ تم تطبيق التغيير فورًا ويجري رصد الأثر."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability during the event, I plan to log an incident for this mitigation. May I proceed?",
+      "message_ar": "من أجل إمكانية التتبع أثناء الحدث، أنوي تسجيل بلاغ لهذه المعالجة. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident ticket has been created to track the mitigation and monitoring. Early signs show admission denials beginning to fall and median throughput ticking up; I will continue to watch.",
+      "message_ar": "تم إنشاء بلاغ لمتابعة المعالجة والرصد. المؤشرات المبكرة تُظهر بدء انخفاض حالات رفض القبول وتحسّنًا طفيفًا في وسيط السرعة؛ سأواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: admission denials are trending down from 44% toward ~18% and slow data is easing; the slice policy update helped. Let’s monitor through the next busy hour and update DU-SLICE-04192 afterward.",
+      "message_ar": "نلاحظ تحسّنًا: حالات رفض القبول تتجه للانخفاض من 44% إلى نحو ~18% وتباطؤ البيانات يتراجع؛ تحديث سياسة الشريحة أثمر. لنتابع الرصد خلال ساعة الذروة القادمة ثم نحدّث DU-SLICE-04192 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy hour monitoring and update the ticket afterward. If denials climb or latency worsens, we will escalate by coordinating offload to adjacent cells; if stable, we’ll keep the mitigation in place and restore the original guarantee gradually after the event.",
+      "message_ar": "سنتولى رصد ساعة الذروة القادمة ونحدّث البلاغ بعد ذلك. إذا عادت حالات الرفض للارتفاع أو تفاقم الكمون، سنصعّد عبر تنسيق تفريغ الحمل إلى الخلايا المجاورة؛ وإن استقر الوضع، سنُبقي المعالجة ونُعيد الضمان الأصلي تدريجيًا بعد انتهاء الحدث."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "slice_id",
+        "policy"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the eMBB slice suffered high admission denials due to heavy load and an overly strict minimum guarantee. We verified the condition via network counters, then mitigated by updating the slice policy to reduce the minimum guarantee and align admission thresholds, and opened a ticket for traceability. Post-change, denials trended down and throughput improved; continued monitoring is in place.",
+    "ar": "خلال الحدث في الملعب، عانت شريحة eMBB من ارتفاع في رفض القبول بسبب الحمل المرتفع وحد أدنى مضمون صارم. تحققنا من الحالة عبر عدّادات الشبكة، ثم خففنا الأثر عبر تحديث سياسة الشريحة بخفض الحد الأدنى المضمون ومواءمة عتبات القبول، وفتحنا بلاغًا للتتبع. بعد التغيير، اتجهت حالات الرفض للانخفاض وتحسّن الأداء؛ ويتم استمرار المراقبة."
+  }
+}

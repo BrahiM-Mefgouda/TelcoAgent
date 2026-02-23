@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0008",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban 5G macro cell shows TA skew with distant users (32%) and slow data (median 6 Mbps) over the last 6 hours; RSRP -107 dBm, RSRQ -12 dB, SINR 9 dB, and PRB load around 82%.",
+    "ar": "خلية ماكرو 5G في منطقة ضواحي تُظهر انحرافاً في TA مع نسبة مستخدمين بعيدين (32%) وبطء بيانات (الوسيط 6 Mbps) خلال آخر 6 ساعات؛ RSRP -107 dBm وRSRQ -12 dB وSINR 9 dB وحمل PRB حوالي 82%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SUB-112-S1 shows outward TA drift over the last 6h: median ~203 m, p95 ~453 m, distant serving ~32%, and slow data (median 6 Mbps) with occasional streaming buffering; RF is weak and hours are mixed.",
+      "message_ar": "الخلية الماكرو NR في الضواحي NR-SUB-112-S1 تُظهر انجرافاً خارجياً في TA خلال آخر 6 ساعات: الوسيط ~203 م، p95 ~453 م، نسبة المستخدمين البعيدين ~32%، وبطء بيانات (وسيط 6 Mbps) مع تجمّع بسيط في البث؛ الإشارة ضعيفة وساعات الذروة متباينة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by checking the last 6h health and mobility counters for NR-SUB-112-S1 to verify load, handovers, and distance distribution. Please confirm access to proceed.",
+      "message_ar": "واضح. سأبدأ بفحص مؤشرات الصحة والتنقل لآخر 6 ساعات للخلية NR-SUB-112-S1 للتحقق من الحمل وعمليات التسليم والتوزيع حسب المسافة. يرجى تأكيد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the last 6h window; proceed.",
+      "message_ar": "موافق على نافذة الـ6 ساعات؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "6h health check completed: PRB utilization ~82%, no hard alarms, HO failures ~8%, active users peaked near 290, and distant-serving UEs are elevated. RF remains weak as noted. This supports TA drift/misassociation. Next, I will pull the TA distribution time series for the same window to visualize the shift. Approve?",
+      "message_ar": "تم إكمال فحص الصحة لـ6 ساعات: استخدام PRB ~82%، لا إنذارات حرجة، فشل التسليم ~8%، المستخدمون النشطون بلغوا ذروة ~290، ونسبة المستخدمين المخدومين من مسافات بعيدة مرتفعة. حالة الإشارة ضعيفة كما ذُكر. هذا يدعم وجود انجراف/سوء ارتباط في TA. بعد ذلك سأجلب السلاسل الزمنية لتوزيع TA لنفس النافذة لعرض الانحراف. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the TA time series.",
+      "message_ar": "موافَق على جلب السلاسل الزمنية لـ TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series indicates median rising from ~180 m to ~210 m and 95th percentile up to ~460 m; drift index ~0.33, aligning with slow data. I propose a low-risk mobility/coverage parameter tuning to reduce overshoot and prefer nearer serving, targeting ~20% reduction in distant-serving. Proceed?",
+      "message_ar": "تشير السلاسل الزمنية لـ TA إلى ارتفاع الوسيط من ~180 م إلى ~210 م وارتفاع المئين 95 إلى ~460 م؛ مؤشر الانجراف ~0.33 بما يتماشى مع بطء البيانات. أقترح ضبطاً منخفض الخطورة لمعاملات التنقل/التغطية لتقليل التجاوز وتفضيل الخدمة القريبة بهدف خفض نسبة الخدمة البعيدة بنحو 20%. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the optimization on NR-SUB-112-S1.",
+      "message_ar": "تفضل بتنفيذ التحسين على NR-SUB-112-S1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied conservative tuning on NR-SUB-112-S1: tightened serving footprint and adjusted mobility thresholds; no service interruption observed. We will watch TA percentiles, distant-serving ratio, HO success, and user throughput for 30–45 minutes. Please share early observations in 10–15 minutes.",
+      "message_ar": "تم تطبيق ضبط محافظ على NR-SUB-112-S1: تضييق بصمة الخدمة وضبط عتبات التنقل؛ دون انقطاع خدمة. سنراقب قيم TA المئوية ونسبة الخدمة البعيدة ونجاح التسليم ومعدل نقل المستخدمين لمدة 30–45 دقيقة. يرجى مشاركة الملاحظات الأولية خلال 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes: distant-serving ratio down to ~24%, median TA ~195 m, HO failures stabilizing; median throughput trending to ~7 Mbps. No negative spikes.",
+      "message_ar": "بعد 12 دقيقة: انخفضت نسبة الخدمة البعيدة إلى ~24%، والوسيط لـ TA ~195 م، واستقر فشل التسليم؛ وميل وسيط معدل النقل إلى ~7 Mbps. لا ارتفاعات سلبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early trend. We will continue monitoring across the mixed hours and check if streaming stalls reduce. If tails persist, we will apply a minor incremental tweak in the next window; otherwise we keep this setting.",
+      "message_ar": "مؤشرات مبكرة جيدة. سنواصل المراقبة عبر الساعات المتباينة ونتحقق من انخفاض تجمّعات البث. إذا استمرت الذّيول سنجري ضبطاً طفيفاً إضافياً في النافذة التالية؛ وإلا سنبقي الإعداد الحالي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Now, after 40 minutes, median TA is ~190 m and the high tail decreased; slow data improved to ~7.5 Mbps. Action taken: mobility/coverage parameter optimization on the cell. Let's monitor through the next busy hour.",
+      "message_ar": "الآن، بعد 40 دقيقة، أصبح وسيط TA ~190 م وانخفض الذيل العالي؛ وتحسن بطء البيانات إلى ~7.5 Mbps. الإجراء المتخذ: تحسين معاملات التنقل/التغطية على الخلية. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed. We will own the next busy-hour monitoring and update you on TA distribution, distant-serving ratio, HO success, and throughput afterward. If performance regresses, we will roll back the change; if minor issues appear, we will fine-tune within safe limits.",
+      "message_ar": "متفق. سنتولى مراقبة ساعة الذروة التالية وسنوافيك لاحقاً بتحديث حول توزيع TA ونسبة الخدمة البعيدة ونجاح التسليم ومعدل النقل. إذا تدهور الأداء سنرجع التغيير؛ وإذا ظهرت مشاكل طفيفة سنُجري ضبطاً دقيقاً ضمن حدود آمنة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on a suburban 5G macro with elevated distant-serving users, weak RF, and slow median throughput. Verified the issue over a 6-hour window with health counters and TA time series, then applied targeted mobility/coverage site parameter tuning to reduce overshoot and improve serving-cell dominance. Post-change metrics show lower median/95th TA and better throughput, with continued monitoring through the next busy hour.",
+    "ar": "تم تشخيص انجراف توزيع TA على خلية ماكرو 5G في منطقة ضواحي مع ارتفاع نسبة المستخدمين المخدومين من مسافات بعيدة وضعف الإشارة وبطء الوسيط في معدل النقل. تم التحقق من المشكلة خلال نافذة 6 ساعات عبر مؤشرات الصحة والسلاسل الزمنية لـ TA، ثم تنفيذ ضبط موجه لمعاملات التنقل/التغطية لتقليل التجاوز وتعزيز هيمنة الخلية الخادمة. أظهرت النتائج بعد التغيير انخفاضاً في الوسيط والمئين 95 لـ TA وتحسناً في معدل النقل، مع استمرار المراقبة خلال ساعة الذروة القادمة."
+  }
+}

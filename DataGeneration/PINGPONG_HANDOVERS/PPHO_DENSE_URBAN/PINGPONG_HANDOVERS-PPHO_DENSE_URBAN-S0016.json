@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0016",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro over the last 4h shows 27% ping‑pong handovers, ~90% HO success, 157 attempts/5min, RSRP −98 dBm/RSRQ −13 dB, SINR 2 dB indicating interference/signal overlap, PRB ~82%, and median DL ~25 Mbps during peak evening eMBB streaming.",
+    "ar": "في بيئة حضرية كثيفة على موقع ماكرو NR خلال آخر 4 ساعات، نرى 27% تسليمات متأرجحة مع نجاح تسليم ~90% و157 محاولة/5 دقائق، وRSRP −98 dBm وRSRQ −13 dB وSINR 2 dB مما يشير إلى تداخل/تراكب الإشارة، مع إشغال PRB ~82% ومتوسط تحميل ~25 ميجابت/ث خلال ذروة المساء لتطبيقات eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Dense urban NR macro, peak evening. Users ~280, PRB ~82%. We see 27% ping‑pong and ~90% HO success; SINR ~2 dB with RSRP −98/RSRQ −13 dB causing streaming complaints.",
+      "message_ar": "موقع ماكرو NR في منطقة حضرية كثيفة خلال ذروة المساء. عدد المستخدمين ~280 وإشغال PRB ~82%. نرى 27% تسليمات متأرجحة ونحو 90% نجاح تسليم؛ SINR حوالي 2 dB مع RSRP −98 وRSRQ −13 dB مما يسبب شكاوى في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—interference/signal overlap with aggressive mobility may be driving rapid returns. I will first pull last 4h network stats for the serving cell to baseline HO and ping‑pong. Please share the cell ID and confirm access.",
+      "message_ar": "مفهوم—التداخل/تراكب الإشارة مع إعدادات حركة عدوانية قد يسبب عودات سريعة. سأستخرج أولاً إحصاءات الشبكة لآخر 4 ساعات للخلية الخادمة لتحديد خط الأساس للتسليم والتأرجح. يرجى تزويدي بهوية الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-1103. Access approved.",
+      "message_ar": "هوية الخلية: NR-Cell-1103. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 4h stats: HO attempts peak at 157/5min; ping‑pong pairs mainly 1103↔1104 and 1103↔2102; short dwell <10s before return. Edge quality low (SINR ~2 dB, RSRQ −13), load >80%. Next, I’ll review HO time‑series to isolate the spikes—proceed?",
+      "message_ar": "تم سحب إحصاءات 4 ساعات: محاولات التسليم تصل إلى 157/5 دقائق؛ أزواج التأرجح أساساً 1103↔1104 و1103↔2102؛ مدة إقامة قصيرة <10 ثوانٍ قبل العودة. جودة الحافة منخفضة (SINR ~2 dB وRSRQ −13) والحمل >80%. التالي، سأراجع السلاسل الزمنية للتسليم لتحديد الارتفاعات—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time‑series shows A3 events spiking at peak with fast‑return loops in 8–12s, dominated by neighbor 1104. Current thresholds: A3 offset 3 dB, hysteresis 1 dB, TTT 144 ms. Proposal: raise A3 TTT to 320 ms for 1104/2102, increase hysteresis to 2 dB, reduce A3 offset to 2 dB, and apply −1 dB CIO to 1104 to curb bounce‑backs. Approve targeted change?",
+      "message_ar": "السلاسل الزمنية تُظهر ارتفاع أحداث A3 خلال الذروة مع عودات سريعة خلال 8–12 ثانية، يهيمن عليها الجار 1104. العتبات الحالية: إزاحة A3 مقدارها 3 dB، هيستريسيس 1 dB، وزمن انتظار TTT 144 ms. الاقتراح: رفع TTT لـ A3 إلى 320 ms للجارين 1104/2102، وزيادة الهيستريسيس إلى 2 dB، وخفض إزاحة A3 إلى 2 dB، وتطبيق CIO ‏−1 dB نحو 1104 لتقليل الارتدادات. هل توافق على التغيير المستهدف؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the parameter update and committed: A3 TTT 320 ms (1104/2102), hysteresis 2 dB, A3 offset 2 dB, CIO −1 dB to 1104. Change successful. I’ll watch live counters for 30–60 minutes; expect fewer rapid returns with minimal impact on HO failures.",
+      "message_ar": "تم تطبيق تحديث المعلمات واعتماده: TTT لـ A3 إلى 320 ms (للجارين 1104/2102)، الهيستريسيس 2 dB، إزاحة A3 إلى 2 dB، وCIO ‏−1 dB نحو 1104. التغيير ناجح. سأراقب العدادات الحية لمدة 30–60 دقيقة؛ المتوقع انخفاض العودات السريعة مع تأثير طفيف على فشل التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial 20 minutes: ping‑pong counters trending down ~35% vs baseline; HO success up ~1 pp; no new complaints.",
+      "message_ar": "أول 20 دقيقة: مؤشرات التأرجح تنخفض بحوالي 35% مقارنة بالأساس؛ نجاح التسليم ارتفع بنحو 1 نقطة مئوية؛ لا شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Neighbor counters show longer dwell and fewer back‑and‑forth events; median throughput ~25 Mbps remains stable. We will keep the change and observe during the next busy period. Any field notes, please share.",
+      "message_ar": "جيد. عدادات الجيران تُظهر مدة إقامة أطول وأحداث ذهاب وإياب أقل؛ يظل متوسط السرعة ~25 ميجابت/ث مستقراً. سنُبقي التغيير ونراقب خلال فترة الانشغال القادمة. يرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: fast‑return events down and ping‑pong rate dropping from 27% toward ~16% in the last interval. Action taken was site parameter tuning on mobility thresholds. Recommend monitoring over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن: انخفاض العودات السريعة وتراجع معدل التأرجح من 27% نحو ~16% في الفاصل الأخير. الإجراء كان ضبط معلمات الموقع لعتبات الحركة. أوصي بالمراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own the next 2–4 hours of monitoring and share a summary afterward. If ping‑pong remains elevated, we will extend tuning to impacted neighbors; if HO failures rise, we will roll back to previous values.",
+      "message_ar": "تم الاستلام؛ سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونشارك الخلاصة بعدها. إذا بقي التأرجح مرتفعاً فسنوسع الضبط ليشمل الجيران المتأثرين؛ وإذا زادت حالات فشل التسليم فسنعود إلى القيم السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed dense‑urban NR ping‑pong handovers driven by interference/signal overlap and aggressive mobility thresholds during peak evening. Reviewed network stats and HO time‑series, then applied site parameter tuning (A3 TTT increase, hysteresis and offset adjustments, neighbor CIO bias) to reduce rapid returns. Monitoring continues over the next hours to confirm stability and further reduction.",
+    "ar": "تم تشخيص تسليمات متأرجحة في بيئة NR حضرية كثيفة ناتجة عن تداخل/تراكب الإشارة وعتبات حركة عدوانية خلال ذروة المساء. تمت مراجعة إحصاءات الشبكة والسلاسل الزمنية للتسليم، ثم تطبيق ضبط معلمات الموقع (رفع TTT لـ A3 وضبط الهيستريسيس والإزاحة مع انحياز CIO نحو الجار) لتقليل العودات السريعة. ستستمر المراقبة خلال الساعات القادمة لتأكيد الاستقرار وتحقيق مزيد من الانخفاض."
+  }
+}

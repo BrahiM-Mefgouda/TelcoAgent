@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0006",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium 5G micro cell shows congestion during egress over the last 2h with ~96% PRB, 407 users, slow data (DL 7 Mbps/UL 3 Mbps), BLER 5%, and scheduler p95 99 ms.",
+    "ar": "خلية 5G صغيرة في الاستاد تعاني ازدحاماً خلال مرحلة الخروج خلال آخر ساعتين مع إشغال PRB ~96% و407 مستخدمين، بيانات بطيئة (تنزيل 7 Mbps/رفع 3 Mbps)، BLER 5% وزمن جدولة p95 يبلغ 99 ms."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is under a congestion alarm during egress; heavy eMBB streaming and slow data reported. Snapshot: PRB ~95.5%, ~407 users, DL 7 Mbps, UL 3 Mbps, BLER 5%, scheduler p95 99 ms.",
+      "message_ar": "خلية NR صغيرة في الاستاد تحت إنذار ازدحام أثناء مرحلة الخروج؛ بث eMBB كثيف وبطء بيانات مُبلغ عنه. اللقطة الحالية: إشغال PRB ~95.5%، حوالي 407 مستخدمين، تنزيل 7 Mbps، رفع 3 Mbps، BLER 5%، وكمون الجدولة p95 عند 99 ms."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull last 2h network counters for the affected NR cell to confirm load and scheduler pressure; please share the cell ID and approve read access.",
+      "message_ar": "سأقوم بسحب عدادات الشبكة لآخر ساعتين للخلية المتأثرة للتحقق من الحمل وضغط الجدولة؛ يرجى تزويدي بمعرف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STRM-MICRO-12; access approved for a 2h window.",
+      "message_ar": "معرّف الخلية هو NR-STRM-MICRO-12؛ تمت الموافقة على الوصول لنافذة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters for NR-STRM-MICRO-12 over 2h confirm peak PRB 96–98% (avg ~93%), active UEs peaked ~430, DL p50 ~7 Mbps, UL ~3 Mbps, BLER ~5%, and scheduler tail 95–100 ms—consistent with egress streaming. I propose a targeted resource optimization: increase scheduler fairness and cap per‑UE bursts to improve cell-wide throughput. Please approve.",
+      "message_ar": "عدادات آخر ساعتين لـ NR-STRM-MICRO-12 تؤكد ذروة PRB 96–98% (متوسط ~93%)، وبلغت الأجهزة النشطة ذروتها ~430، وسطي التنزيل ~7 Mbps والرفع ~3 Mbps، وBLER ~5%، وذيل كمون الجدولة 95–100 ms—وهذا يتماشى مع بث مرحلة الخروج. أقترح تحسيناً موجهاً للموارد: تعزيز عدالة المجدول وتحديد حد اندفاع لكل مستخدم لتحسين إنتاجية الخلية. يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—proceed without service interruption.",
+      "message_ar": "موافق—تابع دون انقطاع في الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization now on NR-STRM-MICRO-12: tuning scheduler fairness and time‑domain allocation for congestion relief. Change is live and non-disruptive. Monitoring for 5–10 minutes.",
+      "message_ar": "أطبّق الآن التحسين على NR-STRM-MICRO-12: ضبط عدالة المجدول والتخصيص الزمني للتخفيف من الازدحام. التغيير حيّ وغير متعطل. سأراقب لمدة 5–10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 8 minutes, median DL throughput is ~11 Mbps, PRB utilization ~84–88%, BLER steady near 5%; user complaints are easing.",
+      "message_ar": "بعد 8 دقائق، وسطي سرعة التنزيل ~11 Mbps، وإشغال PRB ~84–88%، وBLER ثابت قرب 5%؛ شكاوى المستخدمين تتراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will document this event-driven congestion mitigation and the parameter change under ticket DU-PRB-02291 and continue watching load as the crowd exits.",
+      "message_ar": "تحسن جيد. سأوثّق تخفيف الازدحام المرتبط بالحدث وإجراء الضبط ضمن التذكرة DU-PRB-02291 وسأواصل متابعة الحمل أثناء خروج الحشود."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No other work on the site; keep the settings through the tail end of egress. Backhaul looks normal.",
+      "message_ar": "لا توجد أعمال أخرى على الموقع؛ أبقِ الإعدادات حتى نهاية مرحلة الخروج. الرابط الخلفي طبيعي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will keep an eye on RLF and scheduler delay; if load spikes, I will temporarily tighten per‑UE bursts to preserve fairness, and if any adverse effect appears, I will revert to baseline.",
+      "message_ar": "مفهوم. سأتابع معدل فشل الارتباط وكمون الجدولة؛ إذا ارتفع الحمل سأشد مؤقتاً حدود الاندفاع لكل مستخدم للحفاظ على العدالة، وإذا ظهرت آثار جانبية سأعود إلى الإعداد الأساسي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: PRB in the mid‑80s and slow data complaints reduced. Action taken: site parameter tuning for congestion relief; propose monitoring over the next 2–4 hours. Reference DU-PRB-02291.",
+      "message_ar": "التحسن مستمر: إشغال PRB في منتصف الثمانينيات وتراجعت شكاوى بطء البيانات. الإجراء المتخذ: ضبط معلمات الموقع لتخفيف الازدحام؛ أقترح المراقبة خلال الساعتين إلى الأربع ساعات المقبلتين. المرجع DU-PRB-02291."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and will update the ticket after the window. If performance degrades, we will escalate with temporary capacity measures; if instability appears, we will roll back to the previous tuning.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات المقبلتين وسنحدّث التذكرة بعد انتهاء النافذة. إذا تدهور الأداء سنصعّد بإجراءات سعة مؤقتة؛ وإذا ظهرت عدم استقرارية سنرجع إلى الضبط السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed stadium egress congestion on the NR micro cell by reviewing last-2h counters showing sustained PRB saturation, elevated scheduler tail latency, and low median throughput. Applied site parameter tuning to the scheduler to improve fairness and mitigate overload, which reduced PRB into the mid‑80s and raised median downlink rates. Documented the change with a ticket and set short-term monitoring to ensure stability.",
+    "ar": "تم تشخيص ازدحام مرحلة الخروج في خلية NR الصغيرة في الاستاد عبر مراجعة عدادات آخر ساعتين التي أظهرت تشبع PRB بشكل مستمر وذيل كمون مرتفع للمجدول وإنتاجية وسيطية منخفضة. تم تنفيذ ضبط لمعلمات الموقع على المجدول لتحسين العدالة وتخفيف الحمل، مما خفّض إشغال PRB إلى منتصف الثمانينيات ورفع وسطي سرعة التنزيل. تم توثيق التغيير عبر تذكرة وتم تحديد مراقبة قصيرة المدى لضمان الاستقرار."
+  }
+}

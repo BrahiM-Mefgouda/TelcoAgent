@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0022",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro cell shows 19% URLLC slice admission denials over 24h with ~54 requests/min, slice utilization 76%, PRB ~84%, latency ~19 ms, and a policy threshold at 89.",
+    "ar": "خلية NR ماكرو حضرية تُظهر رفض قبول لشريحة URLLC بنسبة 19% خلال 24 ساعة مع ~54 طلب/دقيقة، استخدام الشريحة 76%، استهلاك PRB ~84%، كمون ~19 مللي ثانية، وحد العتبة للسياسة عند 89."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector reporting persistent URLLC slice admission denials (~19% over the last 24h). Load ~54 requests/min, slice utilization 76%, PRB ~84%, latency ~19 ms. Please investigate.",
+      "message_ar": "قطاع NR ماكرو حضري يسجل رفض قبول مستمر لشريحة URLLC (~19% خلال آخر 24 ساعة). الحمل ~54 طلب/دقيقة، استخدام الشريحة 76%، استهلاك PRB ~84%، الكمون ~19 مللي ثانية. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull 24h cell and URLLC admission stats to pinpoint policy and resource limits—threshold 89 may be gating. Please share the cell_id and slice_id, and confirm access.",
+      "message_ar": "سأسترجع إحصاءات الخلية وقبول URLLC خلال 24 ساعة لتحديد قيود السياسة والموارد—قد يكون الحد 89 مانعاً. يرجى تزويدي بـ cell_id و slice_id وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "cell_id: NR-UL123-1, slice_id: URLLC-01. Access approved for the last 24h window; time-of-day mix is varied.",
+      "message_ar": "cell_id: NR-UL123-1، و slice_id: URLLC-01. تم الموافقة على الوصول لنافذة 24 ساعة الأخيرة؛ تباين أوقات اليوم متنوع."
+    },
+    {
+      "role": "agent",
+      "message_en": "24h stats pulled: denials cluster during mixed busy minutes; current policy threshold is 89 with a fixed reservation (~24 PRBs) and preemption disabled. PRB peaks ~86–88%, leaving headroom. No backhaul/latency anomalies. Root cause: policy too strict for bursty URLLC demand. I propose: lower threshold to 85, enable controlled preemption, and switch to dynamic reservation. Approve?",
+      "message_ar": "تم سحب إحصاءات 24 ساعة: حالات الرفض تتجمع خلال الدقائق المزدحمة؛ حد السياسة الحالي 89 مع حجز ثابت (~24 PRBs) وتعطيل الاستباق. قمم PRB ~86–88% مع هامش متاح. لا شذوذ في النقل الخلفي/الكمون. السبب الجذري: سياسة صارمة مقابل طلب URLLC المتقطع. أقترح خفض العتبة إلى 85، تمكين الاستباق المسيطر عليه، والتحول إلى حجز ديناميكي. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Policy updated for URLLC-01 on NR-UL123-1 (threshold 85, controlled preemption enabled, dynamic reservation). Immediate checks show admission success improving; latency steady near 19 ms. I will watch for side effects—please confirm your local view.",
+      "message_ar": "تم تحديث سياسة URLLC-01 على NR-UL123-1 (عتبة 85، تمكين الاستباق المسيطر عليه، حجز ديناميكي). الفحوصات الفورية تُظهر تحسناً في نجاح القبول؛ الكمون ثابت قرب 19 مللي ثانية. سأراقب أي آثار جانبية—يرجى تأكيد الرؤية المحلية لديك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: admission denials dropped to about 8–10% within 10 minutes, latency holding ~18–20 ms, no adverse impact seen.",
+      "message_ar": "ملاحظة أولية: انخفضت حالات رفض القبول إلى حوالي 8–10% خلال 10 دقائق، والكمون ثابت عند ~18–20 مللي ثانية، ولا يوجد تأثير سلبي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will record the change for audit and continue tracking through the next busy period. Shall I log it?",
+      "message_ar": "جيد. سأوثّق التغيير لأغراض التدقيق وأواصل المتابعة خلال الفترة المزدحمة القادمة. هل أُسجل ذلك؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please log it.",
+      "message_ar": "نعم، يرجى التوثيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change has been recorded with notes and monitoring criteria (admission denials, utilization, preemption events).",
+      "message_ar": "تم توثيق التغيير مع الملاحظات ومعايير المراقبة (رفض القبول، الاستخدام، أحداث الاستباق)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: admission denials trending down to ~7%. The action taken was a slice policy update. Let’s monitor through the next busy hour; ticket DU-SLICE-04271.",
+      "message_ar": "التحسن مستمر: حالات رفض القبول تتجه للانخفاض إلى ~7%. الإجراء المتخذ كان تحديث سياسة الشريحة. لنتابع خلال ساعة الازدحام القادمة؛ التذكرة DU-SLICE-04271."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and update the ticket after the window with admission success, latency, PRB headroom, and any side effects. If denials rise or latency degrades, we will roll back the change; if capacity is the constraint, we will escalate for capacity relief. Summary: pulled 24h stats, identified strict policy as root cause, executed slice policy update, and logged the change; monitoring is active.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة ساعة الازدحام القادمة وسنحدّث التذكرة بعد انتهاء النافذة بمعدل نجاح القبول، والكمون، وهامش PRB، وأي آثار جانبية. إذا ارتفعت حالات الرفض أو تدهور الكمون سنقوم بالتراجع عن التغيير؛ وإذا كانت السعة هي القيد سنصعّد لزيادة السعة. الملخص: سحبنا إحصاءات 24 ساعة، حددنا السياسة الصارمة كسبب جذري، نفذنا تحديث سياسة الشريحة، ووثقنا التغيير؛ المراقبة جارية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-UL123-1",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC-01",
+        "Admission threshold 89→85; enable controlled preemption; dynamic reservation"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC admission failure mitigation on NR-UL123-1; policy updated to reduce denials"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated URLLC slice admission denials on an urban NR macro cell as a policy constraint issue: high threshold, fixed reservation, and preemption disabled despite available PRB headroom. Executed a slice policy update by lowering the threshold, enabling controlled preemption, and moving to dynamic reservation, then logged the change. Post-change checks showed improved admission success with stable latency; continued monitoring is in place.",
+    "ar": "تم تشخيص ارتفاع رفض القبول لشريحة URLLC في خلية NR ماكرو حضرية كمسألة قيود سياسة: عتبة مرتفعة، حجز ثابت، وتعطيل الاستباق رغم توفر هامش PRB. تم تنفيذ تحديث لسياسة الشريحة بخفض العتبة، وتمكين الاستباق المسيطر عليه، والانتقال إلى حجز ديناميكي، مع توثيق التغيير. أظهرت الفحوصات بعد التغيير تحسناً في نجاح القبول مع ثبات الكمون؛ وتستمر المراقبة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0021",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office small site shows high ping‑pong handovers over the last 3h with ~80% handover success and weak -110 dBm signal, impacting mobility stability for eMBB users.",
+    "ar": "الموقع الداخلي في المكتب يُظهر تبديل خلايا متكرر خلال آخر 3 ساعات مع نجاح تحويل يقارب 80% وإشارة ضعيفة (-110 dBm)، مما يؤثر على استقرار التنقل لمستخدمي eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro in the office wing during off-peak shows ~31% ping-pong, ~80% HO success, RSRP around -110 dBm, RSRQ -11 dB, about 146 users; eMBB streams had brief stalls. Please investigate.",
+      "message_ar": "موقع NR صغير داخلي في جناح المكتب خلال وقت خارج الذروة يظهر معدل تبديل متكرر ~31%، نجاح تحويل ~80%، RSRP حوالي -110 dBm وRSRQ -11 dB، مع نحو 146 مستخدمًا؛ لوحظت توقفات قصيرة في بث eMBB. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 3h network statistics for the target cell and its neighbors to validate ping‑pong and radio quality. Please confirm the cell ID and grant access.",
+      "message_ar": "سأبدأ بسحب إحصاءات الشبكة لآخر 3 ساعات للخلية المستهدفة وجيرانها للتحقق من التبديل المتكرر وجودة الإشارة. يرجى تأكيد معرّف الخلية ومنحي الإذن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_SMLC_Indoor_21, same indoor small site cluster; 3h window is fine. Access approved.",
+      "message_ar": "معرّف الخلية: NR_SMLC_Indoor_21، ضمن نفس مجموعة الموقع الداخلي الصغير؛ نافذة 3 ساعات مناسبة. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Management stats show high HO attempts (~111 per 5 min), HO success 79.8%, ping‑pong 31%. Median RSRP −110 dBm, RSRQ −11 dB, SINR 9 dB. Next, I'll extract handover time series by neighbor pair to isolate the bouncing paths.",
+      "message_ar": "إحصاءات الإدارة تُظهر محاولات تحويل عالية (~111 كل 5 دقائق)، نجاح تحويل 79.8%، وتبديل متكرر 31%. الوسيط RSRP −110 dBm وRSRQ −11 dB وSINR ‏9 dB. بعد ذلك سأستخرج سلسلة زمنية للتحويل لكل زوج جيران لعزل المسارات التي يحدث بها الارتداد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series indicates frequent two‑way toggling on NR_SMLC_Indoor_21↔22 and 21↔23, in bursts every 60–120 s, mainly off‑peak. Current A3 offset 2 dB, hysteresis 1 dB, TTT 178 ms. I propose mobility tuning: raise TTT to 320 ms and hysteresis to 2 dB on these relations and enable a 3 s ping‑pong guard. Proceed now?",
+      "message_ar": "السلسلة الزمنية تُظهر تبديلًا ثنائي الاتجاه متكررًا بين NR_SMLC_Indoor_21↔22 و21↔23 على شكل دفعات كل 60–120 ثانية، خاصة خارج الذروة. القيم الحالية: A3 offset ‏2 dB، والهسترة ‏1 dB، وTTT ‏178 ms. أقترح ضبط التنقل برفع TTT إلى 320 ms والهسترة إلى 2 dB على هذه العلاقات وتفعيل حارس ارتداد مدته 3 ثوانٍ. هل أمضي بالتنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply these parameters now.",
+      "message_ar": "موافَق على تطبيق هذه المعلمات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on the specified neighbor relations for the indoor cluster; commit successful and KPIs streaming. I will monitor immediate deltas and user impact; no adverse effects observed.",
+      "message_ar": "تم تطبيق التحسين على علاقات الجوار المحددة ضمن المجموعة الداخلية؛ تم الاعتماد بنجاح والمؤشرات تتدفق. سأراقب التغيرات الفورية وأثر المستخدم؛ لا آثار سلبية ملحوظة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: ping‑pong counters down ~35%, HO success ~88%, median throughput steady at ~23 Mbps.",
+      "message_ar": "ملاحظة مبدئية: مؤشرات التبديل المتكرر انخفضت ~35%، نجاح التحويل ~88%، ومتوسط السرعة الوسيط ثابت عند ~23 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We'll continue observing the corridor near the elevators where bouncing peaked and keep parameters steady while metrics settle.",
+      "message_ar": "تم. سنواصل المراقبة في الممر قرب المصاعد حيث بلغ الارتداد ذروته مع إبقاء المعلمات ثابتة أثناء استقرار المؤشرات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds—short bounces trending down and handover success improved. This matches the mobility parameter optimization you applied. Please monitor over the next 2–4 hours.",
+      "message_ar": "التحسّن مستمر—الارتدادات القصيرة في اتجاه الانخفاض وتحسّن نجاح التحويل. وهذا يتوافق مع تحسين معلمات التنقل الذي قمت به. يرجى المتابعة خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring and report on ping‑pong rate, handover success, and any user impact. If degradation returns, we will roll back the thresholds and escalate to RF design for deeper indoor coverage review.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع القادمة وسنورد معدل التبديل المتكرر ونجاح التحويل وأي أثر على المستخدمين. إذا عاد التدهور سنعيد المعايير السابقة ونصعّد إلى فريق تصميم الترددات لمراجعة أعمق للتغطية الداخلية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping‑pong on an indoor NR micro cluster by reviewing management statistics and handover time series, confirming frequent two‑way handovers between specific neighbors with weak RSRP. Mitigated through site parameter tuning by increasing time‑to‑trigger and hysteresis and enabling a guard to suppress rapid reversals. KPIs improved and the cell will be monitored over the next few hours.",
+    "ar": "تم تشخيص معدل تبديل متكرر مرتفع في مجموعة NR داخلية صغيرة عبر مراجعة إحصاءات الإدارة والسلاسل الزمنية للتحويل، حيث تبيّن حدوث تحويلات ثنائية متكررة بين جيران محددين مع RSRP ضعيف. تم التخفيف من خلال ضبط معلمات الموقع برفع زمن التفعيل والهسترة وتفعيل حارس لمنع الارتدادات السريعة. تحسّنت المؤشرات وسيتم استمرار المراقبة خلال الساعات القادمة."
+  }
+}

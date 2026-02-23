@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0028",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban NR macro post-maintenance over 24h shows 4 config mismatches (drift score ~0.52, age 8h) with handover failures ~7%, BLER ~7.8%, PRB ~54%, and median throughput ~31 Mbps.",
+    "ar": "موقع NR ماكرو في منطقة شبه حضرية بعد الصيانة خلال 24 ساعة يظهر 4 فروقات إعداد (درجة الانحراف ~0.52 وعمر 8 ساعات) مع فشل تسليم ~7% وBLER ~7.8% وPRB ~54% وسرعة وسيط ~31 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-maintenance check on a suburban NR macro over the last 24h: handover failures ~7%, BLER ~7.8%, p50 throughput ~31 Mbps, PRB ~54%; some streaming sessions buffered—please investigate possible configuration drift.",
+      "message_ar": "تفقد ما بعد الصيانة على موقع NR ماكرو في منطقة شبه حضرية خلال آخر 24 ساعة: فشل التسليم ~7%، BLER ~7.8%، وسيط السرعة ~31 ميجابت/ث، واستخدام PRB ~54%؛ ظهرت ملاحظات على تعثر بعض جلسات البث—يرجى التحقق من احتمال انحراف الإعدادات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by auditing OSS vs live settings for the last 24h and compare against baseline; please share the cell ID and confirm read-only access to run a configuration/state query. If drift is confirmed, I will align the live config and validate handover/BLER.",
+      "message_ar": "سأبدأ بتدقيق الإعدادات بين النظام والإعدادات الحية لآخر 24 ساعة ومقارنتها بالمرجع؛ يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول للقراءة فقط لتنفيذ استعلام الحالة/الإعداد. إذا تأكد الانحراف، سأقوم بمواءمة الإعدادات الحية والتحقق من التسليم/‏BLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Suburban-Cell-7821; read-only access approved for a 24h lookback.",
+      "message_ar": "معرّف الخلية: NR-Suburban-Cell-7821؛ تم اعتماد وصول القراءة فقط للفترة المرجعية 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the configuration/state query for NR-Suburban-Cell-7821 over 24h. Findings: 4 discrepancies detected with drift age ~8h—handover threshold offsets, neighbor relation list, bandwidth-part timing, and downlink power offset differ from baseline. I recommend aligning live settings to OSS baseline now; approve?",
+      "message_ar": "أقوم بتشغيل استعلام الحالة/الإعداد لـ NR-Suburban-Cell-7821 خلال 24 ساعة. النتائج: تم اكتشاف 4 فروقات بعمر انحراف ~8 ساعات—اختلافات في تعويضات عتبات التسليم، قائمة الجوار، توقيت جزء الحزمة، وتعويض قدرة الوصلة الهابطة مقارنة بالمرجع. أوصي بمواءمة الإعدادات الحية مع المرجع الآن؛ هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to align live settings; no concurrent field work on this macro.",
+      "message_ar": "تمت الموافقة على مواءمة الإعدادات الحية؛ لا توجد أعمال ميدانية متزامنة على هذا الماكرو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing the baseline configuration snapshot CFG-NR-7821-BASE-2025-09-13-01. Change applied successfully; initiating short stability check—expect handover failures to drop and BLER to normalize within minutes.",
+      "message_ar": "أقوم بدفع لقطة الإعدادات المرجعية CFG-NR-7821-BASE-2025-09-13-01. تم تطبيق التغيير بنجاح؛ أبدأ بفحص استقرار قصير—المتوقع انخفاض فشل التسليم وعودة BLER إلى الطبيعي خلال دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early readout: BLER trending down to ~3–4%, handover failures moving toward ~3–4%; streaming looks stable.",
+      "message_ar": "قراءة مبكرة: BLER يتجه للانخفاض إلى ~3–4%، وفشل التسليم نحو ~3–4%؛ البث يبدو مستقراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Logging the change and observations in a service record and setting targeted monitoring for the next busy hour; I have created a ticket to track this post-maintenance correction.",
+      "message_ar": "أقوم بتوثيق التغيير والملاحظات في سجل خدمة وتعيين مراقبة مستهدفة للساعة المزدحمة التالية؛ تم إنشاء تذكرة لمتابعة تصحيح ما بعد الصيانة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Do you have a rollback guard if KPIs regress?",
+      "message_ar": "تم. هل لديك آلية تراجع إذا تدهورت مؤشرات الأداء؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Yes—if handover failures exceed 6% or BLER rises above 6% during the watch window, we will revert to the previous snapshot and recheck for residual drift; I will update the ticket after the window.",
+      "message_ar": "نعم—إذا تجاوز فشل التسليم 6% أو ارتفع BLER فوق 6% خلال نافذة المراقبة، سنعود إلى اللقطة السابقة ونعيد الفحص لأي انحراف متبقٍ؛ سأحدّث التذكرة بعد انتهاء النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—handover failures are trending down and BLER is stable; the config push to align live settings resolved the discrepancies. Let’s monitor for the next 2–4 hours; tracking under DU-CFG-04567.",
+      "message_ar": "تم تأكيد التحسن—فشل التسليم في انخفاض وBLER مستقر؛ دفع الإعدادات لمواءمة التكوين الحي عالج الفروقات. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة؛ المتابعة ضمن DU-CFG-04567."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we’ll own the 2–4 hour watch and provide an update in the ticket afterward. If degradation returns, we will escalate to field support and roll back to the pre-change config.",
+      "message_ar": "مفهوم—سنتولى المراقبة لمدة 2–4 ساعات ونقدّم تحديثاً في التذكرة بعد ذلك. إذا عاد التدهور سنصعّد للدعم الميداني ونعيد الإعدادات إلى ما قبل التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburban-Cell-7821",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG-NR-7821-BASE-2025-09-13-01"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Aligned live config with OSS for NR-Suburban-Cell-7821; corrected 4 mismatches (drift ~8h); monitor HO and BLER next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an OSS vs live configuration mismatch on a suburban NR macro after maintenance, with 4 discrepancies (drift age ~8h) correlating with elevated handover failures and BLER. Executed a configuration push to align the live settings with the baseline and opened a tracking ticket. KPIs improved immediately; continued monitoring is planned through the next busy hours.",
+    "ar": "تم تشخيص تعارض بين إعدادات النظام والإعدادات الحية على موقع NR ماكرو شبه حضري بعد الصيانة، مع 4 فروقات (عمر الانحراف ~8 ساعات) ارتبطت بارتفاع فشل التسليم وBLER. تم تنفيذ دفع إعدادات لِمواءمة التكوين الحي مع المرجع وفتح تذكرة للمتابعة. تحسنت مؤشرات الأداء فوراً؛ وسيستمر الرصد خلال ساعات الذروة القادمة."
+  }
+}

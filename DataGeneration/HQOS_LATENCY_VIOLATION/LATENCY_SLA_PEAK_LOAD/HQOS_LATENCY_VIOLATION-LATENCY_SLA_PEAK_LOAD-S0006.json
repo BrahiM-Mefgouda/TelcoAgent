@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0006",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell shows latency SLA breach over the last 2h with p95 ~79 ms and median 63 ms, slow data (p50 ~7 Mbps), and a congestion alarm active during the shoulder period with enterprise private traffic.",
+    "ar": "خلية ماكرو NR حضرية تُظهر خرقًا لاتفاقية زمن الاستجابة خلال آخر ساعتين مع p95 ~79 مللي ثانية ووسيط 63 مللي ثانية، وبيانات بطيئة (p50 ~7 ميجابت/ث)، وتنبيه ازدحام نشط خلال فترة الكتف مع حركة مؤسسية خاصة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell breaching latency SLA in the last 2h; p95 ~79 ms, median 63 ms. Alarm indicates congestion with 258 users, PRB ~88%, BLER ~4.6%, and slow data (p50 ~7 Mbps). Need assistance.",
+      "message_ar": "خلية ماكرو 5G NR حضرية تتجاوز اتفاقية زمن الاستجابة خلال آخر ساعتين؛ p95 ~79 مللي ثانية، والوسيط 63 مللي ثانية. يوجد تنبيه ازدحام مع 258 مستخدمًا، وإشغال موارد ~88%، وBLER ~4.6%، وبيانات بطيئة (p50 ~7 ميجابت/ث). نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics. First, I’ll pull OSS counters and config for the last 2h. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأتولى التشخيص. أولًا سأجلب عدادات وتهيئة OSS لآخر ساعتين. يرجى تأكيد معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-UST-0451A. Read-only access approved for the last 2 hours.",
+      "message_ar": "معرّف الخلية NR-UST-0451A. تم اعتماد وصول القراءة لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS health pulled: PRB 88%, active users 258, BLER 4.6%, no hardware faults or recent resets. Next, I will analyze latency time series to correlate spikes with load and scheduler. Approve the timeseries pull?",
+      "message_ar": "تم جلب حالة OSS: إشغال الموارد 88%، المستخدمون النشطون 258، BLER 4.6%، لا أعطال عتادية أو إعادة تشغيل حديثة. التالي سأحلل السلسلة الزمنية للكمون لربط الارتفاعات بالحمل والجدولة. هل توافق على السحب؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency timeseries confirms shoulder-hour spikes: p95 peaked 78–80 ms with rising queue depth; median throughput dipped to ~7 Mbps. Likely cause: under-provisioned scheduler/HQoS for enterprise private mix. I will perform a controlled parameter optimization to prioritize low-latency bearers and trim buffering. Approve the change?",
+      "message_ar": "تؤكد السلسلة الزمنية ارتفاعات زمن الاستجابة في فترة الكتف: بلغ p95 78–80 مللي ثانية مع ازدياد عمق الطوابير؛ انخفض الوسيط إلى ~7 ميجابت/ث. السبب المحتمل: إعدادات جدولة/HQoS غير كافية مع حركة مؤسسية. سأجري تحسينًا مضبوطًا للمعلمات لإعطاء أولوية للتدفقات ذات الكمون المنخفض وتقليل التخزين المؤقت. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully with a brief change window (<1 min). Early effects (5 min): p95 trending from 55 → 47 ms, stable UL/DL, no error spikes. I will continue watching KPIs; please confirm user experience on active sessions.",
+      "message_ar": "تم تطبيق التحسين بنجاح بنافذة تغيير قصيرة (<1 دقيقة). التأثيرات الأولية (5 دقائق): p95 يتجه من 55 → 47 مللي ثانية، ثبات UL/DL دون طفرات أخطاء. سأواصل مراقبة المؤشرات؛ يرجى تأكيد تجربة المستخدم في الجلسات النشطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field check: enterprise users report more responsive apps; current latency around 42–48 ms. No drops observed.",
+      "message_ar": "تحقق ميداني: المستخدمون المؤسسيون يبلّغون عن استجابة أفضل للتطبيقات؛ الزمن الحالي حوالي 42–48 مللي ثانية. لا انقطاعات ملحوظة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. We’ll hold current tuning and continue observing for stability through the remainder of the shoulder period.",
+      "message_ar": "تحسن جيد. سنُبقي الضبط الحالي ونواصل المتابعة للتحقق من الاستقرار لبقية فترة الكتف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data complaints are down and median latency is lower. Action taken was parameter optimization on the site. Please monitor through the next busy hour (2–4 hours) and advise.",
+      "message_ar": "تحسّن ملحوظ: شكاوى بطء البيانات انخفضت والكمون الوسيط أقل. الإجراء المتخذ كان تحسين معلمات الموقع. يرجى المتابعة خلال ساعة الذروة التالية (2–4 ساعات) وإفادتنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next 2–4 hours and report updated latency and PRB trends. If degradation recurs, we will escalate for offloading; if any adverse effects appear, we will roll back to previous settings. Today’s action: scheduler/QoS parameter tuning.",
+      "message_ar": "تم. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونقدم تحديثًا لاتجاهات الكمون وإشغال الموارد. إذا عاد التدهور سنصعّد للحلول التفريغية، وإذا ظهرت آثار سلبية سنعود إلى الإعدادات السابقة. إجراء اليوم: ضبط معلمات الجدولة/جودة الخدمة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Latency SLA violations on the urban 5G macro cell were driven by high load with under-provisioned scheduler/QoS during the shoulder period. We verified via OSS counters and latency time series, then mitigated with site parameter tuning to prioritize low-latency traffic and reduce buffering. Post-change latency improved and short-term monitoring was initiated.",
+    "ar": "نتجت انتهاكات زمن الاستجابة في خلية 5G الماكرو الحضرية عن حمل عالٍ مع إعدادات جدولة/جودة خدمة غير كافية خلال فترة الكتف. تحققنا عبر عدادات OSS والسلسلة الزمنية للكمون، ثم خففناها من خلال ضبط معلمات الموقع لإعطاء أولوية لحركة الكمون المنخفض وتقليل التخزين المؤقت. تحسّن الكمون بعد التغيير وتم بدء مراقبة قصيرة المدى."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0001",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Congestion alarm on an urban NR macro cell over the last 3h with PRB ~91%, low SINR (~1 dB) indicating interference/signal overlap, BLER ~7%, and DL/UL 15/4 Mbps impacting users.",
+    "ar": "إنذار ازدحام على خلية NR ماكرو حضرية خلال آخر 3 ساعات مع استعمال PRB ~91%، وSINR منخفض (~1 ديسبل) يدل على تداخل/تراكب إشارة، وBLER ~7%، وسرعات تنزيل/رفع 15/4 ميجابت/ث تؤثر على المستخدمين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR123A-1 shows high load over the last 3h; congestion alarm active. PRB ~91%, 220 users, DL 15 Mbps/UL 4 Mbps, latency p95 44 ms, BLER ~7%, SINR ~1 dB with neighbor PCI overlap ~15. eMBB streaming users report buffering. Please investigate.",
+      "message_ar": "الخلية NR الماكرو الحضرية NR123A-1 تُظهر حملًا مرتفعًا خلال آخر 3 ساعات؛ إنذار ازدحام نشط. استعمال PRB ~91%، 220 مستخدمًا، تنزيل 15 ميجابت/ث ورفع 4 ميجابت/ث، كمون p95=44 مللي ثانية، BLER ~7%، SINR ~1 ديسبل مع تداخل PCI مجاور ~15. مستخدمو eMBB للبث يشكون من التقطّع. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion and interference. I will start by pulling NR123A-1 cell statistics from the management system for the past 3h to confirm load and scheduler bottlenecks. Please approve read-only access.",
+      "message_ar": "تم تأكيد الازدحام ووجود تداخل/تراكب إشارة. سأبدأ بسحب إحصاءات الخلية NR123A-1 من نظام الإدارة لآخر 3 ساعات للتحقق من الحمل واختناقات الجدولة. يرجى اعتماد وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved read-only access for NR123A-1.",
+      "message_ar": "تمت الموافقة على وصول القراءة فقط لـ NR123A-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: PRB >90% for ~2.4h (peak 96%), users peaked 245, DL median ~15 Mbps, SINR 0–2 dB, BLER 6–8%, HO failures ~9, scheduler latency p95 40–48 ms. Diagnosis: congestion amplified by signal overlap. Next, I propose conservative load relief via parameter tuning (admission thresholds, soft PRB cap for best-effort eMBB, fairness weights), no service interruption. Approve?",
+      "message_ar": "النتائج: استعمال PRB >90% لمدة ~2.4 ساعة (ذروة 96%)، المستخدمون حتى 245، وسيط التنزيل ~15 ميجابت/ث، SINR بين 0–2 ديسبل، BLER بين 6–8%، إخفاقات التسليم ~9، وكمون الجدولة p95 بين 40–48 مللي ثانية. التشخيص: ازدحام معزَّز بتراكب الإشارة. أقترح تاليًا تخفيفًا تحفظيًا للحمل عبر ضبط المعايير (عتبات القبول، سقف PRB مرن لحركة eMBB منخفضة الأولوية، أوزان الإنصاف) دون انقطاع خدمة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed tuning: tightened admission under high load, applied fairness weighting to reduce eMBB burstiness, set a soft PRB cap ~85%, and biased allocation toward more robust MCS under low SINR. No resets performed. Expect ~10–15% PRB drop and steadier DL throughput. I will also log a follow-up for capacity and PCI overlap review. Please confirm.",
+      "message_ar": "تم تنفيذ الضبط: تشديد القبول تحت الحمل العالي، تطبيق أوزان إنصاف لتقليل اندفاعية eMBB، تعيين سقف PRB مرن ~85%، وتحييز التخصيص نحو MCS أكثر متانة مع SINR منخفض. لم يتم إجراء أي إعادة تشغيل. المتوقع هبوط ~10–15% في PRB واستقرار أفضل للتنزيل. سأفتح أيضًا بلاغ متابعة لترقية السعة ومراجعة تداخل PCI. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, proceed with logging the follow-up.",
+      "message_ar": "مؤكد، تفضل بفتح بلاغ المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Follow-up ticket created: DU-LOAD-04128 for capacity augmentation and PCI overlap audit, including KPIs and change summary. We will monitor the cell through the next busy hour; please share any immediate field observations.",
+      "message_ar": "تم فتح بلاغ متابعة: DU-LOAD-04128 لترقية السعة وتدقيق تداخل PCI مع تضمين المؤشرات والتغييرات. سنراقب الخلية خلال ساعة الذروة القادمة؛ يرجى مشاركة أي ملاحظات ميدانية فورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "10 minutes post-change: PRB averaging ~80%, DL ~22 Mbps, SINR ~3 dB. Streaming buffering reports have dropped.",
+      "message_ar": "بعد 10 دقائق من التغيير: متوسط PRB ~80%، التنزيل ~22 ميجابت/ث، وSINR ~3 ديسبل. تقارير تقطّع البث انخفضت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Encouraging early trend; residual interference remains but within acceptable range. I’ll keep watching PRB, BLER, latency, and mobility errors through the shoulder period.",
+      "message_ar": "اتجاه مبكر مشجّع؛ لا يزال بعض التداخل قائمًا لكن ضمن نطاق مقبول. سأواصل متابعة PRB وBLER والكمون وأخطاء التنقّل خلال فترة الكتف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: resource load trending down and scheduler delay easing; PRB now ~78–82%. We applied site parameter tuning for load relief. Let’s monitor the next busy hour; reference DU-LOAD-04128.",
+      "message_ar": "تحسّن ملحوظ: عبء الموارد يتراجع وتأخر الجدولة ينخفض؛ PRB الآن ~78–82%. قمنا بتنفيذ ضبط معايير للموقع لتخفيف الحمل. لنراقب ساعة الذروة القادمة؛ المرجع DU-LOAD-04128."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket after the window. If KPIs regress, we will roll back the tuning in stages and escalate for capacity upgrade and PCI clean-up; otherwise we’ll keep the settings and close after 24h stable. Summary: diagnosed congestion with signal overlap, tuned cell parameters, and opened a follow-up ticket; ongoing monitoring in place.",
+      "message_ar": "سنكون المسؤولين عن المراقبة خلال ساعة الذروة القادمة وسنحدّث البلاغ بعد انتهاء النافذة. إذا تراجعت المؤشرات، سنعود عن جزء من الضبط على مراحل ونصعّد لترقية السعة ومعالجة PCI؛ وإلا سنحافظ على الإعدادات ونغلق بعد استقرار 24 ساعة. الملخص: تم تشخيص ازدحام مع تأثير تراكب الإشارة، وضبط معايير الخلية، وفتح بلاغ متابعة؛ والمراقبة مستمرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Sustained high PRB utilization was confirmed on the urban NR macro cell during the last 3 hours, compounded by interference/signal overlap (low SINR) degrading throughput and latency. We executed site parameter tuning to relieve load (admission and scheduler adjustments) without service interruption and created a follow-up ticket for capacity augmentation and PCI clean-up. Monitoring continues through the next busy hour with rollback/escalation prepared if KPIs regress.",
+    "ar": "تم تأكيد استمرار ارتفاع استعمال PRB على خلية NR الماكرو الحضرية خلال آخر 3 ساعات، مع تأثير تراكب الإشارة/التداخل (SINR منخفض) الذي أثر على السرعة والكمون. نفّذنا ضبطًا لمعايير الموقع لتخفيف الحمل (تعديلات القبول والجدولة) دون انقطاع للخدمة، وتم إنشاء بلاغ متابعة لترقية السعة ومعالجة PCI. تستمر المراقبة خلال ساعة الذروة القادمة مع خطة تراجع/تصعيد جاهزة إذا تدهورت المؤشرات."
+  }
+}

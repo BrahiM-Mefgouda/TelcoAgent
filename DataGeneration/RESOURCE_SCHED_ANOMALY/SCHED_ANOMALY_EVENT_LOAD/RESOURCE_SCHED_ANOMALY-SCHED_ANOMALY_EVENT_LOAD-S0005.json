@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0005",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium 5G NR micro cell shows congestion over the last 3h with PRB utilization at 89%, scheduling imbalance (fairness index 0.65, skew 28), p95 latency 106 ms, and interference / signal overlap (SINR 2 dB) under eMBB streaming load with 880 users.",
+    "ar": "خلية 5G NR صغيرة في الملعب تُظهر ازدحامًا خلال آخر 3 ساعات مع استهلاك PRB بنسبة 89%، اختلال في الجدولة (مؤشر الإنصاف 0.65 وانحراف 28)، كمون p95 يبلغ 106 مللي ثانية، وتداخل/تراكب إشارة (SINR ‏2 dB) تحت حمل eMBB للبث مع 880 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell under live event load has a congestion alarm. About 880 users, PRB ~89%, fairness ~0.65, skew 28, p95 scheduling latency ~106 ms. SINR ~2 dB indicating interference; traffic is mostly eMBB streaming.",
+      "message_ar": "خلية NR صغيرة في الملعب تحت حمل حدث مباشر وعليها إنذار ازدحام. حوالي 880 مستخدمًا، استهلاك PRB ~89%، الإنصاف ~0.65، الانحراف 28، كمون جدولة p95 ~106 مللي ثانية. قيمة SINR ~2 dB تشير إلى تداخل؛ الحركة أغلبها eMBB للبث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by querying the network management system for the affected cell over the last 3 hours to validate scheduler and QoS distribution. Please confirm the cell ID and authorize read-only access.",
+      "message_ar": "سأبدأ بالاستعلام من نظام إدارة الشبكة للخلية المتأثرة خلال آخر 3 ساعات للتحقق من بيانات المجدول وتوزيع جودة الخدمة. يرجى تأكيد مُعرّف الخلية وتفويض وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MICRO-03. Read-only access approved for the last 3 hours.",
+      "message_ar": "معرّف الخلية هو NR-STAD-MICRO-03. تمّت الموافقة على وصول القراءة فقط لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Query complete: sustained PRB >85% with peaks ~95%, p95 scheduler latency 100–110 ms, best-effort share ~60%, high-priority share ~24%. Interference indicators elevated (RSRQ -14 dB, SINR 2 dB). Next, I will analyze PRB time series over 3 hours to confirm burst patterns and fairness dips. Proceed?",
+      "message_ar": "اكتمل الاستعلام: استهلاك PRB مستدام >85% مع قمم ~95%، كمون جدولة p95 بين 100–110 مللي ثانية، حصة أفضل-جهد ~60%، وحصة الأولوية العالية ~24%. مؤشرات التداخل مرتفعة (RSRQ ‏-14 dB، SINR ‏2 dB). بعد ذلك سأحلّل السلسلة الزمنية للـ PRB خلال 3 ساعات لتأكيد نمط الذروات وانخفاض الإنصاف. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead with the time series analysis for NR-STAD-MICRO-03.",
+      "message_ar": "موافق. تابع تحليل السلسلة الزمنية للخلية NR-STAD-MICRO-03."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows bursty PRB reaching 95–98% during halftime surges; fairness drops to ~0.55 during peaks; allocation skew rises; median throughput dips while tail gap widens. This confirms a resource scheduling anomaly compounded by interference. I recommend a targeted site parameter tuning to bias high-priority QoS, cap best-effort during peaks, and tighten fairness guards. Approve change?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاعًا مفاجئًا في PRB يصل 95–98% أثناء ذروة الاستراحة؛ الإنصاف ينخفض إلى ~0.55 عند الذروات؛ يزداد انحراف التخصيص؛ ينخفض المتوسط وتتسع فجوة الذيول. هذا يؤكد وجود شذوذ في جدولة الموارد مع تفاقمه بالتداخل. أوصي بضبط معلمات الموقع لاستهداف زيادة أولوية QoS العالية، وتقييد أفضل-جهد أثناء الذروات، وتشديد حواجز الإنصاف. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization on NR-STAD-MICRO-03.",
+      "message_ar": "موافَق على تنفيذ التحسين على NR-STAD-MICRO-03."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: tuned scheduler/QoS weights, applied a peak cap for best-effort, and enforced a fairness guardrail. Expect improved latency and fairer allocation without impacting critical traffic. I’ll watch immediate KPIs for the next 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين: ضبط أوزان المجدول/جودة الخدمة، تطبيق سقف عند الذروة لحركة أفضل-جهد، وفرض حاجز إنصاف. نتوقع تحسنًا في الكمون وتوزيعًا أكثر إنصافًا دون التأثير على الحركة الحرجة. سأراقب المؤشرات الفورية خلال 10–15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: fairness index up to ~0.78, high-priority share ~33%, and p95 scheduling latency down to ~78 ms. No new alarms.",
+      "message_ar": "المؤشرات الأولية أفضل: مؤشر الإنصاف ارتفع إلى ~0.78، حصة الأولوية العالية ~33%، وكمون جدولة p95 انخفض إلى ~78 مللي ثانية. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will continue observing PRB, latency, and QoS share during the ongoing event to ensure stability, and watch for interference spikes that could erode gains.",
+      "message_ar": "تحسن جيد. سأواصل متابعة PRB والكمون وتوزيع QoS خلال الحدث الجاري لضمان الاستقرار، ومراقبة أي ارتفاعات في التداخل قد تؤثر على المكاسب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement sustained and latency trending down. Action taken: site parameter tuning on scheduler/QoS. Let’s monitor through the next busy hour to confirm.",
+      "message_ar": "التحسن مستمر والكمون في اتجاه هبوطي. الإجراء المنفذ: ضبط معلمات الموقع على المجدول/جودة الخدمة. لنواصل المراقبة خلال ساعة الذروة التالية للتأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and report the outcome. If KPIs regress, we will roll back to prior values; if interference dominates, we will escalate to RF for interference coordination and event load mitigation.",
+      "message_ar": "تم. سنكون مسؤولين عن المراقبة خلال ساعة الذروة التالية ونقدم تقريرًا بالنتيجة. إذا تراجعت المؤشرات، سنعود إلى القيم السابقة؛ وإذا هيمن التداخل، سنصعّد إلى فريق الترددات لتنسيق الحد من التداخل وتخفيف حمل الحدث."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on a stadium NR micro cell during an event: high PRB load with interference led to poor fairness, skewed allocation, and elevated scheduling latency. Validated with management system data and PRB time series, then mitigated via site parameter tuning to prioritize critical QoS, cap best-effort during peaks, and reinforce fairness. Post-change, fairness and latency improved, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص شذوذ في جدولة الموارد على خلية NR صغيرة في ملعب أثناء حدث: حمل PRB مرتفع مع تداخل أدى إلى انخفاض الإنصاف، وانحراف في التخصيص، وارتفاع كمون الجدولة. تم التحقق عبر بيانات نظام الإدارة وسلسلة زمنية للـ PRB، ثم تم التخفيف عبر ضبط معلمات الموقع لإعطاء أولوية لـ QoS الحرجة، وتقييد أفضل-جهد أثناء الذروات، وتعزيز الإنصاف. بعد التغيير تحسّن الإنصاف والكمون، وسيجري مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

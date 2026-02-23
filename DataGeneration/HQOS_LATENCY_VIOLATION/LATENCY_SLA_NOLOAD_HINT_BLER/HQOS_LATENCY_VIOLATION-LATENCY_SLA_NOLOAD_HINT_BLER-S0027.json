@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0027",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro over the last 3h shows latency ~44 ms with 6.4% BLER, SINR -2 dB indicating interference / signal overlap, ~74% resource use, and p50 throughput 12 Mbps.",
+    "ar": "موقع NR ماكرو في منطقة ضواحي خلال آخر 3 ساعات يُظهر زمناً انتقالياً ~44 مللي ثانية مع BLER بنسبة 6.4% وSINR = -2 dB ما يشير إلى تداخل/تراكب الإشارة، وإشغال موارد ~74%، ومعدل نقل وسطي p50 يساوي 12 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 3h shoulder window is breaching latency targets; users on eMBB streaming report delays. KPIs: latency ~44 ms, SINR -2 dB (interference / signal overlap), BLER 6.4%, PRB ~74%, p50 DL 12 Mbps, 206 users, RSRQ -13 dB. No active alarms.",
+      "message_ar": "موقع NR ماكرو في الضواحي خلال فترة الكتف لآخر 3 ساعات يتجاوز أهداف الكمون؛ مستخدمو بث eMBB يبلّغون عن تأخير. المؤشرات: زمن انتقال ~44 مللي ثانية، SINR = -2 dB (تداخل/تراكب الإشارة)، BLER 6.4%، إشغال PRB ~74%، سرعة تنزيل p50 = 12 ميجابت/ث، 206 مستخدمين، RSRQ -13 dB. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an OSS snapshot for the affected cell across the 3h window to validate radio/load status and QoS queues. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بلقطة حالة عبر نظام الإدارة لنفس الخلية خلال نافذة 3 ساعات للتحقق من حالة الراديو/الحمل وطوابير QoS. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR1234. Access approved.",
+      "message_ar": "معرّف الخلية: NR1234. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR1234 (last 3h): no faults, backhaul stable; DL PRB 70–75%; BLER 6–7%; poor SINR around -2 dB; RLC/PDCP queues build during bursts. This suggests retransmission-driven delay rather than pure congestion. Next, I will analyze latency over time to confirm correlation.",
+      "message_ar": "نتيجة فحص نظام الإدارة للخلية NR1234 (آخر 3 ساعات): لا أعطال، الربط الخلفي مستقر؛ إشغال PRB للتحميل 70–75%؛ BLER بين 6–7%؛ SINR ضعيف حوالي -2 dB؛ طوابير RLC/PDCP تتزايد أثناء الاندفاعات. هذا يشير إلى تأخير ناتج عن إعادة الإرسال وليس ازدحاماً خالصاً. بعد ذلك سأحلّل زمن الانتقال زمنياً لتأكيد الارتباط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood.",
+      "message_ar": "تم الفهم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency timeseries for 3h shows median ~42–45 ms with periodic spikes 55–60 ms aligned with BLER upticks and MCS drops; PRB stays <80%. Conclusion: interference-limited link adaptation inflates queueing delay for default QoS. I will mitigate via targeted parameter tuning.",
+      "message_ar": "السلسلة الزمنية للكمون خلال 3 ساعات تُظهر وسيطاً ~42–45 مللي ثانية مع قمم دورية 55–60 مللي ثانية متزامنة مع ارتفاع BLER وانخفاض MCS؛ وإشغال PRB أقل من 80%. الاستنتاج: تقييد التغطية بالتداخل يحد من تكيّف الرابط ويرفع تأخير الطوابير لفئة QoS الافتراضية. سأخفف ذلك عبر ضبط مُوجّه للمعلمات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Planned changes: tighten BLER target slightly, raise scheduler weight for low-latency bearers, and lower retransmission ceiling to curb HARQ loops; minor tweak to link adaptation aggressiveness. Low risk, no service interruption. Approve to apply now?",
+      "message_ar": "التغييرات المخططة: تشديد طفيف لهدف BLER، رفع وزن المجدول لحوامل الكمون المنخفض، وخفض حد إعادة الإرسال للحد من دورات HARQ؛ مع تعديل طفيف لشدة تكيّف الرابط. مخاطرة منخفضة دون انقطاع خدمة. هل توافق على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter set applied on NR1234 successfully. Early impact (5–10 min): BLER down to ~4.5–5%, median latency ~28–32 ms, spikes capped <40 ms; throughput steady; SINR unchanged (RF condition persists). I will continue to watch through the next busy interval.",
+      "message_ar": "تم تطبيق مجموعة المعلمات على NR1234 بنجاح. الأثر المبكر (5–10 دقائق): انخفض BLER إلى ~4.5–5%، والكمون الوسيط ~28–32 مللي ثانية، والقمم أقل من 40 مللي ثانية؛ معدل النقل مستقر؛ SINR غير متغير (الظرف اللاسلكي قائم). سأستمر بالمراقبة خلال الفترة المزدحمة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency spikes are trending down and median delay is lower. Action taken was site parameter tuning for scheduling and retransmissions. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسناً: قمم الكمون في اتجاه هبوطي والكمون الوسيط أقل. الإجراء كان ضبط معلمات الموقع للمجدول وإعادة الإرسال. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour watch and report post-window latency and BLER. If latency regresses, we will rollback the parameter set and escalate to interference mitigation via neighbor/antenna optimization; otherwise, we will keep the tuning.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة التالية ونقدم تقريراً بعد النافذة عن الكمون وBLER. إذا تراجع الأداء، سنرجع عن مجموعة المعلمات ونصعّد إلى تخفيف التداخل عبر تحسين الجيران/الهوائيات؛ وإلا سنُبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Latency SLA breaches on the suburban NR macro were diagnosed as interference-induced retransmissions under moderate load, evidenced by low SINR and BLER-correlated latency spikes. We validated live status, reviewed latency trends, and applied site parameter tuning to tighten BLER targets and prioritize low-latency traffic. Initial results show lower median delay and capped spikes; continued monitoring is planned for the next busy hour.",
+    "ar": "تم تشخيص تجاوزات SLA للكمون في موقع NR الماكرو بالضواحي بأنها ناتجة عن إعادة إرسال بسبب التداخل مع حمل متوسط، بدلالة SINR منخفض وارتفاعات كمون مرتبطة بـ BLER. تحققنا من الحالة الحية، واستعرضنا اتجاهات الكمون، وطبقنا ضبطاً لمعلمات الموقع لتشديد هدف BLER وإعطاء أولوية لحركة المرور منخفضة الكمون. تشير النتائج الأولية إلى انخفاض الكمون الوسيط وحدّ القمم؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

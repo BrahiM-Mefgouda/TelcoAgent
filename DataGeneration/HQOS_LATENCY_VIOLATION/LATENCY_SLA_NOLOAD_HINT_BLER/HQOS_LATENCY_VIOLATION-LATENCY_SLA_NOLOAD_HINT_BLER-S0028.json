@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0028",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G macro shows median latency ~69 ms over the last 3h during peak with PRB ~69%, BLER ~12%, SINR 10 dB, and p50 throughput 9 Mbps; investigate latency SLA breach impacting eMBB streaming.",
+    "ar": "موقع ماكرو 5G في منطقة ضواحي يسجّل زمناً وسطياً للتأخير ~69 مللي ثانية خلال آخر 3 ساعات أثناء الذروة مع استخدام موارد ~69% ونسبة أخطاء ~12% وSINR عند 10 ديسيبل ومعدل نقل وسطي 9 ميجابت/ث؛ نحتاج للتحقق من خرق اتفاقية التأخير المؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During peak over the last 3h, latency is around 69 ms on a suburban NR macro cell; p50 throughput ~9 Mbps, BLER ~12%, users ~216. Please investigate the latency SLA drift.",
+      "message_ar": "خلال فترة الذروة في آخر 3 ساعات، التأخير حوالى 69 مللي ثانية على خلية NR ماكرو في الضواحي؛ معدل نقل وسيطي ~9 ميجابت/ث، BLER ~12%، وعدد المستخدمين ~216. يرجى التحقيق في انحراف التأخير عن اتفاقية الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by collecting the last 3h KPIs for the specific cell, then analyze the latency profile and correlate with BLER and load. Please share the cell ID and grant read-only access; if confirmed, I’ll proceed to targeted tuning to reduce queueing and retransmissions.",
+      "message_ar": "سأبدأ بجمع مؤشرات الأداء لآخر 3 ساعات للخلية المعنية، ثم تحليل ملف التأخير وربطه مع BLER والتحميل. الرجاء تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة فقط؛ وإذا تأكدت المشكلة سأتابع بضبط انتقائي لتقليل الاصطفاف وإعادة الإرسال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-123. You have read-only access. Traffic is mainly eMBB with streaming peaks; no site alarms.",
+      "message_ar": "معرّف الخلية هو NR-SUB-123. لديك صلاحية قراءة فقط. الحمل الرئيسي eMBB مع ذروة للبث، ولا توجد إنذارات على الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 3h KPIs for NR-SUB-123: PRB utilization 68.7%, BLER 12.4%, RSRQ -14 dB, SINR 10 dB, users peak 216; median latency ~69 ms, no faults indicated. Next, I’ll analyze the latency time series for this window to locate spikes and persistence. Proceed?",
+      "message_ar": "تم جمع مؤشرات 3 ساعات للخلية NR-SUB-123: استخدام PRB بنسبة 68.7%، BLER 12.4%، RSRQ عند -14 ديسيبل، SINR عند 10 ديسيبل، وعدد المستخدمين بلغ الذروة 216؛ التأخير الوسطي ~69 مللي ثانية ولا توجد أعطال. التالي، سأحلل سلسلة زمنية للتأخير ضمن هذه الفترة لتحديد القمم واستمراريتها. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead with the latency time-series review.",
+      "message_ar": "موافق. تفضل بمراجعة السلسلة الزمنية للتأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency shows sustained 60–80 ms during the busy hour with 95th percentile >110 ms; spikes align with BLER rises, indicating queueing plus retransmissions. I recommend a targeted optimization: adjust QoS scheduler weighting and slightly temper aggressiveness under poorer radio to lower BLER and latency while protecting throughput. Requesting approval to apply minor tuning.",
+      "message_ar": "تبيّن السلسلة الزمنية تأخيراً مستمراً بين 60–80 مللي ثانية خلال ساعة الانشغال مع 95٪ يتجاوز 110 مللي ثانية؛ القمم تتوافق مع ارتفاع BLER، ما يشير إلى اصطفاف وإعادات إرسال. أوصي بضبط انتقائي: تعديل أوزان المجدول الخاصة بالجودة وتخفيف العدوانية في ظروف الراديو الأضعف لخفض BLER والتأخير مع الحفاظ على معدل النقل. أطلب الموافقة لتطبيق ضبط طفيف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the minor tuning on NR-SUB-123.",
+      "message_ar": "موافقة على تطبيق الضبط الطفيف على NR-SUB-123."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on NR-SUB-123: QoS latency weighting refined, scheduling fairness adjusted, and conservative behavior under high error conditions enabled. Initial check: BLER down to ~9–10%, median latency ~48–52 ms, p50 throughput ~10–11 Mbps. I will continue short-term observation.",
+      "message_ar": "تم تطبيق الضبط على NR-SUB-123: تحسين أوزان الجودة الخاصة بالتأخير، تعديل عدالة الجدولة، وتفعيل سلوك محافظ تحت ظروف الأخطاء المرتفعة. الفحص الأولي: هبوط BLER إلى ~9–10%، التأخير الوسطي ~48–52 مللي ثانية، ومعدل النقل الوسطي ~10–11 ميجابت/ث. سأواصل المراقبة القصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing latency trending down on my side as well; interactive streaming feels snappier. Any further checks needed from me?",
+      "message_ar": "ألاحظ أيضاً انخفاض اتجاه التأخير لديّ؛ أداء البث التفاعلي أصبح أسرع. هل هناك فحوصات أخرى مطلوبة مني؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "No further action needed from your side now. I’ll consolidate observations and prepare to track stability across the next peak period.",
+      "message_ar": "لا حاجة لإجراء إضافي من جانبكم الآن. سأجمع الملاحظات وأستعد لمتابعة الاستقرار خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good improvement noted: median latency is now around 50 ms and trending down. Action taken was site parameter optimization for QoS latency and scheduling. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن جيد: التأخير الوسطي الآن نحو 50 مللي ثانية ويتناقص. الإجراء المتخذ كان ضبط معلمات الموقع الخاصة بجودة الخدمة والتجدولة. لنتابع المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and share the post-window latency, BLER, and user-impact summary. If latency regresses or BLER rises, we will roll back the tuning and escalate to RF optimization for deeper analysis.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الانشغال القادمة ونشارك ملخص التأخير وBLER وتأثير المستخدمين بعد الفترة. إذا تراجع الأداء أو ارتفع BLER، سنقوم بالتراجع عن الضبط والتصعيد إلى تحسينات RF لمزيد من التحليل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-123",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "QoS_latency_scheduler_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The agent confirmed a latency SLA violation on a suburban NR macro cell by reviewing recent KPIs and analyzing the latency time series, finding peaks aligned with elevated BLER and moderate load during the busy hour. Site parameter tuning was applied to refine QoS scheduling and temper aggressiveness under high-error conditions, which reduced BLER and lowered median latency. The agent will monitor through the next busy hour and report outcomes; rollback and escalation are prepared if metrics regress.",
+    "ar": "أكد الوكيل خرق اتفاقية التأخير على خلية NR ماكرو في الضواحي عبر مراجعة مؤشرات الأداء وتحليل السلسلة الزمنية للتأخير، حيث تبيّن أن القمم متزامنة مع ارتفاع BLER وحمل متوسط خلال ساعة الذروة. تم تنفيذ ضبط لمعلمات الموقع لتحسين جدولة الجودة وتخفيف العدوانية تحت ظروف الأخطاء المرتفعة، مما خفّض BLER وخفّض التأخير الوسطي. سيستمر الوكيل في المراقبة خلال ساعة الذروة القادمة ويبلغ بالنتائج، مع جاهزية التراجع والتصعيد إذا تدهورت المؤشرات."
+  }
+}

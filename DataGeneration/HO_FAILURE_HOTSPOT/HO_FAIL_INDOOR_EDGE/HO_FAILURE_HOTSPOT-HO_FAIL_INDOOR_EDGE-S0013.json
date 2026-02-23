@@ -1,0 +1,110 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0013",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Indoor office wing 5G micro cell shows handover success at 82% with 12% failures and 27% ping‑pong during peak eMBB streaming, alongside interference / signal overlap and median downlink 22 Mbps over the last 4 hours.",
+    "ar": "خلية 5G ميكرو داخلية في جناح مكتب تُظهر نجاح تسليم 82% وفشل 12% مع 27% تبادل سريع خلال ذروة بث eMBB، مع وجود تداخل/تراكب الإشارة ومتوسط تنزيل 22 ميجابت/ث في آخر 4 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cell at office L3 wing degraded in the last 4h peak: HO success 82%, failures 12%, ping‑pong 27%. Quality low (RSRP ~ -102 dBm, RSRQ -11, SINR ~1 dB). 186 users, median DL 22 Mbps; heavy eMBB streaming. No alarms.",
+      "message_ar": "خلية NR ميكرو داخلية في جناح المكتب بالطابق L3 تدهورت خلال ذروة آخر 4 ساعات: نجاح التسليم 82%، الفشل 12%، التبادل السريع 27%. الجودة منخفضة (RSRP ~ -102 dBm، RSRQ -11، SINR ~1 dB). 186 مستخدمًا، وسيط downlink 22 ميجابت/ث؛ بث eMBB كثيف. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start with an indoor coverage/dominance heatmap for the L3 wing to pinpoint interference/signal overlap and late‑HO zones using the 4h window. Please confirm access; I’ll reference cell NR-IND-MICRO-031 and the L3 wing grid.",
+      "message_ar": "مفهوم. سأبدأ بخريطة تغطية/هيمنة داخلية لجناح L3 لتحديد التداخل/تراكب الإشارة ومناطق التسليم المتأخر باستخدام نافذة 4 ساعات. يرجى تأكيد صلاحية الوصول؛ سأعتمد الخلية NR-IND-MICRO-031 وشبكة جناح L3."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID NR-IND-MICRO-031, office L3 east corridor and elevators; high footfall near the cafeteria.",
+      "message_ar": "تمت الموافقة على الوصول. معرّف الخلية NR-IND-MICRO-031، ممر الجهة الشرقية بالطابق L3 والمصاعد؛ حركة كثيفة قرب الكافيتريا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage analysis isolates a hotspot along the east corridor: serving ~-102 dBm with SINR 0–2 dB, overlap with a macro and adjacent indoor cell at the elevator bank; boundaries match the high ping‑pong zone. I propose targeted mobility tuning: +1 dB neighbor offset toward the dominant indoor neighbor on that edge and increase TTT from ~220 ms to ~280 ms for the oscillating macro pair to damp toggling. Proceed to apply?",
+      "message_ar": "تحليل التغطية يحدد نقطة ساخنة على طول الممر الشرقي: الخدمة ~-102 dBm مع SINR بين 0–2 dB، وتداخل مع خلية ماكرو وخلية داخلية مجاورة عند المصاعد؛ الحدود تتطابق مع منطقة التبادل السريع المرتفع. أقترح ضبطًا مستهدفًا للحركية: زيادة إزاحة الجار +1 dB نحو الجار الداخلي المسيطر على ذلك الحد ورفع وقت التحفيز TTT من ~220 ms إلى ~280 ms لزوج الماكرو المتذبذب لتخفيف التبديل. هل أتابع التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "موافق على تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization: applied +1 dB neighbor-specific offset at the east corridor edge and raised TTT to ~280 ms for the macro pair; other thresholds unchanged. No service interruption expected; counters refresh in ~15 minutes.",
+      "message_ar": "جارٍ تنفيذ التحسين: تم تطبيق إزاحة +1 dB خاصة بالجار على حد الممر الشرقي ورفع TTT إلى ~280 ms لزوج الماكرو؛ بقية العتبات دون تغيير. لا يتوقع انقطاع خدمة؛ سيتم تحديث المؤشرات خلال ~15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Early signs show HO failures starting to drop; no new alarms. I’ll watch user feedback near the elevators.",
+      "message_ar": "تم. المؤشرات المبكرة تظهر بدء انخفاض حالات فشل التسليم؛ لا توجد إنذارات جديدة. سأراقب ملاحظات المستخدمين قرب المصاعد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. With the offset and TTT changes, we expect earlier selection of the indoor neighbor and fewer ping‑pong loops. Let’s observe HO success and ping‑pong for 30–60 minutes; target >88% success and <20% ping‑pong.",
+      "message_ar": "جيد. مع تغييرات الإزاحة ووقت التحفيز نتوقع اختيارًا أبكر للجار الداخلي وتقليل حلقات التبادل السريع. لنتابع نجاح التسليم والتبادل السريع لمدة 30–60 دقيقة؛ الهدف >88% نجاح و<20% تبادل سريع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~45 minutes: HO success is 89%, ping‑pong 18%, corridor SINR ~3 dB; median DL steady at 22–24 Mbps.",
+      "message_ar": "بعد ~45 دقيقة: نجاح التسليم 89%، التبادل السريع 18%، SINR في الممر ~3 dB؛ وسيط التنزيل مستقر عند 22–24 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Results are on track. I recommend keeping the tuning and continuing observation through the next busy period to confirm stability.",
+      "message_ar": "النتائج تسير بشكل صحيح. أوصي بالإبقاء على الضبط ومواصلة المراقبة خلال فترة الانشغال القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement—handover failures trending down with success ~89%. Action taken: site parameter tuning on offsets and time‑to‑trigger. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة التحسن—انخفاض في فشل التسليم مع نجاح ~89%. الإجراء المتخذ: ضبط معلمات الموقع على الإزاحات ووقت التحفيز. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy‑hour monitoring and provide an update afterward. If metrics regress, we will roll back the tuning and escalate for deeper RF checks; otherwise we will keep the change in place.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة ونقدم تحديثًا بعدها. إذا تراجعت المؤشرات سنعيد الضبط السابق ونصعّد لإجراء فحوصات RF أعمق؛ وإلا فسنُبقي التغيير مطبقًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "office-wing L3"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "neighbor-specific A3/CIO and TTT tuning for indoor edge hotspot"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "The indoor office wing NR micro cell showed a handover failure hotspot driven by interference/signal overlap at the L3 east corridor with weak serving levels and competing neighbors. We analyzed the indoor coverage heatmap and applied site parameter tuning—adjusting neighbor-specific offset and time-to-trigger—to favor the dominant indoor cell and reduce ping‑pong. Post-change, handover success improved and ping‑pong declined; we will monitor through the next busy hour.",
+    "ar": "أظهرت خلية NR الميكرو الداخلية في جناح المكتب نقطة ساخنة لفشل التسليم بسبب التداخل/تراكب الإشارة في الممر الشرقي بالطابق L3 مع ضعف مستوى الخدمة وتنافس الجيران. قمنا بتحليل خريطة التغطية الداخلية وتطبيق ضبط معلمات الموقع—بتعديل إزاحة الجار ووقت التحفيز—لترجيح الخلية الداخلية المسيطرة وتقليل التبادل السريع. بعد التغيير تحسن نجاح التسليم وانخفض التبادل السريع؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

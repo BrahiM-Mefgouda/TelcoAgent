@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0007",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows a 3h radio link failure spike during shoulder hours: RSRQ −17 dB, SINR 6 dB, BLER 12.8%, handover failure 19% (success ~79%), p50 throughput 11 Mbps with 219 users and 64% PRB utilization.",
+    "ar": "محطة ماكرو 5G NR في منطقة ضاحية تعرض ارتفاعاً في فقد الرابط خلال آخر 3 ساعات في فترة الكتف: RSRQ −17 dB، ‏SINR ‏6 dB، ‏BLER ‏12.8%، فشل التسليم 19% (النجاح ~79%)، ومتوسط سرعة 11 Mbps مع 219 مستخدماً واستخدام PRB ‏64%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a 3h RLF spike on a suburban 5G NR macro during shoulder hours. HO failures ~19% (success ~79%), RSRQ ~-17 dB, SINR ~6 dB, BLER ~12.8%, p50 DL ~11 Mbps, 219 users, PRB ~64%. Please check.",
+      "message_ar": "نلاحظ ارتفاعاً في RLF خلال 3 ساعات على محطة ماكرو 5G NR في منطقة ضاحية بفترة الكتف. فشل التسليم ~19% (النجاح ~79%)، RSRQ حوالي -17 dB، ‏SINR ~6 dB، ‏BLER ~12.8%، سرعة وسيطة ~11 Mbps، 219 مستخدماً، واستخدام PRB ~64%. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. To start, I will pull the last 3h operational counters and current mobility config. Please confirm the exact cell ID and approve access.",
+      "message_ar": "تم. للبدء سأقوم بجلب مؤشرات التشغيل لآخر 3 ساعات وتهيئة الحركة الحالية. يرجى تأكيد معرّف الخلية الدقيق والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-MACRO-123. Access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-MACRO-123. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 3h counters and config now. Snapshot shows: RLF rate ~5.1%, HO success 79.2%, HO failures 19%, BLER 12.8%, PRB 63.8%, users 219, no site alarms. Pattern suggests mobility edge stress during shoulder traffic. Next, I will review the RLF time series and neighbor contribution to locate the spike source.",
+      "message_ar": "أجري الآن سحب المؤشرات لآخر 3 ساعات والتهيئة. الخلاصة: RLF ~5.1%، نجاح التسليم 79.2%، فشل التسليم 19%، BLER 12.8%، PRB 63.8%، عدد المستخدمين 219، ولا توجد إنذارات بالموقع. النمط يوحي بضغط على أطراف التغطية خلال فترة الكتف. الخطوة التالية: سأراجع السلسلة الزمنية لـ RLF ومساهمة الجيران لتحديد مصدر الارتفاع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافقة على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series indicates two RLF surges between 16:20–17:10, aligned with shoulder eMBB streaming load. About 58% of RLFs follow late A3 events toward NR-SUB-MACRO-121 and -124, pointing to delayed handover at the border. I will mitigate by modestly tightening handover thresholds and TTT, with a slight bias toward those neighbors. Please approve the optimization.",
+      "message_ar": "السلسلة الزمنية تُظهر موجتين من RLF بين 16:20–17:10 متزامنة مع حمل بث eMBB في فترة الكتف. حوالي 58% من حالات RLF تأتي بعد أحداث A3 متأخرة نحو NR-SUB-MACRO-121 و-124، ما يشير إلى تسليم متأخر عند الحدود. سأخفّف ذلك عبر تشديد طفيف لعَتبات التسليم ووقت TTT مع انحياز بسيط نحو هذين الجارين. يرجى اعتماد عملية التحسين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Optimization approved. You have an immediate window.",
+      "message_ar": "تمت الموافقة على التحسين. لديك نافذة تنفيذ فورية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying mobility optimization now: slight TTT reduction at the edge, small neighbor-specific offset adjustment toward 121/124, and a minor hysteresis tweak to reduce late/failed HOs. Change committed successfully. I’ll observe RLF and HO counters for the next 15 minutes.",
+      "message_ar": "أقوم الآن بتطبيق تحسينات الحركة: خفض طفيف لـ TTT على الأطراف، تعديل بسيط للإزاحة نحو الجارين 121/124، وتعديل بسيط للتباطؤ للحد من التسليم المتأخر/الفاشل. تم اعتماد التغيير بنجاح. سأراقب مؤشرات RLF والتسليم خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Preliminary check after 15 min: RLF events down ~32%, HO success ~86%, BLER unchanged, no access issues observed.",
+      "message_ar": "فحص أولي بعد 15 دقيقة: تراجعت أحداث RLF بحوالي 32%، نجاح التسليم ~86%، BLER بدون تغيير، ولا توجد مشاكل نفاذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. PRB remains ~64% with stable throughput; no abnormal paging or attach. I recommend confirming stability over the next busy period.",
+      "message_ar": "مؤشرات جيدة. يظل PRB ~64% مع ثبات في السرعة؛ ولا توجد حالات غير طبيعية في الترحيل أو الارتباط. أوصي بتأكيد الاستقرار خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed—trend is positive: RLF events trending down and handover success near 86% after the mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "متفقون—الاتجاه إيجابي: حالات RLF في تراجع ونسبة نجاح التسليم قرابة 86% بعد تحسين معاملات الحركة. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and share a status update afterward. If degradation returns, we will roll back the mobility tweaks and escalate to RF for neighbor retuning and field validation.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة ونشارك تحديث الحالة بعدها. إذا عادت المشكلة، سنُرجع تعديلات الحركة ونصعّد للفرق اللاسلكية لإعادة ضبط الجيران والتحقق الميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated the RLF spike by pulling a 3h OSS snapshot and reviewing the RLF time series, which showed surges during shoulder traffic and late handovers toward two neighbors. Mitigation was applied via site parameter tuning of handover thresholds, TTT, and hysteresis. Early results show reduced RLFs and improved handover success; we will continue monitoring through the next busy hour.",
+    "ar": "تم فحص ارتفاع RLF عبر سحب لقطات تشغيلية لآخر 3 ساعات ومراجعة السلسلة الزمنية لـ RLF، والتي أظهرت موجات خلال فترة الكتف وتسليمات متأخرة نحو جارَين. تم التخفيف عبر ضبط معاملات الموقع لعتبات التسليم ووقت TTT والتباطؤ. النتائج الأولية تُظهر انخفاضاً في RLF وتحسناً في نجاح التسليم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

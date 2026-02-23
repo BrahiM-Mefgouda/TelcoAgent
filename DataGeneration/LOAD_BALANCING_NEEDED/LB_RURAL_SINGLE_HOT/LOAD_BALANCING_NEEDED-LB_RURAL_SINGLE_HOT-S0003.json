@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0003",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural 5G macro sector shows ~81% resource utilization with 213 users over the last 6 hours while neighbors average ~36%, handovers are skewed outward and median downlink is 15 Mbps—requesting load balancing.",
+    "ar": "قطاع ماكرو 5G ريفي يُظهر استخدام موارد يقارب 81% مع 213 مستخدمًا خلال آخر 6 ساعات بينما متوسط الجيران حوالي 36%، وعمليات التسليم تميل إلى الخارج ومتوسط الداونلينك 15 ميجابت/ث—نطلب موازنة حمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector is hot over the last 6h: PRB ~81% with 213 users; neighbors average ~36%; median DL 15 Mbps; handovers 18 out vs 11 in per 5 min; RSRQ -9 dB, SINR 8 dB. Please investigate.",
+      "message_ar": "القطاع الماكرو NR الريفي ساخن خلال آخر 6 ساعات: استخدام الموارد ~81% مع 213 مستخدمًا؛ متوسط الجيران ~36%؛ متوسط الداونلينك 15 ميجابت/ث؛ عمليات التسليم 18 خروج مقابل 11 دخول كل 5 دقائق؛ RSRQ ‏-9 dB وSINR ‏8 dB. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by auditing adjacent NR neighbors and handover relations for the last 6h to confirm headroom and the imbalance. Please approve read access to the serving cell.",
+      "message_ar": "سأبدأ بمراجعة الجيران NR والعلاقات الخاصة بعمليات التسليم لآخر 6 ساعات للتحقق من السعة المتاحة وعدم التوازن. يرجى الموافقة على صلاحية القراءة للخلية الخادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Time of day is mixed, and eMBB streaming was impacted at peaks.",
+      "message_ar": "موافَق. أوقات الاستخدام مختلطة، وقد تأثرت خدمات البث eMBB في فترات الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit shows N1/N2/N3 at ~9–12 km with PRB 32–40% and stable RF; neighbor relations are present. Boundaries appear sticky, with imbalance index 0.26. I propose a small load-balancing bias and handover threshold retune to offload ~10–15% to N1/N2 while protecting quality. Proceed?",
+      "message_ar": "مراجعة الجيران تُظهر الخلايا N1/N2/N3 على مسافة ~9–12 كم مع استخدام موارد 32–40% وجودة راديوية مستقرة؛ العلاقات بين الجيران موجودة. الحدود تبدو لاصقة مع مؤشر عدم توازن 0.26. أقترح تحيزًا بسيطًا لموازنة الحمل وضبط عتبات التسليم لنقل ~10–15% نحو N1/N2 مع الحفاظ على الجودة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the change now; access is granted.",
+      "message_ar": "تابع التعديل الآن؛ تم منح الصلاحية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing load-balancing tuning: applying modest offload bias to neighbors and slightly relaxing the handover trigger toward N1/N2; no power/tilt changes. Expect PRB to drop to high-60s with safeguards against ping-pong. Changes applied.",
+      "message_ar": "جارٍ تنفيذ ضبط موازنة الحمل: تطبيق تحيز تحويل متزن نحو الجيران وتخفيف بسيط لمشغل التسليم باتجاه N1/N2؛ دون تغييرات في القدرة/الميل. من المتوقع هبوط استخدام الموارد إلى أواخر الستينيات مع حماية من التسليم المتأرجح. تم تطبيق التغييرات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look good: more handovers to N1/N2, no alarms, throughput steady.",
+      "message_ar": "المؤشرات الأولية جيدة: تسليمات أكثر نحو N1/N2، ولا إنذارات، ومعدل النقل ثابت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial counters show serving users down to ~180–190, PRB ~68–72%; neighbor PRB up slightly. Handover out/in gap is narrowing, and median DL trending to ~17–18 Mbps. I will continue watching stability.",
+      "message_ar": "المؤشرات الأولية تُظهر انخفاض عدد المستخدمين على الخلية الخادمة إلى ~180–190، واستخدام الموارد ~68–72%؛ مع ارتفاع طفيف لدى الجيران. فجوة التسليم خروج/دخول تتقلص، ومتوسط الداونلينك يتجه إلى ~17–18 ميجابت/ث. سأستمر بمتابعة الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "User complaints have calmed and radio quality appears stable.",
+      "message_ar": "شكاوى المستخدمين هدأت، وتبدو جودة الراديو مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep the tuning in place and observe for any edge-case ping-pong or QoE dips.",
+      "message_ar": "جيد. سأُبقي الضبط قائمًا وأراقب أي حالات متطرفة من التسليم المتأرجح أو تراجع جودة التجربة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: resource utilization dropped from ~81% to ~69% and handovers are more balanced. Action taken was load balancing parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن الملحوظ: انخفض استخدام الموارد من ~81% إلى ~69% وأصبحت عمليات التسليم أكثر توازنًا. الإجراء الذي تم هو ضبط معلمات موازنة الحمل. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and share an update afterward. If congestion returns or handover failures rise, we will roll back the tuning and investigate boundary adjustments.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارككم تحديثًا بعد ذلك. إذا عادت الازدحامات أو ارتفعت حالات فشل التسليم، سنقوم بإرجاع الضبط ونفحص حدود الخلايا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "CELL_NR_RURAL_01",
+        "all_NR_neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "LB_tuning_10pct_offload"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed the rural NR macro was hot (~81% utilization, 213 users) while nearby cells had ample headroom and handovers were skewed outward. We applied targeted site parameter tuning for load balancing to shift ~10–15% traffic to underutilized neighbors. Early results show lower utilization, more balanced handovers, and improving median downlink; we will continue monitoring through the next busy hour.",
+    "ar": "أكد تحليل الجيران أن القطاع NR الريفي كان ساخنًا (~81% استخدام و213 مستخدمًا) بينما لدى الخلايا المجاورة سعة متاحة وكانت عمليات التسليم منحازة إلى الخارج. قمنا بتطبيق ضبط موجه لمعلمات الموقع لموازنة الحمل لنقل ~10–15% من الحركة إلى الجيران منخفضي الاستخدام. النتائج المبكرة تُظهر انخفاض الاستخدام وتوازنًا أفضل في التسليم وتحسنًا في متوسط الداونلينك؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0022",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G NR macro sector shows a 6h spike in radio link failures with weak signal (RSRP -111 dBm, RSRQ -14 dB) and slow data (p50 8 Mbps), impacting eMBB streaming users.",
+    "ar": "قطاع ماكرو 5G NR ريفي يُظهر ارتفاعاً في انقطاعات رابط الراديو خلال 6 ساعات مع إشارة ضعيفة (RSRP -111 dBm، RSRQ -14 dB) وبيانات بطيئة (p50 8 Mbps)، ما يؤثر على مستخدمي البث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a radio link failure spike on rural NR macro cell NR-ALP-732-1 over the last 6 hours. RSRP ~ -111 dBm, RSRQ -14 dB, SINR ~5 dB, HO success ~87%, p50 DL ~8 Mbps, ~70 users. Please assist.",
+      "message_ar": "نلاحظ ارتفاعاً في انقطاعات رابط الراديو على خلية ماكرو NR ريفية NR-ALP-732-1 خلال آخر 6 ساعات. RSRP حوالي -111 dBm وRSRQ -14 dB وSINR حوالي 5 dB ونسبة نجاح التسليم ~87% وسرعة تنزيل وسيط ~8 Mbps وحوالي 70 مستخدماً. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by pulling 6h OSS stats for NR-ALP-732-1 to baseline coverage and mobility. Please confirm OSS read access and pre-approve safe mobility parameter tuning if required.",
+      "message_ar": "تم الفهم. سأبدأ بسحب إحصاءات 6 ساعات من النظام لإعداد خط أساس للتغطية والتنقّل لخلية NR-ALP-732-1. يرجى تأكيد صلاحية القراءة والموافقة المسبقة على ضبط معلمات التنقّل بشكل آمن إذا لزم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved, and controlled tuning within policy is pre-approved.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة، كما تمت الموافقة المسبقة على الضبط المتحكم به ضمن السياسات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS baseline (6h) pulled for NR-ALP-732-1: RSRP median -111 dBm, RSRQ -14 dB, SINR 5 dB, RLF rate 5.6%, HO success 87%, BLER 5.1%, PRB 46%, TA std 82 m, users 71, p50 DL 8 Mbps. This suggests edge coverage with late handovers. Next, I’ll drill into RLF time series over the same window.",
+      "message_ar": "تم سحب خط الأساس (6 ساعات) لخلية NR-ALP-732-1: وسيط RSRP -111 dBm وRSRQ -14 dB وSINR 5 dB ومعدل انقطاع 5.6% ونسبة نجاح التسليم 87% وBLER بنسبة 5.1% وPRB 46% وانحراف معياري للزمن المتقدم 82 م و71 مستخدماً وسرعة تنزيل وسيط 8 Mbps. هذا يشير إلى حافة تغطية مع تسليمات متأخرة. التالي: سأحلّل السلسلة الزمنية للانقطاعات لنفس النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding with a non-intrusive RLF time-series check to localize spikes by hour and conditions. Please confirm to continue.",
+      "message_ar": "سأتابع بفحص غير تدخلي للسلسلة الزمنية لانقطاعات الرابط لتحديد ساعات وأنماط الارتفاع. يرجى التأكيد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Continue.",
+      "message_ar": "مؤكد. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "RLF time series shows peaks around 08:00–09:00 and 18:00–20:00 with concurrent TA spread increase and slight SINR dips—consistent with late handover at the coverage edge. I propose mobility tuning: reduce A3 offset by 1 dB, lower TTT to 80 ms, and set HO hysteresis to 1 dB (no power change). Expected: fewer RLFs and higher HO success.",
+      "message_ar": "السلسلة الزمنية للانقطاعات تُظهر ذروات بين 08:00–09:00 و18:00–20:00 مع اتساع توزيع زمن الوصول وتحسن طفيف في الانخفاضات بسيناريو SINR، ما يتوافق مع تسليم متأخر عند حافة التغطية. أقترح ضبط التنقّل: تقليل إزاحة A3 بمقدار 1 dB، وخفض وقت التثبيت إلى 80 ms، وضبط الهسترة على 1 dB (دون تغيير القدرة). المتوقع: تقليل الانقطاعات ورفع نجاح التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR-ALP-732-1: mobility parameters updated and committed. Quick health check is clean; initial snapshot shows RLF instant rate down ~28% and HO success up ~3 pp. I’ll keep observing.",
+      "message_ar": "تم تطبيق التغيير على NR-ALP-732-1: تم تحديث معلمات التنقّل واعتمادها. فحص الصحة الأولي سليم؛ اللقطة المبدئية تُظهر انخفاضاً فورياً في الانقطاعات بحوالي 28% وارتفاع نجاح التسليم بنحو 3 نقاط مئوية. سأستمر في المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: drop events trending down and handover success improving, aligned with the mobility parameter optimization/config push. Let’s monitor through the next busy hour.",
+      "message_ar": "الملاحظة الأولية: انخفاض في أحداث الانقطاع وتحسن في نجاح التسليم، بما يتماشى مع تحسين معلمات التنقّل/دفع الإعداد. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy hour monitoring and report RLF and handover improvements. If degradation returns, we’ll rollback the tuning and escalate to field checks; otherwise, we’ll retain the changes.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ بتحسن الانقطاعات والتسليم. إذا عادت التدهورات فسنرجع الضبط ونصعّد لفحوصات ميدانية؛ وإلا فسنبقي التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural 5G NR macro cell RLF spike as coverage-edge late handovers after baselining OSS KPIs and reviewing the RLF time series over 6 hours. Mitigated by site parameter tuning focused on mobility thresholds and timers, which immediately reduced drop events and improved handover success. Will monitor through the next busy hour and retain or rollback based on stability.",
+    "ar": "تم تشخيص ارتفاع انقطاعات رابط الراديو في خلية ماكرو 5G NR ريفية على أنه تسليم متأخر عند حافة التغطية بعد إعداد خط أساس لمؤشرات OSS ومراجعة السلسلة الزمنية للانقطاعات خلال 6 ساعات. تمت المعالجة عبر ضبط معلمات الموقع الخاصة بالتنقّل (عتبات ومؤقّتات)، ما خفّض الانقطاعات فورياً وحسّن نجاح التسليم. سيتم المتابعة خلال ساعة الذروة القادمة مع الإبقاء على التغييرات أو الرجوع عنها حسب الاستقرار."
+  }
+}

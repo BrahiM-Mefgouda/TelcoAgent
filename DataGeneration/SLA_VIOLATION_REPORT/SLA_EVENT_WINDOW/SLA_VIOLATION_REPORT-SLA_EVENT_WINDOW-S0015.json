@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0015",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium 5G micro cell in the last 6h ingress window shows QoS 0.28 vs 0.99 target with 51% breach, PRB 91%, latency 93 ms, 588 users and slow data; congestion is acknowledged.",
+    "ar": "خلية 5G صغيرة في الملعب خلال نافذة الإدخال 6 ساعات تظهر QoS بقيمة 0.28 مقابل هدف 0.99 مع خرق 51%، واستغلال موارد 91%، وزمن تأخير 93 مللي ثانية، و588 مستخدماً مع بيانات بطيئة؛ يتم تأكيد وجود ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 6h triggered an alarm on a 5G NR micro cell. Users report slow data and buffering; QoS ~0.28 vs 0.99 target, PRB ~91%, latency ~93 ms, ~588 users, p50 DL ~2 Mbps. Need help validating the SLA hit.",
+      "message_ar": "خلال نافذة الإدخال الأخيرة 6 ساعات في الملعب تم إطلاق إنذار على خلية 5G NR صغيرة. المستخدمون يبلغون عن بطء البيانات وتقطيع؛ QoS حوالي 0.28 مقابل هدف 0.99، واستغلال الموارد ~91%، وزمن تأخير ~93 مللي ثانية، ~588 مستخدماً، ووسيط التحميل ~2 ميجابت/ث. أحتاج للمساعدة في التحقق من إصابة اتفاقية مستوى الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will pull 6h performance counters for cell STDM-NR-MICRO-03 from the network management system, then analyze QoS trend; if breach is confirmed, I will file an SLA incident. Please confirm read-only access.",
+      "message_ar": "مفهوم. سأجلب عدادات الأداء لست ساعات للخلية STDM-NR-MICRO-03 من نظام إدارة الشبكة، ثم أحلل اتجاه QoS؛ وإذا تم تأكيد الخرق سأفتح بلاغ اتفاقية مستوى الخدمة. يرجى تأكيد وصول القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell is STDM-NR-MICRO-03. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول. الخلية المستهدفة هي STDM-NR-MICRO-03. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 6h counters: cell is up, no outages. Congestion alarm active; PRB peaked ~95% (avg ~91%), queue and latency spikes align with ingress. ~588 attached users with heavy eMBB streaming. Proceeding to QoS trend verification.",
+      "message_ar": "تم جلب عدادات 6 ساعات: الخلية عاملة بدون انقطاعات. إنذار الازدحام فعّال؛ ذروة استغلال الموارد ~95% (متوسط ~91%) مع ارتفاع الطوابير والزمن بالتزامن مع الدخول. ~588 مستخدماً مع بث eMBB كثيف. سأتابع للتحقق من اتجاه QoS."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Field reports also mention high streaming usage.",
+      "message_ar": "تم. تقارير الميدان تشير أيضاً إلى استخدام بث مرتفع."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS timeseries over 6h shows average ~0.28 versus 0.99 target with ~51% of the window below target; worst interval ~17:10–18:05. p50 DL ~2 Mbps and latency ~93 ms corroborate the SLA breach. I will open an SLA incident for capacity/event support.",
+      "message_ar": "سلسلة QoS خلال 6 ساعات تُظهر متوسطاً ~0.28 مقابل هدف 0.99 مع ~51% من النافذة تحت الهدف؛ أسوأ فترة ~17:10–18:05. وسيط التحميل ~2 ميجابت/ث والزمن ~93 مللي ثانية يؤكدان خرق اتفاقية مستوى الخدمة. سأفتح بلاغاً لدعم السعة/الفعالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the incident.",
+      "message_ar": "موافق على فتح البلاغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA incident DU-SLA-04521 created for STDM-NR-MICRO-03: ingress congestion driving QoS degradation (PRB ~91%, latency ~93 ms, ~588 users). Requested capacity/backhaul review and event support actions.",
+      "message_ar": "تم إنشاء البلاغ DU-SLA-04521 لخلية STDM-NR-MICRO-03: ازدحام وقت الدخول يسبب تدهور QoS (استغلال ~91%، زمن ~93 مللي ثانية، ~588 مستخدم). تم طلب مراجعة السعة/الربط الخلفي ودعم الفعالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will keep live watch on PRB, latency, and median DL. Early sign: PRB easing to high-80s as crowds settle. Share any on-ground updates while I monitor.",
+      "message_ar": "سأتابع مباشرة استغلال الموارد والزمن ووسيط التحميل. مؤشر مبكر: استغلال الموارد ينخفض إلى أواخر الثمانينيات مع تفرّق الجمهور. يرجى مشاركة أي تحديثات ميدانية أثناء مراقبتي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "On-ground feedback: buffering complaints are dropping and median DL is edging up to ~4–5 Mbps.",
+      "message_ar": "تحديث ميداني: شكاوى التقطيع تنخفض ووسيط التحميل يرتفع إلى ~4–5 ميجابت/ث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: latency spikes are easing. Action taken was QoS trend verification and incident creation. Propose monitoring through the next busy hour and update DU-SLA-04521 afterward.",
+      "message_ar": "نلاحظ تحسناً: ذروات زمن التأخير تتراجع. الإجراء الذي تم هو التحقق من اتجاه QoS وإنشاء البلاغ. أقترح المتابعة خلال ساعة الذروة القادمة وتحديث DU-SLA-04521 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own monitoring for the next busy hour and post an update to the ticket afterward. If QoS remains below target, we will escalate to capacity and transport teams; if conditions normalize, we will proceed to close the incident.",
+      "message_ar": "متفق—سنكون مسؤولين عن المراقبة خلال ساعة الذروة القادمة وسنحدّث البلاغ بعدها. إذا بقي QoS دون الهدف سنصعّد إلى فرق السعة والنقل؛ وإذا عادت الحالة إلى طبيعتها سنمضي لإغلاق البلاغ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium ingress window, the NR micro cell showed congestion with high PRB and latency, driving QoS down to ~0.28 versus a 0.99 target. We validated the SLA breach by reviewing live counters and the QoS time series over 6 hours, then created incident DU-SLA-04521 for capacity/backhaul review and event support. We will monitor the next busy hour and update the ticket with outcomes.",
+    "ar": "خلال نافذة الإدخال في الملعب، أظهرت خلية NR الصغيرة ازدحاماً مع استغلال مرتفع وزمن تأخير عالٍ مما خفض QoS إلى ~0.28 مقابل هدف 0.99. قمنا بالتحقق من خرق اتفاقية مستوى الخدمة من خلال مراجعة العدادات الحية وسلسلة QoS لمدة 6 ساعات، ثم أنشأنا البلاغ DU-SLA-04521 لمراجعة السعة/الربط الخلفي ودعم الفعالية. سنراقب ساعة الذروة القادمة ونحدّث البلاغ بالنتائج."
+  }
+}

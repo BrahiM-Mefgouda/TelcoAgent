@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0020",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell reports a congestion alarm over the last 2h with ~98.7% PRB usage, ~493 users, slow data, and high scheduling latency.",
+    "ar": "خلية NR صغيرة في الملعب تُظهر إنذار ازدحام خلال آخر ساعتين مع استخدام PRB ~98.7%، نحو 493 مستخدمًا، بيانات بطيئة، وزمن جدولة مرتفع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is in congestion during ingress; PRB ~98.7%, ~493 users, DL ~5 Mbps, UL ~1 Mbps, p95 scheduling latency ~111 ms. Please assist.",
+      "message_ar": "الخلية الصغيرة NR في الملعب ضمن حالة ازدحام أثناء الدخول؛ استخدام PRB ~98.7%، حوالي 493 مستخدمًا، تنزيل ~5 ميجابت/ث، رفع ~1 ميجابت/ث، وزمن جدولة p95 ~111 مللي ثانية. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion. I will check live counters for the last 2h on the impacted micro cell. Please confirm the cell ID and grant read access.",
+      "message_ar": "تم تأكيد الازدحام. سأتحقق من عدادات الأداء لآخر ساعتين على الخلية المتأثرة. يرجى تأكيد مُعرّف الخلية ومنحي صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STDM-MICRO-03. Read access approved for the 2h window.",
+      "message_ar": "مُعرّف الخلية هو NR-STDM-MICRO-03. تمت الموافقة على صلاحية القراءة لمدة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checks complete: PRB pegged 96–99%, DL median ~5 Mbps, UL ~1 Mbps, BLER ~6–7%, RLF ~4–5%, with eMBB streaming dominant. This is ingress capacity saturation. I propose temporary capacity tuning (scheduler/QoS weighting and admission guard) to relieve load. Approve to apply now?",
+      "message_ar": "اكتملت الفحوصات: استخدام PRB بين 96–99%، متوسط تنزيل ~5 ميجابت/ث، رفع ~1 ميجابت/ث، BLER نحو 6–7%، وفشل ربط ~4–5%، مع هيمنة حركة eMBB/البث. المشكلة هي تشبع السعة أثناء الدخول. أقترح ضبطًا مؤقتًا للسعة (ترجيح المجدول/جودة الخدمة وحراسة القبول) لتخفيف الحمل. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply temporary tuning on NR-STDM-MICRO-03.",
+      "message_ar": "موافق على تنفيذ الضبط المؤقت على NR-STDM-MICRO-03."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying capacity parameter tuning now: increase opportunistic scheduling, rebalance DL/UL grants for crowd traffic, and tighten buffering to reduce queueing delay. Change committed; no drops observed. Please observe user experience.",
+      "message_ar": "جارٍ تطبيق ضبط معلمات السعة الآن: زيادة جدولة انتهازية، إعادة موازنة منح DL/UL لحركة الحشود، وتشديد التخزين المؤقت لتقليل زمن الانتظار. تم اعتماد التغيير دون انقطاعات. يرجى ملاحظة تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: PRB oscillating around 90–93% and downloads feel faster near the entrances.",
+      "message_ar": "المؤشرات الأولية أفضل: استخدام PRB يتذبذب حول 90–93% والتنزيلات أصبحت أسرع قرب المداخل."
+    },
+    {
+      "role": "agent",
+      "message_en": "To track this event, I will open a ticket and continue supervision through ingress and peak to enable escalation if needed. Proceed?",
+      "message_ar": "لتتبع الحالة، سأفتح تذكرة وأواصل المتابعة خلال مرحلة الدخول والذروة لتمكين التصعيد عند الحاجة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with creating the ticket.",
+      "message_ar": "تابع بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PRB-04219 created: 'Stadium ingress high PRB on NR-STDM-MICRO-03; temporary tuning applied; monitor next busy hour.' I will keep watching KPIs and note any regressions.",
+      "message_ar": "تم إنشاء التذكرة DU-PRB-04219: \"ارتفاع استخدام PRB أثناء دخول الملعب على NR-STDM-MICRO-03؛ تم تطبيق ضبط مؤقت؛ المراقبة خلال ساعة الذروة القادمة.\" سأواصل مراقبة مؤشرات الأداء وتسجيل أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing improvement: slow data is easing and queueing delay trending down. The site parameter tuning helped; let’s monitor over the next 2–4 hours. Reference DU-PRB-04219.",
+      "message_ar": "نلاحظ تحسنًا: بطء البيانات يتراجع وزمن الانتظار في الطابور في اتجاه هبوطي. ضبط معلمات الموقع أفاد؛ لنتابع المراقبة خلال الساعات 2–4 القادمة. المرجع DU-PRB-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours of monitoring and update the ticket afterward with throughput, PRB, and latency trends. If congestion returns, we will extend the temporary tuning and coordinate offload; if instability appears, we will roll back to the pre-change baseline.",
+      "message_ar": "تم. سنقود المراقبة خلال الساعتين إلى الأربع القادمـتين وسنحدّث التذكرة بعدها باتجاهات السعة والسرعة والزمن. إذا عاد الازدحام فسنمدّد الضبط المؤقت ونتعاون على تفريغ الحمل؛ وإذا ظهرت عدم استقرار فسنعود إلى الإعدادات قبل التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STDM-MICRO-03",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Temporary capacity/QoS tuning for stadium ingress on NR-STDM-MICRO-03"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium ingress high PRB on NR-STDM-MICRO-03; tuning applied; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During stadium ingress, the NR micro cell was saturated with ~98–99% PRB, slow data, and high scheduling latency. We confirmed the congestion, applied targeted site parameter tuning to improve capacity and latency, and opened a tracking ticket for continued observation. Monitoring will continue to ensure stability and mitigate any resurgence of load.",
+    "ar": "أثناء دخول الجمهور، كانت الخلية الصغيرة NR في حالة تشبع مع ~98–99% من استخدام PRB وبطء في البيانات وزمن جدولة مرتفع. تم تأكيد الازدحام وتطبيق ضبط مستهدف لمعلمات الموقع لتحسين السعة والزمن، مع فتح تذكرة متابعة للمراقبة المستمرة. ستتواصل المراقبة لضمان الاستقرار والتعامل مع أي عودة للحمل."
+  }
+}

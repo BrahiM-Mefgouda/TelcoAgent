@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0029",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion over the last 2h with ~94% PRB, 513 users, slow data (~5 Mbps DL, ~6 Mbps UL), BLER ~8%, p95 scheduler latency ~107 ms, and RLF ~4.4% during egress.",
+    "ar": "خلية NR صغيرة في الاستاد تُظهر ازدحاماً خلال آخر ساعتين: إشغال PRB ~94%، 513 مستخدماً، بيانات بطيئة (~5 ميغابت/ث DL، ~6 ميغابت/ث UL)، BLER ~8%، كمون المُجدول p95 ~107 مللي ثانية، و RLF ~4.4% أثناء خروج الجمهور."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell NR-STAD-MICRO-12 has a congestion alarm over the last 2h; during egress we have ~513 users, slow data (~5 Mbps DL), p95 scheduler latency ~107 ms, and RLF ~4.4%. Please assist.",
+      "message_ar": "خلية NR صغيرة في الاستاد NR-STAD-MICRO-12 عليها إنذار ازدحام خلال آخر ساعتين؛ أثناء خروج الجمهور يوجد ~513 مستخدماً، بيانات بطيئة (~5 ميغابت/ث DL)، كمون المُجدول p95 ~107 مللي ثانية، و RLF ~4.4%. نرجو المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis: plan is to pull last 2h counters, then apply short-term capacity tuning if PRB saturation is confirmed. Please confirm NR-STAD-MICRO-12 and approve read-only access.",
+      "message_ar": "سأتولى التشخيص: الخطة هي سحب مؤشرات الساعتين الماضيتين ثم تطبيق ضبط قدرة قصير المدى إذا تأكد تشبع PRB. فضلاً أكد NR-STAD-MICRO-12 ووافق على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed NR-STAD-MICRO-12; read-only access approved.",
+      "message_ar": "تم التأكيد NR-STAD-MICRO-12؛ موافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled: PRB utilization avg ~94% (peaks ~98%), DL median ~5–6 Mbps, BLER ~8%, p95 scheduler latency 105–110 ms, RLF ~4–4.5%. This is clear overload during stadium egress with eMBB streaming. I propose applying a temporary eMBB congestion profile to free PRBs and reduce latency. Approve change?",
+      "message_ar": "تم سحب المؤشرات: إشغال PRB متوسط ~94% (قمم ~98%)، الوسيط في DL ~5–6 ميغابت/ث، BLER ~8%، كمون المُجدول p95 بين 105–110 مللي ثانية، و RLF ~4–4.5%. هناك زيادة حمل واضحة أثناء خروج الاستاد مع حركة eMBB (بث). أقترح تطبيق ملف مؤقت للازدحام خاص بـ eMBB لتفريغ PRB وخفض الكمون. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the temporary capacity tuning now.",
+      "message_ar": "موافقة على تنفيذ ضبط السعة المؤقت الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: applied congestion-relief parameters for eMBB egress (scheduler weighting and resource allocation tuned). Change passed health checks; starting immediate observation.",
+      "message_ar": "تم التنفيذ: تطبيق معلمات تخفيف الازدحام لحالة egress لـeMBB (تعديل أوزان المُجدول وتخصيص الموارد). مرّ التغيير بفحوص السلامة؛ أبدأ الملاحظة الفورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field view: slow data complaints are dropping and DL is around 8–9 Mbps now.",
+      "message_ar": "المشهد الميداني: شكاوى البطء تتناقص و DL حوالي 8–9 ميغابت/ث الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a follow-up record DU-PRB-04271 to track this intervention and attach before/after snapshots; continuing to watch while the crowd exits.",
+      "message_ar": "أنشئ سجل متابعة DU-PRB-04271 لتتبع هذا التدخل وإرفاق لقطات قبل/بعد؛ وسأواصل المتابعة أثناء خروج الجمهور."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged; traffic remains high but is easing.",
+      "message_ar": "تم؛ الحركة ما زالت مرتفعة لكنها تتراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early indicators show PRB trending mid‑80s and latency easing; please keep me posted on any residual issues on site.",
+      "message_ar": "المؤشرات المبكرة تُظهر أن إشغال PRB يتجه إلى منتصف 80% والكمون يتحسن؛ الرجاء إفادتي بأي مشاكل متبقية في الموقع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data reports down and scheduler delays dropping; the capacity parameter tuning helped. Let’s monitor for the next 2 hours; reference DU-PRB-04271.",
+      "message_ar": "تحسن ملحوظ: تقارير البطء انخفضت وتأخرات المُجدول في تراجع؛ وقد ساعد ضبط معلمات السعة. لنتابع المراقبة خلال الساعتين القادمتين؛ المرجع DU-PRB-04271."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the 2‑hour window and update DU-PRB-04271 afterward. If congestion resurges, we’ll escalate for temporary capacity and crowd offload; if any adverse effects appear, we’ll roll back to the prior settings.",
+      "message_ar": "سنتولى نافذة الساعتين وسنحدث DU-PRB-04271 بعدها. إذا عاد الازدحام سنصعّد لإضافة سعة مؤقتة وتخفيف الحمل عن الحشد؛ وإذا ظهرت آثار جانبية سنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-12",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "congestion_profile=eMBB_stadium_egress"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB at stadium NR micro; short-term capacity tuning applied; monitor during egress."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a stadium NR micro cell under egress with very high PRB utilization, slow data, and elevated scheduler latency and BLER by reviewing recent counters. Applied short-term site parameter tuning to relieve congestion for eMBB traffic and created a follow-up ticket for tracking. We will monitor for the next two hours and escalate capacity or roll back if adverse effects are observed.",
+    "ar": "تم تشخيص خلية NR صغيرة في الاستاد أثناء خروج الجمهور بارتفاع كبير في إشغال PRB وبطء البيانات وارتفاع كمون المُجدول وBLER عبر مراجعة المؤشرات الحديثة. جرى تطبيق ضبط معلمات قصير المدى في الموقع لتخفيف الازدحام لحركة eMBB وإنشاء تذكرة متابعة للتتبع. سنراقب خلال الساعتين القادمتين ونصعّد السعة أو نعود عن التغييرات إذا ظهرت آثار جانبية."
+  }
+}

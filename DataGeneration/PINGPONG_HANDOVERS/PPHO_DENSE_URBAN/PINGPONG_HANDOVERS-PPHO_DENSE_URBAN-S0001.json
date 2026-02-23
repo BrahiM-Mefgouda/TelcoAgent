@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0001",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro cell shows high ping-pong handovers (~23%) over the last 4h shoulder period with HO success ~84%, ~60 HOs/5min, weak edge signal (RSRP -107 dBm, RSRQ -8 dB), moderate load, and eMBB streaming usage.",
+    "ar": "خلية ماكرو NR في منطقة حضرية كثيفة تُظهر تسليمات ذهاب‑إياب مرتفعة (~23%) خلال آخر 4 ساعات من فترة ما بين الذروة مع نجاح تسليم ~84%، حوالي 60 تسليماً/5 دقائق، إشارة حافة ضعيفة (RSRP -107 dBm، RSRQ -8 dB)، حمل متوسط، واستخدام بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "NR macro cell NRCell-URB-1123 in dense urban shows elevated ping-pong during the last 4h shoulder window: HO success ~84%, ping-pong ~23%, about 60 HO attempts per 5 min, ~500 users, with some streaming complaints.",
+      "message_ar": "الخلية NR ماكرو NRCell-URB-1123 في منطقة حضرية كثيفة تُظهر تسليمات ذهاب‑إياب مرتفعة خلال نافذة 4 ساعات الماضية في فترة ما بين الذروة: نجاح التسليم ~84%، ping‑pong ~23%، حوالي 60 محاولة تسليم كل 5 دقائق، ~500 مستخدم، مع بعض شكاوى البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling cell counters for the last 4h to validate mobility KPIs and identify dominant neighbor pairs; please confirm access to proceed.",
+      "message_ar": "سأبدأ بسحب عدادات الخلية لآخر 4 ساعات للتحقق من مؤشرات الحركة وتحديد أزواج الجيران المسيطرة؛ يرجى تأكيد الإذن للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the 4h window; proceed.",
+      "message_ar": "تمت الموافقة على الوصول لنافذة 4 ساعات؛ تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm: HO success 84.4%, HO failures 14%, ping-pong 23%. RF: RSRP -107 dBm, RSRQ -8 dB, SINR 13 dB. Load: PRB util 69%, users 497, p50 DL 24 Mbps. Mobility params: A3 offset 1 dB, TTT 238 ms, hysteresis 4 dB. Dominant ping-pong pairs: URB-1123↔URB-1124 and URB-1123↔URB-1125 along the corridor. Next, I’ll chart HO/ping-pong trends across the 4h window to pinpoint peaks; approve?",
+      "message_ar": "العدادات تؤكد: نجاح التسليم 84.4%، فشل التسليم 14%، ping‑pong 23%. الراديو: RSRP -107 dBm، RSRQ -8 dB، SINR 13 dB. الحمل: استخدام PRB 69%، المستخدمون 497، وسيط التحميل 24 Mbps. معلمات الحركة: إزاحة A3 بمقدار 1 dB، TTT 238 ms، هسترة 4 dB. أزواج ping‑pong المسيطرة: URB-1123↔URB-1124 و URB-1123↔URB-1125 على الممر. التالي، سأعرض اتجاهات التسليم/ping‑pong عبر نافذة 4 ساعات لتحديد القمم؛ هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to chart the trends.",
+      "message_ar": "موافق على عرض الاتجاهات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trends show spikes at 08:15–08:50 and 17:10–18:00; ping-pong share peaks 28–31% with ~60 HO attempts/5 min and failures aligning with ping-pong bursts. Diagnosis: early A3 triggering (1 dB) toward neighbors with short TTT for pedestrian speeds at a weak edge. Proposal: increase A3 offset to 3 dB for the two dominant neighbors, raise TTT to 320 ms, add a 2 s return guard, and +1 dB HO margin toward the stronger serving cell along the corridor. Impact expected: reduced ping-pong with minimal coverage risk. Request approval to implement now.",
+      "message_ar": "تُظهر الاتجاهات قمماً عند 08:15–08:50 و17:10–18:00؛ تصل حصة ping‑pong إلى 28–31% مع ~60 محاولة تسليم/5 دقائق وتتماشى حالات الفشل مع اندفاعات ping‑pong. التشخيص: تحفيز مبكر لإزاحة A3 (1 dB) نحو الجيران مع TTT قصير نسبياً لسرعات المشاة على حافة تغطية ضعيفة. المقترح: رفع إزاحة A3 إلى 3 dB للجارتين المسيطرتين، رفع TTT إلى 320 ms، إضافة حاجز عودة 2 ث، وزيادة هامش التسليم +1 dB باتجاه الخلية الأقوى على الممر. التأثير المتوقع: تقليل ping‑pong مع خطر تغطية ضئيل. أطلب الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization now.",
+      "message_ar": "موافقة على تنفيذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter tuning applied on NRCell-URB-1123 and its two neighbors: A3 offset increased, TTT raised to 320 ms, and a 2 s return guard enabled; rollback point saved. Immediate post-change check shows HO attempts steady and initial ping-pong counters trending down over 5 minutes with no throughput regression. Please observe field behavior.",
+      "message_ar": "تم تطبيق ضبط المعلمات على NRCell-URB-1123 وجارتيها: زيادة إزاحة A3، رفع TTT إلى 320 ms، وتفعيل حاجز عودة 2 ثانية؛ تم حفظ نقطة تراجع. الفحص الفوري بعد التغيير يُظهر محاولات التسليم مستقرة وبداية انخفاض في عدادات ping‑pong خلال 5 دقائق دون تراجع في معدل النقل. يرجى مشاركة الملاحظة الميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick walk test at the intersections shows fewer back-and-forth HOs; streaming stays stable without cell toggling, and no drops observed.",
+      "message_ar": "اختبار ميداني سريع عند التقاطعات يُظهر تسليمات ذهاب‑إياب أقل؛ البث مستقر بدون تبديل متكرر للخلايا، ولا توجد انقطاعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will validate counters for the next 30 minutes; target is ping-pong below 12% and HO success above 89%. If it deviates, I will revert and deep-dive; otherwise we keep the tuning.",
+      "message_ar": "جيد. سأتحقق من العدادات خلال الـ30 دقيقة القادمة؛ الهدف هو ping‑pong أقل من 12% ونجاح تسليم فوق 89%. إذا حدث انحراف، سأقوم بالرجوع والتحليل المتعمق؛ وإلا سنبقي الضبط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 30 minutes, ping-pong averages ~11% and HO success is ~90%; the handover parameter optimization appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد 30 دقيقة، يبلغ متوسط ping‑pong حوالي 11% ونجاح التسليم ~90%؛ يبدو أن تحسين معلمات التسليم فعال. دعنا نراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor through the next busy hour and update with results afterward. If issues return, we will roll back the changes and escalate to RF for a focused cluster review.",
+      "message_ar": "تم التأكيد—سنراقب خلال ساعة الانشغال التالية ونقدم تحديثاً بالنتائج بعدها. إذا عادت المشاكل، سنرجع التغييرات ونصعّد إلى فريق الترددات لمراجعة مركزة على مجموعة الخلايا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRCell-URB-1123",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRCell-URB-1123",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase A3 offset to 3 dB on dominant neighbors; raise TTT to 320 ms; enable 2 s return guard; +1 dB HO margin toward serving along corridor"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Ping-pong handovers in a dense urban NR macro were diagnosed via counter checks and time-series trends, showing peaks aligned with shoulder hours and early A3 triggering at a weak edge. Mitigation was applied through site parameter tuning: increased A3 offset, longer TTT, a return guard, and slight HO margin adjustment toward the dominant serving direction. Post-change, ping-pong reduced to ~11% and HO success rose to ~90%; the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص تسليمات الذهاب‑الإياب في خلية ماكرو NR حضرية كثيفة عبر فحص العدادات واتجاهات السلاسل الزمنية، حيث ظهرت قمم متزامنة مع ساعات ما بين الذروة وتحفيز مبكر لإزاحة A3 على حافة ضعيفة. تمت المعالجة عبر ضبط معلمات الموقع: زيادة إزاحة A3، إطالة TTT، إضافة حاجز عودة، وتعديل بسيط لهامش التسليم باتجاه الخدمة المسيطرة. بعد التغيير، انخفض ping‑pong إلى ~11% وارتفع نجاح التسليم إلى ~90%؛ وسيتم مراقبة الخلية خلال ساعة الانشغال التالية."
+  }
+}

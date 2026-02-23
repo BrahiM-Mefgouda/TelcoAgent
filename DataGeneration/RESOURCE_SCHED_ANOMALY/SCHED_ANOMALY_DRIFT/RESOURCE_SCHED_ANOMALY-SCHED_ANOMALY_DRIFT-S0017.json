@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0017",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro over 6h shows high PRB utilization (~87%), low fairness (~0.62), allocation skew 18, and high p95 allocator latency (~93 ms) with healthy SINR (~14 dB).",
+    "ar": "موقع ماكرو NR حضري خلال 6 ساعات يُظهر إشغال موارد مرتفعًا (~87%)، إنصافًا منخفضًا (~0.62)، انحراف تخصيص 18، وزمن تأخير p95 مرتفعًا للمُوزِّع (~93 مللي ثانية) مع SINR جيد (~14 ديسيبل)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-URB-MACRO-1021 over the last 6 hours (shoulder): users report uneven throughput with some streaming stutter; PRB ~87%, fairness ~0.62, allocation skew 18, p95 allocator latency ~93 ms. Please investigate.",
+      "message_ar": "خلية NR ماكرو حضرية NR-URB-MACRO-1021 خلال آخر 6 ساعات (فترة انتقالية): توجد شكاوى من تذبذب السرعات مع تقطع بسيط في البث؛ إشغال الموارد ~87%، مؤشر الإنصاف ~0.62، انحراف التخصيص 18، وزمن تأخير المُوزِّع p95 ~93 مللي ثانية. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling last 6h counters from OSS for NR-URB-MACRO-1021 to validate PRB mix, allocator latency, and QoS shares. Please confirm read-only access.",
+      "message_ar": "سأبدأ بسحب عدادات آخر 6 ساعات من نظام الإدارة لخلية NR-URB-MACRO-1021 للتحقق من مزيج PRB، وزمن المُوزِّع، وحصص الجودة. يرجى تأكيد صلاحية الوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; read-only access for the 6h window is fine.",
+      "message_ar": "موافق؛ صلاحية القراءة فقط لمدة 6 ساعات مناسبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pull complete: sustained PRB 85–90%, best-effort share 45–48% vs high-priority ~25%, p95 allocator latency ~92–95 ms; radio quality acceptable (SINR ~14 dB). Next, I will review PRB/allocator fairness as a time series over the same 6h to pinpoint drift and bursts. Proceed?",
+      "message_ar": "تم السحب: إشغال PRB ثابت 85–90%، حصة الحركة الأفضل جهداً 45–48% مقابل الفئات العليا ~25%، وزمن المُوزِّع p95 حوالي 92–95 مللي ثانية؛ جودة الراديو مقبولة (SINR ~14 ديسيبل). بعد ذلك سأراجع إنصاف PRB/المُوزِّع كسلسلة زمنية لنفس 6 ساعات لتحديد الانحراف والاندفاعات. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms fairness dips to 0.55–0.60 during shoulder peaks with allocation skew spikes to 18–20 and brief PRB saturation bursts. Proposal: tune the cell’s scheduler to increase weight for high-priority classes and cap best-effort bursts to reduce latency; low risk and reversible. Approve?",
+      "message_ar": "السلسلة الزمنية تؤكد هبوط الإنصاف إلى 0.55–0.60 خلال ذروة الفترة الانتقالية مع ارتفاعات في انحراف التخصيص إلى 18–20 ونوبات تشبع PRB قصيرة. الاقتراح: ضبط مُجدول الخلية لزيادة وزن الفئات عالية الأولوية وتحديد اندفاعات الأفضل جهداً لتقليل التأخير؛ مخاطرة منخفضة وقابل للعودة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Scheduler tuning applied on NR-URB-MACRO-1021; commit successful. Immediate post-check: high-priority share up ~8–10 pp, p95 allocator latency down to ~70–75 ms, no error flags observed.",
+      "message_ar": "تم تطبيق ضبط المُجدول على NR-URB-MACRO-1021؛ تم الاعتماد بنجاح. فحص فوري بعد التغيير: حصة الفئات عالية الأولوية ارتفعت ~8–10 نقاط مئوية، وزمن المُوزِّع p95 انخفض إلى ~70–75 مللي ثانية، ولا توجد أعلام أخطاء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early field feedback shows fewer user complaints and a tighter throughput distribution.",
+      "message_ar": "المؤشرات الميدانية المبكرة تُظهر شكاوى أقل وتوزيع سرعات أكثر تماسكاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep a short watch to ensure fairness stays ≥0.65 and PRB bursts are moderated without hurting overall throughput.",
+      "message_ar": "جيد. سأراقب لفترة قصيرة للتأكد من بقاء الإنصاف ≥0.65 والحد من اندفاعات PRB دون التأثير على السعة الإجمالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: allocator latency is trending down and fairness improved. We performed scheduler parameter tuning. Let’s monitor for the next 2–4 hours through the upcoming busy period.",
+      "message_ar": "المؤشرات الأولية إيجابية: زمن المُوزِّع يتناقص والإنصاف تحسّن. قمنا بضبط معلمات المُجدول. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمتين مروراً بفترة الانشغال."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next 2–4 hours and report on fairness, PRB utilization, and latency. If degradation reappears, we will roll back the tuning; if issues spread to neighbors, we will escalate to a wider optimization.",
+      "message_ar": "تم الاستلام. سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونبلغ عن الإنصاف، وإشغال PRB، وزمن التأخير. إذا عاد التدهور سنعود عن الضبط؛ وإذا امتدت المشكلة إلى الجيران سنصعّد إلى تحسين أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro cell: high PRB utilization with fairness drift and elevated allocator latency. Confirmed via OSS counters and PRB/fairness time series, then mitigated by site parameter tuning to rebalance class weights and cap best-effort bursts. Monitoring continues to ensure sustained fairness and lower latency.",
+    "ar": "تم تشخيص خلل في تخصيص الموارد على خلية NR ماكرو حضرية: إشغال PRB مرتفع مع انحراف في الإنصاف وارتفاع في زمن المُوزِّع. تم التأكيد عبر عدادات نظام الإدارة وسلسلة زمنية لإنصاف/PRB، ثم تم التخفيف عبر ضبط معلمات الموقع لإعادة موازنة أوزان الفئات وتحديد اندفاعات الأفضل جهداً. تستمر المراقبة لضمان ثبات الإنصاف وانخفاض زمن التأخير."
+  }
+}

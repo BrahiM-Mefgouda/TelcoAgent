@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0002",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell shows an SLA breach over the last 6h with congestion and slow data: QoS ~0.13 vs 0.98 target, latency 62 ms, BLER ~9%, PRB ~89%, and ~1,034 users during egress.",
+    "ar": "خلية NR صغيرة في الملعب شهدت خرقًا لاتفاقية الخدمة خلال آخر 6 ساعات مع ازدحام وبيانات بطيئة: جودة الخدمة ~0.13 مقابل هدف 0.98، كمون 62 مللي ثانية، BLER ~9%، استهلاك PRB ~89%، وحوالي 1034 مستخدمًا أثناء خروج الحشود."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell has raised an alarm over the last 6h during egress. eMBB traffic with streaming was heavy; QoS dropped to 0.13 vs 0.98 target, latency ~62 ms, BLER ~9%, PRB ~89%, and p50 throughput 8 Mbps (slow data). Please investigate.",
+      "message_ar": "أبلغت خلية NR صغيرة في الملعب عن إنذار خلال آخر 6 ساعات أثناء خروج الحشود. كانت حركة eMBB مع البث كثيفة؛ هبطت جودة الخدمة إلى 0.13 مقابل هدف 0.98، الكمون ~62 مللي ثانية، BLER ~9%، استهلاك PRB ~89%، والوسيط للسرعة 8 ميجابت/ث (بيانات بطيئة). يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics. Please confirm the cell ID and grant read access; then I will pull operational stats for the 6h window to verify congestion and health.",
+      "message_ar": "سأتولى التشخيص. يرجى تأكيد معرف الخلية ومنحي صلاحية القراءة؛ بعدها سأستخرج إحصاءات التشغيل لنافذة 6 ساعات للتحقق من الازدحام والحالة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-µC-07. Access approved.",
+      "message_ar": "معرف الخلية هو NR-STAD-µC-07. تم منح الصلاحية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled operational stats for NR-STAD-µC-07 over 6h: active users peaked ~1,100; PRB utilization sustained 85–92%; no hard faults; congestion alarm present. Indicators align with load-driven degradation during egress.",
+      "message_ar": "تم سحب إحصاءات التشغيل لـ NR-STAD-µC-07 خلال 6 ساعات: المستخدمون النشطون بلغوا ذروة ~1100؛ استهلاك PRB مستمر بين 85–92%؛ لا أعطال صلبة؛ إنذار ازدحام موجود. المؤشرات تتوافق مع تدهور ناتج عن الحمل أثناء خروج الحشود."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will retrieve the QoS time series over the same window to quantify the SLA breach. Proceed?",
+      "message_ar": "بعد ذلك سأجلب السلسلة الزمنية لجودة الخدمة خلال نفس النافذة لقياس خرق SLA. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series confirms sustained values 0.12–0.16, far below the 0.98 threshold, with worst dips 10–20 minutes post-event; latency spikes 60–70 ms; BLER moderate. SLA violation confirmed on the stadium NR micro cell during crowd egress.",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة تؤكد قيمًا مستمرة بين 0.12–0.16، وهي أقل بكثير من عتبة 0.98، مع أسوأ انخفاضات خلال 10–20 دقيقة بعد الحدث؛ الكمون يرتفع إلى 60–70 مللي ثانية؛ BLER متوسط. تم تأكيد خرق SLA على خلية NR الصغيرة في الملعب أثناء خروج الحشود."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will open an SLA incident for capacity relief and operational follow-up, including congestion details and user impact. Approve?",
+      "message_ar": "سأفتح حادثة SLA لطلب تخفيف السعة والمتابعة التشغيلية، متضمنة تفاصيل الازدحام وتأثيره على المستخدمين. موافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please share the reference.",
+      "message_ar": "موافق. يرجى مشاركة المرجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident DU-SLA-04217 created for NR-STAD-µC-07: stadium egress congestion, QoS well below target, slow data affecting ≥1k users. We will monitor post-event recovery and coordinate with capacity teams.",
+      "message_ar": "تم إنشاء الحادثة DU-SLA-04217 لـ NR-STAD-µC-07: ازدحام أثناء خروج الحشود في الملعب، جودة الخدمة أقل بكثير من الهدف، بيانات بطيئة تؤثر على أكثر من 1000 مستخدم. سنراقب التعافي بعد الحدث ونتواصل مع فرق السعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: slow data complaints are subsiding and median throughput improved to ~12 Mbps; latency is trending down. Action recorded as incident creation DU-SLA-04217. Suggest monitoring through the next busy hour.",
+      "message_ar": "ملاحظة أولية: شكاوى البيانات البطيئة تتناقص وتحسن الوسيط للسرعة إلى ~12 ميجابت/ث؛ الكمون في اتجاه تنازلي. تم تسجيل الإجراء كإنشاء حادثة DU-SLA-04217. أقترح المراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and update DU-SLA-04217 afterward. If KPIs degrade again, we will escalate to capacity and field teams; if any temporary measures risk stability, we will revert immediately.",
+      "message_ar": "تم الاستلام—سنتولى المراقبة خلال ساعة الانشغال التالية وسنحدّث DU-SLA-04217 بعدها. إذا تدهورت المؤشرات مرة أخرى فسنصعّد إلى فرق السعة والميدان؛ وإذا تسببت أي إجراءات مؤقتة في مخاطر على الاستقرار فسنرجع فورًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-µC-07",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-µC-07",
+        "QoS",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA violation at stadium NR microcell during egress; QoS ~0.13 << 0.98 target; PRB ~89%; latency ~62 ms; users ~1034; request capacity relief and operational follow-up."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed an SLA violation on the stadium NR micro cell during the 6h egress window: QoS fell to 0.12–0.16 with high PRB and elevated latency, indicating congestion-driven degradation. We reviewed operational stats and QoS trends and opened an incident ticket for capacity mitigation and operational follow-up. Monitoring will continue through the next busy hour with updates posted to the ticket.",
+    "ar": "تم تأكيد خرق اتفاقية الخدمة على خلية NR الصغيرة في الملعب خلال نافذة 6 ساعات أثناء خروج الحشود: انخفضت جودة الخدمة إلى 0.12–0.16 مع ارتفاع استهلاك PRB وزيادة الكمون، ما يدل على تدهور بسبب الازدحام. تمت مراجعة إحصاءات التشغيل وسلاسل جودة الخدمة وفتح تذكرة حادثة للتخفيف السعوي والمتابعة التشغيلية. ستستمر المراقبة خلال ساعة الانشغال التالية مع تحديثات تُدرج في التذكرة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0021",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro sector shows high ping-pong handovers (24%) over the past 5h off-peak, with handover success 83.6% and failures 12%, impacting eMBB streaming users.",
+    "ar": "قطاع ماكرو 5G NR في منطقة ضاحية يظهر معدل تبديلات بينغ بونغ مرتفع (24%) خلال آخر 5 ساعات خارج الذروة، مع نجاح تسليم 83.6% وفشل 12%، مما يؤثر على مستخدمي eMBB والبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing elevated ping-pong handovers on a suburban NR macro sector over the last 5h (off-peak): HO success 83.6%, ping-pong 24%, HO fails 12%, SINR 8 dB, p50 DL 19 Mbps. Please review mobility.",
+      "message_ar": "نلاحظ ارتفاعاً في تبديلات بينغ بونغ في التسليم على قطاع ماكرو NR بضاحية خلال آخر 5 ساعات (خارج الذروة): نجاح التسليم 83.6%، التبديلات 24%، فشل التسليم 12%، نسبة إشارة إلى ضجيج 8 ديسيبل، وتنزيل وسيطي 19 ميجابت/ث. الرجاء مراجعة التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Plan: pull 5h counters, analyze the handover event timeline per neighbor, then mitigate with targeted mobility tuning if bounce is confirmed. Please share the cell ID and approve read-only checks plus a minor change during off-peak.",
+      "message_ar": "تم الاستلام. الخطة: سحب مؤشرات آخر 5 ساعات، تحليل تسلسل أحداث التسليم لكل جار، ثم المعالجة بضبط انتقائي لمعاملات التنقل إذا تم تأكيد الارتداد. الرجاء تزويدي بمعرّف الخلية والموافقة على فحوصات قراءة فقط مع إمكانية تعديل طفيف خارج الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-1123A. Access approved for diagnostics and a minor change off-peak.",
+      "message_ar": "معرّف الخلية: NR-SUB-1123A. تمّت الموافقة على التشخيص وتعديل طفيف خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last-5h counters for NR-SUB-1123A. Findings: ping-pong 24%, HO success 83.6%, fails 12%; RSRP -101 dBm, RSRQ -13 dB; PRB 66%, BLER 3.6%. Current mobility: A3 1 dB, TTT 195 ms, hysteresis 2 dB. Proceed with HO event timeline by neighbor?",
+      "message_ar": "تم سحب مؤشرات آخر 5 ساعات للخلية NR-SUB-1123A. النتائج: بينغ بونغ 24%، نجاح التسليم 83.6%، الفشل 12%؛ RSRP = -101 dBm، RSRQ = -13 dB؛ إشغال PRB 66%، BLER 3.6%. إعدادات التنقل الحالية: A3 = 1 ديسيبل، TTT = 195 مللي ثانية، والهسترة = 2 ديسيبل. هل نتابع بتحليل تسلسل أحداث التسليم لكل جار؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافق على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO/return time series shows repeated bounces within 30–60s mainly with neighbors NR-SUB-1123B and NR-SUB-1140A; these pairs account for ~68% of returns at cell edge. No load spike observed. I propose a modest increase to TTT and hysteresis, plus a small A3 bias on those pairs to reduce short-cycle toggling. Approve?",
+      "message_ar": "سلسلة زمنية للتسليم/العودة تُظهر ارتدادات متكررة خلال 30–60 ثانية بشكل أساسي مع الجارين NR-SUB-1123B وNR-SUB-1140A؛ وتشكل هذه الأزواج نحو 68% من حالات العودة عند حافة الخلية. لا يوجد ارتفاع في الحمل. أقترح زيادة طفيفة في TTT والهسترة مع انحياز بسيط لـ A3 على هذه الأزواج لتقليل التبديل قصير الدورة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for targeted parameter tuning.",
+      "message_ar": "موافق على الضبط الانتقائي للمعاملات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying tuning on affected pairs: TTT 195→256 ms, hysteresis 2→3 dB, A3 +0.5 dB. Change pushed and committed; immediate KPIs stable (no rise in failures). I will watch early impact on returns.",
+      "message_ar": "تطبيق الضبط على الأزواج المتأثرة: TTT من 195 إلى 256 مللي ثانية، الهسترة من 2 إلى 3 ديسيبل، ورفع A3 بمقدار 0.5 ديسيبل. تم دفع التغيير وتثبيته؛ المؤشرات الفورية مستقرة (لا زيادة في الفشل). سأراقب الأثر المبكر على حالات العودة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: fewer rapid toggles on test UE; user count steady; no drop spike observed.",
+      "message_ar": "فحص أولي: تبديلات سريعة أقل على جهاز الاختبار؛ عدد المستخدمين مستقر؛ لا توجد زيادة في الانقطاعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I will continue observing HO returns and failures versus baseline and confirm trend.",
+      "message_ar": "إشارة جيدة. سأواصل مراقبة حالات العودة وفشل التسليم مقابل الخط الأساسي وتأكيد الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: short-interval returns decreasing and HO failures trending down. Action taken was site parameter optimization. Recommend monitoring through the next busy hour.",
+      "message_ar": "تحسن مبكر ملحوظ: انخفاض في العوائد القصيرة الفاصل وانخفاض تدريجي في فشل التسليم. الإجراء المنفذ كان تحسين معاملات الموقع. أوصي بالمراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring through the next busy hour and report on HO returns, failures, and user impact. If degradation appears, we will rollback the tuning and consider a focused neighbor review; otherwise, we keep the change and close out.",
+      "message_ar": "تم—سنقود المراقبة خلال ساعة الانشغال القادمة ونبلغ عن حالات العودة، الفشل، وأثرها على المستخدمين. عند ظهور تدهور سنرجع الضبط ونعمل مراجعة مركزة للجيران؛ وإلا سنبقي التغيير ونُنهي الحالة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-1123A",
+        "last_5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-1123A",
+        "HO",
+        "last_5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TTT 195->256 ms; Hysteresis 2->3 dB; A3 +0.5 dB on ping-pong neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on a suburban 5G NR macro sector by reviewing 5h counters and the handover time series, which showed short-cycle bounces with two neighbors. Mitigation was applied via site parameter tuning, increasing TTT and hysteresis with a slight A3 bias on the affected pairs. Initial indicators improved, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع في تبديلات بينغ بونغ على قطاع ماكرو 5G NR بضاحية عبر مراجعة مؤشرات 5 ساعات والسلسلة الزمنية للتسليم، والتي أظهرت ارتدادات قصيرة الدورة مع جارَين. تم تنفيذ المعالجة بضبط معاملات الموقع برفع TTT والهسترة مع انحياز بسيط لـ A3 على الأزواج المتأثرة. المؤشرات الأولية تحسنت وسيتم مراقبة الخلية خلال ساعة الانشغال القادمة."
+  }
+}

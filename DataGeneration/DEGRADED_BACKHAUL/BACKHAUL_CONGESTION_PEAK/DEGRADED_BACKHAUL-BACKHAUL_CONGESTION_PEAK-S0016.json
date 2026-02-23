@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0016",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban macro 5G cell shows a backhaul congestion alarm over the last 3 hours during peak with FWA-heavy load, high backhaul utilization/latency/jitter with packet loss, and slow data.",
+    "ar": "موقع ماكرو 5G حضري يظهر إنذار ازدحام في الربط الخلفي خلال آخر 3 ساعات وقت الذروة مع حمل FWA مرتفع، واستغلال/كمون/تذبذب عالٍ مع فقدان للحزم وبيانات بطيئة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR cell showing a backhaul congestion alarm over the last 3 hours during peak. FWA users report slow data; backhaul util ~95%, latency ~107 ms, loss ~3%, jitter 17 ms.",
+      "message_ar": "خلية NR ماكرو حضرية تظهر إنذار ازدحام في الربط الخلفي خلال آخر 3 ساعات وقت الذروة. مستخدمو FWA يشتكون من بيانات بطيئة؛ استغلال الربط الخلفي ~95%، الكمون ~107 مللي ثانية، الفقد ~3%، والتذبذب 17 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull last-3h OSS counters to confirm whether the bottleneck is backhaul or radio. Please share the cell ID and approve read-only access.",
+      "message_ar": "تم. سأبدأ بسحب عدادات OSS لآخر 3 ساعات لتأكيد ما إذا كان الاختناق في الربط الخلفي أم في الراديو. يرجى تزويدي بمعرّف الخلية والموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UBN-44512. Access approved for a 3-hour window.",
+      "message_ar": "معرّف الخلية: NR-UBN-44512. الموافقة ممنوحة لإطار 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows backhaul port utilization 92–98% with queue occupancy ~94%, latency >100 ms, and loss ~3%. Radio load is moderate (PRB ~64%), SINR 7 dB. Root cause: peak-hour backhaul congestion driven by FWA. I propose a non-intrusive optimization to adjust queue thresholds and prioritization to protect control/interactive traffic and smooth FWA bursts. Proceed?",
+      "message_ar": "يعرض OSS استغلال منفذ الربط الخلفي 92–98% مع امتلاء صف ~94%، وكمون >100 مللي ثانية، وفقدان ~3%. حمل الراديو متوسط (PRB ~64%) وSINR بقيمة 7 dB. السبب الجذري: ازدحام ربط خلفي وقت الذروة مدفوع بحركة FWA. أقترح تحسيناً غير مُعطِّل لضبط عتبات الصفوف والأولويات لحماية حركة الإشارات/التفاعلي وتنعيم دفعات FWA. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: increased priority for signaling/interactive classes, enabled active queue management, and tuned scheduler weights. No traffic drops observed. Please observe KPIs for 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين: رفع أولوية فئات الإشارات/التفاعلي، تفعيل إدارة صف نشطة، وضبط أوزان المُجدول. لم تُسجّل إسقاطات. يرجى مراقبة المؤشرات لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes: backhaul latency ~72 ms, loss 1.2%, and DL user throughput ~11 Mbps. FWA load remains high.",
+      "message_ar": "بعد 12 دقيقة: الكمون ~72 مللي ثانية، الفقد 1.2%، وسرعة تنزيل المستخدم ~11 ميجابت/ث. حمل FWA ما زال مرتفعاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. Since peak-time capacity remains the constraint, I will open a transport capacity ticket with evidence for augmentation. Shall I proceed?",
+      "message_ar": "تحسن جيد. بما أن السعة وقت الذروة ما زالت القيد، سأفتح تذكرة سعة للربط الخلفي مع الأدلة للترقية. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-02417 created with last-3h graphs and metrics, assigned to transport. I will continue observing during peak and off-peak to build evidence.",
+      "message_ar": "تم إنشاء التذكرة DU-BH-02417 مع الرسوم والقياسات لآخر 3 ساعات وتم تحويلها إلى فريق النقل. سأواصل المراقبة خلال الذروة وخارجها لبناء الدليل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Queues are trending down and latency continues to improve; the site parameter tuning is holding. Let’s monitor through the next busy hour and update DU-BH-02417 afterward.",
+      "message_ar": "اتجاه امتلاء الصفوف هابط والكمون مستمر في التحسن؛ ضبط معلمات الموقع ثابت حتى الآن. دعنا نراقب خلال ساعة الذروة القادمة ثم نحدّث DU-BH-02417 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy-hour monitoring and update the ticket afterward. If congestion resurges, we’ll escalate to transport for capacity relief; if any adverse effects appear, we will roll back the parameter changes.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا عاد الازدحام سنصعّد لفريق النقل لحل السعة؛ وإذا ظهرت آثار سلبية سنرجع عن تغييرات المعلمات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed peak-hour backhaul congestion on the urban macro NR cell via OSS, with high utilization, high latency, loss, and queues while radio load was moderate. Applied site parameter tuning to prioritize critical traffic and improve queue behavior, yielding immediate latency and throughput gains. Opened a transport ticket for capacity augmentation and will monitor through the next busy hour.",
+    "ar": "تم تأكيد ازدحام الربط الخلفي وقت الذروة على خلية NR الماكرو الحضرية عبر OSS مع استغلال عالٍ وكمون وفقدان وامتلاء صفوف بينما حمل الراديو متوسط. تم تنفيذ ضبط معلمات الموقع لإعطاء أولوية للحركة الحرجة وتحسين سلوك الصفوف مما حقق تحسينات فورية في الكمون والسرعة. تم فتح تذكرة لفريق النقل لزيادة السعة وسيتم المراقبة خلال ساعة الذروة القادمة."
+  }
+}

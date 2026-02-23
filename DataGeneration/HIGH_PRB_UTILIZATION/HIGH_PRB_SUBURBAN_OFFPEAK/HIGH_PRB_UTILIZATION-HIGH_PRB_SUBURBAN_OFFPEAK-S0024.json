@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0024",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Suburban NR macro cell shows ~88% PRB utilization over the last 4h shoulder period with 139 users, 18/12 Mbps DL/UL, BLER ~5%, and p95 scheduler latency 49 ms; please investigate and mitigate capacity pressure.",
+    "ar": "خلية NR ماكرو في منطقة شبه حضرية تُظهر استخدام PRB بحوالي 88% خلال آخر 4 ساعات (فترة الكتف) مع 139 مستخدمًا، تنزيل/رفع 18/12 ميجابت/ث، BLER ~5%، وزمن مُجَدْوِل p95 يساوي 49 مللي ثانية؛ يرجى التحقيق وتخفيف ضغط السعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows sustained PRB utilization ~88% over the last 4h shoulder period; about 139 users, DL/UL 18/12 Mbps, BLER ~5%, and p95 scheduler latency 49 ms. No alarms; traffic mostly eMBB streaming.",
+      "message_ar": "خلية NR ماكرو في منطقة شبه حضرية تُظهر استخدام PRB مرتفعًا مستمرًا (~88%) خلال آخر 4 ساعات (فترة الكتف)؛ نحو 139 مستخدمًا، تنزيل/رفع 18/12 ميجابت/ث، BLER ~5%، وزمن المُجَدْوِل p95 يساوي 49 مللي ثانية. لا توجد إنذارات؛ الحركة غالبًا eMBB للبث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling 4h OSS counters for the target cell to verify load and latency. Please confirm read-only access and share the exact cell ID.",
+      "message_ar": "تم. سأبدأ بسحب عدادات OSS لآخر 4 ساعات للخلية المستهدفة للتحقق من الحمل والزمن. يرجى تأكيد صلاحية القراءة فقط ومشاركة مُعرّف الخلية الدقيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read-only access approved. Cell ID: NR-Cell-Suburb-1023.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة فقط. مُعرّف الخلية: NR-Cell-Suburb-1023."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last-4h stats for NR-Cell-Suburb-1023: PRB utilization sustained 86–92% with peaks near 95%; p95 scheduler latency 45–55 ms; connected users peak 152; DL p50 ~19 Mbps, UL p50 ~12 Mbps; RLF ~2%. No backhaul or alarm flags. This indicates capacity pressure rather than a fault.",
+      "message_ar": "تم سحب إحصاءات آخر 4 ساعات للخلية NR-Cell-Suburb-1023: استخدام PRB مستمر 86–92% مع قمم تقترب من 95%؛ زمن المُجَدْوِل p95 بين 45–55 مللي ثانية؛ ذروة المستخدمين المتصلين 152؛ تنزيل p50 ~19 ميجابت/ث، رفع p50 ~12 ميجابت/ث؛ RLF ~2%. لا مؤشرات أعطال أو وصلات خلفية. المؤشر سعة وليس عطلًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: apply targeted parameter tuning to relieve PRB pressure—enable gentle inter-cell load balancing toward neighbors and refine resource scheduler fairness for better multiplexing, with conservative limits. Expected PRB reduction 5–10%. Proceed?",
+      "message_ar": "المقترح: تطبيق ضبط معلمات موجه لتخفيف ضغط PRB—تمكين موازنة حمل خفيفة نحو الخلايا المجاورة وتحسين عدالة مُجَدْوِل الموارد لتحسين التعددية، بحدود محافظة. المتوقع خفض PRB بنسبة 5–10%. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed within safe limits.",
+      "message_ar": "موافَق على المتابعة ضمن حدود آمنة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed low-risk optimization on NR-Cell-Suburb-1023: applied load-balancing bias to adjacent NR macros and tuned resource scheduler for improved utilization. Change verified and active; observing counters for 15–30 minutes.",
+      "message_ar": "تم تنفيذ تحسين منخفض المخاطر على NR-Cell-Suburb-1023: تطبيق انحياز موازنة حمل نحو خلايا NR المجاورة وضبط مُجَدْوِل الموارد لتحسين الاستفادة. تم التحقق من التغيير وهو فعّال؛ تتم مراقبة العدادات لمدة 15–30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First check: PRB median appears a few points lower and responsiveness feels better. No new drops reported.",
+      "message_ar": "التحقق الأولي: وسطي PRB انخفض بضع نقاط والاستجابة أفضل. لا توجد حالات انقطاع جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will create a tracking ticket for traceability and attach before/after snapshots. Continued observation ongoing.",
+      "message_ar": "جيد. سأُنشئ تذكرة متابعة للتتبع وأرفق لقطات قبل/بعد. المراقبة مستمرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. No negative feedback from the field so far.",
+      "message_ar": "تم. لا توجد ملاحظات سلبية من الميدان حتى الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: p95 scheduler latency now trending around 38–42 ms and PRB utilization dipping below 80% on recent samples. Action taken: site parameter tuning for resource scheduling and load balancing. Recommend monitoring through the next busy hour; reference DU-LOAD-00642.",
+      "message_ar": "هناك تحسن: زمن المُجَدْوِل p95 يتجه الآن إلى حوالي 38–42 مللي ثانية واستخدام PRB هبط إلى أقل من 80% في العينات الأخيرة. الإجراء المتخذ: ضبط معلمات الموقع لجدولة الموارد وموازنة الحمل. أقترح المراقبة حتى ساعة الذروة القادمة؛ مرجع DU-LOAD-00642."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket afterward with PRB, latency, and throughput deltas. If degradation returns, we will escalate to broader load balancing; if adverse effects appear, we will roll back the tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها بفروقات PRB والزمن ومعدل النقل. إذا عاد التدهور سنصعّد إلى موازنة حمل أوسع؛ وإذا ظهرت آثار سلبية سنعود عن التعديلات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-Suburb-1023",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_balancing_and_scheduler_tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB utilization mitigation tracking for NR-Cell-Suburb-1023"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained high PRB utilization on a suburban NR macro during the shoulder period, with elevated p95 scheduler latency but no alarms, confirming capacity pressure. Pulled OSS counters to validate, then applied site parameter tuning to improve resource scheduling and inter-cell load balancing, and logged a tracking ticket. Post-change samples show lower utilization and latency; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص استخدام PRB مرتفعًا مستمرًا على خلية NR ماكرو في منطقة شبه حضرية خلال فترة الكتف مع ارتفاع زمن المُجَدْوِل p95 دون إنذارات، مما يؤكد ضغط السعة. تم سحب عدادات OSS للتحقق ثم تطبيق ضبط معلمات الموقع لتحسين جدولة الموارد وموازنة الحمل بين الخلايا، مع توثيق ذلك في تذكرة متابعة. عينات ما بعد التغيير تُظهر انخفاضًا في الاستخدام والزمن؛ ستستمر المراقبة حتى ساعة الذروة القادمة."
+  }
+}

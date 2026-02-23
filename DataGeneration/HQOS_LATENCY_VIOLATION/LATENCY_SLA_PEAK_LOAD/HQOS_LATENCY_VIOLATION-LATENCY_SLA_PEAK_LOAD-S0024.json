@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0024",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell shows high latency over the last 2h shoulder period (median 78 ms, p95 86 ms) with 87% resource use, 225 users, and 15 Mbps median downlink; congestion alarm active during heavy eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية تُظهر زمن تأخير مرتفع خلال آخر ساعتين في فترة ما قبل الذروة (الوسيط 78 مللي ثانية، p95 = 86 مللي ثانية) مع استخدام موارد 87% و225 مستخدمًا و15 ميجابت/ث؛ إنذار الازدحام نشط مع بث eMBB كثيف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell experiencing high user-plane latency over the last 2h shoulder window: median 78 ms, p95 86 ms. PRB ~87%, 225 users, p50 DL 15 Mbps. Traffic mix is eMBB with streaming.",
+      "message_ar": "خلية ماكرو NR حضرية تعاني من زمن تأخير عالٍ في مسار المستخدم خلال آخر ساعتين (فترة ما قبل الذروة): الوسيط 78 مللي ثانية وp95 = 86 مللي ثانية. استخدام PRB نحو 87%، عدد المستخدمين 225، والتحميل الوسيط للوصلة الهابطة 15 ميجابت/ث. المزيج المروري eMBB مع بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling the last 2h OSS counters/state to validate scheduler latency and QoS queues. Please confirm the target cell ID and grant access.",
+      "message_ar": "سأبدأ بسحب عدّادات وحالة OSS لآخر ساعتين للتحقق من كمون المجدول وصفوف الجودة. يرجى تأكيد معرّف الخلية المستهدفة ومنح الإذن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-MACRO-41023-A. Access approved for a 2h review.",
+      "message_ar": "معرّف الخلية: NR-MACRO-41023-A. الإذن مُعطى لمراجعة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS for NR-MACRO-41023-A (2h). Observations: DL PRB 85–90%; user-plane latency 76–80 ms, p95 84–90 ms; BLER stable at ~3–4%; RLC buffers frequently high; active UEs 220–235; backhaul clean. Confirms SLA breach under load. Next, I'll run a latency time series to isolate peak intervals and correlation with load. Proceed?",
+      "message_ar": "تم سحب بيانات OSS للخلية NR-MACRO-41023-A (ساعتان). الملاحظات: PRB للوصلة الهابطة 85–90%؛ كمون مسار المستخدم 76–80 مللي ثانية وp95 بين 84–90 مللي ثانية؛ BLER ثابت ~3–4%؛ امتلاء مخازن RLC مرتفع غالبًا؛ المستخدمون النشطون 220–235؛ النقل الخلفي سليم. يؤكد تجاوز SLA تحت الحمل. سأشغّل سلسلة زمنية للكمون لعزل فترات الذروة وربطها بالحمل. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing 2h latency time series with scheduler latency and PRB correlation for NR-MACRO-41023-A; focusing on p95 behavior during the shoulder period.",
+      "message_ar": "جارٍ تنفيذ سلسلة زمنية لمدة ساعتين لزمن التأخير مع ربط كمون المجدول وPRB للخلية NR-MACRO-41023-A؛ مع التركيز على سلوك p95 خلال فترة ما قبل الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows p95 latency peaking 88–92 ms between 17:20–17:55, tightly correlated with PRB >85% and rising scheduler latency; BLER remains steady, so radio quality is not the limiter. Diagnosis: HQoS queueing delay under congestion. I propose targeted site parameter tuning—rebalance HQoS weights for eMBB, lower queue thresholds, and enable faster aging to cut scheduler latency. Approve change?",
+      "message_ar": "السلسلة الزمنية تُظهر ذروة p95 عند 88–92 مللي ثانية بين 17:20–17:55، مع ارتباط وثيق عندما يتجاوز PRB 85% وارتفاع كمون المجدول؛ BLER ثابت، لذا جودة الراديو ليست العائق. التشخيص: تأخير صفوف HQoS تحت الازدحام. أقترح ضبطًا موجّهًا لمعلمات الموقع—إعادة موازنة أوزان HQoS لـ eMBB، خفض عتبات الصفوف، وتفعيل تقادم أسرع لخفض كمون المجدول. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please implement the tuning on NR-MACRO-41023-A.",
+      "message_ar": "موافق. يرجى تنفيذ الضبط على NR-MACRO-41023-A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-MACRO-41023-A: adjusted HQoS weights, tightened queue thresholds, and enabled faster aging within safe bounds. Immediate post-change snapshot: p95 latency now ~58–62 ms, median ~45–50 ms; PRB still ~85%; BLER unchanged. I will keep observing for stabilization.",
+      "message_ar": "تم تنفيذ ضبط معلمات الموقع على NR-MACRO-41023-A: تعديل أوزان HQoS، تشديد عتبات الصفوف، وتفعيل تقادم أسرع ضمن حدود آمنة. لقطات مباشرة بعد التغيير: p95 للكمون الآن ~58–62 مللي ثانية، والوسيط ~45–50 مللي ثانية؛ PRB ما زال ~85%؛ وBLER دون تغيير. سأستمر بالمراقبة للتثبيت."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: p95 scheduling latency trending down to about 60 ms and buffers clearing faster. Action taken: site parameter tuning for HQoS/queues on the cell. Suggest monitoring through the next busy hour.",
+      "message_ar": "هناك تحسّن: p95 لكمون المجدول يتجه إلى نحو 60 مللي ثانية وتفريغ المخازن أسرع. الإجراء المتخذ: ضبط معلمات الموقع لـ HQoS/الصفوف على الخلية. أقترح المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and report latency, PRB, and BLER trends. If latency regresses or side effects appear, we will roll back the tuning; otherwise we will keep it and escalate for capacity relief if needed.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة التالية ونبلغ باتجاهات الكمون وPRB وBLER. إذا تراجع الأداء أو ظهرت آثار جانبية، سنرجع الضبط؛ وإلا سنثبته ونصعّد لزيادة السعة عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-MACRO-41023-A",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-MACRO-41023-A",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "HQoS weight rebalance for eMBB, lower queue thresholds, faster queue aging; target p95 latency ≤ 60 ms"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA violation on the urban NR macro cell during the shoulder period, with p95 latency spikes tightly correlated to high resource utilization and stable radio conditions. OSS and latency time-series analysis confirmed HQoS queueing delays, which were mitigated via site parameter tuning of scheduler weights and queue thresholds, bringing p95 latency close to target.",
+    "ar": "تم تشخيص انتهاك SLA للكمون على خلية NR ماكرو حضرية خلال فترة ما قبل الذروة، مع ارتفاعات في p95 مرتبطة بشدة بارتفاع استخدام الموارد وثبات ظروف الراديو. أكدت تحليلات OSS والسلاسل الزمنية للكمون وجود تأخيرات في صفوف HQoS، وتم التخفيف عبر ضبط معلمات الموقع لأوزان المجدول وعتبات الصفوف، ما قرّب p95 من الهدف."
+  }
+}

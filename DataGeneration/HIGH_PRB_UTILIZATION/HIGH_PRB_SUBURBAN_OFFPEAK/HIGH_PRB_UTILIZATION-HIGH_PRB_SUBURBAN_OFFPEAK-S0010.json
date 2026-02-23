@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_SUBURBAN_OFFPEAK-S0010",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_SUBURBAN_OFFPEAK",
+  "query": {
+    "en": "Suburban NR macro cell shows sustained high PRB utilization (~90%) over the last 4h off-peak with 156 users, BLER ~3.7%, radio access delay p95 ~43 ms, and downlink throughput around 13 Mbps.",
+    "ar": "قطاع ماكرو NR في الضواحي يعرض استخداماً مرتفعاً ومستداماً لموارد الحزمة (~90%) خلال آخر 4 ساعات خارج الذروة مع 156 مستخدماً، وBLER حوالي 3.7%، وتأخير وصول راديوي p95 ~43 مللي ثانية، وسرعة تنزيل قرابة 13 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows sustained high PRB ~90% over the last 4h off-peak; ~156 users, DL ~13 Mbps, UL ~8 Mbps, BLER ~3.7%, p95 radio access delay ~43 ms. No alarms; please investigate.",
+      "message_ar": "قطاع ماكرو NR في منطقة ضواحٍ يعاني من ارتفاع مستمر في استخدام موارد الحزمة (~90%) خلال آخر 4 ساعات خارج الذروة؛ المستخدمون ~156، سرعة تنزيل ~13 ميجابت/ث، رفع ~8 ميجابت/ث، BLER ~3.7%، وتأخير طبقة الوصول الراديوي p95 ~43 مللي ثانية. لا توجد إنذارات؛ الرجاء المراجعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I'll start by pulling 4h performance counters from the network manager for the affected cell to validate PRB loading and access latency given the eMBB streaming mix. Please share the cell ID and approve read-only access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات الأداء لآخر 4 ساعات من نظام إدارة الشبكة للقطاع المتأثر للتحقق من حمل PRB وتأخير الوصول مع الأخذ بعين الاعتبار حركة eMBB (بما فيها البث). الرجاء تزويدي بمعرّف القطاع والموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR1234A-S1. Read-only access approved.",
+      "message_ar": "معرّف القطاع: NR1234A-S1. تمت الموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters collected: DL PRB sustained 88–95% off-peak; UL PRB 60–70%; active users 140–165; p95 radio access delay 40–46 ms; BLER 3–4%; no faults. This indicates resource contention rather than RF. I propose a low-risk capacity tuning to rebalance resource allocation and ease PRB load. Approve execution?",
+      "message_ar": "تم جمع المؤشرات: استخدام PRB في التنزيل ثابت بين 88–95% خارج الذروة؛ استخدام PRB في الرفع 60–70%؛ المستخدمون النشطون 140–165؛ تأخير الوصول p95 بين 40–46 مللي ثانية؛ BLER بين 3–4%؛ ولا توجد أعطال. هذا يشير إلى تزاحم موارد وليس مشكلة تغطية. أقترح ضبط سعة بسيط منخفض المخاطر لإعادة موازنة تخصيص الموارد وتخفيف حمل PRB. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the conservative optimization.",
+      "message_ar": "موافق على المضي قدماً بالتحسين المحافظ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying site parameter tuning now: conservative adjustments to resource allocation and admission thresholds to reduce DL PRB during off-peak while protecting latency; change is reversible.",
+      "message_ar": "أقوم الآن بضبط معلمات الموقع: تعديلات محافظة على تخصيص الموارد وعناصر القبول لخفض استخدام PRB في التنزيل خارج الذروة مع الحفاظ على التأخير؛ التغيير قابل للعكس."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial post-change check (~5 min): DL PRB down to ~80–83%, radio access delay p95 ~36–38 ms, and user throughput distribution slightly improved.",
+      "message_ar": "فحص أولي بعد التغيير (~5 دقائق): هبط استخدام PRB في التنزيل إلى ~80–83%، وتأخير الوصول p95 ~36–38 مللي ثانية، وتوزيع سرعات المستخدمين تحسّن قليلاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I'll formalize a record for this change and continue observing the load and delay trends. Confirm to create the tracking reference?",
+      "message_ar": "اتجاه جيد. سأقوم بتوثيق هذا التغيير والاستمرار بمراقبة حمل الموارد والتأخير. هل تؤكد إنشاء مرجع تتبّع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "مؤكّد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking reference DU-LOAD-04219 created with notes on the capacity tuning and early results; we'll keep collecting counters and log any anomalies.",
+      "message_ar": "تم إنشاء مرجع التتبّع DU-LOAD-04219 مع ملاحظات حول ضبط السعة والنتائج الأولية؛ سنواصل جمع المؤشرات وتسجيل أي شذوذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement persists: DL PRB holding around 79–82% and radio access delay trending down. This aligns with the site parameter tuning applied. Let's monitor over the next 2–4 hours and update DU-LOAD-04219.",
+      "message_ar": "التحسّن مستمر: استخدام PRB في التنزيل ثابت عند حوالي 79–82% وتأخير الوصول في اتجاه هبوطي. هذا يتماشى مع ضبط معلمات الموقع الذي نُفّذ. فلنراقب خلال الساعتين إلى الأربع ساعات القادمة ونحدّث DU-LOAD-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own monitoring for the next 2–4 hours and update the ticket after the window with PRB, delay, and throughput status. If load rises above 90% again or delay degrades, we will extend relief to neighboring cells; if adverse effects appear, we will roll back the tuning.",
+      "message_ar": "متفق—سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونحدّث البطاقة بعد انتهاء الفترة بحالة PRB والتأخير والسرعات. إذا ارتفع الحمل مجدداً فوق 90% أو تدهور التأخير، سنوسّع إجراءات التخفيف إلى الخلايا المجاورة؛ وإذا ظهرت آثار سلبية سنقوم بالتراجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Reviewed network performance counters for the suburban NR macro cell and confirmed sustained high PRB utilization off-peak with elevated access delay, pointing to resource contention rather than RF. Applied conservative site parameter tuning to rebalance resource allocation and reduce DL PRB while protecting latency, then created a tracking ticket for follow-up. We will monitor KPIs over the agreed window and adjust or roll back if the load resurges.",
+    "ar": "تمت مراجعة مؤشرات أداء الشبكة لقطاع ماكرو NR في الضواحي وتأكيد استمرار ارتفاع استخدام PRB خارج الذروة مع ارتفاع في تأخير الوصول، ما يشير إلى تزاحم موارد وليس مشكلة تغطية. تم تنفيذ ضبط محافظ لمعلمات الموقع لإعادة موازنة تخصيص الموارد وخفض استخدام PRB في التنزيل مع حماية التأخير، ثم إنشاء بطاقة متابعة. سنراقب مؤشرات الأداء خلال الفترة المتفق عليها ونُجري تعديلاً إضافياً أو نتراجع عن الضبط إذا عاد الحمل للارتفاع."
+  }
+}

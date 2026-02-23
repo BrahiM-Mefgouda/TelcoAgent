@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0002",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro over the last 6h shows BLER ~11% with weak signal (-117 dBm) and interference/signal overlap (SINR 1 dB), ~53 users and median downlink 11 Mbps during off-peak eMBB.",
+    "ar": "موقع NR ماكرو ريفي خلال آخر 6 ساعات يظهر BLER ~11% مع إشارة ضعيفة (-117 dBm) وتداخل/تراكب للإشارة (SINR 1 dB)، نحو 53 مستخدمًا وسرعة تنزيل وسيط 11 Mbps أثناء خارج الذروة لخدمة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector shows elevated BLER ~11% over the last 6h off-peak; RSRP -117 dBm, RSRQ -13 dB, SINR 1 dB indicating interference/signal overlap; ~53 users, median DL 11 Mbps, eMBB streaming buffering reported. Please check.",
+      "message_ar": "قطاع ماكرو NR ريفي يظهر BLER مرتفعًا ~11٪ خلال آخر 6 ساعات خارج الذروة؛ RSRP -117 dBm و RSRQ -13 dB و SINR 1 dB مما يشير إلى تداخل/تراكب الإشارة؛ نحو 53 مستخدمًا وسرعة تنزيل وسيط 11 Mbps، مع تقارير عن تقطيع في البث eMBB. يرجى الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull the last 6h OSS counters for the affected cell, then review the BLER trend, and, if confirmed, apply targeted site parameter tuning to harden edge performance. Please confirm the exact cell and grant access.",
+      "message_ar": "تم الاستلام. سأستخرج أولًا عدادات OSS لآخر 6 ساعات للخلية المعنية، ثم أراجع اتجاه BLER، وإذا تأكد، سأطبق ضبط معلمات للموقع لتعزيز الأداء على الحافة. يرجى تأكيد الخلية والسماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell: NR_RuralMacro_01_S1 (macro, 5G NR). Time window 6h; no active alarms.",
+      "message_ar": "الوصول مُعتمد. الخلية المستهدفة: NR_RuralMacro_01_S1 (ماكرو، 5G NR). نافذة زمنية 6 ساعات؛ لا إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS counters for NR_RuralMacro_01_S1 (6h): no faults, PRB load moderate, DL HARQ NACKs elevated at low RSRP, TA skewed to larger bins (edge users), neighbor overlap moderate; confirms edge-limited quality.",
+      "message_ar": "جاري سحب عدادات OSS للخلية NR_RuralMacro_01_S1 (6 ساعات): لا أعطال، حمل PRB متوسط، ارتفاع NACK في HARQ بالوصل الهابط عند RSRP منخفض، انحراف TA نحو القيم الكبيرة (مستخدمو الحافة)، وتداخل متوسط مع الجيران؛ ما يؤكد جودة محدودة على الحافة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "That matches field notes—issues mainly at the sector edge with sporadic interference.",
+      "message_ar": "هذا يتوافق مع ملاحظات الميدان—المشكلات بشكل رئيسي عند حافة القطاع مع تداخل متقطع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewing BLER time series (6h): baseline 7–9%, peaks 13–15% around off-peak streaming bursts; correlated with SINR dips to ~0–2 dB. Proceeding to mitigation.",
+      "message_ar": "مراجعة السلسلة الزمنية لـ BLER (6 ساعات): خط أساس 7–9%، وذروات 13–15% مع دفعات بث خارج الذروة؛ مترابطة مع هبوط SINR إلى ~0–2 dB. سأتجه إلى المعالجة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead with optimization; traffic is light now.",
+      "message_ar": "تفضل بالتحسين؛ الحركة خفيفة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply conservative link-adaptation tuning and slight beam/coverage refinement to improve robustness for edge users without impacting capacity. Expect ~30–40% BLER reduction at low SINR. Approve to execute?",
+      "message_ar": "الخطة: تطبيق ضبط محافظ لتكييف الوصلة مع تحسين طفيف للشعاع/التغطية لتعزيز المتانة لمستخدمي الحافة دون التأثير على السعة. نتوقع خفض BLER بنحو 30–40% عند SINR منخفض. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed and committed; initial 10-minute post-change shows BLER down to 6–7% at edge buckets, DL HARQ retries reduced, SINR median +1 dB. Will continue short-term observation.",
+      "message_ar": "تم تنفيذ التحسين وتثبيته؛ تُظهر أول 10 دقائق بعد التغيير انخفاض BLER إلى 6–7% في شرائح الحافة، وتراجع محاولات HARQ بالوصل الهابط، وارتفاع وسيط SINR بمقدار +1 dB. سأتابع المراقبة القصيرة المدى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement—BLER peaks trending down and fewer retransmissions after the site parameter tuning. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "نرى تحسنًا—انخفاض ذروات BLER وتراجع إعادة الإرسال بعد ضبط معلمات الموقع. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the 2–4 hour monitoring window and report BLER, SINR, and user experience changes. If BLER regresses or load side-effects appear, we will revert the optimization; if interference persists, we will escalate for on-site RF checks.",
+      "message_ar": "مفهوم—سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنبلغ عن تغيّرات BLER وSINR وتجربة المستخدم. إذا عاد BLER للتدهور أو ظهرت آثار جانبية على الحمل، سنرجع التحسين؛ وإذا استمر التداخل سنصعّد لفحصات RF ميدانية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_RuralMacro_01_S1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_RuralMacro_01_S1",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "edge_robust_link_adaptation+beam_refinement"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Elevated BLER in a rural NR macro was diagnosed as an edge-quality issue aggravated by low SINR and interference, confirmed via OSS counters and BLER time series. Site parameter tuning was applied to harden link adaptation and refine beam/coverage, reducing edge BLER and retransmissions. We will monitor for stability over the next few hours and roll back if adverse effects appear.",
+    "ar": "تم تشخيص ارتفاع BLER في موقع NR ماكرو ريفي كمشكلة جودة على الحافة زادها سوءًا انخفاض SINR والتداخل، وتم تأكيد ذلك عبر عدادات OSS والسلسلة الزمنية لـ BLER. تم تطبيق ضبط لمعلمات الموقع لتقوية تكييف الوصلة وتحسين الشعاع/التغطية، مما خفض BLER وإعادة الإرسال عند الحافة. سنراقب الاستقرار خلال الساعات القادمة وسنرجع التغييرات إذا ظهرت آثار سلبية."
+  }
+}

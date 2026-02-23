@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0004",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural NR macro cell shows long-range serving with interference/signal overlap over the last 12h (TA p95 1.17 km, distant-serving 18%, SINR −2 dB, ping-pong 16%, HO failures 11%); please assess overshooting.",
+    "ar": "خلية NR ماكرو ريفية تُظهر خدمة بعيدة مع تداخل/تراكب إشارة خلال آخر 12 ساعة (TA p95 = 1.17 كم، خدمة بعيدة 18%، SINR −2 dB، Ping‑Pong 16%، فشل تسليم 11%)؛ يرجى تقييم ظاهرة التغطية الزائدة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell RNCEL-41721-S2 over the last 12h shows long-range serving and mobility issues: TA p95 ~1175 m, distant-serving 18%, SINR −2 dB (interference/signal overlap), RSRP −108 dBm, RSRQ −13 dB, HO failures 11% and ping-pong 16%. Traffic is mostly FWA. Please investigate.",
+      "message_ar": "خلية NR ماكرو ريفية RNCEL-41721-S2 خلال آخر 12 ساعة تُظهر خدمة بعيدة ومشاكل تنقّل: TA p95 ≈ 1175 م، خدمة بعيدة 18%، SINR −2 dB (تداخل/تراكب إشارة)، RSRP −108 dBm، RSRQ −13 dB، فشل تسليم 11% وPing‑Pong 16%. الحركة أغلبها FWA. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking the coverage footprint on a 1 km grid to confirm overshooting, then review neighbor relations and prepare a corrective parameter change. Please confirm read access.",
+      "message_ar": "سأبدأ بفحص بصمة التغطية على شبكة 1 كم لتأكيد التغطية الزائدة، ثم مراجعة الجيران والتحضير لتعديل معلمات تصحيحي. يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read access.",
+      "message_ar": "موافَق على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review complete: sector S2’s main lobe extends ~9–11 km with many UEs beyond 7 km; overlap with far neighbors is visible, consistent with interference/overlap and the 18% distant-serving. This confirms overshooting from the rural macro.",
+      "message_ar": "تمت مراجعة التغطية: الحزمة الرئيسية للقطاع S2 تمتد نحو 9–11 كم مع وجود العديد من المستخدمين بعد 7 كم؛ يوجد تراكب مع جيران بعيدين، ما يتوافق مع التداخل/تراكب الإشارة ونسبة الخدمة البعيدة 18%. هذا يؤكد التغطية الزائدة من الماكرو الريفي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will audit configured neighbors for RNCEL-41721-S2 to check asymmetries and late handover conditions. Proceed?",
+      "message_ar": "بعد ذلك سأدقق الجيران المكوّنين للخلية RNCEL-41721-S2 للتحقق من عدم التماثل وحالات التسليم المتأخر. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit shows neighbor definitions present, but handover offsets toward the closest NR site (~8 km) are lenient and events indicate late transitions. Combined with the wide footprint, this explains the ping-pong and HO failures.",
+      "message_ar": "تبيّن من التدقيق أن تعريفات الجيران موجودة، لكن إزاحات التسليم نحو أقرب موقع NR (~8 كم) متساهلة وتشير الأحداث إلى انتقالات متأخرة. مع البصمة الواسعة، يفسر ذلك الـPing‑Pong وفشل التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed fix: apply a small electrical downtilt (~1°) and minor downlink power trim (~1.5 dB) on S2, plus slightly earlier handover triggers toward the closest neighbors. Expected outcome: lower distant-serving and less ping-pong with modest SINR/RSRQ lift at the edge. Approve implementation now?",
+      "message_ar": "الإصلاح المقترح: تطبيق إمالة كهربائية بسيطة (~1°) وتقليل طفيف لقدرة الإرسال (~1.5 dB) على S2، بالإضافة إلى تفعيل شروط تسليم أبكر قليلاً نحو أقرب الجيران. النتيجة المتوقعة: خفض الخدمة البعيدة وتقليل الـPing‑Pong مع تحسن بسيط في SINR/RSRQ عند الحافة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied successfully; no new alarms. Initial spot checks show edge SINR improving by ~2 dB and fewer rapid re-selections in the last minutes.",
+      "message_ar": "تم تطبيق التعديل بنجاح دون إنذارات جديدة. فحوصات فورية تُظهر تحسن SINR عند الحافة بحوالي 2 dB وانخفاض عمليات إعادة الاختيار السريعة خلال الدقائق الأخيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement: ping-pong attempts are trending down and handover failures are easing. Action taken was site parameter tuning with a config push. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "نرى تحسناً مبكراً: محاولات الـPing‑Pong في انخفاض وفشل التسليم يتراجع. الإجراء المتخذ كان ضبط معلمات الموقع مع دفع الإعدادات. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor for the next 2–4 hours and share an update. If mobility or distant-serving worsens, we will roll back the tilt/power change and escalate to RF design for further antenna and neighbor plan review.",
+      "message_ar": "تم التأكيد—سوف نراقب خلال الساعتين إلى الأربع ساعات القادمة ونشارك التحديث. إذا ساءت مؤشرات التنقّل أو ارتفعت الخدمة البعيدة، سنرجع تعديل الإمالة/القدرة ونصعّد إلى فريق تصميم الترددات لمراجعة إضافية للهوائيات وخطة الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "rural",
+        "1km"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "RNCEL-41721-S2",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "overshoot mitigation: small downtilt + minor DL power trim + earlier HO triggers"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Coverage analysis confirmed the rural NR macro sector was overshooting with a long footprint and interference/overlap. The neighbor review indicated late handover conditions toward the closest cells. We applied site parameter tuning (minor downtilt and power trim with earlier handover triggers), which reduced distant serving and ping-pong and improved edge SINR; we will monitor to ensure stability.",
+    "ar": "أكد تحليل التغطية أن قطاع الماكرو NR الريفي يعاني من تغطية زائدة مع بصمة واسعة وتداخل/تراكب إشارة. أظهرت مراجعة الجيران وجود شروط تسليم متأخرة نحو أقرب الخلايا. قمنا بضبط معلمات الموقع (إمالة طفيفة وتقليل قدرة بسيط مع تفعيل شروط تسليم أبكر)، مما خفّض الخدمة البعيدة والـPing‑Pong وحسّن SINR عند الحافة؛ سنواصل المراقبة لضمان الاستقرار."
+  }
+}

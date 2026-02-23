@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0010",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Indoor NR micro cell over the last 4h shows elevated handover failures (~9%) with high ping-pong (15%) and weak signal (RSRP -111 dBm, SINR 2 dB → interference/signal overlap) during peak eMBB traffic.",
+    "ar": "الخلية الداخلية NR (ميكرو) خلال آخر 4 ساعات تُظهر ارتفاعاً في فشل التسليم (~9%) مع ذهاب/إياب مرتفع (15%) وإشارة ضعيفة (RSRP -111 dBm، SINR 2 dB → تداخل/تراكب إشارة) أثناء ذروة حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Over the last 4h on the indoor NR micro cell during peak eMBB, we see elevated handover failures (~9%), high ping-pong (15%), weak RSRP (-111 dBm) and low SINR (2 dB → interference/signal overlap) around the east wing corridor.",
+      "message_ar": "خلال آخر 4 ساعات على خلية NR داخلية (ميكرو) أثناء الذروة لحركة eMBB، نلاحظ ارتفاع فشل التسليم (~9%)، معدل تبديل ذهاب/إياب 15%، RSRP ضعيف (-111 dBm) وSINR منخفض (2 dB يشير إلى تداخل/تراكب إشارة) في ممر الجناح الشرقي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: I will run an indoor coverage grid to localize the HO-failure hotspot and overlap, then apply targeted HO parameter tuning (TTT/A3/hysteresis and a slight serving broadcast power tweak) if confirmed; please approve read access and a brief non-service-affecting change window.",
+      "message_ar": "الخطة: سأجري شبكة تغطية داخلية لتحديد موقع بؤرة فشل التسليم والتراكب، ثم أطبق ضبطاً مستهدفاً لمعاملات التسليم (TTT/A3/hysteresis مع تعديل طفيف لقدرة البث للخدمة) إذا تأكدت النتائج؛ يرجى الموافقة على صلاحية القراءة ونافذة تغيير قصيرة غير مؤثرة على الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID NR-MICRO-IND-23; most complaints from level 2, east wing corridor near the stairwell.",
+      "message_ar": "تمت الموافقة. معرف الخلية NR-MICRO-IND-23؛ معظم الشكاوى من الطابق 2، ممر الجناح الشرقي قرب السلم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage scan shows a ~35 m stretch in the east wing with serving RSRP −112 to −108 dBm and SINR 0–3 dB; neighbors N1/N2 are within 2–4 dB, causing overlap and late HOs ~5–8 m before the stairwell. Proposal: reduce TTT 188→160 ms, lower Event A3 offset 1.0→0.5 dB, raise serving SSB power by +1 dB, and add −1 dB HO margin toward N1 for that corridor. Proceed?",
+      "message_ar": "تفحص التغطية يظهر مقطعاً بطول ~35 م في الجناح الشرقي مع RSRP للخدمة −112 إلى −108 dBm وSINR بين 0–3 dB؛ الجارتان N1/N2 ضمن 2–4 dB مما يسبب تراكباً وتأخر التسليم ~5–8 م قبل السلم. الاقتراح: خفض TTT من 188 إلى 160 ms، تقليل تعويض حدث A3 من 1.0 إلى 0.5 dB، رفع قدرة SSB للخدمة بمقدار +1 dB، وإضافة هامش تسليم −1 dB باتجاه N1 لتلك الرواق. هل نمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the above tuning.",
+      "message_ar": "موافق على تنفيذ الضبط المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied the tuning on NR-MICRO-IND-23: TTT=160 ms, A3 offset=0.5 dB, serving SSB +1 dB, HO margin to N1 −1 dB (corridor scope). Change completed successfully; starting immediate spot checks.",
+      "message_ar": "تم تطبيق الضبط على NR-MICRO-IND-23: TTT=160 ms، تعويض A3=0.5 dB، زيادة SSB للخدمة +1 dB، وهامش تسليم نحو N1 بمقدار −1 dB (ضمن نطاق الممر). اكتمل التغيير بنجاح؛ أبدأ فحوصات سريعة فورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observations: earlier HO triggers on test UEs, fewer radio-link issues; hotspot RSRP improved to about −108 to −105 dBm; no alarms.",
+      "message_ar": "ملاحظات أولية: تفعيلات تسليم أبكر على أجهزة الاختبار، مشاكل رابط راديو أقل؛ تحسن RSRP في البؤرة إلى حوالي −108 إلى −105 dBm؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial 15‑min counters indicate HO failures down to ~6.2% and ping‑pong easing to ~13–14%; interference still present but reduced in the corridor. I recommend holding this setting through the busy period.",
+      "message_ar": "المؤشرات خلال 15 دقيقة الأولى تُظهر انخفاض فشل التسليم إلى ~6.2% وتراجع الذهاب/الإياب إلى ~13–14%؛ التداخل ما زال موجوداً لكنه انخفض في الممر. أوصي بالإبقاء على هذا الإعداد خلال فترة الانشغال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: fewer streaming freezes reported; median user throughput remains ~15 Mbps.",
+      "message_ar": "ملاحظات ميدانية: عدد أقل من تجمّد البث؛ يبقى متوسط سرعة المستخدم ~15 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will continue to watch HO and ping‑pong stability on this indoor micro cell while traffic builds; if any regression appears, I’ll pivot to neighbor‑specific offset review.",
+      "message_ar": "جيد. سأواصل متابعة استقرار التسليم والذهاب/الإياب على هذه الخلية الداخلية الميكرو مع ازدياد الحركة؛ وإذا ظهرت انتكاسة فسأنتقل لمراجعة تعويضات الجوار المخصصة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: handover failures are trending down with earlier triggers after the site parameter tuning; let’s monitor through the next busy hour.",
+      "message_ar": "تم رصد تحسن: حالات فشل التسليم في انخفاض مع تفعيلات أبكر بعد ضبط معاملات الموقع؛ لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we’ll own the next busy‑hour monitoring and share an update afterward. If degradation returns, we will escalate to RF design for neighbor plan adjustments and roll back to the previous settings if needed.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة ونوافيكم بتحديث بعدها. إذا عاد التدهور، سنصعّد إلى فريق التصميم اللاسلكي لضبط مخطط الجوار وسنُعيد الإعدادات السابقة عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "20m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "HO tuning: TTT 188→160 ms; A3 offset 1.0→0.5 dB; serving SSB +1 dB; HO margin toward N1 −1 dB (corridor)"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor handover‑failure hotspot driven by weak serving dominance and interference/signal overlap in the east wing corridor. Confirmed via coverage analysis, then mitigated with site parameter tuning to trigger earlier, cleaner handovers (reduced TTT and A3, slight serving power lift, and directed HO margin toward the dominant neighbor). Post‑change indicators improved; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص بؤرة فشل تسليم داخلية ناتجة عن ضعف سيطرة الخلية وتداخل/تراكب إشارة في ممر الجناح الشرقي. تم التأكيد عبر تحليل التغطية ثم التخفيف من خلال ضبط معاملات الموقع لتمكين عمليات تسليم أبكر وأنظف (خفض TTT وA3، زيادة طفيفة لقدرة الإرسال، وتوجيه هامش التسليم نحو الجار المُهيمن). المؤشرات بعد التغيير تحسنت؛ سنستمر بالمراقبة خلال ساعة الذروة القادمة."
+  }
+}

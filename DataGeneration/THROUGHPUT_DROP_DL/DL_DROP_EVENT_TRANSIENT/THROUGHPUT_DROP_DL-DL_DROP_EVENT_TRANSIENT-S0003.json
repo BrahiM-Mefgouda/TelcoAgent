@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0003",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR micro cell over the last 2h shows slow data (DL ~2 Mbps), very high resource use (~91%), moderate error rate (~7%), and poor RSRQ (-14 dB); alarm indicates congestion during the event.",
+    "ar": "خليّة 5G NR صغيرة في الاستاد خلال آخر ساعتين تظهر بيانات بطيئة (التحميل ~2 ميجابت/ث)، استخدام موارد مرتفع جدًا (~91%)، نسبة أخطاء متوسطة (~7%)، وRSRQ ضعيف (-14 ديسيبل)؛ التنبيه يشير إلى ازدحام أثناء الحدث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During the ongoing stadium event, NR micro cell NR-STAD-MICRO-12 shows DL ~2 Mbps over the last 2h with an active alarm; about 400+ users reported streaming buffering.",
+      "message_ar": "خلال الحدث الجاري في الاستاد، الخلية NR-STAD-MICRO-12 (صغيرة) تعرض سرعة تحميل ~2 ميجابت/ث في آخر ساعتين مع تنبيه نشط؛ أكثر من 400 مستخدم أبلغوا عن تعثّر في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion symptoms. I will first check operational counters for NR-STAD-MICRO-12 over the last 2h to baseline load and quality. Please approve read access.",
+      "message_ar": "تم التأكيد على مؤشرات الازدحام. سأتحقق أولًا من المؤشرات التشغيلية للخلية NR-STAD-MICRO-12 خلال آخر ساعتين لتحديد الحمل والجودة. الرجاء الموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved read-only access. Proceed.",
+      "message_ar": "تمت الموافقة على وصول للقراءة فقط. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot: PRB utilization 91%, active users 407, p95 queuing latency 75 ms, BLER 7%, RSRQ -14 dB, SINR 9 dB. This indicates capacity saturation under event load. Next, I’ll pull DL and utilization time series for the last 2h to validate persistence and correlation. Approve?",
+      "message_ar": "النتائج الحالية: استخدام PRB بنسبة 91%، عدد المستخدمين النشطين 407، كمون الطوابير p95 عند 75 مللي ثانية، BLER بنسبة 7%، RSRQ -14 ديسيبل، SINR 9 ديسيبل. هذا يشير إلى تشبّع السعة تحت حمل الحدث. التالي: سأسحب سلسلة زمنية للتحميل والاستخدام لآخر ساعتين للتحقق من الاستمرارية والارتباط. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the time series.",
+      "message_ar": "موافق على سحب السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms DL collapsed from ~18 to ~2 Mbps after gates opened; utilization stayed >90% for most of the 2h. Quality dipped (RSRQ) while BLER remained moderate, pointing to congestion-driven throughput loss. I propose targeted parameter tuning to boost downlink resource allocation for eMBB/streaming and reduce queueing delay while keeping errors stable. Proceed with a controlled change?",
+      "message_ar": "السلسلة الزمنية تؤكد أن التحميل انهار من ~18 إلى ~2 ميجابت/ث بعد فتح البوابات؛ ظلّ الاستخدام >90% لمعظم الساعتين. الجودة تراجعت (RSRQ) بينما بقي BLER متوسطًا، مما يشير إلى فقدان السرعة بسبب الازدحام. أقترح ضبطًا مستهدفًا للمعلمات لتعزيز تخصيص الموارد في الوصلة الهابطة لحركة eMBB/البث وتقليل كمون الطوابير مع إبقاء الأخطاء مستقرة. هل نبدأ تغييرًا مضبوطًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the controlled change now.",
+      "message_ar": "موافق على تنفيذ التغيير المضبوط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: tuned downlink resource-allocation weights, enabled burst handling, and tightened queue thresholds; no resets performed. Monitoring immediate impact. Any on-air feedback?",
+      "message_ar": "تم تطبيق التغيير: تم ضبط ترجيحات تخصيص الموارد في الوصلة الهابطة، وتم تمكين التعامل مع الاندفاعات، وتضييق عتبات الطوابير؛ دون إجراء أي إعادة تشغيل. أراقب الأثر الفوري. هل هناك ملاحظات ميدانية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early feedback: fewer buffering complaints and quick tests show ~3–5 Mbps; no drops observed.",
+      "message_ar": "ملاحظات أولية: شكاوى التعثّر أقل واختبارات سريعة تُظهر ~3–5 ميجابت/ث؛ لم تُلاحظ حالات سقوط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change snapshot: PRB now ~84–87%, p95 latency ~50 ms, median DL ~4.1 Mbps; BLER stable ~6–7%. Neighboring cells remain normal. Recommend continued observation through the peak.",
+      "message_ar": "لقطة ما بعد التغيير: استخدام PRB الآن ~84–87%، كمون p95 ~50 مللي ثانية، الوسيط للتحميل ~4.1 ميجابت/ث؛ BLER مستقر ~6–7%. الخلايا المجاورة طبيعية. أوصي بالاستمرار في المراقبة خلال الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see median DL improving to ~4–5 Mbps and buffering events trending down; action taken was site parameter tuning for DL resource allocation. Let’s monitor for the next 2 hours during the event.",
+      "message_ar": "نلاحظ تحسن الوسيط للتحميل إلى ~4–5 ميجابت/ث وتراجعًا في أحداث التعثّر؛ الإجراء المتخذ كان ضبط معلمات الموقع لتخصيص الموارد في الوصلة الهابطة. دعنا نراقب خلال الساعتين القادمتين أثناء الحدث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own this 2-hour monitoring window and report results afterward. If KPIs regress, we will rollback to baseline and escalate for additional capacity or traffic steering; otherwise we’ll retain the optimization.",
+      "message_ar": "تم. سنتولى نافذة المراقبة لمدة ساعتين وسنوافيك بالنتائج بعدها. إذا تراجعت مؤشرات الأداء سنعود إلى الضبط الأساسي ونجري تصعيدًا لإضافة سعة أو توجيه الحركة، وإلا سنُبقي على التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-12",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-12",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on a stadium NR micro cell during an event: PRB saturation >90%, degraded RSRQ, and high queuing latency led to slow data despite moderate BLER. Executed site parameter tuning focused on downlink resource-allocation and burst handling, which reduced utilization and latency and improved median throughput. We will monitor for the next 2 hours and keep the optimization unless KPIs regress, in which case we will rollback and escalate for capacity relief.",
+    "ar": "تم تشخيص انخفاض سرعة الوصلة الهابطة في خلية NR صغيرة داخل الاستاد أثناء الحدث: تشبّع PRB بأكثر من 90% وتدهور RSRQ وارتفاع كمون الطوابير أدت إلى بيانات بطيئة رغم أن BLER متوسط. تم تنفيذ ضبط معلمات للموقع يركّز على تخصيص الموارد في الوصلة الهابطة والتعامل مع الاندفاعات، ما خفّض الاستخدام والكمون وحسّن الوسيط للتحميل. سنراقب خلال الساعتين القادمتين ونُبقي التحسين ما لم تتراجع المؤشرات، وعندها سنعود إلى الأساس مع تصعيد لتخفيف الازدحام."
+  }
+}

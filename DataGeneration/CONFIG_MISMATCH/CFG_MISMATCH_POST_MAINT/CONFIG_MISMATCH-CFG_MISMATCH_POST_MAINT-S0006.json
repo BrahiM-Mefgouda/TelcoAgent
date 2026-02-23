@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0006",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban NR macro cell shows 4 config mismatches detected ~6h after maintenance, with handover failures at 8%, BLER ~4.7%, PRB ~62%, and median downlink 24 Mbps; no active alarms.",
+    "ar": "موقع NR ماكرو في منطقة ضواحي يظهر 4 اختلافات تهيئة مرصودة بعد ~6 ساعات من الصيانة، مع فشل تسليم عند 8٪، وBLER ~4.7٪، واستخدام PRB ~62٪، ومتوسط تنزيل 24 ميجابت/ث؛ دون إنذارات نشطة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-maintenance ~6h ago on suburban NR macro cell NR12345-A, we see HO failures ~8%, BLER ~4.7%, p50 DL ~24 Mbps, PRB ~62%. No alarms; ops suspects config drift.",
+      "message_ar": "بعد صيانة منذ ~6 ساعات على خلية NR ماكرو NR12345-A في الضواحي، نرى فشل تسليم ~8٪، وBLER ~4.7٪، ووسيط تنزيل ~24 ميجابت/ث، وPRB ~62٪. لا توجد إنذارات؛ الفريق يشك بحدوث انجراف في التهيئة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will verify OSS vs live configuration and correlate last 24h KPIs. Please confirm access to NR12345-A and approve a non-service-affecting audit.",
+      "message_ar": "سأتحقق من التهيئة بين OSS والحيّ على الشبكة وأربطها بمؤشرات آخر 24 ساعة. يرجى تأكيد الوصول إلى NR12345-A والموافقة على تدقيق غير مؤثر على الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID: NR12345-A, window: 24h.",
+      "message_ar": "تمت الموافقة على الوصول. معرّف الخلية: NR12345-A، النافذة: 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running config audit now. Result: 4 parameters deviate from baseline; drift age ~6h. Mismatch touches handover thresholds, neighbor relations set, beam management timers, and power control bounds, consistent with the HO failure uptick.",
+      "message_ar": "أجري الآن تدقيق التهيئة. النتيجة: 4 معلمات تنحرف عن الأساس؛ عمر الانجراف ~6 ساعات. الاختلاف يشمل عتبات التسليم، مجموعة الجيران، مؤقتات إدارة الحزمة، وحدود التحكم بالطاقة، وهو متوافق مع ارتفاع فشل التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Enterprise users nearby reported intermittent drops during mobility.",
+      "message_ar": "تم الاستلام. مستخدمون من المؤسسات القريبة أبلغوا عن انقطاعات متقطعة أثناء التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: push the OSS baseline to the gNB to clear the mismatch. No restart expected; brief radio update (<1s). Safe to proceed at current ~62% load. Please approve.",
+      "message_ar": "الخطة: دفع خط أساس OSS إلى gNB لإزالة الاختلاف. لا يُتوقع إعادة تشغيل؛ تحديث راديو قصير (<1 ثانية). آمن للتنفيذ مع الحمل الحالي ~62٪. يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing baseline configuration now. Completed successfully; live config matches OSS. Initial health check shows BLER dipping and HO failures starting to ease. I will observe stabilization over the next 30 minutes.",
+      "message_ar": "أقوم الآن بدفع التهيئة الأساسية. اكتمل بنجاح؛ التهيئة الحية تطابق OSS. الفحص الأولي يظهر انخفاض BLER وبداية تراجع فشل التسليم. سأتابع الاستقرار خلال الـ30 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing steadier call traces and fewer HO rejects so far; throughput remains stable.",
+      "message_ar": "نرى سجلات مكالمات أكثر استقراراً ورفض تسليم أقل حتى الآن؛ معدل النقل مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will open a tracking ticket and attach pre/post snapshots. Continuing to monitor during the next busy hour for enterprise traffic.",
+      "message_ar": "سأفتح تذكرة تتبع وأرفق لقطات قبل/بعد. سأستمر بالمراقبة خلال ساعة الذروة القادمة لحركة المؤسسات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures trending down and BLER improving after the configuration push. Let’s monitor for the next 2–4 hours. Ticket DU-CFG-10427.",
+      "message_ar": "تمت ملاحظة تحسن: فشل التسليم في انخفاض وBLER يتحسن بعد دفع التهيئة. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة. التذكرة DU-CFG-10427."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update the ticket after the window. If metrics regress, we will roll back the change; if neighbor effects appear, we will escalate to field for on-site validation.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث التذكرة بعد انتهاء النافذة. إذا تراجعت المؤشرات سنعود عن التغيير؛ وإذا ظهرت آثار من الجيران سنصعّد إلى الفريق الميداني للتحقق في الموقع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR12345-A",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG_BASELINE_NR12345-A_2025-09-13"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config mismatch corrected on NR12345-A; pushed baseline; monitoring HO failures and BLER."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The agent identified a configuration mismatch on the suburban NR macro cell (4 parameters drifted ~6h post-maintenance), aligning with elevated handover failures and BLER. The baseline configuration was pushed to clear the mismatch, and a tracking ticket was created for traceability. KPIs began improving; the plan is to monitor and, if needed, roll back or escalate after the observation window.",
+    "ar": "حدد الوكيل اختلافاً في التهيئة على خلية NR ماكرو في الضواحي (انجراف 4 معلمات بعد ~6 ساعات من الصيانة) متوافقاً مع ارتفاع فشل التسليم وBLER. تم دفع التهيئة الأساسية لإزالة الاختلاف وإنشاء تذكرة تتبع لأغراض التتبع. بدأت المؤشرات بالتحسن؛ والخطة هي المراقبة مع الاستعداد للعودة عن التغيير أو التصعيد بعد نافذة الملاحظة إذا لزم الأمر."
+  }
+}

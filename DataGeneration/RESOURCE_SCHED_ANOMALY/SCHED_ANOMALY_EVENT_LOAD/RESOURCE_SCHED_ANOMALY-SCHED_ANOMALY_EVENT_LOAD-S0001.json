@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0001",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell over the last 3h shows PRB ~90%, fairness ~0.55, p95 scheduler latency 139 ms, 1001 users, with a congestion alarm during the event.",
+    "ar": "خلية NR مايكرو في الملعب خلال آخر 3 ساعات تُظهر استخدام PRB ~90%، وعدالة ~0.55، وكمون المجدول p95 يبلغ 139 مللي ثانية، مع 1001 مستخدم وإنذار ازدحام أثناء الحدث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell during the live event; over the last 3h we have heavy load with a congestion alarm. Users report buffering, p95 scheduler latency ~139 ms and median downlink ~13 Mbps.",
+      "message_ar": "خلية NR مايكرو في الملعب أثناء الحدث المباشر؛ خلال آخر 3 ساعات لدينا حمل مرتفع مع إنذار ازدحام. المستخدمون يبلغون عن تقطّع، وكمون المجدول p95 ~139 مللي ثانية ومتوسط التنزيل ~13 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Indicators point to a resource scheduling anomaly: PRB ~90%, fairness ~0.55, best-effort share 65%, 1001 users. Requesting approval to pull 3h OSS counters for NR_STADIUM_MICRO_SECTOR_A to validate queues and admission.",
+      "message_ar": "تم الاستلام. المؤشرات تدل على خلل في جدولة الموارد: PRB ~90%، العدالة ~0.55، وحصة أفضل جهد 65%، و1001 مستخدم. أطلب الموافقة لسحب عدادات 3 ساعات لخلية NR_STADIUM_MICRO_SECTOR_A للتحقق من الطوابير والقبول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Target cell_id: NR_STADIIUM_MICRO_SECTOR_A.",
+      "message_ar": "موافق. معرف الخلية المستهدفة: NR_STADIUM_MICRO_SECTOR_A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters: active users peaked at 1001; buffer occupancy high; high-priority share 26% vs best-effort 65%; sustained PRB 88–95%. Next, I will run a 3h time series on PRB and scheduler fairness/latency to confirm the pattern—proceed?",
+      "message_ar": "تم سحب عدادات 3 ساعات: المستخدمون النشطون بلغوا ذروة 1001؛ امتلاء المخازن مرتفع؛ حصة أولوية عالية 26% مقابل أفضل جهد 65%؛ PRB مستمر عند 88–95%. بعد ذلك سأجري سلسلة زمنية 3 ساعات لـ PRB وعدالة/كمون المجدول لتأكيد النمط—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms near-ceiling PRB with fairness 0.5–0.6 and allocation skew 22; p95 scheduler latency spikes ~140 ms aligned with eMBB streaming peaks. SINR ~8 dB and RSRQ -15 dB show some edge impact, but scheduler imbalance is primary. I propose immediate parameter optimization to rebalance queue weights and reduce BE dominance—approve?",
+      "message_ar": "السلسلة الزمنية تؤكد PRB قريباً من الحد مع عدالة 0.5–0.6 وانحراف تخصيص 22؛ ارتفاعات كمون المجدول p95 ~140 مللي ثانية متزامنة مع ذروة بث eMBB. قيمة SINR ~8 dB وRSRQ -15 dB تشير إلى تأثير على الأطراف، لكن الخلل في المجدول هو الأساسي. أقترح تحسيناً فورياً للمعلمات لإعادة موازنة أوزان الطوابير وتقليل سيطرة أفضل جهد—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate optimization on NR_STADIUM_MICRO_SECTOR_A.",
+      "message_ar": "موافق على التحسين الفوري على NR_STADIUM_MICRO_SECTOR_A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed optimization: raised priority for high-priority traffic and slightly constrained best-effort share to reduce skew; no service interruption observed. Committed; monitoring short-term (15 min) for stability.",
+      "message_ar": "تم تنفيذ التحسين: رفع أولوية الحركة عالية الأهمية وتقييد طفيف لحصة أفضل جهد لتقليل الانحراف؛ لم تُلاحظ انقطاعات. تم الاعتماد؛ أراقب قصير المدى (15 دقيقة) للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement: p95 scheduler latency down to ~95 ms; median downlink now ~16 Mbps; fewer buffering complaints.",
+      "message_ar": "تحسن مبكر: كمون المجدول p95 انخفض إلى ~95 مللي ثانية؛ ومتوسط التنزيل الآن ~16 ميجابت/ث؛ شكاوى التقطّع أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. We will continue tracking fairness and PRB headroom during the event. If congestion resurges, we can roll back or apply temporary traffic steering using standard methods. Recommend monitoring through the next busy hour—agree?",
+      "message_ar": "تقدم جيد. سنواصل متابعة العدالة وهامش PRB أثناء الحدث. إذا عاد الازدحام سنقوم بالرجوع عن التغيير أو تطبيق توجيه حركة مؤقت بأساليب قياسية. أوصي بالمراقبة خلال ساعة الذروة القادمة—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agree. Latency spikes are trending down and fairness is improving. Action taken: scheduler parameter optimization. Monitor through the next busy hour.",
+      "message_ar": "موافق. ارتفاعات الكمون تتراجع والعدالة تتحسن. الإجراء المُتخذ: تحسين معلمات المجدول. فلنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour monitoring and report back on stability, latency, and fairness afterward. If performance degrades, we will roll back; if fairness remains low, we will escalate for additional capacity measures.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنقدم تقريراً بعد ذلك عن الاستقرار والكمون والعدالة. إذا تدهور الأداء سنرجع التغيير؛ وإذا بقيت العدالة منخفضة سنصعّد لإجراءات سعة إضافية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STADIUM_MICRO_SECTOR_A",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STADIUM_MICRO_SECTOR_A",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the NR micro cell exhibited high PRB load, poor fairness, and elevated scheduler latency, consistent with a resource scheduling anomaly. We verified this via 3h counters and PRB time series, then mitigated with site parameter tuning to rebalance queue priorities and reduce best-effort dominance. Post-change, latency decreased and median throughput improved; we will continue monitoring through the next busy hour.",
+    "ar": "خلال الحدث في الملعب، أظهرت خلية NR المايكرو حملاً عالياً على PRB وعدالة منخفضة وارتفاعاً في كمون المجدول، بما يتماشى مع خلل في جدولة الموارد. تم التحقق عبر عدادات 3 ساعات وسلسلة زمنية لـ PRB، ثم تم التخفيف من خلال ضبط معلمات الموقع لإعادة موازنة أولويات الطوابير وتقليل سيطرة أفضل جهد. بعد التغيير انخفض الكمون وتحسن المتوسط، وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

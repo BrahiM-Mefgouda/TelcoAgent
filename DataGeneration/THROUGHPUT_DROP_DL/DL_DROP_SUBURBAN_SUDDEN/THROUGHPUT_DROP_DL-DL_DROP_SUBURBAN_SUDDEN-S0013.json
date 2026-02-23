@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0013",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban 5G macro cell shows a sudden downlink throughput drop to ~12 Mbps over the last 2 hours during the shoulder period with eMBB streaming load; resource use ~68% with SINR ~6 dB and BLER ~6%.",
+    "ar": "خلية ماكرو 5G في منطقة شبه حضرية تظهر انخفاضًا مفاجئًا في سرعة التحميل إلى نحو 12 ميجابت/ث خلال آخر ساعتين في فترة ما بين الذروة مع حمل eMBB (بث)، واستخدام الموارد ~68% مع SINR حوالي 6 dB وBLER ~6%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-Cell-Suburb-145 has a sudden DL throughput drop in the past 2h (shoulder). Users ~248 on eMBB streaming, DL ~12 Mbps vs normal >30. SINR ~6 dB, RSRQ -11 dB. No alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة شبه حضرية: NR-Cell-Suburb-145 شهدت هبوطًا مفاجئًا في سرعة التحميل خلال آخر ساعتين (فترة ما بين الذروة). المستخدمون ~248 مع بث eMBB، التحميل ~12 ميجابت/ث مقابل الطبيعي >30. قيمة SINR ~6 dB وRSRQ -11 dB. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will pull the last 2h performance counters for NR-Cell-Suburb-145 to scope the issue. Please approve access.",
+      "message_ar": "تم. سأسترجع مؤشرات الأداء لآخر ساعتين للخلية NR-Cell-Suburb-145 لتحديد نطاق المشكلة. يرجى الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. You have access.",
+      "message_ar": "موافق. لديك صلاحية الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled: PRB ~68%, active users 240–260, BLER 5–8%, median SINR ~6 dB, RSRQ -11 dB; handovers normal; no backhaul errors. This looks RF-quality-limited rather than congestion. Next, I will chart DL throughput over the 2h window with SINR/BLER to time the onset. Proceed?",
+      "message_ar": "تم الاسترجاع: استخدام PRB ~68%، المستخدمون النشطون 240–260، BLER بين 5–8%، قيمة SINR المتوسطة ~6 dB وRSRQ -11 dB؛ عمليات التسليم طبيعية؛ ولا أخطاء في الربط الخلفي. يبدو أن القيد من جودة الوصلة الراديوية وليس ازدحامًا. التالي، سأعرض سلسلة زمنية لسرعة التحميل خلال ساعتين مع SINR/BLER لتحديد وقت بدء الهبوط. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows DL median fell from ~34 to ~12 Mbps starting ~75 minutes ago, aligning with SINR dips to 5–7 dB and BLER peaks ~8%; PRB stayed <70%. Diagnosis: moderate radio-quality degradation under load. I propose a targeted parameter tune (DL link adaptation robustness and resource allocation weighting) to stabilize MCS. Approve change?",
+      "message_ar": "السلاسل الزمنية تُظهر أن الوسيط للتحميل انخفض من ~34 إلى ~12 ميجابت/ث بدءًا من ~75 دقيقة مضت، متوافقًا مع هبوط SINR إلى 5–7 dB وذروات BLER ~8%؛ وبقي استخدام PRB أقل من 70%. التشخيص: تدهور متوسط في جودة الوصلة الراديوية تحت الحمل. أقترح ضبطًا مستهدفًا للمعاملات (تعزيز متانة تكيّف الوصلة الهابطة ووزن توزيع الموارد) لاستقرار مستويات التضمين. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize.",
+      "message_ar": "موافق على التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to NR-Cell-Suburb-145: minor DL link-adaptation and resource-allocation tuning. Commit successful; no resets. Quick check: BLER now ~4–5%, median SINR ~7 dB, spot DL 18–22 Mbps. I will watch counters for short-term stability.",
+      "message_ar": "تم تطبيق التحسين على NR-Cell-Suburb-145: ضبط طفيف لتكيّف الوصلة الهابطة وتوزيع الموارد. تم الحفظ بنجاح؛ بلا إعادة تشغيل. فحص سريع: BLER الآن ~4–5%، وSINR الوسطي ~7 dB، والتحميل اللحظي 18–22 ميجابت/ث. سأراقب المؤشرات لفترة قصيرة للتأكد من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field note: streaming complaints have eased; spot checks around the sector show ~20 Mbps.",
+      "message_ar": "ملاحظة ميدانية: شكاوى البث تراجعت؛ القياسات السريعة حول القطاع تُظهر ~20 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Early KPIs are stabilizing; we will continue observing for any drift and keep the change in place.",
+      "message_ar": "تم. المؤشرات المبكرة تتجه للاستقرار؛ سنواصل المراقبة لأي انحراف مع إبقاء التغيير مُفعّلًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: downlink rates trending upward and error rates down. Action taken: site parameter tuning/config push on the cell. Let’s monitor over the next busy hour (next 2–4 hours) to confirm.",
+      "message_ar": "تحسن ملحوظ: معدلات التحميل في اتجاه صعودي ومعدلات الأخطاء في انخفاض. الإجراء: ضبط معاملات الموقع/دفع تهيئة على الخلية. لنتابع المراقبة خلال ساعة الذروة القادمة (خلال 2–4 ساعات القادمة) للتأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy-hour monitoring and report updated throughput and error trends afterward. If performance regresses, we will roll back the change; if signs of interference persist, we will escalate for cluster-level mitigation.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة وسنوافيك لاحقًا بتحديث اتجاهات السرعة والأخطاء. إذا تراجع الأداء سنقوم بالتراجع عن التغيير؛ وإذا استمرت دلائل التداخل سنقوم بالتصعيد لمعالجة على مستوى المجموعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-Suburb-145",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-Suburb-145",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL link adaptation and resource allocation parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a suburban NR macro cell with a sudden downlink throughput drop under eMBB load. Time-series confirmed a decline beginning ~75 minutes prior with moderate PRB usage but elevated BLER and low-mid SINR, indicating RF quality limits rather than congestion. Applied site parameter tuning to downlink link adaptation and resource allocation, which reduced errors and lifted throughput; monitoring will continue through the next busy hour.",
+    "ar": "تم التحقيق في خلية NR ماكرو شبه حضرية تعاني من هبوط مفاجئ في سرعة التحميل تحت حمل eMBB. أكدت السلاسل الزمنية بدء التراجع قبل ~75 دقيقة مع استخدام PRB معتدل لكن BLER مرتفع نسبيًا وSINR منخفض-متوسط، مما يشير إلى قيد في جودة الوصلة الراديوية وليس ازدحامًا. تم تنفيذ ضبط معاملات للموقع على تكيّف الوصلة الهابطة وتوزيع الموارد، مما خفّض الأخطاء ورفع السرعة؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

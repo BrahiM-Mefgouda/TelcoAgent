@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_DOWNTOWN_SPOT-S0017",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_DOWNTOWN_SPOT",
+  "query": {
+    "en": "Urban macro 5G cell shows elevated handover failures and ping‑pong during peak evening eMBB streaming, with an active congestion/outage alarm and low SINR indicating interference / signal overlap.",
+    "ar": "خلية 5G ماكرو حضرية تُظهر ارتفاعاً في فشل التسليم وتكراره خلال ذروة المساء مع حركة eMBB (بث)، مع إنذار نشط بالازدحام/الانقطاع وSINR منخفض يدل على تداخل/تراكب إشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Downtown urban NR macro is flagging a mobility alarm during peak evening; HO success ~86%, failures around 13 with ping‑pong ~11, RSRP ≈ −105 dBm, RSRQ −8 dB, SINR ~1 dB, ~386 users, eMBB streaming heavy. Please investigate.",
+      "message_ar": "الموقع الماكرو NR في وسط المدينة يُظهر إنذاراً للحركة خلال ذروة المساء؛ نجاح التسليم ~86%، فشل ~13 مع تكرار تسليم ~11، RSRP ≈ −105 dBm، RSRQ −8 dB، وSINR ~1 dB، ~386 مستخدم، وحِمل eMBB (بث). الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by analyzing coverage and dominance around the hotspot for the last 3h; low SINR suggests interference / signal overlap. Approve access to proceed with analysis and targeted mobility optimization on this cell?",
+      "message_ar": "سأبدأ بتحليل التغطية والسيطرة حول النقطة الساخنة لآخر 3 ساعات؛ انخفاض SINR يشير إلى تداخل/تراكب إشارة. هل توافق على المضي قدماً في التحليل وتحسين الحركة المستهدف على هذه الخلية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. The issue is concentrated along the Main St transit blocks near the plaza.",
+      "message_ar": "موافق. المشكلة تتركز على امتداد شارع Main قرب الساحة ومحطات النقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running a high‑resolution grid (250 m) around the urban sector for the past 3h. Results: a southeast corridor shows weak dominance with two adjacent macros competing; signal −104 to −110 dBm, RSRQ ~−9 dB, SINR 0–2 dB. The current A3 offset 3 dB and TTT 123 ms are too conservative, causing late HOs and ping‑pong at ~32 attempts/5 min.",
+      "message_ar": "أجري شبكة تحليل عالية الدقة (250 م) حول القطاع الحضري لآخر 3 ساعات. النتائج: ممر جنوبي شرقي يُظهر سيطرة ضعيفة مع تنافس من محطتين مجاورتين؛ الإشارة بين −104 و−110 dBm، وRSRQ حوالي −9 dB، وSINR بين 0–2 dB. إعداد A3 الحالي 3 dB وTTT 123 ms محافظان أكثر من اللازم، ما يسبب تسليمات متأخرة وتكراراً بحوالي ~32 محاولة/5 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback matches that corridor; users report drops exiting the station.",
+      "message_ar": "ملاحظات الحقل تطابق ذلك الممر؛ المستخدمون يبلغون عن انقطاعات عند الخروج من المحطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose targeted mobility tuning on that boundary: decrease A3 by 1 dB, shorten TTT to 80 ms, set HO hysteresis to 1 dB, and apply +1 dB CIO toward the two southern neighbors to advance HO and reduce ping‑pong. Approve to implement now?",
+      "message_ar": "أقترح ضبطاً مستهدفاً لحدود التسليم هناك: خفض A3 بمقدار 1 dB، تقصير TTT إلى 80 ms، ضبط هيستريزس التسليم إلى 1 dB، وتطبيق CIO +1 dB باتجاه الجارين الجنوبيين لتقديم التسليم وتقليل التكرار. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied to the sector and its two neighbors. Immediate check shows HO success up ~2 pp, earlier handovers increasing, and ping‑pong stabilizing. I will keep watching RLF, HO success, and user experience during peak.",
+      "message_ar": "تم تطبيق التغييرات على القطاع وجارين اثنين. الفحص الفوري يُظهر ارتفاع نجاح التسليم بحوالي نقطتين مئويتين، وزيادة التسليم المبكر، واستقرار تكرار التسليم. سأواصل مراقبة حالات الفشل ونجاح التسليم وتجربة المستخدم أثناء الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 20 minutes, quick stats show fewer late handovers and a slight rise in median throughput (~10–11 Mbps).",
+      "message_ar": "بعد 20 دقيقة، الإحصاءات السريعة تُظهر تسليمات متأخرة أقل وارتفاعاً طفيفاً في المتوسط الوسيط (~10–11 ميجابت/ث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will track the corridor cluster for drift and verify neighbor loads remain balanced; no further changes for now.",
+      "message_ar": "تم. سأتابع مجموعة الممر لأي انحراف وأتحقق من بقاء أحمال الجيران متوازنة؛ لا تغييرات إضافية حالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures trending down and ping‑pong lower in the corridor. This follows the site parameter optimization you applied. Please monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: فشل التسليم يتناقص وتكرار التسليم أقل في الممر. هذا يتماشى مع تحسين معلمات الموقع الذي قمت به. الرجاء المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update with HO success, ping‑pong, and RLF trends. If degradation appears, we will escalate to investigate interference sources; if regressions occur, we will roll back the mobility tweaks.",
+      "message_ar": "سنقوم بمتابعة الأداء خلال ساعة الذروة القادمة وتزويدك بتحديث عن نجاح التسليم وتكراره وحالات الفشل. إذا ظهر تدهور سنصعّد للتحقق من مصادر التداخل؛ وإذا حدث تراجع سنعود عن تعديلات الحركة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "urban",
+        "250m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "A3 −1 dB; TTT 80 ms; HO hysteresis 1 dB; CIO +1 dB toward south neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Coverage analysis around the downtown urban macro identified a southeast corridor hotspot with weak cell dominance and interference / signal overlap, driving late and ping‑pong handovers. We executed site parameter tuning by reducing the A3 offset, shortening TTT, and adjusting neighbor CIO/hysteresis to advance handovers. Post‑change indicators improved; we will monitor through the next busy hour.",
+    "ar": "أظهر تحليل التغطية حول الماكرو في وسط المدينة نقطة ساخنة في ممر جنوبي شرقي مع سيطرة ضعيفة وتداخل/تراكب إشارة، ما أدى إلى تسليمات متأخرة وتكرار التسليم. قمنا بتنفيذ ضبط لمعلمات الموقع عبر خفض إزاحة A3، تقصير TTT، وضبط CIO/الهيستريزس للجيران لتقديم التسليم. المؤشرات بعد التغيير تحسنت؛ سنراقب خلال ساعة الذروة القادمة."
+  }
+}

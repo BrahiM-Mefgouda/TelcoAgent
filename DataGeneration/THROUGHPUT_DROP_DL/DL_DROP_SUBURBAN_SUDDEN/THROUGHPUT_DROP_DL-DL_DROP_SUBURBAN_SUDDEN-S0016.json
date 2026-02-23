@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0016",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban NR macro cell shows a sudden downlink throughput of 15 Mbps over the last 2h with high load and interference/signal overlap (PRB 81%, BLER 10.9%, RSRQ -10 dB, SINR 1 dB, 266 users), no alarms.",
+    "ar": "خلية NR ماكرو في منطقة سكنية أظهرت هبوطاً مفاجئاً في سرعة التحميل إلى 15 ميجابت/ث خلال آخر ساعتين مع حمل مرتفع وتداخل/تراكب إشارات (PRB 81%، BLER 10.9%، RSRQ -10 dB، SINR 1 dB، 266 مستخدماً)، دون إنذارات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a sudden DL throughput drop on a suburban NR macro over the past 2 hours during shoulder traffic for an enterprise-private mix: DL ~15 Mbps, PRB 81%, BLER ~11%, RSRQ -10 dB, SINR 1 dB, ~266 users; no active alarms.",
+      "message_ar": "نلاحظ هبوطًا مفاجئًا في سرعة التحميل على خلية NR ماكرو بمنطقة سكنية خلال آخر ساعتين أثناء فترة متوسطة الحمل لبيئة مؤسسية خاصة: التحميل ~15 ميجابت/ث، PRB ‏81%، BLER ‏~11%، RSRQ ‏-10 dB، ‏SINR ‏1 dB، ~266 مستخدمًا؛ لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking OSS counters for the last 2 hours to verify load, BLER, interference/signal overlap, and user distribution. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بفحص عدادات OSS لآخر ساعتين للتحقق من الحمل وBLER وتداخل/تراكب الإشارات وتوزيع المستخدمين. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-41023-1. Access approved.",
+      "message_ar": "معرّف الخلية: NR-41023-1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review complete. Last 2h: PRB 80–85%, users 240–280, BLER peaks ~12%, RSRQ -10 dB, SINR 1–2 dB; handovers stable, no alarms. This points to load with interference suppressing DL. Next, I’ll pull DL throughput time series to confirm impact. Proceed?",
+      "message_ar": "تمت مراجعة OSS. آخر ساعتين: PRB بين 80–85%، المستخدمون 240–280، قمم BLER ~12%، ‏RSRQ -10 dB، ‏SINR بين 1–2 dB؛ التسليمات مستقرة، ولا توجد إنذارات. يشير ذلك إلى حمل مع تداخل يحدّ من التحميل. التالي، سأستخرج سلسلة زمنية لسرعة التحميل لتأكيد التأثير. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمضي قدمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows median throughput fell from ~70 Mbps baseline to 12–20 Mbps, with dips aligned to user bursts and BLER spikes; no outage signatures. Likely interference plus scheduler strain. I propose targeted optimization of DL scheduling and interference mitigation to lower BLER and stabilize throughput. Approve immediate change?",
+      "message_ar": "السلسلة الزمنية للتحميل تُظهر هبوط الوسيط من ~70 ميجابت/ث أساسًا إلى 12–20 ميجابت/ث، مع هبوطات تتزامن مع ذروات المستخدمين وارتفاع BLER؛ لا مؤشرات لانقطاع. الاحتمال الأكبر تداخل مع إجهاد الجدولة. أقترح تحسينًا موجّهًا لجدولة التحميل وتخفيف التداخل لخفض BLER وتثبيت السرعة. هل توافق على التنفيذ الفوري؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافق على التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed site parameter tuning for DL scheduler and interference mitigation; change is safe and reversible. Allow 10 minutes to stabilize. Please run a quick spot check.",
+      "message_ar": "تم تنفيذ ضبط معلمات الموقع لجدولة التحميل وتخفيف التداخل؛ التغيير آمن وقابل للرجوع. نحتاج 10 دقائق للاستقرار. يرجى إجراء تحقق سريع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick check: DL now ~38 Mbps on test UE, BLER ~6%, PRB ~73%, SINR ~3 dB; handovers unaffected.",
+      "message_ar": "تحقق سريع: التحميل الآن ~38 ميجابت/ث على جهاز اختبار، BLER ~6%، PRB ~73%، ‏SINR ~3 dB؛ التسليمات دون تأثير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. To close the loop, please confirm the observed gains and propose a monitoring window (e.g., next busy hour).",
+      "message_ar": "تحسن جيد. لإتمام المتابعة، يرجى تأكيد المكاسب المرصودة واقتراح نافذة مراقبة (مثلاً ساعة الذروة القادمة)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: throughput trending up and BLER trending down after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: ارتفاع في سرعة التحميل وانخفاض في BLER بعد ضبط معلمات الموقع. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and report throughput and BLER stability afterward. If performance degrades, we will roll back the change; if interference persists, we will escalate for RF optimization and neighbor coordination.",
+      "message_ar": "سنقوم نحن بمتابعة الأداء خلال ساعة الذروة القادمة ونوافِيكم بتثبيت سرعة التحميل وBLER بعدها. إذا تدهور الأداء فسنرجع التغيير؛ وإذا استمر التداخل فسوف نصعّد للأمثلية اللاسلكية وتنسيق الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41023-1",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-41023-1",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL_scheduler_and_interference_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a sudden downlink throughput drop on a suburban NR macro. OSS and DL time-series confirmed high load with interference (low SINR/RSRQ) driving elevated BLER and reduced throughput. Applied targeted site parameter tuning for DL scheduler and interference mitigation, yielding immediate throughput and BLER improvement; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص هبوط مفاجئ في سرعة التحميل على خلية NR ماكرو في منطقة سكنية. أكدت مراجعة OSS والسلاسل الزمنية للتحميل وجود حمل مرتفع مع تداخل (SINR/RSRQ منخفضان) أدى إلى ارتفاع BLER وانخفاض السرعة. جرى تطبيق ضبط موجّه لمعاملات الموقع لجدولة التحميل وتخفيف التداخل، مما حقق تحسنًا فوريًا في السرعة وBLER؛ ستستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

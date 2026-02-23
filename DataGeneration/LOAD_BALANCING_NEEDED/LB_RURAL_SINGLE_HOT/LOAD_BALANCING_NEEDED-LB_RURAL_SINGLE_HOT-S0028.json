@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0028",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell shows sustained high load (~88% resource use, 213 users) over the last 6h while neighbors average ~35% and handovers skew outward, indicating load imbalance affecting eMBB streaming distribution.",
+    "ar": "موقع ماكرو NR ريفي يظهر حملاً مرتفعاً مستمراً (~88% من الموارد، 213 مستخدماً) خلال آخر 6 ساعات بينما متوسط حمل الجيران ~35% وتحويلات التسليم تميل إلى الخارج، مما يشير إلى عدم توازن في الحمل يؤثر على توزيع بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NR-RURAL-8763 looks hot over the last 6h: ~88% resource use with ~213 users. Neighbor cells average ~35% load, HO out is ~34/5min vs HO in ~12/5min. Median DL throughput ~19 Mbps. No alarms. Please assess for load imbalance.",
+      "message_ar": "الموقع الماكرو NR الريفي NR-RURAL-8763 يبدو ساخناً خلال آخر 6 ساعات: ~88% من استخدام الموارد مع ~213 مستخدماً. متوسط حمل الخلايا المجاورة ~35%، تحويلات التسليم الصادرة ~34/5 دقائق مقابل الواردة ~12/5 دقائق. متوسط سرعة التحميل ~19 ميجابت/ث. لا توجد إنذارات. يرجى التقييم لاحتمال عدم توازن الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will begin with a neighbor relation and handover threshold audit to quantify imbalance and offload potential. Please approve read access to NR-RURAL-8763 for the last 6h.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجيران وعَتبات التسليم لتحديد عدم التوازن وإمكانات التفريغ. يرجى الموافقة على وصول قراءة لـ NR-RURAL-8763 لآخر 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID: NR-RURAL-8763, window: 6h. Traffic is mixed times with heavy eMBB streaming. Nearest neighbors are roughly 6 km away.",
+      "message_ar": "تمت الموافقة. معرّف الخلية: NR-RURAL-8763، النافذة: 6 ساعات. الحركة بأوقات مختلطة مع بث eMBB كثيف. أقرب الجيران على بُعد يقارب 6 كم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit completed: 7 neighbors at ~5–7 km; two are lightly loaded with conservative offsets. Serving cell appears sticky with asymmetric HO (out >> in). Offload opportunity ~15–25%. I propose targeted tuning of neighbor priorities and load-based HO thresholds to shift traffic to the two lighter neighbors. Approve change?",
+      "message_ar": "تم إنهاء تدقيق الجيران: 7 جيران على ~5–7 كم؛ اثنان بحمل منخفض وإزاحات محافظة. الخلية الخادمة تبدو لاصقة مع عدم تناسق في التحويلات (الخارج أكبر بكثير من الداخل). فرصة التفريغ ~15–25%. أقترح ضبطاً مستهدفاً لأولويات الجيران وعَتبات التسليم المعتمدة على الحمل لتحويل الحركة إلى الجارين الأخف حملاً. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now. No special constraints from the field.",
+      "message_ar": "موافق على التنفيذ الآن. لا توجد قيود خاصة من الميدان."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: conservative tuning of neighbor priorities and load-based handover aggressiveness to offload ~15% from NR-RURAL-8763 to the two lighter neighbors. No service impact observed. Starting post-change checks for resource use, HO balance, and radio quality.",
+      "message_ar": "تم تطبيق التغيير: ضبط محافظ لأولويات الجيران ودرجة عدوانية التسليم المعتمد على الحمل لتفريغ ~15% من NR-RURAL-8763 إلى الجارين الأخف حملاً. لم يُلاحظ تأثير على الخدمة. أبدأ فحوصات ما بعد التغيير لاستخدام الموارد وتوازن التحويلات وجودة الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial readings: resource use dropped to ~72%, neighbor average rose to ~50%. HO out to the two targets increased, RSRQ improved to -7 dB. Median throughput remains ~19 Mbps.",
+      "message_ar": "القراءات الأولية: انخفض استخدام الموارد إلى ~72%، وارتفع متوسط الجيران إلى ~50%. زادت التحويلات الصادرة إلى الجارين المستهدفين، وتحسّن RSRQ إلى -7 ديسيبل. لا يزال متوسط سرعة التحميل ~19 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement and a more balanced trend. Let’s observe through the next busy period to confirm stability before any further fine-tuning.",
+      "message_ar": "تحسن جيد واتجاه أكثر توازناً. دعنا نراقب خلال فترة الذروة التالية لتأكيد الاستقرار قبل أي ضبط إضافي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed. Field feedback notes fewer streaming hiccups so far.",
+      "message_ar": "متفق. ملاحظات الميدان تشير إلى تقليل المشاكل في البث حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will continue spot checks over the remaining 6h window, focusing on resource utilization, handover success, and any radio quality drift.",
+      "message_ar": "سنواصل الفحوصات السريعة خلال ما تبقى من نافذة الـ6 ساعات، مع التركيز على استخدام الموارد ونجاح التحويلات وأي انحراف في جودة الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After additional observation, resource use is steady around 70% and handover failures are low. This aligns with the neighbor audit and parameter optimization you performed. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد مراقبة إضافية، استخدام الموارد مستقر حول 70% وإخفاقات التحويل منخفضة. هذا يتماشى مع تدقيق الجيران وتحسين المعلمات الذي نفذتموه. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy hour monitoring and report back. If congestion returns or mobility errors rise, we will roll back the change; if imbalance persists, we will escalate for broader neighbor tuning.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة ونوافيكم بالتقرير. إذا عاد الازدحام أو ارتفعت أخطاء التنقل سنقوم بالرجوع عن التغيير؛ وإذا استمر عدم التوازن سنصعّد لضبط أوسع على مستوى الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural NR macro cell with sustained high utilization and asymmetric handovers as a load imbalance issue after auditing neighbor relations. Mitigated by site parameter tuning to adjust neighbor priorities and load-based handover thresholds, offloading traffic to lighter neighbors. Post-change checks showed balanced utilization and stable mobility, with continued monitoring through the next busy hour.",
+    "ar": "تم تشخيص خلية ماكرو NR ريفية تعاني من استخدام مرتفع مستمر وتحويلات غير متناظرة كحالة عدم توازن في الحمل بعد تدقيق علاقات الجيران. تمت المعالجة عبر ضبط معلمات الموقع لتعديل أولويات الجيران وعَتبات التسليم المعتمدة على الحمل، مما حوّل الحركة إلى الجيران الأقل حملاً. أظهرت فحوصات ما بعد التغيير توازناً في الاستخدام واستقراراً في التنقل، مع استمرار المراقبة خلال ساعة الذروة القادمة."
+  }
+}

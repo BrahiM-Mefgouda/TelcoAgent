@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_PARAM_DRIFT-S0023",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_PARAM_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell shows an active alarm with configuration drift (score 0.72, 11 mismatches, ~34h old), elevated handover failures (~7%), BLER ~4.7%, and median DL ~22 Mbps during eMBB; possible localized congestion/outage noted.",
+    "ar": "خلية NR ماكرو في منطقة حضرية لديها إنذار نشط مع انجراف في الإعدادات (درجة 0.72، 11 عدم تطابق، بعمر ~34 ساعة)، ارتفاع في فشل التسليم (~7%)، BLER ~4.7%، ومتوسط تنزيل ~22 ميجابت/ث خلال eMBB؛ تم رصد احتمال ازدحام/انقطاع محلي."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro NR-Cell-41023 has an active alarm. Past 12h show config drift (score ~0.72, 11 mismatches, ~34h old), HO failures ~7%, BLER ~4.7%, and p50 DL ~22 Mbps during eMBB streaming. Please investigate.",
+      "message_ar": "الخلية NR الماكرو NR-Cell-41023 في منطقة حضرية لديها إنذار نشط. آخر 12 ساعة تظهر انجرافاً في الإعدادات (درجة ~0.72، 11 عدم تطابق، بعمر ~34 ساعة)، فشل تسليم ~7%، BLER ~4.7%، ومعدل تنزيل وسيط ~22 ميجابت/ث أثناء بث eMBB. يرجى المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling the last 12h OSS vs live configuration for NR-Cell-41023 to verify the drift. If confirmed, I will align the cell to the baseline via a config push. Requesting approval to access and execute now during off-peak.",
+      "message_ar": "سأبدأ بجلب إعدادات OSS مقابل الإعدادات الفعلية لآخر 12 ساعة للخلية NR-Cell-41023 للتحقق من الانجراف. إذا تأكد، سأقوم بمواءمة الخلية مع النسخة الأساسية عبر دفع الإعدادات. أحتاج موافقة على الوصول والتنفيذ الآن خلال فترة خارج الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved and corrective action allowed now. No conflicting work nearby.",
+      "message_ar": "تمت الموافقة على الوصول والسماح بالإجراء التصحيحي الآن. لا توجد أعمال متعارضة قريبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS and effective configs for the last 12h: 11 parameters drifted, notably handover thresholds/timers and power control bounds; also SSB burst periodicity misaligned. This explains HO failures despite moderate PRB (~42%). Proceed to baseline re-apply?",
+      "message_ar": "تم جلب إعدادات OSS والإعدادات الفعلية لآخر 12 ساعة: هناك انجراف في 11 عنصراً، أبرزها عتبات/مؤقتات التسليم وحدود التحكم في القدرة؛ إضافة إلى عدم مواءمة دورية دفعة SSB. هذا يفسر فشل التسليم رغم استخدام PRB المتوسط (~42%). هل أمضي في إعادة تطبيق النسخة الأساسية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the baseline re-apply; brief impact is acceptable.",
+      "message_ar": "تابع إعادة تطبيق النسخة الأساسية؛ تأثير قصير مقبول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline pushed: NR-Cell-41023:baseline-2025-09-13 committed successfully. No restart required. Post-push checks: paging OK, RRC setup SR improved ~1.4%, BLER stable ~4.7%. Please observe handover behavior for a few minutes.",
+      "message_ar": "تم دفع النسخة الأساسية: NR-Cell-41023:baseline-2025-09-13 بنجاح. لم تُطلَب إعادة تشغيل. فحوصات ما بعد الدفع: الترحيل سليم، تحسن معدل نجاح إعداد RRC بحوالي 1.4%، وBLER مستقر ~4.7%. يرجى متابعة سلوك التسليم لبضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial 5-minute check: handover failures are trending down and call drops reduced. No new user complaints.",
+      "message_ar": "فحص أولي لمدة 5 دقائق: فشل التسليم في اتجاه هبوطي وانخفضت حالات الانقطاع. لا شكاوى جديدة من المستخدمين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Creating a traceability ticket for the drift correction and starting targeted monitoring. Ticket: DU-CFG-04219.",
+      "message_ar": "جارٍ إنشاء تذكرة للتتبع الخاصة بتصحيح الانجراف والبدء في مراقبة موجهة. التذكرة: DU-CFG-04219."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. The active alarm cleared on the cell. Median DL nudged to ~24–25 Mbps; PRB ~43%.",
+      "message_ar": "تم الاستلام. تم إلغاء الإنذار النشط على الخلية. ارتفع متوسط التنزيل إلى ~24–25 ميجابت/ث؛ وPRB ~43%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. I’ll continue watching mismatch counters and HO KPIs; if drift reappears, we’ll validate configuration lock with the vendor. Expect stabilization through the next busy hour.",
+      "message_ar": "مؤشرات جيدة. سأستمر في متابعة عدادات عدم التطابق ومؤشرات التسليم؛ وإذا عاد الانجراف سنتحقق من قفل الإعدادات مع المورّد. نتوقع الاستقرار خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing continued improvement: handover failures trending down further and streaming KPIs are steadier. Action taken: configuration push to align live settings with OSS. Let’s monitor through the next busy hour and update DU-CFG-04219.",
+      "message_ar": "نرى استمرار التحسن: فشل التسليم يواصل الانخفاض ومؤشرات البث أكثر استقراراً. الإجراء المتخذ: دفع الإعدادات لمواءمة الإعدادات الفعلية مع OSS. لنراقب خلال ساعة الذروة القادمة ونحدث التذكرة DU-CFG-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and update the ticket afterward. If KPIs regress, we’ll roll back to the prior profile and escalate to the vendor; otherwise we’ll keep the configuration as is.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة ونقوم بتحديث التذكرة بعدها. إذا تراجعت المؤشرات، سنعود إلى الإعداد السابق ونتصاعد مع المورّد؛ وإلا سنبقي الإعداد الحالي كما هو."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-41023",
+        "last_12h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "NR-Cell-41023:baseline-2025-09-13"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "NR macro config mismatch corrected on NR-Cell-41023; baseline re-applied; monitor HO failures next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an OSS vs live configuration mismatch on an urban NR macro, with 11 drifted parameters contributing to elevated handover failures. Confirmed the drift via configuration query, then applied a configuration push to restore the baseline. Opened a traceability ticket and set a monitoring plan through the next busy hour to ensure stability.",
+    "ar": "تم تشخيص عدم تطابق بين إعدادات OSS والإعدادات الفعلية في خلية NR حضرية ماكرو، مع انجراف في 11 عنصراً ساهم في ارتفاع فشل التسليم. تم تأكيد الانجراف عبر الاستعلام عن الإعدادات ثم تنفيذ دفع للإعدادات لإعادة النسخة الأساسية. تم فتح تذكرة للتتبع ووضع خطة مراقبة خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

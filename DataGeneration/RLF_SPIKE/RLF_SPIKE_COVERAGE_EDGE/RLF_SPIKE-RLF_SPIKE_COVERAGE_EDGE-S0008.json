@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0008",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G NR macro cell shows a 6h spike in RLF (~3.3%) with weak signal (-120 dBm RSRP) and interference / signal overlap (SINR -3 dB), moderate load (~43% PRB), ~90% HO success, 74 users, and median DL 13 Mbps—investigate coverage-edge drops during mixed hours with eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR ريفية تُظهر ارتفاعاً خلال 6 ساعات في RLF (~3.3%) مع إشارة ضعيفة (-120 dBm RSRP) وتداخل/تراكب إشارة (SINR -3 dB)، حمل معتدل (~43% PRB)، نجاح تبديل ~90%، 74 مستخدماً، وسرعة تنزيل وسطية 13 Mbps—يرجى التحقق من انقطاعات حافة التغطية خلال ساعات مختلطة مع بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing a spike in RLF on a rural 5G NR macro over mixed hours; users at the cell edge report drops and low SINR (~-3 dB). No site alarms.",
+      "message_ar": "نلاحظ ارتفاعاً في RLF على موقع ماكرو 5G NR ريفي عبر ساعات متفاوتة؛ مستخدمو حافة الخلية يبلغون عن انقطاعات وSINR منخفض (~-3 dB). لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 6h network counters for the affected cell to confirm RLF, handovers, BLER, load, and timing advance spread. Please share the cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب مؤشرات الشبكة لآخر 6 ساعات للخلية المتأثرة للتحقق من RLF والتبديلات وBLER والحمل وتشتت TA. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-45012. Read access approved for the last 6 hours.",
+      "message_ar": "معرّف الخلية: NR-45012. تمت الموافقة على صلاحية القراءة لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters collected: RSRP ≈ -120 dBm, RSRQ ≈ -14 dB, SINR ≈ -3 dB; RLF ~3.3%, HO success ~90.4%, BLER ~8.2%, PRB ~43%, TA std ~158 m, users 74, median DL ~13 Mbps. This points to coverage-edge conditions with interference. Next, I'll extract the RLF time series over the same window to locate bursts and correlate with handover attempts.",
+      "message_ar": "تم جمع المؤشرات: RSRP ≈ -120 dBm، RSRQ ≈ -14 dB، SINR ≈ -3 dB؛ RLF ~3.3%، نجاح التبديل ~90.4%، BLER ~8.2%، PRB ~43%، انحراف معياري لـ TA ~158 م، عدد المستخدمين 74، وتنزيل وسطي ~13 Mbps. هذا يشير إلى ظروف حافة تغطية مع تداخل. بعد ذلك سأستخرج السلاسل الزمنية لـ RLF لنفس النافذة لتحديد الارتفاعات وربطها بمحاولات التبديل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows evening spikes (around 18:00–22:00) aligning with eMBB streaming; neighbor measurements rise before RLF and drops occur prior to handover completion—indicative of late handover and weak beam dominance under interference / signal overlap. I will apply a small mobility optimization: slightly more aggressive edge handover and relaxed drop timing, plus minor beam steering refinement to improve dominance. Low-risk change with instant rollback if needed—please approve.",
+      "message_ar": "تُظهر السلسلة الزمنية ارتفاعات مسائية (حوالي 18:00–22:00) تتوافق مع بث eMBB؛ ترتفع قياسات الجيران قبل RLF وتحدث الانقطاعات قبل اكتمال التبديل—ما يدل على تبديل متأخر وضعف سيطرة الحزمة مع تداخل/تراكب إشارة. سأطبق تحسيناً طفيفاً للحركية: زيادة طفيفة في حدة التبديل على الحافة وتخفيف توقيت الإسقاط، مع تحسين بسيط لتوجيه الحزمة لتعزيز السيطرة. تغيير منخفض المخاطر مع إمكانية رجوع فوري عند الحاجة—يرجى الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to the cell successfully with no service impact; starting immediate post-change checks and collecting short-term counters.",
+      "message_ar": "تم تطبيق التحسين على الخلية بنجاح بدون تأثير على الخدمة؛ أبدأ فحوصات ما بعد التغيير فوراً وجمع مؤشرات قصيرة الأجل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early indicators (15–20 min): RLF trending down to ~1.8%, HO success up to ~93.5%, BLER stable, PRB unchanged, edge SINR +≈1 dB; coverage edge mobility is improved. I will continue observing through the current hour.",
+      "message_ar": "المؤشرات المبكرة (15–20 دقيقة): انخفاض RLF إلى ~1.8%، وارتفاع نجاح التبديل إلى ~93.5%، وBLER مستقر، وPRB دون تغيير، وSINR على الحافة ارتفع بنحو 1 dB؛ تحسنت الحركية على حافة التغطية. سأواصل المراقبة خلال الساعة الحالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We observe improvement on our side: fewer drop complaints and smoother handovers, with RLF trending down. Action taken was mobility/beam parameter optimization via a config push. Propose monitoring through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً لدينا: شكاوى الانقطاع أقل وتبديلات أكثر سلاسة، مع اتجاه RLF للانخفاض. الإجراء الذي تم هو تحسين معلمات الحركية/الحزمة عبر دفع إعدادات التكوين. أقترح المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own monitoring through the next busy hour and share an update afterward. If degradation returns, we will escalate to neighbor alignment review; if any side effects appear, we will roll back to the prior settings.",
+      "message_ar": "متفق—سنكون مسؤولين عن المراقبة خلال ساعة الذروة التالية وسنشارك تحديثاً بعدها. إذا عاد التدهور سنصعّد إلى مراجعة محاذاة الجيران؛ وإذا ظهرت آثار جانبية فسنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The RLF spike on the rural 5G NR macro was traced to late handovers and weak beam dominance at the coverage edge under interference. We reviewed 6h counters and the RLF time series, then executed site parameter tuning for mobility and minor beam steering via a config push. Early results show reduced RLF and improved handover success; we will monitor through the next busy hour.",
+    "ar": "تم إرجاع ارتفاع RLF على موقع ماكرو 5G NR ريفي إلى تبديلات متأخرة وضعف سيطرة الحزمة عند حافة التغطية مع وجود تداخل. قمنا بمراجعة مؤشرات 6 ساعات والسلسلة الزمنية لـ RLF، ثم نفّذنا ضبطاً لمعلمات الموقع للحركية وتحسيناً بسيطاً لتوجيه الحزمة عبر دفع إعدادات التكوين. تظهر النتائج الأولية انخفاضاً في RLF وتحسناً في نجاح التبديل؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

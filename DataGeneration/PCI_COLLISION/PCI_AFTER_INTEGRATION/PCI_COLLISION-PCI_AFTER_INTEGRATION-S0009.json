@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0009",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban 5G NR macro cell shows an alarm indicating congestion with slow data and rising handover issues after a new neighbor integration, suggesting a PCI conflict.",
+    "ar": "خلية ماكرو 5G NR حضرية تظهر إنذاراً يشير إلى ازدحام مع بيانات بطيئة وارتفاع في مشاكل التسليم بعد دمج جار جديد، ما يوحي بوجود تعارض في PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell raised an alarm in the last 8h. Enterprise private users report slow data and more handover failures since a new neighbor was integrated last night.",
+      "message_ar": "خلية ماكرو 5G NR حضرية أطلقت إنذاراً خلال آخر 8 ساعات. مستخدمو شبكة المؤسسات الخاصة يبلّغون عن بيانات بطيئة وزيادة في فشل التسليم منذ دمج جار جديد الليلة الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics: first, I will check neighbor definitions for PCI duplication/overlap over the last 8h, then remediate if confirmed. Please share the cell ID and confirm access.",
+      "message_ar": "سأتولى التشخيص: أولاً سأتحقق من تعريفات الجيران لرصد تكرار/تداخل PCI خلال آخر 8 ساعات، ثم أعالج الخلل إذا تأكد. يُرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UMAC-12-S1 (current PCI 224). Access approved for read/write within this window.",
+      "message_ar": "معرّف الخلية: NR-UMAC-12-S1 (PCI الحالي 224). الوصول للقراءة/الكتابة مُعتمد ضمن هذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor check complete: new neighbor NR-UMAC-13-S1 also advertises PCI 224; about 33% overlap shows confusion, aligning with 17% HO failures and 16% ping‑pong. Neighbor on PCI 314 is clean. I propose reassigning the serving PCI to 39 (free in cluster) and syncing neighbor relations. Approve?",
+      "message_ar": "تم فحص الجيران: الجار الجديد NR-UMAC-13-S1 يعلن أيضاً PCI 224؛ يوجد تداخل بنحو 33% يسبب ارتباكاً، ويتماشى ذلك مع 17% فشل تسليم و16% تبادل متكرر. الجار على PCI 314 سليم. أقترح تغيير PCI للخلية الخادمة إلى 39 (متاح ضمن المجموعة) ومزامنة علاقات الجوار. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding with the PCI reassignment to 39 and neighbor relation refresh; I will verify mobility KPIs immediately after.",
+      "message_ar": "أشرع في تبديل PCI إلى 39 وتحديث علاقات الجوار؛ سأتحقق فوراً من مؤشرات التنقل بعد ذلك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "تم التأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change completed: serving PCI updated to 39; neighbor relations refreshed with the new neighbor. Early checks show handover success improving and RSRQ in the overlap improving by ~2 dB; no new alarms.",
+      "message_ar": "اكتمل التغيير: تم تحديث PCI للخلية الخادمة إلى 39؛ وتحديث علاقات الجوار مع الجار الجديد. الفحوصات الأولية تُظهر تحسناً في نجاح التسليم وتحسناً بنحو 2 ديسيبل في RSRQ ضمن منطقة التداخل؛ ولا توجد إنذارات جديدة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback shows fewer ping‑pongs and steadier data near the boundary. Any remaining risks we should note?",
+      "message_ar": "الملاحظات الميدانية تُظهر انخفاضاً في التبادل المتكرر واستقراراً أفضل للبيانات قرب الحدود. هل توجد مخاطر متبقية يجب أخذها بالاعتبار؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’m opening a tracking record for follow‑up: DU-PCI-04728. We will observe handover failures, ping‑pong, and median throughput through the next busy hour.",
+      "message_ar": "سأفتح سجلاً للمتابعة: DU-PCI-04728. سنراقب حالات فشل التسليم، والتبادل المتكرر، ومتوسط السرعة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good progress—handover failures trending down after the PCI re‑assignment/config push. Let’s monitor through the next busy hour and the following 2–4 hours, then update DU-PCI-04728.",
+      "message_ar": "تقدم جيد—فشل التسليم يتجه للانخفاض بعد إعادة تعيين PCI ودفع الإعدادات. لنواصل المراقبة خلال ساعة الذروة القادمة والـ 2–4 ساعات التالية، ثم حدّث DU-PCI-04728."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We’ll own monitoring for the next busy hour plus 2–4 hours and update DU-PCI-04728 afterward. If issues recur, we will roll back to the prior PCI and escalate to planning; if stable, we’ll keep the change and close after 24h.",
+      "message_ar": "تم الفهم. سنتولى المراقبة خلال ساعة الذروة التالية بالإضافة إلى 2–4 ساعات وسنحدّث DU-PCI-04728 بعدها. إذا عادت المشاكل، سنرجع إلى PCI السابق ونصعّد إلى قسم التخطيط؛ وإن استقرت الأوضاع، سنُبقي التغيير ونغلق بعد 24 ساعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-UMAC-12-S1",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI reassignment 224->39; neighbor relations sync"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI collision on NR-UMAC-12-S1 by PCI change; monitor HO failures and ping-pong next BH"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision between the serving NR macro sector (PCI 224) and a newly integrated neighbor, with ~33% overlap leading to mobility instability and slow data. Mitigation performed by reassigning the serving PCI to a free code and refreshing neighbor relations, then a tracking ticket was opened for follow-up. Early indicators improved, and the site will be monitored through the next busy hour.",
+    "ar": "تم تشخيص تعارض PCI بين القطاع الخادم في شبكة NR (PCI 224) والجار المُدمج حديثاً مع تداخل يقارب 33% أدى إلى عدم استقرار في التنقل وبطء في البيانات. تمت المعالجة عبر إعادة تعيين PCI إلى قيمة متاحة وتحديث علاقات الجوار، ثم فتح تذكرة متابعة. المؤشرات الأولية تحسنت وسيُجرى رصد للموقع خلال ساعة الذروة القادمة."
+  }
+}

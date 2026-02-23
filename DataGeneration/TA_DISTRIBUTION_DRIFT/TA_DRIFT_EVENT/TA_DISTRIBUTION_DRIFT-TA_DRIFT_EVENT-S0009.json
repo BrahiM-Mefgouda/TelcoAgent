@@ -1,0 +1,110 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0009",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium ingress in the last 3h on an NR micro cell shows outward time advance drift (p95 ≈ 422), distant serving ~14%, weak signal around -115 dBm, PRB ~82%, handover failures ~15%, and median throughput ~10 Mbps.",
+    "ar": "خلال فترة الدخول إلى الملعب خلال 3 ساعات الماضية على خلية NR من نوع micro، يظهر انجراف خارجي في توزيع TA (p95 ≈ 422)، نسبة خدمة بعيدة ~14%، إشارة ضعيفة حوالي -115 dBm، إشغال موارد ~82%، معدل فشل تسليم ~15%، ومعدل تنزيل وسطي ~10 Mbps."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 3h on the NR micro cell shows TA drifting outward (p95 ≈422), distant serving ~14%, weak RSRP around -115 dBm, HO failures ~15%, and median DL ~10 Mbps. Need support to stabilize coverage.",
+      "message_ar": "خلال فترة الدخول إلى الملعب خلال 3 ساعات على خلية NR من نوع micro نلاحظ انجراف توزيع TA إلى الخارج (p95 ≈422)، خدمة بعيدة ~14%، RSRP ضعيف حوالي -115 dBm، فشل التسليم ~15%، ومعدل تنزيل وسطي ~10 Mbps. نحتاج دعماً لاستقرار التغطية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnostics: first pull the last 3h counters, then review the TA trend, and if confirmed, apply targeted coverage/HO tuning. Please share the cell ID and approve read access.",
+      "message_ar": "سأتولى التشخيص: أولاً سأسحب مؤشرات آخر 3 ساعات، ثم أراجع اتجاه TA، وإذا تأكد، سأطبق ضبطاً مستهدفاً للتغطية والتسليم بين الخلايا. الرجاء تزويدي بمعرّف الخلية والموافقة على الوصول القرائي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-012-MICRO-3; read-only access approved.",
+      "message_ar": "معرّف الخلية هو NR-STAD-012-MICRO-3؛ الموافقة على الوصول القرائي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling the last 3h counters focusing on TA buckets, PRB use, RSRP, HO outcomes, and neighbor relations.",
+      "message_ar": "أجلب مؤشرات آخر 3 ساعات مع التركيز على فئات TA، استخدام موارد PRB، قيم RSRP، نتائج التسليم، وعلاقات الجوار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial read confirms high load (PRB ~82%), weak serving power (RSRP ≈-115 dBm), HO failures ~15%, and distant serving ~14%. Next, I'll analyze the TA time series over the same window to quantify drift; proceed?",
+      "message_ar": "القراءة الأولية تؤكد حملاً مرتفعاً (PRB ~82%)، قوة خدمة ضعيفة (RSRP ≈-115 dBm)، فشل تسليم ~15%، وخدمة بعيدة ~14%. الخطوة التالية هي تحليل سلسلة زمنية لـ TA لنفس الفترة لتكميم الانجراف؛ هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA trend shows median ≈211, 95th ≈422, std ≈62; drift index ~0.32 with a clear outward shift ~45 minutes into ingress, coinciding with streaming demand. I recommend a minor coverage pull-in and HO threshold retuning to push far users to nearer cells; approve change?",
+      "message_ar": "اتجاه TA يظهر وسيط ≈211، والخُمس والتسعون ≈422، وانحراف معياري ≈62؛ ومؤشر انجراف ~0.32 مع انزياح خارجي واضح بعد ~45 دقيقة من بدء الدخول، بالتزامن مع طلب البث. أوصي بسحب طفيف للتغطية وإعادة ضبط عتبات التسليم لدفع المستخدمين البعيدين نحو الخلايا الأقرب؛ هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization.",
+      "message_ar": "موافق على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: slightly reduced the outer footprint and adjusted neighbor handover bias/time-to-trigger to favor closer cells. Change successful with no alarms; initiating post-change checks.",
+      "message_ar": "تم تطبيق التحسين: تقليص بسيط للبصمة الخارجية وضبط انحياز/زمن تحفيز التسليم مع الجوار لصالح الخلايا الأقرب. التغيير ناجح بلا إنذارات؛ أبدأ فحوصات ما بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: distant serving trending toward ~8% and TA spread narrowing; handover failures are edging down. This matches the coverage/HO parameter optimization you executed. Let's monitor over the next 2–4 hours.",
+      "message_ar": "تحسن مبكر ملحوظ: نسبة الخدمة البعيدة تتجه نحو ~8% وتقل تباينات TA؛ كما أن فشل التسليم يتراجع. هذا يطابق تحسين معلمات التغطية/التسليم الذي نفذته. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own monitoring for the next 2–4 hours and report on TA drift, distant serving, and HO failures. If regressions appear, we will escalate to area coordination and roll back the last change; otherwise we will keep the tuning active.",
+      "message_ar": "تم التأكيد؛ سنتولى المراقبة خلال الساعتين إلى الأربع القادمتين ونبلغ عن انجراف TA ونسبة الخدمة البعيدة وفشل التسليم. إذا ظهرت انتكاسات، سنصعّد إلى تنسيق على مستوى المنطقة ونتراجع عن آخر تغيير؛ وإلا سنُبقي الضبط مفعلًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During stadium ingress, the NR micro cell exhibited outward time advance drift with high distant serving, weak signal levels, and elevated handover failures. We pulled recent counters, analyzed the TA time series to confirm the drift, and executed site parameter tuning to reduce the outer footprint and favor nearer-cell handovers. Early results show reduced distant serving and a narrowing TA spread; we will monitor for stability over the next few hours.",
+    "ar": "خلال فترة الدخول إلى الملعب، أظهرت خلية NR من نوع micro انجرافاً خارجياً في TA مع ارتفاع نسبة الخدمة البعيدة وضعف الإشارة وارتفاع فشل التسليم. قمنا بجلب المؤشرات الحديثة وتحليل السلسلة الزمنية لـ TA لتأكيد الانجراف، ثم نفذنا ضبطاً لمعلمات الموقع لتقليل البصمة الخارجية وتفضيل التسليم إلى الخلايا الأقرب. تشير النتائج المبكرة إلى انخفاض الخدمة البعيدة وتضيق تشتت TA؛ سنواصل المراقبة للتحقق من الاستقرار خلال الساعات القادمة."
+  }
+}

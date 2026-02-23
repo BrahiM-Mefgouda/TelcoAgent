@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0027",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban NR macro cell in peak evening shows ~95% resource use with 207 users, neighbors near 50%, skewed handovers (out 31 vs in 12), and interference/signal overlap (RSRQ -14 dB, SINR 2 dB); assess and apply load balancing.",
+    "ar": "موقع ماكرو NR حضري خلال ساعة الذروة المسائية يُظهر استخدام موارد ~95% مع 207 مستخدمين، والجيران حول 50%، وتحوّلات يدَوية غير متوازنة (خارج 31 مقابل داخل 12)، وتداخل/تراكب إشارة (RSRQ -14 dB وSINR 2 dB)؛ الرجاء تقييم وتنفيذ موازنة الحمل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell is hot this peak evening: ~95% resource use with 207 users, neighbors near 50%, handovers out 31 vs in 12, RSRQ -14 dB and SINR 2 dB pointing to interference/signal overlap. No alarms. Please advise.",
+      "message_ar": "الموقع الماكرو NR في منطقة حضرية ساخن هذا المساء وقت الذروة: استخدام موارد ~95% مع 207 مستخدمين، الجيران قرب 50%، التحويلات اليدَوية خارج 31 مقابل داخل 12، وRSRQ -14 dB وSINR 2 dB تشير إلى تداخل/تراكب إشارة. لا توجد إنذارات. الرجاء الإفادة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead a load-balancing diagnosis. First, I’ll review neighbor relations, traffic distribution, and handover asymmetry over the last 4 hours. Share the cell ID and approve access to performance counters for that window.",
+      "message_ar": "سأتولى تشخيص موازنة الحمل. أولاً سأراجع علاقات الجوار وتوزيع الحركة وعدم تماثل التحويلات خلال آخر 4 ساعات. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول إلى مؤشرات الأداء لتلك الفترة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: 41023A-1 (NR macro). Access approved for 4 hours. Key neighbors: N1 41023A-2 and N2 41023B-1.",
+      "message_ar": "معرّف الخلية: 41023A-1 (ماكرو NR). الموافقة ممنوحة لمدة 4 ساعات. الجيران الرئيسيون: N1 41023A-2 وN2 41023B-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewing neighbor load and HO asymmetry for 41023A-1 vs N1/N2 over the last 4 hours to quantify offload potential and user mix (eMBB streaming predominant).",
+      "message_ar": "أقوم بمراجعة حمل الجيران وعدم تماثل التحويلات للخلية 41023A-1 مقابل N1/N2 خلال آخر 4 ساعات لقياس إمكانية التفريغ ومزيج المستخدمين (حركة eMBB سائدة)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: target ~95% PRB with 207 users; neighbors ~45–55%; HO out >> in; interference present but secondary to load. Proposal: offload by slightly biasing handover thresholds/CIO toward N1/N2 (~2–3 dB) and tightening load-based HO triggers. Low risk, reversible. Approve implementation?",
+      "message_ar": "النتائج: الخلية الهدف ~95% من الموارد مع 207 مستخدمين؛ الجيران ~45–55%؛ التحويلات للخارج أعلى بكثير من الداخل؛ التداخل موجود لكنه ثانوي مقارنة بالحمل. الاقتراح: التفريغ عبر تحيز طفيف في عتبات التحويل/CIO باتجاه N1/N2 (~2–3 dB) وتشديد محفزات التحويل المعتمدة على الحمل. مخاطر منخفضة وقابل للعكس. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the proposed bias and load-based handover tuning.",
+      "message_ar": "موافَق على المضي قدماً في التحيز المقترح وضبط التحويل المعتمد على الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying load-balancing parameter tuning on 41023A-1 with corresponding neighbor offsets toward N1/N2. Change is within macro policy and fully reversible.",
+      "message_ar": "أقوم بتطبيق ضبط معلمات موازنة الحمل على 41023A-1 مع تحيزات مقابلة نحو N1/N2. التعديل ضمن سياسات الماكرو وقابل للعكس بالكامل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Monitoring immediate effect for 10–15 minutes. Please share quick counters: PRB, active users, and HO out/in on the target and N1/N2.",
+      "message_ar": "أراقب الأثر الفوري لمدة 10–15 دقيقة. يرجى مشاركة المؤشرات السريعة: نسبة الموارد، عدد المستخدمين النشطين، وتوازن التحويلات خارج/داخل على الخلية الهدف وN1/N2."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes: target PRB ~78%, users 160; N1 PRB 62%, N2 57%; HO out/in ~24/20. Complaints are subsiding.",
+      "message_ar": "بعد 12 دقيقة: موارد الخلية الهدف ~78%، المستخدمون 160؛ N1 عند 62% وN2 عند 57%؛ التحويلات خارج/داخل ~24/20. الشكاوى بدأت تنخفض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good stabilization. We’ll keep the current bias to prevent over-offload and continue watching interference and neighbor utilization through busy periods.",
+      "message_ar": "استقرار جيد. سنُبقي التحيز الحالي لتفادي التفريغ الزائد ونواصل متابعة التداخل وحِمل الجيران خلال فترات الانشغال."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: resource pressure eased and handovers are more balanced. Action taken: neighbor load assessment followed by site parameter tuning for load balancing. Propose monitoring over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن: انخفض الضغط على الموارد وأصبحت التحويلات أكثر توازناً. الإجراء المتخذ: تقييم حمل الجيران تلاه ضبط معلمات الموقع لموازنة الحمل. أقترح المتابعة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and report back on PRB, HO balance, and user experience. If congestion returns or neighbors strain, we will roll back the bias; if interference rises, we will tighten thresholds instead of offloading.",
+      "message_ar": "سنقود المتابعة خلال الساعتين إلى الأربع ساعات القادمة ونقدم تقريراً عن الموارد وتوازن التحويلات وتجربة المستخدم. إذا عاد الازدحام أو ازدادت ضغوط الجيران فسنرجع التحيز؛ وإن ارتفع التداخل فسنُشدد العتبات بدلاً من التفريغ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "During peak evening on an urban NR macro site, the cell showed severe load with high PRB use, handover asymmetry, and much lower neighbor utilization. We assessed neighbor load and offload potential, then performed site parameter tuning to bias handovers toward underutilized neighbors and strengthen load-based triggers. Initial results show reduced resource pressure and more balanced handovers; we will continue monitoring and keep the change reversible.",
+    "ar": "خلال ساعة الذروة المسائية في موقع ماكرو NR حضري، ظهرت حالة حمل مرتفع مع استخدام موارد عالٍ وعدم تماثل في التحويلات وانخفاض في استغلال الجيران. قمنا بتقييم حمل الجيران وإمكانيات التفريغ، ثم نفذنا ضبطاً لمعلمات الموقع لتحييز التحويلات نحو الجيران الأقل استخداماً وتعزيز المحفزات المعتمدة على الحمل. أظهرت النتائج الأولية انخفاض الضغط على الموارد وتوازناً أفضل في التحويلات؛ سنواصل المتابعة مع إبقاء التعديل قابلاً للعكس."
+  }
+}

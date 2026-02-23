@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0001",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro over the last 6h shoulder period shows potential allocator drift: PRB utilization ~79%, fairness 0.65, allocation skew 17, p50 DL 20 Mbps, p95 latency 109 ms, with eMBB streaming mix.",
+    "ar": "موقع ماكرو NR حضري خلال آخر 6 ساعات في فترة ما قبل الذروة يُظهر انحرافًا في الموزّع: استخدام PRB ~79%، عدالة الموارد 0.65، انحراف التخصيص 17، الوسيط للسرعة 20 ميغابت/ث، وكمون p95 يبلغ 109 ملّي ثانية ضمن خليط eMBB مع بث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell over the last 6h (shoulder) has uneven user rates during streaming. KPIs: PRB util ~79%, fairness 0.65, allocation skew 17, p50 DL 20 Mbps, p95 latency 109 ms. SINR 11 dB, RSRQ -13 dB. No alarms.",
+      "message_ar": "الخلية NR الماكرو الحضرية خلال آخر 6 ساعات (فترة ما قبل الذروة) تُظهر تذبذبًا في سرعات المستخدمين أثناء البث. المؤشرات: استخدام PRB ~79%، عدالة الموارد 0.65، انحراف التخصيص 17، الوسيط للتحميل 20 ميغابت/ث، وكمون p95 يبلغ 109 ملّي ثانية. قيمة SINR ‏11 dB وRSRQ ‏-13 dB. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling OSS performance counters for the last 6h to verify allocator behavior and QoS mix. Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بسحب عدادات الأداء من نظام الإدارة لآخر 6 ساعات للتحقق من سلوك الموزّع وتوزيع فئات الجودة. يرجى تأكيد مُعرّف الخلية والموافقة على الوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-12345A. Approved to pull read-only KPIs for the last 6h.",
+      "message_ar": "مُعرّف الخلية هو NR-12345A. تمت الموافقة على سحب مؤشرات الأداء للقراءة فقط لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS counters pulled for NR-12345A over 6h: no faults; active UEs peak ~92; PRB utilization avg 78–80% (peak 86%); fairness dipped 0.63–0.66; best-effort share 55–58%, high-priority 35–37%; p95 scheduling latency 108–112 ms. Next, I will chart PRB allocation and grant variance time series to pinpoint the drift. Approve?",
+      "message_ar": "تم سحب عدادات نظام الإدارة للخلية NR-12345A خلال 6 ساعات: لا أعطال؛ ذروة المستخدمين النشطين ~92؛ استخدام PRB بمتوسط 78–80% (ذروة 86%)؛ هبطت عدالة الموارد إلى 0.63–0.66؛ حصة أفضل-جهد 55–58% وحصة الأولوية العالية 35–37%؛ كمون الجدولة عند p95 بين 108–112 ملّي ثانية. الخطوة التالية: رسم سلسلة زمنية لتوزيع PRB وتباين المنح لتحديد الانحراف. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to analyze the time series for NR-12345A.",
+      "message_ar": "موافَق على تحليل السلسلة الزمنية للخلية NR-12345A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows the issue concentrates at shoulder 16:30–18:00: grant burstiness up, top talkers pulling >35 PRBs in bursts, best-effort throttled; p50 throughput dips to 18–21 Mbps while p95 latency spikes. I propose tuning: +10% fairness weight, slight per-UE burst cap, and small headroom bump for high-priority. Changes are safe and reversible. Approve to apply now?",
+      "message_ar": "تُظهر السلسلة الزمنية تركّز المشكلة في فترة ما قبل الذروة 16:30–18:00: تزايد تكتل المنح، مستخدمون كثيفو الحركة يسحبون أكثر من 35 PRB على شكل دفعات، مع تقييد لفئة أفضل-جهد؛ ينخفض وسيط السرعة إلى 18–21 ميغابت/ث مع ارتفاع كمون p95. أقترح ضبطًا: زيادة وزن العدالة بنسبة 10%، وضع حد بسيط لدفعة PRB لكل مستخدم، وزيادة طفيفة للهامش لفئة الأولوية العالية. التغييرات آمنة وقابلة للعكس. هل توافق على تطبيقها الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the proposed tuning on NR-12345A within those safe bounds.",
+      "message_ar": "موافَق على تطبيق الضبط المقترح على الخلية NR-12345A ضمن الحدود الآمنة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied successfully. Initial 10-minute check: fairness improved to 0.71–0.74; p95 latency down to 86–90 ms; p50 throughput 22–24 Mbps; PRB utilization stable; QoS shares unchanged; no errors observed. I will continue short-term observation.",
+      "message_ar": "تم تطبيق الضبط بنجاح. فحص أولي لمدة 10 دقائق: تحسّن مؤشر العدالة إلى 0.71–0.74؛ انخفض كمون p95 إلى 86–90 ملّي ثانية؛ الوسيط للسرعة 22–24 ميغابت/ث؛ استخدام PRB مستقر؛ نسب فئات الجودة دون تغيير؛ لا أخطاء. سأواصل المراقبة القصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing smoother user rates now and fewer spikes. Latency looks better. Any further adjustments needed?",
+      "message_ar": "نلاحظ الآن سرعات أكثر سلاسة للمستخدمين وتقلّبًا أقل. الكمون أفضل. هل نحتاج إلى أي تعديلات إضافية؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "No further change recommended now; the allocator is behaving more evenly. Let’s keep parameters steady and observe through the next busy period. I’ll watch for fairness regression or QoS imbalance.",
+      "message_ar": "لا أوصي بتغييرات إضافية الآن؛ أداء الموزّع أصبح أكثر توازنًا. لنُبقِ المعلمات ثابتة ونراقب خلال فترة الذروة القادمة. سأتابع أي تراجع في العدالة أو اختلال في فئات الجودة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good. p95 latency is trending down and fairness is up after the site parameter tuning. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "جيد. كمون p95 في اتجاه نزولي والعدالة ارتفعت بعد ضبط معلمات الموقع. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours of monitoring and share an update afterward. If metrics degrade, we’ll escalate to wider-area checks; if adverse effects appear, we’ll roll back to the previous setting.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنوافيكم بتحديث بعدها. إذا تدهورت المؤشرات سنصعّد إلى فحوصات أوسع نطاقًا؛ وإذا ظهرت آثار سلبية سنعود إلى الإعداد السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro by reviewing OSS counters and analyzing PRB allocation time series, which showed fairness degradation and bursty grants during the shoulder period. Applied site parameter tuning to increase fairness and smooth bursts, yielding lower p95 latency and stable throughput. Will continue monitoring and adjust if regression or QoS imbalance appears.",
+    "ar": "تم تشخيص خلل في جدولة الموارد على موقع NR ماكرو حضري عبر مراجعة عدادات نظام الإدارة وتحليل سلسلة زمنية لتوزيع PRB، ما أظهر تراجعًا في العدالة ومنحًا متكتلة خلال فترة ما قبل الذروة. تم تطبيق ضبط لمعلمات الموقع لزيادة العدالة وتخفيف التكتل، مما خفّض كمون p95 وثبّت الأداء. سيتم الاستمرار في المراقبة وإجراء التعديلات عند أي تراجع أو اختلال في فئات الجودة."
+  }
+}

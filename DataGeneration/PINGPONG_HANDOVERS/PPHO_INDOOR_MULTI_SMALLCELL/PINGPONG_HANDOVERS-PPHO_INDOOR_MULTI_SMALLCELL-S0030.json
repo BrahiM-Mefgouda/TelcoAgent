@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0030",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office wing NR micro cell shows ping-pong handovers at 16% over the last 3h with HO success ~86% and low SINR (~2 dB) indicating interference/signal overlap; please investigate.",
+    "ar": "خلية NR مصغّرة داخل الجناح المكتبي تُظهر معدل تسليم متأرجح 16% خلال آخر 3 ساعات مع نجاح تسليم يقارب 86% وSINR منخفض (~2 dB) مما يشير إلى تداخل/تراكب للإشارة؛ نرجو المتابعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor office wing NR micro cells show rising ping-pong handovers over the last 3h; streaming users reported brief stalls near corridors.",
+      "message_ar": "خلايا NR المصغّرة داخل الجناح المكتبي تُظهر ارتفاعاً في التسليمات المتأرجحة خلال آخر 3 ساعات؛ مستخدمو البث أبلغوا عن توقفات قصيرة قرب الممرات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the fix. Please authorize pulling 3h mobility/coverage stats and a handover timeline for the affected cell. Share the source cell ID; low SINR suggests interference/signal overlap.",
+      "message_ar": "سأتولى المعالجة. يرجى التصريح بسحب مؤشرات التنقل والتغطية لآخر 3 ساعات وخط زمني لعمليات التسليم للخلية المتأثرة. زوّدني بمعرّف الخلية المصدر؛ إنخفاض SINR يشير إلى تداخل/تراكب للإشارة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-IND-MIC-045-SC2. Read-only access approved for the last 3 hours.",
+      "message_ar": "معرّف الخلية هو NR-IND-MIC-045-SC2. تمت الموافقة على وصول قراءة فقط لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters for NR-IND-MIC-045-SC2 (indoor small site): ping-pong 16%, HO success 86%, attempts 124/5min, RSRP ~-109 dBm, RSRQ -13 dB, SINR ~2 dB, PRB util 67%, users 187. This indicates overlap/interference driving unstable HOs. Next, I will chart HO events by neighbor to quantify back-and-forth cycles. Proceed?",
+      "message_ar": "تم سحب مؤشرات 3 ساعات للخلية NR-IND-MIC-045-SC2 (موقع صغير داخلي): تأرجح 16%، نجاح التسليم 86%، محاولات 124 كل 5 دقائق، RSRP حوالي -109 dBm، RSRQ -13 dB، SINR حوالي 2 dB، واستغلال PRB 67%، والمستخدمون 187. هذا يشير إلى تداخل/تراكب يسبب عدم استقرار التسليم. بعد ذلك سأرسم تسلسل عمليات التسليم حسب الجوار لقياس الذهاب والإياب. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO timeline shows frequent toggles between 045-SC2 and 046-SC3 with short dwell times (10–20 s) affecting ~22% of active UEs near corridors; bursts align with shoulder hour. No spike in outright failures. I recommend a small mobility-stability retune on the pair to raise stickiness and reduce rapid returns. Approve the change?",
+      "message_ar": "يُظهر الخط الزمني للتسليم تبدلات متكررة بين 045-SC2 و046-SC3 مع أزمنة مكوث قصيرة (10–20 ثانية) تؤثر على حوالي 22% من المستخدمين النشطين قرب الممرات؛ وتتوافق الزيادات مع فترة ما بين الذروة. لا يوجد ارتفاع في الإخفاقات الكاملة. أوصي بضبط طفيف لاستقرار التنقل على الزوج لزيادة الثبات وتقليل العودة السريعة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; apply the safe retune now.",
+      "message_ar": "موافق؛ نفّذ الضبط الآمن الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied conservative mobility tuning on NR-IND-MIC-045-SC2 and its dominant neighbor: slightly increased handover stability margins and dwell time, and reduced excessive overlap; no traffic impact observed. Change completed; I will watch immediate post-change KPIs.",
+      "message_ar": "تم تطبيق ضبط محافظ لاستقرار التنقل على NR-IND-MIC-045-SC2 وجارِيه المهيمن: زيادة طفيفة في هوامش الاستقرار وأزمنة المكوث وتقليل التراكب المفرط؛ دون تأثير على الحركة. اكتمل التغيير؛ سأراقب المؤشرات بعد التغيير مباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: fewer rapid cell flips on a test device; playback is smooth.",
+      "message_ar": "ملاحظة مبكرة: انخفاض في الانتقالات السريعة بين الخلايا على جهاز الاختبار؛ التشغيل سلس."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial 15-min check: ping-pong trending ~8–9% and HO success ~92%; interference indicators are similar but dwell is steadier. Please confirm from on-site logs, then we will move to a formal observation window.",
+      "message_ar": "فحص أولي خلال 15 دقيقة: التأرجح يتجه نحو 8–9% ونجاح التسليم نحو 92%؛ مؤشرات التداخل مشابهة لكن المكوث أصبح أكثر ثباتاً. يرجى التأكيد من السجلات الميدانية، ثم ننتقل إلى نافذة متابعة رسمية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed: back-and-forth handovers are down and short dwells are rarer. The site parameter tuning you applied for mobility stability is helping. Let’s monitor through the next busy hour and review.",
+      "message_ar": "تم التأكيد: انخفضت عمليات التسليم ذهاباً وإياباً وتراجعت أزمنة المكوث القصيرة. ضبط معلمات الموقع لاستقرار التنقل الذي تم تطبيقه مفيد. لنراقب خلال ساعة الذروة القادمة ثم نراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own the next busy-hour monitoring and share an update afterward. If oscillations return, we will escalate to neighbor coordination and revert the tuning; if any instability appears, we will roll back to the previous settings.",
+      "message_ar": "تم؛ سنتولى مراقبة ساعة الذروة القادمة وسنزودكم بتحديث بعدها. إذا عادت الظاهرة فسنصعّد إلى تنسيق الجوار مع إعادة الضبط؛ وإذا ظهرت أي عدم استقرار فسنرجع إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-IND-MIC-045-SC2",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-IND-MIC-045-SC2",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Conservative mobility stability retune on NR-IND-MIC-045-SC2 and neighbor NR-IND-MIC-046-SC3 to reduce ping-pong"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on an indoor NR micro cell driven by interference/signal overlap and overlapping neighbors, verified using 3h counters and the handover timeline. Applied a conservative site parameter tuning to improve mobility stability and reduce rapid returns between the dominant pair. Early results show ping-pong reduced and HO success improved; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التسليمات المتأرجحة على خلية NR داخلية مصغّرة بسبب التداخل/تراكب الإشارة وتداخل الجوار، وذلك بالتحقق من مؤشرات 3 ساعات والخط الزمني للتسليم. تم تطبيق ضبط محافظ لمعلمات الموقع لتحسين استقرار التنقل وتقليل العودة السريعة بين الزوج المهيمن. تظهر النتائج المبكرة انخفاض التأرجح وتحسن نجاح التسليم؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

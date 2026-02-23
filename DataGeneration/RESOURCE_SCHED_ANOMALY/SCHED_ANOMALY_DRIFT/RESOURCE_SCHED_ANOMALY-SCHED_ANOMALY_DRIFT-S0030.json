@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0030",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro in the last 6h shows high spectrum use (~87%), uneven resource scheduling (fairness ~0.48, skew 36), high scheduler latency (p95 65 ms), and interference / signal overlap (SINR 4 dB) impacting eMBB.",
+    "ar": "موقع ماكرو NR حضري خلال آخر 6 ساعات يُظهر استخدام طيف مرتفع (~87%) وتوزيع موارد غير متوازن (الإنصاف ~0.48، انحراف 36) وزمن انتظار للجدولة مرتفع (p95 = 65 مللي ثانية) وتداخل / تراكب للإشارة (SINR = 4 dB) يؤثر على eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-41023-3 over the last 6h (shoulder period) has uneven allocation; eMBB streaming users report jitter. KPIs: PRB ~87%, fairness ~0.48, skew 36, p95 sched latency 65 ms, SINR 4 dB, RSRQ -14 dB.",
+      "message_ar": "خلية ماكرو NR حضرية NR-41023-3 خلال آخر 6 ساعات (فترة انتقالية) لديها تخصيص غير متوازن؛ مستخدمو eMBB للبث يشتكون من تقطع. مؤشرات: PRB ~87%، الإنصاف ~0.48، الانحراف 36، زمن انتظار الجدولة p95 = 65 مللي ثانية، SINR = 4 dB، وRSRQ = -14 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling a 6h health baseline for NR-41023-3 to verify PRB load, scheduler fairness, and latency. Please confirm access for this check.",
+      "message_ar": "سأبدأ بسحب خط أساس للصحة لمدة 6 ساعات للخلية NR-41023-3 للتحقق من حمل PRB وإنصاف المجدول والزمن. يرجى تأكيد السماح بالوصول لهذا الفحص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-41023-3, 6h window confirmed.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NR-41023-3، نافذة 6 ساعات مؤكدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline shows sustained PRB 80–95% (avg ~87%), fairness ~0.48, allocation skew 36, high-priority share 18% vs best-effort 50%, and p95 scheduler latency 65 ms; low SINR indicates interference. Next, I will pull 6h PRB/scheduler time series to confirm drift patterns. Proceed?",
+      "message_ar": "خط الأساس يُظهر PRB بين 80–95% (متوسط ~87%)، إنصاف ~0.48، انحراف 36، حصة الأولوية العالية 18% مقابل أفضل جهد 50%، وزمن انتظار الجدولة p95 = 65 مللي ثانية؛ وSINR منخفض يدل على تداخل. التالي، سأسحب سلسلة زمنية لـ PRB/المجدول خلال 6 ساعات لتأكيد الانحراف. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time series.",
+      "message_ar": "تفضل بالاستمرار في السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms shoulder-hour drift: fairness dips to 0.4–0.5, p95 scheduler latency peaks near 65 ms, and throughput spread widens (p95–p50 gap ~21 Mbps). This indicates scheduler weight imbalance under interference. I propose a targeted optimization to rebalance QoS weights and fairness guardrails to stabilize eMBB streaming. Approve?",
+      "message_ar": "السلسلة الزمنية تؤكد الانحراف في الساعات الانتقالية: ينخفض الإنصاف إلى 0.4–0.5، وتبلغ ذروة زمن انتظار الجدولة p95 حوالي 65 مللي ثانية، ويتسع الفرق في الإنتاجية (الفجوة بين p95 وp50 ~21 ميجابت/ث). هذا يشير إلى اختلال أوزان المجدول مع وجود تداخل. أقترح تحسيناً موجهاً لإعادة موازنة أوزان QoS وحواجز الإنصاف لتثبيت بث eMBB. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize on NR-41023-3.",
+      "message_ar": "موافق على إجراء التحسين على NR-41023-3."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied lightweight scheduler tuning on NR-41023-3; commit successful. Immediate post-check (5–10 min): fairness improved to ~0.60–0.65, high-priority share ~24–26%, and p95 scheduler latency trending below 50 ms. No errors or drops observed.",
+      "message_ar": "تم تطبيق ضبط خفيف للمجدول على NR-41023-3؛ تم التنفيذ بنجاح. فحص مباشر (5–10 دقائق): تحسن الإنصاف إلى ~0.60–0.65، وحصة الأولوية العالية ~24–26%، وزمن انتظار الجدولة p95 يتجه إلى أقل من 50 مللي ثانية. لم تُلاحظ أخطاء أو انخفاضات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback shows fewer buffering events and counters look steadier now.",
+      "message_ar": "ملاحظات الميدان تشير إلى انخفاض أحداث التقطّع والمقاييس أصبحت أكثر استقراراً الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will continue observing fairness, latency, and PRB distribution and watch user impact. Share any constraints if further changes are needed.",
+      "message_ar": "تم. سأواصل متابعة الإنصاف والزمن وتوزيع PRB ومراقبة أثر المستخدم. يرجى مشاركة أي قيود إذا لزم إجراء تغييرات إضافية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: p95 scheduling latency is down and fairness is trending up; the site parameter tuning you applied helped. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "نلاحظ تحسناً: زمن انتظار الجدولة p95 انخفض والإنصاف في اتجاه تصاعدي؛ ضبط معلمات الموقع الذي قمت به أفاد. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours monitoring and update you with KPI deltas after the window. If metrics regress or user issues return, we will roll back the tuning and escalate to address interference impacts.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنزودك بفروقات المؤشرات بعد انتهاء النافذة. إذا تدهورت المؤشرات أو عادت مشاكل المستخدمين، سنقوم بالتراجع عن الضبط والتصعيد لمعالجة آثار التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41023-3",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-41023-3",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness,qos_weights"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro cell with high PRB utilization, poor fairness, elevated scheduler latency, and interference symptoms. Baseline and 6h time series confirmed drift during shoulder hours affecting eMBB users. Executed site parameter tuning to rebalance QoS weights and fairness; early results show improved fairness, reduced scheduler latency, and steadier PRB distribution, with continued monitoring in place.",
+    "ar": "تم تشخيص خلل في جدولة الموارد على خلية ماكرو NR حضرية مع ارتفاع استخدام PRB وضعف الإنصاف وارتفاع زمن انتظار المجدول ووجود مؤشرات تداخل. أكد خط الأساس والسلسلة الزمنية لمدة 6 ساعات وجود انحراف خلال الساعات الانتقالية يؤثر على مستخدمي eMBB. تم تنفيذ ضبط لمعلمات الموقع لإعادة موازنة أوزان QoS والإنصاف؛ تظهر النتائج المبكرة تحسناً في الإنصاف وانخفاضاً في زمن انتظار المجدول واستقراراً أفضل لتوزيع PRB، مع استمرار المراقبة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0001",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell during peak evening shows slow data with a congestion alarm; DL throughput ~7 Mbps, PRB utilization 82%, SINR 8 dB, and p95 scheduler latency 45 ms.",
+    "ar": "خلية NR ماكرو حضرية خلال ذروة المساء تُظهر بيانات بطيئة مع إنذار ازدحام؛ إنتاجية DL ~7 ميجابت/ث، إشغال PRB 82%، SINR 8 ديسيبل، وكمون المُجدوِل p95 يبلغ 45 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro at peak evening with eMBB traffic: users report slow data; congestion alarm is active. DL throughput ~7 Mbps, PRB 82%, SINR 8 dB, RSRQ -11 dB, BLER ~7%, users 223, p95 scheduler latency 45 ms.",
+      "message_ar": "موقع NR ماكرو حضري أثناء ذروة المساء مع حركة eMBB: المستخدمون يبلغون عن بيانات بطيئة؛ إنذار ازدحام نشط. إنتاجية DL ~7 ميجابت/ث، إشغال PRB 82%، SINR 8 ديسيبل، RSRQ -11 ديسيبل، BLER ~7%، المستخدمون 223، p95 للكمون 45 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged congestion alarm. I will lead diagnostics. Please share the target cell ID and approve pulling last 3h OSS counters.",
+      "message_ar": "تم استلام إنذار الازدحام. سأقود عملية التشخيص. يرجى تزويدي بمعرّف الخلية والموافقة على سحب عدادات OSS لآخر 3 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-123. Approval granted to read last 3 hours.",
+      "message_ar": "معرّف الخلية هو NR-URB-MACRO-123. الموافقة ممنوحة لقراءة آخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS counters for NR-URB-MACRO-123 over 3h. Initial view: sustained PRB load 80–88%, DL user throughput sagging in the last 2 hours, elevated latency; RF quality is moderate (SINR ~8 dB, RSRQ -11 dB) with heavy eMBB streaming. Next, I will analyze DL KPI time series to pinpoint the drop pattern. Approve?",
+      "message_ar": "أقوم بسحب عدادات OSS للخلية NR-URB-MACRO-123 خلال 3 ساعات. القراءة الأولية: حمل PRB مستمر 80–88%، تراجع في إنتاجية DL خلال الساعتين الأخيرتين، كمون مرتفع؛ جودة الراديو متوسطة (SINR ~8 ديسيبل، RSRQ -11 ديسيبل) مع بث eMBB كثيف. الخطوة التالية تحليل سلسلة الزمن لمؤشرات DL لتحديد نمط الهبوط. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the DL time-series analysis.",
+      "message_ar": "موافقة على متابعة تحليل سلسلة الزمن للتحميل الهابط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching DL KPI time series for the last 3h. Results: DL median ~7 Mbps with troughs <5 Mbps between 20:00–21:30; users 210–240; BLER stable at 6–8%; p95 scheduler latency peaks 40–55 ms; PRB headroom <15%. This indicates cell congestion rather than RF impairment. Proposed fix: site parameter tuning for DL scheduler weighting toward eMBB, short-term PRB allocation boost, and conservative buffer thresholds. Proceed with a guarded change and rollback ready if needed?",
+      "message_ar": "أجلب سلسلة الزمن لمؤشرات DL لآخر 3 ساعات. النتائج: وسيط DL ~7 ميجابت/ث مع قيعان <5 ميجابت/ث بين 20:00–21:30؛ المستخدمون 210–240؛ BLER مستقر 6–8%؛ قمم p95 لكمون المُجدوِل 40–55 مللي ثانية؛ هامش PRB أقل من 15%. يشير ذلك إلى ازدحام على مستوى الخلية وليس عيبًا في الراديو. الإصلاح المقترح: ضبط معلمات الموقع لترجيح مُجدوِل DL نحو eMBB، تعزيز مؤقت لتخصيص PRB، وضبط متحفظ لعتبات المخزن المؤقت. هل توافق على تغيير محكوم مع استعداد للتراجع عند الحاجة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning on NR-URB-MACRO-123.",
+      "message_ar": "موافقة على تنفيذ الضبط على NR-URB-MACRO-123."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization now on NR-URB-MACRO-123: DL scheduler and PRB allocation tuned for peak load. Change committed; post-check clean: no errors, BLER steady, effective PRB availability up by ~5%. Please observe local user throughput for the next few minutes.",
+      "message_ar": "أطبق التحسين الآن على NR-URB-MACRO-123: ضبط مُجدوِل DL وتخصيص PRB لحمل الذروة. تم التنفيذ؛ فحص ما بعد التغيير سليم: لا أخطاء، BLER ثابت، توافر PRB الفعلي ارتفع بحوالي 5%. يرجى مراقبة إنتاجية المستخدم لبضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: DL p50 ~10–11 Mbps and p95 scheduler latency down to ~28–32 ms. User complaints subsiding.",
+      "message_ar": "نلاحظ تحسنًا: وسيط DL حوالي 10–11 ميجابت/ث وp95 لكمون المُجدوِل انخفض إلى ~28–32 مللي ثانية. الشكاوى تتناقص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. I will continue monitoring throughput, latency, and PRB load through the next busy period. If metrics regress, I will plan capacity-oriented actions; otherwise we keep the tuning.",
+      "message_ar": "تقدم جيد. سأواصل مراقبة الإنتاجية والكمون وحمل PRB خلال فترة الذروة التالية. إذا تراجعت المؤشرات فسأتجه إلى إجراءات موجهة للسعة؛ وإلا سنُبقي على الضبط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend holds: throughput improving and latency trending down after the site parameter tuning on DL scheduler and PRB allocation. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "الاتجاه مستقر: الإنتاجية تتحسن والكمون يتناقص بعد ضبط معلمات الموقع لمُجدوِل DL وتخصيص PRB. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and share an update after the window. If issues recur, we will escalate to capacity planning; if adverse effects appear, we will roll back the change.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنقدم تحديثًا بعد انتهاء الفترة. إذا عادت المشكلة سنصعّد إلى تخطيط السعة، وإن ظهرت آثار سلبية سنعود إلى الإعداد السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-123",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler and PRB allocation tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The urban NR macro cell’s downlink slowdown during peak evening was diagnosed as capacity congestion: high PRB utilization, elevated scheduler latency, and only moderate RF quality. We reviewed OSS counters and DL time series, then applied site parameter tuning to downlink scheduling and PRB allocation. Post-change, throughput increased and latency decreased; continued monitoring is planned for the next busy period.",
+    "ar": "تم تشخيص تباطؤ التحميل الهابط لخلية NR الماكرو الحضرية خلال ذروة المساء على أنه ازدحام سعة: إشغال PRB مرتفع، وكمون مُجدوِل مرتفع، وجودة راديوية متوسطة. تمت مراجعة عدادات OSS وسلسلة الزمن لمؤشرات DL، ثم تنفيذ ضبط لمعلمات الموقع على جدولة DL وتخصيص PRB. بعد التغيير، ارتفعت الإنتاجية وانخفض الكمون؛ وسيستمر الرصد خلال فترة الذروة التالية."
+  }
+}

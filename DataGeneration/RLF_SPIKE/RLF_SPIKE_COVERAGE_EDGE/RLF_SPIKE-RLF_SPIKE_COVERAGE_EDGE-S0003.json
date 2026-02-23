@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0003",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro shows rising radio link failures over the last 6h with weak signal (RSRP -123 dBm), poor quality (RSRQ -12 dB, SINR -1 dB indicating interference / signal overlap), moderate load, and median downlink 10 Mbps for ~132 users.",
+    "ar": "موقع NR ماكرو ريفي يُظهر ارتفاعاً في انقطاع الرابط خلال آخر 6 ساعات مع إشارة ضعيفة (RSRP -123 dBm) وجودة متدنية (RSRQ -12 dB وSINR -1 dB ما يدل على تداخل / تراكب الإشارات)، حمل متوسط، ومعدل تنزيل وسطي 10 Mbps لنحو 132 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro has a spike in radio link failures over the last 6 hours; edge users report streaming stalls and HO success dipped slightly.",
+      "message_ar": "لدينا ارتفاع في انقطاع الرابط على موقع NR ماكرو ريفي خلال آخر 6 ساعات؛ مستخدمو حافة التغطية يشتكون من توقف البث ونسبة نجاح التسليم انخفضت قليلاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will pull 6h OSS counters for the affected cell to baseline signal, quality, load, and RLF. Please share the cell ID and approve read-only access.",
+      "message_ar": "تم. سأجلب عدادات المنصّة لآخر 6 ساعات لهذه الخلية لتحديد الأساس لإشارة وجودة وحمل الشبكة وRLF. فضلاً زوّدني بمعرّف الخلية ووافق على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-12345-LNTA. Read-only access approved for the 6h window.",
+      "message_ar": "معرّف الخلية: NR-12345-LNTA. تمت الموافقة على وصول القراءة فقط لفترة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled: RLF ~3.2%, RSRP -123 dBm, RSRQ -12 dB, SINR -1 dB (interference / signal overlap), PRB ~64%, HO success ~84%, TA spread ~128 m, median DL ~10 Mbps with ~132 users. Next, I will run an RLF time series to isolate peaks within the 6h window and correlate with quality. Proceed?",
+      "message_ar": "تم السحب: RLF ~3.2%، وRSRP -123 dBm، وRSRQ -12 dB، وSINR -1 dB (تداخل / تراكب الإشارات)، واستخدام الموارد ~64%، ونجاح التسليم ~84%، وتشتت زمن الوصول اللاسلكي (TA) ~128 م، والتنزيل الوسطي ~10 Mbps مع ~132 مستخدماً. تالياً سأحلّل سلسلة زمنية لـ RLF ضمن فترة 6 ساعات لتحديد الذروات وربطها بالجودة. المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to analyze the RLF timeline.",
+      "message_ar": "موافَق على تحليل السلسلة الزمنية لـ RLF."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows RLF peaks during mixed busy hours (notably 18:00–21:00), aligning with low SINR at the coverage edge and moderate PRB. This suggests slightly late mobility at the edge. I propose a light mobility parameter optimization on this macro to enable earlier edge handover. Approve?",
+      "message_ar": "السلسلة الزمنية تُظهر ذروات RLF خلال ساعات ازدحام متباينة (خاصة 21:00–18:00)، وتتزامن مع SINR منخفض عند حافة التغطية وحمل متوسط. هذا يوحي بتأخر بسيط في التنقل عند الحافة. أقترح ضبطاً خفيفاً لمعايير التنقل على هذه الخلية الماكرو لتمكين التسليم المبكر عند الحافة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the light mobility tuning now.",
+      "message_ar": "موافق على المضي بضبط خفيف لمعايير التنقل الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed successfully. Quick post-check: no alarms; in the last 15 minutes RLF trending down (~3.2% to ~1.8%), HO success up ~2pp, and edge SINR median improved by ~1 dB. We will validate under higher load as it builds.",
+      "message_ar": "تم تنفيذ الضبط بنجاح. فحص سريع بعد التنفيذ: لا إنذارات؛ خلال آخر 15 دقيقة اتجاه RLF نحو الانخفاض (~3.2% إلى ~1.8%)، ونجاح التسليم ارتفع بحوالي نقطتين مئويتين، وتحسّن وسطي SINR عند الحافة بنحو 1 dB. سنتحقق تحت حمل أعلى عند ارتفاعه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field observation: drops are fewer and sessions are more stable at the edge.",
+      "message_ar": "ملاحظة ميدانية: حالات الانقطاع أقل والجلسات أكثر استقراراً عند الحافة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I recommend monitoring through the next busy hour focusing on RLF rate, HO success, and edge SINR. Can you confirm this window?",
+      "message_ar": "جيد. أوصي بالمراقبة خلال ساعة الذروة التالية مع التركيز على RLF ونسبة نجاح التسليم وSINR عند الحافة. هل تؤكد هذه الفترة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. RLF events are trending down after the mobility parameter optimization; let’s monitor over the next busy hour.",
+      "message_ar": "مؤكّد. أحداث RLF تتجه للانخفاض بعد ضبط معايير التنقل؛ لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own that monitoring window and report the RLF, HO, and SINR outcomes afterward. If performance degrades, we will escalate by expanding optimization to adjacent cells; if adverse effects appear, we will roll back to the prior settings.",
+      "message_ar": "سنتولى تلك فترة المراقبة ونوافيك بنتائج RLF وHO وSINR بعدها. إذا تدهد الأداء سنصعّد بتوسيع الضبط إلى الخلايا المجاورة؛ وإذا ظهرت آثار جانبية سنعود للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-12345-LNTA",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-12345-LNTA",
+        "RLF",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an RLF spike on a rural 5G macro: OSS and the RLF timeline confirmed edge-dominated drops aligned with low SINR and moderate load. Applied targeted site parameter tuning to advance handover at the coverage edge. Early results show fewer RLFs and improved handover success; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع في انقطاع الرابط على موقع 5G ماكرو ريفي: أكدت قراءات المنصّة والسلسلة الزمنية لـ RLF أن الانقطاعات يهيمن عليها مستخدمو حافة التغطية وتتزامن مع SINR منخفض وحمل متوسط. تم تطبيق ضبط انتقائي لمعايير الموقع لتقديم توقيت التسليم عند الحافة. النتائج الأولية تُظهر انخفاضاً في RLF وتحسناً في نجاح التسليم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0009",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium 5G microcell over the last 6h shows QoS 0.223 vs SLA 0.981 with 29 breaches, PRB 86%, latency 70 ms, 558 users; congestion alarm acknowledged.",
+    "ar": "خلال آخر 6 ساعات في الاستاد، تُظهر الخلية الصغيرة 5G QoS بقيمة 0.223 مقابل SLA 0.981 مع 29 خرقاً، واستغلال PRB بنسبة 86%، وزمن تأخير 70 مللي ثانية، و558 مستخدماً؛ مع وجود إنذار ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 6h: enterprise private users report degraded service; congestion alarm is active on the 5G NR microcell.",
+      "message_ar": "فترة الدخول إلى الاستاد خلال آخر 6 ساعات: مستخدمو الشبكة الخاصة للمؤسسة يبلّغون عن تدهور الخدمة؛ إنذار الازدحام نشط على خلية 5G NR الصغيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the SLA check. Please approve access so I can fetch last-6h operational stats for the target microcell, then analyze the QoS trend and prepare an incident report if the breach is confirmed.",
+      "message_ar": "سأتولى فحص الـSLA. يرجى اعتماد الوصول لأتمكن من جلب إحصاءات التشغيل لآخر 6 ساعات للخلية المستهدفة، ثم تحليل منحنى QoS وإعداد تقرير حادثة إذا تأكد الخرق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Target cell: NR-STAD-MICRO-03.",
+      "message_ar": "موافق. الخلية المستهدفة: NR-STAD-MICRO-03."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected last-6h stats for NR-STAD-MICRO-03: PRB utilization 86%, latency 70 ms, BLER 6.3%, users 558. QoS is 0.223 vs SLA 0.981; congestion alarms present, no hard outage. Next, I will pull the QoS time series for the ingress window.",
+      "message_ar": "تم جمع إحصاءات آخر 6 ساعات لـ NR-STAD-MICRO-03: استغلال PRB بنسبة 86%، زمن تأخير 70 مللي ثانية، BLER بنسبة 6.3%، 558 مستخدماً. قيمة QoS هي 0.223 مقابل SLA 0.981؛ توجد إنذارات ازدحام ولا يوجد انقطاع كامل. التالي، سأجلب السلسلة الزمنية لـ QoS لفترة الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series analysis.",
+      "message_ar": "تفضل بمتابعة تحليل السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms sustained QoS 0.18–0.26 during ingress with 29 SLA violations, peaks aligning with 17:00–19:00. This indicates resource pressure on the NR microcell. I will open an SLA incident to document impact and coordinate follow-up. Confirm?",
+      "message_ar": "السلسلة الزمنية تؤكد بقاء QoS بين 0.18–0.26 خلال فترة الدخول مع 29 خرقاً لـSLA، وتتطابق الذروات مع 19:00–17:00. يشير ذلك إلى ضغط في الموارد على الخلية NR الصغيرة. سأفتح حادثة SLA لتوثيق الأثر والتنسيق للمتابعة. هل تؤكد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Please open the SLA incident.",
+      "message_ar": "مؤكد. يرجى فتح حادثة SLA."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA incident opened for NR-STAD-MICRO-03 covering the ingress window: QoS 0.223 vs 0.981, PRB 86%, latency 70 ms, 558 peak users. I will attach the plots and start live watch for the remainder of the event.",
+      "message_ar": "تم فتح حادثة SLA لِـ NR-STAD-MICRO-03 تغطي فترة الدخول: QoS 0.223 مقابل 0.981، PRB 86%، زمن تأخير 70 مللي ثانية، 558 مستخدماً عند الذروة. سأرفق الرسوم البيانية وأباشر المراقبة الحية لباقي الحدث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-peak update: QoS edging up (~0.62) and latency easing, still below target. Keep watching.",
+      "message_ar": "تحديث ما بعد الذروة: QoS يتحسن (~0.62) وزمن التأخير يتراجع، لكنه ما يزال دون الهدف. يرجى الاستمرار بالمراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Continuing real-time monitoring and updating the incident with 15‑minute snapshots and any new alarms. No RAN parameter changes executed; this flow focuses on reporting and coordination.",
+      "message_ar": "أواصل المراقبة اللحظية وتحديث الحادثة بلقطات كل 15 دقيقة وأي إنذارات جديدة. لم تُنفذ تغييرات على معلمات الراديو؛ هذا المسار يركز على التبليغ والتنسيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: latency trending down and QoS rising, though still under the SLA. Action taken: SLA incident created; propose monitoring through the next busy hour (next 2 hours). Reference: DU-SLA-04258.",
+      "message_ar": "تحسن ملحوظ: زمن التأخير يتناقص وQoS يرتفع رغم أنه ما يزال دون SLA. الإجراء المتخذ: إنشاء حادثة SLA؛ أقترح المراقبة خلال ساعة الانشغال التالية (الساعتان القادمتان). المرجع: DU-SLA-04258."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and update the ticket after the window. If QoS stays below target, we will escalate to capacity and transport teams; if any later mitigations cause regressions, we will roll back.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الانشغال التالية وسنحدّث التذكرة بعد انتهاء النافذة. إذا بقي QoS دون الهدف سنصعّد إلى فرق السعة والنقل؛ وإذا تسببت أي إجراءات لاحقة بتراجع فسنعيدها."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated an SLA breach on the stadium NR microcell during ingress: QoS dropped far below the threshold with high PRB and elevated latency under congestion. Reviewed the 6h QoS trend to quantify 29 violations and opened an SLA incident for tracking and cross-domain coordination. We will continue monitoring and update the ticket with observed improvements.",
+    "ar": "تم تأكيد خرق SLA على الخلية NR الصغيرة في الاستاد خلال فترة الدخول: انخفضت قيمة QoS بشكل كبير عن العتبة مع ارتفاع استغلال PRB وزمن التأخير تحت الازدحام. تمت مراجعة منحنى QoS خلال 6 ساعات لتكميم 29 خرقاً وفتح حادثة SLA للتتبع والتنسيق بين الفرق. سنواصل المراقبة وتحديث التذكرة مع التحسن الملحوظ."
+  }
+}

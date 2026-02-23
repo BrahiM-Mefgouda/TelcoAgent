@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0016",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro over the last 6h shows TA drift (avg 375, p95 524) with distant serving ~32%, HO success ~81.8%, weak signal (RSRP -105 dBm/RSRQ -14 dB), and median throughput ~18 Mbps.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية خلال آخر 6 ساعات تُظهر انجرافاً في TA (متوسط 375، المئين 95 عند 524) مع خدمة بعيدة ~32% ونسبة نجاح التسليم ~81.8% وإشارة ضعيفة (RSRP -105 dBm/RSRQ -14 dB) وبمعدل سرعة تنزيل وسطي ~18 ميغابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "NR macro in a suburban area shows rising timing advance over the last 6h; more mid-call handovers and edge users reporting weak signal. Please investigate.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية تُظهر ارتفاعاً في توقيت الوصول خلال آخر 6 ساعات؛ ازدادت عمليات التسليم أثناء الاتصال ومستخدمو الأطراف يشتكون من ضعف الإشارة. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will pull 6h health stats, analyze TA evolution, and if drift/misassociation is confirmed, apply targeted mobility tuning. Share the cell ID and authorize access.",
+      "message_ar": "تم الاستلام. سأقوم بجلب إحصاءات الصحة لآخر 6 ساعات وتحليل تطور TA، وإذا تأكد الانجراف/الارتباط الخاطئ سأطبق ضبطاً مستهدفاً لمعاملات الحركة. يرجى تزويدي بمعرّف الخلية وتفويض الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-045-L3; access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-045-L3؛ تم منح التفويض."
+    },
+    {
+      "role": "agent",
+      "message_en": "6h snapshot for NR-SUB-045-L3: TA avg 375, p50 297, p95 524, std 157; distant-serving users ~32%. HO success 81.8% with 7% failures. RSRP -105 dBm, RSRQ -14 dB, SINR 7 dB. PRB ~56%, users peak 189, median DL 18 Mbps. Proceeding to TA trend analysis.",
+      "message_ar": "ملخص 6 ساعات للخلية NR-SUB-045-L3: متوسط TA عند 375، المئين 50 عند 297، المئين 95 عند 524، الانحراف المعياري 157؛ نسبة المستخدمين المخدومين من بعيد ~32%. نجاح التسليم 81.8% وفشل 7%. RSRP عند -105 dBm وRSRQ عند -14 dB وSINR عند 7 dB. إشغال الموارد ~56%، ذروة المستخدمين 189، سرعة تنزيل وسطية 18 ميغابت/ث. أتجه لتحليل اتجاه TA."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes: users reported occasional streaming stalls near the retail strip; no recent hardware activity.",
+      "message_ar": "ملاحظات ميدانية: أبلغ المستخدمون عن توقفات مؤقتة في البث قرب الشريط التجاري؛ لا توجد أعمال عتاد حديثة."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series across mixed hours shows an upward shift and heavier tail, with bursts aligning to busier periods; neighbor dominance is unstable toward two distant sectors—consistent with serving drift/misassociation.",
+      "message_ar": "السلسلة الزمنية لـ TA عبر فترات زمنية متباينة تُظهر انزياحاً للأعلى وذيلية أثقل مع اندفاعات متزامنة مع الفترات الأكثر ازدحاماً؛ هيمنة الجيران غير مستقرة باتجاه قطاعين بعيدين—وهو ما يتسق مع انجراف/ارتباط خاطئ في الخلية الخادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No planned changes or neighbor list edits in the last week.",
+      "message_ar": "لا تغييرات مخططة أو تعديلات على قائمة الجيران خلال الأسبوع الماضي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying conservative mobility parameter tuning to tighten the serving footprint and favor closer neighbors; low risk and no service interruption expected.",
+      "message_ar": "أطبق ضبطاً محافظاً لمعاملات الحركة لشد بصمة التغطية وترجيح الجيران الأقرب؛ مخاطره منخفضة ولا يُتوقع انقطاع في الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Traffic is steady and no alarms have appeared.",
+      "message_ar": "تمت الملاحظة. الحركة مستقرة ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change spot check (≈15 min): TA p50 down from ~297 to ~250; distant-serving ratio reduced by ~8 pp; handover failures easing; median throughput stable. I will continue watching for further drift.",
+      "message_ar": "فحص سريع بعد التعديل (≈15 دقيقة): انخفض المئين 50 لـ TA من ~297 إلى ~250؛ تراجعت نسبة الخدمة البعيدة بنحو 8 نقاط مئوية؛ حالات فشل التسليم تتناقص؛ سرعة التنزيل الوسطية مستقرة. سأواصل المراقبة لأي انجراف إضافي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: TA spread is narrowing and distant handovers are fewer. Action taken: site parameter tuning to reduce far serving. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسناً: تشتت TA يتقلص وعمليات التسليم إلى خلايا بعيدة أقل. الإجراء المتخذ: ضبط معاملات الموقع لتقليص الخدمة البعيدة. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy hour and share an update on TA distribution, distant-serving share, and handover outcomes. If degradation returns, we will roll back the tuning; if issues persist elsewhere, we will escalate to a field check.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة ونشارك تحديثاً حول توزيع TA ونسبة الخدمة البعيدة ونتائج التسليم. إذا عاد التدهور سنقوم بالتراجع عن الضبط؛ وإذا استمرت المشاكل في مناطق أخرى فسنصعد الأمر لفحص ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on a suburban NR macro by reviewing OSS health and analyzing TA time series over the last 6 hours, confirming serving drift toward distant sectors. Mitigated by applying conservative site parameter tuning to tighten the serving footprint and bias to nearer neighbors. Early checks show reduced distant serving and narrower TA spread; continuing to monitor through the next busy hour.",
+    "ar": "تم تشخيص انجراف توزيع TA على خلية NR ماكرو في ضاحية عبر مراجعة حالة النظام وتحليل السلاسل الزمنية لـ TA خلال آخر 6 ساعات، ما أكد انجراف الخدمة نحو قطاعات بعيدة. تم التخفيف بتطبيق ضبط محافظ لمعاملات الموقع لشد بصمة التغطية وترجيح الجيران الأقرب. تظهر الفحوصات الأولية انخفاض الخدمة البعيدة وتقلص تشتت TA؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

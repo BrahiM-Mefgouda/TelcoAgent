@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0029",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G NR macro sector over the past 6 hours shows frequent backhaul link flaps (~4/hr), bursty loss, high p95 latency at 75 ms, jitter 12 ms, 452 interface errors, and downlink throughput around 18 Mbps across 224 users on eMBB.",
+    "ar": "قطاع ماكرو 5G NR في منطقة شبه حضرية خلال آخر 6 ساعات يُظهر تقطعات متكررة في الوصلة الخلفية (~4/ساعة)، فقداناً متقطعاً، p95 للكمون 75 مللي ثانية، تذبذب 12 مللي ثانية، 452 خطأ على الواجهة، ومعدل تنزيل يقارب 18 ميجابت/ث عبر 224 مستخدماً ضمن eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro sector, last 6h: backhaul link flaps ~4/hr, p95 BH latency 75 ms, jitter 12 ms, 452 interface errors. 224 users saw ~18 Mbps downlink with some eMBB streaming complaints. No site alarms; RF is marginal (SINR 7 dB, RSRP -106 dBm). Please investigate.",
+      "message_ar": "قطاع ماكرو 5G NR في منطقة شبه حضرية، آخر 6 ساعات: تقطعات وصلة خلفية ~4/ساعة، p95 للكمون 75 مللي ثانية، تذبذب 12 مللي ثانية، و452 خطأ على الواجهة. 224 مستخدماً شهدوا تنزيل ~18 ميجابت/ث مع شكاوى بث ضمن eMBB. لا إنذارات؛ الراديو حدّي (SINR 7 dB، RSRP -106 dBm). الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull OSS counters and backhaul logs for this sector over the last 6 hours to pinpoint transport issues. Please confirm access; if confirmed, I may apply a low-risk parameter tune to mitigate transport-induced buffering/scheduling impacts.",
+      "message_ar": "تم. سأبدأ بسحب عدادات المنصة وسجلات الوصلة الخلفية للقطاع خلال آخر 6 ساعات لتحديد مشاكل النقل. يرجى تأكيد صلاحية الدخول؛ وإذا تم التأكيد قد أطبق ضبطاً منخفض المخاطر لتخفيف آثار التخزين المؤقت/الجدولة الناتجة عن النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; no maintenance in the area. Proceed.",
+      "message_ar": "الدخول معتمد؛ لا توجد صيانة في المنطقة. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows ~4.1 link state transitions/hr on the backhaul interface, loss bursts aligned with throughput dips, p95 BH latency ~75 ms with queue spikes, and 452 CRC/FCS errors on the Ethernet handoff; no RF-side faults. This indicates degraded transport. I propose a mitigation: tune backhaul jitter/queue tolerance and error-recovery timers on the site. Approve?",
+      "message_ar": "تعرض منصة الإدارة حوالي ~4.1 انتقال حالة/ساعة على واجهة الوصلة الخلفية، ونوبات فقدان متزامنة مع هبوط المعدل، p95 للكمون ~75 مللي ثانية مع ارتفاعات في الطوابير، و452 خطأ CRC/FCS على تسليم الإيثرنت؛ لا أعطال على جانب الراديو. هذا يدل على تدهور في النقل. أقترح تخفيفاً: ضبط تحمل التذبذب/الطوابير ومؤقتات الاستعادة من الأخطاء على الموقع. تأكيد؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning.",
+      "message_ar": "موافق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied backhaul-handling parameter tuning to the sector; change is live and non-disruptive. Initial 5-min check shows interface errors subsiding and DL throughput rising to ~24–26 Mbps; p95 BH latency trending ~55–60 ms. I will keep short-term observation.",
+      "message_ar": "تم تطبيق ضبط معالجات الوصلة الخلفية على القطاع؛ التغيير حي وغير مؤثر على الخدمة. تحقق أولي 5 دقائق يُظهر انخفاض أخطاء الواجهة وارتفاع التنزيل إلى ~24–26 ميجابت/ث؛ p95 للكمون يتجه إلى ~55–60 مللي ثانية. سأستمر في المراقبة القصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field probes show steadier streaming; no recent user drops in the last 10 minutes.",
+      "message_ar": "قياسات الحقل أثناء البث أكثر استقراراً؛ لا حالات انقطاع للمستخدمين خلال آخر 10 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given the persistent physical link flaps in transport, I will raise a transport case for backhaul path health (optics/port/cable) with attached logs. Please confirm.",
+      "message_ar": "نظراً لاستمرار التقطعات الفيزيائية في النقل، سأفتح بلاغاً لفريق النقل لفحص صحة مسار الوصلة الخلفية (بصريات/منفذ/كابل) مع إرفاق السجلات. الرجاء التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, please raise the case.",
+      "message_ar": "مؤكد، يرجى فتح البلاغ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Transport case raised with summary: recurring backhaul flaps, loss bursts, and interface errors; mitigated at RAN via parameter tuning; physical path check requested. Logs and change details attached. We will monitor through the upcoming busy period and alert on deviation.",
+      "message_ar": "تم رفع بلاغ إلى فريق النقل بملخص: تقطعات وصلة خلفية متكررة ونوبات فقدان وأخطاء واجهة؛ تم التخفيف عبر ضبط إعدادات RAN؛ طُلب فحص المسار الفيزيائي. أُرفقت السجلات وتفاصيل التغيير. سنراقب خلال فترة الذروة القادمة وننبه عند أي انحراف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "I’m seeing improvement: link flaps trending down and interface errors dropping over the last 20 minutes. Action taken was site parameter tuning for backhaul handling and a transport escalation ticket DU-BH-04219. Let’s monitor over the next 2–4 hours, especially the next busy hour.",
+      "message_ar": "أرى تحسناً: تقطعات الوصلة تتناقص وأخطاء الواجهة تهبط خلال آخر 20 دقيقة. الإجراء المنفذ كان ضبط إعدادات الموقع لمعالجة الوصلة الخلفية وفتح بلاغ تصعيد للنقل DU-BH-04219. لنتابع المراقبة خلال الساعتين إلى الأربع القادمين، وخاصة ساعة الانشغال المرتفع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring window, track backhaul stability, latency, and user throughput, and update the ticket after the window. If issues persist, we will escalate to transport for on-site checks; if regression appears due to the tuning, we will roll back to previous settings.",
+      "message_ar": "تم. سنتولى نافذة المراقبة لمدة 2–4 ساعات، مع تتبع استقرار الوصلة الخلفية والكمون ومعدل تنزيل المستخدمين، وسنحدّث البلاغ بعد انتهاء النافذة. إذا استمرت المشكلة فسوف نُصعِّد إلى النقل لإجراء فحوصات ميدانية؛ وإذا ظهرت انتكاسة بسبب الضبط فسنعود للإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnostics confirmed degraded backhaul with frequent link flaps, bursty loss, elevated latency, and numerous interface errors hurting downlink performance. We applied site parameter tuning to improve tolerance to transport jitter and errors, which reduced interface errors and improved user throughput. A transport ticket was created for physical link remediation to address the root cause.",
+    "ar": "أكدت الفحوصات تدهور الوصلة الخلفية بوجود تقطعات متكررة وفقدان متقطع وكمون مرتفع وأخطاء عديدة على الواجهة أثرت في الأداء. تم تطبيق ضبط لإعدادات الموقع لتحسين تحمل تذبذب النقل والأخطاء، مما خفّض أخطاء الواجهة وحسّن معدل تنزيل المستخدمين. تم فتح بلاغ لفريق النقل لمعالجة الرابط الفيزيائي كجذر للمشكلة."
+  }
+}

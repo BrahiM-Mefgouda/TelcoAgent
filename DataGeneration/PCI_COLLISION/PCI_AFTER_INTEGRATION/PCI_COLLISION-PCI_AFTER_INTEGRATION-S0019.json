@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0019",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell with an active alarm: SINR 3 dB, 15% handover failures, and 24% ping-pong indicate interference/signal overlap after integration, affecting eMBB streaming over the last 8h.",
+    "ar": "قطاع ماكرو NR حضري مع إنذار نشط: قيمة SINR عند 3 dB وفشل تسليم 15% وارتداد 24% تشير إلى تداخل/تراكب إشارة بعد الدمج، مما يؤثر على بث eMBB خلال آخر 8 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration alarm raised on an urban NR macro sector. Users report unstable handovers and streaming. Current snapshot: PCI 302, neighbor overlap ~25%, SINR 3 dB, HO failures ~15%, ping-pong 24%, RSRQ -10 dB.",
+      "message_ar": "تم رفع إنذار بعد الدمج على قطاع ماكرو NR حضري. المستخدمون يبلغون عن تسليمات غير مستقرة وبث غير ثابت. اللقطة الحالية: PCI 302، تداخل مع الجيران ~25%، SINR عند 3 dB، فشل تسليم ~15%، ارتداد 24%، وRSRQ -10 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by auditing neighbor PCIs to confirm a collision/confusion over the last 8h. Please confirm the target cell ID and approve access.",
+      "message_ar": "سأبدأ بتدقيق PCI للجيران لتأكيد وجود تصادم/التباس خلال آخر 8 ساعات. يرجى تأكيد معرف الخلية المستهدفة والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Target cell: NRU-MAC-302-S01. Window: last 8h. No parallel works ongoing.",
+      "message_ar": "موافق. الخلية المستهدفة: NRU-MAC-302-S01. النافذة: آخر 8 ساعات. لا توجد أعمال متوازية جارية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor PCI audit for NRU-MAC-302-S01 over 8h: one overlapping neighbor broadcasts the same PCI (302) with ~25% footprint overlap; additional neighbors fall in the same modulo group, explaining low SINR and high ping-pong.",
+      "message_ar": "أجري تدقيق PCI للجيران للخلية NRU-MAC-302-S01 خلال 8 ساعات: جارٍ واحد متداخل يبث نفس PCI (302) مع تداخل تغطية ~25%؛ وجيران إضافيون ضمن نفس المجموعة المعيارية، ما يفسر انخفاض SINR وارتفاع الارتداد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed fix: retune NRU-MAC-302-S01 from PCI 302 to a conflict-free value (PCI 118) and refresh neighbor relations. Expected transient below one second. Requesting approval to execute now.",
+      "message_ar": "الإصلاح المقترح: إعادة ضبط الخلية NRU-MAC-302-S01 من PCI 302 إلى قيمة خالية من التعارض (PCI 118) وتحديث علاقات الجوار. التأثير العابر المتوقع أقل من ثانية. أطلب الموافقة للتنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI retune to 118 and updating neighbor relations for NRU-MAC-302-S01. Change committed and identities rebroadcast; no new alarms observed.",
+      "message_ar": "أقوم بتنفيذ إعادة ضبط PCI إلى 118 وتحديث علاقات الجوار للخلية NRU-MAC-302-S01. تم اعتماد التغيير وإعادة بث الهويات؛ لم تُرصد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early post-change checks: HO success trending up, ping-pong decreasing, and RSRQ improved to about -8 dB. Interference/signal overlap indicators are easing.",
+      "message_ar": "فحوصات ما بعد التغيير المبكرة: تحسن اتجاه نجاح التسليم، انخفاض الارتداد، وتحسن RSRQ إلى حوالي -8 dB. مؤشرات التداخل/تراكب الإشارة في تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: streaming sessions are steadier and fewer retries observed in the sector.",
+      "message_ar": "ملاحظات ميدانية: جلسات البث أصبحت أكثر ثباتاً وتم رصد محاولات إعادة أقل في القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change documented for traceability under ticket DU-PCI-04129, including pre/post metrics and the new PCI plan.",
+      "message_ar": "تم توثيق التغيير لأغراض التتبع ضمن التذكرة DU-PCI-04129، بما في ذلك مؤشرات ما قبل/بعد وخطة PCI الجديدة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: ping-pong events trending down and fewer handover failures. Action taken was a PCI retune with neighbor updates. Let’s monitor over the next 2–4 hours and reference DU-PCI-04129.",
+      "message_ar": "تمت ملاحظة تحسن: انخفاض اتجاه أحداث الارتداد وتراجع في فشل التسليم. الإجراء المتخذ كان إعادة ضبط PCI مع تحديثات الجوار. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة مع الإشارة إلى DU-PCI-04129."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and update DU-PCI-04129 afterward. If issues recur, we will escalate for onsite checks; if regressions appear, we will roll back to the prior PCI plan.",
+      "message_ar": "سنستلم مراقبة الساعتين إلى الأربع القادمة وسنحدّث DU-PCI-04129 بعدها. إذا عادت المشكلات، سنصعّد لإجراء فحوصات ميدانية؛ وإذا ظهرت انتكاسات، سنعود إلى خطة PCI السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Neighbor analysis confirmed a PCI collision and confusion affecting about 25% of the footprint, consistent with low SINR, handover failures, and high ping-pong. We mitigated by retuning the cell to a conflict-free PCI and updating neighbor relations. A ticket was created for traceability, and performance will be monitored for stability.",
+    "ar": "أكد تحليل الجيران وجود تصادم والتباس في PCI يؤثر على نحو 25% من البصمة، بما يتسق مع SINR منخفض وفشل تسليم وارتداد مرتفع. قمنا بالتخفيف عبر إعادة ضبط الخلية إلى PCI خالٍ من التعارض وتحديث علاقات الجوار. تم إنشاء تذكرة للتتبع وسيتم مراقبة الأداء لضمان الاستقرار."
+  }
+}

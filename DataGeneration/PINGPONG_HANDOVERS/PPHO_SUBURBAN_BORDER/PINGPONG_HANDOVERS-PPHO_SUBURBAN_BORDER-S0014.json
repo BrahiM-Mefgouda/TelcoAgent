@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0014",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro cell shows high ping-pong handovers with interference/signal overlap over the last 5 hours, HO success ~88% with moderate-high load.",
+    "ar": "خلية NR ماكرو في منطقة سكنية تُظهر عمليات تسليم ذهاباً وإياباً مرتفعة مع تداخل/تراكب للإشارة خلال آخر 5 ساعات، ونسبة نجاح التسليم ~88% مع حمل متوسط إلى مرتفع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing elevated ping-pong handovers on a suburban NR macro border sector over the last 5 hours; some eMBB streaming sessions briefly stall, and there are no active alarms.",
+      "message_ar": "نلاحظ ارتفاعاً في عمليات التسليم ذهاباً وإياباً على قطاع حدودي لماكرو NR في منطقة سكنية خلال آخر 5 ساعات؛ هناك توقفات وجيزة في بث eMBB، ولا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by reviewing last 5h mobility counters and neighbor relations for the impacted cell, then analyze HO/ping-pong trends. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بمراجعة عدادات التنقل وعلاقات الجوار لآخر 5 ساعات للخلية المتأثرة، ثم تحليل اتجاهات التسليم/الذهاب والإياب. يرجى مشاركة معرف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SBR-31012-S1B; you have access for the 5h window.",
+      "message_ar": "معرف الخلية هو NR-SBR-31012-S1B؛ لديك صلاحية الوصول لفترة 5 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 5h stats/config for NR-SBR-31012-S1B: HO success 87.8%, ping-pong 14%, HO failures 11%. Signal is weak (RSRP -106 dBm, RSRQ -11 dB) with interference/signal overlap (SINR ~0 dB). Load is moderate-high (PRB ~75%, 196 users). Mobility settings: A3 offset 3 dB, TTT 80 ms, hysteresis 3 dB. Next, I’ll break down time/neighbor trends.",
+      "message_ar": "تم جلب إحصاءات/إعدادات آخر 5 ساعات للخلية NR-SBR-31012-S1B: نجاح التسليم 87.8%، الذهاب والإياب 14%، فشل التسليم 11%. الإشارة ضعيفة (RSRP -106 dBm، RSRQ -11 dB) مع تداخل/تراكب للإشارة (SINR ~0 dB). الحمل متوسط إلى مرتفع (PRB ~75%، 196 مستخدماً). إعدادات التنقل: A3 offset بقيمة 3 dB، وTTT 80 ms، وhysteresis 3 dB. سأفصل اتجاهات الزمن والجيران تالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—proceed with the trend breakdown.",
+      "message_ar": "موافق—تابع تحليل الاتجاهات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend shows spikes during the shoulder hour; ping-pong is dominated by two border neighbors. Oscillation aligns with low SINR and bursty load, indicating insufficient damping. Proposal: targeted mobility tuning—raise TTT to 160 ms and hysteresis to 4 dB for the top offending neighbor pairs, keeping the A3 offset at 3 dB.",
+      "message_ar": "يُظهر الاتجاه ارتفاعات خلال ساعة الذروة الجزئية؛ الذهاب والإياب مهيمن عليه من جارَين حدوديين. التذبذب يتوافق مع SINR منخفض وحمل متقطّع، ما يدل على تخميد غير كافٍ. الاقتراح: ضبط تنقّل موجّه—رفع TTT إلى 160 ms وhysteresis إلى 4 dB لأكثر أزواج الجيران تسبباً بالمشكلة، مع إبقاء A3 offset عند 3 dB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed on NR-SBR-31012-S1B: TTT 80→160 ms and hysteresis 3→4 dB for the two highest ping-pong neighbor pairs. Commit successful; starting short observation and checking initial counters.",
+      "message_ar": "تم تنفيذ التغيير على NR-SBR-31012-S1B: تعديل TTT من 80 إلى 160 ms وhysteresis من 3 إلى 4 dB لزوجي الجيران الأعلى في الذهاب والإياب. تم تثبيت الإعدادات بنجاح؛ أبدأ مراقبة قصيرة وفحص العدادات الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes, ping-pong attempts are down about 35%, HO success is approaching 90%, and I don’t see a rise in drops.",
+      "message_ar": "بعد حوالي 20 دقيقة، انخفضت محاولات الذهاب والإياب بنحو 35%، ونسبة نجاح التسليم تقترب من 90%، ولا ألاحظ زيادة في الانقطاعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—early post-change counters show ping-pong near 9–10% with HO failures easing by ~2 percentage points; no new alarms. I will continue watching mobility and interference indicators through this period. Any other field feedback?",
+      "message_ar": "تم التأكيد—العدادات بعد التغيير تُظهر الذهاب والإياب عند حوالي 9–10% مع تحسن فشل التسليم بنحو نقطتين مئويتين؛ لا توجد إنذارات جديدة. سأواصل مراقبة مؤشرات التنقل والتداخل خلال هذه الفترة. هل توجد ملاحظات ميدانية أخرى؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Looks good: ping-pong continues trending down and handover failures are easing after the mobility parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "جيد: الذهاب والإياب مستمر في الانخفاض وفشل التسليم يتحسن بعد ضبط معاملات التنقل. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we’ll monitor through the next busy hour and update you on ping-pong rate, HO success, and any side effects. If regressions appear, we’ll roll back to the prior parameters and escalate for deeper interference mitigation.",
+      "message_ar": "مفهوم—سنراقب خلال ساعة الذروة القادمة ونوافيك بتحديث حول معدل الذهاب والإياب، ونجاح التسليم، وأي آثار جانبية. إذا ظهرت تراجعات، سنعود إلى الإعدادات السابقة ونصعّد لمعالجة التداخل بشكل أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SBR-31012-S1B",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SBR-31012-S1B",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_TTT=160ms;Hyst=4dB;scope=top2_neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong handovers on a suburban 5G NR macro border cell under interference/signal overlap, with trends peaking during the shoulder hour. Reviewed recent mobility performance and confirmed oscillation concentrated on two neighbors. Mitigated by site parameter tuning—raising TTT and hysteresis for the top offending neighbor pairs—resulting in improved ping-pong and handover failure rates; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم ذهاباً وإياباً على خلية حدودية لماكرو 5G NR في منطقة سكنية تحت تأثير التداخل/تراكب الإشارة، مع ذروات خلال ساعة الذروة الجزئية. تم مراجعة أداء التنقل الحديث وتأكيد تمركز التذبذب على جارين. جرى التخفيف عبر ضبط معاملات الموقع برفع TTT وhysteresis لأكثر أزواج الجيران تسبباً بالمشكلة، مما أدى إلى تحسن معدلات الذهاب والإياب وفشل التسليم؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

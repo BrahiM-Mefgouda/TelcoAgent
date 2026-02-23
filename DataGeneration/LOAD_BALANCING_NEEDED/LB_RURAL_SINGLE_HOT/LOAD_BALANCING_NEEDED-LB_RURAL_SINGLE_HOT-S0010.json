@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0010",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell is heavily loaded (PRB ~90% with 144 users) while neighbors are light (~33%), indicating load balancing is needed for eMBB streaming traffic over the last 6 hours.",
+    "ar": "موقع ماكرو NR ريفي محمّل بشكل كبير (إشغال الموارد ~90% مع 144 مستخدماً) بينما الجيران منخفضو الحمل (~33%)، ما يشير إلى الحاجة لموازنة الحمل لحركة eMBB الخاصة بالبث خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell appears hot across mixed hours: PRB ~90%, 144 users, neighbors near 33% PRB, median downlink ~14 Mbps. Please assess and relieve load if possible.",
+      "message_ar": "موقع ماكرو NR ريفي يبدو ساخناً عبر فترات زمنية مختلفة: إشغال الموارد ~90% مع 144 مستخدماً، الجيران عند ~33%، والتحميل الوسيط ~14 ميغابت/ث. الرجاء التقييم وتخفيف الحمل إن أمكن."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by auditing neighbor relations and mobility/load metrics for the last 6h to confirm offload headroom. Please confirm the target cell ID and approve read access.",
+      "message_ar": "سأبدأ بتدقيق العلاقات مع الخلايا المجاورة ومقاييس التنقل/الحمل لآخر 6 ساعات للتأكد من سعة التفريغ. يرجى تأكيد معرف الخلية المستهدفة والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-78213. Approved. Additional context: SINR ~7 dB, RSRQ −12 dB, HO in/out ~14 per 5 min, traffic mainly eMBB (streaming).",
+      "message_ar": "معرف الخلية: NR-Cell-78213. موافق. سياق إضافي: SINR حوالي 7 dB، وRSRQ −12 dB، ومعدل التسليم/الاستقبال ~14 كل 5 دقائق، والحركة أساساً eMBB (بث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit completed for NR-Cell-78213 over 6h: serving PRB 88–92%; neighbors at 28–36% with two suitable targets ~5.9 km away; balanced handovers; no anomalies. Proposal: apply gentle load-balancing—slightly bias users toward underutilized neighbors and enable load-triggered mobility to offload ~15–20% while protecting QoE. Do you approve parameter tuning?",
+      "message_ar": "تم إنهاء تدقيق الجيران لخلية NR-Cell-78213 خلال 6 ساعات: إشغال الخلية ~88–92%؛ الجيران عند ~28–36% مع هدفين مناسبين على بعد ~5.9 كم؛ تسليمات متوازنة؛ لا شذوذ. المقترح: تطبيق موازنة حمل خفيفة—انحياز طفيف نحو الجيران منخفضي الحمل وتفعيل تنقل قائم على الحمل لتفريغ ~15–20% مع حماية جودة التجربة. هل توافق على ضبط المعلمات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the proposed tuning.",
+      "message_ar": "موافق على المضي قدماً في الضبط المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization on NR-Cell-78213: applied conservative neighbor preference toward the two lower-load cells and enabled mild load-based handover/reselection with anti-ping-pong safeguards. Change committed; starting live KPI watch (PRB, HO, user distribution, median downlink).",
+      "message_ar": "جارٍ تنفيذ التحسين على NR-Cell-78213: تم تطبيق تفضيل محافظ للجيران منخفضي الحمل وتمكين تسليم/إعادة اختيار قائم على الحمل بشكل معتدل مع ضوابط لمنع التذبذب. تم اعتماد التغيير؛ أبدأ مراقبة مؤشرات الأداء الحية (إشغال الموارد، التسليم، توزع المستخدمين، التحميل الوسيط)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: handovers out increased to ~18 per 5 min with no rise in failures; sessions stable.",
+      "message_ar": "ملاحظة مبكرة: التسليمات الصادرة ارتفعت إلى ~18 كل 5 دقائق دون زيادة في الإخفاقات؛ الجلسات مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signal. We expect serving PRB to trend toward ~70% and neighbors to rise accordingly. Continue observing for the next 20–30 minutes and share a snapshot.",
+      "message_ar": "إشارة جيدة. نتوقع أن يتجه إشغال الخلية إلى ~70% وأن يرتفع لدى الجيران وفقاً لذلك. يرجى المتابعة لمدة 20–30 دقيقة ومشاركة لقطة مؤشرات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~25 minutes: serving PRB 68–72%, neighbors 50–58%; median downlink ~22 Mbps; streaming smoother.",
+      "message_ar": "بعد ~25 دقيقة: إشغال الخلية 68–72%، والجيران 50–58%؛ التحميل الوسيط ~22 ميغابت/ث؛ البث أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Stability looks good and no side effects noted. Keep the new settings and monitor through the next busy hour; no further changes unless KPIs regress.",
+      "message_ar": "الاستقرار جيد ولا آثار جانبية ملحوظة. سنبقي الإعدادات الجديدة ونراقب خلال ساعة الذروة القادمة؛ لا تغييرات إضافية ما لم تتراجع مؤشرات الأداء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—PRB spikes are lower and user load is better distributed. Action taken: neighbor audit followed by load-balancing parameter tuning. Suggest monitoring for the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن—انخفضت ذروات إشغال الموارد وأصبح توزيع المستخدمين أفضل. الإجراء المتخذ: تدقيق الجيران تلاه ضبط معلمات موازنة الحمل. أقترح المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring window and report on PRB levels, throughput, and handover health. If congestion returns, we will escalate by widening the offload; if adverse effects appear, we will roll back the biasing to the previous state.",
+      "message_ar": "تم الاستلام. سنتولى نافذة المراقبة لمدة 2–4 ساعات ونقدم تقريراً عن مستويات إشغال الموارد، ومعدل التحميل، وصحة التسليم. إذا عاد الازدحام سنصعّد بتوسيع التفريغ؛ وإذا ظهرت آثار سلبية سنعود بالانحياز إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "The rural NR macro cell showed high resource utilization with underused neighbors. We audited neighbor relations confirming offload capacity, then applied site parameter tuning to bias mobility toward lower-loaded neighbors and enable gentle load-triggered offload. PRB stabilized near 70% with improved median downlink; we will monitor and adjust if congestion reappears.",
+    "ar": "أظهرت خلية ماكرو NR ريفية إشغالاً عالياً للموارد مع جيران منخفضي الاستخدام. قمنا بتدقيق العلاقات مع الجيران لتأكيد سعة التفريغ، ثم طبقنا ضبط معلمات للموقع لتحفيز التنقل نحو الجيران الأقل حملاً وتمكين تفريغ خفيف قائم على الحمل. استقر إشغال الموارد قرب 70% مع تحسن في التحميل الوسيط؛ سنواصل المراقبة ونعدل إذا عاد الازدحام."
+  }
+}

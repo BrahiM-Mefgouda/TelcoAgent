@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0006",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G macro cell shows elevated ping‑pong handovers (17%) with higher handover failures (8%) over the last 5 hours during peak enterprise traffic, with moderate signal quality (RSRP −100 dBm, RSRQ −11 dB), ~76% resource use, and 255 users.",
+    "ar": "خلية ماكرو 5G في منطقة ضواحٍ تُظهر ارتفاعاً في عمليات التسليم المتذبذبة (17%) مع فشل تسليم 8% خلال آخر 5 ساعات وقت الذروة لحركة مؤسسية، وجودة إشارة متوسطة (RSRP −100 dBm، RSRQ −11 dB)، واستغلال موارد ~76% و255 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SUBURBAN-MACRO-123 has increased ping-pong between border neighbors over the last 5h at peak with enterprise traffic. HO success ~87.5%, ping-pong ~17%, HO fails ~8%. Signal sits around −100/−11 with SINR ~9 dB, PRB ~76%, 255 users. No alarms. Please take a look.",
+      "message_ar": "لدينا خلية ماكرو NR في منطقة ضواحٍ (NR-SUBURBAN-MACRO-123) تعاني من زيادة ping‑pong بين الجيران الحدّيين خلال آخر 5 ساعات في وقت الذروة مع حركة مؤسسات. نجاح التسليم ~87.5%، ping‑pong ~17%، فشل التسليم ~8%. الإشارة نحو −100/−11 وSINR ~9 dB، واستغلال الموارد ~76% مع 255 مستخدماً. لا توجد إنذارات. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will run an OSS health and recent mobility counters for this cell (last 5h), then pull HO time series to localize the bounce pattern; if confirmed, I’ll propose a targeted retune of handover thresholds/timers. Please confirm access.",
+      "message_ar": "تم. سأجري فحص OSS ومؤشرات التنقل الحديثة لهذه الخلية (آخر 5 ساعات)، ثم أسحب سلسلة زمنية لمؤشرات التسليم لتحديد نمط التذبذب؛ وإذا تأكد ذلك سأقترح ضبطاً انتقائياً لعتبات ومؤقتات التسليم. الرجاء تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID is NR-SUBURBAN-MACRO-123; main border neighbors are N1 and N2. Proceed.",
+      "message_ar": "الصلاحية معتمدة. معرّف الخلية NR-SUBURBAN-MACRO-123؛ الجاران الحدّيان الرئيسيان هما N1 وN2. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled current config and 5h KPIs. Findings: PRB 76%, HO success 87.5%, ping-pong 17%, RSRP −100 dBm, RSRQ −11 dB, SINR 9 dB. Mobility settings are relatively permissive (TTT ~130 ms, hysteresis ~3 dB, A3 ~1 dB). Next, I will extract HO time series to pinpoint peak windows and the dominant neighbor pair. Proceed?",
+      "message_ar": "تم جمع التهيئة ومؤشرات آخر 5 ساعات. الخلاصة: PRB 76%، نجاح التسليم 87.5%، ping‑pong 17%، RSRP −100 dBm، RSRQ −11 dB، SINR 9 dB. إعدادات التنقل متساهلة نسبياً (TTT ~130 ms، Hysteresis ~3 dB، A3 ~1 dB). الخطوة التالية استخراج سلسلة زمنية للتسليم لتحديد فترات الذروة والزوج الجار المسيطر. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series shows ping-pong spikes during peak; most oscillations are between the cell and neighbor N1 on two sectors within ~0.2–0.4 km. HO attempts surge with rapid handbacks; failure level is stable. To cut oscillations, I propose a small uplift to handover thresholds/timers focused on that border pair. Approve tuning now?",
+      "message_ar": "السلسلة الزمنية للتسليم تُظهر ارتفاعات ping‑pong وقت الذروة؛ معظم التذبذب بين الخلية والجار N1 على قطاعين ضمن ~0.2–0.4 كم. ترتفع محاولات التسليم مع عودة سريعة؛ مستوى الإخفاقات مستقر. للحد من التذبذب أقترح رفعاً طفيفاً لعتبات/مؤقتات التسليم مع تركيز على هذا الزوج الحدّي. هل توافق على الضبط الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to tune now. Please proceed.",
+      "message_ar": "موافقة على الضبط الآن. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied conservative mobility optimization on the border pair: slight increase to effective trigger time and stability margin with a modestly tighter entry condition. Change committed successfully; no drops observed. I will monitor counters over the next hour. Any field feedback to note?",
+      "message_ar": "تم تطبيق تحسين محافظ للتنقل على الزوج الحدّي: زيادة طفيفة لوقت التفعيل الفعّال وهامش الاستقرار مع تشديد بسيط لشرط الدخول. تم اعتماد التغيير بنجاح دون انقطاعات. سأراقب العدادات خلال الساعة القادمة. هل توجد ملاحظات ميدانية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No new complaints; early counters show handbacks trending down and sessions steadier at the edge. Keep monitoring.",
+      "message_ar": "لا توجد شكاوى جديدة؛ العدادات الأولية تشير إلى انخفاض عمليات العودة وتثبّت الجلسات على الحافة. يرجى الاستمرار بالمراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will track ping-pong and HO failure rates and check neighbor balance; if any regression appears, I will roll back and investigate interference or dominance issues. I’ll share an interim trend in 30–60 minutes.",
+      "message_ar": "تم. سأتابع معدلات الـ ping‑pong وإخفاقات التسليم وأتحقق من توازن الجيران؛ وإذا ظهرت أي تراجعات سأرجع التغيير وأفحص التداخل أو قضايا الهيمنة. سأشارك مؤشراً أولياً خلال 30–60 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 45 minutes, ping-pong has dropped from ~17% to ~9% and handover failures improved slightly. The handover parameter optimization looks effective. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد 45 دقيقة، انخفض معدل الـ ping‑pong من ~17% إلى ~9% وتحسن فشل التسليم بشكل طفيف. يبدو أن تحسين معلمات التسليم فعّال. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and share an update afterward. If HO failures rise or user throughput degrades, we will roll back the last change and escalate to investigate external interference or competing coverage.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة التالية وسنشارك تحديثاً بعدها. إذا ارتفعت إخفاقات التسليم أو تدهور معدل نقل المستخدمين، فسنرجع التغيير الأخير ونصعّد للتحقيق في التداخل الخارجي أو التغطية المتنافسة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUBURBAN-MACRO-123",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUBURBAN-MACRO-123",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Targeted mobility tuning on border pair: slight increase to trigger time and stability margin; modestly tighter entry threshold"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on a suburban 5G macro cell during peak hours using OSS counters and handover time series. Root cause was permissive mobility thresholds at a border neighbor, so a conservative site parameter tuning of handover thresholds and timers was applied. Early results show reduced ping-pong with stable or improved handovers, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم المتذبذبة على خلية ماكرو 5G في الضواحي خلال ساعات الذروة باستخدام مؤشرات OSS والسلسلة الزمنية للتسليم. كان السبب إعدادات تنقل متساهلة عند جار حدّي، لذا تم تطبيق ضبط محافظ لمعايير الموقع يشمل عتبات ومؤقتات التسليم. تُظهر النتائج الأولية انخفاضاً في الـ ping‑pong مع استقرار أو تحسن في التسليم، وسيتم مراقبة الخلية خلال ساعة الذروة التالية."
+  }
+}

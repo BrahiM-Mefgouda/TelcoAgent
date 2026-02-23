@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0004",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban NR macro cell shows PCI 86 with 10 overlapping neighbors and rising mobility issues over 12h (handover failures 13%, ping‑pong 14%, RSRQ -13 dB, SINR 9 dB, p50 24 Mbps), impacting eMBB streaming.",
+    "ar": "خلية NR ماكرو في منطقة ضواحي تُظهر PCI قيمته 86 مع تداخل لدى 10 جيران ومشكلات تنقل متصاعدة خلال 12 ساعة (فشل تسليم 13%، بينغ‑بونغ 14%، RSRQ = -13 ديسيبل، SINR = 9 ديسيبل، p50 = 24 ميغابت/ث)، ما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector has issues in the last 12h—handover failures ~13%, ping‑pong ~14%, RSRQ -13 dB, SINR 9 dB, p50 24 Mbps; users complain during eMBB streaming peaks.",
+      "message_ar": "قطاع NR ماكرو في الضواحي يعاني خلال آخر 12 ساعة—فشل تسليم ~13%، بينغ‑بونغ ~14%، RSRQ -13 ديسيبل، SINR 9 ديسيبل، وp50 24 ميغابت/ث؛ توجد شكاوى أثناء ذروة بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Suspecting PCI confusion; I will start with a neighbor/PCI audit for the affected cell. Please confirm the target cell ID and approve read access for the last 12h.",
+      "message_ar": "أشتبه في ارتباك PCI؛ سأبدأ بتدقيق الجيران/PCI للخلية المتأثرة. يرجى تأكيد معرف الخلية المستهدفة والموافقة على صلاحية القراءة لآخر 12 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Target cell is NRCell-Suburb-23; read access approved for the 12h window.",
+      "message_ar": "الخلية المستهدفة هي NRCell-Suburb-23؛ تمت الموافقة على صلاحية القراءة لفترة 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor/PCI audit on NRCell-Suburb-23. Findings: serving PCI 86 collides with 2 adjacent sectors; 10 neighbors show overlapping PCI/SSB patterns consistent with confusion, matching the ping‑pong and HO failures.",
+      "message_ar": "أجري تدقيق الجيران/PCI على NRCell-Suburb-23. النتائج: PCI الخادم 86 يتصادم مع قطاعين مجاورين؛ و10 جيران لديهم تداخل في أنماط PCI/SSB بما يتسق مع الارتباك، وهو ما يطابق البينغ‑بونغ وإخفاقات التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Remediation proposal: reassign the cell PCI to a non‑conflicting value (proposed 503, free in the cluster) and sanitize neighbor relations to remove duplicates. Approve change with no outage expected?",
+      "message_ar": "مقترح المعالجة: إعادة تعيين PCI للخلية إلى قيمة غير متضاربة (المقترح 503، متاح ضمن العنقود) وتنظيف علاقات الجيران لإزالة التكرارات. هل توافق على التعديل دون توقع انقطاع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "تمت الموافقة على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing parameters update: PCI reassigned to 503 and neighbor list cleaned on NRCell-Suburb-23; commit completed and internal validations passed.",
+      "message_ar": "أقوم بتنفيذ تحديث المعلمات: إعادة تعيين PCI إلى 503 وتنظيف قائمة الجيران على NRCell-Suburb-23؛ تم الالتزام ونجحت الفحوصات الداخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive—fewer rapid A3 events and ping‑pong trending down; sessions feel steadier.",
+      "message_ar": "المؤشرات الأولية إيجابية—انخفاض في أحداث A3 السريعة واتجاه البينغ‑بونغ للانخفاض؛ الجلسات أكثر استقراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will document the change and outcomes now by creating a ticket with before/after details and neighbor updates.",
+      "message_ar": "سأوثّق التغيير والنتائج الآن عبر إنشاء تذكرة تتضمن التفاصيل قبل/بعد وتحديثات الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post‑change, handover failures are easing and ping‑pong is trending down; this aligns with the PCI reassignment and neighbor cleanup. Let’s monitor through the next busy hour; tracking via DU-PCI-02147.",
+      "message_ar": "بعد التغيير، تتراجع إخفاقات التسليم ويتجه البينغ‑بونغ للانخفاض؛ وهذا يتماشى مع إعادة تعيين PCI وتنظيف الجيران. دعونا نراقب خلال ساعة الذروة القادمة؛ تتم المتابعة عبر DU-PCI-02147."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we will own the next busy hour review and update the ticket afterward with KPI deltas. If degradation returns, we will roll back the PCI change and restore prior relations; otherwise we will keep the tuning.",
+      "message_ar": "متفق—سنتولى مراجعة ساعة الذروة القادمة ونحدّث التذكرة بعدها بفروقات مؤشرات الأداء. إذا عاد التدهور سنرجع تغيير PCI ونعيد العلاقات السابقة؛ وإلا سنبقي الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NRCell-Suburb-23",
+        "all_neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "pci_reassign:new_pci=503;neighbor_cleanup"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision resolved on NRCell-Suburb-23 by PCI 503 reassignment and neighbor list cleanup; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on NRCell-Suburb-23: serving PCI 86 conflicted with adjacent sectors and broad overlap, correlating with high ping‑pong and handover failures. Applied site parameter tuning by reassigning PCI to 503 and cleaning neighbor relations, then documented the change. We will monitor HO success, ping‑pong rate, and RSRQ through the next busy hour.",
+    "ar": "تم تشخيص تصادم PCI على NRCell-Suburb-23: كان PCI الخادم 86 متضارباً مع قطاعات مجاورة مع تداخل واسع ارتبط بارتفاع البينغ‑بونغ وإخفاقات التسليم. تم تطبيق ضبط معلمات للموقع عبر إعادة تعيين PCI إلى 503 وتنظيف علاقات الجيران، وتم توثيق التغيير. سنراقب نجاح التسليم ومعدل البينغ‑بونغ وRSRQ خلال ساعة الذروة القادمة."
+  }
+}

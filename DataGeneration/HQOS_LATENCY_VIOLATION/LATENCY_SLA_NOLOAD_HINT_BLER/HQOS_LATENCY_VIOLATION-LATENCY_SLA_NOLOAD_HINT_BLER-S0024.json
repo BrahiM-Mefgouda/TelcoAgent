@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0024",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell shows high user-plane latency ~86 ms over the last 3 hours during peak eMBB, with ~67% resource use, ~7.9% BLER, SINR 8 dB, and 202 users.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر زمن تأخير طبقة المستخدم ~86 مللي ثانية خلال آخر 3 ساعات في ساعة الذروة لاستخدام eMBB، مع استخدام موارد ~67% وBLER ~7.9% وSINR بقيمة 8 dB و202 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SUB-MACRO-132 shows elevated user-plane latency ~86 ms over the last 3 hours at peak eMBB. KPIs: PRB ~66%, BLER ~7.9%, SINR 8 dB, 202 users. Please investigate and remediate.",
+      "message_ar": "الخلية NR-SUB-MACRO-132 (ماكرو في منطقة ضاحية) تُظهر ارتفاعاً في زمن تأخير طبقة المستخدم ~86 مللي ثانية خلال آخر 3 ساعات في ساعة الذروة لـ eMBB. المؤشرات: استخدام الموارد ~66%، BLER ~7.9%، وSINR 8 dB، وعدد المستخدمين 202. يرجى التحقيق والمعالجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull cell statistics for NR-SUB-MACRO-132 over the last 3 hours to validate the latency breach and load/quality context. Please confirm read-only access.",
+      "message_ar": "تم الاستلام. سأبدأ بجلب إحصاءات الخلية NR-SUB-MACRO-132 لآخر 3 ساعات للتحقق من تجاوز التأخير وسياق الحمل/الجودة. يرجى تأكيد الوصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the last 3 hours window.",
+      "message_ar": "تمت الموافقة على الوصول ل窗口 آخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Network stats confirm no site or backhaul alarms. Load is moderate (PRB ~66%, 202 users), BLER averages ~7.9%, RSRQ -16 dB. This can drive retransmissions and queueing. Next, I will chart the latency trend for the same window to isolate peaks and correlation. Proceed?",
+      "message_ar": "إحصاءات الشبكة تؤكد عدم وجود إنذارات في الموقع أو النقل الخلفي. الحمل متوسط (استخدام الموارد ~66%، 202 مستخدم)، BLER بمتوسط ~7.9% وRSRQ -16 dB. قد يؤدي ذلك إلى إعادة الإرسال والاصطفاف. بعد ذلك سأعرض اتجاه التأخير لنفس النافذة لعزل القمم والعلاقة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency trend shows median ~80–90 ms with spikes 110–130 ms aligned with BLER rises; p50 throughput ~24 Mbps remains steady, suggesting radio errors over pure congestion. I recommend a low-risk site parameter tuning to bias the scheduler for lower latency and reduce retransmissions for eMBB (impacts streaming). Approve optimization?",
+      "message_ar": "اتجاه التأخير يُظهر متوسطاً ~80–90 مللي ثانية مع قمم 110–130 مللي ثانية متزامنة مع ارتفاع BLER؛ السرعة الوسيطة ~24 ميجابت/ث ثابتة، ما يشير إلى أخطاء راديوية أكثر من الازدحام البحت. أوصي بضبط منخفض المخاطر لمعلمات الموقع لتهيئة المجدول لتقليل التأخير وتقليل إعادة الإرسال لـ eMBB (يؤثر على البث). هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization.",
+      "message_ar": "موافق على تطبيق التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-SUB-MACRO-132: site parameter tuning to favor lower latency in the downlink scheduler, slightly conservative modulation under poor quality, and tighter BLER target. Change completed successfully. I will observe counters for the next 10–15 minutes and await your quick check.",
+      "message_ar": "تم تطبيق التحسين على NR-SUB-MACRO-132: ضبط معلمات الموقع لتفضيل زمن تأخير أقل في مجدول الوصلة الهابطة، وتعديل أكثر تحفظاً تحت جودة ضعيفة، وهدف BLER أكثر صرامة. اكتمل التغيير بنجاح. سأراقب المؤشرات خلال 10–15 دقيقة القادمة وأنتظر فحصك السريع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check: median latency now ~52 ms, peaks below 90 ms; BLER ~3.5%. Throughput stable around 25–28 Mbps. Streaming looks smoother.",
+      "message_ar": "فحص مبكر: المتوسط الآن ~52 مللي ثانية والقمم أقل من 90 مللي ثانية؛ BLER حوالي 3.5%. السرعة مستقرة عند 25–28 ميجابت/ث. البث أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll continue observing during peak; target is sub-50 ms median and BLER <5% while keeping throughput stable. I’ll watch for regressions or side effects.",
+      "message_ar": "تحسن جيد. سأواصل المراقبة خلال فترة الذروة؛ الهدف أقل من 50 مللي ثانية للمتوسط وBLER أقل من 5% مع الحفاظ على استقرار السرعة. سأتابع أي تراجع أو آثار جانبية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Latency spikes are trending down after the site parameter tuning, and BLER is improving. Let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "قمم التأخير تتراجع بعد ضبط معلمات الموقع وBLER يتحسن. لنتابع المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed. We’ll own the next busy-hour monitoring and share an update afterward. If latency rises or BLER regresses, we will escalate for deeper RF checks; otherwise we’ll keep the change. If any adverse impact appears, we will roll back to the prior settings.",
+      "message_ar": "متفق. سنتولى مراقبة ساعة الذروة القادمة ونشارك تحديثاً بعد ذلك. إذا ارتفع التأخير أو تراجع BLER سنصعّد لإجراء فحوصات RF أعمق؛ وإلا فسنُبقي التغيير. وإذا ظهر أي تأثير سلبي سنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-132",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-MACRO-132",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "eMBB latency tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA breach on a suburban NR macro cell: moderate load with elevated BLER and poor quality indicators were driving retransmissions and queueing. Validated the issue via recent counters and latency trends, then applied site parameter tuning to favor lower latency and reduce retransmissions for eMBB. Post-change, latency and BLER improved; continued monitoring during the next busy hour is planned.",
+    "ar": "تم تشخيص تجاوز SLA للتأخير في خلية NR ماكرو بمنطقة ضاحية: حمل متوسط مع BLER مرتفع ومؤشرات جودة ضعيفة تسبب إعادة الإرسال والاصطفاف. تم التحقق عبر مؤشرات حديثة واتجاه التأخير ثم تطبيق ضبط لمعلمات الموقع لتفضيل زمن تأخير أقل وتقليل إعادة الإرسال لـ eMBB. بعد التغيير تحسن التأخير وBLER، وسيستمر رصد الأداء خلال ساعة الذروة القادمة."
+  }
+}

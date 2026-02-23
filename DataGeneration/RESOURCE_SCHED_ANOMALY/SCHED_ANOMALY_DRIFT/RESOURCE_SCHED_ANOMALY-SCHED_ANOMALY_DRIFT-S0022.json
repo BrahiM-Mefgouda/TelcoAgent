@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0022",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6 hours shows ~90% PRB use with fairness imbalance (~0.64), allocation skew 36, high-priority share 37% vs best-effort 64%, median throughput ~10 Mbps, and p95 latency 56 ms during shoulder eMBB streaming.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات تُظهر استخدام PRB بنحو 90% مع اختلال العدالة (~0.64)، وانحراف تخصيص 36، وحصة أولوية عالية 37% مقابل أفضل جهد 64%، ووسيط معدل نقل ~10 ميجابت/ث، وكمون p95 يبلغ 56 مللي ثانية خلال فترة الكتف مع حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell, last 6h shoulder window: PRB ~90%, fairness ~0.64, allocation skew 36. eMBB streaming users report uneven throughput (p50 ~10 Mbps). No alarms. Please investigate.",
+      "message_ar": "خلية NR ماكرو في منطقة حضرية خلال نافذة 6 ساعات في فترة الكتف: PRB ~90%، العدالة ~0.64، انحراف التخصيص 36. مستخدمو eMBB للبث يبلّغون عن تذبذب في السرعات (p50 ~10 ميجابت/ث). لا توجد إنذارات. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: check live counters for this cell over 6h, then review PRB distribution time series; if confirmed, apply conservative scheduler parameter tuning to rebalance class weights and latency guardrails. Approve read and controlled write access?",
+      "message_ar": "الخطة: فحص عدادات التشغيل للخلية خلال 6 ساعات، ثم مراجعة السلاسل الزمنية لتوزيع PRB؛ وإذا تأكدت المشكلة، تنفيذ ضبط محافظ لمعلمات المُجدول لإعادة موازنة الأوزان بين الفئات وحواجز الكمون. هل توافق على صلاحية القراءة والكتابة المضبوطة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the cell and the 6h window.",
+      "message_ar": "تمت الموافقة على الوصول للخلية ولنافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm sustained PRB 88–95% with best-effort ~64% and high-priority ~37%. Buffer levels elevated; p95 latency 56 ms. RF looks acceptable (SINR ~9 dB, RSRQ -8 dB). Proceed to PRB time-series analysis?",
+      "message_ar": "تؤكد العدادات استمرار PRB بين 88–95% مع أفضل جهد ~64% وأولوية عالية ~37%. مستويات المخزن المؤقت مرتفعة؛ كمون p95 عند 56 مللي ثانية. طبقة RF مقبولة (SINR ~9 dB، وRSRQ -8 dB). هل نتابع تحليل السلاسل الزمنية لـ PRB؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows recurrent peaks during shoulder; fairness dips to ~0.60 when best-effort bursts dominate, allocation skew ~36, and p95–p50 gap ~10 Mbps. This points to scheduler weight drift favoring best-effort. I recommend tuning: raise high-priority weighting and enable fairness boost with a modest BE burst cap. Approve the change?",
+      "message_ar": "السلاسل الزمنية تُظهر قمماً متكررة خلال فترة الكتف؛ ينخفض مؤشر العدالة إلى ~0.60 عند طغيان دفعات أفضل جهد، وانحراف التخصيص ~36، والفجوة بين p95 وp50 ~10 ميجابت/ث. هذا يشير إلى انحراف أوزان المُجدول لصالح أفضل جهد. أوصي بضبط: رفع وزن فئات الأولوية العالية وتفعيل تعزيز العدالة مع حدّ معتدل لدفعات أفضل جهد. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for a short change window.",
+      "message_ar": "موافق على نافذة تغيير قصيرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied conservative tuning: increased weighting for high-priority classes, enabled fairness boost, and limited BE burst size; no RF or neighbor changes. Change committed; starting a 15-minute observation for stability.",
+      "message_ar": "تم تنفيذ ضبط محافظ: زيادة أوزان فئات الأولوية العالية، تفعيل تعزيز العدالة، وتقييد حجم دفعات أفضل جهد؛ دون أي تغييرات على RF أو الجيران. تم اعتماد التغيير؛ أبدأ مراقبة لمدة 15 دقيقة للتحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: fairness index ~0.77–0.80, p95 latency down to ~38 ms; PRB still high but less spiky. No errors observed.",
+      "message_ar": "المؤشرات الأولية إيجابية: مؤشر العدالة ~0.77–0.80، وانخفض كمون p95 إلى ~38 مللي ثانية؛ PRB ما زال مرتفعاً لكنه أقل تقطعاً. لم تُلاحظ أخطاء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll continue watching class shares, fairness, and latency through the rest of the shoulder and into the next busy hour. If metrics remain stable, no further action is needed today.",
+      "message_ar": "تم. سنواصل مراقبة حصص الفئات، والعدالة، والكمون خلال بقية فترة الكتف وحتى ساعة الذروة التالية. إذا بقيت المؤشرات مستقرة، فلن تكون هناك حاجة لإجراءات إضافية اليوم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: fairness trending up and latency reduced. After the scheduler parameter tuning, let’s monitor for the next 2–4 hours, including the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: العدالة في تحسن والكمون انخفض. بعد ضبط معلمات المُجدول، لنتابع المراقبة خلال الساعتين إلى الأربع ساعات المقبلة بما يشمل ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the 2–4 hour monitoring window and report updated fairness, class shares, and latency afterward. If fairness degrades or latency regresses, we will roll back the change; if PRB saturation persists, we will escalate for capacity actions.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنقدّم تقريراً بتحديثات العدالة وحصص الفئات والكمون بعدها. إذا تدهورت العدالة أو عاد الكمون للارتفاع سنقوم بإرجاع التغيير؛ وإذا استمر تشبع PRB سنصعّد لإجراءات السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro cell during the last 6 hours: high PRB load with skew toward best-effort, degraded fairness, and elevated latency. We verified via counters and PRB time series, then applied site parameter tuning to rebalance QoS weights and strengthen fairness/latency guardrails. KPIs improved; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص شذوذ في إدارة الموارد على خلية NR ماكرو حضرية خلال آخر 6 ساعات: حمل PRB مرتفع مع انحياز نحو أفضل جهد، تدهور في العدالة، وكمون مرتفع. جرى التحقق عبر العدادات والسلاسل الزمنية لـ PRB، ثم تنفيذ ضبط لمعلمات الموقع لإعادة موازنة أوزان QoS وتعزيز حدود العدالة/الكمون. تحسنت مؤشرات الأداء وسنستمر بالمراقبة خلال ساعة الذروة القادمة."
+  }
+}

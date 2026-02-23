@@ -1,0 +1,105 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0018",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro cell shows elevated ping-pong handovers (13%) over the last 5h with moderate load and interference/signal overlap impacting handover stability.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر ارتفاعاً في التسليمات التبادلية (13%) خلال آخر 5 ساعات مع حمل متوسط وتداخل/تراكب إشارة يؤثر على استقرار التسليم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 5h shows elevated ping-pong HOs (~13%) and HO failures ~7%; RSRP ~-107 dBm, RSRQ -11 dB, SINR ~0 dB; PRB ~55% with ~229 users; p50 DL ~23 Mbps. Shoulder period; some video streaming reports near the border. Need assistance.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية خلال آخر 5 ساعات تظهر ارتفاعاً في التسليمات التبادلية (~13%) وإخفاقات تسليم ~7%؛ RSRP نحو ‎-107 dBm وRSRQ ‎-11 dB وSINR ~0 dB؛ إشغال PRB ~55% مع ~229 مستخدماً؛ وسيط التحميل الهابط ~23 Mbps. فترة الكتف؛ توجد بعض بلاغات بث فيديو قرب الحدود. أحتاج المساندة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnostics: 1) pull OSS mobility/interference stats for the past 5h, 2) review HO time series by neighbor to isolate oscillating pairs, 3) if confirmed, tune mobility thresholds (TTT/hysteresis/A3) to reduce ping-pong. Please confirm access and share the cell ID.",
+      "message_ar": "سأتولى التشخيص: 1) سحب مؤشرات الحركة والتداخل لآخر 5 ساعات، 2) مراجعة السلسلة الزمنية للتسليم حسب الجار لعزل الأزواج المتذبذبة، 3) عند التأكيد، ضبط عتبات الحركة (TTT/الهسترة/A3) لتقليل التذبذب. يرجى تأكيد الإذن وتزويدي بمعرف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID: NR-Suburb-1123 (A-sector). Window: last 5h. Proceed.",
+      "message_ar": "موافق. معرف الخلية: NR-Suburb-1123 (القطاع A). النافذة: آخر 5 ساعات. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot confirms high return HOs with neighbor NR-Suburb-1187; pair 1123↔1187 accounts for ~62% of ping-pong events. Current thresholds: A3 3 dB, TTT 192 ms, hysteresis 3 dB. SINR clustered at 0–2 dB; RSRP ~-107 dBm. No congestion flags. Proceed to HO time-series deep dive?",
+      "message_ar": "لقطة OSS تؤكد ارتفاع التسليمات المرتجعة مع الجار NR-Suburb-1187؛ الزوج 1123↔1187 يشكل نحو 62% من أحداث التذبذب. العتبات الحالية: A3 = 3 dB، TTT = 192 ms، الهسترة = 3 dB. توزيع SINR عند 0–2 dB وRSRP نحو ‎-107 dBm. لا مؤشرات ازدحام. هل نتابع إلى تحليل السلسلة الزمنية للتسليم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the time-series review.",
+      "message_ar": "موافق على مراجعة السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series (5h) shows spikes 16:00–18:00; ping-pong share up to ~18% with neighbor 1187 and reversals within ~30 s. Pattern indicates aggressive triggering under interference. Proposal: increase TTT by +64 ms, raise hysteresis by +1 dB, and add +1 dB neighbor-specific offset toward 1187. Approve implementation now?",
+      "message_ar": "السلسلة الزمنية للتسليم (5 ساعات) تُظهر قمماً بين 16:00–18:00؛ حصة التذبذب تصل إلى ~18% مع الجار 1187 مع عودة خلال ~30 ثانية. النمط يشير إلى تحفيز عدائي تحت التداخل. الاقتراح: زيادة TTT بمقدار +64 ms، رفع الهسترة +1 dB، وإضافة +1 dB انحياز خاص بالجار نحو 1187. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization.",
+      "message_ar": "موافق على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied tuning on NR-Suburb-1123: TTT 256 ms, hysteresis 4 dB, neighbor 1187 offset +1 dB. Rollback checkpoint ready. Initial 10-min check shows ~35% fewer ping-pong events and slight HO success uptick. Continuing to observe.",
+      "message_ar": "تم تطبيق الضبط على NR-Suburb-1123: TTT = 256 ms، الهسترة = 4 dB، وانحياز الجار 1187 +1 dB. نقطة رجوع جاهزة. تحقق أولي لمدة 10 دقائق يُظهر انخفاضاً بنحو 35% في التذبذب وارتفاعاً طفيفاً في نجاح التسليم. أستمر في المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement: ping-pong down from ~13% to ~7–8% in the last 30 minutes on the 1187 border; HO success slightly up. This matches the mobility parameter optimization you applied. Let’s monitor over the next 2–4 hours to confirm stability.",
+      "message_ar": "أرى تحسناً مبكراً: انخفضت التذبذبات من ~13% إلى ~7–8% خلال آخر 30 دقيقة على حدود 1187؛ ونسبة نجاح التسليم ارتفعت قليلاً. هذا يتوافق مع تحسين معلمات الحركة الذي طبقتَه. فلنراقب خلال الساعتين إلى الأربع ساعات القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next 2–4 hours and update with ping-pong rate, return HOs, and HO success. If degradation reappears, we will roll back the change and escalate to RF design for border rebalancing; otherwise we will retain the tuned settings.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنحدثك بمعدل التذبذب، التسليمات المرتجعة، ونسبة نجاح التسليم. إذا عادت المشكلة، سنرجع التغيير ونصعّد إلى فريق تصميم التغطية لإعادة موازنة الحدود؛ وإلا سنُبقي الإعدادات المعدلة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on a suburban 5G macro border under low SINR and overlap. Pulled OSS and reviewed the handover time series to confirm oscillation with a specific neighbor, then applied site parameter tuning by increasing TTT, adding hysteresis, and a small neighbor offset. Early indicators show reduced ping-pong and improved handover success; monitoring continues to confirm stability.",
+    "ar": "تم تشخيص ارتفاع التسليمات التبادلية على حدود خلية ماكرو 5G في منطقة ضاحية تحت SINR منخفض وتراكب. جرى سحب مؤشرات OSS ومراجعة السلسلة الزمنية للتسليم لتأكيد التذبذب مع جار محدد، ثم تطبيق ضبط لمعلمات الموقع برفع TTT وزيادة الهسترة وإضافة انحياز بسيط نحو الجار. المؤشرات الأولية تُظهر انخفاض التذبذب وتحسناً في نجاح التسليم؛ وستستمر المراقبة لتأكيد الاستقرار."
+  }
+}

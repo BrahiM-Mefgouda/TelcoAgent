@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0019",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell shows a resource allocation imbalance over the last 3h with very high PRB use (93%), low fairness, and interference/signal overlap; a congestion alarm is active during the event.",
+    "ar": "خلية NR ميكرو في الملعب تُظهر اختلالاً في تخصيص الموارد خلال آخر 3 ساعات مع استخدام PRB مرتفع جداً (93%)، وعدالة منخفضة، وتداخل/تراكب إشارة؛ يوجد إنذار ازدحام نشط أثناء الحدث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell under heavy load during the ongoing event; over the last ~3h we see variable user throughput and a congestion alarm.",
+      "message_ar": "خلية NR ميكرو في الملعب تحت حمل مرتفع أثناء الحدث الجاري؛ خلال آخر ~3 ساعات نلاحظ تذبذباً في سرعات المستخدم وإنذار ازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will investigate for the last 3h. Please confirm the cell ID and approve read-only access to counters/config.",
+      "message_ar": "مفهوم. سأجري فحصاً لآخر 3 ساعات. يرجى تأكيد مُعرّف الخلية والموافقة على وصول للقراءة فقط للعدادات والإعدادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-07. Read-only access approved.",
+      "message_ar": "معرّف الخلية: NR-STAD-MICRO-07. تمت الموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected OSS stats for NR-STAD-MICRO-07 (3h). PRB utilization 93%, fairness index 0.54, allocation skew 18; QCI mix shows high-priority 14% vs best-effort 76%. Resource-allocator p95 latency 53 ms. SINR ~2 dB indicates interference/signal overlap. This suggests allocation imbalance under heavy streaming traffic. Proceeding to time-series validation.",
+      "message_ar": "تم جمع إحصاءات OSS للخلية NR-STAD-MICRO-07 (3 ساعات). استخدام PRB بنسبة 93%، مؤشر العدالة 0.54، انحياز التخصيص 18؛ مزيج QCI يُظهر أولوية عالية 14% مقابل أفضل جهد 76%. كمون المخصص (p95) يساوي 53 مللي ثانية. قيمة SINR ~2 dB تشير إلى تداخل/تراكب إشارة. هذا يوحي باختلال في تخصيص الموارد مع حركة بث كثيفة. سأتحقق عبر السلاسل الزمنية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series check.",
+      "message_ar": "تفضل بإجراء فحص السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series (3h) shows near-saturation during peaks, fairness dipping ~0.5, median DL ~10 Mbps while p95 ~38 Mbps (gap 31 Mbps) indicating uneven allocation. During surges, best-effort flows dominate. Confirms a resource allocation anomaly. Requesting approval to retune allocator weights to protect high-priority classes and smooth bursts.",
+      "message_ar": "السلاسل الزمنية (3 ساعات) تُظهر اقتراب التشبع في الذروة، مع هبوط العدالة إلى ~0.5، والوسيط نحو 10 ميجابت/ث بينما p95 ~38 ميجابت/ث (فجوة 31 ميجابت/ث) ما يدل على تخصيص غير متوازن. أثناء الازدحام، تتغلب تدفقات أفضل جهد. يؤكد ذلك وجود خلل في تخصيص الموارد. أطلب الموافقة على إعادة ضبط أوزان المخصص لحماية الفئات ذات الأولوية وتخفيف الاندفاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "موافَق على تطبيق إعادة الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter tuning on NR-STAD-MICRO-07: increased weighting for critical classes, capped best-effort share at 60% under high load, and tightened buffer thresholds to lower allocator latency. Changes are live; observing counters for 10–15 minutes.",
+      "message_ar": "تم تطبيق ضبط المعلمات على NR-STAD-MICRO-07: زيادة وزن الفئات الحرجة، ووضع حد أقصى لحصة أفضل جهد عند 60% وقت الحمل العالي، وتشديد عتبات المخزن المؤقت لخفض كمون المُخصص. التغييرات فعّالة؛ أراقب العدادات لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~12 minutes: fairness improved to 0.68, allocator p95 latency down to 41 ms, median throughput ~13 Mbps. PRB ~90% but more stable; interference remains.",
+      "message_ar": "بعد ~12 دقيقة: تحسن مؤشر العدالة إلى 0.68، وانخفض كمون المُخصص (p95) إلى 41 مللي ثانية، والوسيط ~13 ميجابت/ث. ما يزال PRB نحو 90% لكنه أكثر استقراراً؛ التداخل مستمر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will keep tracking fairness, PRB use, and allocator latency through the next busy window; if interference continues to cap performance, we will consider mitigation actions separately.",
+      "message_ar": "تحسن جيد. سأستمر بمتابعة العدالة واستخدام PRB وكمون المُخصص خلال نافذة الازدحام التالية؛ وإذا استمر التداخل في تقييد الأداء فسندرس إجراءات تخفيف منفصلة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained; allocator latency is trending down and fairness is higher. The action taken was site parameter tuning for resource allocation. Let’s monitor over the next 2–4 hours of the event.",
+      "message_ar": "التحسن مستمر؛ كمون المُخصص يتناقص ومؤشر العدالة أعلى. الإجراء المنفذ كان ضبط معلمات الموقع لتخصيص الموارد. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة من الحدث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the monitoring for the next 2–4 hours and share an update afterward. If metrics degrade or user reports rise, we will roll back the tuning; if limits persist due to interference, we will escalate for interference mitigation.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنشارك تحديثاً بعدها. إذا تدهورت المؤشرات أو زادت بلاغات المستخدمين فسنعود عن الضبط؛ وإذا استمرت القيود بسبب التداخل فسنصعّد لمعالجة التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "allocator_weights; be_share_cap; buffer_thresholds"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation anomaly on the stadium NR micro cell during the event: OSS review and PRB time-series confirmed very high utilization, low fairness, and imbalance aggravated by interference. Executed site parameter tuning to rebalance QoS weighting, cap best-effort share, and reduce allocator latency, yielding early improvements in fairness and median throughput. We will continue monitoring through the upcoming busy period.",
+    "ar": "تم تشخيص خلل في تخصيص الموارد على خلية NR ميكرو في الملعب أثناء الحدث: أكد تحليل OSS والسلاسل الزمنية لـ PRB وجود استخدام مرتفع جداً وعدالة منخفضة واختلال تفاقمه التداخل. تم تنفيذ ضبط معلمات الموقع لإعادة موازنة أوزان QoS وتقييد حصة أفضل جهد وتقليل كمون المُخصص، مما أدى إلى تحسن مبكر في العدالة والوسيط. سنواصل المراقبة خلال فترة الازدحام القادمة."
+  }
+}

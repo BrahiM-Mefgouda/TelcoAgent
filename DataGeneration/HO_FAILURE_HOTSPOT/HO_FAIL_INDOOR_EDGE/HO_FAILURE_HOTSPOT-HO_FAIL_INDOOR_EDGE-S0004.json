@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0004",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Indoor office hotspot in the last 4h shows HO success ~80% with 8% failures and 12% ping‑pong; SINR ~4 dB indicates interference/signal overlap at the indoor edge.",
+    "ar": "النقطة الساخنة الداخلية خلال آخر 4 ساعات تُظهر نجاح تسليم ~80% مع 8% فشل و12% ذهاب وإياب؛ قيمة SINR ~4 dB تشير إلى تداخل/تراكب إشارة عند الحافة الداخلية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor micro 5G NR cell over the last 4h peak window: HO success ~80%, HO failures 8%, ping-pong 12%, RLF ~4%. SINR ~4 dB, RSRP around -101 dBm with ~95 users; p50 DL ~24 Mbps. We need help on a handover failure hotspot inside the office.",
+      "message_ar": "خلية 5G NR داخلية من نوع micro خلال آخر 4 ساعات في وقت الذروة: نجاح التسليم ~80%، فشل التسليم 8%، ذهاب وإياب 12%، وفقدان رابط ~4%. قيمة SINR ~4 dB وRSRP حوالي -101 dBm مع ~95 مستخدماً؛ وسرعة تنزيل وسيط ~24 Mbps. نحتاج معالجة نقطة ساخنة لفشل التسليم داخل المكتب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first analyze the indoor coverage heatmap over the floor grid to locate the hotspot and any signal overlap, then propose targeted mobility tuning. Please confirm access for the last 4 hours.",
+      "message_ar": "مفهوم. سأحلّل أولاً خريطة التغطية الحرارية عبر شبكة الطابق لتحديد النقطة الساخنة وأي تراكب للإشارة، ثم أقترح ضبطاً مستهدفاً للتنقل. الرجاء تأكيد السماح بالوصول لبيانات آخر 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the last 4 hours. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول لآخر 4 ساعات. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: the hotspot is along the indoor edge near the elevator corridor with overlapping dominance from two neighbors causing interference and late handovers. Given peak eMBB streaming, I recommend mobility tuning for earlier, cleaner exits toward the dominant neighbor: reduce TTT to ~200 ms, lower A3 threshold by 1 dB, and keep hysteresis at 2 dB to contain ping‑pong. Approve to implement now?",
+      "message_ar": "النتائج: النقطة الساخنة تقع على الحافة الداخلية قرب ممر المصاعد مع تنافس هيمنة من جارَين يسبب تداخلاً وتأخراً في التسليم. نظراً إلى حركة eMBB والبث خلال الذروة، أوصي بضبط معايير التنقل لتسليم أبكر وأنظف نحو الجار المهيمن: خفض زمن TTT إلى ~200 مللي ثانية، تقليل عتبة A3 بمقدار 1 dB، والإبقاء على الهسترة عند 2 dB للحد من الذهاب والإياب. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied: TTT set to ~200 ms, A3 threshold eased by 1 dB toward earlier HO, and hysteresis retained at 2 dB with a +1 dB neighbor bias to the dominant cell. No service impact observed; counters will stabilize over the next 10–15 minutes.",
+      "message_ar": "تم تطبيق الضبط: ضبط TTT إلى ~200 مللي ثانية، تخفيض عتبة A3 بمقدار 1 dB لتسليم أبكر، والإبقاء على الهسترة عند 2 dB مع تحيز +1 dB نحو الخلية المجاورة المهيمنة. لم يُلاحظ تأثير على الخدمة؛ ستستقر المؤشرات خلال 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after a few minutes: fewer HO rejects from that corridor, though a couple of ping‑pongs still occur.",
+      "message_ar": "ملاحظة أولية بعد بضع دقائق: رفضات التسليم أقل من ذلك الممر، رغم حدوث بعض عمليات الذهاب والإياب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Some ping‑pong can persist briefly as UE filters settle; it should dampen with the adjusted timing. Please advise if any user complaints remain in that edge area.",
+      "message_ar": "تم الاستلام. قد يستمر بعض الذهاب والإياب لفترة وجيزة حتى تستقر مرشحات الأجهزة؛ ومن المفترض أن ينخفض مع ضبط التوقيت. يرجى الإفادة إن بقيت شكاوى مستخدمين في تلك الحافة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick walk test: transitions to the neighbor are smoother and RLF blips are less frequent at the elevator corridor.",
+      "message_ar": "اختبار ميداني سريع: الانتقالات إلى الجار أصبحت أكثر سلاسة وتناقصت ومضات فقدان الرابط عند ممر المصعد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I’ll observe the counters as they settle and track HO success and ping‑pong trends through the next load ramp.",
+      "message_ar": "جيد. سأراقب المؤشرات أثناء الاستقرار وأتتبع اتجاهات نجاح التسليم والذهاب والإياب خلال ارتفاع الحمل التالي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement noted: HO failures trending down and transitions look earlier since the mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن مبكر ملحوظ: انخفاض اتجاه فشل التسليم وتبدو الانتقالات أبكر منذ تحسين معايير التنقل. لنتابع المراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own the next busy hour monitoring and report HO success, ping‑pong rate, and RLF trend afterward. If failures rise or ping‑pong worsens, we will roll back to previous settings and coordinate with neighboring cells for alignment.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الانشغال التالية ونبلغ لاحقاً بمعدل نجاح التسليم والذهاب والإياب واتجاه فقدان الرابط. إذا ارتفعت الإخفاقات أو ساء الذهاب والإياب، سنعود إلى الإعدادات السابقة ونتعاون مع الخلايا المجاورة لتحقيق المواءمة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor handover failure hotspot by analyzing the coverage heatmap, which showed overlapping dominance and interference at the office edge. Mitigated by site parameter tuning to trigger earlier and cleaner handovers toward the dominant neighbor while containing ping‑pong. We will monitor HO success, ping‑pong, and RLF through the next busy hour to confirm stability.",
+    "ar": "تم تشخيص نقطة ساخنة لفشل التسليم الداخلي عبر تحليل خريطة التغطية، والتي أظهرت تنافس هيمنة وتداخلاً عند حافة المكتب. تم التخفيف من خلال ضبط معايير الموقع لتفعيل تسليمات أبكر وأنظف نحو الجار المهيمن مع احتواء الذهاب والإياب. سنراقب نجاح التسليم والذهاب والإياب وفقدان الرابط خلال ساعة الانشغال التالية للتحقق من الاستقرار."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_SUDDEN_ALARM-S0012",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_SUDDEN_ALARM",
+  "query": {
+    "en": "Urban 5G NR macro cell shows an alarm and possible outage in the last 1h with slow data, ~1% availability, 98% user drops, and 82% call setup failures.",
+    "ar": "خلية 5G NR ماكرو حضرية تُظهر إنذارًا واحتمال انقطاع خلال الساعة الماضية مع بيانات بطيئة، توفر ~1%، معدل انقطاع 98%، وإخفاق إعداد المكالمات 82%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Sudden alarm on an urban 5G NR macro cell in the last 1h during off-peak; users report no service (eMBB streaming affected). KPIs: availability ~1%, p50 throughput 0 (slow data), drop rate 98%, call setup failures 82%.",
+      "message_ar": "إنذار مفاجئ على خلية 5G NR ماكرو في منطقة حضرية خلال الساعة الماضية خارج الذروة؛ المستخدمون يبلغون عن انقطاع الخدمة (تأثر بث eMBB). المؤشرات: التوفر ~1%، وسيط السرعة 0 (بيانات بطيئة)، معدل الانقطاع 98%، وإخفاقات إعداد المكالمات 82%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged possible outage. I will check OSS health for the affected cell over the last 1h to confirm state and impact. Please share the exact cell ID and approve read access.",
+      "message_ar": "تم الاستلام، يحتمل وجود انقطاع. سأتحقق من حالة النظام عبر OSS للخلية المتأثرة خلال الساعة الماضية لتأكيد الحالة والنطاق. الرجاء تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-045. You have read access; use a 1h window.",
+      "message_ar": "معرّف الخلية هو NR-URB-045. لديك صلاحية قراءة؛ استخدم نافذة ساعة واحدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check results: NR-URB-045 service state DOWN since 47 min; admin state unlocked; NG signaling unreachable; zero user traffic; paging/attach failures spiking; neighbor hand-in attempts rising. This indicates a hard outage likely tied to power/backhaul at site. Requesting approval to open an outage ticket for field action.",
+      "message_ar": "نتائج فحص OSS: الخلية NR-URB-045 بحالة خدمة متوقفة منذ 47 دقيقة؛ الحالة الإدارية غير مقفلة؛ إشارات NG غير متاحة؛ حركة مستخدمين صفر؛ ارتفاع في فشل الترحيل/التسجيل؛ وزيادة محاولات التسليم من الخلايا المجاورة. يشير ذلك إلى انقطاع حاد يرجح ارتباطه بالطاقة/الربط الخلفي في الموقع. أطلب الموافقة على فتح تذكرة انقطاع لإجراء ميداني."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the outage ticket.",
+      "message_ar": "تمت الموافقة على فتح تذكرة الانقطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proceeding to open an outage ticket and notify field teams; context: urban macro NR, off-peak, eMBB users impacted. I will keep it active and monitor for auto-recovery. Any known local grid or fiber works?",
+      "message_ar": "أباشر بفتح تذكرة انقطاع وإخطار الفرق الميدانية؛ السياق: ماكرو NR حضري، خارج الذروة، تأثر مستخدمو eMBB. سأُبقيها فعّالة وأراقب أي استعادة تلقائية. هل توجد أعمال محلية على الكهرباء أو الألياف؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Local ops report a short utility power dip; generator is running; no planned fiber work.",
+      "message_ar": "تفيد العمليات المحلية بحدوث هبوط قصير في طاقة المرفق؛ المولد يعمل؛ لا أعمال ألياف مخططة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Please watch for initial recovery signals—successful registrations and fewer setup failures—and confirm any change in the next few minutes.",
+      "message_ar": "مفهوم. الرجاء مراقبة مؤشرات الاستعادة الأولية — تسجيلات ناجحة وانخفاض إخفاقات الإعداد — وتأكيد أي تغيّر خلال الدقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Recovery observed: registrations succeeding; call setup failures dropping; availability ~78% now.",
+      "message_ar": "لوحظت استعادة: التسجيلات تنجح؛ إخفاقات إعداد المكالمات في انخفاض؛ التوفر ~78% الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good recovery trend. We will continue observing through the next busy hour while the ticket stays open for site verification; if stable, we will proceed to closure after the observation window.",
+      "message_ar": "اتجاه استعادة جيد. سنواصل المراقبة خلال ساعة الذروة القادمة مع إبقاء التذكرة مفتوحة للتحقق الميداني؛ إذا استقرت الحالة سنمضي للإغلاق بعد نافذة المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Status: improvement sustained; availability near normal and failures trending down. Action taken: outage ticket created and tracked. Propose monitoring for the next 2–4 hours. Ticket DU-OUT-10357.",
+      "message_ar": "الحالة: التحسن مستمر؛ التوفر قريب من الطبيعي والإخفاقات في اتجاه هبوطي. الإجراء المُتخذ: إنشاء وتتبّع تذكرة انقطاع. أقترح المراقبة خلال 2–4 ساعات القادمة. التذكرة DU-OUT-10357."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own that monitoring window and update the ticket after the window. If the cell drops again, we will escalate to on-site repair; no rollback is required as no configuration changes were made.",
+      "message_ar": "تم التأكيد — سنتولى نافذة المراقبة ونحدّث التذكرة بعد انتهاء النافذة. إذا هبطت الخلية مجددًا سنصعّد لإصلاح ميداني؛ لا حاجة للتراجع لأننا لم نجري أي تغييرات إعدادية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a hard outage on NR-URB-045 via OSS health check over the last hour, showing service down, signaling unreachable, and zero traffic. Opened an outage ticket for field intervention and maintained monitoring as the site recovered. Mitigation is via outage ticket handling and continued observation to ensure stability.",
+    "ar": "تم تأكيد انقطاع حاد على الخلية NR-URB-045 عبر فحص OSS خلال الساعة الماضية، مع توقف الخدمة وعدم وصول الإشارات وانعدام الحركة. تم فتح تذكرة انقطاع للتدخل الميداني والاستمرار في المراقبة مع تعافي الموقع. تمت المعالجة من خلال تذكرة الانقطاع والمتابعة لضمان الاستقرار."
+  }
+}

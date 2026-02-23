@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0016",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium 5G NR microcell shows congestion over the last 3h with slow data and interference / signal overlap; PRB near 97%, low fairness, and high latency during ingress.",
+    "ar": "خلية NR صغيرة في الملعب تُظهر ازدحاماً خلال آخر 3 ساعات مع بطء بيانات وتداخل/تراكب إشارة؛ استخدام PRB يقارب 97%، وعدالة منخفضة وزمن تأخير مرتفع أثناء الدخول."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is raising a congestion alarm during ingress. We see ~583 users, median DL ~5 Mbps, SINR ~3 dB, with heavy video streaming (eMBB). Please lead mitigation.",
+      "message_ar": "الخلية الصغيرة NR في الملعب تُطلق إنذار ازدحام أثناء الدخول. لدينا حوالي 583 مستخدماً، سرعة تنزيل وسيط ~5 ميجابت/ث، وSINR حوالي 3 dB، مع بث فيديو كثيف (eMBB). يرجى قيادة المعالجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull the last 3h OSS counters for cell NR_STADIUM_MICRO_03 to validate PRB allocator behavior, QoS shares, and MAC latency. Please confirm access.",
+      "message_ar": "سأجلب عدادات OSS لآخر 3 ساعات للخلية NR_STADIUM_MICRO_03 للتحقق من سلوك مُخصِّص PRB، وحصص QoS، وكمون طبقة MAC. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell: NR_STADIUM_MICRO_03, window 3h.",
+      "message_ar": "الوصول مُعتمد. الخلية: NR_STADIUM_MICRO_03، النافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters fetched: DL PRB utilization 96–98%, fairness index ~0.65, allocation skew 44; best-effort share 77% vs high-priority 22%. MAC latency p95 61 ms. RF quality is poor (RSRQ −12 dB, SINR 3 dB). This points to a resource-allocation anomaly under congestion with interference. Next, I will analyze PRB trends over the same window to confirm ingress impact.",
+      "message_ar": "تم جلب العدادات: استخدام PRB للوصل الهابط 96–98%، مؤشر العدالة ~0.65، انحراف التخصيص 44؛ حصة أفضل-جهد 77% مقابل 22% للأولوية العالية. كمون MAC p95 يساوي 61 مللي ثانية. جودة التغطية ضعيفة (RSRQ −12 dB وSINR 3 dB). هذا يشير إلى خلل في تخصيص الموارد تحت الازدحام مع تداخل. بعد ذلك سأحلّل اتجاهات PRB لنفس النافذة لتأكيد تأثير الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "PRB time series over 3h shows an ingress spike with sustained saturation and oscillatory per-user grants; median DL ~5 Mbps, p95 ~13 Mbps, wide gap ~25 Mbps. Conclusion: allocator bias toward best-effort is hurting fairness and priority handling. I propose tuning parameters to raise weight for high-priority traffic, tighten fairness thresholds, and rebalance time vs frequency domain allocation. Approve?",
+      "message_ar": "السلاسل الزمنية لـ PRB خلال 3 ساعات تُظهر ذروة أثناء الدخول مع تشبّع مستمر وتذبذب في منح الموارد لكل مستخدم؛ الوسيط ~5 ميجابت/ث وp95 ~13 ميجابت/ث وفجوة واسعة ~25 ميجابت/ث. الخلاصة: هناك انحياز نحو حركة أفضل-جهد يؤثر سلباً على العدالة ومعاملة الأولويات. أقترح ضبط المعايير لزيادة وزن الحركة عالية الأولوية، تشديد حدود العدالة، وإعادة موازنة التخصيص بين البعد الزمني والترددي. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning.",
+      "message_ar": "موافق على تطبيق الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter tuning applied to NR_STADIUM_MICRO_03; commit successful. Effects should appear within minutes. I’m monitoring counters now.",
+      "message_ar": "تم تطبيق ضبط المعايير على NR_STADIUM_MICRO_03؛ تم الاعتماد بنجاح. ينبغي أن تظهر التأثيرات خلال دقائق. أراقب العدادات الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: median throughput up to ~8 Mbps, MAC latency p95 down to ~40 ms, and best-effort share ~65%. No adverse alarms.",
+      "message_ar": "نرى تحسناً: الوسيط ارتفع إلى ~8 ميجابت/ث، وكمون MAC p95 انخفض إلى ~40 مللي ثانية، وحصة أفضل-جهد ~65%. لا إنذارات سلبية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will keep checking PRB utilization and fairness as ingress continues. Please share any anomalies you observe.",
+      "message_ar": "تم. سأواصل التحقق من استخدام PRB والعدالة مع استمرار الدخول. يرجى مشاركتي أي شذوذ تلاحظونه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds; allocator fairness is trending up and slow data complaints are decreasing. Action taken: site parameter tuning for PRB/QoS allocation. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر؛ عدالة التخصيص في تحسن وشكاوى بطء البيانات تتراجع. الإجراء المتخذ: ضبط معايير الموقع لتخصيص PRB/QoS. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring for the next busy hour and share an update afterward. If KPIs degrade, we will roll back the change; if interference rises again, we will escalate for additional RF mitigation.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة وسنشارك تحديثاً بعدها. إذا تدهورت مؤشرات الأداء، سنسترجع التعديل؛ وإذا عاد التداخل للارتفاع، سنصعّد لطلب تخفيف تداخلات إضافي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STADIUM_MICRO_03",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STADIUM_MICRO_03",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "QoS weight and PRB fairness tuning for ingress"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During stadium ingress, OSS counters and PRB time series confirmed a resource-allocation anomaly under congestion and interference, with PRB ~97%, low fairness, and high queuing latency. We executed site parameter tuning to improve PRB fairness and prioritize high-priority traffic. Post-change, median throughput increased and latency decreased; we will monitor through the next busy hour.",
+    "ar": "خلال مرحلة الدخول في الملعب، أكدت عدادات OSS والسلاسل الزمنية لـ PRB وجود خلل في تخصيص الموارد تحت الازدحام والتداخل، مع PRB ~97% وعدالة منخفضة وزمن انتظار مرتفع. قمنا بضبط معايير الموقع لتحسين عدالة PRB وإعطاء أولوية أعلى لحركة المرور ذات الأولوية. بعد التغيير ارتفع الوسيط وانخفض الزمن، وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

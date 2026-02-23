@@ -1,0 +1,120 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0007",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor office 5G micro cell shows slow data with a congestion alarm over the last 4h: DL median ~7 Mbps, ~198 users, PRB ~85%, and p95 resource latency 34 ms.",
+    "ar": "موقع داخلي في مكتب على 5G (خلية صغيرة) يظهر بيانات بطيئة مع إنذار ازدحام خلال آخر 4 ساعات: سرعة تنزيل متوسطة ~7 ميجابت/ث، ~198 مستخدمًا، استخدام موارد ~85%، وزمن كمون p95 يساوي 34 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Enterprise indoor site on NR micro cell is slow during business hours (last 4h). Alarm active. Counters: PRB ~85%, ~198 users, DL median ~7 Mbps, BLER ~4–5%, p95 resource latency ~34 ms.",
+      "message_ar": "الموقع الداخلي للمؤسسة على شبكة NR (خلية صغيرة) بطيء خلال ساعات العمل (آخر 4 ساعات). هناك إنذار نشط. المؤشرات: استخدام الموارد ~85%، ~198 مستخدمًا، سرعة تنزيل متوسطة ~7 ميجابت/ث، BLER ~4–5%، وزمن كمون p95 ~34 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling the last 4h performance from the OSS. Please share the cell ID and confirm read access.",
+      "message_ar": "مفهوم. سأبدأ بجلب أداء آخر 4 ساعات من نظام الإدارة. الرجاء تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-IND-MICRO-1103. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-IND-MICRO-1103. صلاحية القراءة مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot (4h) for NR-IND-MICRO-1103: PRB avg 85% (peaks ~92%), users peak 210, DL median 7 Mbps, BLER 4.5%, p95 resource latency 34 ms, no transport alarms. This looks capacity-limited on this indoor small site.",
+      "message_ar": "لقطة نظام الإدارة (4 ساعات) للخليّة NR-IND-MICRO-1103: متوسط استخدام الموارد 85% (قمم ~92%)، ذروة المستخدمين 210، سرعة تنزيل متوسطة 7 ميجابت/ث، BLER 4.5%، وزمن كمون p95 يساوي 34 مللي ثانية، ولا توجد إنذارات نقل. يبدو أن المشكلة ناجمة عن سعة محدودة في هذا الموقع الداخلي الصغير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes: enterprise users reported buffering during streaming around noon; outdoors unaffected.",
+      "message_ar": "ملاحظات الميدان: مستخدمو المؤسسة أبلغوا عن تقطّع أثناء البث قرب الظهر؛ ولا توجد مشكلة خارج المبنى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will analyze DL throughput and utilization as a time series over the 4h window to isolate the busy period and correlations.",
+      "message_ar": "التالي، سأحلّل زمنياً سرعة التنزيل والاستخدام خلال نافذة 4 ساعات لتحديد فترة الانشغال والارتباطات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "تمت الموافقة على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms 11:30–14:30 busy period: DL median 6–8 Mbps, PRB >90% ~45% of the time, p95 latency 30–40 ms, BLER steady. Pattern points to load-driven limitation rather than radio errors.",
+      "message_ar": "التحليل الزمني يؤكد فترة الانشغال 11:30–14:30: سرعة تنزيل متوسطة 6–8 ميجابت/ث، استخدام الموارد >90% لنحو 45% من الوقت، زمن كمون p95 بين 30–40 مللي ثانية، وBLER مستقر. النمط يشير إلى قيود ناتجة عن الحمل وليس أخطاء راديوية."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate now, I propose targeted parameter tuning: adjust resource allocation weights for fair eMBB throughput, tighten link adaptation guardrails, and slightly increase DL headroom. Proceed with the change?",
+      "message_ar": "للتخفيف الآن، أقترح ضبطًا انتقائيًا للمعاملات: تعديل أوزان تخصيص الموارد لتحقيق إنصاف في سعات eMBB، تشديد ضوابط تكيّف الرابط، وزيادة طفيفة في هامش موارد التنزيل. هل أمضي بالتغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization now.",
+      "message_ar": "موافق على تطبيق التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied. Early 10-minute check: PRB avg down to ~78–80% during peak, DL median up to ~11 Mbps, p95 latency ~26 ms, BLER unchanged; no drops observed. I will keep watching counters.",
+      "message_ar": "تم تطبيق التحسين. فحص أولي لمدة 10 دقائق: متوسط استخدام الموارد انخفض إلى ~78–80% أثناء الذروة، ارتفعت سرعة التنزيل المتوسطة إلى ~11 ميجابت/ث، وزمن كمون p95 ~26 مللي ثانية، وBLER دون تغيير؛ لم تُلاحظ حالات سقوط. سأستمر بمراقبة المؤشرات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: median download speed is rising and user buffering reports are down. The parameter optimization seems effective; let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسّنًا: ترتفع السرعة المتوسطة للتحميل وتناقصت بلاغات التقطّع. يبدو أن ضبط المعاملات فعّال؛ لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and share an update afterward. If performance regresses, we will escalate for capacity augmentation; if any adverse effect appears, we will roll back the tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارككم تحديثًا بعدها. إذا تراجع الأداء سنصعّد لزيادة السعة، وإذا ظهرت آثار سلبية سنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The indoor 5G micro cell showed slow data during business hours due to high PRB utilization and load-driven limitations. We verified this by pulling OSS KPIs and analyzing downlink time series, then applied site parameter tuning to resource allocation and link adaptation. Post-change snapshots show improved median downlink throughput and reduced latency; we will continue monitoring through the next busy hour.",
+    "ar": "أظهرت الخلية الصغيرة الداخلية على 5G بيانات بطيئة خلال ساعات العمل بسبب ارتفاع استخدام الموارد وقيود ناتجة عن الحمل. تحققنا من ذلك عبر مؤشرات نظام الإدارة وتحليل السلاسل الزمنية للتنزيل، ثم طبقنا ضبط معاملات للموقع يشمل تخصيص الموارد وتكيّف الرابط. أظهرت النتائج بعد التغيير تحسنًا في سرعة التنزيل المتوسطة وانخفاضًا في الكمون؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

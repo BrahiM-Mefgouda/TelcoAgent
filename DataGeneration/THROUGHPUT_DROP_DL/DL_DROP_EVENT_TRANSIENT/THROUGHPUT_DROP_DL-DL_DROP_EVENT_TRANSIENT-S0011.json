@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0011",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR micro cell shows slow data and interference/signal overlap over the last 2h with 612 users and 96% resource use; congestion detected.",
+    "ar": "خلية 5G NR صغيرة في الملعب تُظهر بطء في البيانات وتداخل/تراكب الإشارة خلال آخر ساعتين مع 612 مستخدمًا واستخدام موارد 96%؛ تم رصد ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell has heavy traffic in the last 2 hours; downlink around 4 Mbps and SINR ~1 dB. Can you investigate?",
+      "message_ar": "هناك ضغط عالٍ على خلية 5G NR صغيرة في الملعب خلال آخر ساعتين؛ الداونلينك حوالي 4 ميجابت/ث وSINR يقارب 1 ديسيبل. هل يمكنك التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will 1) verify recent cell health and load, 2) inspect downlink throughput trends, and 3) apply targeted parameter tuning to relieve congestion and interference. Please share the cell ID and confirm read/write access for this 2h window.",
+      "message_ar": "تم. سأقوم بـ 1) التحقق من حالة الخلية والتحميل حديثًا، 2) فحص اتجاهات الداونلينك، و3) تطبيق ضبط معلمات مستهدف لتخفيف الازدحام والتداخل. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة/الكتابة لهذه النافذة (ساعتان)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-03. Read/write approved for this window.",
+      "message_ar": "معرّف الخلية: NR-STAD-MICRO-03. تمت الموافقة على القراءة/الكتابة لهذه النافذة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checking recent counters for NR-STAD-MICRO-03 (last 2h): PRB utilization ~96%, users peaked ~612, BLER ~3.2%, RSRQ -10 dB, scheduler p95 latency ~109 ms. No faults or backhaul issues observed. This points to capacity saturation with interference.",
+      "message_ar": "أتحقق من العدادات الأخيرة لـ NR-STAD-MICRO-03 (آخر ساعتين): استخدام PRB حوالي 96%، ذروة المستخدمين ~612، BLER ~3.2%، RSRQ ‏-10 ديسيبل، كمون المُجدول p95 ~109 مللي ثانية. لا توجد أعطال أو مشاكل في النقل الخلفي. المؤشرات تدل على تشبع السعة مع تداخل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewing downlink throughput trend: dips to 2–6 Mbps during the post-event egress, users 580–620, SINR 0–2 dB, and streaming (eMBB) share is high. I propose targeted tuning to improve scheduler efficiency, prioritize throughput under load, and enhance interference coordination. Proceed?",
+      "message_ar": "أراجع اتجاه الداونلينك: هبوط إلى 2–6 ميجابت/ث أثناء مغادرة الجمهور بعد الفعالية، المستخدمون 580–620، SINR بين 0–2 ديسيبل، وحصة البث (eMBB) مرتفعة. أقترح ضبطًا مستهدفًا لتحسين كفاءة المُجدول، إعطاء أولوية لمعدلات النقل تحت الحمل، وتعزيز تنسيق التداخل. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please implement the optimization.",
+      "message_ar": "موافق. يرجى تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying cell parameter optimization now: refined downlink scheduling weights, enabled load-aware congestion control, and tightened interference handling to reduce scheduler latency. Changes committed; minimal customer impact expected. Please check live KPIs after a few minutes.",
+      "message_ar": "أقوم الآن بتطبيق ضبط معلمات الخلية: تحسين أوزان الجدولة للداونلينك، تفعيل التحكم بالازدحام وفق الحمل، وتشديد معالجة التداخل لتقليل كمون المُجدول. تم اعتماد التغييرات؛ تأثير ضئيل متوقع على المستخدمين. يرجى التحقق من مؤشرات الأداء الحية بعد بضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes: median downlink ~8 Mbps, scheduler p95 latency ~70 ms, BLER stable, SINR improved to ~2 dB.",
+      "message_ar": "بعد ~10 دقائق: الوسيط للداونلينك ~8 ميجابت/ث، كمون المُجدول p95 ~70 مللي ثانية، BLER مستقر، وSINR تحسّن إلى ~2 ديسيبل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. Let the cell settle under the new policy; no further changes now. Keep observing user experience and throughput while load decays.",
+      "message_ar": "تحسّن جيد. دع الخلية تستقر تحت السياسة الجديدة؛ لا تغييرات إضافية الآن. استمر في مراقبة تجربة المستخدم ومعدلات النقل مع انخفاض الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing smoother sessions and fewer stalls; PRB utilization is down to ~89–91%.",
+      "message_ar": "ألاحظ جلسات أكثر سلاسة وتوقفات أقل؛ استخدام PRB انخفض إلى ~89–91%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is holding: slow data complaints are down and throughput is trending up. The action taken was site parameter tuning/config optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسّن مستمر: شكاوى بطء البيانات انخفضت ومعدل النقل في تحسن. الإجراء كان ضبط معلمات الموقع/تحسين الإعدادات. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy hour monitoring and report on throughput, scheduler latency, SINR, and PRB use. If congestion returns or interference rises, we will roll back the change and escalate to the capacity/interference team; otherwise, we’ll keep the tuning in place.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة ونبلغ عن معدل النقل، كمون المُجدول، SINR، واستخدام PRB. إذا عاد الازدحام أو زاد التداخل سنقوم بالتراجع عن التغيير وتصعيد الأمر لفريق السعة/التداخل؛ وإلا سنبقي الضبط قائمًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigation confirmed a downlink throughput drop caused by high PRB utilization and low SINR during post-event egress at the stadium. After reviewing recent health and the downlink trend, targeted site parameter tuning was applied to improve scheduler efficiency, prioritize throughput under load, and mitigate interference. The cell stabilized with higher median throughput, lower scheduler latency, and reduced PRB use; monitoring will continue through the next busy hour.",
+    "ar": "أكد التحقيق وجود هبوط في الداونلينك ناتج عن ارتفاع استخدام PRB وانخفاض SINR أثناء مغادرة الجمهور في الملعب. بعد مراجعة الحالة الأخيرة واتجاه الداونلينك، تم تطبيق ضبط معلمات مستهدف لتحسين كفاءة الجدولة، إعطاء أولوية لمعدل النقل تحت الحمل، وتخفيف التداخل. استقرت الخلية مع ارتفاع الوسيط لمعدل النقل، انخفاض كمون المُجدول، وتراجع استخدام PRB؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

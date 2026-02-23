@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0020",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium 5G NR micro cell shows an SLA breach over the last 6h with slow data and a congestion alarm; QoS ~0.48 vs 0.99 target, PRB ~98%, latency ~104 ms, and ~544 users during ingress.",
+    "ar": "خلية 5G NR ميكرو في الملعب تُظهر خرقًا لاتفاقية مستوى الخدمة خلال آخر 6 ساعات مع بيانات بطيئة وإنذار ازدحام؛ جودة الخدمة ~0.48 مقابل هدف 0.99، استهلاك الموارد ~98%، الكمون ~104 مللي ثانية، وحوالي 544 مستخدمًا أثناء فترة دخول الجمهور."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell breaching SLA over the last 6h ingress window: QoS ~0.48 vs 0.99 target, PRB ~98%, latency ~104 ms, p50 throughput ~2 Mbps slow data; alarm indicates congestion.",
+      "message_ar": "خلية NR ميكرو في الملعب تخالف اتفاقية مستوى الخدمة خلال نافذة دخول الجمهور لآخر 6 ساعات: جودة الخدمة ~0.48 مقابل هدف 0.99، استهلاك الموارد ~98%، الكمون ~104 مللي ثانية، ومعدل نقل p50 ~2 ميجابت/ث بيانات بطيئة؛ الإنذار يشير إلى ازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling OSS health/events for the impacted 5G NR micro cell over the last 6h to confirm the congestion state and rule out outages. Please confirm the cell ID and approve access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب حالة/أحداث OSS للخلية الميكرو المتأثرة خلال آخر 6 ساعات لتأكيد حالة الازدحام واستبعاد الانقطاعات. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID is NR-STAD-MICRO-23A.",
+      "message_ar": "موافق. معرف الخلية هو NR-STAD-MICRO-23A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS pull for NR-STAD-MICRO-23A (6h). Findings: no hard outages or backhaul faults; sustained PRB >95% during ingress; BLER peaked ~9–10%; latency spikes >100 ms; users peaked ~540. This confirms congestion-driven QoS impact.",
+      "message_ar": "جارٍ سحب بيانات OSS للخلية NR-STAD-MICRO-23A (6 ساعات). النتائج: لا توجد انقطاعات صلبة أو أعطال نقل خلفي؛ استمر استهلاك الموارد >95% أثناء دخول الجمهور؛ بلغت BLER حوالي 9–10%؛ قمم كمون >100 مللي ثانية؛ ذروة المستخدمين ~540. هذا يؤكد تأثر جودة الخدمة بالازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will fetch the QoS time series for the same window to quantify the violation window and severity. Approve?",
+      "message_ar": "بعد ذلك، سأجلب السلسلة الزمنية لجودة الخدمة لنفس النافذة لقياس مدة وشدة المخالفة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series for NR-STAD-MICRO-23A shows dips to 0.45–0.5 during ingress, violation ratio ~47%. Median throughput ~2 Mbps (slow data) and latency >100 ms at peak, with partial recovery afterward but still below the 0.99 target.",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة للخلية NR-STAD-MICRO-23A تُظهر هبوطًا إلى 0.45–0.5 أثناء دخول الجمهور، بنسبة مخالفة ~47%. متوسط النقل ~2 ميجابت/ث (بيانات بطيئة) وكمون >100 مللي ثانية في الذروة، مع تحسن جزئي لاحقًا لكنه ما يزال دون الهدف 0.99."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given the confirmed SLA breach under congestion at the stadium, I will raise an SLA escalation ticket with evidence and note the eMBB streaming load during ingress. Please confirm.",
+      "message_ar": "نظرًا لتأكيد خرق اتفاقية مستوى الخدمة تحت الازدحام في الملعب، سأرفع تذكرة تصعيد خاصة باتفاقية مستوى الخدمة مع الأدلة وذكر حمل بث eMBB أثناء دخول الجمهور. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-SLA-04231. Summary: stadium 5G NR micro cell NR-STAD-MICRO-23A SLA breach over 6h ingress; sustained high PRB, elevated BLER and latency, QoS below target, slow data. Requested capacity relief and optimization review. I will monitor live KPIs.",
+      "message_ar": "تم إنشاء التذكرة: DU-SLA-04231. الملخص: خلية 5G NR ميكرو في الملعب NR-STAD-MICRO-23A خالفت اتفاقية مستوى الخدمة خلال 6 ساعات من دخول الجمهور؛ استهلاك موارد مرتفع مستمر، BLER وكمون مرتفعان، جودة خدمة دون الهدف، بيانات بطيئة. تم طلب تخفيف السعة ومراجعة تحسين الأداء. سأراقب مؤشرات الأداء المباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing initial improvement: QoS is trending up and slow data complaints are easing. Action taken: SLA escalation via ticket DU-SLA-04231. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسنًا أوليًا: جودة الخدمة تتجه للارتفاع وتقل شكاوى البيانات البطيئة. الإجراء المتخذ: تصعيد اتفاقية مستوى الخدمة عبر التذكرة DU-SLA-04231. لنتابع خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own the next busy-hour monitoring and update the ticket after the window. If performance degrades, we will escalate to operations for temporary capacity relief; if conditions normalize, we will close the ticket with a post-event report.",
+      "message_ar": "تم فهم ذلك. سنتولى المراقبة خلال ساعة الذروة التالية ونحدّث التذكرة بعد انتهاء النافذة. إذا تدهور الأداء، سنصعّد إلى العمليات لطلب تخفيف سعة مؤقت؛ وإذا استقرت الظروف، سنغلق التذكرة مع تقرير ما بعد الحدث."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-23A",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-23A",
+        "QoS",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium NR micro cell NR-STAD-MICRO-23A SLA breach during 6h ingress: high PRB, elevated BLER/latency, QoS below target, slow data; request capacity relief and optimization follow-up."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed an SLA violation at the stadium 5G NR micro cell driven by congestion: PRB saturation, elevated BLER and latency, and slow data during the ingress window. We collected OSS and QoS time series evidence and raised an SLA escalation ticket for capacity and optimization follow-up. We will monitor through the next busy hour and update the ticket accordingly.",
+    "ar": "تم تأكيد خرق لاتفاقية مستوى الخدمة في خلية 5G NR ميكرو بالملعب بسبب الازدحام: تشبع الموارد وارتفاع BLER والكمون وبيانات بطيئة خلال نافذة دخول الجمهور. جمعنا أدلة من OSS والسلاسل الزمنية لجودة الخدمة ورفعنا تذكرة تصعيد لاتفاقية مستوى الخدمة للمتابعة من ناحية السعة والتحسين. سنراقب خلال ساعة الذروة التالية ونحدّث التذكرة وفقًا لذلك."
+  }
+}

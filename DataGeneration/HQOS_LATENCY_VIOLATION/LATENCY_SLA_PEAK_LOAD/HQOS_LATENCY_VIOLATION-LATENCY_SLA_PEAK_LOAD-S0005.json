@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0005",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban macro 5G cell under congestion alarm during peak evening shows latency 48 ms (p95 109 ms), PRB 85%, BLER 7.1%, and 283 users on eMBB streaming.",
+    "ar": "خلية 5G ماكرو حضرية تحت إنذار ازدحام خلال ذروة المساء تُظهر زمناً انتقالياً 48 ملّي ثانية (p95 = 109 ملّي ثانية)، واستخدام موارد 85%، وBLER ‏7.1%، و283 مستخدماً مع حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a congestion alarm on an urban 5G NR macro cell this peak evening; latency averages 48 ms with p95 at 109 ms, PRB about 85%, BLER ~7.1%, and 283 users with heavy eMBB streaming.",
+      "message_ar": "لدينا إنذار ازدحام على خلية 5G NR ماكرو حضرية خلال ذروة المساء؛ زمن الانتقال متوسطه 48 ملّي ثانية مع p95 عند 109 ملّي ثانية، واستخدام PRB حوالي 85%، وBLER نحو 7.1%، و283 مستخدماً مع بث eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 2h network counters for cell NR-URB-MACRO-045 to validate the alarm context; please confirm access is approved.",
+      "message_ar": "سأبدأ بسحب عدّادات الشبكة لآخر ساعتين للخلية NR-URB-MACRO-045 للتحقق من سياق الإنذار؛ يرجى تأكيد الموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; NR-URB-MACRO-045 is correct.",
+      "message_ar": "الوصول مُعتمد؛ المعرّف NR-URB-MACRO-045 صحيح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters collected: no outages and backhaul is normal; PRB ~85% and scheduler queues build from 19:05–20:00. Next, I will chart the last 2h latency time series to pinpoint the p95 spikes.",
+      "message_ar": "تم جمع العدّادات: لا انقطاعات والوصلة الراجعة طبيعية؛ استخدام PRB نحو 85% وتتراكم طوابير المجدول من 19:05 إلى 20:00. بعد ذلك سأرسم المتسلسلة الزمنية لزمن الانتقال خلال آخر ساعتين لتحديد قمم p95."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافقة على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analysis shows p95 latency peaking 110–120 ms around 19:20, correlating with high PRB; BLER is moderate and not primary. This indicates HQoS queue saturation under peak load. I propose targeted site parameter tuning (scheduler queue timer and QoS weighting with safer buffer thresholds). Do you approve?",
+      "message_ar": "التحليل يُظهر أن p95 لزمن الانتقال يبلغ ذروته 110–120 ملّي ثانية حوالي 19:20 مع ارتباط بارتفاع PRB؛ وBLER متوسط وليس العامل الرئيسي. هذا يشير إلى تشبّع طوابير HQoS تحت الحمل المرتفع. أقترح ضبطاً مستهدفاً لمعلمات الموقع (مؤقت طابور المجدول وأوزان QoS مع عتبات وسائط أكثر أماناً). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning.",
+      "message_ar": "موافقة على تطبيق الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying minimal-risk tuning on NR-URB-MACRO-045 now; changes are active. Initial 5–10 min trend shows p95 down to ~90 ms and average latency 35–40 ms with no error events.",
+      "message_ar": "أقوم الآن بتطبيق ضبط منخفض المخاطر على NR-URB-MACRO-045؛ التغييرات فعّالة. الاتجاه الأولي خلال 5–10 دقائق يُظهر انخفاض p95 إلى نحو 90 ملّي ثانية ومتوسط زمن الانتقال إلى 35–40 ملّي ثانية دون أحداث أخطاء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement: p95 hovering 88–92 ms; throughput is stable and no new user complaints.",
+      "message_ar": "نرى تحسناً مبكراً: p95 بين 88–92 ملّي ثانية؛ معدل النقل مستقر ولا توجد شكاوى مستخدمين جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signal. I will keep watching counters for stability and confirm whether latency continues to drop as load varies. I will share interim results shortly.",
+      "message_ar": "إشارة جيدة. سأتابع مراقبة العدّادات للتحقق من الاستقرار والتأكد مما إذا كان زمن الانتقال سيستمر في الانخفاض مع تغيّر الحمل. سأشارك نتائج مرحلية قريباً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: p95 latency trending down with fewer high-delay bursts. Action taken was site parameter tuning on the scheduler and queues. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة التحسن: p95 لزمن الانتقال في اتجاه هبوطي مع عدد أقل من الاندفاعات ذات التأخير العالي. الإجراء الذي تم هو ضبط معلمات الموقع على المجدول والطوابير. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and report p95 latency, average delay, and PRB load afterwards. If performance worsens, we will roll back the change and escalate for capacity relief; if stable, we will retain the tuning.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنبلغ لاحقاً عن p95 لزمن الانتقال، ومتوسط التأخير، وحمل PRB. إذا تدهور الأداء سنلغي التغيير ونصعّد لزيادة السعة؛ وإن بقي مستقراً سنبقي الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-045",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-045",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "HQoS scheduler and buffer tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a peak-evening QoS latency breach on an urban 5G NR macro cell driven by high PRB load and HQoS queue build-up. Reviewed network counters and latency time series, then applied site parameter tuning to scheduler and buffers, reducing p95 latency. We will monitor during the next busy hour to ensure stability.",
+    "ar": "تم تشخيص تجاوز في جودة الخدمة لزمن الاستجابة خلال ذروة المساء على خلية 5G ماكرو حضرية نتيجة ارتفاع حمل PRB وتراكم طوابير HQoS. تمّت مراجعة عدّادات الشبكة والمتسلسلة الزمنية لزمن الانتقال ثم تنفيذ ضبط لمعلمات الموقع على المجدول والوسائط، مما خفّض p95. سنراقب خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

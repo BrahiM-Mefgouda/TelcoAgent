@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0009",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro over the last 3h shoulder period shows high latency ~78 ms with moderate load ~66% and elevated BLER ~11% (SINR 8 dB, RSRQ -14 dB, 165 users, median throughput 14 Mbps); investigate HQoS latency SLA breach.",
+    "ar": "موقع NR ماكرو في منطقة ضاحية خلال آخر 3 ساعات من فترة منتصف اليوم يظهر تأخيرًا مرتفعًا ~78 مللي ثانية مع حمل معتدل ~66% وBLER مرتفع ~11% (SINR 8 dB، وRSRQ -14 dB، و165 مستخدمًا، ووسيط نقل 14 ميجابت/ث)؛ يرجى التحقيق في خرق SLA للتأخير."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro serving enterprise private traffic in the shoulder period has high user-plane latency (~78 ms) over the last 3h; load ~66%, BLER ~11%, SINR 8 dB, RSRQ -14 dB, 165 users, p50 ~14 Mbps. Please investigate.",
+      "message_ar": "موقع NR ماكرو في منطقة ضاحية يخدم حركة مؤسسات خلال فترة منتصف اليوم يعاني من زمن تأخير مرتفع (~78 مللي ثانية) خلال آخر 3 ساعات؛ الحمل ~66%، وBLER ~11%، وSINR 8 dB، وRSRQ -14 dB، و165 مستخدمًا، وp50 ~14 ميجابت/ث. يرجى التحري."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will validate counters first. Share the impacted cell ID and approve access; then I will pull last 3h QoS/BLER/load from the network system.",
+      "message_ar": "سأتحقق من المؤشرات أولًا. زودني بمعرف الخلية ووافق على الوصول؛ ثم سأستخرج مؤشرات آخر 3 ساعات للجودة/BLER/الحمل من النظام."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell is NRCell-Suburb-117. Access approved.",
+      "message_ar": "المعرف هو NRCell-Suburb-117. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: over 3h, median latency 75–82 ms with plateaus; PRB 60–70%; BLER 10–14%; no alarms. Latency class breaching target during shoulder. Next, I will chart latency time series to correlate with BLER; proceed?",
+      "message_ar": "اكتمل الفحص: خلال 3 ساعات، وسيط التأخير 75–82 مللي ثانية مع فترات ثابتة؛ PRB بين 60–70%؛ وBLER بين 10–14%؛ لا توجد إنذارات. فئة التأخير تتجاوز الهدف خلال فترة منتصف اليوم. الخطوة التالية رسم السلسلة الزمنية للتأخير وربطها مع BLER؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms repeated latency spikes every ~20–25 minutes aligned with BLER rises, not with PRB. This indicates link adaptation/retransmission inefficiency under moderate SINR. I propose a conservative cell optimization to reduce BLER and queueing delay. Approve?",
+      "message_ar": "السلاسل الزمنية تؤكد ارتفاعات متكررة في التأخير كل ~20–25 دقيقة متزامنة مع ارتفاع BLER وليس مع الحمل. هذا يشير إلى قصور في تكييف الرابط/إعادة الإرسال مع SINR متوسط. أقترح تحسينًا محافظًا للخلية لخفض BLER وزمن الانتظار. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate change.",
+      "message_ar": "موافق على التغيير الفوري."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied with conservative tuning of radio scheduling and retransmission behavior to lower error rates and delay; minimal capacity impact. Change successful. I will watch fast KPIs for 15–20 minutes. Please confirm initial behavior on your side.",
+      "message_ar": "تم تطبيق التحسين بضبط محافظ لجدولة الراديو وسلوك إعادة الإرسال لخفض معدلات الخطأ والتأخير؛ مع تأثير طفيف على السعة. نُفّذ التغيير بنجاح. سأراقب المؤشرات السريعة لمدة 15–20 دقيقة. يرجى تأكيد السلوك الأولي لديكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 10 minutes: BLER down to ~6–7%, median latency ~45–50 ms, throughput stable.",
+      "message_ar": "أول 10 دقائق: انخفض BLER إلى ~6–7%، ووسيط التأخير ~45–50 مللي ثانية، ومعدل النقل مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will continue observing stability and tail latency. If stable, we can treat the issue as mitigated. What monitoring window do you prefer?",
+      "message_ar": "تحسن جيد. سأواصل متابعة الاستقرار وذيل التأخير. إذا استقر الوضع نعتبر المشكلة مخففة. ما إطار المراقبة الذي تفضله؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is sustained; latency violations trending down. Action taken: site parameter tuning to lower BLER and queueing. Propose monitoring through the next busy hour.",
+      "message_ar": "التحسن مستمر؛ انتهاكات التأخير في اتجاه هبوطي. الإجراء المُتخذ: ضبط معلمات الموقع لخفض BLER والاصطفاف. أقترح المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour monitoring and update you after the window. If latency regresses, we will escalate for deeper interference analysis; if adverse effects appear, we will roll back the change.",
+      "message_ar": "سنتولى مراقبة ساعة الانشغال القادمة ونحدثك بعد انتهاء الإطار. إذا عاد التأخير للارتفاع سنصعّد لتحليل تداخل أعمق؛ وإذا ظهرت آثار سلبية سنُعيد التعديل السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a suburban NR macro latency SLA breach with moderate utilization. Counters and time-series showed latency spikes aligned with elevated BLER rather than congestion, indicating link adaptation and scheduling inefficiency. Applied site parameter tuning to reduce BLER and queueing delays; post-change, latency and BLER improved and will be monitored through the next busy hour.",
+    "ar": "تم التحقيق في خرق SLA للتأخير في موقع NR ماكرو بضاحية مع استغلال متوسط. أظهرت العدادات والسلاسل الزمنية ارتفاعات في التأخير متزامنة مع BLER مرتفع وليس مع الازدحام، ما يشير إلى قصور في تكييف الرابط والجدولة. تم تنفيذ ضبط معلمات الموقع لخفض BLER وزمن الاصطفاف؛ وبعد التغيير تحسّن التأخير وBLER وسيتم مراقبتهما خلال ساعة الانشغال القادمة."
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0030",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell over the last 6h shows ~7 backhaul link flaps per hour, ~37% burst loss, p95 backhaul latency 80 ms, 139 interface errors, and slow data (~8 Mbps DL) affecting ~194 users.",
+    "ar": "موقع ماكرو NR في منطقة ضاحية خلال آخر 6 ساعات يظهر حوالي 7 تقطعات في الوصلة الخلفية لكل ساعة، وفقدان متقطع بنحو 37%، وزمن تأخير p95 يبلغ 80 مللي ثانية، و139 خطأً على الواجهة، وبيانات بطيئة (~8 ميجابت/ث) تؤثر على نحو 194 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro site showing slow data (~8 Mbps DL) and user complaints across mixed hours; streaming buffers. We see ~7 backhaul link flaps/hr, ~37% loss bursts, p95 BH latency 80 ms, and 139 interface errors.",
+      "message_ar": "الموقع الماكرو NR في الضواحي يعاني من بطء البيانات (~8 ميجابت/ث DL) وشكاوى المستخدمين عبر أوقات مختلفة؛ يوجد تقطيع أثناء البث. نلاحظ ~7 تقطعات في الوصلة الخلفية/ساعة، وفقدان متقطع ~37%، وزمن تأخير خلفي p95 = 80 مللي ثانية، و139 خطأً على الواجهة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 6h operational stats from OSS for the impacted cell. Please confirm the cell ID and access approval.",
+      "message_ar": "سأبدأ بجلب إحصاءات التشغيل لآخر 6 ساعات من نظام التشغيل للشبكة للموقع المتأثر. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUBURB-0423-S1. Access approved.",
+      "message_ar": "معرّف الخلية: NR-SUBURB-0423-S1. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: link flaps 6–8/hr with clustered events, loss bursts 30–40%, p95 BH latency 80–90 ms, jitter ~8 ms. Interface errors at 139 and rising. DL throughput sagging ~8 Mbps with ~194 users; PRB ~46%, RF moderate (SINR 7 dB, RSRP -103 dBm). Symptoms point to backhaul instability rather than RAN congestion.",
+      "message_ar": "تم فحص نظام التشغيل: تقطعات الوصلة 6–8/ساعة مع تجمّع للأحداث، فقدان متقطع 30–40%، تأخير خلفي p95 بين 80–90 مللي ثانية، وتذبذب ~8 مللي ثانية. أخطاء الواجهة 139 وتتزايد. هبوط سرعات التحميل إلى ~8 ميجابت/ث مع ~194 مستخدمًا؛ استخدام PRB ~46%، وجود RF متوسط (SINR 7 ديسيبل، RSRP -103 ديسيبل ملي). المؤشرات تدل على عدم استقرار الوصلة الخلفية وليس ازدحام طبقة النفاذ اللاسلكي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. You have change window.",
+      "message_ar": "مفهوم. لديك صلاحية إجراء التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate the flaps’ impact, I propose cell-side tuning: adjust buffering and pacing, enable protective queuing and error-recovery behaviors, and temper burstiness to stabilize latency and loss. Safe for eMBB traffic. Proceed?",
+      "message_ar": "للتخفيف من أثر التقطعات، أقترح ضبطًا على جانب الخلية: تعديل التخزين المؤقت والتنظيم، تفعيل طوابير حماية وسلوكيات استعادة الأخطاء، وتخفيف الاندفاعية لاستقرار التأخير والفقد. آمن لحركة eMBB. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Apply the tuning.",
+      "message_ar": "موافق. نفّذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-SUBURB-0423-S1. Expected effect: fewer loss bursts, smoother latency under backhaul jitter, more stable DL throughput. I’ll watch early KPIs for immediate regression.",
+      "message_ar": "تم تطبيق التحسين على NR-SUBURB-0423-S1. التأثير المتوقع: تقليل الفقدان المتقطع، سلاسة أكبر في التأخير مع تذبذب الوصلة الخلفية، واستقرار أفضل لسرعة التحميل. سأراقب مؤشرات الأداء المبكرة لأي تراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given persistent link flaps and interface errors, I recommend opening a transport ticket to investigate the backhaul path beyond the cell. Shall I raise it with a concise summary and attach snapshots?",
+      "message_ar": "نظرًا لاستمرار تقطعات الوصلة وأخطاء الواجهة، أوصي بفتح بلاغ لدى فريق النقل للتحقيق في مسار الوصلة الخلفية خارج الخلية. هل أرفع البلاغ مع ملخص موجز وإرفاق لقطات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed and include flaps/hr, burst loss, latency, and interface errors.",
+      "message_ar": "نعم، تابع واشمل التقطعات/ساعة، الفقدان المتقطع، التأخير، وأخطاء الواجهة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-04291 created to transport: summary covers ~7 flaps/hr, ~37% burst loss, p95 80 ms, and 139 interface errors. Logs and graphs attached. I will keep it updated.",
+      "message_ar": "تم إنشاء البلاغ DU-BH-04291 لدى فريق النقل: الملخص يشمل ~7 تقطعات/ساعة، ~37% فقدان متقطع، p95 = 80 مللي ثانية، و139 خطأ واجهة. أُرفِقت السجلات والرسوم. سأقوم بتحديثه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-optimization, loss bursts are down and DL throughput is climbing above baseline; link flaps are trending down. Action taken: site parameter tuning and transport ticket DU-BH-04291. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد التحسين، انخفض الفقدان المتقطع وبدأت سرعة التحميل بالارتفاع فوق الخط الأساس؛ والتقطعات في تراجع. الإجراء المُتخذ: ضبط معلمات الموقع وفتح البلاغ DU-BH-04291. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring for the next busy hour and update the ticket afterward. If flaps or latency spike again, we’ll escalate to transport and, if needed, roll back the tuning to the previous baseline.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث البلاغ بعدها. إذا عادت التقطعات أو ارتفع التأخير، سنصعّد إلى فريق النقل، وعند الحاجة سنرجع الضبط إلى الخط الأساس السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis: the NR macro cell shows degraded backhaul characterized by frequent link flaps, bursty loss, elevated p95 latency, and rising interface errors, with radio load and RF not indicating RAN congestion. Actions: pulled recent OSS stats, applied site parameter tuning to buffer and pace traffic under backhaul instability, and raised a transport ticket for persistent backhaul issues.",
+    "ar": "التشخيص: الخلية الماكرو NR تعاني من تدهور في الوصلة الخلفية يتمثل في تقطعات متكررة، فقدان متقطع، ارتفاع زمن التأخير p95، وزيادة أخطاء الواجهة، دون مؤشرات ازدحام على طبقة النفاذ اللاسلكي. الإجراءات: جرى سحب إحصاءات حديثة من نظام التشغيل، وتطبيق ضبط لمعلمات الموقع لتنعيم وتيرة الحركة مع عدم استقرار الوصلة الخلفية، ورفع بلاغ إلى فريق النقل بشأن المشكلة المستمرة في الوصلة الخلفية."
+  }
+}

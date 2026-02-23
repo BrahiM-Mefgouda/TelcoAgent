@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0011",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell over the last 3h egress shows timing advance drifting higher (mean ~317 m, p95 ~271 m, wide spread), ~10% distant serving, ~73% resource use, weak signal near -116 dBm, ~15% handover failures, and median downlink around 9 Mbps.",
+    "ar": "خلال آخر 3 ساعات في مرحلة الخروج من الملعب، يُظهر الموقع المايكرو على NR انحرافًا صاعدًا في الـ TA (المتوسط ~317 م، p95 ~271 م وتشتت واسع)، مع ~10% خدمة بعيدة، واستغلال موارد ~73%، وإشارة ضعيفة قرب -116 dBm، وفشل تسليم ~15%، ومتوسط تنزيل يقارب 9 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell in the last 3h egress shows TA skew and long-distance serving; median DL ~9 Mbps, RSRP ~-116 dBm, HO failures ~15%. Crowd streaming during exit likely increased activity.",
+      "message_ar": "الموقع المايكرو NR في الملعب خلال آخر 3 ساعات من مرحلة الخروج يظهر انحرافًا في توزيع الـ TA وخدمة لمسافات بعيدة؛ متوسط التنزيل ~9 ميجابت/ث، وRSRP حوالي -116 dBm، وفشل التسليم ~15%. يبدو أن البث من الحشد أثناء الخروج زاد الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling network counters for cell NR_STDM_MICRO_12 over the past 3h to validate TA drift, serving distance, load, and HO outcomes. Please confirm the cell and grant read-only access.",
+      "message_ar": "سأبدأ بجلب مؤشرات الشبكة للخلية NR_STDM_MICRO_12 خلال آخر 3 ساعات للتحقق من انحراف الـ TA ومسافة الخدمة والحمل ونتائج التسليم. يرجى تأكيد الخلية ومنح صلاحية القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed: cell NR_STDM_MICRO_12. Read-only access approved for the last 3h egress window.",
+      "message_ar": "تم التأكيد: الخلية NR_STDM_MICRO_12. تمت الموافقة على وصول القراءة فقط لفترة آخر 3 ساعات من مرحلة الخروج."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters: TA mean 317 m, p50 175 m, p95 271 m, std 123 m; distant serving ~10%; PRB utilization ~73%; RSRP median ~-116 dBm; HO failures ~15%. This confirms drift during egress. Next, I will inspect the TA time-series to isolate the spike—proceed?",
+      "message_ar": "تم جلب المؤشرات: متوسط الـ TA ‏317 م، الوسيط 175 م، p95 ‏271 م، والانحراف المعياري 123 م؛ خدمة بعيدة ~10%؛ استغلال PRB ~73%؛ وسيط RSRP ~-116 dBm؛ وفشل التسليم ~15%. هذا يؤكد الانحراف خلال فترة الخروج. التالي، سأفحص السلسلة الزمنية للـ TA لعزل الارتفاع—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the TA time-series check.",
+      "message_ar": "تابع فحص السلسلة الزمنية للـ TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows TA rising during egress with drift index ~0.54 trending up; users are being served beyond the intended micro footprint. Correlated with HO failures. I propose a minor parameter optimization to tighten dominance and handovers for this sector. Ok to apply now?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاع الـ TA خلال الخروج مع مؤشر انحراف ~0.54 في تصاعد؛ يتم خدمة المستخدمين خارج نطاق المايكرو المقصود. هناك ترابط مع فشل التسليم. أقترح تحسينًا طفيفًا للمعايير لشد الهيمنة وتحسين عمليات التسليم في هذا القطاع. هل نطبق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization now.",
+      "message_ar": "موافق على تطبيق التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied limited parameter tuning to reduce overshoot and improve serving dominance; change committed with no errors. Initiating a 10-minute spot check for drift and HO outcomes.",
+      "message_ar": "تم تطبيق ضبط محدود للمعايير لتقليل التجاوز وتحسين هيمنة الخدمة؛ تم تنفيذ التغيير بلا أخطاء. أبدأ متابعة لمدة 10 دقائق لمراقبة الانحراف ونتائج التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive: TA tail is shrinking and late HO failures are fewer; throughput remains stable.",
+      "message_ar": "المؤشرات الأولية إيجابية: ذيل توزيع الـ TA يتقلص وعدد حالات فشل التسليم المتأخرة أقل؛ ومعدل التنزيل مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial post-change check: TA p95 down to ~240 m, distant serving ~6–7%, HO failures easing; no abnormal load shift observed. Recommend continued observation through the next busy period.",
+      "message_ar": "التحقق الأولي بعد التغيير: انخفض p95 للـ TA إلى ~240 م، والخدمة البعيدة ~6–7%، وفشل التسليم في تراجع؛ لم يُلاحظ انتقال حمل غير طبيعي. أوصي بالاستمرار في المراقبة خلال الفترة المزدحمة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds—handover failures trending down and distant serving reduced. Action taken: parameter optimization on the NR micro sector. Let's monitor over the next busy hour.",
+      "message_ar": "التحسن مستمر—حالات فشل التسليم في انخفاض والخدمة البعيدة تراجعت. الإجراء المتخذ: تحسين معايير القطاع المايكرو على NR. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring over the next busy hour and share an update afterward. If drift returns or KPIs worsen, we will revert the change and escalate for on-site checks and deeper mobility review.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونشارككم التحديث بعدها. إذا عاد الانحراف أو ساءت المؤشرات، سنتراجع عن التغيير ونصعّد لإجراء فحوصات ميدانية ومراجعة أعمق لحركة التنقل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STDM_MICRO_12",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STDM_MICRO_12",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Targeted TA/HO/beam tuning for stadium egress drift"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on the stadium NR micro during the 3h egress, confirmed by counters and TA time-series showing elevated mean and p95 with a rising drift index and increased distant serving. Mitigated by targeted site parameter tuning to reduce overshoot and tighten serving dominance and handovers. Post-change checks showed TA tail contraction, lower distant serving, and handover failures trending down; continued monitoring is planned.",
+    "ar": "تم تشخيص انحراف توزيع الـ TA على موقع المايكرو في الملعب خلال 3 ساعات الخروج، وتم التأكيد عبر المؤشرات والسلسلة الزمنية للـ TA التي أظهرت متوسطًا وp95 مرتفعين مع مؤشر انحراف متصاعد وخدمة بعيدة مرتفعة. تمت المعالجة عبر ضبط انتقائي لمعايير الموقع لتقليل التجاوز وشد هيمنة الخدمة وتحسين التسليم بين الخلايا. أظهرت الفحوصات بعد التغيير انكماش ذيل الـ TA وانخفاض الخدمة البعيدة وتراجعًا في فشل التسليم؛ وسيستمر الرصد."
+  }
+}

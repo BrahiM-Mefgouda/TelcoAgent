@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0004",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell shows 3-hour latency around 91 ms with interference/signal overlap (SINR ≈ 2 dB) and BLER ~6% despite moderate utilization; investigate to restore enterprise private SLA.",
+    "ar": "خلية NR ماكرو في منطقة شبه حضرية تُظهر كموناً ~91 مللي ثانية خلال 3 ساعات مع تداخل/تراكب إشارات (SINR ≈ 2 dB) وBLER ~6% رغم استغلال متوسط؛ نرجو التحقيق لاستعادة SLA للقطاع المؤسسي الخاص."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell breaching latency SLA over the last 3 hours during shoulder period: median user-plane latency ~91 ms, SINR ≈ 2 dB indicating interference/signal overlap, BLER ~6%, PRB ~59%, 186 users, enterprise private traffic. No alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة شبه حضرية تخالف SLA للكمون خلال آخر 3 ساعات في فترة الذروة المتوسطة: متوسط كمون طبقة المستخدم ~91 مللي ثانية، وSINR ≈ 2 dB يشير إلى تداخل/تراكب إشارات، وBLER ~6%، وPRB ~59%، و186 مستخدماً، وحركة مرور مؤسسية خاصة. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking OSS health and counters for the past 3 hours to confirm load vs radio errors. Please confirm access and share the target cell ID.",
+      "message_ar": "سأبدأ بفحص صحة OSS والمؤشرات لآخر 3 ساعات للتحقق من الحمل مقابل أخطاء الراديو. يرجى تأكيد الوصول وتزويدي بمعرّف الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID: NR-SUB-MACRO-318, window: 3h. RSRQ is around -15 dB and BLER ~6% as noted.",
+      "message_ar": "الوصول مُعتمد. معرّف الخلية: NR-SUB-MACRO-318، النافذة: 3h. قيمة RSRQ حوالي -15 dB وBLER ~6% كما ذُكر."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR-SUB-MACRO-318 over 3h: no outage or backhaul congestion; scheduler utilization moderate; elevated HARQ retransmissions consistent with ~6% BLER; buffer build-up on latency-sensitive class; interference indicators poor (RSRQ -15 dB). Next, I’ll pull the latency time series to correlate with error patterns. Proceed?",
+      "message_ar": "فحص OSS لِـ NR-SUB-MACRO-318 خلال 3 ساعات: لا انقطاع ولا اختناق في التراسل الخلفي؛ استغلال المجدول متوسط؛ ارتفاع في إعادة الإرسال HARQ متّسق مع ~6% BLER؛ تراكم في المخازن لفئة الكمون المنخفض؛ مؤشرات التداخل ضعيفة (RSRQ -15 dB). التالي، سأسحب السلسلة الزمنية للكمون لربطها بأنماط الأخطاء. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series shows sustained 80–110 ms with spikes aligning with BLER peaks, not with PRB utilization. This points to radio errors/interference rather than load. I propose a safe optimization: prioritize low-latency QoS, tighten BLER target with conservative MCS adaptation, and slightly shorten DRX for that class. Apply now?",
+      "message_ar": "السلسلة الزمنية للكمون تُظهر 80–110 مللي ثانية مع ارتفاعات تتزامن مع قمم BLER وليس مع استغلال PRB. هذا يشير إلى أن التأخير ناتج عن أخطاء الراديو/التداخل وليس عن الحمل. أقترح تحسيناً آمناً: إعطاء أولوية أعلى لفئة الكمون المنخفض، تشديد هدف BLER مع تكيّف MCS محافظ، وتقليص طفيف لـ DRX لتلك الفئة. أنفّذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-SUB-MACRO-318: increased priority for low-latency flows, modest BLER target tightening with cautious link adaptation, and minor DRX shortening for that class. Rollback snapshot saved. Monitoring immediate impact.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR-SUB-MACRO-318: رفع أولوية تدفقات الكمون المنخفض، تشديد معتدل لهدف BLER مع تكيّف وصلة محافظ، وتقصير طفيف لـ DRX لتلك الفئة. تم حفظ نقطة استرجاع. أراقب الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, initial stats show BLER down to ~2.8% and median latency ~58 ms; PRB remains stable and no new complaints.",
+      "message_ar": "بعد ~15 دقيقة، المؤشرات الأولية تُظهر هبوط BLER إلى ~2.8% ومتوسط الكمون ~58 مللي ثانية؛ PRB مستقر ولا توجد شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll watch for stability and target <50 ms as conditions settle over the next 30–60 minutes.",
+      "message_ar": "تحسّن جيد. سأتابع الاستقرار مستهدفاً <50 مللي ثانية مع استقرار الظروف خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: latency now trending ~55 ms with fewer retransmissions. Action taken: site parameter tuning for latency prioritization and BLER optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسّن: الكمون يتجه الآن نحو ~55 مللي ثانية مع عدد أقل من الإعادات. الإجراء المتخذ: ضبط معلمات الموقع لإعطاء أولوية للكمون المنخفض وتحسين BLER. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—I’ll own monitoring through the next busy hour and share an update. If latency regresses or errors rise, I will escalate for interference mitigation at neighbor level; if needed, I will roll back to the saved snapshot.",
+      "message_ar": "تم الاستلام—سأتولى المراقبة خلال ساعة الذروة القادمة وأوافيكم بتحديث. إذا تراجع الكمون أو ارتفعت الأخطاء فسأصعّد لمعالجة التداخل على مستوى الجوار؛ وإن لزم الأمر سأسترجع الضبط إلى اللقطة المحفوظة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-318",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-MACRO-318",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "low-latency prioritization; BLER target tighten; minor DRX shorten"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Latency SLA breaches on a suburban NR macro cell were traced to radio errors and interference rather than congestion, evidenced by high BLER and poor SINR with moderate PRB. We reviewed health and latency trends, then applied site parameter tuning to prioritize low-latency traffic and tighten the BLER target with minor DRX adjustments. Latency and BLER improved, and the cell will be monitored through the next busy hour.",
+    "ar": "تم إرجاع خروقات زمن الاستجابة في خلية NR ماكرو شبه حضرية إلى أخطاء الراديو والتداخل بدلاً من الازدحام، مع BLER مرتفع وSINR ضعيف رغم PRB متوسط. بعد مراجعة الصحة وسلاسل الكمون الزمنية، تم تنفيذ ضبط معلمات الموقع لإعطاء أولوية لحركة الكمون المنخفض وتشديد هدف BLER مع تعديلات طفيفة على DRX. تحسّن الكمون وBLER، وسيتم مراقبة الخلية خلال ساعة الذروة القادمة."
+  }
+}

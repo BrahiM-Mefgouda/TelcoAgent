@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0011",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban 5G NR macro shows timing advance drift over the last 6 hours with median ≈203 m, 95th ≈311 m, high spread, and low SINR (~3 dB) suggesting interference/signal overlap.",
+    "ar": "موقع ماكرو 5G NR في منطقة ضاحية يُظهر انجرافاً في توقيت الوصول خلال آخر 6 ساعات مع وسيط ≈203 م و95٪ ≈311 م وتشتت مرتفع وSINR منخفض (~3 dB) مما يشير إلى تداخل/تراكب للإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro is showing wide TA spread over the last 6h; mixed times of day. Users reported drops during streaming, SINR near 3 dB.",
+      "message_ar": "موقع ماكرو NR في الضاحية يظهر انتشاراً واسعاً في TA خلال آخر 6 ساعات؛ أوقات استخدام مختلطة. وردت شكاوى انقطاعات أثناء البث وسجل SINR حوالي 3 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics: I’ll pull last 6h counters for the serving cell to validate TA drift and check for interference/signal overlap. Please confirm access and cell ID.",
+      "message_ar": "سأتولى التشخيص: سأستخرج عدادات آخر 6 ساعات للخلية الخادمة للتحقق من انجراف TA وفحص التداخل/تراكب الإشارة. الرجاء تأكيد صلاحية الوصول ومعرّف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID is NR-Suburb-Macro-1123, window is 6h.",
+      "message_ar": "تمت الموافقة على الوصول. معرّف الخلية NR-Suburb-Macro-1123، النافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm TA drift: median ~203 m, 95th ~311 m, high spread (std ~141 m). Distant serving ~15%. RSRP ~-104 dBm, RSRQ ~-11 dB, SINR ~3 dB. HO success ~81.7%. Likely mis-association under interference. Next, I’ll extract the TA time series for 6h to pinpoint peaks vs busy periods. Proceed?",
+      "message_ar": "تؤكد العدادات وجود انجراف في TA: الوسيط ~203 م، 95٪ ~311 م، تشتت عالٍ (الانحراف ~141 م). نسبة الخدمة البعيدة ~15٪. RSRP ~-104 dBm وRSRQ ~-11 dB وSINR ~3 dB. نجاح التسليم ~81.7٪. يرجّح سوء الارتباط تحت التداخل. بعد ذلك سأستخرج سلسلة زمنية لـ TA لمدة 6 ساعات لتحديد القمم مقابل فترات الذروة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows TA rising during heavier use; spikes align with higher user counts and slight HO failure increases. This confirms drift tied to load and interference. I propose targeted mobility/beam parameter tuning to bias toward nearer neighbors and reduce distant serving. Approve execution now?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاع TA أثناء الاستخدام الأثقل؛ القمم تتزامن مع زيادة عدد المستخدمين وارتفاع طفيف في فشل التسليم. هذا يؤكد أن الانجراف مرتبط بالحمل والتداخل. أقترح ضبطاً مستهدفاً لمعاملات الحركة/الحزم لترجيح الجوار الأقرب وتقليل الخدمة البعيدة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed conservative mobility/beam parameter optimization on NR-Suburb-Macro-1123; no service interruption. Expected effect: lower TA 95th by ~10–15% and improve handover success while mitigating mis-association.",
+      "message_ar": "تم تنفيذ تحسين محافظ لمعاملات الحركة/الحزم على NR-Suburb-Macro-1123 دون انقطاع للخدمة. التأثير المتوقع: خفض 95٪ من TA بنحو 10–15٪ وتحسين نجاح التسليم مع الحد من سوء الارتباط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial snapshot after change: median TA is trending down and handover failures are slightly reduced.",
+      "message_ar": "اللقطة الأولية بعد التغيير: الوسيط لـ TA يتجه للانخفاض وفشل التسليم انخفض قليلاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. I will continue to watch TA distribution, distant-serving ratio, and HO success as traffic mixes with streaming usage.",
+      "message_ar": "استجابة مبكرة جيدة. سأواصل مراقبة توزيع TA ونسبة الخدمة البعيدة ونجاح التسليم مع اختلاط حركة المرور بما فيها البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: TA 95th dropped from ~311 m to ~285 m. The mobility/beam parameter optimization is applied. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: انخفض 95٪ من TA من ~311 م إلى ~285 م. تم تطبيق تحسين معاملات الحركة/الحزم. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and share updates on TA spread, distant serving, and handovers. If performance regresses, we will roll back the tuning and investigate neighbor relations; otherwise we will keep the change in place.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك التحديثات حول انتشار TA والخدمة البعيدة والتسليمات. إذا تراجعت الأداءات سنعود عن الضبط ونفحص علاقات الجوار؛ وإلا سنُبقي التغيير قائماً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-Macro-1123",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburb-Macro-1123",
+        "TA",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_beam_bias_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed timing advance distribution drift on a suburban NR macro by reviewing recent counters and TA time series, which showed higher TA during load with low SINR indicating interference-driven mis-association. Mitigated by targeted site parameter tuning for mobility and beam selection to bias users toward nearer neighbors and reduce distant serving. We will monitor over the next busy hour to ensure sustained improvement.",
+    "ar": "تم تشخيص انجراف توزيع TA على موقع ماكرو NR في الضواحي عبر مراجعة العدادات الحديثة والسلسلة الزمنية لـ TA، والتي أظهرت ارتفاعاً في TA أثناء الحمل مع SINR منخفضاً يشير إلى سوء ارتباط ناتج عن التداخل. تم التخفيف عبر ضبط مستهدف لمعاملات الموقع الخاصة بالحركة واختيار الحزم لترجيح المستخدمين نحو الجوار الأقرب وتقليل الخدمة البعيدة. سنراقب خلال ساعة الذروة القادمة لضمان استمرار التحسن."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0020",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G NR macro cell shows a 6h spike in radio link failures with weak signal and interference/signal overlap (RSRP -109 dBm, RSRQ -13 dB, SINR 3 dB), moderate load, and eMBB traffic.",
+    "ar": "خلية 5G NR ماكرو في منطقة ريفية تُظهر ارتفاعاً خلال 6 ساعات في انقطاعات رابط الراديو مع إشارة ضعيفة وتداخل/تراكب للإشارات (RSRP ‎-109 dBm، RSRQ ‎-13 dB، SINR ‎3 dB)، وحمل متوسط وحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a rural NR macro sector with rising radio link failures over the last 6 hours. RSRP is -109 dBm, RSRQ -13 dB, SINR 3 dB (interference/signal overlap). HO success ~89%, BLER ~11%, TA spread ~112 m. eMBB users report drops during streaming. Please investigate.",
+      "message_ar": "لدينا قطاع ماكرو NR ريفي مع ارتفاع في انقطاعات رابط الراديو خلال آخر 6 ساعات. RSRP ‏-109 dBm، RSRQ ‏-13 dB، وSINR ‏3 dB (تداخل/تراكب للإشارات). نجاح التسليم بين الخلايا ~89%، وBLER ~11%، وتشتت التوقيت (TA) ~112 م. مستخدمو eMBB يبلّغون عن انقطاعات أثناء البث. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull last-6h operational stats, then review the RLF trend, and if confirmed, apply targeted mobility tuning for edge users. Share the cell ID and approve read/write for this window.",
+      "message_ar": "تم الاستلام. سأجمع أولاً إحصاءات تشغيلية لآخر 6 ساعات، ثم أراجع اتجاه RLF، وإذا تأكدت المشكلة سأطبّق ضبطاً مستهدفاً لحركية المستخدمين عند الحافة. يرجى تزويدي بمعرّف الخلية والموافقة على صلاحيات القراءة/الكتابة خلال هذه الفترة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-RURAL-045-S1. Access approved for this 6h window.",
+      "message_ar": "معرّف الخلية: NR-RURAL-045-S1. تمّت الموافقة على الصلاحيات خلال هذه النافذة (6 ساعات)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Operational stats (last 6h) for NR-RURAL-045-S1: RLF rate ~6.0%, HO success 89%, BLER 11%, PRB utilization ~42%, users 20–28. RF: RSRP -109 dBm, RSRQ -13 dB, SINR 3 dB; TA spread 112 m. No site alarms. This suggests edge coverage with interference. Next, I will analyze the RLF time trend to isolate peak periods.",
+      "message_ar": "الإحصاءات التشغيلية (آخر 6 ساعات) للخلية NR-RURAL-045-S1: معدل RLF ~6.0%، نجاح التسليم 89%، BLER ‏11%، واستخدام الموارد ~42%، وعدد المستخدمين 20–28. الراديو: RSRP ‏-109 dBm، RSRQ ‏-13 dB، SINR ‏3 dB؛ تشتت التوقيت 112 م. لا توجد إنذارات للموقع. هذا يشير إلى تغطية حافة مع تداخل. التالي، سأحلل اتجاه RLF عبر الزمن لعزل فترات الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood, proceed with the trend review.",
+      "message_ar": "مفهوم، تفضّل بمراجعة الاتجاه."
+    },
+    {
+      "role": "agent",
+      "message_en": "The RLF time trend shows spikes with mixed usage, peaking near evening streaming hours, 40–60% above baseline during peaks. Spikes align with SINR dips while HO success stays ~89%. This indicates late/insufficient handover at the rural edge. I propose targeted site parameter tuning to advance handovers and improve link robustness. Approve?",
+      "message_ar": "اتجاه RLF عبر الزمن يظهر ارتفاعات مع فترات استخدام متباينة، وتبلغ الذروة قرب ساعات المساء مع البث، بزيادة 40–60% فوق الأساس خلال الذروة. تتزامن الارتفاعات مع هبوط في SINR بينما يبقى نجاح التسليم ~89%. هذا يشير إلى تأخر/قصور في التسليم عند الحافة الريفية. أقترح ضبطاً مستهدفاً لمعاملات الموقع لتقديم التسليم وتحسين متانة الرابط. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-RURAL-045-S1 to reduce late handovers and stabilize radio links. The change is within policy and limited to this sector. Monitoring live counters; rollback is ready if regression appears.",
+      "message_ar": "تم تطبيق ضبط معاملات الموقع على NR-RURAL-045-S1 لتقليل التسليم المتأخر وتثبيت روابط الراديو. التغيير ضمن السياسات ومحصور بهذا القطاع. أراقب المؤشرات فورياً؛ التجربة العكسية جاهزة إذا ظهر تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No active alarms; initial field notes show fewer drops during a quick pass near the sector.",
+      "message_ar": "لا توجد إنذارات نشطة؛ الملاحظات الميدانية الأولية تُظهر انقطاعات أقل أثناء المرور السريع قرب القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early post-change view: RLF attempts down ~25% versus the prior hour, BLER improved by ~2 percentage points; median user throughput steady (~13 Mbps). We will keep an eye on edge users during streaming periods.",
+      "message_ar": "المؤشرات المبكرة بعد التغيير: محاولات RLF انخفضت بنحو ~25% مقارنة بالساعة السابقة، وتحسّن BLER بنحو نقطتين مئويتين؛ متوسّط سرعة المستخدمين مستقر (~13 Mbps). سنواصل المتابعة خاصةً خلال فترات البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: radio link failures trending down and fewer drop reports. The action taken was site parameter tuning to address mobility at the edge. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: انقطاعات رابط الراديو تتجه للانخفاض مع تقارير سقوط أقل. الإجراء المتخذ كان ضبط معاملات الموقع لمعالجة الحركية عند الحافة. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own monitoring for the next busy hour and report back on RLF, handovers, and BLER after the window. If performance degrades, we will revert the change or escalate to RF for broader optimization.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الذروة القادمة ونوافينا بالنتائج حول RLF والتسليم وBLER بعد انتهاء الفترة. إذا تدهور الأداء، سنعود عن التغيير أو نصعّد إلى فريق الترددات لتحسين أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a mobility-driven radio link failure spike at a rural NR macro edge with weak signal and interference overlap. Validated via an operational snapshot and RLF time trend over the last 6 hours. Applied site parameter tuning to advance handovers and improve link robustness; will monitor during the next busy hour.",
+    "ar": "تم تشخيص ارتفاع في انقطاعات رابط الراديو مدفوع بالحركية عند حافة موقع NR ريفي مع إشارة ضعيفة وتراكب تداخل. تم التحقق عبر لقطة تشغيلية واتجاه RLF خلال آخر 6 ساعات. تم تطبيق ضبط معاملات الموقع لتقديم التسليم وتحسين متانة الرابط؛ سيتم المتابعة خلال ساعة الذروة القادمة."
+  }
+}

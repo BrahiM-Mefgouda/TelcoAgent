@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0020",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows a sudden downlink throughput drop over the last 2h with high resource use, elevated errors, and interference / signal overlap symptoms.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحي تشهد هبوطًا مفاجئًا في سرعة التحميل خلال آخر ساعتين مع ارتفاع استخدام الموارد، وأخطاء مرتفعة، وعلامات تداخل / تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell NR-Suburban-Macro-221 showed a sudden downlink throughput drop to ~10 Mbps over the last 2h during the shoulder hour; SINR is -2 dB with interference / signal overlap indications, PRB ~84%, BLER ~10%, users ~247 impacting eMBB streaming.",
+      "message_ar": "خلية ماكرو 5G NR باسم NR-Suburban-Macro-221 في منطقة ضواحي شهدت هبوطًا مفاجئًا في سرعة التحميل إلى نحو 10 ميجابت/ث خلال الساعتين الأخيرتين أثناء فترة الكتف؛ قيمة SINR ‏-2 dB مع مؤشرات تداخل / تراكب الإشارة، واستخدام موارد ~84%، وBLER ~10%، وعدد مستخدمين ~247 يؤثر على بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by querying recent cell KPIs for the last 2h to baseline load, error rates, and radio quality; please confirm read access for NR-Suburban-Macro-221.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات الخلية للساعتين الأخيرتين لإرساء خط أساس للحمل والأخطاء وجودة الراديو؛ يرجى تأكيد صلاحية القراءة لـ NR-Suburban-Macro-221."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; use a 2h window on NR-Suburban-Macro-221.",
+      "message_ar": "موافقة على الوصول؛ استخدم نافذة ساعتين على NR-Suburban-Macro-221."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial pull shows high PRB utilization (~84%), elevated BLER (~10%), poor RSRQ (-13 dB), and low SINR (-2 dB), with DL throughput near 10 Mbps; next, I will fetch the downlink throughput time series across the window for correlation—proceed?",
+      "message_ar": "السحب الأولي يُظهر استخدام موارد مرتفعًا (~84%)، وBLER مرتفعًا (~10%)، وRSRQ ضعيفًا (-13 dB)، وSINR منخفضًا (-2 dB)، مع سرعة تحميل قريبة من 10 ميجابت/ث؛ الخطوة التالية جلب سلسلة زمنية لسرعات التحميل عبر النافذة للمقارنة—هل أمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "The time series confirms an abrupt drop starting ~90 minutes ago with concurrent BLER spikes and PRB saturation during the shoulder period; the pattern aligns with interference / signal overlap plus load pressure.",
+      "message_ar": "السلسلة الزمنية تؤكد هبوطًا حادًا بدأ قبل ~90 دقيقة مع ارتفاعات BLER وتشبّع الموارد خلال فترة الكتف؛ النمط يتوافق مع تداخل / تراكب الإشارة مع ضغط حمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Customer feedback matches—streaming buffering increased near the sector around that time.",
+      "message_ar": "ملاحظات العملاء تتطابق—ازداد التقطيع في البث بالقرب من القطاع في ذلك الوقت."
+    },
+    {
+      "role": "agent",
+      "message_en": "To mitigate, I propose targeted site parameter tuning on this NR macro: adjust downlink scheduler weighting and link adaptation to be more robust under interference, and rebalance resource fairness; minimal risk with rollback available. Approve change?",
+      "message_ar": "للتخفيف، أقترح ضبط معلمات الموقع لهذه الخلية NR: تحسين وزن المجدول للتحميل الهابط وتكييف الوصلة ليكونا أكثر صمودًا مع التداخل، وتحسين توازن الموارد؛ المخاطر محدودة، والتراجع متاح. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully. Early post-change snapshot: BLER trending down to ~6–7%, SINR improving toward 0–1 dB, PRB ~75–80%, and downlink throughput recovering toward 18–22 Mbps; no alarms observed. I will continue short-term observation.",
+      "message_ar": "تم تطبيق التحسين بنجاح. لقطات ما بعد التغيير مباشرة: انخفاض BLER إلى ~6–7%، وتحسن SINR نحو 0–1 dB، وPRB ~75–80%، وتعافي سرعة التحميل إلى ~18–22 ميجابت/ث؛ لا توجد إنذارات. سأواصل الملاحظة القصيرة المدى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: downlink throughput trending up and retransmissions decreasing. Action taken was site parameter tuning for the cell. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "نرى تحسنًا: سرعة التحميل ترتفع والعمليات المعاد إرسالها تتناقص. الإجراء كان ضبط معلمات الموقع للخلية. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and share an update after the window. If degradation returns, we’ll revert the change and escalate to RF/backhaul teams for deeper interference investigation.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونشارك تحديثًا بعد انتهاء النافذة. إذا عاد التدهور سنرجع التغيير ونصعّد إلى فرق RF/الربط الخلفي لمزيد من تحليل التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburban-Macro-221",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburban-Macro-221",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "NR_DL_scheduler_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A sudden downlink throughput drop on a suburban 5G NR macro was investigated by reviewing recent KPIs and the downlink time series, revealing high resource use with elevated BLER and poor SINR consistent with interference/signal overlap. Site parameter tuning was applied to strengthen the downlink scheduler and link adaptation. Early results show fewer errors and higher throughput; monitoring continues to confirm stability.",
+    "ar": "تم التحقيق في هبوط مفاجئ في سرعة التحميل على خلية ماكرو 5G NR في الضواحي عبر مراجعة مؤشرات الأداء الحديثة والسلسلة الزمنية للتحميل، ما أظهر استخدام موارد مرتفعًا مع BLER مرتفع وSINR ضعيف متوافق مع تداخل/تراكب الإشارة. تم تنفيذ ضبط لمعلمات الموقع لتعزيز المجدول للتحميل الهابط وتكييف الوصلة. النتائج الأولية تُظهر أخطاء أقل وسرعة أعلى؛ وستستمر المراقبة للتأكد من الاستقرار."
+  }
+}

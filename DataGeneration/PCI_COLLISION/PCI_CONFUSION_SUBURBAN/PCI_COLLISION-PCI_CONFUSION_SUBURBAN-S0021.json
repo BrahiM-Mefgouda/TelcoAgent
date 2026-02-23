@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0021",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban NR macro over the last 12h shows mobility instability (handover failures ~7%, ping-pong 11%) with several neighbors sharing similar PCI; please check for PCI collision/confusion around PCI 75 vs neighbor 433.",
+    "ar": "خلال آخر 12 ساعة في موقع ماكرو NR بمنطقة الضواحي، هناك عدم استقرار في التنقل (فشل التسليم ~7%، البينغ‑بونغ 11%) مع وجود عدة جيران بقيم PCI متقاربة؛ يرجى التحقق من تضارب/التباس PCI حول 75 مقابل الجار 433."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 12h shows mobility instability: ping-pong ~11% and handover failures ~7%, no alarms; serving PCI 75, a nearby neighbor reports PCI 433; traffic is mainly eMBB streaming.",
+      "message_ar": "خلال آخر 12 ساعة في موقع ماكرو NR بمنطقة الضواحي، نلاحظ عدم استقرار في التنقل: معدل البينغ‑بونغ ~11% وفشل التسليم ~7% بدون إنذارات؛ الخلية تخدم بـPCI 75 وجار قريب يظهر PCI 433؛ الحركة غالبها eMBB (بث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by auditing neighbor relations and PCI reuse around the serving cell to check for collisions/confusion; please confirm access and share the target cell ID.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق علاقات الجوار وإعادة استخدام PCI حول الخلية الخادمة للتحقق من التضارب/الالتباس؛ يرجى تأكيد صلاحية الوصول ومشاركة معرف الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target cell ID: NR-SUB-0123; neighbors are the SUB-04/05 cluster. Proceed.",
+      "message_ar": "تم اعتماد الوصول. معرف الخلية: NR-SUB-0123؛ الجيران ضمن عنقود SUB-04/05. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: NR-SUB-0123 (PCI 75) conflicts with NR-SUB-0456-B using the same PCI index; 18 surrounding neighbors fall into the overlapping PCI group, correlating with the edge ping-pong. I propose retuning to a free PCI (e.g., 77) and refreshing neighbor relations. Approve change?",
+      "message_ar": "اكتمل تدقيق الجوار: الخلية NR-SUB-0123 (PCI 75) تتضارب مع NR-SUB-0456-B باستخدام نفس فهرس PCI؛ هناك 18 جاراً ضمن مجموعة PCI متداخلة وتتطابق مع البينغ‑بونغ عند الحافة. أقترح إعادة تعيين PCI إلى قيمة خالية (مثل 77) وتحديث علاقات الجوار. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now; minimal service impact is acceptable.",
+      "message_ar": "موافق على التحسين الآن؛ تأثير طفيف على الخدمة مقبول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing parameter optimization: reassigning to a non-conflicting PCI and refreshing neighbor relations; brief interruption (<1 s) expected. Applying now.",
+      "message_ar": "تنفيذ تحسين المعلمات: إعادة التعيين إلى PCI غير متضارب وتحديث علاقات الجوار؛ متوقع انقطاع وجيز (<1 ثانية). جاري التطبيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change completed. Immediate counters look stable; initial samples show fewer handover errors at the boundary. I will document the change and propose opening a tracking record; okay to proceed?",
+      "message_ar": "تم إكمال التغيير. العدادات الفورية مستقرة؛ عينات أولية تُظهر أخطاء تسليم أقل عند الحدود. سأوثّق التغيير وأقترح فتح سجل تتبّع؛ هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with documentation and monitoring.",
+      "message_ar": "نعم، تابع التوثيق والمراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted. Short post-check: PRB utilization ~47% and BLER ~6% are within norms; HO success ~91% and ping-pong indications are easing. Moving to log the record.",
+      "message_ar": "تم. فحص سريع بعد التنفيذ: استخدام PRB ~47% وBLER ~6% ضمن الحدود؛ نجاح التسليم ~91% ومؤشرات البينغ‑بونغ في تحسن. سأقوم بتسجيل السجل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking record created with details of the change and correlations; we will observe through the next busy period and confirm stability.",
+      "message_ar": "تم إنشاء سجل تتبّع يتضمن تفاصيل التغيير والارتباطات؛ سنراقب خلال فترة الانشغال القادمة لتأكيد الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: ping-pong has dropped toward ~7% in the immediate window. The action taken was cell parameter optimization to remove the PCI confusion. Let’s monitor through the next busy hour and review under DU-PCI-04231.",
+      "message_ar": "نرى تحسناً: انخفض البينغ‑بونغ نحو ~7% في النافذة الحالية. الإجراء المتخذ كان تحسين معلمات الخلية لإزالة التباس PCI. لنتابع المراقبة خلال ساعة الانشغال القادمة والمراجعة تحت DU-PCI-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; we’ll own monitoring for the next busy hour and update the ticket afterward. If issues reappear, we will revert the recent change and escalate to the regional RF team for a broader plan.",
+      "message_ar": "مفهوم؛ سنتولى المراقبة خلال ساعة الانشغال القادمة ونحدّث التذكرة بعدها. إذا عادت المشاكل، سنعيد التغيير الأخير ونتصعيد إلى فريق الترددات الإقليمي لوضع خطة أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-SUB-0123",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Reassign PCI from 75 to 77; refresh neighbor relations; apply with no downtime"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI collision at NR-SUB-0123 by PCI reallocation; updated neighbor relations; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "A neighbor audit confirmed a PCI collision between the serving cell and a nearby sector, correlating with elevated ping-pong and handover failures in the suburban NR macro. We mitigated by retuning the cell to a non-conflicting PCI and refreshing neighbor relations, then created a tracking record for follow-up. Monitoring will continue through the next busy hour to verify stability.",
+    "ar": "أكد تدقيق الجوار وجود تضارب PCI بين الخلية الخادمة وقطاع مجاور، ما يتوافق مع ارتفاع البينغ‑بونغ وفشل التسليم في موقع NR بالضواحي. تم التخفيف عبر إعادة تعيين PCI إلى قيمة غير متضاربة وتحديث علاقات الجوار، ثم إنشاء سجل تتبّع للمتابعة. ستستمر المراقبة خلال ساعة الانشغال القادمة للتحقق من الاستقرار."
+  }
+}

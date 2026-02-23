@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0002",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell over the last 6h at peak shows resource allocation imbalance with PRB ~77%, low fairness, high p95 allocation latency (69 ms), and interference / signal overlap (SINR 2 dB) impacting eMBB streaming variability.",
+    "ar": "خلية ماكرو NR حضرية خلال آخر 6 ساعات في الذروة تُظهر عدم توازن في تخصيص الموارد مع استخدام PRB ~77%، انخفاض الإنصاف، ارتفاع زمن تأخير التخصيص p95 (69 مللي ثانية)، ووجود تداخل/تراكب للإشارة (SINR ‏2 dB) يؤثر على تذبذب بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-URB-MACRO-015 over the last 6h (peak) shows uneven resource allocation; users report variable eMBB streaming and elevated p95 allocation latency.",
+      "message_ar": "الخلية NR الحضرية NR-URB-MACRO-015 خلال آخر 6 ساعات (ساعة الذروة) تُظهر عدم توازن في تخصيص الموارد؛ المستخدمون يبلغون عن تذبذب في بث eMBB وارتفاع زمن تأخير التخصيص p95."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will review live counters for NR-URB-MACRO-015 over the last 6h to confirm PRB usage, latency, and QoS mix. Please confirm access.",
+      "message_ar": "سأراجع العدادات الحية للخلية NR-URB-MACRO-015 خلال آخر 6 ساعات للتحقق من استخدام PRB وزمن التأخير ومزيج مستويات الخدمة. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell: NR-URB-MACRO-015, window: 6h.",
+      "message_ar": "تمت الموافقة على الوصول. الخلية: NR-URB-MACRO-015، النافذة: 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm PRB ~77%, fairness index ~0.68, allocation skew toward best-effort (53%) with high-priority only 28%; p95 allocation latency 69 ms. RF quality is low (RSRQ -9 dB, SINR 2 dB) indicating interference / signal overlap. Next, I will fetch PRB and latency trends across the 6h window to isolate peak impact. Proceed?",
+      "message_ar": "العدادات تؤكد استخدام PRB ~77%، مؤشر الإنصاف ~0.68، وانحياز التخصيص نحو أفضل جهد (53%) مع حصة أولوية عالية 28% فقط؛ زمن تأخير التخصيص p95 يساوي 69 مللي ثانية. جودة التغطية منخفضة (RSRQ ‏-9 dB وSINR ‏2 dB) ما يشير إلى تداخل/تراكب للإشارة. بعد ذلك، سأجلب اتجاهات PRB وزمن التأخير خلال نافذة 6 ساعات لعزل أثر الذروة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend shows peak-hour bursts: PRB spikes align with fairness dips and a larger p95–p50 throughput gap (35 Mbps), explaining variable experience. This suggests allocation-weight drift under poor SINR. I propose targeted parameter tuning: raise minimum share for high-priority flows, temper best-effort burstiness, and tighten fairness guardrails. Expected impact: lower latency and reduced skew with minimal risk. Approve change?",
+      "message_ar": "الاتجاه يُظهر اندفاعات في ساعة الذروة: ارتفاعات PRB تتزامن مع هبوط الإنصاف واتساع فجوة معدل النقل بين p95 وp50 (35 ميجابت/ث)، ما يفسر التجربة المتذبذبة. هذا يشير إلى انحراف أوزان التخصيص مع SINR ضعيف. أقترح ضبطًا مستهدفًا للمعلمات: رفع الحد الأدنى لحصة التدفقات ذات الأولوية العالية، تقليل اندفاعية أفضل جهد، وتشديد ضوابط الإنصاف. الأثر المتوقع: خفض زمن التأخير وتقليل الانحياز مع مخاطرة منخفضة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Implement now.",
+      "message_ar": "موافَق. نفّذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied allocation tuning on NR-URB-MACRO-015: increased floor for high-priority traffic, softened best-effort bursts, and enabled tighter fairness control. Immediate counters show p95 allocation latency trending down by ~15–20% with PRB stable. I will observe short-term metrics for 30 minutes.",
+      "message_ar": "تم تطبيق ضبط التخصيص على NR-URB-MACRO-015: رفع الحد الأدنى لحركة الأولوية العالية، تخفيف اندفاعية أفضل جهد، وتفعيل ضوابط إنصاف أكثر صرامة. العدادات الفورية تُظهر هبوطًا في زمن تأخير التخصيص p95 بنحو 15–20% مع استقرار PRB. سأراقب المقاييس قصيرة المدى لمدة 30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: p95 allocation latency ~52 ms and fairness index rising to ~0.74; complaints on eMBB streaming have eased. PRB utilization remains stable.",
+      "message_ar": "هناك تحسّن: زمن تأخير التخصيص p95 ~52 مللي ثانية ومؤشر الإنصاف ارتفع إلى ~0.74؛ شكاوى بث eMBB انخفضت. يظل استخدام PRB مستقرًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. QoS distribution also looks healthier with higher share for priority traffic and reduced burstiness on best-effort. No adverse impact observed on throughput median.",
+      "message_ar": "تم التأكيد. توزيع مستويات الخدمة أصبح أفضل مع حصة أعلى لحركة الأولوية وتقليل الاندفاعية على حركة أفضل جهد. لم نرَ تأثيرًا سلبيًا على الوسيط لمعدل النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good progress. After the resource allocation parameter optimization, fairness is trending up and latency has dropped. Let’s monitor through the next busy hour and review.",
+      "message_ar": "تقدّم جيد. بعد تحسين معلمات تخصيص الموارد، يتجه الإنصاف إلى الأعلى وانخفض الزمن. دعنا نراقب خلال ساعة الذروة القادمة ثم نراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will monitor through the next busy hour and report the outcome. If latency or fairness regresses, we will roll back to the pre-change baseline and escalate for interference mitigation; otherwise we will keep the tuning in place.",
+      "message_ar": "مفهوم. سنراقب خلال ساعة الذروة القادمة ونقدم تقريرًا بالنتيجة. إذا تدهور الزمن أو الإنصاف فسنعيد الإعدادات إلى ما قبل التغيير ونصعّد لمعالجة التداخل؛ وإلا سنبقي الضبط قائمًا."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-015",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-015",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation anomaly on an urban 5G NR macro cell during peak hours: high PRB use, low fairness, elevated allocation latency, and signs of interference. Verified via counters and PRB/latency trends across the 6h window. Mitigated by site parameter tuning to allocation weights and fairness guardrails, improving latency and fairness; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص خلل في تخصيص الموارد على خلية ماكرو NR حضرية خلال ساعات الذروة: استخدام PRB مرتفع، إنصاف منخفض، ارتفاع زمن التأخير، ومؤشرات تداخل. تم التحقق عبر العدادات واتجاهات PRB/الزمن خلال نافذة 6 ساعات. تم التخفيف عبر ضبط معلمات الموقع لأوزان التخصيص وضوابط الإنصاف، مما حسّن الزمن والإنصاف؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

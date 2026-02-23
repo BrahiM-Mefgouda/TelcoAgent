@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0010",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows 93.5% PRB over 3h with 231 users, slow data (~6 Mbps) and interference/signal overlap (SINR 2 dB); congestion alarm active during peak evening.",
+    "ar": "خلية NR ماكرو حضرية تُظهر إشغال PRB بنسبة 93.5% خلال 3 ساعات مع 231 مستخدمًا، بيانات بطيئة (~6 Mbps) وتداخل/تراكب إشارة (SINR ‏2 dB)؛ إنذار الازدحام نشط خلال ذروة المساء."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-Cell-UTR-0457 has a congestion alarm during peak evening: ~231 users, PRB ~93%, DL/UL ~6 Mbps, SINR ~2 dB, RSRQ -11 dB, BLER ~5–6%, HO failures ~6%. Traffic is mostly eMBB streaming; neighbor PCI overlap count is 12.",
+      "message_ar": "خلية NR ماكرو حضرية NR-Cell-UTR-0457 بها إنذار ازدحام خلال ذروة المساء: نحو 231 مستخدمًا، إشغال PRB ~93%، DL/UL ~6 Mbps، SINR ~2 dB، RSRQ -11 dB، BLER ~5–6%، فشل التسليم ~6%. الحركة أغلبها eMBB (بث)، وعدّ تداخل PCI مع الجوار هو 12."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by checking OSS counters for the last 3 hours to validate PRB load, interference, and mobility on NR-Cell-UTR-0457. Please confirm read-only access for the 3h window.",
+      "message_ar": "سأبدأ بفحص عدادات OSS لآخر 3 ساعات للتحقق من حمل PRB والتداخل والحركية على NR-Cell-UTR-0457. يرجى تأكيد صلاحية القراءة لنافذة 3 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read-only access over the 3h window.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة خلال نافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check over 3h shows: sustained PRB 92–95%, users peak ~240, DL/UL ~6 Mbps, SINR 1–3 dB, RSRQ -11 dB, BLER 5–6%, HO failures ~6%. This confirms congestion with signal overlap. Next, I propose low-risk parameter tuning to relieve PRB (allocation/admission bias, mild load steering) and damp interference. Do you approve?",
+      "message_ar": "فحص OSS خلال 3 ساعات يُظهر: PRB مستمر 92–95%، ذروة مستخدمين ~240، DL/UL ~6 Mbps، SINR بين 1–3 dB، RSRQ -11 dB، BLER ‏5–6%، وفشل التسليم ~6%. هذا يؤكد الازدحام مع تراكب/تداخل إشارة. التالي، أقترح ضبطًا منخفض المخاطر لتخفيف حمل PRB (تحيّز التخصيص/القبول وتوجيه حمل بسيط) وكبح التداخل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the optimization.",
+      "message_ar": "موافَق على المضي قدماً في التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization now: tuned resource allocation fairness for bursty eMBB, slightly adjusted admission/load thresholds, and added mild interference guard; no service interruption. Expected outcome: PRB <85%, lower allocation latency, throughput >8 Mbps. I will observe counters for 10–15 minutes.",
+      "message_ar": "تطبيق التحسين الآن: تمت مواءمة عدالة تخصيص الموارد لحركة eMBB المتقطعة، وضبط طفيف لعتبات القبول/الحمل، وإضافة حماية تداخل خفيفة؛ بلا انقطاع خدمة. المتوقع: PRB أقل من 85%، انخفاض كمون التخصيص، ومعدل يفوق 8 Mbps. سأراقب العدادات لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes: PRB ~84%, DL ~9 Mbps, UL ~8 Mbps, BLER ~3.5%, SINR ~3 dB. The congestion alarm cleared.",
+      "message_ar": "بعد حوالي 10 دقائق: PRB ~84%، DL ~9 Mbps، UL ~8 Mbps، BLER ~3.5%، SINR ~3 dB. تم مسح إنذار الازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. For traceability, I will open a case summarizing the congestion, interference symptoms, and the parameter optimization, with a plan to monitor the next busy period. Do you approve ticket creation?",
+      "message_ar": "تحسّن جيد. من أجل التتبع، سأفتح قضية تلخص الازدحام وأعراض التداخل والتحسين الذي تم، مع خطة مراقبة لفترة الذروة التالية. هل توافق على إنشاء تذكرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the ticket.",
+      "message_ar": "موافَق على إنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PRB-02147 created: High PRB at NR-Cell-UTR-0457; parameter tuning applied; monitor next busy hour; consider neighbor coordination if interference returns. I will continue short-term monitoring.",
+      "message_ar": "تم إنشاء التذكرة DU-PRB-02147: PRB مرتفع على NR-Cell-UTR-0457؛ تم تطبيق ضبط المعلمات؛ المراقبة خلال ساعة الذروة القادمة؛ النظر في تنسيق الجوار إذا عاد التداخل. سأستمر بالمراقبة القصيرة الأمد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Metrics continue improving: slow data complaints are down and allocation latency is trending lower. Action taken: site parameter tuning for congestion relief. Let’s monitor through the next busy hour and update DU-PRB-02147 afterward.",
+      "message_ar": "المؤشرات مستمرة في التحسن: الشكاوى من بطء البيانات انخفضت وكمون التخصيص ينخفض. الإجراء المتخذ: ضبط معلمات الموقع لتخفيف الازدحام. لِنُراقِب خلال ساعة الذروة القادمة ونحدّث DU-PRB-02147 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and update the ticket afterward. If load spikes or interference returns, we will escalate to deeper neighbor alignment and capacity options; if regressions appear, we will roll back the tuning promptly.",
+      "message_ar": "تم. سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا عاد الحمل أو التداخل سنصعّد إلى مواءمة أعمق مع الجوار وخيارات السعة؛ وإن ظهرت تراجعات سنعود عن الضبط بسرعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-UTR-0457",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Congestion mitigation and interference guard for NR-Cell-UTR-0457"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB utilization; tuning applied; monitor next busy hour; NR-Cell-UTR-0457"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated sustained high PRB utilization and interference symptoms via OSS counters for NR-Cell-UTR-0457 during the peak evening window. Applied site parameter tuning to rebalance resource allocation/admission and add mild interference guard, which reduced load and improved throughput. Documented the change with a ticket and set monitoring for the next busy hour.",
+    "ar": "تم التحقق من إشغال PRB المرتفع بشكل مستمر وأعراض التداخل عبر عدادات OSS لخلية NR-Cell-UTR-0457 خلال نافذة ذروة المساء. تم تطبيق ضبط معلمات الموقع لإعادة موازنة تخصيص/قبول الموارد وإضافة حماية تداخل خفيفة، ما خفّض الحمل وحسّن المعدل. تم توثيق التغيير بتذكرة مع تحديد مراقبة لساعة الذروة التالية."
+  }
+}

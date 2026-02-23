@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0003",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a congestion alarm over the last 3h with high PRB utilization and slow data; neighbor PCI overlaps are present during heavy eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر إنذار ازدحام خلال آخر 3 ساعات مع ارتفاع استخدام موارد التردد وبطء البيانات؛ توجد تداخلات PCI مع الجيران أثناء حركة eMBB الثقيلة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector has a congestion alarm in the last 3h: PRB ~88%, 239 users, DL/UL about 8/4 Mbps, scheduler p95 58 ms, RSRQ -12 dB, SINR ~10 dB. Shoulder period with heavy eMBB streaming.",
+      "message_ar": "قطاع ماكرو NR حضري لديه إنذار ازدحام خلال آخر 3 ساعات: استخدام PRB ~88%، عدد المستخدمين 239، سرعة تنزيل/رفع حوالي 8/4 Mbps، تأخير الجدولة p95 عند 58 مللي ثانية، RSRQ بقيمة -12 dB وSINR حوالي 10 dB. فترة متوسطة الحمل مع حركة eMBB كثيفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling the last 3h performance for the affected sector to confirm sustained PRB load and related counters; please approve read-only access.",
+      "message_ar": "سأبدأ بسحب أداء آخر 3 ساعات للقطاع المتأثر لتأكيد استمرار ارتفاع حمل PRB والمؤشرات المرتبطة؛ يرجى الموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read-only access on the affected sector for the last 3h window.",
+      "message_ar": "تمت الموافقة على وصول القراءة فقط للقطاع المتأثر خلال نافذة آخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pull complete: PRB sustained 86–92%, active users 180–260, BLER ~4%, RLF ~4.4%, HO failures ~4%. Neighbor list shows 15 overlapping PCIs, which can add contention. Root cause is resource congestion driving slow data and higher scheduling delay. I propose targeted tuning: offload via handover bias, refine admission/load thresholds, and prioritize burst throughput for eMBB. Proceed?",
+      "message_ar": "تم السحب: PRB ثابت بين 86–92%، المستخدمون النشطون 180–260، BLER حوالي 4%، انقطاعات الارتباط ~4.4%، وفشل التسليم ~4%. قائمة الجيران تُظهر 15 PCI متداخلاً ما قد يزيد التزاحم. السبب الرئيسي هو ازدحام الموارد مما يسبب بطء البيانات وارتفاع تأخير الجدولة. أقترح ضبطاً مستهدفاً: تفريغ الحمل عبر تحيز التسليم، تحسين عتبات القبول/الحمل، وإعطاء أولوية لدفعات eMBB. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the tuning on the sector.",
+      "message_ar": "موافق. نفّذ الضبط على القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied and validated. Immediate post-check shows PRB ~78–82% under comparable load, scheduler p95 ~42 ms, and median DL/UL ~12/6 Mbps. No error spikes observed; keeping safeguards in place.",
+      "message_ar": "تم تطبيق الضبط والتحقق منه. الفحص الفوري يُظهر PRB حوالي 78–82% تحت حمل مماثل، وتأخير الجدولة p95 حوالي 42 مللي ثانية، ومتوسط DL/UL حوالي 12/6 Mbps. لم تُلاحظ زيادات مفاجئة في الأخطاء؛ تم الإبقاء على حدود الأمان."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field spot checks now show slight DL improvement locally; stability looks better.",
+      "message_ar": "فحوصات ميدانية سريعة تُظهر تحسناً طفيفاً في التنزيل محلياً؛ والاستقرار يبدو أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given the 15 PCI overlaps, I will open a tracking item for a follow-up neighbor plan review and continue monitoring the tuned cell through the next busy period. Please confirm.",
+      "message_ar": "نظراً لوجود 15 تداخلاً في PCI، سأفتح بند متابعة لمراجعة مخطط الجيران وسأواصل المراقبة خلال فترة الذروة القادمة. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Please create the tracking item.",
+      "message_ar": "تم التأكيد. يرجى إنشاء بند المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking item has been created and linked to this sector with notes on sustained high PRB and the tuning performed. Monitoring is active.",
+      "message_ar": "تم إنشاء بند المتابعة وربطه بهذا القطاع مع ملاحظات حول استمرار ارتفاع PRB والضبط الذي تم. المراقبة نشطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: downlink rates are improving. Action taken was site parameter tuning for load and scheduling. Let’s monitor over the next 2–4 hours and track under DU-PRB-10427.",
+      "message_ar": "التحسن الملحوظ: معدلات التنزيل تتحسن. الإجراء المُتخذ كان ضبط معلمات الموقع للحمل والجدولة. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة ونتتبع ذلك تحت DU-PRB-10427."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the 2–4 hour monitoring window and update the ticket afterward. If congestion returns, we will escalate for neighbor plan cleanup; if adverse effects appear, we will roll back to the previous settings.",
+      "message_ar": "تم الاستلام—سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث التذكرة بعدها. إذا عاد الازدحام سنصعّد لمراجعة مخطط الجيران؛ وإذا ظهرت آثار سلبية سنعود إلى الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Urban-Macro-Cell-A",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_bias+admission+scheduler_tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Sustained high PRB on urban NR macro; tuning applied; follow-up PCI neighbor review."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The agent confirmed sustained high PRB load causing slow data on an urban NR macro sector, with additional PCI overlap observed among neighbors. Site parameter tuning was applied to offload traffic, refine admission/load thresholds, and adjust scheduling for eMBB, which reduced PRB usage and improved user rates. A tracking ticket was created for follow-up neighbor plan review and the cell will be monitored for stability.",
+    "ar": "أكد الوكيل استمرار ارتفاع حمل PRB الذي تسبب في بطء البيانات في قطاع ماكرو NR حضري، مع ملاحظة تداخلات PCI بين الجيران. تم تنفيذ ضبط معلمات الموقع لتفريغ الحركة وتحسين عتبات القبول/الحمل وضبط الجدولة لـ eMBB، مما خفّض استخدام PRB وحسّن معدلات المستخدمين. تم إنشاء تذكرة متابعة لمراجعة مخطط الجيران وسيتم مراقبة الخلية للتأكد من الاستقرار."
+  }
+}

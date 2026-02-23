@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0001",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows a congestion alarm over the last 2h with PRB near 95%, 395 users, slow data around 5 Mbps downlink, and 91 ms p95 latency during eMBB streaming.",
+    "ar": "خلية 5G NR ميكرو في الملعب عليها إنذار ازدحام خلال آخر ساعتين مع تشبع موارد يقارب 95%، 395 مستخدمًا، بيانات بطيئة نحو 5 ميغابت/ثا في التنزيل وكمون p95 يبلغ 91 مللي ثانية أثناء بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro is heavily loaded in the last 2h; congestion alarm active. ~95% resource use, 395 users, DL ~5 Mbps, p95 scheduling latency ~91 ms, BLER ~5%. Crowd is streaming. Please assist.",
+      "message_ar": "موقع NR ميكرو في الملعب تحت حمل عالٍ خلال آخر ساعتين؛ إنذار ازدحام فعّال. استخدام الموارد ~95%، 395 مستخدمًا، سرعة تنزيل ~5 ميغابت/ثا، كمون جدولة p95 ~91 مللي ثانية، BLER ~5%. الجمهور يقوم بالبث. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by reviewing last 2h network stats for the affected cell. Please share the exact cell ID and confirm approval for corrective changes if needed; any backhaul issues observed?",
+      "message_ar": "سأبدأ بمراجعة إحصاءات الشبكة لآخر ساعتين للخلية المتأثرة. يرجى تزويدي بالمعرّف الدقيق للخلية وتأكيد الموافقة على إجراء تغييرات تصحيحية عند الحاجة؛ هل هناك أية مشاكل في الربط الخلفي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STDM-042-MIC. Backhaul is clear. You have read/write approval.",
+      "message_ar": "معرّف الخلية هو NR-STDM-042-MIC. الربط الخلفي سليم. لديك صلاحية القراءة والكتابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 2h stats for NR-STDM-042-MIC: DL PRB sustained 92–97%, UL elevated but lower; DL median ~5 Mbps, users 380–400, p95 latency 85–95 ms, RLF elevated. No hardware or transport alarms. This is event-driven capacity saturation.",
+      "message_ar": "تم جلب إحصاءات آخر ساعتين للخلية NR-STDM-042-MIC: تشغل DL PRB بشكل مستمر 92–97%، والرفع مرتفع لكن أقل؛ وسيط التنزيل ~5 ميغابت/ثا، عدد المستخدمين 380–400، كمون p95 بين 85–95 مللي ثانية، مع ارتفاع في حالات انقطاع الاتصال. لا توجد إنذارات عتاد أو نقل. الحالة ناتجة عن تشبع سعة بسبب الفعالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: apply an event capacity profile on this micro—boost DL scheduling aggressiveness, enable short-term offload to nearby macros via threshold bias, and tighten congestion protection. Proceed?",
+      "message_ar": "الاقتراح: تطبيق ملف سعة خاص بالفعالية على هذه الخلية الميكرو—تعزيز شراسة الجدولة في التنزيل، تمكين التفريغ قصير الأمد نحو الماكرو المجاورة عبر تحيّز العتبة، وتشديد حماية الازدحام. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead.",
+      "message_ar": "موافق. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Event capacity profile applied to NR-STDM-042-MIC. Change is live and reversible. Expect PRB to ease by ~10–15% and DL median to improve as streaming load is smoothed.",
+      "message_ar": "تم تطبيق ملف السعة الخاص بالفعالية على NR-STDM-042-MIC. التغيير مباشر وقابل للرجوع. من المتوقع انخفاض ضغط PRB بنحو 10–15% وتحسن وسيط التنزيل مع تسوية حمل البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please observe for a few minutes and share early signs: current PRB level, DL median, and any user complaints.",
+      "message_ar": "يرجى المراقبة لبضع دقائق ومشاركة المؤشرات الأولية: مستوى PRB الحالي، وسيط التنزيل، وأي شكاوى من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: PRB down to ~80–85%, DL ~9–10 Mbps, p95 latency ~60 ms. Fewer complaints now.",
+      "message_ar": "المؤشرات الأولية أفضل: PRB انخفض إلى ~80–85%، سرعة التنزيل ~9–10 ميغابت/ثا، كمون p95 ~60 مللي ثانية. الشكاوى أصبحت أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Logged the change and opened a tracking ticket for this event. We’ll continue watching the stadium sector through the ongoing peak. If instability appears, we will revert to the pre-event settings.",
+      "message_ar": "تم توثيق التغيير وفتح تذكرة متابعة لهذه الفعالية. سنواصل مراقبة القطاع في الملعب خلال الذروة الحالية. إذا ظهرت أي عدم استقرار فسنعيد الإعدادات لما قبل الفعالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement continues: PRB not saturated and downlink around 9 Mbps; latency is trending down. Action taken was parameter optimization with an event capacity profile. Let’s monitor through the next busy hour; I’ll track under DU-PRB-05821.",
+      "message_ar": "التحسن مستمر: لم يعد PRB مشبعًا وسرعة التنزيل حوالي 9 ميغابت/ثا؛ والكمون في تحسّن. الإجراء كان تحسين المعلمات عبر ملف سعة خاص بالفعالية. دعنا نراقب خلال ساعة الذروة القادمة؛ سأتابع تحت الرقم DU-PRB-05821."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and post an update to the ticket after the window. If load spikes again without sustained gain, we will roll back to pre-change values and escalate to regional capacity. Summary: analyzed 2h stats, optimized the NR micro with an event profile, created a tracking record, and will monitor until post-event stabilization.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا عاد الحمل للارتفاع دون مكاسب مستدامة فسنرجع إلى القيم السابقة وسنصعّد إلى فريق السعة الإقليمي. الملخص: تم تحليل إحصاءات الساعتين، تحسين الخلية NR بملف فعالية، إنشاء سجل متابعة، وسنراقب حتى استقرار ما بعد الفعالية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STDM-042-MIC",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "event_capacity_profile: increase DL scheduler aggressiveness, enable offload to adjacent macros via threshold bias, tighten congestion protection; scope=NR micro only"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium NR micro high PRB during live event; applied event capacity profile; monitor next busy hour and rollback if adverse"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Stadium NR micro experienced event-driven PRB saturation causing slow data and high latency. We reviewed recent performance, applied site parameter tuning with an event capacity profile to increase capacity and offload to neighbors, and created a tracking ticket. We will monitor through the next busy hour and roll back if adverse effects occur.",
+    "ar": "واجهت خلية NR ميكرو في الملعب تشبعًا في PRB بسبب الفعالية مما سبب بطء البيانات وارتفاع الكمون. قمنا بمراجعة الأداء الحديث وتطبيق ضبط معلمات الموقع بملف سعة خاص بالفعالية لزيادة السعة والتفريغ نحو الجوار، وإنشاء تذكرة متابعة. سنراقب خلال ساعة الذروة القادمة مع الرجوع عن التغييرات إذا ظهرت آثار سلبية."
+  }
+}

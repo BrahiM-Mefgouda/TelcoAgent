@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_COVERAGE_EDGE-S0013",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows elevated radio link failures over the last 6 hours (weak signal -119 dBm, poor quality -16 dB, SINR 6 dB, RLF ~3.8%, handover success ~89%, median downlink 9 Mbps); diagnose and stabilize mobility at the coverage edge.",
+    "ar": "خلية NR ماكرو ريفية تظهر ارتفاعاً في فشل الرابط الراديوي خلال آخر 6 ساعات (إشارة ضعيفة -119 dBm وجودة -16 dB وSINR = 6 dB وRLF ~3.8% ونجاح التسليم ~89% وسرعة تنزيل متوسطة 9 Mbps)؛ نرجو تشخيص السبب وتحسين الاستقرار عند حافة التغطية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing a spike in radio link failures on a rural NR macro sector in the last 6 hours; users at the edge report drops and eMBB streaming buffering.",
+      "message_ar": "نلاحظ ارتفاعاً في حالات فشل الرابط الراديوي على قطاع 5G NR ريفي (ماكرو) خلال آخر 6 ساعات؛ مستخدمو الحافة يشتكون من انقطاعات وتأخير في بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling the last 6 hours of counters for the affected cell to verify RLF, handovers, BLER, load, and any alarms. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بسحب عدادات آخر 6 ساعات للخلية المتأثرة للتحقق من RLF وعمليات التسليم وBLER والحمل وأي إنذارات. الرجاء تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-RURAL-045, access approved.",
+      "message_ar": "معرّف الخلية: NR-RURAL-045، والوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm: RLF avg 3.8% (peak ~4.6%), HO success ~89%, BLER 7–12% at edge, PRB ~40%, no active alarms.",
+      "message_ar": "تؤكد العدادات: متوسط RLF 3.8% (ذروة ~4.6%)، نجاح التسليم ~89%، BLER بين 7–12% عند الحافة، إشغال الموارد ~40%، ولا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I'll analyze the RLF trend over the 6h window and correlate with timing advance and sector edges to isolate the failure pattern. Proceed?",
+      "message_ar": "الخطوة التالية: سأحلل اتجاه RLF خلال نافذة 6 ساعات وأربطه بمسافات TA وحواف القطاعات لعزل نمط الأعطال. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows RLF spikes when TA >100 m and on boundary beams; neighbor handover attempts rise but complete late, indicating a coverage-edge mobility gap. I propose conservative mobility tuning to trigger earlier edge handovers and slight beam weighting toward dominant neighbors. Approve execution?",
+      "message_ar": "يُظهر المخطط الزمني ارتفاع RLF عندما يكون TA > 100 م وعلى الحزم الحدّية؛ ترتفع محاولات التسليم للجيران لكنها تكتمل متأخرة، ما يشير إلى فجوة تنقل عند الحافة. أقترح ضبطاً محافظاً لمعايير التنقل لتفعيل التسليم المبكر عند الحافة مع تعديل طفيف لأوزان الحزم نحو الجيران المسيطرين. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: mobility thresholds/timers refined and minor beam weighting toward dominant neighbors; validation clean, no alarms. Beginning short post-change observation.",
+      "message_ar": "تم تطبيق التغيير: تحسين عتبات/مُهل التنقل وتعديل طفيف لأوزان الحزم نحو الجيران المسيطرين؛ التحقق سليم بلا إنذارات. أبدأ مراقبة قصيرة بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial field check: fewer drops at the fringe; still monitoring.",
+      "message_ar": "ملاحظة أولية ميدانياً: انخفاض في الانقطاعات عند الأطراف؛ نواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: radio link failures are trending down and handover success is ticking up. The mobility parameter tuning you pushed seems effective. Let's monitor through the next busy hour.",
+      "message_ar": "نرى تحسناً: حالات فشل الرابط الراديوي في انخفاض ونجاح التسليم في ارتفاع. يبدو أن ضبط معايير التنقل الذي طبّقته فعّال. لنُراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and report updated RLF and handover results. If degradation reappears we will roll back; if drops persist or alarms arise, we will escalate to RF field for on-site checks.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة ونوافيك بتحديثات RLF ونتائج التسليم. إذا عاد التدهور سنرجع عن التغيير؛ وإذا استمرت الانقطاعات أو ظهرت إنذارات فسنصعّد إلى فريق RF الميداني لإجراء فحص موقعي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "RLF",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "6-hour counters and time series confirmed a radio link failure spike on a rural NR macro cell concentrated at the coverage edge with late handovers. We applied site parameter tuning to advance edge handovers and slightly adjust beam weighting, producing immediate reductions in drops and improved handover success. We will continue to monitor through the next busy hour.",
+    "ar": "أكدت عدادات الست ساعات والمخطط الزمني وجود ارتفاع في فشل الرابط الراديوي على خلية NR ماكرو ريفية متركز عند حافة التغطية مع تسليمات متأخرة. قمنا بضبط معايير الموقع لتقديم التسليم عند الحافة مع تعديل بسيط لأوزان الحزم، مما أدى إلى انخفاض فوري في الانقطاعات وتحسّن في نجاح التسليم. سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

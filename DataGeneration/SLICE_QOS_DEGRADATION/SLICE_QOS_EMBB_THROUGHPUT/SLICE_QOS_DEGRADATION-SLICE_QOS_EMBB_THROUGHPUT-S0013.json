@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_EMBB_THROUGHPUT-S0013",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_EMBB_THROUGHPUT",
+  "query": {
+    "en": "Urban NR macro cell shows eMBB slice QoS degradation over the last 4 hours during peak evening: median throughput 17 Mbps, p95 24 Mbps, latency 41 ms, violation ratio 39%, PRB utilization 81%, 284 users, affecting streaming.",
+    "ar": "خلية NR ماكرو حضرية تُظهر تدهورًا في جودة خدمة شريحة eMBB خلال آخر 4 ساعات في ذروة المساء: السرعة الوسيطة 17 ميغابت/ث، p95 = 24 ميغابت/ث، الكمون 41 مللي ثانية، نسبة الانتهاكات 39٪، إشغال PRB 81٪، وعدد المستخدمين 284، مما يؤثر على البث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing eMBB slice QoS degradation on an urban NR macro sector in the last 4 hours (peak evening): median DL 17 Mbps, latency ~41 ms, violations ~39%, ~284 users; users report streaming buffering.",
+      "message_ar": "نلاحظ تدهورًا في جودة خدمة شريحة eMBB على قطاع NR ماكرو حضري خلال آخر 4 ساعات (ذروة المساء): سرعة تنزيل وسيطة 17 ميغابت/ث، كمون ~41 مللي ثانية، انتهاكات ~39٪، ~284 مستخدمًا؛ هناك شكاوى من تقطيع في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by checking recent cell counters and slice load for the last 4 hours to isolate contention vs. fault. Please confirm the serving cell ID and approve read access.",
+      "message_ar": "تم. سأبدأ بفحص عدادات الخلية الحديثة وحمل الشريحة لآخر 4 ساعات لعزل الازدحام عن الأعطال. يرجى تأكيد معرّف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell ID is NR-URB-MACRO-33214; window last 4h.",
+      "message_ar": "موافق. معرّف الخلية NR-URB-MACRO-33214؛ النافذة آخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NR-URB-MACRO-33214 (last 4h): PRB utilization 78–86% (avg ~81%), active users 260–300, no backhaul errors, retransmissions normal; eMBB slice carries ~68% of DL traffic. This indicates resource contention rather than a fault.",
+      "message_ar": "تم جلب العدادات للخلية NR-URB-MACRO-33214 (آخر 4 ساعات): إشغال PRB بين 78–86٪ (متوسط ~81٪)، المستخدمون النشطون 260–300، لا أخطاء في الربط الخلفي، وإعادة الإرسال ضمن الطبيعي؛ شريحة eMBB تحمل ~68٪ من حركة التنزيل. هذا يشير إلى ازدحام موارد وليس عطلًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I’ll analyze the eMBB slice QoS class trend plus latency/violations over the same window to pinpoint divergence. Proceed?",
+      "message_ar": "بعد ذلك سأحلل منحنى فئة جودة خدمة شريحة eMBB مع الكمون/الانتهاكات خلال نفس النافذة لتحديد نقطة الانحراف. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows QoS class score dipping to ~0.20 between 18:30–21:30, violations peaking ~42%; median latency ~41 ms, p95 ~65 ms, aligned with PRB peaks. Root cause points to insufficient slice share/priority during peak load.",
+      "message_ar": "السلاسل الزمنية تُظهر هبوط درجة فئة جودة الخدمة إلى ~0.20 بين 18:30–21:30، مع ذروة انتهاكات ~42٪؛ الكمون الوسيط ~41 مللي ثانية وp95 ~65 مللي ثانية، بالتزامن مع قمم إشغال PRB. السبب المرجح هو حصة/أولوية غير كافية للشريحة أثناء الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to adjust.",
+      "message_ar": "موافَق على إجراء التعديل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying a targeted slice policy update on this cell: increase eMBB minimum share by 10%, raise its weight by 15%, and enable an admission guard at 320 users; GBR slices unchanged. Change committed; expect stabilization in ~10–15 minutes. I’m monitoring live counters.",
+      "message_ar": "أقوم بتطبيق تحديث مستهدف لسياسة الشريحة على هذه الخلية: زيادة الحصة الدنيا لـ eMBB بنسبة 10٪، ورفع وزنها بنسبة 15٪، وتفعيل حد قبول عند 320 مستخدمًا؛ شرائح GBR دون تغيير. تم اعتماد التغيير؛ نتوقع الاستقرار خلال ~10–15 دقيقة. أراقب المؤشرات الحية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early read (~10 min): PRB still high but QoS violations trending down; median DL ~21–22 Mbps and p95 latency improving. Can you confirm from your side?",
+      "message_ar": "قراءة أولية (~10 دقائق): لا يزال إشغال PRB مرتفعًا لكن الانتهاكات في تراجع؛ سرعة التنزيل الوسيطة ~21–22 ميغابت/ث وp95 للكمون يتحسن. هل تؤكد من جهتكم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—violations are dropping and median throughput is rising to ~22 Mbps. The slice policy update on eMBB share/priority is active. Let’s monitor through the next busy hour.",
+      "message_ar": "مؤكّد—الانتهاكات تتناقص والسرعة الوسيطة ترتفع إلى ~22 ميغابت/ث. تحديث سياسة الشريحة على حصة/أولوية eMBB مُفعل. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update you on violations, latency, and user experience afterward. If degradation returns, we’ll roll back the change and escalate for capacity and load-balancing options.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنوافيكم بتحديث حول الانتهاكات والكمون وتجربة المستخدم بعدها. إذا عاد التدهور، سنرجع التغيير ونصعّد لخيارات السعة وتوزيع الحمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-33214",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-33214",
+        "QoS cls",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "SST1-SD1",
+        "Boost eMBB min share +10% and weight +15% on NR-URB-MACRO-33214; add admission guard at 320 users; protect GBR slices"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed eMBB slice QoS degradation on an urban NR macro cell as peak-load contention: high PRB use with QoS class dips and rising violations during the evening. Reviewed the QoS class time series and then applied a targeted slice policy update to increase eMBB share/priority with an admission guard. Early metrics improved; continued monitoring will confirm stability.",
+    "ar": "تم تشخيص تدهور جودة خدمة شريحة eMBB على خلية NR ماكرو حضرية كازدحام أثناء الذروة: إشغال PRB مرتفع مع هبوط درجة فئة الجودة وارتفاع الانتهاكات في المساء. تمت مراجعة السلاسل الزمنية لفئة الجودة ثم تطبيق تحديث مستهدف لسياسة الشريحة لزيادة حصة/أولوية eMBB مع حد قبول. التحسن الأولي ظاهر؛ ستؤكد المتابعة الاستقرار."
+  }
+}

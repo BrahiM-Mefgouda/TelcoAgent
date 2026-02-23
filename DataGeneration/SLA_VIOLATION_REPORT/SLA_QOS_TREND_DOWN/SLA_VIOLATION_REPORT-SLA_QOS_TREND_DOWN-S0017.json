@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0017",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban 5G macro cell shows QoS compliance at 0.412 over the last 24h versus a 0.974 target, with PRB utilization ~0.666, latency 35 ms, BLER 8.9%, p50 throughput 17 Mbps, 626 users; congestion alarm present.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر امتثال جودة الخدمة 0.412 خلال آخر 24 ساعة مقابل هدف 0.974، مع استخدام موارد ~0.666، زمن تأخير 35 مللي ثانية، BLER بنسبة 8.9%، سرعة وسيط 17 ميغابت/ثانية، و626 مستخدماً؛ يوجد إنذار ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro over 24h is breaching QoS: compliance 0.412 vs 0.974 target, violation ratio 22. p50 DL 17 Mbps, latency 35 ms, BLER 8.9%, ~626 users. Please investigate.",
+      "message_ar": "خلية NR ماكرو حضرية خلال 24 ساعة تتجاوز حدود جودة الخدمة: الامتثال 0.412 مقابل هدف 0.974، ونسبة المخالفات 22. السرعة الوسيطة للتحميل 17 ميغابت/ث، التأخير 35 مللي ثانية، BLER ‏8.9%، وحوالي 626 مستخدماً. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; congestion alarm noted. I will lead diagnostics—please share the cell ID and approve read-only access for the last 24h so I can pull KPIs, chart QoS trend, and file an SLA breach report if confirmed. eMBB includes streaming.",
+      "message_ar": "تم الاستلام؛ تم أخذ إنذار الازدحام في الاعتبار. سأقود التشخيص—يرجى تزويدي بمعرّف الخلية والموافقة على وصول للقراءة فقط لآخر 24 ساعة لسحب مؤشرات الأداء، ورسم اتجاه جودة الخدمة، ورفع تقرير خرق SLA إذا تأكد ذلك. حركة eMBB تتضمن البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-1023. Read-only access approved for 24h.",
+      "message_ar": "معرّف الخلية: NR-URB-1023. تمت الموافقة على وصول للقراءة فقط لمدة 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS counters for NR-URB-1023 over 24h. PRB utilization avg 66% with peaks ~85% at mixed busy hours; BLER avg 8.9% with minor spikes; no outages or resets; backhaul delay stable. Proceeding to chart QoS compliance timeline next.",
+      "message_ar": "تم سحب مؤشرات OSS للخلية NR-URB-1023 خلال 24 ساعة. متوسط استخدام الموارد 66% مع ذروات ~85% في ساعات الذروة المتفاوتة؛ متوسط BLER ‏8.9% مع ارتفاعات طفيفة؛ لا توجد أعطال أو عمليات إعادة تشغيل؛ تأخير النقل ثابت. سأتابع برسم خط زمني لامتثال جودة الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Users reported buffering around evening peaks; no transport alarms noticed.",
+      "message_ar": "مفهوم. أفاد المستخدمون بحدوث تقطّع حول ذروة المساء؛ لم تُلاحظ إنذارات في النقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS compliance timeseries shows a sustained drop from ~98% to 41% across the last 24h; violation bursts align with load peaks (ratio ~22). Latency and BLER are contributory but not primary root cause. I propose filing an SLA violation report and opening an incident for capacity/QoS enforcement. Do you approve?",
+      "message_ar": "يبين الخط الزمني لامتثال جودة الخدمة هبوطاً مستمراً من ~98% إلى 41% خلال آخر 24 ساعة؛ نوبات المخالفات تتزامن مع ذروات الحمل (النسبة ~22). التأخير وBLER مساهمان لكنهما ليسا السبب الرئيسي. أقترح رفع تقرير خرق SLA وفتح حادثة لمراجعة السعة وتطبيق سياسات جودة الخدمة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will include the cell, 24h window, key KPIs, congestion context, and user impact, with charts attached. I will also set monitoring through the next busy hour.",
+      "message_ar": "سأضمّن في التقرير الخلية، نافذة 24 ساعة، مؤشرات الأداء الرئيسية، سياق الازدحام، وتأثير المستخدمين، مع إرفاق الرسوم البيانية. وسأضبط المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA violation incident has been created with the above details; notifications sent to the owning team.",
+      "message_ar": "تم إنشاء حادثة خرق SLA بالتفاصيل المذكورة؛ وتم إرسال الإشعارات للفريق المالك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Live alerts configured on QoS compliance and violation bursts for this cell; I will watch the next busy hour and prepare a status update.",
+      "message_ar": "تم تهيئة تنبيهات فورية على امتثال جودة الخدمة ونوبات المخالفات لهذه الخلية؛ سأراقب ساعة الذروة التالية وأعدّ تحديثاً للحالة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing improvement: QoS compliance trending up and violation bursts easing. Thanks for the SLA report and incident creation; let’s monitor through the next busy hour. Reference: DU-SLA-04573.",
+      "message_ar": "نلاحظ تحسناً: امتثال جودة الخدمة يتجه صعوداً ونوبات المخالفات تتراجع. شكراً على تقرير SLA وإنشاء الحادثة؛ لنتابع المراقبة خلال ساعة الذروة التالية. المرجع: DU-SLA-04573."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—I’ll own the next busy-hour window and update the incident afterward. If QoS dips again, I’ll escalate to capacity and transport; if it stabilizes, no rollback is needed and we will propose closure.",
+      "message_ar": "تم—سأتولى نافذة ساعة الذروة التالية وأحدّث الحادثة بعدها. إذا تراجع الامتثال مجدداً فسأصعّد إلى فرق السعة والنقل؛ وإذا استقر فلا حاجة لأي تراجع وسنقترح الإغلاق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a 24h QoS compliance drop on an urban NR macro cell by pulling OSS KPIs and reviewing the QoS time series, confirming violations aligned with busy-hour load rather than hard faults. Filed an SLA breach report and created an incident with evidence and impact, and established monitoring through the next busy hour. Mitigation focuses on capacity review and QoS policy enforcement while tracking recovery.",
+    "ar": "تم تشخيص هبوط امتثال جودة الخدمة خلال 24 ساعة لخلية NR ماكرو حضرية عبر سحب مؤشرات OSS ومراجعة الخط الزمني لجودة الخدمة، مما أكد أن المخالفات تتزامن مع ذروة الحمل وليس أعطالاً صلبة. تم رفع تقرير خرق SLA وإنشاء حادثة مرفقة بالأدلة والتأثير، مع ضبط المراقبة خلال ساعة الذروة التالية. يتركز التخفيف على مراجعة السعة وتطبيق سياسات جودة الخدمة مع متابعة التعافي."
+  }
+}

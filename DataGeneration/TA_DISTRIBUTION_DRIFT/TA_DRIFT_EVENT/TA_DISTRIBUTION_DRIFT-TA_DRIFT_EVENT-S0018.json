@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0018",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "In the stadium over the last 3h, the NR micro cell shows timing advance drift (median 295, 95th 314), distant serving 17%, PRB 74%, weak signal at -110 dBm, handover failures 9%, and median throughput 11 Mbps.",
+    "ar": "في الملعب خلال آخر 3 ساعات، تُظهر خلية NR المصغّرة انجرافاً في زمن الوصول (الوسيط 295، 95 المئين 314)، نسبة خدمة بعيدة 17%، استخدام PRB بنسبة 74%، إشارة ضعيفة -110 dBm، فشل تسليم 9%، وسرعة وسيط 11 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium event ongoing; NR micro cell NR-STAD-MICRO-23 shows timing advance drift over the last 3h with weak signal around -110 dBm and rising HO failures (~9%). Can you check during this live window?",
+      "message_ar": "حدث جارٍ في الملعب؛ الخلية NR المصغّرة NR-STAD-MICRO-23 تُظهر انجرافاً في توزيع زمن الوصول خلال آخر 3 ساعات مع إشارة ضعيفة نحو -110 dBm وارتفاع في فشل التسليم (~9%). هل يمكنك الفحص خلال هذه الفترة الحية؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll begin by checking recent counters for NR-STAD-MICRO-23 over the last 3h to verify TA and mobility behavior. Please confirm read access.",
+      "message_ar": "سأبدأ بمراجعة العدّادات الحديثة للخلية NR-STAD-MICRO-23 خلال آخر 3 ساعات للتحقق من سلوك زمن الوصول والتنقّل. يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read access.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled: TA median 295 and 95th 314; distant serving at 17%; PRB utilization 74%; RSRP near -110 dBm; HO failures ~9%. This aligns with an event crowd (heavy streaming). Next, I'll extract the TA time series for 3h to isolate spikes. Proceed?",
+      "message_ar": "تم سحب العدّادات: وسيط زمن الوصول 295 و95 المئين 314؛ نسبة الخدمة البعيدة 17%؛ استخدام PRB عند 74%؛ قيمة RSRP حوالَي -110 dBm؛ فشل التسليم ~9%. هذا يتماشى مع حشد الحدث (بث كثيف). التالي، سأستخرج السلسلة الزمنية لزمن الوصول خلال 3 ساعات لعزل الارتفاعات. المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms drift peaks aligned with halftime: shift toward larger TA bins (256–320). Correlated with weaker serving dominance and delayed handovers. Recommendation: apply a light footprint tightening and mobility bias toward nearer sectors to reduce distant serving. Approve change?",
+      "message_ar": "تؤكد السلسلة الزمنية ذروات الانجراف المتزامنة مع فترة الاستراحة: انزياح نحو فئات زمن وصول أكبر (256–320). يرتبط ذلك بضعف هيمنة الخلية وتأخّر التسليمات. التوصية: تطبيق تضييق خفيف للبصمة وانحياز للتنقّل نحو القطاعات الأقرب لتقليل الخدمة البعيدة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter tuning on NR-STAD-MICRO-23 to constrain coverage toward the bowl and favor nearer neighbors; objective is to cut distant serving and trigger earlier handovers. We'll watch immediate effects for 15 minutes.",
+      "message_ar": "تم تطبيق ضبط المعاملات على NR-STAD-MICRO-23 لتقييد التغطية نحو مدرجات الملعب وتفضيل الجيران الأقرب؛ الهدف خفض الخدمة البعيدة وتحفيز تسليمات أبكر. سنراقب الأثر الفوري لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: TA median is dropping and median throughput is slightly up; complaints from stands have eased.",
+      "message_ar": "ملاحظة مبكرة: وسيط زمن الوصول ينخفض والمتوسط الوسيط للسرعة ارتفع قليلاً؛ الشكاوى من المدرجات تراجعت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will continue checking TA distribution, distant serving ratio, and HO failures while the crowd load stabilizes; no further actions pending.",
+      "message_ar": "تم. سأواصل التحقق من توزيع زمن الوصول ونسبة الخدمة البعيدة وفشل التسليمات أثناء استقرار الحمل؛ لا إجراءات إضافية حالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures are trending down and distant serving is lower after the parameter optimization. Let's monitor through the next busy hour.",
+      "message_ar": "تم رصد تحسّن: حالات فشل التسليم تتجه للانخفاض وانخفضت الخدمة البعيدة بعد ضبط المعاملات. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy hour, track TA distribution, distant serving, and handover outcomes, and share an update afterward. If degradation returns, we will revert the change and escalate to field for on-site antenna/sector checks.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الذروة القادمة ونتابع توزيع زمن الوصول ونسبة الخدمة البعيدة ونتائج التسليم، وسنشارك تحديثاً بعدها. إذا عاد التدهور سنرجع التغيير ونصعّد إلى الفريق الميداني لفحص الهوائيات/القطاعات في الموقع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-23",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-23",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "footprint_and_mobility_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the NR micro cell showed timing advance distribution drift with high median/95th values, increased distant serving, weak signal, and elevated handover failures. We confirmed the pattern via counters and TA time series, then mitigated by site parameter tuning to tighten the footprint and bias mobility toward nearer sectors. We will monitor through the next busy hour to ensure stability.",
+    "ar": "أثناء الحدث في الملعب، أظهرت الخلية NR المصغّرة انجرافاً في توزيع زمن الوصول مع ارتفاع الوسيط و95 المئين، وزيادة الخدمة البعيدة، وضعف الإشارة، وارتفاع فشل التسليمات. تم تأكيد النمط عبر العدّادات والسلسلة الزمنية لزمن الوصول، ثم جرى التخفيف عبر ضبط معاملات الموقع لتضييق البصمة وانحياز التنقّل نحو القطاعات الأقرب. سنواصل المراقبة خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

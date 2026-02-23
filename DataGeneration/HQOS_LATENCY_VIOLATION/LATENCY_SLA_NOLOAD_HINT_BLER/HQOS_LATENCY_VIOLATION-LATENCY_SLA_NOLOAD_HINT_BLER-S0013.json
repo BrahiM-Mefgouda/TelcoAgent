@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0013",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell shows elevated user latency ~75 ms over the last 3 hours with moderate load (PRB ~63%), BLER ~8.5%, SINR 5 dB, 169 users, and median throughput 16 Mbps.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر زمناً مرتفعاً لوصول المستخدم ~75 مللي ثانية خلال آخر 3 ساعات مع حملٍ معتدل (PRB ~63%) وBLER ~8.5% وSINR ‏5 dB و169 مستخدماً وسرعة وسيط 16 Mbps."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has elevated user-plane latency (~75 ms over the last 3 hours) during shoulder period with eMBB streaming users; PRB ~63%, BLER ~8–9%, SINR ~5 dB, and p50 throughput 16 Mbps. Please investigate and correct.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية تُظهر ارتفاعاً في زمن وصول طبقة المستخدم (~75 مللي ثانية خلال آخر 3 ساعات) في فترة الكتف مع مستخدمين eMBB (بث)؛ استخدام PRB ~63%، وBLER ~8–9%، وSINR ~5 dB، وسرعة وسيط 16 Mbps. يرجى التحقيق والمعالجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 3h OSS counters to validate latency and RF/error trends. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بسحب مؤشرات OSS لآخر 3 ساعات للتحقق من اتجاهات زمن الوصول وأخطاء/جودة الإشارة. يرجى مشاركة معرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-CELL-53211, access approved.",
+      "message_ar": "معرّف الخلية هو NR-CELL-53211، والوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected last 3h stats for NR-CELL-53211: user-plane latency p50 72–76 ms (p95 up to 90 ms), PRB 58–68%, BLER 7–10%, RSRQ -9 dB, median SINR 5 dB, active users peak 169. No site alarms. This is a QoS latency breach without congestion. Next, I will drill into minute-level latency to pinpoint spikes and correlation with errors. Proceed?",
+      "message_ar": "تم جمع إحصاءات آخر 3 ساعات للخلية NR-CELL-53211: وسيط زمن وصول طبقة المستخدم 72–76 مللي ثانية (p95 حتى 90 مللي ثانية)، واستخدام PRB بين 58–68%، وBLER بين 7–10%، وRSRQ ‏-9 dB، ووسيط SINR ‏5 dB، وعدد مستخدمين نشطين حتى 169. لا توجد إنذارات في الموقع. لدينا خرق في جودة الخدمة لزمن الوصول دون ازدحام. الخطوة التالية: تحليل زمن الوصول على مستوى الدقائق لتحديد القفزات وارتباطها بالأخطاء. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the detailed latency view.",
+      "message_ar": "تمت الموافقة على المتابعة في عرض زمن الوصول التفصيلي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Minute-level view shows recurrent 70–90 ms spikes aligned with BLER >8% and moderate SINR; queuing and HARQ delay dominate over load. No backhaul errors observed. I recommend targeted tuning to prioritize latency-sensitive traffic and improve DL robustness for mid-SINR users to cut retransmissions. Approve a safe, low-impact optimization now?",
+      "message_ar": "يعرض التحليل على مستوى الدقائق قفزات متكررة بين 70–90 مللي ثانية مرتبطة بـ BLER>8% وSINR متوسط؛ تأخّر الانتظار وإعادة الإرسال يطغيان على عامل الحمل. لم تُلاحظ أخطاء في النقل الخلفي. أوصي بضبط موجّه يستهدف أولوية حركة المرور الحساسة للزمن وتحسين متانة الوصلة الهابطة لمستخدمي SINR المتوسط لتقليل إعادة الإرسال. هل توافق على تنفيذ تحسين منخفض الأثر الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization.",
+      "message_ar": "موافق على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-CELL-53211 for latency-sensitive traffic: higher QoS weighting, slightly more robust DL coding for low SINR, and tighter buffer thresholds. Initial 10-minute post-change sample: BLER ~6.2%, median latency ~48–52 ms, p50 throughput ~16–17 Mbps. Continuing to observe.",
+      "message_ar": "تم تطبيق ضبط معلمات على الخلية NR-CELL-53211 لحركة المرور الحساسة لزمن الوصول: تعزيز وزن جودة الخدمة، وترميز وصلة هابطة أكثر متانة قليلاً عند SINR منخفض، وتشديد عتبات المخازن المؤقتة. عينة أوّلية بعد التغيير لمدة 10 دقائق: BLER ~6.2%، ووسيط زمن الوصول ~48–52 مللي ثانية، وسرعة وسيط ~16–17 Mbps. جاري المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing similar early improvement here; no negative throughput impact so far.",
+      "message_ar": "نلاحظ تحسناً مبكراً مماثلاً لدينا؛ لا تأثيراً سلبياً على معدل النقل حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Let’s confirm stability during the busier period. Is the next busy hour acceptable for verification?",
+      "message_ar": "جيد. لنؤكد الاستقرار خلال الفترة الأكثر انشغالاً. هل ساعة الذروة القادمة مناسبة للتحقق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Agreed. Early checks show median latency trending near 50 ms and BLER declining. Action taken: site parameter tuning/config push. Let’s monitor through the next busy hour.",
+      "message_ar": "متفق. الفحوصات الأولية تُظهر أن وسيط زمن الوصول يقترب من 50 مللي ثانية مع انخفاض BLER. الإجراء المُتخذ: ضبط معلمات الموقع/دفع التهيئة. لِنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and report on latency, BLER, and user experience afterward. If latency regresses, we will roll back the tuning and escalate for deeper transport or interference investigation.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنبلغ بعد ذلك عن زمن الوصول وBLER وتجربة المستخدم. إذا عاد التدهور في زمن الوصول، سنقوم بالتراجع عن الضبط ونصعّد للتحقيق الأعمق في النقل الخلفي أو التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on a suburban NR macro under moderate load, with elevated BLER and modest SINR contributing to queueing and retransmission delay. Validated the pattern via minute-level latency analysis, then mitigated by site parameter tuning to prioritize latency-sensitive traffic and improve downlink robustness. Post-change checks show lower BLER and median latency around 50 ms; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص خرق في جودة الخدمة لزمن الوصول على خلية NR ماكرو في منطقة ضاحية تحت حملٍ معتدل، حيث ساهم ارتفاع BLER وSINR متوسط في تأخّر الانتظار وإعادة الإرسال. تم تأكيد النمط عبر تحليل زمن الوصول على مستوى الدقائق، ثم تمت المعالجة بضبط معلمات الموقع لإعطاء أولوية لحركة المرور الحساسة للزمن وتحسين متانة الوصلة الهابطة. تُظهر الفحوصات بعد التغيير انخفاض BLER ووسيط زمن وصول يقارب 50 مللي ثانية؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

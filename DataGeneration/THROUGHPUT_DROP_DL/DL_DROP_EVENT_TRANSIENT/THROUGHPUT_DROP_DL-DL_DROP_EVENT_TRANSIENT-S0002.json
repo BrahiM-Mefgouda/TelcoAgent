@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0002",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR micro cell shows slow data over the last 2h with an active congestion alarm; downlink throughput ~4 Mbps, PRB utilization ~96%, RSRQ -13 dB, SINR 11 dB, BLER ~6%, ~486 users, and p95 scheduling latency 127 ms.",
+    "ar": "خلية NR ميكرو في الاستاد تُظهر بيانات بطيئة خلال آخر ساعتين مع إنذار ازدحام مُفعّل؛ سرعة تنزيل ~4 Mbps واستغلال PRB ~96% وRSRQ -13 dB وSINR 11 dB وBLER ~6% مع ~486 مستخدمًا وزمن جدولة p95 يساوي 127 ms."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is reporting slow data in the last 2h during event egress; alarm is active. Samples show DL ~4 Mbps, PRB ~96%, BLER ~6%, RSRQ -13 dB, SINR 11 dB, and ~480+ users.",
+      "message_ar": "خلية NR ميكرو في الاستاد تُظهر بيانات بطيئة خلال آخر ساعتين أثناء خروج الحشود؛ الإنذار نشط. القياسات: تنزيل ~4 Mbps، استغلال PRB ~96%، BLER ~6%، RSRQ -13 dB، SINR 11 dB، وحوالي 480+ مستخدم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll take lead. Plan: 1) pull OSS stats for this cell over the last 2h, 2) chart downlink throughput over time, 3) if congestion is confirmed, apply capacity-focused tuning. Please approve OSS access so I can start step 1 now.",
+      "message_ar": "سأتولى المهمة. الخطة: 1) سحب إحصاءات من نظام الإدارة لهذه الخلية لآخر ساعتين، 2) رسم سلسلة زمنية لسرعة التنزيل، 3) إذا تأكد الازدحام سنطبق ضبطًا موجهًا للسعة. يرجى الموافقة على الوصول كي أبدأ بالخطوة 1 الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for OSS access and the 2h window. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول إلى نظام الإدارة ونافذة الساعتين. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot confirms sustained congestion: PRB 95–97%, active users peak 486, p95 scheduling latency 120–140 ms, DL user throughput 4–6 Mbps; BLER ~6%, RSRQ -13 dB. This is load-driven rather than RF-limited. Next, I will chart DL throughput and load trends for the same window to verify timing correlation. Approve step 2?",
+      "message_ar": "لقطة نظام الإدارة تؤكد الازدحام المستمر: استغلال PRB بين 95–97%، ذروة المستخدمين النشطين 486، زمن جدولة p95 بين 120–140 مللي ثانية، سرعة تنزيل للمستخدم 4–6 Mbps؛ BLER نحو 6% وRSRQ -13 dB. المشكلة ناتجة عن الحمل وليست بسبب التغطية. بعد ذلك سأرسم السلسلة الزمنية للتنزيل واتجاهات الحمل لنفس النافذة للتحقق من الارتباط الزمني. هل توافق على الخطوة 2؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to chart the time series.",
+      "message_ar": "موافق على رسم السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows the DL drop aligned with the egress surge: PRB saturation and queue buildup, with streaming traffic evident. Mitigation proposal: apply capacity-leaning scheduler and congestion-control tuning on this micro cell (increase DL allocation weight, adjust time-domain partitioning, slightly relax congestion thresholds). Proceed with optimization?",
+      "message_ar": "السلسلة الزمنية تُظهر هبوط التنزيل متزامنًا مع موجة الخروج: تشبّع PRB وتراكم طوابير، مع ظهور حركة بث فيديو. الاقتراح: تطبيق ضبط مائل للسعة في الجدولة والتحكم بالازدحام على هذه الخلية الميكرو (زيادة وزن تخصيص التنزيل، تعديل التقسيم الزمني، وتخفيفًا طفيفًا لعَتبات الازدحام). هل نتابع بتنفيذ الضبط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with site parameter tuning and avoid coverage-impacting changes.",
+      "message_ar": "موافق. نفّذ ضبط معلمات الموقع مع تجنب أي تغييرات تؤثر على التغطية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully: capacity profile activated on the NR micro cell (DL scheduler weighting and congestion thresholds adjusted), no coverage parameters changed. I’ll monitor live KPIs for the next 10 minutes.",
+      "message_ar": "تم تطبيق الضبط بنجاح: تفعيل إعداد يركز على السعة في الخلية NR الميكرو (تعديل أوزان الجدولة للتنزيل وعَتبات الازدحام) دون تغيير معلمات التغطية. سأراقب مؤشرات الأداء المباشرة خلال 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Five minutes in, early signs look better: DL user throughput up to ~12 Mbps and queueing delays trending down.",
+      "message_ar": "بعد خمس دقائق، المؤشرات الأولية أفضل: سرعة تنزيل المستخدم ارتفعت إلى ~12 Mbps وتأخيرات الطوابير في انخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signal. We’ll continue watching utilization and user experience as the load tapers; please share any field feedback from the stadium.",
+      "message_ar": "إشارة جيدة. سنواصل مراقبة الاستغلال وتجربة المستخدم مع انخفاض الحمل؛ يُرجى مشاركة أي ملاحظات ميدانية من الاستاد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: slow data complaints are easing and downlink throughput is rising while PRB pressure is easing. Action taken was site parameter tuning for capacity. Let’s monitor over the next 2 hours during dispersal.",
+      "message_ar": "التحسن مستمر: شكاوى البطء تتراجع وسرعة التنزيل ترتفع مع انخفاض الضغط على PRB. الإجراء الذي تم هو ضبط معلمات الموقع لصالح السعة. لنتابع المراقبة خلال الساعتين القادمتين أثناء تفرّق الحشود."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2 hours of monitoring and report outcomes afterward. If congestion resurges, we’ll escalate with temporary offload or additional capacity measures; if adverse effects appear, we’ll roll back the tuning.",
+      "message_ar": "سنتولى مراقبة الساعتين القادمتين وسنبلغ بالنتائج بعدها. إذا عاد الازدحام سنصعّد عبر تفريغ مؤقت أو إجراءات سعة إضافية؛ وإذا ظهرت آثار سلبية سنُعيد الضبط إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Analysis confirmed event-driven congestion on the stadium NR micro cell: PRB saturation and queueing caused slow data. We reviewed OSS stats and downlink trends, then applied site parameter tuning to bias scheduling toward downlink capacity and ease congestion. Initial metrics improved and we will monitor to ensure stability.",
+    "ar": "أكد التحليل وجود ازدحام ناجم عن الحدث في خلية NR الميكرو في الاستاد: تشبّع PRB وتراكم الطوابير سببا بطء البيانات. راجعنا إحصاءات نظام الإدارة واتجاهات التنزيل، ثم طبقنا ضبط معلمات الموقع لزيادة أولوية السعة في التنزيل وتخفيف الازدحام. تحسنت المؤشرات الأولية وسنواصل المراقبة لضمان الاستقرار."
+  }
+}

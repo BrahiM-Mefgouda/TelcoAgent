@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0014",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell breaching SLA over a 6h event window with a congestion alarm active; QoS around 0.26 vs 0.96 target, PRB ~91%, latency 78 ms, 582 users, and p50 throughput 10 Mbps.",
+    "ar": "خلية NR مايكرو في الملعب تخالف اتفاقية مستوى الخدمة خلال نافذة 6 ساعات مع إنذار ازدحام نشط؛ مؤشر QoS نحو 0.26 مقابل هدف 0.96، إشغال PRB ≈91%، كمون 78 مللي ثانية، 582 مستخدمًا، ومتوسط تنزيل p50 10 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Live event at the stadium: the NR micro cell is breaching SLA over the last 6 hours. QoS ≈0.26 vs 0.96 target; congestion alarm active. PRB ≈91%, latency ≈78 ms, BLER ≈8%, ~582 users, p50 DL ≈10 Mbps.",
+      "message_ar": "فعالية مباشرة في الملعب: الخلية الصغيرة NR (مايكرو) تخالف اتفاقية مستوى الخدمة خلال آخر 6 ساعات. قيمة QoS ≈0.26 مقابل هدف 0.96؛ إنذار الازدحام مفعّل. إشغال PRB ≈91%، الكمون ≈78 مللي ثانية، BLER ≈8%، ~582 مستخدمًا، ومتوسط تنزيل p50 ≈10 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will lead remediation: 1) pull OSS KPIs/alarms for the target micro cell across the 6h window; 2) chart QoS to pinpoint breach intervals and correlation; 3) if sustained, raise an incident for capacity relief. Please confirm access and the target sector.",
+      "message_ar": "تم الاستلام. سأتولى المعالجة: 1) سحب مؤشرات الأداء والتنبيهات من نظام الإدارة للخلية المايكرو خلال 6 ساعات؛ 2) تحليل السلسلة الزمنية لـ QoS لتحديد فترات المخالفة والارتباطات؛ 3) إذا كانت مستمرة، فتح تذكرة لطلب تخفيف الحمل/تعزيز السعة. يرجى تأكيد صلاحية الوصول والقطاع المستهدف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target is the NR micro serving the west stands; same 6h window.",
+      "message_ar": "تمت الموافقة على الوصول. الهدف هو خلية NR المايكرو التي تخدم المدرج الغربي؛ ونفس نافذة الـ6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing step 1: OSS review for the last 6h. Findings: no outage; PRB >90% from 18:30–21:30; scheduler headroom <5%; RLC and queueing latency elevated; backhaul within baseline. Conclusion: capacity-driven degradation. Proceed to extract QoS time series?",
+      "message_ar": "تنفيذ الخطوة 1: مراجعة نظام الإدارة لآخر 6 ساعات. النتائج: لا انقطاعات؛ PRB >90% من 18:30 إلى 21:30؛ هامش المُجدول <5%؛ ارتفاع كمون RLC والاصطفاف؛ الربط الخلفي ضمن المستوى المرجعي. الاستنتاج: تدهور مدفوع بالسعة. هل أتابع لاستخراج السلسلة الزمنية لـ QoS؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing step 2: QoS time series over 6h. Result: sustained breach across ~43% of one‑minute intervals, worst ≈0.18 around 20:10. Correlates with peak eMBB streaming. During peaks, p50 DL 8–12 Mbps and latency 70–90 ms. Root cause: congestion on the NR micro during the event.",
+      "message_ar": "تنفيذ الخطوة 2: السلسلة الزمنية لـ QoS خلال 6 ساعات. النتيجة: مخالفة مستمرة عبر نحو 43% من الفواصل ذات الدقيقة، والأسوأ ≈0.18 حوالَي 20:10. يتوافق ذلك مع ذروة بث eMBB. أثناء الذروة، p50 للتنزيل بين 8–12 ميجابت/ث والكمون 70–90 مللي ثانية. السبب الجذري: ازدحام على خلية NR المايكرو أثناء الفعالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed action: open an incident to request temporary capacity uplift/load relief for the stadium sector and maintain live monitoring. Approve to file the ticket?",
+      "message_ar": "الإجراء المقترح: فتح تذكرة لطلب تعزيز سعة مؤقت وتخفيف الحمل لقطاع الملعب مع إبقاء المراقبة الحية. هل توافق على فتح التذكرة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the ticket.",
+      "message_ar": "موافق على إنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket raised: DU-SLA-34721. Summary: Stadium NR micro QoS breach under event congestion; PRB saturation and elevated latency; request capacity relief and optimization. Attached 6h charts and analysis. I will continue monitoring through the next busy hour.",
+      "message_ar": "تم إنشاء التذكرة: DU-SLA-34721. الملخّص: مخالفة QoS لخلية NR مايكرو في الملعب تحت ازدحام الفعالية؛ تشبّع PRB وارتفاع الكمون؛ طلب تخفيف حمل وتحسينات سعة. أرفقت مخططات وتحليل 6 ساعات. سأواصل المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: PRB eased to ~85% and latency ~62 ms as the crowd thins; QoS trending upward (~0.55).",
+      "message_ar": "ملاحظة أولية: انخفض إشغال PRB إلى ~85% والكمون ~62 مللي ثانية مع تراجع الحضور؛ QoS في اتجاه تصاعدي (~0.55)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: latency continues to decline and QoS is rising. Action taken was QoS analysis and ticket creation (DU-SLA-34721). Let us monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: يستمر انخفاض الكمون وارتفاع QoS. الإجراء المتخذ كان تحليل QoS وإنشاء تذكرة (DU-SLA-34721). لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We will own the next busy-hour monitoring and update DU-SLA-34721 afterward. If QoS remains below target, we will escalate for temporary capacity measures; if any interim changes degrade performance, we will roll them back to the prior state.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة ساعة الذروة التالية وسنحدّث DU-SLA-34721 بعدها. إذا بقي QoS دون الهدف، سنصعّد لطلب إجراءات سعة مؤقتة؛ وإذا تسببت أي تغييرات مؤقتة في تدهور الأداء، سنعيدها إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the NR micro cell breached the QoS SLA due to congestion, evidenced by PRB saturation and elevated delay. We validated the sustained QoS drop via OSS review and QoS time-series analysis, then opened incident DU-SLA-34721 to drive capacity relief and optimization by operations. We will continue monitoring through the next busy hour.",
+    "ar": "أثناء فعالية الملعب، خالفت خلية NR المايكرو اتفاقية QoS بسبب الازدحام، كما ظهر من تشبّع PRB وارتفاع الكمون. تم التحقق من الانخفاض المستمر في QoS عبر مراجعة نظام الإدارة وتحليل السلسلة الزمنية لـ QoS، ثم فُتحت تذكرة DU-SLA-34721 لدفع إجراءات تخفيف الحمل والتحسين من قبل التشغيل. سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

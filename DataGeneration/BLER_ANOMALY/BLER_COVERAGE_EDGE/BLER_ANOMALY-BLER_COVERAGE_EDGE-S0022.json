@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0022",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows high BLER (~15%) at the coverage edge with 74 users during peak eMBB, causing slow data (p50 ~5 Mbps) and weak signal (RSRP -107 dBm, RSRQ -14 dB, SINR 6 dB).",
+    "ar": "خلية NR ماكرو ريفية تُظهر BLER مرتفعًا (~15%) عند حافة التغطية مع 74 مستخدمًا خلال ذروة eMBB، ما يسبب بطء البيانات (p50 ~5 Mbps) وإشارة ضعيفة (RSRP -107 dBm، RSRQ -14 dB، SINR 6 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell NRR-201-S1 shows ~15% BLER and slow data (p50 ~5 Mbps) at peak eMBB; RSRP -107 dBm, RSRQ -14 dB, SINR 6 dB with ~74 users.",
+      "message_ar": "خلية NR ماكرو ريفية NRR-201-S1 تُظهر BLER ~15% وبطء بيانات (p50 ~5 Mbps) في الذروة مع eMBB؛ RSRP -107 dBm وRSRQ -14 dB وSINR 6 dB مع ~74 مستخدمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull the last 6h OSS counters for NRR-201-S1 to validate BLER and retransmissions under peak load. Please confirm read access.",
+      "message_ar": "سأبدأ بسحب مؤشرات OSS لآخر 6 ساعات للخلية NRR-201-S1 للتحقق من BLER وإعادات الإرسال تحت الحمل في الذروة. يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. You have read access on that cell.",
+      "message_ar": "تمت الموافقة. لديك صلاحية القراءة على تلك الخلية."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: BLER avg ~15%, peaks ~22% in busy hour; downlink HARQ retries elevated; PRB utilization ~68%; no active alarms. Next, I will extract a 6h BLER time series to verify correlation with load and radio quality. Proceed?",
+      "message_ar": "تم فحص OSS: متوسط BLER ~15%، ويبلغ الذروة ~22% في ساعة الانشغال؛ ارتفاع في إعادات إرسال HARQ للوصلة الهابطة؛ استغلال PRB ~68%؛ لا توجد إنذارات نشطة. بعد ذلك سأستخرج سلسلة زمنية لـ BLER خلال 6 ساعات للتحقق من الارتباط مع الحمل وجودة الراديو. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms BLER spikes align with >60% PRB use and low-RSRP users; MCS shifts down; SINR steady ~6 dB; no neighbor anomalies. Mitigation: apply targeted tuning to improve edge robustness (slightly lower BLER target and more conservative MCS for low-SINR UEs). Approve the change?",
+      "message_ar": "السلسلة الزمنية تؤكد أن ارتفاعات BLER تتزامن مع استغلال PRB>60% ومستخدمين ذوي RSRP منخفض؛ نزول MCS؛ SINR ثابت ~6 dB؛ لا شذوذ في الجيران. الإجراء: ضبط موجه لتحسين متانة الحافة (خفض طفيف لهدف BLER واعتماد MCS أكثر تحفظًا لمستخدمي SINR المنخفض). هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NRR-201-S1: edge robustness tuned (modest link-adaptation threshold, conservative MCS at edge, minor DL robustness offset). Post-change 10-min check: BLER trending ~9–11%, p50 throughput ~6.5–7 Mbps; no error spikes. Please validate from your side.",
+      "message_ar": "تم تطبيق التغيير على NRR-201-S1: تم ضبط متانة الحافة (حد ضبط تكيف الوصلة بشكل معتدل، MCS تحفظي عند الحافة، إزاحة طفيفة لزيادة متانة الوصلة الهابطة). فحص بعد 10 دقائق: BLER باتجاه ~9–11%، ومتوسط p50 ~6.5–7 Mbps؛ دون ارتفاعات أخطاء. يرجى التحقق من جانبكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer video streaming stalls and fewer DL retransmissions; RSRQ unchanged; throughput modestly better. Looks improved.",
+      "message_ar": "نرى تقليلًا في تقطّع بث الفيديو وانخفاضًا في إعادات الإرسال بالوصلة الهابطة؛ RSRQ دون تغيير؛ تحسن طفيف في الإنتاجية. يبدو أفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will keep observing through the next busy hour, focusing on BLER, retries, and user throughput. Any constraints I should be aware of?",
+      "message_ar": "جيد. سأواصل المراقبة خلال ساعة الانشغال القادمة مع التركيز على BLER والإعادات وإنتاجية المستخدم. هل توجد قيود يجب أن أعلم بها؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—retransmissions trending down. Action taken: site parameter tuning for edge robustness. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن—إعادات الإرسال في اتجاه هبوطي. الإجراء المتخذ: ضبط معلمات الموقع لتعزيز متانة الحافة. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and report BLER and user throughput status. If degradation returns, we will roll back the change; if BLER stabilizes, we will retain the tuning and plan further optimization as needed.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونشارك حالة BLER وإنتاجية المستخدم. إذا عادت التدهورات سنرجع التغيير؛ وإذا استقر BLER سنبقي الضبط ونخطط لتحسينات إضافية عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRR-201-S1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRR-201-S1",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "link_adaptation_edge_robustness"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The BLER anomaly on rural NR macro cell NRR-201-S1 was confirmed via OSS counters and a 6h BLER time series showing peaks during busy hours with edge users. A site parameter tuning was applied to improve edge robustness by adjusting link adaptation and MCS behavior for low-SINR users. Initial results show BLER reduced and median throughput improved; continued monitoring during the next busy period is planned.",
+    "ar": "تم تأكيد شذوذ BLER على خلية NR ماكرو ريفية NRR-201-S1 عبر مؤشرات OSS وسلسلة زمنية لـ BLER لمدة 6 ساعات أظهرت ذروات خلال ساعات الانشغال مع مستخدمي الحافة. تم تنفيذ ضبط لمعلمات الموقع لتحسين متانة الحافة عبر تعديل تكيّف الوصلة وسلوك MCS لمستخدمي SINR المنخفض. النتائج الأولية تُظهر انخفاض BLER وتحسن الإنتاجية المتوسطة، وسيستمر الرصد خلال فترة الانشغال التالية."
+  }
+}

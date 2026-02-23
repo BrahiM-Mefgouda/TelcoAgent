@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0015",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows frequent backhaul link flaps (~6/hr) over the last 6h with p95 latency 73 ms, jitter 23 ms, and 530 interface errors, limiting downlink to ~18 Mbps for ~103 users on eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضاحية تُظهر تقلبات متكررة في النقل الخلفي (~6/ساعة) خلال آخر 6 ساعات مع كمون p95=73 مللي ثانية وتذبذب 23 مللي ثانية و530 خطأ على الواجهة، ما يحد من التحميل إلى ~18 ميجابت/ث لقرابة 103 مستخدمين مع بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR12345A has frequent backhaul link flaps (~6/hr) over the last 6h with p95 latency 73 ms, jitter 23 ms, and 530 interface errors; users report streaming glitches. Please investigate.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية (NR12345A) تعاني تقلبات متكررة في وصلة النقل الخلفي (~6/ساعة) خلال آخر 6 ساعات مع كمون p95=73 مللي ثانية وتذبذب 23 مللي ثانية و530 خطأ على الواجهة؛ المستخدمون يبلّغون عن تقطعات في البث. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by checking OSS backhaul counters and logs for the last 6h. Please confirm access and the exact cell ID.",
+      "message_ar": "تم الاستلام. سأبدأ بفحص عدادات وسجلات منظومة الإدارة لآخر 6 ساعات. يرجى تأكيد صلاحية الوصول ومعرّف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID is NR12345A; no planned work. Mixed time-of-day traffic; around 103 users now.",
+      "message_ar": "الوصول مُعتمد. معرّف الخلية NR12345A؛ لا أعمال مخططة. حركة مختلطة حسب الوقت؛ حوالي 103 مستخدمين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 6h OSS and backhaul stats for NR12345A now.",
+      "message_ar": "أقوم بسحب إحصاءات النقل الخلفي لمدة 6 ساعات لِـ NR12345A الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Traffic is mostly eMBB with streaming during peaks; radio KPIs looked average.",
+      "message_ar": "تم. الحركة بمعظمها eMBB مع بث مرئي في الذروة؛ مؤشرات الراديو كانت متوسطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: backhaul link flaps averaging 6/hr; bursty loss present; latency p95 73 ms and jitter p95 23 ms; interface errors 530. Radio side is moderate (PRB ~50%, SINR ~9 dB, 103 users). This indicates backhaul instability. I propose tuning the cell’s backhaul profile (QoS shaping, buffer depth, flap dampening). Approve to apply now?",
+      "message_ar": "النتائج: تقلبات وصلة النقل الخلفي بمعدل 6/ساعة؛ فقدان متقطّع؛ كمون p95 73 مللي ثانية وتذبذب p95 23 مللي ثانية؛ 530 خطأ على الواجهة. جانب الراديو متوسط (استغلال PRB ~50%، SINR ~9 dB، 103 مستخدمين). هذا يشير إلى عدم استقرار في النقل الخلفي. أقترح ضبط ملف النقل الخلفي للخلية (تشكيل QoS، تعميق المخزن المؤقت، تخميد التقلبات). الموافقة على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the tuning; the change window is open.",
+      "message_ar": "موافق. نفّذ الضبط؛ نافذة التغيير متاحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying backhaul parameter tuning to NR12345A: enable packet pacing and queue shaping for eMBB, increase buffer depth, and add link-flap hold-off. No service interruption expected. I will verify counters immediately after.",
+      "message_ar": "أطبّق ضبط معلمات النقل الخلفي على NR12345A: تفعيل إيقاع الحزم وتشكيل الصفوف لخدمة eMBB، زيادة عمق المخزن المؤقت، وإضافة زمن انتظار لتقلب الوصلة. لا يُتوقّع انقطاع خدمة. سأتحقق من العدادات مباشرةً بعد ذلك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: link flap notifications have paused and latency spikes are fewer on live graphs.",
+      "message_ar": "المؤشرات الأولية أفضل: توقفت تنبيهات التقلب تقريباً وتراجعت ذرى الكمون على الرسوم المباشرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will open a tracking ticket and continue to watch counters while you confirm a monitoring window.",
+      "message_ar": "جيد. سأفتح تذكرة متابعة وسأستمر في مراقبة العدادات بينما تؤكدون نافذة المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement: backhaul link flaps trending down and p95 latency calmer. Action taken: backhaul parameter tuning on NR12345A. Let’s monitor over the next 2–4 hours; track under DU-BH-07231.",
+      "message_ar": "نرى تحسناً: تقلبات الوصلة تتجه للانخفاض وكمون p95 أكثر استقراراً. الإجراء المنفذ: ضبط معلمات النقل الخلفي على NR12345A. لِنراقب خلال الساعات 2–4 القادمة؛ المتابعة تحت DU-BH-07231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next 2–4 hours and update DU-BH-07231 afterward. If instability returns, we will escalate to transport for physical link checks; if adverse effects appear, we will roll back the tuning.",
+      "message_ar": "تم. سنراقب خلال الساعات 2–4 القادمة ونُحدّث DU-BH-07231 بعد الانتهاء. إذا عادت الحالة سنصعّد لفريق النقل لفحص الوصلة الفيزيائية؛ وإذا ظهرت آثار سلبية سنرجع الإعدادات كما كانت."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR12345A",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul QoS shaping, buffer tuning, flap dampening"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "NR12345A backhaul instability: link flaps with high latency/jitter and interface errors; tuned backhaul profile and monitoring"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on NR12345A: frequent link flaps with elevated latency, jitter, and interface errors, while radio load and SINR were moderate. Applied site parameter tuning on the backhaul profile (QoS shaping, buffer depth, flap dampening) and opened a tracking ticket. We will monitor for the next few hours to ensure stability and reduced loss bursts.",
+    "ar": "تم تشخيص تدهور في النقل الخلفي على NR12345A: تقلبات متكررة مع ارتفاع الكمون والتذبذب وأخطاء الواجهة، بينما حمل الراديو وقياس SINR متوسطان. تم تنفيذ ضبط معلمات الموقع لملف النقل الخلفي (تشكيل QoS، تعميق المخزن المؤقت، وتخميد التقلبات) وفتح تذكرة متابعة. سنراقب خلال الساعات القادمة لضمان الاستقرار وتقليل الفقدان المتقطّع."
+  }
+}

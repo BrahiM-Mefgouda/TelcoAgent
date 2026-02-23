@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0011",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban 5G NR macro cell shows an active congestion alarm over the last 24h with QoS compliance ~13% vs 95% target, 44% violations, PRB utilization 84%, latency 38 ms, p50 downlink 13 Mbps, and 311 users; eMBB streaming is impacted.",
+    "ar": "خلية ماكرو 5G NR حضرية مع إنذار ازدحام نشط خلال آخر 24 ساعة، امتثال الجودة ~13% مقابل هدف 95%، انتهاكات 44%، إشغال PRB 84%، الكمون 38 مللي ثانية، الوسيط التحميلي الهابط 13 ميجابت/ث، و311 مستخدماً؛ يتأثر بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-Cell-UGB-112 raised an active alarm over the last 24h for QoS SLA breach; users on eMBB streaming report jitter. Snapshot: QoS pass ~13% vs 95% target, PRB util 84%, latency ~38 ms, p50 DL ~13 Mbps, BLER ~4.1%, 311 users.",
+      "message_ar": "الخلية الماكرو NR في منطقة حضرية NR-Cell-UGB-112 أطلقت إنذاراً نشطاً خلال آخر 24 ساعة بسبب خرق مستوى الخدمة للجودة؛ مستخدمو eMBB للبث يذكرون تقطّعاً. اللقطة الحالية: نجاح QoS ~13% مقابل هدف 95%، إشغال PRB 84%، كمون ~38 مللي ثانية، وسيط التحميل الهابط ~13 ميجابت/ث، BLER ~4.1%، 311 مستخدماً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first check the cell’s network counters over the last 24h to validate congestion/outage signals and QoS deviations. Approve read access for NR-Cell-UGB-112?",
+      "message_ar": "تم الاستلام. سأبدأ بفحص عدادات الشبكة للخلية خلال آخر 24 ساعة لتأكيد إشارات الازدحام/الانقطاع وانحراف الجودة. هل توافق على صلاحية القراءة لـ NR-Cell-UGB-112؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with a 24h view on NR-Cell-UGB-112.",
+      "message_ar": "موافق. تابع بمنظور 24 ساعة على NR-Cell-UGB-112."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS stats collected for 24h: sustained high PRB utilization (avg 84%, peaks 92%), QoS compliance averaging 13% vs 95% target; active alarm persisted with mixed hours, worst at busy times. No hard outage or backhaul fault flags. Next, I will analyze QoS time series to pinpoint degradation windows. Approve?",
+      "message_ar": "تم جمع إحصاءات OSS لمدة 24 ساعة: إشغال PRB مرتفع مستدام (متوسط 84%، قمم 92%)، امتثال QoS بمتوسط 13% مقابل هدف 95%؛ استمر الإنذار النشط مع ساعات مختلطة والأسوأ في أوقات الانشغال. لا توجد أعلام انقطاع صارخة أو أعطال في الربط الخلفي. التالي، سأحلل السلسلة الزمنية لـ QoS لتحديد نوافذ التدهور. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to analyze the QoS time series.",
+      "message_ar": "موافق على تحليل السلسلة الزمنية لـ QoS."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series over 24h shows a downward trend, worst between 18:00–22:00 where pass rate dips to 7–10%, with partial overnight recovery to ~20%. Latency tail and retransmissions rise during peaks; median DL ~13 Mbps remains constrained under load. Conclusion: congestion-driven QoS degradation on the macro NR cell impacting streaming. I recommend opening an SLA incident to capacity/optimization teams. Approve ticket creation?",
+      "message_ar": "سلسلة QoS خلال 24 ساعة تُظهر اتجاهاً هابطاً، والأسوأ بين 18:00–22:00 حيث ينخفض معدل النجاح إلى 7–10%، مع تعافٍ جزئي ليلاً إلى ~20%. يرتفع ذيل الكمون وعمليات الإعادة وقت الذروة؛ يظل وسيط التحميل الهابط ~13 ميجابت/ث مقيداً تحت الحمل. الاستنتاج: تدهور جودة مدفوع بالازدحام على الخلية الماكرو NR يؤثر على البث. أوصي بفتح حادثة SLA لفرق السعة/التحسين. هل توافق على فتح البلاغ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please open the SLA incident.",
+      "message_ar": "موافق. يرجى فتح بلاغ SLA."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA incident opened for NR-Cell-UGB-112 with a summary of QoS breach, high PRB loading, and evening congestion pattern. It is routed to RAN capacity/optimization with 24h evidence attached. I will monitor the next busy period and post updates in the incident.",
+      "message_ar": "تم فتح حادثة SLA لخلية NR-Cell-UGB-112 مع ملخص الخرق، إشغال PRB المرتفع، ونمط الازدحام المسائي. تم توجيهها إلى فرق سعة/تحسين الراديو مع إرفاق أدلة 24 ساعة. سأراقب فترة الانشغال القادمة وأنشر التحديثات ضمن البلاغ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Short-term observation: buffering complaints have eased slightly and median latency dipped to ~35 ms as traffic normalized, but the alarm remains active.",
+      "message_ar": "ملاحظة قصيرة المدى: شكاوى التقطّع انخفضت قليلاً وانخفض وسيط الكمون إلى ~35 مللي ثانية مع عودة الحركة لطبيعتها، لكن الإنذار ما زال نشطاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted. I will track QoS compliance and PRB loading; if violations persist during the next busy hour, I will request expedited capacity actions via the incident. Otherwise, I will document stabilization.",
+      "message_ar": "تم. سأتابع امتثال QoS وإشغال PRB؛ إذا استمرت الانتهاكات خلال ساعة الانشغال القادمة فسأطلب تسريع إجراءات السعة عبر البلاغ، وإلا فسأوثّق الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observation: QoS pass rate is edging up toward ~20% and buffering complaints are fewer. Since we created the SLA incident (DU-QOS-04219), let’s monitor through the next busy hour.",
+      "message_ar": "ملاحظة: معدل نجاح QoS يتجه نحو ~20% وشكاوى التقطّع أقل. بما أننا أنشأنا بلاغ SLA (DU-QOS-04219)، لنتابع خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own monitoring through the next busy hour and will update the incident after the window. If QoS stays below target, we will escalate the incident and request interim relief; if it stabilizes above target, we will close it with findings.",
+      "message_ar": "مؤكد — سنتولى المراقبة خلال ساعة الانشغال القادمة وسنحدّث البلاغ بعد انتهاء الفترة. إذا بقيت الجودة دون الهدف سنصعّد الحادثة ونطلب تخفيفاً مؤقتاً؛ وإن استقرت فوق الهدف سنغلقها مع الخلاصة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-UGB-112",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-UGB-112",
+        "QoS",
+        "24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "QoS SLA violation — NR macro cell NR-Cell-UGB-112, urban, 24h"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a QoS SLA breach on the urban 5G NR macro cell driven by evening congestion: compliance averaged ~13% vs a 95% target with high PRB loading and elevated latency tails. Reviewed the 24h QoS trend and opened an SLA incident to RAN capacity/optimization with evidence attached. We will monitor the next busy hour and update the ticket; mitigation will proceed via capacity relief or site parameter tuning as needed.",
+    "ar": "تم تأكيد خرق SLA للجودة على خلية ماكرو 5G NR حضرية مدفوعاً بالازدحام المسائي: بلغ متوسط الامتثال ~13% مقابل هدف 95% مع إشغال PRB مرتفع وذيول كمون مرتفعة. تمت مراجعة اتجاه QoS خلال 24 ساعة وفتح بلاغ SLA لفرق سعة/تحسين الراديو مع إرفاق الأدلة. سنراقب ساعة الانشغال القادمة ونحدّث التذكرة؛ وسيتم التخفيف عبر تعزيز السعة أو ضبط معلمات الموقع حسب الحاجة."
+  }
+}

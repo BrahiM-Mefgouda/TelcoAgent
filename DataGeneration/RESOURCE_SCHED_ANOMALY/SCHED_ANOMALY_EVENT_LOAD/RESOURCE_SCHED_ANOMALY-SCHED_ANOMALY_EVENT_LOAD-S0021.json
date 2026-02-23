@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0021",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium NR micro cell during egress over 3h shows congestion: PRB 87%, fairness 0.65, allocation skew 38, p50 9 Mbps, p95 latency 58 ms, SINR 5 dB, 578 users—resource scheduling imbalance suspected.",
+    "ar": "موقع NR صغير في الاستاد خلال مرحلة خروج الجمهور خلال 3 ساعات يظهر ازدحاماً: إشغال PRB بنسبة 87%، مؤشر الإنصاف 0.65، انحراف التخصيص 38، الوسيط 9 ميجابت/ث، كمون p95 يبلغ 58 مللي ثانية، وSINR عند 5 ديسيبل، مع 578 مستخدماً—يُشتبه في خلل بتخصيص الموارد."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell in the last 3h (egress) raised a congestion alarm: PRB ~87%, fairness 0.65, allocation skew 38, high-priority share 28% vs best-effort 58%, p50 DL 9 Mbps, p95 latency 58 ms, SINR ~5 dB, users peaked 578. Streaming complaints from eMBB users.",
+      "message_ar": "الموقع الصغير NR في الاستاد خلال آخر 3 ساعات (خروج الجمهور) أطلق إنذار ازدحام: إشغال PRB حوالي 87%، مؤشر الإنصاف 0.65، انحراف التخصيص 38، حصة الخدمات عالية الأولوية 28% مقابل 58% لأفضل جهد، وسيط التحميل 9 ميجابت/ث، كمون p95 بمقدار 58 مللي ثانية، وSINR حوالي 5 ديسيبل، وعدد المستخدمين بلغ 578. توجد شكاوى بث لمستخدمي eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnosis for a scheduler anomaly under this crowd load. First, I’ll pull 3h live counters for the target cell to verify allocation and queue behavior. Please confirm the cell ID and approve access.",
+      "message_ar": "سأتولى تشخيص خلل في المجدول تحت هذا الحمل. أولاً، سأجلب عدادات حية لآخر 3 ساعات للخلية المستهدفة للتحقق من التخصيص وسلوك الطوابير. الرجاء تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MIC-12. Access for the last 3h is approved.",
+      "message_ar": "معرف الخلية هو NR-STAD-MIC-12. الوصول لآخر 3 ساعات مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters for NR-STAD-MIC-12. Findings: PRB busy >85%, fairness 0.65, allocation skew 38; high-priority bearers under-allocated (28%) vs best-effort (58%). Radio quality is moderate (RSRQ -13 dB, SINR 5 dB). Next, I’ll analyze PRB/scheduler time series for the same window to isolate burst patterns—proceed?",
+      "message_ar": "تم جلب العدادات لـ NR-STAD-MIC-12. النتائج: إشغال PRB >85%، الإنصاف 0.65، انحراف التخصيص 38؛ الخدمات عالية الأولوية منخفضة الحصة (28%) مقابل أفضل جهد (58%). جودة الراديو متوسطة (RSRQ -13 ديسيبل، SINR 5 ديسيبل). التالي، سأحلل السلاسل الزمنية لـ PRB/المجدول لنفس النافذة لاستخلاص أنماط الذروة—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series analysis.",
+      "message_ar": "تابع تحليل السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows bursty PRB saturation during egress with per-UE cap hits and queue growth aligning with p95 latency spikes; p95–p50 throughput gap is 15 Mbps. Diagnosis: resource scheduling imbalance under congestion. I propose a targeted tuning: increase guaranteed share for high-priority by ~10%, relax per-UE PRB cap under congestion, and add burst guarding for best-effort. Approve immediate change?",
+      "message_ar": "السلاسل الزمنية تُظهر تشبع PRB متقطعاً أثناء الخروج مع اصطدام حدود لكل مستخدم ونمو الطوابير متزامناً مع ارتفاعات كمون p95؛ فجوة الإنتاجية بين p95 وp50 هي 15 ميجابت/ث. التشخيص: اختلال في جدولة الموارد تحت الازدحام. أقترح ضبطاً مستهدفاً: زيادة الحصة المضمونة للمرتفع الأولوية بحوالي 10%، تخفيف حد PRB لكل مستخدم أثناء الازدحام، وإضافة حراسة للذروات لحركة أفضل جهد. هل تُوافق على التطبيق فوراً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning now.",
+      "message_ar": "مُوافق على تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied tuning on NR-STAD-MIC-12 and committed. I’m monitoring fairness, PRB skew, p95 latency, and median throughput in real time for the next 15 minutes.",
+      "message_ar": "تم تطبيق الضبط على NR-STAD-MIC-12 واعتماده. أراقب حالياً مؤشرات الإنصاف، انحراف PRB، كمون p95، والوسيط في الإنتاجية مباشرةً خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes: median DL ~12 Mbps, p95 latency ~42 ms, fairness ~0.74, PRB skew reduced; users ~520. Looks improved.",
+      "message_ar": "بعد حوالي 10 دقائق: الوسيط في التحميل ~12 ميجابت/ث، كمون p95 ~42 مللي ثانية، الإنصاف ~0.74، وانخفض انحراف PRB؛ عدد المستخدمين ~520. التحسن واضح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend is positive. We’ll hold the current settings and continue observing through the remainder of egress and the next 30–60 minutes. If degradation reappears, we can slightly tighten burst guarding; otherwise we keep the tuning.",
+      "message_ar": "المؤشرات إيجابية. سنبقي الإعدادات الحالية ونواصل المراقبة لبقية فترة الخروج والـ 30–60 دقيقة القادمة. إذا عادت التدهورات سنُشدد حراسة الذروات قليلاً؛ وإلا سنُبقي الضبط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained with latency spikes trending down. Action taken was scheduler site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر مع انخفاض اتجاه ارتفاعات الكمون. الإجراء كان ضبط معلمات المجدول على الموقع. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update on fairness, PRB skew, latency, and median throughput. If performance degrades, we will escalate with temporary load controls or roll back the tuning; if stable, we will retain the changes.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنقدم تحديثاً حول الإنصاف، انحراف PRB، الكمون، والوسيط في الإنتاجية. إذا تدهور الأداء سنصعّد بإجراءات تحكم مؤقتة في الحمل أو نُرجع الضبط؛ وإذا بقي مستقراً سنُبقي التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MIC-12",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MIC-12",
+        "PRB",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler weights, per-UE PRB cap relaxation under congestion, burst guarding for best-effort"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling imbalance on the stadium NR micro cell during egress: high PRB use, low fairness, allocation skew, and latency spikes confirmed by counters and PRB time-series. Mitigated via site parameter tuning to rebalance scheduler weights, relax per-UE caps under congestion, and add burst guarding for best-effort. Early results show higher median throughput, reduced p95 latency, and improved fairness; continued monitoring is in place.",
+    "ar": "تم تشخيص اختلال في جدولة الموارد على موقع NR الصغير في الاستاد خلال الخروج: إشغال PRB مرتفع، إنصاف منخفض، انحراف في التخصيص، وارتفاعات في الكمون مؤكدة عبر العدادات والسلاسل الزمنية لـ PRB. جرى التخفيف عبر ضبط معلمات الموقع لإعادة موازنة أوزان المجدول، وتخفيف حد PRB لكل مستخدم أثناء الازدحام، وإضافة حراسة للذروات لحركة أفضل جهد. النتائج المبكرة تُظهر ارتفاع الوسيط في الإنتاجية، انخفاض كمون p95، وتحسن الإنصاف؛ والمتابعة المستمرة قائمة."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0008",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Over the last 6h, the urban 5G NR macro cell has active alarms with interference/signal overlap and slow data (SINR ~0 dB, RSRQ -16 dB, HO success 72%, ping-pong 20%, BLER 12%, PRB 66%, 445 users).",
+    "ar": "خلال آخر 6 ساعات، يوجد إنذار نشط على خلية ماكرو NR حضرية مع تداخل/تراكب إشارة وبطء في البيانات (SINR حوالي 0 dB، وRSRQ -16 dB، ونسبة نجاح التسليم 72%، وارتداد 20%، وBLER 12%، وPRB 66%، و445 مستخدمًا)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell showing alarms in the last 6h: SINR ~0 dB, RSRQ -16 dB, HO success 72%, ping-pong 20%, BLER 12%, PRB 66%, 445 users; eMBB streaming complaints and slow data.",
+      "message_ar": "خلية ماكرو NR حضرية تظهر إنذارات خلال آخر 6 ساعات: SINR حوالي 0 dB، وRSRQ -16 dB، ونسبة نجاح التسليم 72%، وارتداد 20%، وBLER 12%، وPRB 66%، و445 مستخدمًا؛ شكاوى من بث eMBB وبطء في البيانات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by auditing neighbor relations and PCI usage to check for a PCI collision driving the interference and mobility issues. Please confirm I can proceed against the last 6h window.",
+      "message_ar": "سأبدأ بتدقيق علاقات الجيران واستخدام PCI للتحقق من وجود تصادم PCI يسبب التداخل ومشكلات الحركة. يرجى التأكيد على المضي قدمًا لآخر نافذة 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the audit on the 6h window.",
+      "message_ar": "موافَق على المتابعة بإجراء التدقيق ضمن نافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit result: the serving cell (PCI 110) overlaps with a first-tier neighbor using the same PCI, plus conflicts affecting ~38% of the neighbor set, consistent with ping-pong and HO failures. I propose a PCI retune to a non-conflicting value (e.g., 482) with proper modulo separation and neighbor updates. Approve change now?",
+      "message_ar": "نتيجة التدقيق: الخلية الخادمة (PCI 110) تتداخل مع جار من الطبقة الأولى يستخدم نفس PCI، إضافةً إلى تعارضات تؤثر على نحو 38% من مجموعة الجيران، وهذا يتوافق مع الارتداد وإخفاقات التسليم. أقترح إعادة ضبط PCI إلى قيمة غير متعارضة (مثل 482) مع فصل نمطي مناسب وتحديثات الجيران. هل توافق على تنفيذ التغيير الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to perform the PCI retune and neighbor updates now.",
+      "message_ar": "موافَق على تنفيذ إعادة ضبط PCI وتحديثات الجيران الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: PCI retuned to a non-conflicting value and neighbor relations updated; quick checks show no duplicate PCI in first-tier neighbors and stable SSB detection. We'll let the cell stabilize and watch HO/ping-pong.",
+      "message_ar": "تم التطبيق: إعادة ضبط PCI إلى قيمة غير متعارضة وتحديث علاقات الجيران؛ الفحوصات السريعة تُظهر عدم وجود PCI مكرر في جيران الطبقة الأولى وثبات اكتشاف SSB. سنترك الخلية تستقر ونراقب التسليم/الارتداد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: interference symptoms easing; ping-pong counters are tapering and handover failures are slowing.",
+      "message_ar": "ملاحظة أولية: أعراض التداخل تخف؛ عدادات الارتداد تنخفض وإخفاقات التسليم تتباطأ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. For traceability and continued monitoring, I'll open a tracking ticket and monitor HO success, ping-pong, SINR, and user throughput through the next busy period. Shall I proceed?",
+      "message_ar": "مؤشرات جيدة. من أجل التتبع والمراقبة المستمرة، سأفتح تذكرة متابعة وأراقب نجاح التسليم، والارتداد، وSINR، ومعدل مرور المستخدمين خلال فترة الذروة التالية. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the ticket creation.",
+      "message_ar": "تفضل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-PCI-04219 created for the PCI retune and neighbor updates. We'll monitor for the next 6 hours and share trend snapshots.",
+      "message_ar": "تم إنشاء التذكرة DU-PCI-04219 لإعادة ضبط PCI وتحديثات الجيران. سنراقب خلال الساعات الست القادمة ونشارك لقطات للاتجاهات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing handover failures trending down; the PCI retune appears effective. Let’s monitor through the next busy hour and update DU-PCI-04219 afterward.",
+      "message_ar": "نرى أن إخفاقات التسليم في انخفاض؛ ويبدو أن إعادة ضبط PCI فعّالة. لِنُراقب خلال ساعة الذروة القادمة ونحدّث DU-PCI-04219 بعد ذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We'll own the next busy hour monitoring and update the ticket after the window. If issues reappear, we'll rollback the PCI change or extend the retune to the adjacent cluster; otherwise, we’ll keep the new plan and close out once stable.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء النافذة. إذا عادت المشكلات سنُرجع تغيير PCI أو نوسع إعادة الضبط إلى العنقود المجاور؛ وإلا فسنُبقي الخطة الجديدة ونُغلق بعد التأكد من الاستقرار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on the urban NR macro cell: the serving PCI 110 overlapped with a first-tier neighbor, driving interference, handover issues, and slow data. Implemented site parameter tuning by retuning the PCI to a non-conflicting value and updating neighbor relations. Opened DU-PCI-04219 for tracking and will monitor KPIs through the next busy period.",
+    "ar": "تم تشخيص تصادم PCI على خلية ماكرو NR حضرية: PCI الخادم 110 يتداخل مع جار من الطبقة الأولى، ما أدى إلى تداخل ومشكلات تسليم وبطء في البيانات. تم تنفيذ ضبط معلمات الموقع عبر إعادة تعيين PCI إلى قيمة غير متعارضة وتحديث علاقات الجيران. تم فتح DU-PCI-04219 للمتابعة وسيتم مراقبة مؤشرات الأداء خلال فترة الذروة القادمة."
+  }
+}

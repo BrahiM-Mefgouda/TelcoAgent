@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0007",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G macro over the last 6 hours shows frequent backhaul link flaps (~3/hr), loss bursts with elevated latency (p95 57 ms), ~708 interface errors, and downlink near 13 Mbps impacting mobile broadband.",
+    "ar": "في موقع ماكرو 5G بمنطقة ضواحي خلال آخر 6 ساعات، توجد تقطعات متكررة في الربط الخلفي (~3/ساعة) مع دفعات فقد وارتفاع في الكمون (p95 = 57 مللي ثانية)، وأخطاء منفذ ~708، وسرعة تحميل تقارب 13 ميغابت/ث تؤثر على النطاق العريض المتنقل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 6h: users reported buffering on streaming; DL ~13 Mbps, backhaul link flaps ~3/hr, latency p95 ~57 ms, and ~708 interface errors. Can you investigate?",
+      "message_ar": "موقع ماكرو NR في منطقة ضواحي خلال آخر 6 ساعات: وردت شكاوى من التقطيع في البث؛ سرعة التحميل ~13 ميغابت/ث، تقطع في الربط الخلفي ~3/ساعة، كمون p95 ~57 مللي ثانية، وأخطاء واجهة ~708. هل يمكن المتابعة؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 6h performance and transport port logs from OSS to confirm backhaul instability. Please share the cell ID and approve access to proceed.",
+      "message_ar": "سأبدأ بسحب أداء 6 ساعات وسجلات منافذ النقل من نظام الإدارة للتحقق من عدم استقرار الربط الخلفي. الرجاء تزويدي بمعرّف الخلية والموافقة على المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-1234-AB. Access approved.",
+      "message_ar": "معرّف الخلية: NR-1234-AB. الموافقة ممنوحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review for NR-1234-AB (last 6h) confirms backhaul bouncing: ~3 link flaps/hr, bursty loss, latency p95 ~57 ms, and transport interface errors >700. Radio side looks moderate (SINR 15 dB, PRB ~59%). I propose applying backhaul stability tuning (flap dampening, adaptive FEC, queue/MTU sanity, and QoS shaping aligned to eMBB). Low risk, quick rollback if needed. Approve?",
+      "message_ar": "مراجعة نظام الإدارة للخلية NR-1234-AB (آخر 6 ساعات) تؤكد تقطع الربط الخلفي: ~3 انقطاعات/ساعة، فقد على شكل دفعات، كمون p95 ~57 مللي ثانية، وأخطاء على واجهة النقل >700. جانب الراديو متوسط (SINR ‏15 dB، استخدام PRB ~59%). أقترح ضبطات لاستقرار الربط الخلفي (تخميد التقطع، FEC تكيفي، التحقق من الطوابير/MTU، وتشكيل QoS متوافق مع eMBB). مخاطرة منخفضة وإمكانية رجوع سريعة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the tuning.",
+      "message_ar": "موافق. تفضل بتنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Backhaul stability tuning applied on NR-1234-AB. Expectation: reduced link flaps, fewer loss bursts, and lower latency variance. Please observe live KPIs for immediate changes.",
+      "message_ar": "تم تطبيق ضبطات استقرار الربط الخلفي على NR-1234-AB. المتوقع: انخفاض تقطع الرابط، تقليل دفعات الفقد، وتباين أقل في الكمون. يرجى متابعة مؤشرات الأداء الحية لأي تغيّر فوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency p95 trending down to ~45 ms and no new flaps in the last 20 minutes; DL nudged to ~16–18 Mbps.",
+      "message_ar": "هناك تحسن: كمون p95 يتجه إلى ~45 مللي ثانية ولا توجد تقطعات جديدة خلال آخر 20 دقيقة؛ سرعة التحميل ارتفعت إلى ~16–18 ميغابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. I will log the change for traceability and open a tracking record to follow the stability. Shall I proceed?",
+      "message_ar": "مؤشرات جيدة. سأقوم بتوثيق التغيير لأغراض التتبع وفتح سجل متابعة للاستقرار. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed.",
+      "message_ar": "نعم، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking record has been created and the change has been logged. I will keep watching the counters and await your confirmation on sustained stability.",
+      "message_ar": "تم إنشاء سجل المتابعة وتم توثيق التغيير. سأستمر بمراقبة المؤشرات بانتظار تأكيدك على استدامة الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Status now: link flaps trending down and latency steadier since the backhaul parameter optimization. Let's monitor over the next 2–4 hours; reference ticket DU-BH-04273.",
+      "message_ar": "الوضع الآن: تقطع الرابط في انخفاض والكمون أكثر ثباتاً بعد ضبط معلمات الربط الخلفي. لنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة؛ المرجع DU-BH-04273."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring window and update the ticket after the window. If instability returns, we will escalate to transport; if performance regresses, we will roll back the changes.",
+      "message_ar": "تم. سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد عدم الاستقرار فسنصعّد إلى فريق النقل؛ وإن تراجعت الأداء فسنرجع التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro: OSS showed recurrent link flaps, loss bursts, elevated latency, and transport interface errors while radio conditions were moderate. Applied site parameter tuning to stabilize the backhaul (flap dampening, error protection, and QoS shaping), then created a tracking ticket for continued observation.",
+    "ar": "تم تشخيص تدهور في الربط الخلفي بموقع ماكرو NR في الضواحي: أظهرت سجلات نظام الإدارة تقطعات متكررة، دفعات فقد، كمون مرتفع، وأخطاء على واجهة النقل مع ظروف راديوية متوسطة. تم تنفيذ ضبطات معلمات للموقع لاستقرار الربط الخلفي (تخميد التقطع، حماية من الأخطاء، وتشكيل QoS)، ثم إنشاء تذكرة متابعة للمراقبة المستمرة."
+  }
+}

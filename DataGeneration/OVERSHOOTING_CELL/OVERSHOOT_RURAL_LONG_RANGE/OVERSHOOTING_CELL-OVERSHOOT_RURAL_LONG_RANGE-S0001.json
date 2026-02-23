@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0001",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural NR macro over the last 12h shows long timing advance (~1.6 km), distant serving (~19%), weak edge levels, and elevated ping‑pong/HO failures with median downlink ~10 Mbps—investigate possible overshooting impacting mobility?",
+    "ar": "خلية ماكرو NR ريفية خلال آخر 12 ساعة تُظهر تقدّم توقيت طويل (~1.6 كم)، خدمة بعيدة (~19%)، مستويات حافة ضعيفة، وارتفاع ارتداد/إخفاقات التسليم مع وسيط تنزيل ~10 Mbps—هل يوجد فرط تغطية يؤثر على الحركة؟"
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro, last 12h: TA p95 ~1.6 km, distant serving ~19%, HO fails 12%, ping‑pong 18%, weak edge levels (RSRP ~-115 dBm, RSRQ -12, SINR ~5 dB), median DL ~10 Mbps. Mixed time-of-day; eMBB users report streaming issues. No alarms.",
+      "message_ar": "ماكرو NR ريفية خلال آخر 12 ساعة: p95 لتقدّم التوقيت ~1.6 كم، خدمة بعيدة ~19%، إخفاقات تسليم 12%، ارتداد 18%، حافة ضعيفة (RSRP ~-115 dBm، RSRQ -12، SINR ~5 dB)، وسيط تنزيل ~10 Mbps. أوقات اليوم مختلطة؛ شكاوى بث eMBB. لا إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "This points to overshooting. I will start by reviewing the coverage footprint over the rural area using a fine grid for the last 12h to confirm lobe extent and overlap. Please confirm read-only access.",
+      "message_ar": "المؤشرات تدل على فرط تغطية. سأبدأ بمراجعة بصمة التغطية على المنطقة الريفية بشبكة دقيقة لآخر 12 ساعة لتأكيد امتداد/تداخل الحزمة. يرجى تأكيد نفاذ القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read-only access approved for the 12h window.",
+      "message_ar": "تمت الموافقة على نفاذ القراءة فقط ضمن نافذة 12 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage view shows the main beam stretching beyond the intended range into adjacent clusters (>8–10 km), many UEs >1.5 km, and weak borders. Next, I will audit neighbors and mobility edges for NR macros within ~10 km to explain ping‑pong and HO failures. Proceeding upon your confirmation.",
+      "message_ar": "عرض التغطية يُظهر امتداد الحزمة الرئيسية إلى ما بعد النطاق المقصود نحو عناقيد مجاورة (>8–10 كم)، وعدداً كبيراً من المستخدمين على >1.5 كم وحدوداً ضعيفة. التالي، سأُجري تدقيقاً للجيران وحدود الحركة لماكرو NR ضمن ~10 كم لتفسير الارتداد وإخفاقات التسليم. سأتابع بعد تأكيدكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "مؤكّد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit findings: one missing neighbor to the west, asymmetric relations with two adjacent cells, and permissive entry/exit margins contributing to oscillation; drift from cluster baseline observed. To mitigate, I propose site parameter tuning: slight electrical down‑tilt, minor pilot power trim, align HO margins toward nearer sites, and add the missing neighbor. Approve change?",
+      "message_ar": "نتائج التدقيق: جار مفقود غرباً، علاقات غير متناظرة مع خليتين مجاورتين، وهوامش دخول/خروج متساهلة تُسهم في التذبذب؛ لوحظ انحراف عن خط أساس العنقود. للمعالجة أقترح ضبط معلمات الموقع: خفضاً بسيطاً للميل الكهربائي، تقليصاً طفيفاً لقدرة الإشارة المرجعية، مواءمة هوامش التسليم نحو الخلايا الأقرب، وإضافة الجار المفقود. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: applied modest down‑tilt and small pilot power reduction, added the missing neighbor relation, and aligned mobility margins. Expected impact: reduce distant serving and ping‑pong while preserving coverage. Allow 5–10 minutes to settle; I will verify counters.",
+      "message_ar": "تم التنفيذ: تطبيق خفض بسيط للميل وتقليل طفيف لقدرة الإشارة المرجعية، إضافة علاقة الجار المفقود، ومواءمة هوامش الحركة. التأثير المتوقع: خفض الخدمة البعيدة والارتداد مع الحفاظ على التغطية. نمنح 5–10 دقائق للاستقرار؛ سأتحقق من العدادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access remains granted; current load is moderate.",
+      "message_ar": "النفاذ ما زال متاحاً؛ الحمل الحالي متوسط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early check (5–10 min): TA p95 down to ~1.2–1.3 km; distant‑serving ratio ~11–12%; HO failures trending toward <8%; ping‑pong ~10–11%; border RSRP +3–4 dB; median DL ~12 Mbps; no RLF increase; PRB utilization stable.",
+      "message_ar": "تحقق مبكر (5–10 دقائق): انخفض p95 لتقدّم التوقيت إلى ~1.2–1.3 كم؛ نسبة الخدمة البعيدة ~11–12%؛ إخفاقات التسليم باتجاه <8%؛ ارتداد ~10–11%؛ تحسّن RSRP على الحدود بمقدار +3–4 dB؛ وسيط التنزيل ~12 Mbps؛ لا ارتفاع في فشل الارتباط؛ واستقرار في استخدام الموارد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing the same on our side: ping‑pong trending down and median DL improved. After the coverage check and neighbor review followed by site parameter tuning, let’s monitor through the next busy hour.",
+      "message_ar": "نرى الشيء نفسه لدينا: ارتداد التسليم في انخفاض ووسيط التنزيل تحسّن. بعد فحص التغطية وتدقيق الجوار يتبعه ضبط معلمات الموقع، لنواصل المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour monitoring and share an update afterward. Completed the coverage check, neighbor review, and site parameter tuning. If regression appears, we will roll back the tilt/power change and margins; if issues persist, we will escalate for a physical alignment survey.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونشارك تحديثاً بعدها. أكملنا فحص التغطية وتدقيق الجوار وضبط معلمات الموقع. إذا ظهر تراجع سنعود عن تعديل الميل/القدرة والهوامش؛ وإذا استمرت المشكلة سنصعّد لطلب فحص محاذاة ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Overshooting was confirmed on the rural NR macro via coverage footprint analysis, showing many UEs beyond 1.5 km and weak borders. A neighbor review revealed a missing relation and permissive mobility margins. Site parameter tuning (slight down‑tilt, small power trim, margin alignment, and neighbor addition) was applied, reducing distant serving and ping‑pong; we will monitor through the next busy hour.",
+    "ar": "تم تأكيد فرط التغطية في الماكرو NR الريفية عبر تحليل بصمة التغطية، مع وجود العديد من المستخدمين على مسافات تتجاوز 1.5 كم وحدود ضعيفة. أظهر تدقيق الجوار علاقة مفقودة وهوامش حركة متساهلة. تم تنفيذ ضبط معلمات الموقع (خفض بسيط للميل، تقليص طفيف للطاقة، مواءمة الهوامش، وإضافة الجار)، مما خفّض الخدمة البعيدة والارتداد؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0025",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G macro cell shows high block error (~12%) at the coverage edge with weak signal (RSRP -117 dBm, RSRQ -12 dB, SINR 7 dB) and slow data (~6 Mbps median) during peak eMBB streaming over the last 6 hours.",
+    "ar": "خلية ماكرو 5G ريفية تُظهر معدل أخطاء حزم مرتفع (~12%) عند حافة التغطية مع إشارة ضعيفة (RSRP −117 dBm، RSRQ −12 dB، SINR 7 dB) وبطء بيانات (~6 Mbps وسيط) خلال ذروة حركة eMBB والبث خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell showing high BLER at the coverage edge during peak; users report buffering while streaming. Snapshot: RSRP -117 dBm, RSRQ -12 dB, SINR 7 dB, ~63 users, median DL ~6 Mbps.",
+      "message_ar": "خلية ماكرو NR ريفية تُظهر BLER مرتفعًا عند حافة التغطية خلال الذروة؛ المستخدمون يبلغون عن تقطيع أثناء البث. اللقطة الحالية: RSRP −117 dBm، RSRQ −12 dB، SINR 7 dB، نحو 63 مستخدمًا، وسرعة تنزيل وسيط ~6 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. First, I will pull last 6h OSS counters for the serving cell to baseline load and radio quality. Please share the exact cell ID and confirm access.",
+      "message_ar": "سأتولى التشخيص. أولاً، سأستخلص مؤشرات OSS لآخر 6 ساعات لخلية الخدمة لقياس الحمل وجودة الراديو. يرجى مشاركة مُعرّف الخلية والتأكيد على السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NRR_Macro_48721. Access approved; no recent changes on this site.",
+      "message_ar": "معرّف الخلية: NRR_Macro_48721. الوصول مُعتمد؛ لا تغييرات حديثة على هذا الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review over 6h complete: average BLER ~12.5%, users peaked at 68 during busy hour, high share of edge UEs with RSRP < -110 dBm; no active alarms. Next, I’ll chart BLER over time to isolate peak spikes and correlation with load—proceed?",
+      "message_ar": "تمت مراجعة OSS لآخر 6 ساعات: متوسط BLER ~12.5%، عدد المستخدمين بلغ الذروة 68 خلال ساعة الانشغال، ونسبة عالية من مستخدمي الحافة مع RSRP < −110 dBm؛ لا إنذارات نشطة. التالي: سأرسم BLER زمنياً لعزل الذروات وربطها بالحمل—هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows BLER rising to 18–20% from 17:30–19:00 with higher retransmissions and lower MCS for edge users. I recommend targeted site parameter tuning to strengthen edge robustness (tighter DL BLER target and scheduler bias for edge UEs). Risk is minimal; request approval to implement now.",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاع BLER إلى 18–20% بين 17:30–19:00 مع زيادة الإعادات وانخفاض MCS لمستخدمي الحافة. أوصي بضبط معلمات موجّه لتعزيز متانة الحافة (تشديد هدف BLER للوصلة الهابطة وتحييز المجدول لصالح مستخدمي الحافة). المخاطر محدودة؛ أطلب الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied and committed without service interruption: tightened DL BLER target and increased scheduler weight for edge UEs. Counters are refreshing—please watch for immediate user impact.",
+      "message_ar": "تم تطبيق التحسين واعتماده دون انقطاع خدمة: تم تشديد هدف BLER للوصلة الهابطة وزيادة وزن المجدول لمستخدمي الحافة. يجري تحديث العدادات—يرجى متابعة أي أثر فوري على المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early results: BLER around 9% and median throughput ~8 Mbps over the last 10 minutes.",
+      "message_ar": "نتائج مبكرة: BLER حوالي 9% وسرعة التنزيل الوسيط ~8 Mbps خلال آخر 10 دقائق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will keep tracking BLER/CQI versus load for stabilization and prepare a brief update. Any on-ground constraints to note?",
+      "message_ar": "تحسن جيد. سأستمر في تتبع BLER/CQI مقابل الحمل حتى الاستقرار وإعداد تحديث موجز. هل توجد أي قيود ميدانية يجب أخذها بالحسبان؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained; block error rate trending down and slow data complaints easing. Action taken was site parameter tuning; let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر؛ معدل أخطاء الحزم في اتجاه هبوطي وشكاوى بطء البيانات تتراجع. الإجراء المنفذ كان ضبط معلمات الموقع؛ لنراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and share the post-window update. If BLER regresses, we will roll back the tuning and escalate for an RF/antenna check; otherwise, we will retain the settings.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الانشغال التالية ونشارك التحديث بعد انتهاء الفترة. إذا تدهور BLER سنرجع الضبط السابق ونصعّد لفحص RF/الهوائي؛ وإلا فسنُبقي الإعدادات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRR_Macro_48721",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRR_Macro_48721",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Edge-robustness tuning: tighten DL BLER target and bias scheduler toward cell-edge UEs"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on a rural 5G macro: baseline counters and a 6-hour time series confirmed peak-hour BLER spikes tied to weak-coverage users, causing slow data. Applied site parameter tuning to tighten the downlink BLER target and bias scheduling toward edge users. We will monitor through the next busy hour and retain or roll back based on BLER and throughput trends.",
+    "ar": "تم تشخيص شذوذ BLER على خلية 5G ماكرو ريفية: أظهرت مؤشرات الأساس والسلسلة الزمنية لـ6 ساعات ارتفاعات في BLER خلال ساعة الذروة مرتبطة بمستخدمي حافة ذوي تغطية ضعيفة مما سبب بطء البيانات. تم تنفيذ ضبط معلمات الموقع بتشديد هدف BLER للوصلة الهابطة وتحييز الجدولة لصالح مستخدمي الحافة. سنراقب خلال ساعة الانشغال التالية ونُبقي أو نرجع الإعدادات وفق اتجاهات BLER والسرعة."
+  }
+}

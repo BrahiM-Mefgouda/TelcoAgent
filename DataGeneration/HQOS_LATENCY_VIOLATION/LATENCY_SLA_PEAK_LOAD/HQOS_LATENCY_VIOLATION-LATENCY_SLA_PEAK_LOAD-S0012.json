@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0012",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a congestion alarm in the last 2h with elevated latency (p95 97 ms) and slow data (~5 Mbps) during shoulder-hour eMBB traffic.",
+    "ar": "خلية NR ماكرو حضرية تظهر إنذار ازدحام خلال آخر ساعتين مع ارتفاع زمن التأخير (p95 97 مللي ثانية) وبطء البيانات (~5 Mbps) أثناء حركة eMBB في فترة الكتف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell has a congestion alarm over the last 2h; latency around 55 ms with p95 ~97 ms and median downlink throughput ~5 Mbps, 367 users, mostly eMBB streaming—please investigate.",
+      "message_ar": "هناك إنذار ازدحام على خلية NR ماكرو حضرية خلال آخر ساعتين؛ زمن التأخير حوالي 55 مللي ثانية مع p95 ~97 مللي ثانية ومعدل تنزيل وسيط ~5 Mbps، 367 مستخدماً ومعظمهم eMBB (بث)، الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling the cell's operational snapshot for the past 2h to verify load, errors, and QoS; please confirm the target cell ID and approve read access.",
+      "message_ar": "سأبدأ بجلب لقطة تشغيلية للخلية لآخر ساعتين للتحقق من الحمل والأخطاء وجودة الخدمة؛ الرجاء تأكيد معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-0412; 2h window is correct; access approved.",
+      "message_ar": "معرف الخلية هو NR-URB-MACRO-0412؛ نافذة الساعتين صحيحة؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the health and traffic pull for NR-URB-MACRO-0412 over 2h; I will focus on utilization, BLER, active users, and queuing delay.",
+      "message_ar": "أجري الآن سحب الحالة وحركة المرور لـ NR-URB-MACRO-0412 خلال ساعتين؛ سأركز على الاستغلال وBLER وعدد المستخدمين وزمن انتظار الطوابير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed; field notes show BLER ~3–4% and no backhaul alarms.",
+      "message_ar": "تفضل؛ ملاحظات الميدان تُظهر BLER حوالي 3–4% ولا توجد إنذارات في النقل الخلفي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot shows PRB utilization ~83%, users ~360+, BLER ~3.3%, with QoS queue buildup; next I'll extract the latency time series (median and p95) across the 2h to confirm the pattern.",
+      "message_ar": "اللقطة تُظهر استغلال PRB ~83%، مستخدمين ~360+، BLER ~3.3%، مع تراكم في طوابير QoS؛ الخطوة التالية استخراج سلسلة زمنية لزمن التأخير (الوسيط وp95) خلال ساعتين لتأكيد النمط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the latency trend.",
+      "message_ar": "موافق على سحب اتجاه زمن التأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency trend confirms peaks aligned to shoulder load: median ~55 ms, p95 rising to 110–120 ms during bursts; uplink is stable, the dominant contributor is downlink scheduling delay; I propose targeted site parameter tuning for the scheduler and queue management to lower HQoS latency—proceed?",
+      "message_ar": "اتجاه التأخير يؤكد قمماً متزامنة مع حمل فترة الكتف: الوسيط ~55 مللي ثانية، وp95 يرتفع إلى 110–120 مللي ثانية أثناء الاندفاعات؛ الوصل الصاعد مستقر، والمساهم الرئيس هو تأخير الجدولة في الوصل الهابط؛ أقترح ضبط معلمات بالموقع لمُوزِّع الموارد وإدارة الطوابير لخفض تأخير HQoS—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the change; keep it minimal-risk and live.",
+      "message_ar": "تابع التغيير؛ اجعله منخفض المخاطر وعلى الشبكة مباشرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying live parameter optimization: tightened latency target, reduced DL queue depth, and adjusted eMBB weights to relieve burst build-up; no service interruption; monitoring counters for 15 minutes.",
+      "message_ar": "أطبق تحسيناً للمعلمات مباشرة: تشديد هدف التأخير، تقليل عمق طابور الوصل الهابط، وضبط أوزان eMBB لتخفيف تراكم الاندفاعات؛ دون انقطاع خدمة؛ أراقب المؤشرات لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, p95 latency is trending down to ~68 ms and slow data is easing; the site parameter tuning on the scheduler/queues seems effective; let's monitor through the next busy hour.",
+      "message_ar": "بعد التغيير، p95 للتأخير يتناقص إلى ~68 مللي ثانية وتباطؤ البيانات يتحسن؛ يبدو أن ضبط معلمات الموقع على المُوزِّع/الطوابير فعال؛ لنواصل المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the monitoring through the next busy hour and provide an update. If latency worsens, we will promptly roll back the tuning; if congestion persists, we will escalate for capacity actions.",
+      "message_ar": "تم الاستلام—سنتولى المراقبة خلال ساعة الذروة التالية وسنقدم تحديثاً. إذا ساء التأخير سنقوم بإرجاع الضبط فوراً؛ وإذا استمر الازدحام سنصعّد لإجراءات السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-0412",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-0412",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "HQoS scheduler and queue tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on an urban NR macro during the shoulder load: high utilization with downlink queuing drove p95 latency spikes and slow data. Verified via operational snapshot and a latency time series over 2 hours, then mitigated with site parameter tuning targeting the scheduler and queue management. Initial results show p95 latency improving, and we will continue monitoring.",
+    "ar": "تم تشخيص انتهاك زمن تأخير QoS على خلية NR ماكرو حضرية خلال حمل فترة الكتف: ارتفاع الاستغلال مع تراكم طوابير الوصل الهابط أدى إلى ارتفاعات في p95 وبطء البيانات. تم التحقق عبر لقطة تشغيلية وسلسلة زمنية للتأخير خلال ساعتين، ثم تمت المعالجة بضبط معلمات الموقع لمُوزِّع الموارد وإدارة الطوابير. النتائج الأولية تُظهر تحسناً في p95 وسنواصل المراقبة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0026",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro shows high ping-pong handovers (~14%) over the last 5 hours at peak with HO success ~91% and SINR ~1 dB indicating interference / signal overlap.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر تأرجح تسليم مرتفعاً (~14%) خلال آخر 5 ساعات في وقت الذروة مع نجاح تسليم ~91% وSINR ~1 dB مما يشير إلى تداخل/تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour issue on suburban NR macro: handovers ping-ponging at the border, HO success ~91%, ping-pong ~14%, HO fail ~8%; RSRP ~-115 dBm, RSRQ -9 dB, SINR ~1 dB (interference / signal overlap), PRB ~82%, p50 DL 12 Mbps during eMBB streaming.",
+      "message_ar": "مشكلة وقت الذروة على خلية NR ماكرو في منطقة ضاحية: عمليات التسليم تتأرجح على الحدود، نجاح التسليم ~91%، معدل التأرجح ~14%، فشل التسليم ~8%؛ RSRP حوالي -115 dBm وRSRQ -9 dB وSINR ~1 dB (تداخل/تراكب الإشارة)، واستغلال PRB ~82%، ووسيط تنزيل 12 Mbps أثناء بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Got it. I will start with a 5h OSS counter pull to baseline mobility and neighbor relations. Please share the cell ID and confirm read-only access.",
+      "message_ar": "تم. سأبدأ بسحب عدادات OSS لآخر 5 ساعات لعمل خط أساس للتنقل والعلاقات مع الجيران. يرجى مشاركة معرف الخلية وتأكيد صلاحية الوصول القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-3142-S1; access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-3142-S1؛ الوصول معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS counters (5h) reviewed: ping-pong concentrated between NR-SUB-3142-S1 ↔ NR-SUB-3142-S2, rehandovers ~13–15%; HO attempts peak at busy hour; failures mainly early/late A3. Proceeding to time-series check next.",
+      "message_ar": "تمت مراجعة عدادات OSS (5 ساعات): التأرجح مركز بين NR-SUB-3142-S1 ↔ NR-SUB-3142-S2، إعادة التسليم ~13–15%؛ محاولات التسليم تبلغ الذروة في وقت الانشغال؛ الإخفاقات غالباً مبكرة/متأخرة ضمن A3. سأنتقل للتحقق كسلسلة زمنية تالياً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Requesting approval to pull 5h HO KPI time series to correlate with traffic peaks.",
+      "message_ar": "أطلب الموافقة لسحب سلسلة زمنية لمؤشرات التسليم خلال 5 ساعات لربطها بذروات الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms bursts 16:00–20:00: ping-pong rises to ~16%, HO success dips to ~90%, with the S1↔S2 pair driving ~70% of rehandovers.",
+      "message_ar": "السلسلة الزمنية تؤكد طفرات 16:00–20:00: يرتفع التأرجح إلى ~16% وينخفض نجاح التسليم إلى ~90%، ويشكل الزوج S1↔S2 نحو ~70% من إعادة التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mitigation plan: apply targeted mobility tuning to reduce short-stay returns—raise TTT from 238 ms to 320 ms and add +1 dB hysteresis on the dominant neighbor relations. Please approve implementation.",
+      "message_ar": "خطة المعالجة: ضبط تنقل مستهدف لتقليل العودة السريعة—رفع TTT من 238 ms إلى 320 ms وإضافة +1 dB هستيرسيس على العلاقات الجارٍية المهيمنة. يرجى الموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied; no alarms or drops observed. Initial 10–15 min snapshot: ping-pong down ~25%, HO success up ~1–2%. Will continue short-term observation.",
+      "message_ar": "تم تطبيق التحسين؛ دون إنذارات أو انقطاعات. لقطة أولية خلال 10–15 دقيقة: انخفاض التأرجح ~25% وارتفاع نجاح التسليم ~1–2%. سأواصل المراقبة قصيرة الأمد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: rehandovers trending down and short-stay events reduced; handover success slightly higher. This matches the mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: انخفاض في إعادة التسليم وتراجع الأحداث قصيرة الإقامة؛ وارتفاع طفيف في نجاح التسليم. هذا يتطابق مع تحسين معلمات التنقل. لنتابع المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next busy hour monitoring and share an update after. If degradation returns, we will roll back the change; if only partial improvement, we will escalate for deeper interference and coverage review.",
+      "message_ar": "مفهوم—سنتولى مراقبة ساعة الانشغال القادمة وسنشارك تحديثاً بعدها. إذا عاد التدهور سنّتراجع عن التغيير؛ وإذا كان التحسن جزئياً فقط فسنصعّد لمراجعة أعمق للتداخل والتغطية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-3142-S1",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-3142-S1",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility tuning: increase TTT to 320 ms; +1 dB hysteresis on S1↔S2 neighbors"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed peak-hour ping-pong on a suburban 5G NR macro via OSS counters and HO time series, with interference/signal overlap at the border and rehandovers dominated by S1↔S2. Applied site parameter tuning to mobility to damp short-stay returns. Early results show reduced ping-pong and slightly improved handover success; monitoring will continue through the next busy hour.",
+    "ar": "تم تشخيص تأرجح التسليم في وقت الذروة على خلية NR ماكرو بضاحية عبر عدادات OSS وسلسلة زمنية لمؤشرات التسليم، مع وجود تداخل/تراكب للإشارة على الحدود وهيمنة إعادة التسليم بين S1↔S2. تم تنفيذ ضبط معلمات الموقع للتنقل لتقليل العودة السريعة. النتائج الأولية تُظهر انخفاض التأرجح وتحسناً طفيفاً في نجاح التسليم؛ ستستمر المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

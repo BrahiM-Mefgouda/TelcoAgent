@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0022",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium 5G micro cell shows downlink throughput at 9 Mbps over the last 2 hours with congestion active, 568 users, PRB ~90%, and SINR ~3 dB indicating interference/signal overlap.",
+    "ar": "خلية 5G صغيرة في الملعب تسجل معدل تنزيل 9 ميجابت/ث خلال آخر ساعتين مع ازدحام نشط، 568 مستخدماً، إشغال موارد ~90%، وSINR بحوالي 3 ديسيبل يشير إلى تداخل/تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is under event ingress. Alarm is active and DL throughput is around 9 Mbps over the last 2 hours, PRB ~89%, SINR ~3 dB, RSRQ -10 dB, BLER ~5.8%, p95 scheduling latency ~48 ms, 568 users. Please investigate.",
+      "message_ar": "الخلية الصغيرة NR في الملعب خلال دخول الحدث. يوجد إنذار نشط ومعدل التنزيل حوالي 9 ميجابت/ث خلال آخر ساعتين، إشغال الموارد ~89%، SINR ~3 ديسيبل، RSRQ -10 ديسيبل، BLER ~5.8%، تأخر الجدولة p95 ~48 مللي ثانية، و568 مستخدماً. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion event. I will start with a health/load and alarm check in the network management system for the last 2 hours. Please confirm the cell ID and approve read access.",
+      "message_ar": "تم تأكيد حالة الازدحام. سأبدأ بفحص الصحة/الحمولة والإنذارات في نظام إدارة الشبكة لآخر ساعتين. يرجى تأكيد معرف الخلية والموافقة على حق القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_STDM_MICRO_01. Read access approved. Traffic is mostly eMBB streaming.",
+      "message_ar": "معرف الخلية هو NR_STDM_MICRO_01. تم اعتماد حق القراءة. الحركة غالباً بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checked NR_STDM_MICRO_01 health and load over 2h: cell is on-air, no backhaul errors, congestion alarm active during ingress, PRB 86–92%, DL buffer build-up, and poor SINR/RSRQ consistent with interference. Next, I will pull DL KPI time series to correlate throughput with load and interference for the same window. Proceed?",
+      "message_ar": "تم فحص صحة وحمولة NR_STDM_MICRO_01 خلال ساعتين: الخلية تعمل، لا أخطاء في النقل الخلفي، إنذار ازدحام نشط أثناء الدخول، إشغال الموارد 86–92%، تراكم في مخزن التنزيل، وقيَم SINR/RSRQ ضعيفة متسقة مع التداخل. بعد ذلك سأجلب سلسلة زمنية لمؤشرات التنزيل لربط المعدل بالحمل والتداخل لنفس الفترة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the DL time series.",
+      "message_ar": "تفضل بجلب السلسلة الزمنية للتنزيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series over 2h shows median UE throughput dropped from ~38 Mbps baseline to 8–12 Mbps; p95 scheduling latency spiked 45–55 ms; BLER briefly 7–9%; user count peaked ~580. Pattern aligns with ingress and streaming. Root cause: congestion aggravated by signal overlap (SINR 2–4 dB). I propose targeted parameter optimization to ease DL queuing (scheduler/PRB headroom) and mild DL power balance to stabilize SINR. Approve execution now?",
+      "message_ar": "السلسلة الزمنية للتنزيل خلال ساعتين تُظهر هبوطاً في وسيط معدل المستخدم من ~38 ميجابت/ث إلى 8–12 ميجابت/ث؛ وارتفاع تأخر الجدولة p95 إلى 45–55 مللي ثانية؛ وBLER وصل مؤقتاً إلى 7–9%؛ وعدد المستخدمين بلغ ~580. النمط يتوافق مع الدخول والبث. السبب الجذري: ازدحام تفاقمه تراكب الإشارة (SINR بين 2–4 ديسيبل). أقترح تحسين معلمات مستهدف لتخفيف طوابير التنزيل (المجدول/هامش PRB) مع موازنة طاقة تنزيل خفيفة لاستقرار SINR. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Execute the parameter optimization on NR_STDM_MICRO_01.",
+      "message_ar": "موافق. نفّذ تحسين المعلمات على NR_STDM_MICRO_01."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR_STDM_MICRO_01: tuned DL scheduler with PRB headroom for eMBB load and minor DL power balance; change committed successfully. Starting immediate 10-minute post-change monitoring.",
+      "message_ar": "تم تطبيق التحسين على NR_STDM_MICRO_01: ضبط مجدول التنزيل مع هامش PRB لحمل eMBB وموازنة طاقة تنزيل طفيفة؛ تم اعتماد التغيير بنجاح. أبدأ مراقبة لمدة 10 دقائق بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: median DL throughput is up to ~15–18 Mbps, PRB eased to ~82–85%, and scheduling latency is trending down. Streaming looks steadier.",
+      "message_ar": "ملاحظة أولية: وسيط معدل التنزيل ارتفع إلى ~15–18 ميجابت/ث، إشغال الموارد انخفض إلى ~82–85%، وتأخر الجدولة يتجه للانخفاض. البث أصبح أكثر استقراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early recovery. I will continue to observe load, interference, and latency trends as the crowd stabilizes and watch for regressions.",
+      "message_ar": "تحسن مبكر جيد. سأواصل مراقبة اتجاهات الحمل والتداخل والزمن مع استقرار الحشود ومتابعة أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained with throughput trending up and lower queuing delay. The parameter optimization seems effective. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر مع ارتفاع المعدل وانخفاض زمن الطوابير. يبدو أن تحسين المعلمات فعّال. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—I will own the next busy-hour monitoring and report throughput, PRB, and interference stability afterwards. If congestion resurges, I will escalate to coordinate neighbor tuning; if adverse effects appear, I will roll back to the previous settings. Summary: health/load checked, DL trends analyzed, and site parameters tuned to relieve congestion and reduce signal overlap; monitoring is in place.",
+      "message_ar": "مفهوم—سأتولى المراقبة خلال ساعة الذروة القادمة وسأبلغ لاحقاً عن استقرار المعدل وإشغال الموارد والتداخل. إذا عاد الازدحام سأصعّد للتنسيق على ضبط الجوار؛ وإذا ظهرت آثار سلبية سأعود للإعدادات السابقة. الملخص: تم فحص الصحة/الحمولة، تحليل اتجاهات التنزيل، وضبط معلمات الموقع لتخفيف الازدحام وتقليل تراكب الإشارة؛ والمراقبة قيد التنفيذ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STDM_MICRO_01",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STDM_MICRO_01",
+        "DL",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler/PRB tuning with mild DL power balance for stadium ingress"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Event ingress at the stadium caused congestion compounded by interference/signal overlap, driving DL throughput down. After checking cell health/load and analyzing DL time series, we applied site parameter tuning focused on scheduler/PRB headroom and mild DL power balance. Post-change, throughput and latency improved; we will monitor through the next busy hour.",
+    "ar": "سبّب دخول الحدث في الملعب ازدحاماً تفاقم بتراكب الإشارة، ما أدى لانخفاض معدل التنزيل. بعد فحص صحة/حمولة الخلية وتحليل السلسلة الزمنية للتنزيل، قمنا بضبط معلمات الموقع مع التركيز على هامش المجدول/PRB وموازنة طاقة تنزيل خفيفة. بعد التغيير تحسن المعدل والزمن، وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

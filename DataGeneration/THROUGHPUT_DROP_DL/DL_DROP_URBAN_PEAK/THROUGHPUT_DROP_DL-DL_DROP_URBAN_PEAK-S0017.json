@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0017",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G macro cell shows slow data during peak evening (DL ~7 Mbps, ~88% resource use, 228 users), and an alarm indicates congestion.",
+    "ar": "الخلية الحضريّة 5G الماكرو تُظهر بطء البيانات خلال ذروة المساء (تحميل ~7 ميجابت/ث، استعمال الموارد ~88%، 228 مستخدمًا)، وهناك إنذار يشير إلى ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-UTR-3321 has slow data this peak evening; an alarm flags congestion. Last 3h: DL ~7 Mbps, ~228 users, PRB ~88%, RSRQ -12 dB, SINR 10 dB, BLER ~6%, p95 scheduling latency 43 ms. eMBB users report buffering while streaming.",
+      "message_ar": "الخلية NR الماكرو في منطقة حضرية NR-UTR-3321 تعاني من بطء البيانات خلال ذروة المساء؛ إنذار يشير إلى ازدحام. آخر 3 ساعات: التحميل ~7 ميجابت/ث، ~228 مستخدمًا، استغلال PRB ~88%، RSRQ -12 dB، SINR 10 dB، BLER ~6%، وزمن جدولة p95 عند 43 مللي ثانية. مستخدمو eMBB يشتكون من تخزين مؤقت أثناء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull performance counters for NR-UTR-3321 over the last 3 hours to validate load and quality, then chart downlink throughput, and finally apply targeted parameter tuning if congestion is confirmed. Please confirm read access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات الأداء للخلية NR-UTR-3321 لآخر 3 ساعات للتحقق من الحمل والجودة، ثم أرسم سلسلة زمنية لمعدل التحميل، وفي حال تأكد الازدحام سأجري ضبطًا موجّهًا للمعايير. يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved for NR-UTR-3321 over the last 3 hours.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة للخلية NR-UTR-3321 لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters: PRB utilization 88–92%, active users 210–240, BLER 5–7%, RSRQ ~-12 dB, SINR ~10 dB, p95 scheduling latency 40–45 ms. This aligns with congestion rather than an RF fault. Proceeding to downlink KPI time series to quantify the drop.",
+      "message_ar": "تم سحب المؤشرات: استغلال PRB بين 88–92%، مستخدمون نشطون 210–240، BLER بين 5–7%، RSRQ حوالي -12 dB، وSINR حوالي 10 dB، وزمن جدولة p95 بين 40–45 مللي ثانية. هذا يتوافق مع ازدحام وليس عطلًا في التغطية. سأتجه لسلسلة زمنية لمؤشر التحميل لتحديد حجم الانخفاض."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows baseline 18–22 Mbps dropping to 6–8 Mbps from 18:30–21:30. MCS distribution shifts lower with buffer occupancy spikes; no backhaul errors seen. Root cause: load-induced scheduler pressure during eMBB streaming peak. I propose a live, low-risk site parameter tuning to improve fairness and utilization. Approve change?",
+      "message_ar": "السلسلة الزمنية للتحميل تُظهر خط أساس 18–22 ميجابت/ث ينخفض إلى 6–8 ميجابت/ث بين 18:30 و21:30. هناك تحول في توزيع MCS نحو قيم أدنى مع ارتفاع امتلاء المخازن؛ لا توجد أخطاء على الوصلة الخلفية. السبب الجذري: ضغط على المجدول بسبب الحمل خلال ذروة eMBB. أقترح ضبطًا مباشرًا منخفض المخاطر لمعايير المحطة لتحسين العدالة والاستفادة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the tuning.",
+      "message_ar": "موافق على تطبيق الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-UTR-3321: adjusted downlink scheduler fairness and control-channel robustness to ease contention. Change committed with safeguards; no service interruption observed. Monitoring post-change counters for 10–15 minutes—please share any immediate observations.",
+      "message_ar": "تم تطبيق ضبط معايير المحطة على NR-UTR-3321: تعديل عدالة مجدول التحميل وتعزيز متانة القناة التحكمية لتخفيف التزاحم. تم اعتماد التغيير مع ضوابط حماية؛ دون انقطاع خدمة. أراقب المؤشرات بعد التغيير لمدة 10–15 دقيقة—يرجى مشاركة أي ملاحظات فورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "5 minutes post-change: median user DL ~11–12 Mbps, PRB utilization ~80–82%, p95 scheduling latency ~32 ms. Field probes show fewer buffering events.",
+      "message_ar": "بعد 5 دقائق من التغيير: الوسيط لمعدل التحميل للمستخدم ~11–12 ميجابت/ث، استغلال PRB ~80–82%، وزمن جدولة p95 ~32 مللي ثانية. القياسات الميدانية تُظهر انخفاضًا في أحداث التخزين المؤقت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted—KPIs are improving and stable. I will keep watching for regression and confirm trend stabilization.",
+      "message_ar": "تمت الملاحظة—مؤشرات الأداء تتحسن وتستقر. سأستمر بالمراقبة لرصد أي تراجع وتأكيد ثبات الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: slow data is easing and scheduling delays are trending down. After the site parameter tuning, let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: بطء البيانات يتلاشى وتأخيرات الجدولة في انخفاض. بعد ضبط معايير المحطة، دعنا نتابع خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and report final KPIs. If performance dips again, we will escalate to load-balancing actions; if any adverse effects appear, we will roll back the tuning.",
+      "message_ar": "سنّتولى المتابعة خلال ساعة الذروة التالية ونوافيك بالمؤشرات النهائية. إذا انخفض الأداء مجددًا سنصعّد إلى إجراءات موازنة الحمل؛ وإذا ظهرت آثار سلبية سنعود عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Evening-peak downlink slowdown on an urban NR macro cell was driven by congestion: high PRB utilization, increased scheduling delay, and a DL throughput dip to ~7 Mbps. We verified via OSS counters and downlink KPI time series, then mitigated with site parameter tuning focused on scheduler fairness and control-channel robustness. Early results show improved throughput and lower latency; we will monitor through the next busy hour.",
+    "ar": "كان تباطؤ التحميل خلال ذروة المساء في خلية NR ماكرو حضرية ناتجًا عن الازدحام: ارتفاع استغلال PRB، وزيادة تأخير الجدولة، وانخفاض معدل التحميل إلى ~7 ميجابت/ث. تحققنا عبر عدادات OSS والسلسلة الزمنية لمؤشر التحميل، ثم خففنا المشكلة بضبط معايير المحطة مع التركيز على عدالة المجدول ومتانة القناة التحكمية. النتائج الأولية تُظهر تحسنًا في السرعة وانخفاضًا في الكمون؛ وسنواصل المتابعة خلال ساعة الذروة القادمة."
+  }
+}

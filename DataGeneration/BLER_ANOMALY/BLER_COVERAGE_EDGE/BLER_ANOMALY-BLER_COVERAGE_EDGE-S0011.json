@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0011",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro cell shows high BLER (~16%) with poor edge signal (RSRP -118 dBm, RSRQ -18 dB, SINR 6 dB) and slow data (~3 Mbps p50) over the last 6h off-peak with FWA users.",
+    "ar": "خلية ماكرو NR ريفية تُظهر BLER مرتفعاً (~16%) مع إشارة ضعيفة على حافة التغطية (RSRP -118 dBm، RSRQ -18 dB، SINR 6 dB) وبيانات بطيئة (~3 Mbps p50) خلال آخر 6 ساعات خارج الذروة لمستخدمي FWA."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell has off-peak BLER ~15.7% with weak edge signal (RSRP -118 dBm, RSRQ -18 dB, SINR ~6 dB), 42 FWA users, and p50 DL throughput ~3 Mbps over the last 6 hours. No alarms; please investigate.",
+      "message_ar": "خلية ماكرو NR ريفية تُظهر BLER حوالي 15.7% خارج الذروة مع إشارة ضعيفة على حافة التغطية (RSRP -118 dBm، RSRQ -18 dB، SINR ~6 dB)، وعدد 42 مستخدم FWA، ومعدل تنزيل وسيطي ~3 Mbps خلال آخر 6 ساعات. لا توجد إنذارات؛ الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling 6-hour network stats for the cell to validate BLER, RF quality, and load, then review a BLER time series; if it confirms edge degradation, I'll apply targeted site parameter tuning. Please confirm the cell ID and allow read/execute access.",
+      "message_ar": "سأبدأ بسحب إحصاءات الشبكة لآخر 6 ساعات لهذه الخلية للتحقق من BLER وجودة التغطية والحمل، ثم مراجعة سلسلة زمنية لـ BLER؛ وإذا تأكد تدهور الحافة، سأطبق ضبطاً مستهدفاً لمعاملات الموقع. يرجى تأكيد معرف الخلية والسماح بالوصول للقراءة/التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NRRural-Macro-123. Read/execute access approved for the off-peak window.",
+      "message_ar": "معرّف الخلية هو NRRural-Macro-123. تمت الموافقة على الوصول للقراءة/التنفيذ خلال فترة خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 6h counters: BLER avg 16% with peaks >25%; median RSRP -118 dBm, RSRQ -18 dB, SINR 5–7 dB; DL load ~38%; 42 active FWA sessions. This looks like coverage-edge robustness issues. Proceeding to BLER time-series correlation across the window.",
+      "message_ar": "تم سحب مؤشرات 6 ساعات: متوسط BLER 16% مع قمم >25%؛ الوسيط RSRP -118 dBm و RSRQ -18 dB و SINR بين 5–7 dB؛ حمل التنزيل ~38%؛ 42 جلسة FWA نشطة. تبدو مشكلة متانة على حافة التغطية. سأتابع بتحليل السلسلة الزمنية لـ BLER عبر النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms BLER spikes align with periods of very low RSRP (< -116 dBm) and low CQI; HARQ retransmissions are elevated; neighbor metrics stable. I recommend applying a conservative link-adaptation profile for edge UEs and modest robustness tuning on the downlink to cut BLER without raising load. Proceed to implement now?",
+      "message_ar": "تؤكد السلسلة الزمنية أن ارتفاعات BLER تتزامن مع فترات RSRP منخفض جداً (< -116 dBm) وCQI منخفض؛ عمليات إعادة الإرسال HARQ مرتفعة؛ مؤشرات الجوار مستقرة. أوصي بتطبيق ملف تكيّف وصلة محافظ لمشتركي الحافة وضبط متواضع للمتانة على الوصلة الهابطة لخفض BLER دون زيادة الحمل. هل أمضي بالتنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with the change now.",
+      "message_ar": "نعم، امضِ بالتغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied optimization on NRRural-Macro-123: tightened link adaptation for edge users and slightly increased error protection; commit successful. Starting a 15-minute post-change check.",
+      "message_ar": "تم تطبيق التحسين على NRRural-Macro-123: تشديد تكيّف الوصلة لمشتركي الحافة وزيادة طفيفة في الحماية من الأخطاء؛ تم التثبيت بنجاح. أبدأ تحققاً بعد التغيير لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Share the quick post-change readout.",
+      "message_ar": "يرجى مشاركة قراءة ما بعد التغيير السريعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change (last 15 min): BLER down to ~8.9% from ~16%; p50 DL throughput up to ~5.2 Mbps; HARQ failures down ~40%; RF quality unchanged. I propose monitoring for the next 2–4 hours to ensure stability.",
+      "message_ar": "بعد التغيير (آخر 15 دقيقة): انخفض BLER إلى ~8.9% من ~16%؛ ارتفع الوسيط في معدل التنزيل إلى ~5.2 Mbps؛ انخفضت إخفاقات HARQ بحوالي 40%؛ جودة الإشارة دون تغيير. أقترح المراقبة خلال الساعتين إلى الأربع ساعات القادمة لضمان الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed BLER trending down with improved median throughput after the site parameter tuning. Let's monitor over the next 2–4 hours.",
+      "message_ar": "لوحظ انخفاض BLER مع تحسن المعدل الوسيط للتنزيل بعد ضبط معاملات الموقع. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the 2–4 hour monitoring window and post an update afterward. If BLER regresses, we will roll back the tuning and plan a targeted RF check for coverage reinforcement.",
+      "message_ar": "تم—سنتولى نافذة المراقبة لمدة 2–4 ساعات ونقدّم تحديثاً بعدها. إذا عاد BLER للارتفاع، سنرجع الضبط ونخطط لفحص لاسلكي موجه لتعزيز التغطية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRRural-Macro-123",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRRural-Macro-123",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "edge_UE_link_adaptation_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated a BLER anomaly on a rural NR macro cell by pulling 6-hour stats and analyzing the BLER time series, which showed peaks aligned with very low signal at the coverage edge. Applied site parameter tuning to strengthen link adaptation for edge users, reducing BLER and improving median downlink throughput. We will monitor for the next few hours and roll back if degradation reappears.",
+    "ar": "تم التحقق من شذوذ BLER في خلية ماكرو NR ريفية عبر سحب إحصاءات 6 ساعات وتحليل السلسلة الزمنية لـ BLER، والتي أظهرت قمماً متزامنة مع إشارة ضعيفة على حافة التغطية. تم تطبيق ضبط معاملات الموقع لتعزيز تكيّف الوصلة لمشتركي الحافة، مما خفّض BLER وحسّن المعدل الوسيط للتحميل الهابط. سنواصل المراقبة خلال الساعات القليلة القادمة مع إمكانية الرجوع إذا ظهرت تدهورات."
+  }
+}

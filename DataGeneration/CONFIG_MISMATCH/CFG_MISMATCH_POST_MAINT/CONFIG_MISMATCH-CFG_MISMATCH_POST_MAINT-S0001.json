@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0001",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows 3 post-maintenance config mismatches over 5 hours (drift score 0.43), with 7% handover failures, BLER 3.7%, PRB 64%, and median throughput 15 Mbps affecting eMBB streaming.",
+    "ar": "موقع ماكرو 5G NR في الضواحي يعرض 3 اختلافات إعدادات بعد الصيانة خلال 5 ساعات (درجة الانحراف 0.43)، مع فشل تسليم 7%، وBLER بنسبة 3.7%، واستهلاك PRB بنسبة 64%، وسرعة تنزيل وسطية 15 ميجابت/ث تؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell NR-Suburb-123-S1 had maintenance ~5h ago; since then we see config drift with 3 mismatches, HO failures ~7%, BLER ~3.7%, PRB ~64%, median DL 15 Mbps impacting eMBB streaming; no alarms.",
+      "message_ar": "موقع ماكرو 5G NR في الضواحي NR-Suburb-123-S1 خضع لصيانة قبل ~5 ساعات؛ منذ ذلك الحين نلاحظ انحراف إعدادات مع 3 اختلافات، وفشل تسليم ~7%، وBLER ~3.7%، واستهلاك PRB ~64%، وسرعة تنزيل وسطية 15 ميجابت/ث تؤثر على بث eMBB؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll drive remediation: 1) compare OSS vs live over 24h, 2) if drift is confirmed, align to the OSS baseline via a safe config push, 3) record the change and monitor. Please confirm the cell ID and approve read/write access.",
+      "message_ar": "سأتولى المعالجة: 1) مقارنة إعدادات المنصة مع الحية خلال 24 ساعة، 2) إذا تأكد الانحراف سأقوم بمواءمة الإعدادات مع خط الأساس عبر دفع إعدادات آمن، 3) توثيق التغيير والمراقبة. يرجى تأكيد معرّف الخلية والموافقة على صلاحيات القراءة/الكتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-Suburb-123-S1; read/write approved.",
+      "message_ar": "معرّف الخلية هو NR-Suburb-123-S1؛ تمت الموافقة على القراءة/الكتابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing configuration and KPI pull for NR-Suburb-123-S1 across the last 24h to detect post-maintenance drift.",
+      "message_ar": "أقوم بجلب الإعدادات ومؤشرات الأداء لِـ NR-Suburb-123-S1 خلال آخر 24 ساعة لاكتشاف الانحراف بعد الصيانة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Maintenance closed 5 hours ago; user complaints started shortly after.",
+      "message_ar": "انتهت الصيانة قبل 5 ساعات؛ وبدأت شكاوى المستخدمين بعد ذلك بقليل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: 3 live parameters deviate from the OSS baseline, including neighbor relations and handover timing, consistent with the 7% HO failures. I recommend aligning live to baseline via a no-interrupt apply; approve immediate push?",
+      "message_ar": "النتائج: هناك 3 معلمات حية تختلف عن خط الأساس في المنصة، بما يشمل علاقات الجوار وتوقيت التسليم، وهذا يتسق مع فشل التسليم 7%. أوصي بمواءمة الحيّ مع خط الأساس بتطبيق غير متقطع؛ هل توافق على التنفيذ فوراً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing baseline alignment for NR-Suburb-123-S1 and applying; completed without errors. Starting quick post-checks.",
+      "message_ar": "أقوم بدفع مواءمة خط الأساس لِـ NR-Suburb-123-S1 وتطبيقها؛ اكتملت دون أخطاء. أبدأ فحوصات ما بعد التنفيذ السريعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better—handover failures are trending down and throughput is stable.",
+      "message_ar": "المؤشرات الأولية أفضل—فشل التسليم يتجه للانخفاض ومعدل النقل مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I have logged the change with pre/post snapshots and will keep watching KPIs to ensure stability.",
+      "message_ar": "جيد. سجّلت التغيير مع لقطات قبل/بعد وسأواصل متابعة مؤشرات الأداء لضمان الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: handover failures are dropping and call stability has improved after the config push; let's monitor through the next busy hour. Reference: DU-CFG-01327.",
+      "message_ar": "تم تأكيد التحسّن: فشل التسليم ينخفض واستقرار الاتصالات تحسّن بعد دفع الإعدادات؛ لنراقب خلال ساعة الذروة القادمة. المرجع: DU-CFG-01327."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own this monitoring window and update the ticket after it. If degradation reappears, we will roll back to the previous snapshot and escalate to RF/field for on-site checks.",
+      "message_ar": "سنتولى نافذة المراقبة هذه وسنحدّث التذكرة بعدها. إذا عاد التدهور سنقوم بالرجوع إلى اللقطة السابقة والتصعيد إلى فريق الترددات/الحقل لإجراء فحوصات ميدانية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-123-S1",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG_BASELINE_NR-Suburb-123-S1"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Post-maintenance config mismatch aligned on NR-Suburb-123-S1; monitor during next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Post-maintenance configuration drift was identified on a suburban 5G NR macro cell, contributing to elevated handover failures. We verified OSS vs live settings, aligned the site to the OSS baseline via a config push, and logged a traceability ticket. KPIs will be monitored through the next busy hour to ensure stability.",
+    "ar": "تم تحديد انحراف إعدادات بعد الصيانة على موقع ماكرو 5G NR في الضواحي، مما ساهم في ارتفاع فشل التسليم. تحققنا من إعدادات المنصة مقابل الحية، ومواءمنا الموقع مع خط الأساس عبر دفع الإعدادات، وتم توثيق ذلك بتذكرة تتبع. سيتم مراقبة مؤشرات الأداء خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

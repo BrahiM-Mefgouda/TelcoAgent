@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0001",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell in the last 3 hours shows TA distribution drift (median ~199, p95 ~412, std 57) with distant serving ~15%, high resource use ~90%, weak signal ~-101 dBm, handover failures ~10%, and median downlink ~14 Mbps.",
+    "ar": "خلية NR مايكرو في ملعب خلال آخر 3 ساعات تُظهر انجرافاً في توزيع TA (الوسيط ~199، p95 ~412، الانحراف المعياري 57) مع تخديم بعيد ~15%، استخدام موارد مرتفع ~90%، إشارة ضعيفة ~-101 دBm، فشل تسليم ~10%، ومعدل تنزيل وسطي ~14 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Live event at the stadium; the NR micro cell has widening TA spread over the last 3 hours with user complaints from upper stands and ~10% handover failures.",
+      "message_ar": "حدث مباشر في الملعب؛ خلية NR مايكرو تُظهر اتساعاً في انتشار TA خلال آخر 3 ساعات مع شكاوى من المدرجات العلوية ومعدل فشل تسليم ~10%."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead. Plan: pull health counters for NR-STAD-MICRO-01 over 3h, analyze TA time series, then apply light coverage/mobility tuning to reduce distant serving. Approve read access?",
+      "message_ar": "سأتولى المهمة. الخطة: سحب مؤشرات الصحة لـ NR-STAD-MICRO-01 خلال 3 ساعات، تحليل السلاسل الزمنية لـ TA، ثم تطبيق ضبط خفيف للتغطية/التنقل لتقليل التخديم البعيد. هل توافق على صلاحية القراءة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell is NR-STAD-MICRO-01; traffic is heavy with streaming. No active alarms.",
+      "message_ar": "موافق. المعرّف هو NR-STAD-MICRO-01؛ الحركة كثيفة مع بث فيديو. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters: TA median ~199, p95 ~412, std 57; distant-serving ~15%; PRB ~90%; average RSRP -101 dBm; HO failures ~10%; DL median ~14 Mbps. Confirms TA drift during in-event load at the stadium micro site. Proceeding to TA time-series analysis.",
+      "message_ar": "تم سحب المؤشرات: وسيط TA ~199، p95 ~412، الانحراف المعياري 57؛ التخديم البعيد ~15%؛ استخدام الموارد ~90%؛ متوسط RSRP -101 dBm؛ فشل التسليم ~10%؛ التنزيل الوسطي ~14 ميجابت/ث. هذا يؤكد انجراف TA أثناء الحمل خلال الحدث في موقع المايكرو بالملعب. سأتابع تحليل السلاسل الزمنية لـ TA."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series over 3h shows two spikes aligned with crowd ingress; p95 rises 35–40% vs baseline, correlating with PRB peaks and weaker edge RSRP. Mobility borders look loose, keeping UEs longer on this cell.",
+      "message_ar": "السلسلة الزمنية لـ TA خلال 3 ساعات تُظهر ارتفاعين متزامنين مع دخول الجمهور؛ ترتفع قيمة p95 بنسبة 35–40% مقابل الأساس، وتتطابق مع ذروات استخدام الموارد وضعف RSRP على الحواف. حدود التنقل تبدو رخوة فتُبقي المستخدمين مدة أطول على هذه الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood; no parameter changes were made earlier today.",
+      "message_ar": "مفهوم؛ لم تُجرَ أي تغييرات في المعلمات اليوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: low-risk tuning now to curb overserving—slight down-tilt (~1.5° equivalent), -1 dB pilot, tighten HO margin by 1 dB, and shorten range guard. Changes are reversible. Approve execution?",
+      "message_ar": "الاقتراح: ضبط منخفض المخاطر الآن للحد من التخديم الزائد—إمالة بسيطة للأسفل (~1.5° مكافئ)، خفض الاستدلال بمقدار 1 dB، تضييق هامش التسليم بمقدار 1 dB، وتقليص حراسة المدى. التغييرات قابلة للعكس. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied. Initial 10-minute check: TA p95 down ~12%, distant-serving ~11%, HO failures trending down; DL median steady at ~14–15 Mbps. I’ll keep observing through the current 3h window.",
+      "message_ar": "تم تطبيق التحسين. فحص أولي لمدة 10 دقائق: انخفاض p95 لـ TA بنحو ~12%، التخديم البعيد ~11%، وفشل التسليم في اتجاه هبوطي؛ التنزيل الوسطي ثابت عند ~14–15 ميجابت/ث. سأستمر بالمراقبة خلال نافذة الـ3 ساعات الحالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement: TA spread tightening and handover failures trending down after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: تضيق انتشار TA وتراجع معدل فشل التسليم بعد ضبط معلمات الموقع. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Summary: counters and TA time-series analysis led to targeted coverage/mobility tuning. We will own the next busy hour and report TA spread, distant-serving, and handover outcomes; if degradation returns, we will roll back the tuning and escalate for a physical alignment check.",
+      "message_ar": "تم. الملخص: تحليل المؤشرات والسلاسل الزمنية لـ TA أدى إلى ضبط مُوجّه للتغطية/التنقل. سنقود المراقبة خلال ساعة الذروة القادمة ونقدّم تقريراً عن انتشار TA، التخديم البعيد، ونتائج التسليم؛ وإذا عاد التدهور سنقوم بالرجوع عن الضبط والتصعيد لفحص محاذاة ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-01",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Coverage and handover threshold tuning to reduce distant serving and TA spread"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, TA distribution drift was confirmed on the NR micro cell with elevated TA p95/std, high utilization, weak edge signal, and increased distant serving. The agent pulled health counters and TA time series, then executed targeted site parameter tuning for coverage and mobility to limit overserving. Early results show tighter TA spread and fewer handover failures; continued monitoring is planned for the next busy hour.",
+    "ar": "أثناء الحدث في الملعب، تم تأكيد انجراف توزيع TA على خلية NR مايكرو مع ارتفاع p95 والانحراف المعياري، واستغلال مرتفع، وإشارة أضعف على الحواف، وزيادة التخديم البعيد. قام الوكيل بسحب مؤشرات الصحة والسلسلة الزمنية لـ TA ثم نفّذ ضبطاً موجهاً لمعلمات الموقع للتغطية والتنقل للحد من التخديم الزائد. تظهر النتائج الأولية تضيق انتشار TA وانخفاضاً في فشل التسليم؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

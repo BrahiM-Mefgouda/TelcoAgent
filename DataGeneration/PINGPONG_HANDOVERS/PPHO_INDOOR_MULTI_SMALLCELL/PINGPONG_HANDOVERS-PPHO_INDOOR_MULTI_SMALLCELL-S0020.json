@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0020",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office wing NR micro cell shows high ping‑pong handovers (~29%) during peak eMBB with HO success ~89% and SINR 3 dB indicating interference / signal overlap.",
+    "ar": "خلية NR صغيرة داخلية في جناح مكتبي تُظهر تبديلات بينية متأرجحة (~29%) خلال الذروة eMBB مع نجاح تبديل ~89% وSINR بمقدار 3 dB مما يشير إلى تداخل / تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor office wing NR micro (indoor small site) shows frequent ping‑pong in the last 3h at peak. HO success ~89%, ping‑pong ~29%, SINR ~3 dB, RSRP ~‑98 dBm. eMBB streaming users report brief stalls. No active alarms.",
+      "message_ar": "موقع NR صغير داخلي (موقع صغير داخلي) في جناح مكتبي يُظهر تبديلات متأرجحة متكررة خلال آخر 3 ساعات وقت الذروة. نجاح التبديل ~89%، التذبذب ~29%، SINR ~3 dB، وRSRP ~‑98 dBm. مستخدمو eMBB للبث يبلّغون عن توقفات قصيرة. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. Step 1: pull last 3h mobility counters from OSS. Please share the exact cell ID and confirm access.",
+      "message_ar": "سأتولى التشخيص. الخطوة 1: سأسحب عدادات الحركة لآخر 3 ساعات من نظام الإدارة. يرجى مشاركة معرّف الخلية الدقيق وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_SMC_INDOOR_3F_A12. Time window 3h is correct. Access approved.",
+      "message_ar": "معرّف الخلية: NR_SMC_INDOOR_3F_A12. نافذة الزمن 3 ساعات صحيحة. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters for NR_SMC_INDOOR_3F_A12. Findings: HO attempts ~105/5min with returns <60s mainly A12<->A13/A14; HO failures peak ~20%; load ~61% PRB, ~88 users. Parameters now: A3 offset 2 dB, TTT 295 ms, hysteresis 1 dB. Next, I’ll quantify ping‑pong trend by time and neighbor pairs.",
+      "message_ar": "تم سحب عدادات 3 ساعات للخلية NR_SMC_INDOOR_3F_A12. النتائج: محاولات التبديل ~105/5 دقائق مع عودة خلال <60 ثانية بين A12<->A13/A14؛ فشل التبديل يصل ~20%؛ الحمل ~61% من PRB، ~88 مستخدماً. المعاملات حالياً: إزاحة A3 بمقدار 2 dB، TTT 295 ms، والتباطؤ 1 dB. التالي، سأحدد اتجاه التبديلات المتأرجحة حسب الزمن وأزواج الجوار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 2: analyze HO time series for ping‑pong intensity and dominant neighbor pairs over the last 3h. Proceeding unless you object.",
+      "message_ar": "الخطوة 2: تحليل السلسلة الزمنية للتبديلات لقياس شدة التذبذب وتحديد أزواج الجوار السائدة خلال آخر 3 ساعات. سأباشر ما لم يكن هناك اعتراض."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time‑series shows bursts aligned with peak hour, dominated by A12<->A13 (65%) and A12<->A14 (28%) returns; recurrence intervals 20–50s. Low SINR (~3 dB) indicates interference / signal overlap indoors. This suggests neighbor ranking is too aggressive with short dwell. I recommend a modest mobility retune to reduce rapid returns.",
+      "message_ar": "السلسلة الزمنية تُظهر اندفاعات متزامنة مع ساعة الذروة، يهيمن عليها عودات A12<->A13 بنسبة 65% وA12<->A14 بنسبة 28%؛ فواصل التكرار 20–50 ثانية. قيمة SINR المنخفضة (~3 dB) تشير إلى تداخل / تراكب الإشارة داخلياً. هذا يوحي بأن ترتيب الجيران عدواني مع مكوث قصير. أوصي بضبط طفيف لمعلمات الحركة لتقليل العودات السريعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 3 (remediation): apply targeted tuning on A12 to bias stability—slightly increase event thresholds, extend dwell, and add small margin against macro neighbors to curb rapid returns. Please confirm to implement now.",
+      "message_ar": "الخطوة 3 (المعالجة): تطبيق ضبط موجه على A12 لتعزيز الاستقرار—زيادة طفيفة لعتبات الحدث، إطالة زمن المكوث، وإضافة هامش صغير مقابل الجيران الماكرو للحد من العودات السريعة. يرجى التأكيد للتنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility parameter tuning now.",
+      "message_ar": "موافَق على تنفيذ ضبط معلمات الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization applied to A12 without service impact; initial post‑change counters show early drop in rapid returns between A12 and A13/A14. I’ll observe short‑term behavior and await your field feedback.",
+      "message_ar": "تم تطبيق تحسين المعلمات على A12 دون تأثير خدمي؛ تُظهر العدادات بعد التغيير انخفاضاً مبكراً في العودات السريعة بين A12 وA13/A14. سأراقب السلوك قصير المدى وأنتظر ملاحظاتكم الميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early view: rapid return events are trending down and short stalls are fewer. Action taken: site parameter tuning for handover stability. Let’s monitor through the next busy hour.",
+      "message_ar": "المعاينة الأولية: أحداث العودات السريعة في انخفاض والتوقفات القصيرة أقل. الإجراء المُتخذ: ضبط معلمات الموقع لاستقرار التبديل. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy‑hour monitoring and share an update on mobility KPIs afterward. If performance regresses, we will roll back the change; if interference signs persist, we will escalate for interference mitigation at the venue.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الذروة القادمة ونشارك تحديثاً حول مؤشرات الحركة بعدها. إذا تراجعت الأداء، سنعيد التغيير؛ وإذا استمرت مؤشرات التداخل، سنصعّد لمعالجة التداخل في الموقع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_SMC_INDOOR_3F_A12",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_SMC_INDOOR_3F_A12",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset:+1dB;TTT:+100ms;Hysteresis:+1dB;HO_margin_to_macros:+1dB;Suppress_immediate_return:>3s"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high indoor ping‑pong on the NR micro cell during peak as driven by interference/signal overlap and aggressive mobility thresholds. Pulled OSS counters, analyzed HO time‑series to isolate dominant neighbor pairs, then applied site parameter tuning to increase dwell and stability. Early indicators show fewer rapid returns; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التبديلات المتأرجحة في الخلية NR الداخلية الصغيرة خلال الذروة بأنه ناجم عن تداخل/تراكب الإشارة ومعاملات حركة عدوانية. تم سحب عدادات النظام، وتحليل السلسلة الزمنية للتبديلات لتحديد أزواج الجوار السائدة، ثم تطبيق ضبط لمعلمات الموقع لزيادة زمن المكوث والاستقرار. المؤشرات الأولية تُظهر انخفاض العودات السريعة؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

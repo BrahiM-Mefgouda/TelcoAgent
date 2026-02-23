@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0022",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G NR macro cell over the last 3 hours shows latency at 62 ms with moderate load, BLER ~10%, 231 users, and interference / signal overlap impacting performance.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضاحية خلال آخر 3 ساعات تُظهر زمن تأخير 62 مللي ثانية مع حمل متوسط، وBLER حوالي 10%، و231 مستخدمًا، وتداخل / تراكب الإشارة يؤثر على الأداء."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing latency SLA breaches on a suburban NR macro during the shoulder period: p50 latency ~62 ms, 231 users, PRB ~75%, BLER ~10%, SINR ~0 dB indicating interference / signal overlap. Please investigate across the last 3 hours; traffic is mostly eMBB with streaming.",
+      "message_ar": "نلاحظ تجاوزات في SLA الخاصة بزمن التأخير على خلية ماكرو NR في منطقة ضاحية خلال فترة الكتف: وسيط التأخير ~62 مللي ثانية، 231 مستخدمًا، PRB ~75%، BLER ~10%، وSINR ~0 ديسيبل مما يشير إلى تداخل / تراكب الإشارة. يرجى التحقيق خلال آخر 3 ساعات؛ حركة المرور أغلبها eMBB مع بث فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 3-hour OSS counters to validate load, BLER, and queuing. Please provide the cell ID and confirm read access.",
+      "message_ar": "سأبدأ بسحب مؤشرات OSS لآخر 3 ساعات للتحقق من الحمل وBLER وطوابير التأخير. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-Sub123. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-Cell-Sub123. تم اعتماد صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h stats for NR-Cell-Sub123: DL queueing elevated, BLER 9–12%, median SINR ~0 dB, no active alarms. PRB peaked ~78% with an eMBB streaming mix. Next, I will chart latency over time to isolate peaks and correlation. Proceed?",
+      "message_ar": "تم سحب إحصاءات 3 ساعات للخلية NR-Cell-Sub123: ارتفاع في طوابير DL، وBLER بين 9–12%، ووسيط SINR ~0 ديسيبل، ولا توجد إنذارات نشطة. بلغت ذروة PRB نحو 78% مع مزيج eMBB خاص بالبث. سأقوم بعد ذلك برسم زمن التأخير عبر الزمن لعزل القمم والعلاقات. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency timeline over 3h shows p50 at 55–70 ms with spikes in the shoulder window; RLC retransmissions above baseline, indicating queueing plus error recovery. To mitigate, I propose targeted HQoS and scheduler tuning to reduce BLER impact, prioritize small-packet delay, and tighten inactivity behavior. Approve the change?",
+      "message_ar": "يُظهر مخطط زمن التأخير خلال 3 ساعات وسيطًا بين 55–70 مللي ثانية مع ارتفاعات في فترة الكتف؛ وإعادة إرسال RLC أعلى من الأساس، ما يشير إلى تراكم في الطوابير مع تصحيح للأخطاء. للتخفيف، أقترح ضبطًا مستهدفًا لمعاملات HQoS والجدولة لتقليل أثر BLER، وإعطاء أولوية لتأخير الحِزَم الصغيرة، وتشديد سلوك الخمول. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied latency-focused HQoS/scheduler tuning on NR-Cell-Sub123; no service interruption. Expecting stabilization within 5–10 minutes; I will monitor BLER and queue delay.",
+      "message_ar": "تم تطبيق ضبط HQoS/الجدولة المُركّز على تقليل زمن التأخير على الخلية NR-Cell-Sub123؛ دون انقطاع خدمة. يُتوقع الاستقرار خلال 5–10 دقائق؛ سأراقب BLER وتأخير الطوابير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes, p50 latency is down to ~46 ms and BLER ~7%. Streaming appears smoother.",
+      "message_ar": "بعد حوالي 10 دقائق، انخفض وسيط التأخير إلى ~46 مللي ثانية وBLER إلى ~7%. يبدو البث أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will keep watching for drift during micro-bursts and verify stability across sector load changes. Please share any field anomalies over the next 30–60 minutes.",
+      "message_ar": "تحسّن جيد. سأستمر بالمراقبة لأي انحراف أثناء الزيادات القصيرة والتحقق من الاستقرار مع تغيّر حمل القطاع. يرجى مشاركة أي شواذ ميدانية خلال 30–60 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained—median latency stable around 44–48 ms with fewer retries. The action taken was site parameter tuning for HQoS/scheduler. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسّن مستمر—الوسيط مستقر حوالي 44–48 مللي ثانية مع عمليات إعادة إرسال أقل. الإجراء المنفّذ كان ضبط معلمات الموقع لـHQoS/الجدولة. لِنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update you on latency and BLER afterward. If metrics regress, we will roll back the tuning or escalate for interference mitigation; otherwise, we’ll keep the changes.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيك بتحديث حول التأخير وBLER بعدها. إذا تراجعت المؤشرات سنقوم بالتراجع عن الضبط أو التصعيد لمعالجة التداخل؛ وإلا سنُبقي التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-Sub123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-Sub123",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "HQoS and scheduler tuning to reduce latency and BLER"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed latency SLA violations on a suburban NR macro cell with elevated BLER and interference symptoms. Validated via OSS counters and a 3-hour latency timeline, then applied site parameter tuning to HQoS/scheduler to cut queueing delay. We will monitor through the next busy hour to confirm stability and sustain the improvement.",
+    "ar": "تم تشخيص تجاوزات SLA لزمن التأخير على خلية ماكرو NR في ضاحية مع ارتفاع BLER وقرائن تداخل. تم التحقق عبر مؤشرات OSS ومخطط زمن التأخير لثلاث ساعات، ثم تطبيق ضبط معلمات الموقع لـHQoS/الجدولة لخفض تأخير الطوابير. سنواصل المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار والحفاظ على التحسّن."
+  }
+}

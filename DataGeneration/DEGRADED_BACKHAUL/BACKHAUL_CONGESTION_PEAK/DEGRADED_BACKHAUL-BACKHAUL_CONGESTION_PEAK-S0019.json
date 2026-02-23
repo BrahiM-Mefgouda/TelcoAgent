@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0019",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban 5G macro cell shows a congestion alarm during peak hours with backhaul at 91%, latency 77 ms, packet loss 0.5%, queues 92%, and slow data around 6 Mbps.",
+    "ar": "خلية ماكرو 5G حضرية تظهر إنذار ازدحام خلال ساعات الذروة مع استخدام الوصلة الخلفية 91%، كمون 77 مللي ثانية، فقدان حزم 0.5%، امتلاء طوابير 92%، وبطء تصفح بحوالي 6 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell raising congestion alarm at peak. Users report slow data; KPIs: backhaul 91%, latency 77 ms, packet loss 0.5%, jitter 9 ms, queue 92%, PRB 74%, SINR 17 dB, 248 users, DL ~6 Mbps over last 3h. Please investigate.",
+      "message_ar": "خلية NR ماكرو حضرية تطلق إنذار ازدحام في الذروة. المستخدمون يبلغون عن بطء البيانات؛ المؤشرات: الوصلة الخلفية 91%، الكمون 77 مللي ثانية، فقدان الحزم 0.5%، التذبذب 9 مللي ثانية، امتلاء الطابور 92%، استخدام PRB ‏74%، نسبة الإشارة إلى التشويش 17 ديسيبل، 248 مستخدمًا، والتنزيل ~6 ميجابت/ث خلال آخر 3 ساعات. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull OSS counters for the target cell over the last 3 hours to separate backhaul from radio constraints. Please confirm access and the exact cell/sector.",
+      "message_ar": "سأقوم بسحب عدادات المنصة للإطار الزمني آخر 3 ساعات لعزل قيود الوصلة الخلفية عن قيود الراديو. يرجى تأكيد صلاحية الوصول وتحديد الخلية/القطاع بدقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Target is NR macro cell UBN-045, sector S2, window 3h.",
+      "message_ar": "تمت الموافقة على الوصول. الهدف هو خلية NR ماكرو UBN-045، القطاع S2، الإطار الزمني 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters show backhaul egress >90% with queue occupancy >90%, latency 70–85 ms, and drops ~0.5%; radio load is moderate (PRB ~74%) with SINR 17 dB. Diagnosis: backhaul congestion driving slow data and the active congestion alarm during eMBB streaming peak. Proposal: enable conservative AQM on backhaul queues, raise egress cap by +100 Mbps within headroom, and tighten non-GBR eMBB burst tolerance. Approve to apply?",
+      "message_ar": "تُظهر العدادات أن خرج الوصلة الخلفية >90% مع امتلاء الطوابير >90%، والكمون 70–85 مللي ثانية، وفقدان ~0.5%؛ حمل الراديو متوسط (PRB ~74%) مع SINR‏ 17 ديسيبل. التشخيص: ازدحام الوصلة الخلفية يتسبب في بطء البيانات وإنذار الازدحام النشط خلال ذروة بث eMBB. المقترح: تفعيل إدارة نشطة للطوابير AQM بشكل محافظ، رفع حد الخرج +100 ميجابت/ث ضمن الهامش، وتشديد سلوك الاندفاع لترافيك eMBB غير المضمون. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the optimization now.",
+      "message_ar": "موافقة على تنفيذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied: conservative AQM on backhaul queues, egress cap increased by +100 Mbps, and reduced burst tolerance for non-GBR flows. No service interruption observed. Monitoring 15 minutes for latency, loss, and queue depth.",
+      "message_ar": "تم التطبيق: AQM محافظ على طوابير الوصلة الخلفية، رفع حد الخرج بمقدار +100 ميجابت/ث، وتقليل تسامح الاندفاع للتدفقات غير المضمونة. لم تُلاحظ أي انقطاعات. سأراقب 15 دقيقة لمؤشرات الكمون والفقدان وعمق الطابور."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: median DL now 12–15 Mbps versus ~6 earlier; latency steadier. Continue monitoring.",
+      "message_ar": "فحص أولي: الوسيط للتنزيل الآن 12–15 ميجابت/ث مقابل ~6 سابقًا؛ الكمون أكثر استقرارًا. الرجاء المتابعة في المراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will document the change and open a tracking record. Please confirm approval to log this and keep observing through the next busy interval.",
+      "message_ar": "تم. سأوثّق التغيير وأفتح سجل تتبع. يرجى تأكيد الموافقة على التسجيل والاستمرار في المراقبة خلال فترة الانشغال التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to log and monitor through the next busy hour.",
+      "message_ar": "موافقة على التوثيق والمراقبة خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking created: DU-BH-04219 with pre/post details. Current counters: backhaul ~78%, latency 33–40 ms, packet loss ~0.1%, queue ~40%; DL up to ~18 Mbps. I will watch trends through peak and update.",
+      "message_ar": "تم الإنشاء: DU-BH-04219 مع تفاصيل ما قبل/بعد. المؤشرات الحالية: الوصلة الخلفية ~78%، الكمون 33–40 مللي ثانية، فقدان الحزم ~0.1%، الطابور ~40%؛ التنزيل حتى ~18 ميجابت/ث. سأتابع الاتجاهات خلال الذروة وأحدّث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: packet loss trending down and latency stabilizing after site parameter tuning. Propose monitoring through the next busy hour (next 2–3 hours). Reference DU-BH-04219.",
+      "message_ar": "تحسن ملحوظ: فقدان الحزم في انخفاض واستقرار الكمون بعد تحسين معلمات الموقع. أقترح المراقبة خلال ساعة الانشغال التالية (2–3 ساعات القادمة). مرجع DU-BH-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We will own monitoring for the next busy hour and update the ticket afterward. If congestion returns, we will roll back the tuning and escalate for a backhaul capacity upgrade.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الانشغال التالية وسنحدّث البطاقة بعد ذلك. إذا عاد الازدحام سنقوم بالتراجع عن الضبط والتصعيد لزيادة سعة الوصلة الخلفية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Peak-hour degraded backhaul was confirmed by high utilization, deep queues, elevated latency, and packet loss while radio load and SINR were acceptable. The agent reviewed OSS counters, applied site parameter tuning to improve backhaul queuing and egress capacity, and created a tracking ticket DU-BH-04219. Post-change KPIs improved and the agent will monitor through the next busy hour.",
+    "ar": "تم تأكيد تدهور الوصلة الخلفية في ساعة الذروة عبر ارتفاع الاستخدام وامتلاء الطوابير وازدياد الكمون وفقدان الحزم بينما كان حمل الراديو ونسبة الإشارة إلى التشويش مقبولين. قام الوكيل بمراجعة عدادات المنصة وتطبيق تحسين معلمات الموقع لتحسين طوابير الوصلة الخلفية وسعة الخرج، وإنشاء بطاقة تتبع DU-BH-04219. تحسنت المؤشرات بعد التغيير وسيتم المراقبة خلال ساعة الانشغال التالية."
+  }
+}

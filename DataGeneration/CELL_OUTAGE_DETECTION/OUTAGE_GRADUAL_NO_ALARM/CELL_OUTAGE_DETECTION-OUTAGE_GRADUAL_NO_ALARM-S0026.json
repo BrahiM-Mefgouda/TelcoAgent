@@ -1,0 +1,106 @@
+{
+  "id": "CELL_OUTAGE_DETECTION-OUTAGE_GRADUAL_NO_ALARM-S0026",
+  "intent": "CELL_OUTAGE_DETECTION",
+  "blueprint_id": "OUTAGE_GRADUAL_NO_ALARM",
+  "query": {
+    "en": "Suburban 5G NR macro over the last 6h shows slow data (p50 ~1 Mbps), low availability (~84%), and high drops/setup failures (~15%/~17%) without alarms—investigating a gradual outage.",
+    "ar": "موقع ماكروي 5G NR في منطقة سكنية خلال آخر 6 ساعات يظهر بيانات بطيئة (الوسيط ~1 ميجابت/ث)، توفر منخفض (~84%)، وارتفاع في الانقطاعات وإخفاقات الإعداد (~15%/~17%) دون إنذارات—يتم التحقق من انقطاع تدريجي."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector has been degrading over the last 6 hours off-peak with no alarms. Availability ~84%, median DL throughput ~1 Mbps (slow data), user drops ~15%, and call setup failures ~17%. eMBB users (streaming) are most impacted.",
+      "message_ar": "يتدهور قطاع ماكروي NR في منطقة سكنية خلال آخر 6 ساعات وخارج أوقات الذروة دون إنذارات. التوفر ~84%، وسيط سرعة التحميل ~1 ميجابت/ث (بيانات بطيئة)، انقطاعات المستخدمين ~15%، وإخفاقات إعداد المكالمات ~17%. مستخدمو eMBB (البث) هم الأكثر تأثراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. To validate a gradual outage without alarms, I will start by checking OSS counters for the affected cell across the last 6 hours. Please share the exact cell ID and approve read-only access.",
+      "message_ar": "مفهوم. للتحقق من انقطاع تدريجي دون إنذارات، سأبدأ بفحص عدادات OSS للخلية المتأثرة خلال آخر 6 ساعات. يرجى تزويدي بمعرف الخلية والموافقة على وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SB-132A. Read-only diagnostic access approved.",
+      "message_ar": "معرّف الخلية هو NR-SB-132A. تمت الموافقة على وصول تشخيصي للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-SB-132A over 6h now. Initial readout shows availability drifting from 96% to 84%, access failures and RRC setup rejects spiking, paging success dipping, and no active alarms—consistent with a partial service outage. Next, I will raise a network ticket for field/transport verification. Proceed?",
+      "message_ar": "أقوم الآن بفحص OSS للخلية NR-SB-132A خلال 6 ساعات. القراءة الأولية تُظهر هبوط التوفر من 96% إلى 84%، ارتفاعاً في إخفاقات الوصول ورفض إعداد RRC، وانخفاض نجاح الترحيل، ولا توجد إنذارات فعّالة—وهو ما يتماشى مع انقطاع جزئي. الخطوة التالية، سأفتح بلاغاً لشبكة الميدان/الترانزيت للتحقق. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with opening the network ticket. No planned work from our side.",
+      "message_ar": "نعم، تابع فتح البلاغ الشبكي. لا توجد أعمال مجدولة من جهتنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket opened for suspected gradual outage on NR-SB-132A with 6h KPI evidence; assigned for field/transport triage. No configuration changes applied. I will keep the cell under increased observation and correlate with any user complaints.",
+      "message_ar": "تم فتح بلاغ لانقطاع تدريجي مشتبه به على NR-SB-132A مع إرفاق أدلة مؤشرات الأداء خلال 6 ساعات؛ وتم توجيهه لفرق الميدان/الترانزيت. لم يتم إجراء أي تغييرات في الإعدادات. سأبقي الخلية تحت مراقبة مشددة وسأقارن مع أي شكاوى للمستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Context: no site maintenance, power plant is stable, and microwave RSSI is reported stable by NOC. Neighbor NR macros look healthy.",
+      "message_ar": "معلومة: لا توجد صيانة في الموقع، والطاقة مستقرة، وقياسات RSSI للميكروويف مستقرة حسب مركز العمليات. الخلايا الماكرو المجاورة تبدو سليمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given off-peak eMBB load and no alarms, this points to subtle RF/baseband impairment or partial backhaul degradation. I will watch availability, access failures, and p50 throughput at 15-minute granularity and flag if availability <85% or access failures rise further.",
+      "message_ar": "نظراً للحمل خارج الذروة وعدم وجود إنذارات، يرجّح وجود خلل طفيف في RF/القاعدة أو تدهور جزئي في الترانزيت. سأراقب التوفر، وإخفاقات الوصول، ووسيط سرعات التحميل بدقة 15 دقيقة وسأبلغ إذا انخفض التوفر عن 85% أو زادت إخفاقات الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No new customer complaints in the last 20 minutes; neighbors remain stable.",
+      "message_ar": "لا توجد شكاوى جديدة من العملاء خلال آخر 20 دقيقة؛ والجيران ما زالوا مستقرين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I see a slight improvement in recent access attempts but will continue observing until field/transport feedback arrives. No changes will be made on the cell meanwhile.",
+      "message_ar": "تم الاستلام. ألاحظ تحسناً طفيفاً في محاولات الوصول مؤخراً وسأواصل المراقبة حتى وصول ملاحظات الميدان/الترانزيت. لن تُجرى أي تغييرات على الخلية في هذه الأثناء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: call setup failures are trending down in the last interval. Action taken was an OSS check followed by raising a network ticket for the gradual-outage case on NR-SB-132A. Let’s monitor over the next 2–4 hours; reference DU-OUT-04219.",
+      "message_ar": "هناك تحسن: إخفاقات إعداد المكالمات تتجه للانخفاض في الفترة الأخيرة. الإجراء المتخذ كان فحص OSS ثم رفع بلاغ شبكي لحالة الانقطاع التدريجي على NR-SB-132A. لنراقب خلال الساعتين إلى الأربع ساعات القادمة؛ المرجع DU-OUT-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update the ticket afterward. If degradation returns, we will escalate for on-site inspection or backhaul swap; no rollback is needed since no configuration changes were made.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث البلاغ بعدها. إذا عاد التدهور، سنصعّد لزيارة ميدانية أو تبديل مسار الترانزيت؛ ولا حاجة للتراجع لأننا لم نجرِ أي تغييرات إعدادية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "A gradual, alarm-free service degradation was detected on the suburban NR macro cell, evidenced by a 6h drop in availability with spikes in access failures and slow data. We performed an OSS check to confirm the pattern and opened a network ticket for field/transport verification. No configuration changes were applied; the site is under focused monitoring with escalation to on-site checks if degradation recurs.",
+    "ar": "تم رصد تدهور تدريجي بدون إنذارات في خلية NR الماكرو بمنطقة سكنية، يتضح من هبوط التوفر خلال 6 ساعات مع ارتفاع إخفاقات الوصول وبطء البيانات. أجرينا فحصاً عبر OSS لتأكيد النمط وقمنا بفتح بلاغ شبكي للتحقق من جانب الميدان/الترانزيت. لم تُجرَ أي تغييرات في الإعدادات؛ الموقع تحت مراقبة مركزة مع تصعيد لزيارة ميدانية إذا عاد التدهور."
+  }
+}

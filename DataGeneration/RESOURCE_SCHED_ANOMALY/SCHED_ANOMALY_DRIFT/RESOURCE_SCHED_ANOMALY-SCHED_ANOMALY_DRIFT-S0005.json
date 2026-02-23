@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0005",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban 5G NR macro cell over the last 6h shows uneven PRB scheduling: 78% resource use, fairness ~0.75, allocation skew 22, median DL 14 Mbps with a 36 Mbps tail gap, p95 scheduling latency 81 ms, RSRQ -12 dB, and SINR 5 dB.",
+    "ar": "موقع ماكرو 5G NR حضري خلال آخر 6 ساعات يظهر عدم توازن في تخصيص PRB: استخدام 78%، مؤشر الإنصاف ~0.75، انحراف التوزيع 22، وسيط التحميل 14 ميجابت/ث، فجوة ذيل 36 ميجابت/ث، كمون الجدولة p95 يبلغ 81 مللي ثانية، RSRQ -12 ديسيبل وSINR 5 ديسيبل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-UTR-1103, last 6h during shoulder hours, shows inconsistent PRB allocation; eMBB streaming users report stutter. KPIs: PRB util 78%, fairness ~0.75, allocation skew 22, p50 DL 14 Mbps, p95 26 Mbps (gap 36), p95 scheduling latency 81 ms, RSRQ -12 dB, SINR 5 dB. Please investigate.",
+      "message_ar": "الموقع الحضري NR ماكرو NR-UTR-1103 خلال آخر 6 ساعات في فترة الكتف يظهر تخصيص PRB غير متسق؛ مستخدمو بث eMBB يبلغون عن تقطع. المؤشرات: استخدام PRB 78%، الإنصاف ~0.75، انحراف التوزيع 22، وسيط التحميل 14 ميجابت/ث، p95 = 26 ميجابت/ث (فجوة 36)، كمون الجدولة p95 يساوي 81 مللي ثانية، RSRQ -12 ديسيبل، وSINR 5 ديسيبل. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnostics: 1) pull last 6h OSS counters, 2) analyze PRB/latency time series, 3) if confirmed, apply a minimal scheduler fairness tune. Please confirm read access and change approval for NR-UTR-1103.",
+      "message_ar": "سأتولى التشخيص: 1) سحب عدادات آخر 6 ساعات من OSS، 2) تحليل سلاسل زمنية لـ PRB والكمون، 3) عند التأكيد، تطبيق ضبط طفيف لعدالة المُجَدْوِل. يرجى تأكيد صلاحية القراءة والموافقة على التغيير لـ NR-UTR-1103."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-UTR-1103, and change is authorized. No active alarms reported.",
+      "message_ar": "تمت الموافقة على الوصول لـ NR-UTR-1103 والتغيير مُصرّح به. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 1 complete. OSS view (6h) shows no faults; high-priority classes at 33% and best-effort 50%. PRB peaks ~85%, queue build-up during shoulder periods, fairness 0.74–0.76, allocation skew 20–24. Link quality modest (RSRQ -12 dB, SINR 5 dB). Proceeding to time-series deep dive.",
+      "message_ar": "تم إنجاز الخطوة 1. عرض OSS لآخر 6 ساعات لا يظهر أعطال؛ الفئات عالية الأولوية 33% وأفضل جهد 50%. ذروة PRB ~85%، تراكم قوائم الانتظار في فترات الكتف، الإنصاف 0.74–0.76، وانحراف التوزيع 20–24. جودة الوصلة متوسطة (RSRQ -12 ديسيبل، SINR 5 ديسيبل). سأنتقل إلى تحليل السلاسل الزمنية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Field notes buffering around :15 and :45 past the hour. Continue.",
+      "message_ar": "تم. ملاحظات الحقل تشير إلى تعثر في الدقائق :15 و :45 من كل ساعة. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 2 complete. PRB time series shows skew spikes at :15/:45, fairness dips to ~0.72 during bursts; p95 scheduling latency jumps to 70–90 ms and the throughput tail widens. This suggests scheduler weighting drift under mixed traffic. I recommend a small fairness-centric tuning now to reduce skew and protect high-priority bursts. Approve?",
+      "message_ar": "تمت الخطوة 2. السلسلة الزمنية لـ PRB تُظهر طفرات في الانحراف عند :15/:45، وهبوط الإنصاف إلى ~0.72 أثناء الاندفاعات؛ كمون الجدولة p95 يرتفع إلى 70–90 مللي ثانية مع اتساع ذيل السرعة. يشير ذلك إلى انحراف في أوزان المُجَدْوِل تحت مزيج الحركة. أوصي بضبط طفيف يركز على العدالة الآن لتقليل الانحراف وحماية التدفقات عالية الأولوية. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement minimal-risk scheduler tuning on NR-UTR-1103.",
+      "message_ar": "موافق على تنفيذ ضبط المُجَدْوِل منخفض المخاطر على NR-UTR-1103."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 3 executed. Applied targeted scheduler tuning: slightly reduced burst dominance for high-priority flows, added fairness guard, and smoothed RBG allocation. Change successful; starting live monitoring.",
+      "message_ar": "تم تنفيذ الخطوة 3. تم تطبيق ضبط مُوجَّه للمُجَدْوِل: تقليل طفيف لهيمنة الاندفاع للفئات عالية الأولوية، إضافة حارس للعدالة، وتنعيم توزيع RBG. نجح التغيير؛ أبدأ المراقبة الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early results: p95 scheduling latency down to ~62 ms, allocation skew ~12, median DL steady at ~14 Mbps, no error counters rising.",
+      "message_ar": "النتائج الأولية: كمون الجدولة p95 انخفض إلى ~62 مللي ثانية، انحراف التوزيع ~12، وسيط التحميل مستقر ~14 ميجابت/ث، ولا زيادة في عدادات الأخطاء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll continue short validation and watch PRB balance, latency, and user experience during the remaining shoulder period. No further actions unless regressions appear.",
+      "message_ar": "تحسّن جيد. سأواصل تحققًا قصيرًا وأراقب توازن PRB والكمون وتجربة المستخدم خلال بقية فترة الكتف. لا إجراءات إضافية ما لم تظهر انتكاسات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: scheduling latency trending down and PRB distribution more even. Action taken was scheduler parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسّن: كمون الجدولة في اتجاه هبوطي وتوزيع PRB أكثر توازنًا. الإجراء المنفذ كان ضبط معلمات المُجَدْوِل. لنراقب حتى ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and share an update. If performance worsens, we will roll back the change; if instability persists, we will escalate to assess neighboring load and traffic steering.",
+      "message_ar": "تم. سنراقب حتى ساعة الذروة القادمة ونشارك تحديثًا. إذا ساء الأداء سنقوم بالتراجع عن التغيير؛ وإذا استمرت عدم الاستقرار سنقوم بالتصعيد لتقييم حمل الخلايا المجاورة وتوجيه الحركة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-UTR-1103",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-UTR-1103",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The cell showed a resource scheduling anomaly with high PRB skew, low fairness, and elevated scheduling latency during shoulder periods. We verified the issue by reviewing OSS counters and PRB time series, then mitigated it with targeted site parameter tuning focused on scheduler fairness. Early results show reduced skew and lower p95 latency; we will monitor through the next busy hour.",
+    "ar": "أظهر الموقع خللاً في جدولة الموارد مع انحراف مرتفع في PRB، وإنصاف منخفض، وارتفاع في كمون الجدولة خلال فترات الكتف. قمنا بالتحقق عبر مراجعة عدادات OSS والسلاسل الزمنية لـ PRB، ثم خففنا المشكلة بضبط معلمات الموقع مع تركيز على عدالة المُجَدْوِل. النتائج الأولية تُظهر انخفاض الانحراف وتحسن كمون p95؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

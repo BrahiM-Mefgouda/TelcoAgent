@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0007",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell shows interference/signal overlap with SINR -2 dB, RSRQ -12 dB, 43% PCI overlap, 13% HO failures and 24% ping‑pong over the last 8 hours; an alarm indicates congestion/outage impacting eMBB streaming and median DL 9 Mbps for 305 users.",
+    "ar": "موقع ماكرو NR حضري يظهر تداخل/تراكب إشارة مع SINR = -2 dB و RSRQ = -12 dB وتداخل PCI بنسبة 43%، وفشل تسليم 13% وتسليم متأرجح 24% خلال آخر 8 ساعات؛ يوجد إنذار يدل على ازدحام/انقطاع يؤثر على بث eMBB ومتوسط تحميل 9 ميجابت/ث لـ 305 مستخدمين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration on the urban NR macro, we see 13% HO failures, 24% ping‑pong in the last 8h, SINR at -2 dB, RSRQ -12 dB, and 43% PCI overlap; median DL is 9 Mbps with ~305 users and an active alarm. eMBB streaming complaints observed.",
+      "message_ar": "بعد التكامل على موقع ماكرو NR الحضري، نرى فشل تسليم 13% وتسليم متأرجح 24% خلال آخر 8 ساعات، وSINR = -2 dB وRSRQ = -12 dB وتداخل PCI بنسبة 43%؛ متوسط التحميل 9 ميجابت/ث مع حوالي 305 مستخدمين ووجود إنذار نشط. لوحظت شكاوى في بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given low SINR and high PCI overlap, I suspect a PCI collision. I will start with a neighbor/PCI audit for the impacted cell over the last 8 hours—please confirm the target cell ID and approve OSS access.",
+      "message_ar": "بالنظر إلى انخفاض SINR وارتفاع تداخل PCI، أرجّح وجود تصادم PCI. سأبدأ بتدقيق الجوار/PCI للخلية المتأثرة خلال آخر 8 ساعات—يرجى تأكيد معرف الخلية الهدف والموافقة على الوصول إلى OSS."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Target cell ID: NR-MACRO-UTN-0102. Window: last 8 hours.",
+      "message_ar": "تمت الموافقة. معرف الخلية الهدف: NR-MACRO-UTN-0102. النافذة: آخر 8 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the neighbor/PCI audit on NR-MACRO-UTN-0102 now. Preliminary result: neighbor NR-MACRO-UTN-0091 is broadcasting the same PCI (92) with ~43% footprint overlap, explaining HO failures and ping‑pong. I propose retuning NR-MACRO-UTN-0102 to a clean PCI and updating neighbor relations—proceed?",
+      "message_ar": "أجري الآن تدقيق الجوار/PCI على NR-MACRO-UTN-0102. النتيجة الأولية: الجار NR-MACRO-UTN-0091 يبث نفس PCI (92) مع تداخل تغطية ~43%، ما يفسّر فشل التسليم والتسليم المتأرجح. أقترح إعادة ضبط NR-MACRO-UTN-0102 إلى PCI خالٍ وتحديث علاقات الجوار—هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the retune and relations update.",
+      "message_ar": "تابع إعادة الضبط وتحديث علاقات الجوار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pre-check: PCI 412 is free within two-tier neighbors of NR-MACRO-UTN-0102. Change impact limited to brief RRC reconnects. I will execute the retune and refresh neighbor references now.",
+      "message_ar": "فحص مسبق: PCI 412 متاح وخالٍ ضمن نطاق الجوار من مستويين لِـ NR-MACRO-UTN-0102. تأثير التغيير يقتصر على إعادة اتصال RRC قصيرة. سأنفّذ إعادة الضبط وتحديث مراجع الجوار الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Retune applied: NR-MACRO-UTN-0102 set to PCI 412; neighbor relations refreshed to the new value. Cell is back on-air; initial post-checks show HO success improving and collisions cleared. I will watch short-term KPIs as users reattach.",
+      "message_ar": "تم التطبيق: ضبط NR-MACRO-UTN-0102 على PCI 412؛ تم تحديث علاقات الجوار للقيمة الجديدة. الخلية عادت للعمل؛ فحوصات ما بعد التنفيذ الأولية تُظهر تحسّن نجاح التسليم وزوال التصادمات. سأراقب مؤشرات الأداء قصيرة المدى مع إعادة اتصال المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: HO failures are trending down and ping‑pong dropped toward ~12%; SINR median is improving from -2 dB to around -0.5 to 0 dB.",
+      "message_ar": "المؤشرات الأولية أفضل: فشل التسليم في انخفاض ومعدل التسليم المتأرجح هبط نحو ~12%؛ متوسّط SINR يتحسّن من -2 dB إلى حوالي -0.5 إلى 0 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will open a change record for traceability and attach before/after KPIs and neighbor screenshots.",
+      "message_ar": "جيد. سأفتح سجلاً للتغيير لأغراض التتبع وأرفق مؤشرات الأداء قبل/بعد ولقطات الجوار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvements sustained; beam/handover issues are trending down after the PCI retune (site parameter tuning). Let’s monitor for the next 2–4 hours including the next busy hour; reference ticket DU-PCI-04583.",
+      "message_ar": "التحسّن مستمر؛ مشكلات الحزم/التسليم في اتجاه تنازلي بعد إعادة ضبط PCI (ضبط معلمات الموقع). لنتابع المراقبة خلال الساعتين إلى الأربع القادمات بما يشمل ساعة الذروة القادمة؛ المرجع التذكرة DU-PCI-04583."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next 2–4 hours monitoring window, update the ticket afterward with KPI deltas, and notify you. If performance regresses, we will revert the change or apply an alternate clean setting and escalate to RF planning.",
+      "message_ar": "مفهوم—سنتولى نافذة المراقبة خلال الساعتين إلى الأربع القادمتين، وسنحدّث التذكرة لاحقًا بفروقات مؤشرات الأداء مع إشعاركم. إذا تراجعت الجودة، سنرجع التغيير أو نطبّق إعدادًا بديلاً خاليًا من التعارض ونصعّد لفريق التخطيط الراديوي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-MACRO-UTN-0102",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "Retune PCI to 412 and refresh neighbor relations for NR-MACRO-UTN-0102"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI collision on NR-MACRO-UTN-0102 by retuning to PCI 412; monitoring next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis confirmed a PCI collision: a neighbor was broadcasting the same PCI as the target cell with ~43% footprint overlap, driving interference and mobility errors. We performed site parameter tuning by retuning the target cell to a clean PCI and refreshing neighbor relations, then documented the change. KPIs began recovering; we will continue monitoring through the next busy hour.",
+    "ar": "أكد التشخيص وجود تصادم PCI: كان جار يبث نفس PCI للخلية الهدف مع تداخل تغطية ~43% مما تسبب في تداخل وأخطاء في التنقل. قمنا بضبط معلمات الموقع عبر إعادة ضبط الخلية الهدف إلى PCI خالٍ وتحديث علاقات الجوار، ثم وثّقنا التغيير. بدأت مؤشرات الأداء في التحسن؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

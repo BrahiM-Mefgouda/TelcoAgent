@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0018",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Urban macro 5G NR cell shows high ping-pong handovers (~16%) with slow data (median ~7 Mbps) during peak evening eMBB streaming; please investigate and stabilize mobility.",
+    "ar": "خلية NR ماكرو حضرية تُظهر تبديلًا ذهابًا وإيابًا مرتفعًا (~16%) مع بيانات بطيئة (الوسيط ~7 ميجابت/ث) خلال ذروة المساء مع بث eMBB؛ نرجو التحقيق واستقرار التنقل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening in the urban NR macro shows frequent ping-pong handovers (~16%) and slow data (median ~7 Mbps) during eMBB streaming; please check.",
+      "message_ar": "خلال وقت الذروة في موقع ماكرو NR حضري، هناك تبديل متكرر ذهابًا وإيابًا (~16%) وبطء في البيانات (الوسيط ~7 ميجابت/ث) أثناء بث eMBB؛ يرجى التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnostics. Please share the target cell ID and approve a 4-hour counter review.",
+      "message_ar": "سأقود التشخيص. يرجى تزويدي بمعرّف الخلية المستهدفة والموافقة على مراجعة المؤشرات لمدة 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NRMacro-41012-1; you have approval for a 4-hour review.",
+      "message_ar": "معرّف الخلية هو NRMacro-41012-1؛ لديك الموافقة لمراجعة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling counters now. Findings: HO attempts ~57/5min, ping-pong ~16% mainly with NRMacro-41012-2 and NRMacro-41013-1. Mobility params: A3 offset 2 dB, TTT 253 ms, hysteresis 1 dB. Radio: RSRP −104 dBm, RSRQ −13 dB, SINR 6 dB. Load: PRB ~67%, users 389. Next, I will review handover trends over the last 4 hours.",
+      "message_ar": "أقوم بسحب العدادات الآن. النتائج: محاولات التسليم ~57/5 دقائق، نسبة التبديل ذهابًا وإيابًا ~16% خصوصًا مع NRMacro-41012-2 وNRMacro-41013-1. معلمات التنقل: A3 offset ‏2 dB، وTTT ‏253 ms، وhysteresis ‏1 dB. الراديو: RSRP ‏−104 dBm، وRSRQ ‏−13 dB، وSINR ‏6 dB. الحمل: PRB ~67%، وعدد المستخدمين 389. الخطوة التالية: سأراجع اتجاهات التسليم خلال آخر 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the trend analysis.",
+      "message_ar": "موافق على المضي قدمًا في تحليل الاتجاه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend review shows ping-pong peaks from 19:30–22:00, dominated by oscillations with those two neighbors; HO failures near 12% under marginal signal. This indicates permissive thresholds under load. I propose tuning: increase TTT to 384 ms, hysteresis to 2 dB, and raise A3 offset by +1 dB on the contentious neighbors to damp flapping. Approve?",
+      "message_ar": "مراجعة الاتجاه تُظهر ذروة للتبديل ذهابًا وإيابًا بين 19:30–22:00، مع تذبذب بين الجارين المذكورين؛ إخفاقات التسليم تقارب 12% عند الإشارة الهامشية. هذا يشير إلى عتبات متساهلة تحت الحمل. أقترح ضبطًا: رفع TTT إلى 384 ms، وزيادة hysteresis إلى 2 dB، ورفع A3 offset بمقدار +1 dB على الجيران المعنيين لتخفيف التذبذب. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed handover parameter tuning.",
+      "message_ar": "موافق على تنفيذ ضبط معلمات التسليم المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying updates now and validating: A3 offset +1 dB on the two neighbors, hysteresis 2 dB, TTT 384 ms. Change committed; counters and event traces are clean. I will watch initial KPIs for 10–15 minutes.",
+      "message_ar": "أُطبّق التحديثات الآن مع التحقق: زيادة A3 offset بمقدار +1 dB على الجارين، رفع hysteresis إلى 2 dB، وTTT إلى 384 ms. تم اعتماد التغيير؛ العدادات وتتبع الأحداث سليمة. سأراقب المؤشرات الأولية لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early view: ping-pong is trending down near 10–11%, and median user throughput is above 8 Mbps.",
+      "message_ar": "المؤشرات الأولية: نسبة التبديل ذهابًا وإيابًا تتراجع نحو 10–11%، والسرعة المتوسطة للمستخدمين فوق 8 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I will keep observing through the next busy period to confirm stability; if we see regressions, I will revert the change and consider targeted neighbor adjustments.",
+      "message_ar": "إشارة جيدة. سأواصل المراقبة خلال فترة الازدحام التالية لتأكيد الاستقرار؛ وإذا ظهرت انتكاسات فسأُرجع التغيير وأنظر في تعديلات موجهة على الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: ping-pong loops are down and slow data complaints have eased. The site parameter tuning you applied looks effective; let’s monitor through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: دورات التبديل ذهابًا وإيابًا انخفضت وتراجعت شكاوى بطء البيانات. ضبط معلمات الموقع الذي نفذته يبدو فعالًا؛ لنتابع خلال ساعة الازدحام القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and update you on ping-pong and throughput trends afterward. If degradation returns, we will roll back the change and escalate for a deeper mobility audit.",
+      "message_ar": "تم. سنتولى مراقبة ساعة الازدحام القادمة ونوافيك باتجاهات التبديل ذهابًا وإيابًا والسرعة بعدها. إذا عاد التدهور سنرجع التغيير ونصعّد لإجراء تدقيق أعمق للتنقل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on an urban NR macro during peak evening, confirmed by counters and handover trend analysis under marginal radio conditions and moderate load. Mitigation applied through site parameter tuning—raised A3 offset on key neighbors, increased hysteresis, and extended TTT—to dampen oscillations. Monitoring through the next busy hour to confirm sustained improvement.",
+    "ar": "تم تشخيص ارتفاع التبديل ذهابًا وإيابًا في موقع NR ماكرو حضري خلال ذروة المساء، وتأكيده عبر العدادات وتحليل اتجاهات التسليم مع ظروف راديوية هامشية وحمل متوسط. تمت المعالجة عبر ضبط معلمات الموقع—رفع A3 offset على الجيران الرئيسيين وزيادة hysteresis وإطالة TTT—للحد من التذبذب. سيتم استمرار المراقبة خلال ساعة الازدحام القادمة للتأكد من ثبات التحسن."
+  }
+}

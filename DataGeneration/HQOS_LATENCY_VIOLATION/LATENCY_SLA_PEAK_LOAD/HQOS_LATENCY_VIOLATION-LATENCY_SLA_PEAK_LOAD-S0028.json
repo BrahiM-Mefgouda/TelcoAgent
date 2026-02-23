@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0028",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban NR macro cell shows PRB utilization 88.8%, BLER 6.8%, 277 users, median latency 69 ms with p95 99 ms and p50 throughput 11 Mbps over the last 2h; congestion alarm observed during shoulder hours impacting eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية تُظهر استخدام PRB بنسبة 88.8%، وBLER عند 6.8%، و277 مستخدماً، وزمن تأخير وسطي 69 مللي ثانية مع p95 عند 99 مللي ثانية وسرعة تنزيل وسيط 11 ميجابت/ث خلال آخر ساعتين؛ تم رصد تنبيه ازدحام خلال فترة الذروة الجزئية مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a latency SLA breach on NR macro cell NR-URB-MACRO-045-S2 in an urban area over the last 2 hours (shoulder). KPIs: PRB ~88%, BLER ~6–7%, 277 users, median latency 69 ms, p95 99 ms. Please assist.",
+      "message_ar": "لدينا خرق لاتفاقية مستوى الخدمة للزمن في خلية NR ماكرو NR-URB-MACRO-045-S2 ضمن منطقة حضرية خلال آخر ساعتين (فترة الذروة الجزئية). المؤشرات: PRB ~88%، BLER ~6–7%، 277 مستخدماً، زمن تأخير وسطي 69 مللي ثانية وp95 عند 99 مللي ثانية. يرجى المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. First, I will check live counters for NR-URB-MACRO-045-S2 over the last 2h to validate load and scheduler behavior. Confirm access to proceed.",
+      "message_ar": "سأتولى التشخيص. أولاً سأتحقق من العدادات الحية للخلية NR-URB-MACRO-045-S2 لآخر ساعتين للتحقق من الحمل وسلوك المُجدِّل. يرجى تأكيد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-URB-MACRO-045-S2, last 2 hours. Go ahead.",
+      "message_ar": "تمت الموافقة على الوصول لخلية NR-URB-MACRO-045-S2 لآخر ساعتين. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm sustained high load: DL PRB >85% most of the window, users peaked near 290, queueing depth elevated; BLER 6–8% adds retransmissions. No hardware faults seen. Next, I will pull the latency time series (including p95 and scheduling delay) for correlation with load; this impacts eMBB streaming. Approve?",
+      "message_ar": "تؤكد العدادات وجود حمل مرتفع مستمر: PRB للأسفل >85% لمعظم النافذة، وعدد المستخدمين بلغ نحو 290، وعمق صفوف الانتظار مرتفع؛ وBLER بين 6–8% يزيد عمليات الإعادة. لا توجد أعطال عتادية. التالي، سأستخرج سلسلة زمنية للزمن (بما فيها p95 وتأخير الجدولة) لربطها بالحمل؛ هذا يؤثر على بث eMBB. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the latency time series.",
+      "message_ar": "موافق. تابع استخراج السلسلة الزمنية للزمن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows p95 latency spikes 95–110 ms aligned with user surges; scheduler latency rises with PRB >85%. BLER is moderate but contributes to delay. Diagnosis: load-driven QoS latency violation under eMBB traffic. I propose targeted parameter tuning on this cell: increase latency weighting in QoS, tighten buffer thresholds, and minor DRX/timer refinement. Low risk with instant rollback. Approve execution?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاعات p95 بين 95–110 مللي ثانية بالتزامن مع زيادات المستخدمين؛ تأخير المجدِّل يرتفع مع PRB >85%. وBLER متوسط لكنه يساهم بالتأخير. التشخيص: خرق QoS للزمن مدفوع بالحمل ضمن حركة eMBB. أقترح ضبطاً مُوجهاً لمعاملات الخلية: زيادة وزن الكمون في QoS، تشديد عتبات المخازن، وتحسينات طفيفة على DRX/المؤقتات. مخاطرة منخفضة مع إمكانية تراجع فوري. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the parameter optimization on NR-URB-MACRO-045-S2 now.",
+      "message_ar": "موافق على تطبيق تحسين المعاملات على الخلية NR-URB-MACRO-045-S2 الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed and committed successfully. Expected effect: reduced queueing delay and lower p95 latency under load. I will watch quick indicators for the next few minutes; please share an immediate post-change snapshot.",
+      "message_ar": "تم تنفيذ التحسين واعتماده بنجاح. التأثير المتوقع: تقليل تأخير الصفوف وخفض p95 تحت الحمل. سأراقب المؤشرات السريعة خلال الدقائق القادمة؛ يرجى مشاركة لقطة مباشرة بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change snapshot: median latency ~46 ms (was 69), p95 ~74 ms (was 99), PRB ~84%, BLER ~6%. No new alarms.",
+      "message_ar": "اللقطة بعد التغيير: الزمن الوسطي ~46 مللي ثانية (كان 69)، p95 ~74 مللي ثانية (كان 99)، PRB ~84%، BLER ~6%. لا تنبيهات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. With reduced queuing, user stalls should lessen and median throughput should improve. I will continue background observation; please note any abnormal user reports.",
+      "message_ar": "تم الاستلام. مع خفض التأخير في الصفوف، يُتوقع انخفاض حالات التوقف للمستخدم وتحسن السرعة المتوسطة. سأواصل المراقبة في الخلفية؛ يرجى إبلاغي بأي تقارير مستخدمين غير اعتيادية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing continued improvement: high-percentile latency is trending down. Action taken: QoS scheduler parameter tuning on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى استمرار التحسن: القيم العالية لزمن التأخير تتراجع. الإجراء المُتخذ: ضبط معاملات مُجدِّل QoS على الخلية. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and report latency and user-experience trends. If latency regresses, we will roll back the change and escalate to capacity for additional load mitigation.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنبلغ باتجاهات التأخير وتجربة المستخدم. إذا تدهور الزمن مجدداً سنُعيد الإعدادات السابقة ونصعّد لفريق السعة لإجراءات تخفيف الحمل الإضافية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a QoS latency violation on an urban NR macro cell during shoulder hours, driven by sustained high load (PRB >85%) with moderate BLER causing queueing delay. Validated via live counters and latency time series, then applied site parameter tuning to rebalance QoS weights and buffer thresholds, reducing p95 latency. We will monitor through the next busy hour to ensure stability.",
+    "ar": "تم تشخيص خرق QoS للزمن في خلية NR ماكرو حضرية خلال فترة الذروة الجزئية نتيجة حمل مرتفع مستمر (PRB >85%) مع BLER متوسط يسبب تأخيرات في الصفوف. جرى التحقق عبر العدادات الحية والسلسلة الزمنية للزمن، ثم تم تنفيذ ضبط لمعاملات الموقع لإعادة موازنة أوزان QoS وعتبات المخازن مما خفّض p95. سنواصل المراقبة خلال ساعة الذروة القادمة لضمان الاستقرار."
+  }
+}

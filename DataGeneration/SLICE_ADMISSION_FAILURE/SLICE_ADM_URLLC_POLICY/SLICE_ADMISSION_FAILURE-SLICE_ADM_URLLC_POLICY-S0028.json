@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0028",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro shows elevated URLLC slice admission denials (~24%) with ~26 requests/min, latency ~25 ms, and a strict admission threshold (~94%) over the last 24h.",
+    "ar": "موقع ماكرو NR حضري يُظهر ارتفاعاً في رفض قبول شريحة URLLC (~24%) مع ~26 طلب/دقيقة، وزمن تأخير ~25 مللي ثانية، وحد قبول صارم (~94%) خلال آخر 24 ساعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell has high URLLC admission denials (~24%) across the last 24h; ~26 slice requests/min and latency around 25 ms. Please investigate.",
+      "message_ar": "خلية ماكرو NR حضرية تُظهر ارتفاعاً في رفض قبول URLLC (~24%) خلال آخر 24 ساعة؛ حوالي 26 طلب شريحة/دقيقة وزمن تأخير يقارب 25 مللي ثانية. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by checking OSS metrics for the impacted cell over 24h. Please share the cell ID and confirm access.",
+      "message_ar": "تم الفهم. سأبدأ بالتحقق من مقاييس OSS للخلية المتأثرة خلال 24 ساعة. يرجى مشاركة معرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-78121-01, and access is approved.",
+      "message_ar": "معرّف الخلية هو NR-78121-01، والوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check on NR-78121-01 (24h) shows PRB ~76%, URLLC slice utilization ~73%, and admission denials peaking at mixed times of day. Admission policy is tight (~94% threshold). Confirm the URLLC slice ID so I can update the policy (lower threshold, add burst tolerance, enforce priority).",
+      "message_ar": "فحص OSS على NR-78121-01 (24 ساعة) يُظهر استخدام PRB ~76%، واستخدام شريحة URLLC ~73%، وذروة في رفض القبول بأوقات مختلطة من اليوم. سياسة القبول صارمة (~94%). يرجى تأكيد معرّف شريحة URLLC لكي أقوم بتحديث السياسة (خفض العتبة، إضافة سماحية اندفاع، وتأكيد الأولوية)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Slice ID is URLLC-01; you can proceed with the policy change.",
+      "message_ar": "معرّف الشريحة هو URLLC-01؛ يمكنك المضي قدماً في تغيير السياسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying URLLC policy update on NR-78121-01/URLLC-01: lowering admission threshold to 85%, adding burst headroom, and keeping strict preemption for URLLC. Change committed; I will monitor impact.",
+      "message_ar": "تطبيق تحديث سياسة URLLC على NR-78121-01/URLLC-01: خفض عتبة القبول إلى 85%، إضافة هامش اندفاع، والإبقاء على أولوية صارمة لـ URLLC. تم اعتماد التغيير؛ سأراقب الأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: admission denials are dipping and latency is stabilizing slightly.",
+      "message_ar": "ملاحظة أولية: انخفاض في رفض القبول واستقرار طفيف في زمن التأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will document the change and mitigation for traceability and continued monitoring. Please confirm I can open a record.",
+      "message_ar": "سأوثّق التغيير والإجراء التخفيفي لضمان التتبع واستمرار المراقبة. يرجى تأكيد السماح بفتح سجل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the record.",
+      "message_ar": "مُوافق على فتح السجل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created: DU-SLICE-04273 for the URLLC policy update on NR-78121-01. I’ll continue monitoring through busy periods today.",
+      "message_ar": "تم إنشاء السجل: DU-SLICE-04273 لتحديث سياسة URLLC على NR-78121-01. سأواصل المراقبة خلال فترات الانشغال اليوم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good news: URLLC admission denials have dropped from ~24% to ~10% after the slice policy update. Let’s monitor through the next busy hour and track admission outcomes; reference DU-SLICE-04273.",
+      "message_ar": "أخبار جيدة: انخفض رفض قبول URLLC من ~24% إلى ~10% بعد تحديث سياسة الشريحة. لنتابع المراقبة خلال ساعة الانشغال القادمة ونتتبع نتائج القبول؛ المرجع DU-SLICE-04273."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and update DU-SLICE-04273 with admission and latency results. If denials rebound, we will temporarily roll back the change and assess load distribution; if stable, we’ll keep the tuning.",
+      "message_ar": "تم الاستلام. سنتولى المراقبة خلال ساعة الانشغال القادمة ونحدّث DU-SLICE-04273 بنتائج القبول وزمن التأخير. إذا عادت حالات الرفض للارتفاع، سنُرجع التغيير مؤقتاً ونقيّم توزيع الحمل؛ وإن استقر الأداء سنُبقي الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-78121-01",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC-01",
+        "admission_threshold=85,bucket_burst=+10,preemption=high"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC admission denials mitigated by slice policy update on NR-78121-01 (URLLC-01)"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated URLLC slice admission denials on an urban NR macro; OSS showed high utilization and an overly strict admission threshold (~94%). Applied a slice policy update on URLLC-01 to lower the threshold and add burst headroom, then documented the change (DU-SLICE-04273). Post-change, denials trended down; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع رفض قبول شريحة URLLC في موقع ماكرو NR حضري؛ أظهر OSS ارتفاع الاستخدام وعتبة قبول صارمة (~94%). تم تنفيذ تحديث لسياسة الشريحة على URLLC-01 لخفض العتبة وإضافة سماحية اندفاع، وتم توثيق التغيير (DU-SLICE-04273). بعد التغيير انخفضت حالات الرفض؛ وستستمر المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

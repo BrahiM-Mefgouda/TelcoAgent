@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0006",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Over the last 24 hours on an urban NR macro, URLLC slice admission denials are about 17% with ~21 requests per minute, slice utilization ~79%, PRB load ~75%, and latency around 17 ms.",
+    "ar": "خلال آخر 24 ساعة على موقع ماكرو NR حضري، تبلغ حالات رفض قبول شريحة URLLC نحو 17% مع ~21 طلباً في الدقيقة، واستغلال الشريحة ~79%، وحِمل PRB ~75%، والزمن حوالي 17 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro serving enterprise private traffic. Over 24h we see ~17% URLLC slice admission denials, ~21 requests/min, slice utilization ~79%, PRB ~75%, latency ~17 ms. Please assist.",
+      "message_ar": "موقع ماكرو NR حضري يخدم حركة مؤسسية خاصة. خلال 24 ساعة نرى ~17% رفض قبول لشريحة URLLC، ~21 طلب/دقيقة، استغلال الشريحة ~79%، استخدام PRB ~75%، والزمن ~17 مللي ثانية. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking admission and resource stats from OSS for the affected cell over 24h to localize the denials. Please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ بالتحقق من إحصاءات القبول والموارد عبر نظام الإدارة للشبكة خلال 24 ساعة لتحديد مصدر الرفض. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR_Urban_Macro_123. Target slice is URLLC_Slice_201. Access approved.",
+      "message_ar": "معرّف الخلية هو NR_Urban_Macro_123. الشريحة المستهدفة هي URLLC_Slice_201. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows repeated URLLC admission rejections during brief request bursts (~20/min) while slice utilization stays >75%. No site alarms; neighbors normal. Root cause points to a conservative URLLC admission policy under enterprise bursts. I propose a targeted policy update to allow short, bounded bursts while preserving latency. Do you approve?",
+      "message_ar": "يُظهر النظام تكرار حالات رفض قبول URLLC أثناء دفعات طلبات قصيرة (~20/دقيقة) مع بقاء استغلال الشريحة >75%. لا توجد إنذارات بالموقع؛ الجوار طبيعي. السبب يُشير إلى سياسة قبول URLLC متحفظة تحت دفعات المؤسسة. أقترح تحديثاً موجهاً للسياسة للسماح بدُفعات قصيرة ومحدودة مع الحفاظ على الكمون. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the policy change.",
+      "message_ar": "موافق على تنفيذ تغيير السياسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied URLLC admission policy update on NR_Urban_Macro_123 for URLLC_Slice_201: slightly relaxed the guard and enabled limited short-burst allowance; no service impact. Let's observe for 5–10 minutes.",
+      "message_ar": "تم تطبيق تحديث سياسة قبول URLLC على NR_Urban_Macro_123 لشريحة URLLC_Slice_201: تخفيف بسيط للهامش وتفعيل سماحية محدودة للدفعات القصيرة؛ دون تأثير على الخدمة. لنتابع لمدة 5–10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~8 minutes, admission denials dropped to about 3%. Latency steady near 17 ms; PRB remains ~75%.",
+      "message_ar": "بعد ~8 دقائق، انخفضت حالات الرفض إلى نحو 3%. الكمون ثابت قرب 17 مللي ثانية؛ وPRB يبقى ~75%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will document the change and monitoring by opening a ticket and continue watching through the next busy hour. OK to proceed?",
+      "message_ar": "تحسن جيد. سأوثّق التغيير والمتابعة بفتح تذكرة وسأستمر بالمراقبة خلال ساعة الانشغال القادمة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with documentation.",
+      "message_ar": "تابع التوثيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created to track the slice policy change and initial post-change results. Monitoring remains active.",
+      "message_ar": "تم إنشاء تذكرة لتتبع تغيير سياسة الشريحة ونتائج ما بعد التغيير الأولية. المراقبة ما تزال فعّالة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: admission denials trending down to ~2–3% after the slice policy update. Let’s monitor through the next busy hour. Tracking under DU-URLLC-04219.",
+      "message_ar": "تمت ملاحظة تحسّن: حالات رفض القبول تتجه إلى ~2–3% بعد تحديث سياسة الشريحة. لنواصل المراقبة خلال ساعة الانشغال القادمة. المتابعة تحت DU-URLLC-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket after the window. If denials rise or latency degrades, we will rollback the change and escalate to the slicing/core team.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الانشغال القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا ارتفعت حالات الرفض أو تدهور الكمون، سنعود عن التغيير ونصعّد إلى فريق الشرائح/النواة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_Urban_Macro_123",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC_Slice_201",
+        "admission policy adjustment"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Mitigated URLLC admission denials via slice policy update; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Admission failures on the urban NR macro were driven by a conservative URLLC slice policy during enterprise traffic bursts. We confirmed the pattern via OSS, then applied a targeted slice policy update to permit short, bounded bursts while maintaining latency, and created a tracking ticket with ongoing monitoring. Denials decreased and latency stayed stable; we will continue monitoring and adjust if needed.",
+    "ar": "كانت حالات فشل القبول على موقع NR الحضري ناتجة عن سياسة URLLC متحفظة أثناء دفعات حركة المؤسسة. تم التأكيد عبر نظام الإدارة، ثم طُبِّق تحديث موجّه لسياسة الشريحة للسماح بدُفعات قصيرة ومحدودة مع الحفاظ على الكمون، وتم إنشاء تذكرة متابعة مع مراقبة مستمرة. انخفضت حالات الرفض وبقي الكمون مستقراً؛ سنواصل المراقبة ونجري التعديلات إذا لزم الأمر."
+  }
+}

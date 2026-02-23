@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0020",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban macro 5G NR cell shows ~97% resource use with 293 users while neighbors average ~55%, handovers skewed (50 out vs 28 in per 5 min), indicating load imbalance during peak evening eMBB streaming.",
+    "ar": "موقع ماكرو 5G NR حضري يظهر استخداماً للموارد بنحو 97% مع 293 مستخدماً بينما الجيران بمتوسط ~55%، وتحويلات غير متوازنة (50 للخارج مقابل 28 للداخل كل 5 دقائق)، ما يشير إلى اختلال في توازن الحمل خلال ذروة المساء وحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on urban macro NRCell-URB-1023: resource use ~97%, 293 users; neighbors ~55% avg; imbalance index ~0.45; handovers 50 out vs 28 in per 5 min. RSRQ ~-13 dB, SINR ~6 dB. Users report streaming slowdowns.",
+      "message_ar": "ذروة المساء على الخلية الماكرو الحضرية NRCell-URB-1023: استخدام الموارد ~97%، 293 مستخدماً؛ الجيران بمتوسط ~55%؛ مؤشر عدم التوازن ~0.45؛ التحويلات 50 للخارج مقابل 28 للداخل كل 5 دقائق. RSRQ حوالي -13 dB وSINR حوالي 6 dB. شكاوى من بطء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "This points to load imbalance. I will audit neighbor relations and load over the last 4h to identify offload candidates and HO asymmetry. Please approve read-only access.",
+      "message_ar": "هذا يشير لاختلال توازن الحمل. سأفحص علاقات الجوار والحمل لآخر 4 ساعات لتحديد خلايا الاستيعاب وعدم التماثل في التحويلات. يرجى اعتماد وصول قراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read-only access approved for the 4h window. Target cell is NRCell-URB-1023 with neighbors NRCell-URB-1024/1025/1026.",
+      "message_ar": "تمت الموافقة على وصول القراءة فقط لفترة 4 ساعات. الخلية المستهدفة NRCell-URB-1023 والجيران NRCell-URB-1024/1025/1026."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor/load audit: NRCell-URB-1023 at ~97% vs neighbors at ~48% (1024), ~52% (1025), ~58% (1026). HO out >> in, indicating sticky serving. I propose targeted load balancing: small negative offsets toward 1024/1025/1026 and enabling stronger load-based HO triggers to shift ~10–15% traffic. Approve?",
+      "message_ar": "نتائج فحص الجوار/الحمل: NRCell-URB-1023 عند ~97% مقابل الجيران ~48% (1024)، ~52% (1025)، ~58% (1026). التحويل للخارج أعلى بكثير من الداخل، ما يدل على تمسك بالخدمة. أقترح موازنة حمل موجهة: إزاحات بسيطة سالبة باتجاه 1024/1025/1026 وتفعيل محفزات تحويل مبنية على الحمل لتحويل ~10–15% من الحركة. موافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the proposed parameter adjustments.",
+      "message_ar": "موافق على تنفيذ تعديلات المعلمات المقترحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed: applied modest neighbor-specific offsets toward underutilized cells and lowered load-based HO trigger to encourage offload. No resets or service interruptions. Monitoring live KPIs.",
+      "message_ar": "تم التنفيذ: تطبيق إزاحات محددة للجيران قليلي الاستخدام وخفض محفّز التحويل القائم على الحمل لتشجيع التفريغ. بدون إعادة تشغيل أو انقطاع خدمة. أراقب مؤشرات الأداء مباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes: resource use dropped to ~89%, HO in increased to ~40 per 5 min. Sessions stable.",
+      "message_ar": "بعد ~10 دقائق: انخفض استخدام الموارد إلى ~89%، وزاد التحويل للداخل إلى ~40 كل 5 دقائق. الجلسات مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend looks good. I’ll keep watching PRB utilization, HO balance, and neighbor loading to ensure no regressions.",
+      "message_ar": "الاتجاه جيد. سأواصل متابعة استخدام الموارد، وتوازن التحويلات، وحمل الجيران للتأكد من عدم حدوث تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Neighbors now ~60–65% loaded and user complaints have eased.",
+      "message_ar": "أحمال الجيران الآن ~60–65% وقد انخفضت الشكاوى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Quality also improving: early samples show RSRQ trending to ~-11 dB and SINR ~7–8 dB at edges as load evens out.",
+      "message_ar": "الجودة تتحسن أيضاً: عينات مبكرة تُظهر RSRQ يتجه إلى ~-11 dB وSINR ~7–8 dB عند الأطراف مع توازن الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: resource use stabilized below 90% and handover balance improved. Action taken was load balancing parameter tuning with neighbor offsets. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تحسن ملحوظ: استقر استخدام الموارد دون 90% وتحسن توازن التحويلات. الإجراء المتخذ كان ضبط معلمات موازنة الحمل مع إزاحات للجيران. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we’ll own that window, track utilization, HO symmetry, and user experience, and share an update after. If congestion returns or drops rise, we’ll roll back the offsets and escalate for capacity or broader balancing.",
+      "message_ar": "تم—سنتولى فترة المتابعة، نرصد الاستخدام وتناسق التحويلات وتجربة المستخدم، ونشارك تحديثاً بعد ذلك. إذا عاد الازدحام أو زادت الانقطاعات سنعيد الإزاحات كما كانت ونصعّد لزيادة السعة أو موازنة أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban macro 5G NR cell with ~97% resource use versus ~55% on neighbors and skewed handovers. A neighbor/load audit confirmed underutilized adjacent cells and sticky serving. Executed site parameter tuning to adjust load-balancing offsets and triggers, shifting traffic to neighbors and reducing congestion; monitoring continues.",
+    "ar": "تم تشخيص اختلال في توازن الحمل على خلية ماكرو حضرية 5G NR مع استخدام ~97% مقابل ~55% لدى الجيران وتحويلات غير متوازنة. أكد فحص الجوار/الحمل وجود خلايا مجاورة قليلة الاستخدام وتمسك بالخدمة. تم تنفيذ ضبط لمعلمات الموقع لتعديل إزاحات ومحفزات موازنة الحمل، مما نقل الحركة إلى الجيران وخفّض الازدحام؛ والمتابعة مستمرة."
+  }
+}

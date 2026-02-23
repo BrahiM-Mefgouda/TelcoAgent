@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_URBAN_PEAK-S0030",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows ~95% PRB use over the last 2h with 313 users, DL ~10 Mbps, UL 7 Mbps, BLER ~3%, and p95 scheduling latency 38 ms; congestion alarm active during peak evening eMBB.",
+    "ar": "خلية NR ماكرو حضرية تُظهر استخدام موارد ~95% خلال آخر ساعتين مع 313 مستخدمًا، وتنزيل ~10 ميجابت/ث، ورفع 7 ميجابت/ث، وخطأ كتل ~3%، وزمن جدولة p95 يساوي 38 مللي ثانية؛ إنذار ازدحام نشط أثناء ذروة المساء لتطبيقات eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell raising a congestion alarm in the last 2h (peak evening). KPIs: PRB ~95%, 313 users, DL 10 Mbps, UL 7 Mbps, BLER ~3%, p95 scheduling latency 38 ms. Traffic is mostly eMBB with streaming. Need support.",
+      "message_ar": "خلية NR ماكرو حضرية تُطلق إنذار ازدحام خلال آخر ساعتين (ذروة المساء). المؤشرات: استخدام الموارد ~95%، 313 مستخدمًا، تنزيل 10 ميجابت/ث، رفع 7 ميجابت/ث، BLER ~3%، وزمن جدولة p95 = 38 مللي ثانية. الحركة أغلبها eMBB مع بث فيديو. نحتاج دعمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull the last 2h performance to validate sustained PRB load and latency, then proceed with immediate congestion mitigation via scheduler/resource tuning. Please share the cell ID and confirm access.",
+      "message_ar": "سأبدأ بسحب أداء آخر ساعتين للتحقق من ثبات حمل الموارد والزمن، ثم المضي بتخفيف الازدحام عبر ضبط معلمات الجدولة/الموارد. الرجاء مشاركة معرف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-103. Access approved for the past 2 hours.",
+      "message_ar": "معرف الخلية: NR-URB-MACRO-103. تم اعتماد الوصول لبيانات آخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 2h stats for NR-URB-MACRO-103: DL PRB utilization median ~93%, p95 ~98%; active UEs peaked at 327; p95 scheduling latency 38–40 ms; DL throughput median ~10–11 Mbps; BLER ~3%. This confirms busy-hour congestion.",
+      "message_ar": "تم سحب إحصاءات آخر ساعتين للخلية NR-URB-MACRO-103: استخدام موارد التنزيل وسيط ~93%، p95 ~98%؛ بلغ ذروة المستخدمين النشطين 327؛ زمن جدولة p95 بين 38–40 مللي ثانية؛ وسيط معدل التنزيل ~10–11 ميجابت/ث؛ BLER ~3%. هذا يؤكد ازدحام ساعة الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed action: apply light parameter tuning to ease PRB contention—adjust scheduler weights for fair eMBB sharing, slightly bias DL time-domain allocation, and refine buffer thresholds to reduce delay. No outage expected. Approve to proceed now?",
+      "message_ar": "الإجراء المقترح: تطبيق ضبط طفيف للمعلمات لتخفيف تنازع الموارد—تعديل أوزان المجدول لتحقيق عدالة eMBB، إزاحة بسيطة لتخصيص الزمن في اتجاه التنزيل، وتحسين عتبات المخزن المؤقت لتقليل التأخير. لا يُتوقع انقطاع. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Keep power and beam settings unchanged.",
+      "message_ar": "موافق. يُرجى إبقاء إعدادات القدرة والحزم دون تغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-URB-MACRO-103: tuned scheduler priorities, modest DL allocation bias, and lowered queue thresholds; committed with no drops. We’ll watch for effect over the next 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين على NR-URB-MACRO-103: ضبط أولويات المجدول، إزاحة معتدلة لتخصيص التنزيل، وخفض عتبات الطوابير؛ تم التنفيذ دون إسقاطات. سنراقب الأثر خلال 10–15 دقيقة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial spot-check suggests PRB peaks are starting to relax. Can you confirm if DL throughput and scheduling latency are improving on your side?",
+      "message_ar": "التحقق الأولي يُظهر بدء تراجع ذروات استخدام الموارد. هل يمكنك تأكيد تحسن معدل التنزيل وزمن الجدولة لديكم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing DL throughput up to ~14 Mbps and p95 scheduling latency down to ~30–32 ms in recent bins; PRB utilization trending below 90%.",
+      "message_ar": "نلاحظ ارتفاع معدل التنزيل إلى ~14 ميجابت/ث وانخفاض زمن جدولة p95 إلى ~30–32 مللي ثانية في الفترات الأخيرة؛ استخدام الموارد يتجه إلى أقل من 90%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created a tracking record for this change and peak-hour follow-up: DU-PRB-04127. Summary: high PRB utilization on NR-URB-MACRO-103 during urban evening peak; applied site parameter tuning to mitigate congestion; continue monitoring for stabilization.",
+      "message_ar": "تم إنشاء سجل تتبع لهذا التغيير والمتابعة خلال ساعة الذروة: DU-PRB-04127. الملخص: استخدام مرتفع للموارد على NR-URB-MACRO-103 خلال ذروة مسائية حضرية؛ تم تطبيق ضبط معلمات الموقع لتخفيف الازدحام؛ سنواصل المراقبة للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change we see PRB peaks easing and latency trending down; throughput improved. Action taken: site parameter tuning to mitigate congestion on NR-URB-MACRO-103. Let’s monitor through the next busy hour and track via DU-PRB-04127.",
+      "message_ar": "بعد التغيير نرى تراجع ذروات استخدام الموارد وانخفاضًا في زمن الجدولة؛ تحسن معدل التنزيل. الإجراء المُتخذ: ضبط معلمات الموقع لتخفيف الازدحام على NR-URB-MACRO-103. لنواصل المراقبة خلال ساعة الذروة القادمة والمتابعة عبر DU-PRB-04127."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update DU-PRB-04127 afterward with KPI deltas. If load climbs above thresholds, we’ll escalate to coordinated load-balancing, and we will rollback the tuning if any adverse effects are observed.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث DU-PRB-04127 بعدها بفروقات مؤشرات الأداء. إذا ارتفع الحمل فوق العتبات سنصعّد إلى توزيع حمل منسق، وسنعيد الضبط إذا ظهرت آثار سلبية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained high PRB utilization on an urban NR macro during the evening peak, with elevated scheduler latency and constrained throughput. Pulled recent performance, then applied site parameter tuning to adjust scheduler priorities and DL allocation to mitigate congestion, and created a tracking ticket. We will monitor through the next busy hour to confirm stability and effectiveness.",
+    "ar": "تم تشخيص استخدام مرتفع ومستمر للموارد على خلية NR ماكرو حضرية خلال ذروة المساء مع ارتفاع زمن الجدولة وتقييد في معدل التنزيل. جرى سحب أداء حديث ثم تطبيق ضبط معلمات للموقع لضبط أولويات الجدولة وتخصيص التنزيل لتخفيف الازدحام، وإنشاء تذكرة تتبع. سنراقب خلال ساعة الذروة القادمة للتحقق من الاستقرار والفعالية."
+  }
+}

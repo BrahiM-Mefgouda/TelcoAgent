@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_URLLC_LATENCY-S0023",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_URLLC_LATENCY",
+  "query": {
+    "en": "Urban macro 5G NR cell shows URLLC degradation over the last 4h during off-peak: latency 24 ms with 9 ms jitter, QoS class ~0.56, ~28% violations, ~30 requests/min, and p50 throughput ~4 Mbps (slow data); a congestion alarm is active.",
+    "ar": "خلية ماكرو 5G NR في منطقة حضرية تُظهر تدهورًا في شريحة URLLC خلال آخر 4 ساعات وخارج أوقات الذروة: زمن الوصول 24 مللي ثانية مع تذبذب 9 مللي ثانية، فئة جودة الخدمة ~0.56، نسبة الانتهاكات ~28%، ~30 طلب/دقيقة، وسرعة وسيط ~4 ميجابت/ث (بيانات بطيئة)؛ يوجد إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR site over the last 4h (off-peak) shows URLLC slice latency ~24 ms, jitter 9 ms, QoS class ~0.56, violations ~28%, ~30 requests/min, and p50 throughput ~4 Mbps (slow data). A congestion alarm is active.",
+      "message_ar": "الموقع ماكرو NR في منطقة حضرية خلال آخر 4 ساعات (خارج الذروة) يظهر زمن وصول لشريحة URLLC حوالي 24 مللي ثانية، تذبذب 9 مللي ثانية، فئة جودة الخدمة ~0.56، انتهاكات ~28%، ~30 طلب/دقيقة، والسرعة الوسيطة ~4 ميجابت/ث (بيانات بطيئة). يوجد إنذار ازدحام نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by pulling a recent status snapshot for the last 4h to isolate causes. Please confirm the cell ID and the URLLC slice identifier and approve read access.",
+      "message_ar": "مفهوم. سأبدأ بسحب لقطة حالة حديثة لآخر 4 ساعات لعزل الأسباب. يرجى تأكيد معرّف الخلية ومعرّف شريحة URLLC والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-U-MAC-017, slice: URLLC. Access approved.",
+      "message_ar": "معرّف الخلية: NR-U-MAC-017، الشريحة: URLLC. تم منح الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot complete: NR-U-MAC-017 is on-air with no faults. PRB utilization peaks at 80–85%. URLLC bearer queues are elevated; backhaul is normal. The congestion alarm is acknowledged. Next, I will chart QoS class versus latency and violations over the same 4h window to verify impact—proceed?",
+      "message_ar": "تمت اللقطة: الخلية NR-U-MAC-017 تعمل بدون أعطال. يغطي استخدام PRB ذروات 80–85%. طوابير حوامل URLLC مرتفعة؛ الربط الخلفي طبيعي. تم تأكيد إنذار الازدحام. بعد ذلك سأرسم فئة الجودة مقابل زمن الوصول والانتهاكات خلال نفس نافذة 4 ساعات للتحقق من التأثير—هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms the issue: QoS class dips to 0.54–0.58 align with latency spikes 22–26 ms and jitter 8–11 ms; violation ratio rises to 28–30% while request rate stays ~30/min. This indicates contention harming URLLC latency. I propose a slice policy update to raise URLLC latency priority and reserve a small guaranteed share—approve to apply?",
+      "message_ar": "تؤكد السلاسل الزمنية المشكلة: هبوط فئة الجودة إلى 0.54–0.58 يتزامن مع ارتفاع زمن الوصول 22–26 مللي ثانية وتذبذب 8–11 مللي ثانية؛ ترتفع نسبة الانتهاكات إلى 28–30% مع بقاء معدل الطلب ~30/دقيقة. يشير ذلك إلى تنافس يؤثر سلبًا على زمن وصول URLLC. أقترح تحديث سياسة الشريحة لرفع أولوية زمن وصول URLLC وحجز حصة مضمونة صغيرة—هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply.",
+      "message_ar": "موافق على التطبيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied URLLC slice policy update: increased latency priority with a modest guaranteed resource share and preemption preference. Immediate check shows latency now 14–17 ms, jitter 5–7 ms, and violations starting to trend down. I will continue observing.",
+      "message_ar": "تم تطبيق تحديث سياسة شريحة URLLC: زيادة أولوية زمن الوصول مع حصة موارد مضمونة محدودة وتفضيل الاستباق. الفحص الفوري يظهر زمن وصول 14–17 مللي ثانية، وتذبذب 5–7 مللي ثانية، والانتهاكات بدأت بالانخفاض. سأستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "I see similar improvement on our dashboards; no other changes from our side.",
+      "message_ar": "أرى تحسنًا مماثلاً على لوحات المتابعة لدينا؛ لا تغييرات أخرى من جهتنا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I’ll watch the slice counters and user experience metrics for stability through the next interval and flag any regression.",
+      "message_ar": "جيد. سأتابع عدادات الشريحة ومؤشرات تجربة المستخدم للتحقق من الاستقرار خلال الفترة القادمة وسأبلغ عن أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, latency is trending down around 15–16 ms and violations are decreasing. Action taken: slice policy update for URLLC latency priority. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "بعد التغيير، زمن الوصول يتجه للانخفاض حول 15–16 مللي ثانية والانتهاكات في تراجع. الإجراء المتخذ: تحديث سياسة الشريحة لرفع أولوية زمن وصول URLLC. دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and share an update after the window. If latency regresses, we will roll back the change and pursue targeted tuning and load relief using neighboring capacity.",
+      "message_ar": "سنكون مسؤولين عن المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنشارك تحديثًا بعد انتهاء الفترة. إذا تدهور زمن الوصول، سنقوم بالتراجع عن التغيير ونتجه إلى ضبط مستهدف وتخفيف الحمل بالاستفادة من سعة الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-U-MAC-017",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-U-MAC-017",
+        "QoS cls",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC",
+        "latency-priority-tighten"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated URLLC slice QoS degradation on an urban macro 5G NR cell. Status and time-series analysis showed high PRB peaks with QoS class dips aligned to latency and jitter spikes, indicating contention. Applied a slice policy update to raise URLLC latency priority and reserve a guaranteed share, which immediately reduced latency and violations; continued monitoring is planned.",
+    "ar": "تم التحقيق في تدهور جودة خدمة شريحة URLLC على خلية ماكرو 5G NR حضرية. أظهرت حالة الشبكة والسلاسل الزمنية ذروات مرتفعة في استخدام الموارد مع هبوط في فئة الجودة متزامن مع ارتفاع زمن الوصول والتذبذب، مما يشير إلى تنافس على الموارد. تم تطبيق تحديث لسياسة الشريحة لرفع أولوية زمن وصول URLLC وحجز حصة مضمونة، مما خفّض زمن الوصول والانتهاكات فورًا؛ وسيستمر الرصد."
+  }
+}

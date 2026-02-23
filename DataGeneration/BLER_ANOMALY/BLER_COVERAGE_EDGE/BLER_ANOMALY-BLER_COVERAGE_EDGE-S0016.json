@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0016",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural 5G NR macro cell shows high block errors (~12%) with weak signal (RSRP ~ -107 dBm, RSRQ -11 dB, SINR ~8 dB) and 94 users on FWA, causing slow data (p50 ~3 Mbps) over the last 6h peak.",
+    "ar": "خلية ماكرو 5G NR ريفية تُظهر أخطاء حزم مرتفعة (~12%) مع إشارة ضعيفة (RSRP ~ -107 dBm وRSRQ -11 dB وSINR ~8 dB) و94 مستخدماً على FWA مما يسبب بطء البيانات (p50 ~3 Mbps) خلال آخر 6 ساعات من الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro cell showing high block error rate (~12%) and slow data (p50 ~3 Mbps) over the last 6h peak; RSRP around -107 dBm, RSRQ -11 dB, SINR ~8 dB with ~94 FWA users—please check.",
+      "message_ar": "خلية ماكرو 5G NR ريفية تُظهر معدل أخطاء حزم مرتفع (~12%) وبطء بيانات (p50 ~3 Mbps) خلال آخر 6 ساعات في الذروة؛ RSRP نحو -107 dBm وRSRQ -11 dB وSINR ~8 dB مع ~94 مستخدم FWA—يرجى التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling recent OSS stats for CELL_NR_86521 over the last 6h to validate BLER/load and radio conditions; please confirm read access and potential low-risk tuning if required.",
+      "message_ar": "سأبدأ باستخراج إحصاءات OSS الحديثة للخلية CELL_NR_86521 لآخر 6 ساعات للتحقق من BLER/الحِمل وظروف الراديو؛ يرجى تأكيد صلاحية القراءة وإمكانية القيام بضبط منخفض المخاطر إذا لزم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—read access and low-risk tuning are fine; no planned works on this site.",
+      "message_ar": "موافق—صلاحية القراءة والضبط منخفض المخاطر مسموحان؛ لا أعمال مجدولة على هذا الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot (6h) confirms no active alarms, high user count (≈94), weak cell-edge coverage (median RSRP ~-107 dBm), and elevated BLER during peak; next I will analyze BLER time series over 6h to isolate burst patterns.",
+      "message_ar": "يعرض OSS خلال 6 ساعات عدم وجود إنذارات نشطة، عدد مستخدمين مرتفع (~94)، تغطية طرف خلية ضعيفة (متوسط RSRP ~-107 dBm)، وBLER مرتفع في الذروة؛ الخطوة التالية تحليل سلسلة زمنية لـ BLER خلال 6 ساعات لعزل أنماط الارتفاع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "The BLER time series shows two peaks (≈18–20%) aligning with busiest FWA periods; baseline hovers 9–12% with modest SINR (~8 dB), consistent with coverage-edge load.",
+      "message_ar": "السلسلة الزمنية لـ BLER تُظهر ذروتين (≈18–20%) متزامنتين مع فترات FWA الأكثر ازدحاماً؛ الأساس يدور حول 9–12% مع SINR معتدل (~8 dB)، ما يتوافق مع حمل عند حافة التغطية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood.",
+      "message_ar": "مفهوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I recommend applying targeted site parameter tuning to improve edge robustness (slightly more conservative MCS and minor beam/power bias within policy); please approve to proceed.",
+      "message_ar": "أوصي بتطبيق ضبط معلمات مُستهدف لتحسين أداء الحافة (MCS أكثر تحفظاً قليلاً وانحياز طاقة/حزمة طفيف ضمن السياسات)؛ يرجى الموافقة للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning.",
+      "message_ar": "موافق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied successfully with no service interruption: small MCS relaxation and edge power/beam bias within safe bounds; expecting BLER reduction 3–5 pp at the cell edge—monitoring now.",
+      "message_ar": "تم تطبيق التغييرات بنجاح دون انقطاع خدمة: تخفيف بسيط لـ MCS وانحياز طاقة/حزمة عند الحافة ضمن الحدود الآمنة؛ نتوقع خفض BLER بمقدار 3–5 نقاط مئوية عند حافة الخلية—أقوم بالمراقبة الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early post-change indicates block errors trending down and median user speeds improving; the site parameter optimization is in place—let’s monitor through the next busy hour.",
+      "message_ar": "تظهر المؤشرات الأولية بعد التغيير انخفاضاً في أخطاء الحزم وتحسناً في سرعة المستخدمين المتوسطة؛ تم تنفيذ تحسين معلمات الموقع—لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own the next busy hour monitoring and share BLER and user-speed updates afterward. If degradation returns, we will escalate for field checks; if adverse effects appear, we will promptly roll back the tuning.",
+      "message_ar": "تم التأكيد؛ سنتولى مراقبة ساعة الذروة القادمة ومشاركة تحديثات BLER وسرعات المستخدمين بعدها. إذا عاد التدهور سنصعّد لفحص ميداني؛ وإذا ظهرت آثار سلبية فسنُعيد الضبط فوراً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "CELL_NR_86521",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "CELL_NR_86521",
+        "BLER",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "edge-robustness tuning: conservative MCS, BLER target tweak, minor beam/power bias"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Network stats and time-trend analysis showed BLER spikes during peak FWA load at the rural macro’s coverage edge, with weak RSRP and moderate SINR. We executed site parameter tuning to improve edge robustness (more conservative modulation decisions and minor beam/power bias) to reduce BLER and stabilize user throughput. We will monitor during the next busy hour to confirm sustained improvement.",
+    "ar": "أظهرت إحصاءات الشبكة وتحليل الاتجاهات ارتفاعات في BLER أثناء حمل FWA في الذروة عند حافة تغطية الماكرو الريفي، مع RSRP ضعيف وSINR متوسط. نفّذنا ضبط معلمات للموقع لتحسين متانة الحافة (قرارات تعديل أكثر تحفظاً وانحياز طفيف للحزمة/الطاقة) لخفض BLER واستقرار إنتاجية المستخدمين. سنراقب خلال ساعة الذروة التالية للتأكد من استمرار التحسن."
+  }
+}

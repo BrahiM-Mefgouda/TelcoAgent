@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0023",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office wing NR micro cell shows 28% ping-pong handovers with low SINR (3 dB), indicating interference / signal overlap during off-peak eMBB hours.",
+    "ar": "خلية NR صغيرة داخل جناح مكتبي تظهر نسبة تبديل متأرجح 28% مع SINR منخفض (3 dB)، ما يشير إلى تداخل / تراكب للإشارات خلال ساعات خارج الذروة لتطبيقات eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor office wing, NR micro. Off-peak mostly eMBB streaming. Ping-pong handovers around 28% and HO success ~89% over the last 3h; RSRP -107 dBm, RSRQ -12 dB, SINR 3 dB. No alarms. Please check.",
+      "message_ar": "جناح مكتبي داخلي، NR بخلايا ميكرو. خارج الذروة مع غالبية حركة eMBB (بث). نسبة التبديل المتأرجح حوالي 28% ونجاح المناولة ~89% خلال آخر 3 ساعات؛ RSRP -107 dBm و RSRQ -12 dB و SINR 3 dB. لا توجد إنذارات. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics for this indoor small cell. Please share the target cell ID, confirm the 3h window, and approve me to pull mobility and neighbor counters.",
+      "message_ar": "سأتولى إجراءات التشخيص لهذه الخلية الداخلية الصغيرة. الرجاء تزويدي بمعرّف الخلية المستهدفة، وتأكيد نافذة 3 ساعات، والموافقة على سحب مؤشرات المناولة والجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_INDOOR_MICRO_A3C03. Window: last 3h. You have approval to proceed.",
+      "message_ar": "معرّف الخلية: NR_INDOOR_MICRO_A3C03. النافذة: آخر 3 ساعات. لديك الموافقة للمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling OSS stats for NR_INDOOR_MICRO_A3C03 over 3h now. Snapshot: HO attempts ~76 per 5 min, ping-pong 28%, HO failures ~14%. Current settings: A3 offset 1 dB, TTT 119 ms, hysteresis 4 dB, PRB util ~74%. I will analyze the HO time series next to isolate bouncing pairs.",
+      "message_ar": "أقوم الآن بجلب إحصاءات OSS للخلية NR_INDOOR_MICRO_A3C03 خلال 3 ساعات. ملخص: محاولات المناولة ~76 لكل 5 دقائق، التبديل المتأرجح 28%، فشل المناولة ~14%. الإعدادات الحالية: A3 offset بمقدار 1 dB، و TTT بمقدار 119 ms، و hysteresis بمقدار 4 dB، واستغلال PRB ~74%. سأحلّل السلاسل الزمنية للمناولة لتحديد الأزواج التي يحدث بينها الارتداد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time-series analysis.",
+      "message_ar": "موافَق على المتابعة بتحليل السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows rapid back-and-forth mainly with neighbors NCell02 and NCell04; toggles occur within sub-second intervals under low SINR (2–4 dB), consistent with interference / signal overlap rather than load. Proposal: increase A3 offset to 2 dB, extend A3 TTT to 200 ms, raise hysteresis to 5 dB, and apply -1 dB CIO on NCell02 and NCell04 to reduce unnecessary returns. Please approve.",
+      "message_ar": "السلاسل الزمنية تُظهر تبادلاً سريعاً أساساً مع الجارين NCell02 و NCell04؛ يحدث التبديل خلال فترات دون الثانية مع SINR منخفض (2–4 dB)، ما يتوافق مع تداخل / تراكب للإشارات وليس حمل. الاقتراح: رفع A3 offset إلى 2 dB، وتمديد TTT لحدث A3 إلى 200 ms، ورفع hysteresis إلى 5 dB، وتطبيق CIO بمقدار -1 dB على NCell02 و NCell04 لتقليل العودات غير الضرورية. الرجاء الموافقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the parameter optimization.",
+      "message_ar": "موافَق. تابع ضبط المعلمات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing the changes now on NR_INDOOR_MICRO_A3C03 (A3 offset 1→2 dB, A3 TTT 119→200 ms, hysteresis 4→5 dB, CIO -1 dB on NCell02/NCell04). Changes accepted without service impact. Begin short-term monitoring; I’ll watch ping-pong returns, HO success, and neighbor distribution.",
+      "message_ar": "أقوم بتنفيذ التعديلات الآن على NR_INDOOR_MICRO_A3C03 (رفع A3 offset من 1→2 dB، وTTT من 119→200 ms، وhysteresis من 4→5 dB، وتطبيق CIO -1 dB على NCell02/NCell04). تم قبول التغييرات دون تأثير على الخدمة. سنبدأ المراقبة القصيرة؛ سأتابع عودات التبديل المتأرجح، ونجاح المناولة، وتوزيع الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early read (15 min): ping-pong reduced from 28% to ~17%, HO success trending toward ~93%. PRB utilization steady; user experience stable.",
+      "message_ar": "قراءة مبكرة (15 دقيقة): انخفض التبديل المتأرجح من 28% إلى ~17%، ونجاح المناولة يتجه نحو ~93%. استغلال PRB ثابت؛ تجربة المستخدم مستقرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I’ll continue tracking return handovers on NCell02/NCell04 and cell-edge throughput to ensure stability under interference. Will update with trend deltas.",
+      "message_ar": "تحسن جيد. سأواصل تتبع عودات المناولة مع NCell02/NCell04 وسرعات أطراف الخلية لضمان الاستقرار مع التداخل. سأحدّثك بفروقات الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: ping-pong returns trending down and fewer HO errors after handover parameter optimization (A3 offset/TTT/hysteresis with minor CIO tweak). Let’s monitor through the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: عودات التبديل المتأرجح في انخفاض وأخطاء المناولة أقل بعد تحسين معلمات المناولة (A3 offset/TTT/hysteresis مع تعديل CIO بسيط). لنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and report on ping-pong rate, HO success, and neighbor bounce. If degradation appears, we will roll back to the prior values and escalate for interference mitigation; otherwise we’ll keep the optimization.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونقدم تقريراً عن نسبة التبديل المتأرجح ونجاح المناولة وارتداد الجيران. إذا ظهرت تدهورات فسنعود إلى القيم السابقة ونصعّد لمعالجة التداخل؛ وإلا فسنبقي على التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_INDOOR_MICRO_A3C03",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_INDOOR_MICRO_A3C03",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset:+1→+2 dB; A3_TTT:119→200 ms; HO_hysteresis:4→5 dB; CIO(neighbors NCell02,NCell04):-1 dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on an indoor NR micro cell under low SINR by reviewing 3h OSS counters and HO time series, which showed rapid toggling with NCell02/NCell04. Mitigated by site parameter tuning: increased A3 offset and TTT, raised hysteresis, and applied a small CIO bias to dominant neighbors. Post-change monitoring shows improvement; we will continue to observe and roll back if degradation occurs.",
+    "ar": "تم تشخيص ارتفاع التبديل المتأرجح على خلية NR داخلية ميكرو مع SINR منخفض عبر مراجعة مؤشرات OSS لمدة 3 ساعات وسلاسل المناولة الزمنية التي أظهرت تبادلاً سريعاً مع NCell02/NCell04. تم التخفيف عبر ضبط معلمات الموقع: زيادة A3 offset وTTT ورفع hysteresis وتطبيق انحياز CIO بسيط على الجيران المسيطرين. تُظهر المراقبة بعد التعديل تحسناً؛ سنواصل المتابعة ونعيد الضبط إذا ظهر أي تدهور."
+  }
+}

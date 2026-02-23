@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0014",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban 5G macro over the last 6h shows unstable backhaul: ~6 link flaps/hr, bursty loss ~0.61, 95th‑percentile latency 61 ms, jitter 24 ms, 386 interface errors, modest radio quality (SINR 9 dB, RSRP −99 dBm), 223 users, and downlink ~15 Mbps.",
+    "ar": "موقع ماكرو 5G في منطقة ضاحية خلال آخر 6 ساعات يُظهر ربطاً خلفياً غير مستقر: نحو 6 تقطّعات/ساعة، فقدان اندفاعي ~0.61، كمون عند 95٪ يبلغ 61 مللي ثانية، تذبذب 24 مللي ثانية، 386 خطأ على الواجهة، جودة راديوية متوسطة (SINR ‏9 ديسيبل وRSRP ‏−99 دBm)، 223 مستخدماً ومعدل تنزيل ~15 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell shows unstable backhaul over the last 6h; users report buffering during eMBB streaming and DL throughput around 15 Mbps.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية تظهر عدم استقرار في الربط الخلفي خلال آخر 6 ساعات؛ المستخدمون يشتكون من تقطّع في البث eMBB ومعدل تنزيل يقارب 15 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 6h OSS stats for the affected cell; please share the cell ID and approve read-only access; if backhaul degradation is confirmed, I will apply safe interface tuning to dampen flaps and smooth queues.",
+      "message_ar": "سأبدأ بجلب إحصاءات OSS لآخر 6 ساعات للخليّة المتأثرة؛ يرجى تزويدي بمعرّف الخلية والموافقة على وصول قراءة فقط؛ وإذا تأكد تدهور الربط الخلفي سأطبّق ضبطاً آمناً للواجهة لتقليل تقطّعات الرابط وتنعيم الطوابير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SBR-1123-S1, read-only access approved for this window.",
+      "message_ar": "معرّف الخلية: NR-SBR-1123-S1، تمّت الموافقة على وصول قراءة فقط خلال هذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled stats show ~6 link flaps per hour, bursty loss ~0.61, 95th-percentile backhaul latency 61 ms, jitter 24 ms, and 386 interface errors; PRB 69%, SINR 9 dB, RSRP −99 dBm, indicating the bottleneck is the backhaul; requesting approval to push targeted tuning (flap dampening, queue management/pacing, keepalive alignment) within vendor baselines.",
+      "message_ar": "البيانات تُظهر نحو 6 تقطّعات للرابط في الساعة، فقداناً اندفاعياً ≈0.61، كموناً (95٪) 61 مللي ثانية، تذبذب 24 مللي ثانية، و386 خطأ على الواجهة؛ إشغال الموارد 69٪، وSINR ‏9 ديسيبل وRSRP ‏−99 دBm، ما يشير إلى أن العُنق هو الربط الخلفي؛ أطلب الموافقة على دفع ضبط مستهدف (تثبيط التقطّع، إدارة/تسوية الطوابير، مواءمة نبضات الإبقاء) ضمن خطوط الشركة المصنّعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافَق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied backhaul stability tuning with no service interruption: enabled flap dampening, refined queue thresholds and pacing, and aligned keepalive timers; observing for 10–15 minutes for immediate effects.",
+      "message_ar": "تم تطبيق ضبط استقرار الربط الخلفي دون انقطاع خدمة: تفعيل تثبيط التقطّع، تحسين عتبات الطوابير والتسوية، ومواءمة مؤقّتات الإبقاء؛ سأراقب لمدة 10–15 دقيقة للتأثير الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes, buffering events dropped and field tests show fewer stalls; radio metrics look unchanged.",
+      "message_ar": "بعد 10 دقائق، انخفضت أحداث التقطّع واختبارات الميدان تظهر توقفات أقل؛ مقاييس الراديو تبدو دون تغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Immediate snapshot shows no new flaps, backhaul latency drifting to mid‑40 ms, burst loss near 0.2, and interface errors no longer increasing; I recommend creating a tracking ticket and watching the next busy hour—shall I proceed?",
+      "message_ar": "اللقطة الفورية تُظهر عدم وجود تقطّعات جديدة، كمون الربط الخلفي يتجه إلى منتصف 40 مللي ثانية، الفقد الاندفاعي قرابة 0.2، وأخطاء الواجهة لم تعد ترتفع؛ أوصي بإنشاء تذكرة متابعة ومراقبة ساعة الذروة القادمة—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tracking ticket.",
+      "message_ar": "تفضل بإنشاء تذكرة المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-BH-03172 to document degraded backhaul and the applied tuning; will track link flaps, burst loss, latency, and user throughput with notes for transport follow‑up.",
+      "message_ar": "تم إنشاء DU-BH-03172 لتوثيق تدهور الربط الخلفي والضبط المُطبّق؛ سنُتابع تقطّعات الرابط والفقد الاندفاعي والكمون ومعدل التنزيل مع ملاحظات للمتابعة مع النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good improvement: link flaps are trending down and backhaul latency is lower; the site parameter tuning you applied is effective—let’s monitor through the next busy hour and update DU-BH-03172 afterward.",
+      "message_ar": "تحسّن جيد: تقطّعات الرابط في انخفاض وكمون الربط الخلفي أقل؛ ضبط معلمات الموقع الذي طبّقته فعّال—لِنراقب خلال ساعة الذروة القادمة ونحدّث DU-BH-03172 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next busy hour and update the ticket after the window; if metrics regress, we will escalate to the transport provider, and if side effects appear, we will roll back the tuning.",
+      "message_ar": "تم—سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد الفترة؛ وإذا تراجعت المؤشرات سنصعّد إلى مزوّد النقل، وإن ظهرت آثار جانبية سنرجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Over the last 6 hours, OSS counters confirmed degraded backhaul with frequent link flaps, bursty loss, elevated latency, and interface errors. We performed site parameter tuning on the backhaul path to dampen flaps and smooth queueing, then opened tracking ticket DU-BH-03172. Early indicators improved; we will monitor through the next busy hour and escalate to transport if instability returns.",
+    "ar": "خلال آخر 6 ساعات أكدت مؤشرات OSS وجود تدهور في الربط الخلفي مع تقطّعات متكررة وفقد اندفاعي وكمون مرتفع وأخطاء على الواجهة. قمنا بضبط معلمات الموقع على مسار الربط الخلفي لتقليل التقطّعات وتنعيم الطوابير، ثم فتحنا تذكرة متابعة DU-BH-03172. المؤشرات الأولية تحسّنت؛ سنراقب خلال ساعة الذروة القادمة ونصعّد إلى جهة النقل إذا عادت حالة عدم الاستقرار."
+  }
+}

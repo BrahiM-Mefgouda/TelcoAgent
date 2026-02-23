@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0009",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell shows an evening downlink throughput drop to 12 Mbps with ~84% resource utilization and SINR 7 dB over the last 3 hours; a congestion alarm is active.",
+    "ar": "خلية ماكرو NR حضرية تُظهر هبوطاً في معدل التحميل المسائي إلى 12 ميغابت/ث مع استخدام موارد ~84% وSINR بقيمة 7 dB خلال آخر 3 ساعات؛ إنذار الازدحام مفعل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell shows a downlink throughput drop over the last 3 hours during peak evening; enterprise private users report slow downloads.",
+      "message_ar": "خلية ماكرو NR حضرية تُظهر هبوطاً في معدل التحميل خلال آخر 3 ساعات في فترة الذروة المسائية؛ مستخدمون من قطاع المؤسسات الخاصة أبلغوا عن بطء في التنزيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling OSS counters for the last 3 hours to verify load, interference, and error trends. Please provide the cell ID and approve read access.",
+      "message_ar": "مفهوم. سأبدأ بسحب عدادات OSS لآخر 3 ساعات للتحقق من اتجاهات الحمل والتداخل والأخطاء. يرجى تزويدي بمعرّف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Urb-1123. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-Urb-1123. تم منح إذن القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-Urb-1123 (3h). Observations: PRB utilization 82–90%, active users peaked at 240, p95 scheduler latency ~55 ms, BLER 4–6%, median SINR 7 dB. This points to a load-driven throughput regression. Next, I will fetch the downlink throughput time series to confirm the pattern; approve?",
+      "message_ar": "أجري فحص OSS للخلية NR-Urb-1123 (3 ساعات). الملاحظات: استخدام PRB بين 82–90%، المستخدمون النشطون بلغوا ذروة 240، قيمة p95 لزمن انتظار المُجدول ~55 مللي ثانية، BLER بين 4–6%، وSINR وسطي 7 dB. هذا يشير إلى تراجع في السعة بسبب الحمل. بعد ذلك سأجلب سلسلة زمنية لمعدل التحميل لتأكيد النمط؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching downlink time series (3h). Result: user throughput dropped from ~28 Mbps to 10–14 Mbps between 18:30–21:00, tracking PRB saturation; brief dips align with user spikes. This confirms a capacity squeeze during the busy hour. I propose applying a downlink capacity optimization profile (scheduler weighting, PRB allocation fairness, congestion relief). Proceed now?",
+      "message_ar": "أجلب السلسلة الزمنية لمعدل التحميل (3 ساعات). النتيجة: انخفض معدل التحميل للمستخدم من ~28 ميغابت/ث إلى 10–14 ميغابت/ث بين 18:30–21:00 بالتزامن مع تشبّع PRB؛ الانخفاضات القصيرة تتوافق مع ارتفاعات المستخدمين. هذا يؤكد ضيق السعة في ساعة الانشغال. أقترح تطبيق ملف تحسين لسعة التحميل (ترجيح المُجدول، عدالة تخصيص PRB، وتخفيف الازدحام). هل ننفّذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed; change authorized.",
+      "message_ar": "نفّذ؛ التغيير مُصرَّح به."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on NR-Urb-1123. Actions: tuned downlink scheduler toward capacity, adjusted PRB allocation fairness, and enabled congestion relief on the DL path. Change committed; starting a short stabilization and watching throughput, PRB, and scheduler latency.",
+      "message_ar": "أطبّق التحسين على NR-Urb-1123. الإجراءات: ضبط المُجدول في الوصلة الهابطة نحو زيادة السعة، تعديل عدالة تخصيص PRB، وتفعيل تخفيف الازدحام في مسار التحميل. تم اعتماد التغيير؛ أبدأ فترة استقرار قصيرة مع مراقبة معدل التحميل وPRB وزمن انتظار المُجدول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check (~8 min): throughput improved to ~17–19 Mbps, PRB utilization eased to ~78–82%, and p95 scheduler latency decreased to ~42 ms. BLER remains stable.",
+      "message_ar": "فحص مبكر (~8 دقائق): تحسن معدل التحميل إلى ~17–19 ميغابت/ث، وانخفض استخدام PRB إلى ~78–82%، وتراجع p95 لزمن انتظار المُجدول إلى ~42 مللي ثانية. بقي BLER ثابتاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Positive trend. We will continue observing through the rest of the busy period and compare against the pre-change baseline. Please share any additional user feedback.",
+      "message_ar": "الاتجاه إيجابي. سنواصل المراقبة خلال ما تبقى من فترة الانشغال ونقارن مع خط الأساس قبل التغيير. يرجى مشاركة أي ملاحظات إضافية من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: downlink throughput is holding near 18 Mbps and scheduler latency is trending down. Action taken: site parameter tuning for downlink capacity. Let’s monitor over the next busy hour (next 2–4 hours) to confirm stability.",
+      "message_ar": "تحسن ملحوظ: معدل التحميل ثابت قرب 18 ميغابت/ث وزمن انتظار المُجدول في اتجاه تنازلي. الإجراء المتخذ: ضبط معلمات الموقع لسعة الوصلة الهابطة. لنراقب خلال ساعة الذروة التالية (2–4 ساعات) للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and report throughput, PRB, and latency outcomes. If KPIs regress, we will roll back the tuning; if congestion persists, we will escalate for capacity relief and broader load balancing.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونبلغ بنتائج معدل التحميل وPRB وزمن التأخير. إذا تراجعت المؤشرات سنرجع الضبط؛ وإذا استمر الازدحام سنصعّد لخيارات زيادة السعة وموازنة الحمل على نطاق أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Urb-1123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Urb-1123",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Evening downlink throughput degradation on the urban NR macro cell was confirmed as load-driven, with high PRB utilization and elevated p95 scheduler latency while BLER and SINR were acceptable. We validated the pattern via OSS counters and a downlink KPI time series, then applied site parameter tuning to improve downlink capacity. Post-change, throughput and latency improved; we will monitor through the next busy hour to ensure stability.",
+    "ar": "تم تأكيد تدهور معدل التحميل المسائي في خلية NR الحضرية على أنه ناتج عن الحمل المرتفع، مع استخدام PRB عالٍ وارتفاع في p95 لزمن انتظار المُجدول بينما كانت قيم BLER وSINR مقبولة. تحققنا من النمط عبر عدادات OSS والسلسلة الزمنية لمؤشرات الوصلة الهابطة، ثم طبقنا ضبط معلمات الموقع لتعزيز سعة التحميل. بعد التغيير تحسنت معدلات التحميل والزمن؛ سنراقب خلال ساعة الذروة التالية لضمان الاستقرار."
+  }
+}

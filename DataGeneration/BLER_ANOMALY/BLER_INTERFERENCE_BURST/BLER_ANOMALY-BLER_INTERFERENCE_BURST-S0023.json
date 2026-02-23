@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0023",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro has an active alarm in the last 2h with interference/signal overlap and slow data; eMBB streaming users impacted (SINR ~1 dB, BLER ~11%, median throughput ~6 Mbps).",
+    "ar": "خلية NR ماكرو في منطقة ضواحي لديها إنذار نشط خلال آخر ساعتين مع تداخل/تراكب إشارات وبيانات بطيئة؛ تأثر مستخدمو eMBB للبث (SINR نحو 1 dB، BLER نحو 11%، والسرعة الوسطية ~6 Mbps)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector shows an alarm over the last 2h; offpeak users report slow data and unstable streams. KPIs around now: RSRP ~-99 dBm, RSRQ ~-11 dB, SINR ~1 dB, BLER ~11%. Please check.",
+      "message_ar": "القطاع الماكرو NR في منطقة الضواحي يظهر إنذاراً خلال آخر ساعتين؛ المستخدمون خارج أوقات الذروة يشتكون من بيانات بطيئة وبث غير مستقر. المؤشرات حالياً: RSRP حوالي -99 dBm، RSRQ حوالي -11 dB، وSINR حوالي 1 dB، وBLER حوالي 11%. يرجى التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Symptoms point to a BLER anomaly likely driven by bursty interference. Please confirm the target cell ID and grant read access to analyze the last 2h.",
+      "message_ar": "تم الاستلام. الأعراض تشير إلى شذوذ في BLER يرجح أنه ناجم عن تداخل اندفاعي. يرجى تأكيد معرف الخلية المستهدفة ومنحي صلاحية القراءة لتحليل آخر ساعتين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR00123A; access approved for diagnostics.",
+      "message_ar": "معرّف الخلية هو NR00123A؛ تمت الموافقة على الوصول لأغراض التشخيص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running health snapshot for NR00123A over 2h. Radio is up, no HW faults, PRB utilization ~66%. Neighbor load is elevated (~0.68). HARQ retransmissions and BLER spikes align with short intervals, consistent with interference overlap. Approve pulling BLER time series for correlation?",
+      "message_ar": "أجري لقطة حالة للخلية NR00123A خلال ساعتين. الراديو يعمل بدون أعطال عتادية، واستغلال PRB ~66%. حمل الجوار مرتفع (~0.68). ازدياد إعادة إرسال HARQ وارتفاعات BLER تتوافق مع فترات قصيرة، بما يتماشى مع تداخل متداخل. هل توافق على سحب سلسلة زمنية لـ BLER للمطابقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to fetch the BLER time series.",
+      "message_ar": "موافَق على جلب السلسلة الزمنية لـ BLER."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series (2h) shows a 6–8% baseline with bursts peaking ~18% around 10:15 and 11:05; SINR dips to 0–1 dB during bursts; median DL throughput falls to ~4–5 Mbps in those minutes while handovers remain normal. I will apply targeted site parameter tuning to harden against interference bursts (conservative link adaptation and interference mitigation). Proceed?",
+      "message_ar": "السلسلة الزمنية لـ BLER (ساعتان) تُظهر خط أساس 6–8% مع اندفاعات تصل إلى ~18% حوالي 10:15 و11:05؛ ينخفض SINR إلى 0–1 dB أثناء الاندفاعات؛ ينخفض وسيط سرعات التنزيل إلى ~4–5 Mbps في تلك الدقائق بينما تبقى عمليات التسليم طبيعية. سأطبق ضبطاً مستهدفاً لمعاملات الموقع لتعزيز مقاومة الاندفاعات التداخلية (تكيّف وصلة تحفظي وتخفيف تداخل). هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed on NR00123A: applied conservative interference mitigation and link adaptation guard; no service interruption. Initial post-change view (5 min): BLER ~7%, SINR ~2–3 dB, median throughput recovering to ~8–9 Mbps. I will continue to observe for burst recurrence.",
+      "message_ar": "تم تنفيذ التحسين على NR00123A: تم تطبيق تخفيف تداخل تحفظي وحماية لتكيّف الوصلة؛ بدون انقطاع خدمة. النظرة الأولية بعد التغيير (5 دقائق): BLER ~7%، وSINR ~2–3 dB، والسرعة الوسطية تتعافى إلى ~8–9 Mbps. سأستمر في المراقبة لاحتمال عودة الاندفاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Local checks show fewer retransmissions and smoother streaming for eMBB; continue watching.",
+      "message_ar": "التحقق المحلي يُظهر عدداً أقل من عمليات إعادة الإرسال وبثاً أكثر سلاسة لخدمة eMBB؛ يرجى المتابعة بالمراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs so far: drop rate stable, PRB load unchanged, and BLER spikes not reappearing in the last 10 minutes. I will keep tracking BLER, SINR, and user throughput.",
+      "message_ar": "المؤشرات جيدة حتى الآن: معدل السقوط مستقر، حمل PRB دون تغيير، وارتفاعات BLER لم تعد تظهر خلال آخر 10 دقائق. سأستمر في تتبع BLER وSINR وسرعات المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: BLER spikes trending down and slow data easing. Action taken: site parameter tuning on NR00123A. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: انخفاض اتجاه ارتفاعات BLER وتراجع بطء البيانات. الإجراء المتخذ: ضبط معاملات الموقع على NR00123A. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours of monitoring and update you with BLER, SINR, and median throughput. If bursts recur, we will escalate for interference source investigation and roll back the tuning if it causes regressions.",
+      "message_ar": "تم. سنقود المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونوافيكم بتحديثات حول BLER وSINR والسرعة الوسطية. إذا عادت الاندفاعات، سنصعّد للتحقق من مصدر التداخل وسنُعيد الضبط إذا تسبب في تراجع الأداء."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR00123A",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR00123A",
+        "BLER",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "interference_mitigation_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on suburban NR macro NR00123A during offpeak. An OSS snapshot and BLER time series confirmed bursty interference correlated with SINR dips and moderate load. Mitigation was applied via site parameter tuning to strengthen interference handling and conservative link adaptation, yielding reduced BLER spikes and improved median throughput; continued monitoring is in place.",
+    "ar": "تم تشخيص شذوذ في BLER على خلية ماكرو NR في الضواحي NR00123A خارج أوقات الذروة. أكدت لقطة OSS والسلسلة الزمنية لـ BLER وجود تداخل اندفاعي مرتبط بانخفاضات SINR وحمل متوسط. تم التخفيف عبر ضبط معاملات الموقع لتعزيز معالجة التداخل وتكيّف وصلة تحفظي، ما أدى إلى خفض ارتفاعات BLER وتحسن السرعة الوسطية؛ والمتابعة بالمراقبة مستمرة."
+  }
+}

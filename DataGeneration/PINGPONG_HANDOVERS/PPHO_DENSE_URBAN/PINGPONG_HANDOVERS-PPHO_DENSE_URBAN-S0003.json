@@ -1,0 +1,110 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0003",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban 5G NR macro cell shows 26% ping‑pong handovers over the last 4h with ~80% handover success, moderate load (~73% resource use), and 454 users.",
+    "ar": "خلية ماكرو 5G NR حضرية كثيفة تُظهر 26% تسليمات بينغ بونغ خلال آخر 4 ساعات مع ~80% نجاح تسليم وحمل متوسط (~73% استخدام موارد) و454 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro 5G NR cell over the last 4h shows ping‑pong handovers at 26%, HO success ~80%, ~82 attempts per 5 min; users report brief buffering while streaming. Please assist.",
+      "message_ar": "خلية ماكرو 5G NR حضرية خلال آخر 4 ساعات تُظهر تسليمات بينغ بونغ 26% ونسبة نجاح تسليم ~80% ومحاولات ~82 كل 5 دقائق؛ المستخدمون يشتكون من تقطّع بسيط أثناء البث. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Given the shoulder period and eMBB mix, I will first pull last 4h network counters for the serving cell and top neighbors to quantify ping‑pong and directions. Approve access?",
+      "message_ar": "تم. نظراً لفترة الكتف ومزيج eMBB، سأبدأ بسحب عدادات الشبكة لآخر 4 ساعات للخلية الخادمة وأهم الجيران لقياس البينغ بونغ واتجاهات التسليم. هل توافق على الوصول؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Cell ID is NR-41012-3; sector 3 serves southbound traffic.",
+      "message_ar": "الوصول مُوافق عليه. معرف الخلية هو NR-41012-3؛ القطاع 3 يخدم الحركة باتجاه الجنوب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 4h counters for NR-41012-3 and adjacent sectors now. Findings: ~80–85 HO attempts per 5 min, ping‑pong 26% concentrated between NR‑41012‑3 ↔ NR‑41012‑2 (~62% of cases); no site alarms. Edge RSRP ~‑104 to ‑108 dBm; current mobility: A3=2 dB, TTT=250 ms, hysteresis=1 dB.",
+      "message_ar": "أقوم الآن بسحب عدادات آخر 4 ساعات للخلية NR-41012-3 والقطاعات المجاورة. النتائج: ~80–85 محاولة تسليم لكل 5 دقائق، والبينغ بونغ 26% متركزة بين NR‑41012‑3 ↔ NR‑41012‑2 (~62% من الحالات)؛ لا إنذارات موقع. RSRP على الحافة ~‑104 إلى ‑108 dBm؛ إعدادات الحركة الحالية: A3=2 dB، وTTT=250 ms، وhysteresis=1 dB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes: near Main & 5th (~400 m from the site), UEs flip between those two sectors; no hardware faults reported.",
+      "message_ar": "ملاحظات ميدانية: قرب تقاطع Main و5th (~400 متر من الموقع)، الأجهزة تتنقل بين هذين القطاعين؛ لا أعطال عتادية مُبلّغ عنها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing the 4h handover time trend to confirm oscillation and load correlation. Result: peaks 16:00–18:00 with PRB ~70–75%; many returns within 30–45 s between NR‑41012‑3 and NR‑41012‑2.",
+      "message_ar": "أحلّل السلسلة الزمنية للتسليم خلال 4 ساعات لتأكيد التذبذب وارتباطه بالحمل. النتيجة: ذُرى بين 16:00–18:00 مع PRB ~70–75%؛ العديد من الرجوع خلال 30–45 ثانية بين NR‑41012‑3 وNR‑41012‑2."
+    },
+    {
+      "role": "agent",
+      "message_en": "Diagnosis: thresholds are too permissive under moderate overlap (SINR ~10 dB). I propose targeted mobility tuning on the hot pair: increase A3 offset by +1 dB, extend TTT to 320 ms, and raise hysteresis to 2 dB for NR‑41012‑3 ↔ NR‑41012‑2. Approve implementation?",
+      "message_ar": "التشخيص: العتبات متساهلة جداً مع تداخل متوسط (SINR ~10 dB). أقترح ضبطاً موجهاً لمعلمات الحركة على الزوج الساخن: زيادة إزاحة A3 بمقدار +1 dB، وتمديد TTT إلى 320 ms، ورفع hysteresis إلى 2 dB لِـ NR‑41012‑3 ↔ NR‑41012‑2. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed parameter changes now.",
+      "message_ar": "موافق على تنفيذ تغييرات المعلمات المقترحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on NR‑41012‑3 and its bilateral relation with NR‑41012‑2: A3 offset 2→3 dB, TTT 250→320 ms, hysteresis 1→2 dB. Change completed successfully.",
+      "message_ar": "تطبيق تحسين على NR‑41012‑3 والعلاقة الثنائية مع NR‑41012‑2: إزاحة A3 من 2→3 dB، وTTT من 250→320 ms، وhysteresis من 1→2 dB. تم إكمال التغيير بنجاح."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: within the first 15 minutes, ping‑pong events per 5 minutes dropped from ~21 to ~8 on that pair, and handover success is trending up. This aligns with the mobility parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "ملاحظة أولية: خلال أول 15 دقيقة، انخفضت أحداث البينغ بونغ لكل 5 دقائق من ~21 إلى ~8 على ذلك الزوج، ونسبة نجاح التسليم في تحسّن. هذا يتماشى مع ضبط معلمات الحركة. دعنا نراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will monitor through the next busy hour and report the outcome. If degradation reappears, we will roll back the thresholds; if instability persists, we will escalate for a broader neighbor/beam review.",
+      "message_ar": "سنراقب خلال ساعة الذروة التالية ونبلغ بالنتيجة. إذا عاد التدهور سنرجع العتبات للوراء؛ وإذا استمرت عدم الاستقرار سنصعّد لمراجعة أوسع للجيران/الحزم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41012-3",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-41012-3",
+        "HO",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility: A3 +1 dB; TTT +70 ms; hysteresis +1 dB on NR-41012-3<->NR-41012-2"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated high ping‑pong handovers on a dense urban NR macro cell. We reviewed last 4h counters and the handover time trend, confirming oscillations mainly between NR‑41012‑3 and NR‑41012‑2 during shoulder hours under moderate overlap. Mitigation was executed via site parameter tuning by increasing A3 offset, extending TTT, and raising hysteresis on the hot neighbor relation; we will monitor through the next busy hour.",
+    "ar": "تم التحقيق في ارتفاع تسليمات البينغ بونغ على خلية ماكرو NR حضرية كثيفة. جرى تحليل عدادات آخر 4 ساعات والسلسلة الزمنية للتسليم، مما أكد التذبذب أساساً بين NR‑41012‑3 وNR‑41012‑2 خلال فترة الكتف مع تداخل متوسط. تم التخفيف عبر ضبط معلمات الموقع بزيادة إزاحة A3 وتمديد TTT ورفع hysteresis على العلاقة الساخنة مع الجار؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

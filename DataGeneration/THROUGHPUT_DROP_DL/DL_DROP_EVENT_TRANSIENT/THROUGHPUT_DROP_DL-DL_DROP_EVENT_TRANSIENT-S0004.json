@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0004",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR microcell shows slow data over the last 2h with congestion alarms, high load and interference/signal overlap (PRB ~97%, DL ~3 Mbps, SINR ~4 dB, RSRQ -15 dB, ~492 users).",
+    "ar": "خلية NR ميكرو في الملعب تُظهر بطءاً في البيانات خلال آخر ساعتين مع إنذار ازدحام، وحمل مرتفع وتداخل/تراكب إشارة (إشغال الموارد ~97%، التنزيل ~3 Mbps، SINR ~4 dB، RSRQ -15 dB، ~492 مستخدماً)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell is down to ~3 Mbps DL over the last 2h; PRB ~97%, SINR ~4 dB (interference/signal overlap), RSRQ -15 dB, 492 users, p95 latency 60 ms. Congestion alarm is active during the event.",
+      "message_ar": "خلية NR ميكرو في الملعب هبطت سرعة التنزيل فيها إلى ~3 Mbps خلال آخر ساعتين؛ إشغال الموارد ~97%، وSINR ~4 dB (تداخل/تراكب إشارة)، وRSRQ -15 dB، و492 مستخدماً، وكمون p95 يبلغ 60 ms. إنذار الازدحام نشط أثناء الحدث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will lead diagnostics: first pull OSS counters for the impacted cell over the 2h window, then analyze DL KPI time series to confirm congestion vs interference; if confirmed, I’ll apply site parameter tuning to improve resource allocation and robustness. Please confirm the cell ID and grant read/write access.",
+      "message_ar": "مفهوم. سأقود التشخيص: أولاً سأسحب عدادات المنظومة للخلية المتأثرة خلال نافذة الساعتين، ثم أحلل السلسلة الزمنية لمؤشرات التنزيل لتأكيد الازدحام مقابل التداخل؛ وإذا تأكدت الحالة سأطبق ضبط معلمات الموقع لتحسين تخصيص الموارد والمتانة. يرجى تأكيد معرف الخلية ومنحي صلاحية قراءة/كتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-045-S1; access approved for this session.",
+      "message_ar": "معرف الخلية هو NR-STAD-045-S1؛ تمت الموافقة على الصلاحية لهذه الجلسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling live counters for NR-STAD-045-S1 over the last 2h now. Snapshot: PRB 97–99%, DL user throughput ~3–5 Mbps, BLER ~3%, connected users 480–500, and no backhaul errors. This indicates capacity saturation with stadium interference.",
+      "message_ar": "جارٍ سحب العدادات لـ NR-STAD-045-S1 خلال الساعتين الماضيتين. الخلاصة: إشغال الموارد 97–99%، ومعدل تنزيل المستخدم ~3–5 Mbps، وBLER ~3%، ومستخدمون متصلون 480–500، ولا توجد أخطاء في الربط الخلفي. هذا يشير إلى تشبع سعة مع تداخل بيئة الملعب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing DL time series for the same 2h window: during event peaks, DL collapses to ~3 Mbps as PRB pins near 100%, SINR dips to 3–5 dB, and p95 radio latency spikes to ~70–90 ms; heavy streaming traffic is evident. Diagnosis: congestion aggravated by interference/signal overlap.",
+      "message_ar": "تحليل السلسلة الزمنية للتنزيل في نافذة الساعتين: أثناء ذروة الحدث ينهار المعدل إلى ~3 Mbps مع تثبيت إشغال الموارد قرب 100%، وانخفاض SINR إلى 3–5 dB، وارتفاع كمون p95 اللاسلكي إلى ~70–90 ms؛ يظهر حمل بث مرئي كثيف. التشخيص: ازدحام متفاقم مع تداخل/تراكب إشارة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose immediate mitigation: apply site parameter tuning on NR-STAD-045-S1 to improve fairness, interference handling, and resource utilization without service interruption. Please approve the change.",
+      "message_ar": "أقترح تخفيفاً فورياً: تطبيق ضبط معلمات الموقع على NR-STAD-045-S1 لتحسين العدالة والتعامل مع التداخل واستغلال الموارد دون انقطاع للخدمة. يرجى الموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the optimization now; changes are in. Early impact (5–10 min): PRB eased to ~88–92%, p95 latency dropped to ~35–45 ms, and median DL improved toward 8–12 Mbps. I will continue observing.",
+      "message_ar": "جارٍ تطبيق التحسين؛ تم تثبيت التغييرات. الأثر المبكر (5–10 دقائق): تراجع إشغال الموارد إلى ~88–92%، وانخفض كمون p95 إلى ~35–45 ms، وتحسّن وسيط التنزيل باتجاه 8–12 Mbps. سأواصل المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see the same uplift; user speeds are recovering and connection quality is steadier.",
+      "message_ar": "نرى التحسن ذاته؛ سرعات المستخدمين تتعافى وجودة الاتصال أكثر استقراراً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—slow data complaints are easing and latency is trending down. Action taken: site parameter tuning on the cell. Let us monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن — شكاوى بطء البيانات تتراجع والكمون في اتجاه هابط. الإجراء المنفذ: ضبط معلمات الموقع على الخلية. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy hour monitoring and provide an update on throughput and latency trends. If performance degrades, we will escalate to broader load-share actions; if any side effects appear, we will roll back the tuning.",
+      "message_ar": "تم التأكيد — سنتولى مراقبة ساعة الذروة القادمة وتزويدكم بتحديث حول اتجاهات السرعة والكمون. إذا تدهور الأداء سنصعّد إلى إجراءات توزيع حمل أوسع، وإذا ظهرت آثار جانبية سنرجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the NR microcell experienced a downlink throughput collapse driven by severe congestion and interference. We validated this by pulling counters and analyzing the downlink KPI time series, then mitigated it via site parameter tuning to improve resource allocation and robustness. Early results show PRB relief, reduced latency, and improved user throughput; we will monitor through the next busy hour.",
+    "ar": "خلال حدث الملعب، تعرضت خلية NR الميكرو لانهيار في سرعة التنزيل بسبب ازدحام شديد وتداخل. تم التحقق عبر سحب العدادات وتحليل السلسلة الزمنية لمؤشرات التنزيل، ثم تمت المعالجة من خلال ضبط معلمات الموقع لتحسين تخصيص الموارد والمتانة. النتائج المبكرة تُظهر انخفاض إشغال الموارد وتراجع الكمون وتحسن سرعة المستخدمين؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

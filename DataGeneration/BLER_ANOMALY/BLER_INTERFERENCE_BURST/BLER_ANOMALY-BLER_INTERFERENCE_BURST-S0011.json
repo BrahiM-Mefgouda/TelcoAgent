@@ -1,0 +1,105 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0011",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban 5G NR macro with an active alarm in the last 2h shows high load and BLER ~9%, SINR 7 dB, RSRP -112 dBm, RSRQ -17 dB, and median throughput 8 Mbps indicating slow data; congestion acknowledged.",
+    "ar": "محطة ماكرو 5G NR في منطقة ضاحية مع إنذار نشط خلال آخر ساعتين تُظهر حملاً مرتفعاً وBLER ~9% وSINR 7 dB وRSRP -112 dBm وRSRQ -17 dB وسرعة وسيطة 8 Mbps مما يدل على بطء البيانات؛ تم تأكيد وجود ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Active alarm on a suburban NR macro in the last 2h. Off-peak eMBB (streaming) users report slow data; KPIs: RSRP -112 dBm, RSRQ -17 dB, SINR 7 dB, BLER ~9–10%, PRB util ~84%, users 194. Please assist.",
+      "message_ar": "يوجد إنذار نشط على محطة ماكرو NR في منطقة ضاحية خلال آخر ساعتين. مستخدمو eMBB (بث) يشكون من بطء البيانات؛ المؤشرات: RSRP -112 dBm وRSRQ -17 dB وSINR 7 dB وBLER حوالي 9–10% وإشغال PRB ~84% وعدد المستخدمين 194. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnostics. First, I will run an OSS health check for the last 2h. Please confirm the cell ID and grant access.",
+      "message_ar": "سأتولى التشخيص. أولاً سأجري فحص OSS لصحة الخلية لآخر ساعتين. يرجى تأكيد معرف الخلية ومنحي صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Suburban-1023. Read-only access approved for this window.",
+      "message_ar": "معرّف الخلية: NR-Suburban-1023. تمت الموافقة على وصول للقراءة فقط لهذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete for NR-Suburban-1023 (2h): PRB ~84%, BLER median 9.4% with short spikes >12%, SINR median 7 dB, RSRP -112 dBm, RSRQ -17 dB; neighbors moderately loaded (~0.64). Next, I will pull the BLER time series to validate burst patterns. Proceed?",
+      "message_ar": "اكتمل فحص OSS للخلية NR-Suburban-1023 (ساعتان): إشغال PRB ~84%، وBLER وسيطي 9.4% مع قمم قصيرة >12%، وSINR وسيطي 7 dB، وRSRP -112 dBm، وRSRQ -17 dB؛ حمل الجوار متوسط (~0.64). بعد ذلك سأجلب السلسلة الزمنية لـ BLER للتحقق من النمط المتقطع. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER time series shows bursty peaks correlated with brief load rises and neighbor activity; no persistent faults. This indicates short interference episodes and edge users. I propose a low-risk optimization to harden coding/adaptation and tighten interference coordination. Approve?",
+      "message_ar": "السلسلة الزمنية لـ BLER تُظهر قمماً متقطعة متزامنة مع ارتفاعات قصيرة في الحمل ونشاط الجوار؛ لا توجد أعطال مستمرة. هذا يشير إلى تداخلات قصيرة ومشتركي حافة الخلية. أقترح تحسيناً منخفض المخاطر لزيادة متانة الترميز/التكيّف وتشديد التنسيق ضد التداخل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-Suburban-1023: increased robustness for low-SINR users and minor coordination tuning; change is reversible. Initial post-change checks are stable. Expect BLER to drop 30–40% and p50 throughput to improve from 8 to ~10–12 Mbps. Please recheck after 10–15 minutes.",
+      "message_ar": "تم تطبيق التحسين على NR-Suburban-1023: زيادة المتانة لمستخدمي SINR المنخفض وضبط طفيف في التنسيق؛ التغيير قابل للتراجع. الفحوصات الأولية بعد التغيير مستقرة. نتوقع انخفاض BLER بنسبة 30–40% وتحسن السرعة الوسيطة من 8 إلى ~10–12 Mbps. يرجى إعادة التحقق بعد 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change: BLER ~5–6% and median throughput ~10 Mbps; slow data complaints have eased. Action taken: site parameter tuning for BLER mitigation. Suggest monitoring over the next 2–4 hours.",
+      "message_ar": "بعد التغيير: BLER ~5–6% والسرعة الوسيطة ~10 Mbps؛ تراجعت شكاوى بطء البيانات. الإجراء المتخذ: ضبط معلمات الموقع لتخفيف BLER. أقترح المراقبة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next 2–4 hours and update with BLER and throughput trends. If degradation or neighbor impact appears, we will escalate and roll back the change.",
+      "message_ar": "تم. سنراقب خلال الساعتين إلى الأربع القادمة ونزوّدك باتجاهات BLER ومعدل السرعة. إذا ظهر تدهور أو تأثير على الجوار، سنصعّد ونعيد التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburban-1023",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburban-1023",
+        "BLER",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "BLER mitigation: robust MCS/LA and DL interference coordination"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on a suburban NR macro during off-peak. An OSS health check and BLER time series confirmed bursty BLER with weak signal quality and moderate-to-high load. Applied site parameter tuning to harden link adaptation and interference coordination; BLER decreased and median throughput improved, and we will monitor for stability.",
+    "ar": "تم تشخيص شذوذ BLER على محطة ماكرو NR في منطقة ضاحية خلال فترة خارج الذروة. أكد فحص OSS والسلسلة الزمنية لـ BLER وجود قمم متقطعة مع جودة إشارة ضعيفة وحمل متوسط إلى مرتفع. تم تطبيق ضبط لمعلمات الموقع لتعزيز تكيّف الوصلة وتنسيق الحد من التداخل؛ انخفض BLER وتحسنت السرعة الوسيطة، وسنواصل المراقبة للتحقق من الاستقرار."
+  }
+}

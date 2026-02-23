@@ -1,0 +1,103 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_URBAN_PEAK-S0006",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows 94% PRB over the last 2h with 82 ms p95 scheduling delay and 254 users; a congestion alarm is active during shoulder-hour eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية تُظهر إشغال PRB بنسبة 94% خلال آخر ساعتين مع تأخر جدولة p95 قدره 82 مللي ثانية و254 مستخدماً؛ إنذار الازدحام نشط خلال ساعة الكتف وحركة eMBB (بث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell shows high PRB (~94%) over the last 2h; congestion alarm is active during shoulder hour with eMBB streaming. DL ~11 Mbps, UL ~4, p95 scheduling latency 82 ms, 254 users, RLF ~3.3%. Please investigate.",
+      "message_ar": "الخلية الماكرو NR في منطقة حضرية تُظهر إشغال PRB مرتفعاً (~94%) خلال آخر ساعتين؛ إنذار الازدحام نشط في ساعة الكتف مع حركة eMBB (بث). معدل DL ~11 ميجابت/ث، UL ~4، تأخر الجدولة p95 = 82 مللي ثانية، 254 مستخدماً، وRLF ~3.3%. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling operations counters for the past 2h to validate sustained PRB saturation and latency. Please provide the cell ID and confirm access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب مؤشرات التشغيل للنافذة 2 ساعة للتحقق من استمرار تشبع PRB والتأخر. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-7821. Access approved for the 2h window; no planned changes today.",
+      "message_ar": "المعرّف: NR-Cell-7821. الوصول معتمد للنافذة 2 ساعة؛ لا تغييرات مخططة اليوم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm PRB 92–95% for 75% of the window, DL 10–12 Mbps, p95 latency 78–88 ms, BLER ~4%, and slightly elevated RLF; no hardware/backhaul faults flagged. I propose targeted scheduler and admission tuning to relieve PRB pressure. Approve to proceed?",
+      "message_ar": "العدادات تؤكد: إشغال PRB بمتوسط 92–95% في 75% من النافذة، DL 10–12 ميجابت/ث، p95 تأخر 78–88 مللي ثانية، BLER ~4%، وRLF أعلى قليلاً؛ لا أعطال عتادية/وصلات. أقترح ضبطاً موجهاً لسياسات المجدول والقبول لتخفيف الضغط. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning: adjusted DL scheduler weights to deprioritize background traffic, enabled congestion-control thresholds, and tightened admission for best-effort flows. Change committed with guard; expecting PRB -8–12% and latency improvement. Monitoring live counters now.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع: تعديل أوزان مجدول DL لتقليل أولوية الحركة الخلفية، تفعيل عتبات التحكم بالازدحام، وتشديد القبول للتدفقات الأفضل جهداً. تم اعتماد التغيير مع حماية؛ المتوقع خفض PRB بمقدار 8–12% وتحسن التأخر. أراقب العدادات الحية الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs: PRB dipping to ~80–85% and p95 latency trending toward ~60 ms; user count stable.",
+      "message_ar": "مؤشرات مبكرة: انخفاض PRB إلى ~80–85%، وانخفاض تأخر p95 إلى نحو ~60 مللي ثانية؛ عدد المستخدمين مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will open a tracking ticket documenting the capacity tuning and set it for follow-up during the next busy hour.",
+      "message_ar": "جيد. سأفتح تذكرة تتبع توثق ضبط السعة وتحدد متابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: PRB utilization trending down and scheduling delays easing. Action taken: site parameter tuning for congestion relief. Let’s monitor through the next busy hour and track under DU-PRB-04856.",
+      "message_ar": "لوحظ تحسّن: انخفاض إشغال PRB وتراجع تأخيرات الجدولة. الإجراء المنفّذ: ضبط معلمات الموقع لتخفيف الازدحام. لنتابع خلال ساعة الذروة القادمة؛ المتابعة تحت DU-PRB-04856."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own monitoring through the next busy hour and will update the ticket after the window. If metrics regress, we will escalate to regional capacity planning; if adverse effects appear, we will roll back to the prior baseline.",
+      "message_ar": "تم التأكيد—سنتولّى المتابعة خلال ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء النافذة. إذا تدهورت المؤشرات سنصعّد إلى تخطيط السعة الإقليمي؛ وإذا ظهرت آثار جانبية سنعيد المعلمات إلى الأساس السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Sustained PRB saturation was confirmed on an urban NR macro cell during shoulder-hour eMBB traffic, with high scheduling delay and constrained throughput. Site parameter tuning was executed to adjust scheduler weighting, congestion thresholds, and admission limits, and a follow-up ticket was opened. Early results show PRB reduced and latency improving; continued monitoring through the next busy hour is planned.",
+    "ar": "تم تأكيد تشبع PRB المستمر على خلية ماكرو NR حضرية أثناء حركة eMBB في ساعة الكتف مع تأخر جدولة مرتفع وسرعة مقيدة. تم تنفيذ ضبط معلمات الموقع عبر تعديل أوزان المجدول وعتبات الازدحام وحدود القبول، وفتح تذكرة متابعة. النتائج الأولية تُظهر انخفاضاً في PRB وتحسناً في التأخر؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

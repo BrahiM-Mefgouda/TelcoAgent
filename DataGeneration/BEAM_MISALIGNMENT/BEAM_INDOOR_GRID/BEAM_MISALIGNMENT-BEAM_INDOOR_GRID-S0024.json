@@ -1,0 +1,113 @@
+{
+  "id": "BEAM_MISALIGNMENT-BEAM_INDOOR_GRID-S0024",
+  "intent": "BEAM_MISALIGNMENT",
+  "blueprint_id": "BEAM_INDOOR_GRID",
+  "query": {
+    "en": "Indoor office wing 5G NR pico cell shows RSRP -107 dBm, low dominance with nearby sites competing, SINR 7 dB, and rising beam failures/BFR events over 6h—requesting a beam alignment review.",
+    "ar": "خلية NR داخلية (بيكو) في جناح المكتب تُظهر RSRP عند -107 dBm، وهيمنة منخفضة مع تنافس مواقع مجاورة، وSINR عند 7 dB، وارتفاعاً في فشل الحزم وأحداث BFR خلال 6 ساعات—نحتاج لمراجعة مواءمة الحزم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor pico NR cell in the north office wing is weak and unstable over the last 6 hours: RSRP ~-107 dBm, SINR ~7 dB, low dominance (nearby sites competing), beam failures ~6% with ~7 BFR events/hr. Please assist.",
+      "message_ar": "خلية NR داخلية (بيكو) في الجناح الشمالي من المكتب ضعيفة وغير مستقرة خلال آخر 6 ساعات: RSRP حوالي -107 dBm، وSINR حوالي 7 dB، وهيمنة منخفضة (مواقع مجاورة تتنافس)، وفشل حزم ~6% مع ~7 أحداث BFR/ساعة. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead triage. Given this indoor small site and eMBB streaming mix at shoulder time, I suspect beam misalignment. First, I will analyze the indoor grid coverage/SSB footprint to verify boresight vs corridor. Please confirm the impacted zone and authorize the check.",
+      "message_ar": "سأتولى التحليل. نظراً لأن الموقع داخلي صغير وبه مزيج eMBB للبث أثناء فترة الحمل المتوسط، أشتبه بوجود سوء مواءمة للحزم. أولاً سأحلل خريطة تغطية الشبكة الداخلية وبصمة SSB للتحقق من اتجاه الحزمة بالنسبة للممر. يرجى تأكيد المنطقة المتأثرة وتفويض الفحص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Impacted zone is Level 2 north corridor outside rooms A–D. You are authorized to proceed.",
+      "message_ar": "المنطقة المتأثرة هي ممر المستوى الثاني الشمالي خارج الغرف A–D. لديك الإذن بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage review shows the SSB main lobe is ~20° off the corridor axis with a null near rooms B–C; dominance is suppressed by neighbor bleed. This aligns with beam misalignment. Next, I propose a targeted retune: +8° azimuth toward the corridor, reweight SSB beams for L2 north, and trim side-lobes by ~1 dB to reduce overlap. Approve implementation now?",
+      "message_ar": "مراجعة التغطية تُظهر أن الحزمة الرئيسية للـSSB منحرفة بحوالي 20° عن محور الممر مع فجوة قرب الغرف B–C؛ الهيمنة منخفضة بسبب تسرب من الجار. هذا يتوافق مع سوء مواءمة الحزم. أقترح إعادة ضبط محددة: +8° أزيموث نحو الممر، وإعادة وزن حزم SSB لشمال L2، وتقليل الأجنحة الجانبية بحوالي 1 dB لتقليل التداخل. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now. Current load is moderate, around 224 users.",
+      "message_ar": "موافق على التنفيذ الآن. الحمل الحالي متوسط بحوالي 224 مستخدماً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: azimuth +8° toward corridor, SSB beam weights biased to L2 north, side-lobes trimmed ~1 dB. Expect +5–8 dB RSRP in corridor and fewer beam failures. Please spot-check after 5–10 minutes (RSRP/SINR and beam-failure counters).",
+      "message_ar": "تم تطبيق التغيير: أزيموث +8° نحو الممر، ترجيح حزم SSB باتجاه شمال L2، وتقليص الأجنحة الجانبية بحوالي 1 dB. المتوقع +5–8 dB في RSRP داخل الممر وانخفاض فشل الحزم. يرجى التحقق بعد 5–10 دقائق (RSRP/SINR وعدّادات فشل الحزم)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early read: corridor RSRP improved to about -100 dBm, SINR 9–10 dB. Beam failures trending down. No alarms.",
+      "message_ar": "قراءة أولية: تحسّن RSRP في الممر إلى حوالي -100 dBm، وSINR بين 9–10 dB. فشل الحزم في اتجاه هبوطي. لا إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will create a change record and set short-term monitoring through the next busy checks. OK to proceed with documentation?",
+      "message_ar": "جيد. سأُنشئ سجل التغيير وأضبط مراقبة قصيرة الأجل حتى الفترات الأكثر ازدحاماً القادمة. هل أتابع التوثيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed. Include pre/post coverage snapshots and note the nearby competition.",
+      "message_ar": "تابع. أدرج لقطات التغطية قبل/بعد واذكر التنافس من المواقع المجاورة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created: DU-BEAM-00137 with pre/post artifacts. We’ll track dominance, beam-failure rate, and BFR events through the upcoming busy period. If drift appears, we’ll consider minor follow-up tuning.",
+      "message_ar": "تم إنشاء السجل: DU-BEAM-00137 مع المرفقات قبل/بعد. سنراقب الهيمنة، ومعدل فشل الحزم، وأحداث BFR خلال فترة الازدحام القادمة. إذا ظهر انحراف، سننظر في ضبط متابعة طفيف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Metrics look better: beam failures trending down and corridor coverage stabilized after the beam parameter optimization. Let’s monitor for the next 2–4 hours and track under DU-BEAM-00137.",
+      "message_ar": "المؤشرات أفضل: فشل الحزم في اتجاه هبوطي وتغطية الممر استقرت بعد تحسين معلمات الحزم. لنراقب خلال الساعات 2–4 القادمة ونتابع ضمن DU-BEAM-00137."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring window and update DU-BEAM-00137 afterward. If KPIs regress, we will roll back the tuning; if issues persist despite improvements, we will escalate for a physical antenna alignment check.",
+      "message_ar": "تم. سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث DU-BEAM-00137 بعدها. إذا تراجعت مؤشرات الأداء، سنعود عن الضبط؛ وإذا استمرت المشاكل رغم التحسن، سنصعّد لإجراء فحص ميداني لمحاذاة الهوائي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed indoor 5G NR beam misalignment using an indoor coverage view that showed the SSB main lobe offset from the target corridor and low dominance due to neighbor bleed. Mitigated by site parameter tuning: adjusted azimuth and reweighted SSB beams to strengthen corridor coverage and reduce overlap. Logged the change under DU-BEAM-00137 and set short-term monitoring to confirm sustained improvement.",
+    "ar": "تم تشخيص سوء مواءمة حزم 5G NR داخلياً عبر عرض تغطية داخلي أظهر انحراف الحزمة الرئيسية للـSSB عن الممر المستهدف وهيمنة منخفضة بسبب تسرب من الجار. تم التخفيف عبر ضبط معلمات الموقع: تعديل الأَزِيموث وإعادة وزن حزم SSB لتعزيز تغطية الممر وتقليل التداخل. تم توثيق التغيير تحت DU-BEAM-00137 وضبط مراقبة قصيرة الأجل للتحقق من استدامة التحسن."
+  }
+}

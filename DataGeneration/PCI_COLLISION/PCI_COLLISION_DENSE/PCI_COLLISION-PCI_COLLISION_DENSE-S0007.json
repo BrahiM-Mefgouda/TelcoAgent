@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0007",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban 5G NR macro with an active alarm over the last 6h shows interference/signal overlap (SINR -3 dB, RSRQ -12 dB), degraded handovers (69.5% success, 18% ping-pong), and neighbor PCI overlap at 51%; please investigate potential PCI collision.",
+    "ar": "موقع ماكرو NR حضري مع إنذار فعّال خلال آخر 6 ساعات يظهر تداخل/تراكب إشارة (SINR -3 dB، RSRQ -12 dB)، تسليمات متدهورة بين الخلايا (نجاح 69.5% وارتداد 18%)، وتداخل PCI جار بنسبة 51%؛ يرجى التحقق من احتمال تعارض PCI."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro with an active alarm in the last 6h. Users report buffering during eMBB streaming. KPIs: SINR -3 dB, RSRQ -12 dB, HO success 69.5% (fail 28%), ping-pong 18%, PRB 74%, P50 DL 9 Mbps. Target cell: NR-MACRO-092A.",
+      "message_ar": "موقع ماكرو NR حضري مع إنذار فعّال خلال آخر 6 ساعات. المستخدمون يشتكون من تقطيع أثناء بث eMBB. المؤشرات: SINR -3 dB، RSRQ -12 dB، نجاح التسليم بين الخلايا 69.5% (فشل 28%)، الارتداد 18%، إشغال PRB ‏74%، ومعدل تنزيل وسيط 9 ميجابت/ث. الخلية المستهدفة: NR-MACRO-092A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Interference/signal overlap is clear; likely a PCI conflict. I will start with a neighbor audit for NR-MACRO-092A over the 6h window to detect duplicate or unsafe PCI and overlap. Approve read-only access?",
+      "message_ar": "يوجد تداخل/تراكب إشارة واضح؛ يُحتمل تعارض PCI. سأبدأ بتدقيق الجيران للخلية NR-MACRO-092A خلال نافذة 6 ساعات لاكتشاف PCI مكرر/غير آمن ونِسب التداخل. هل توافق على صلاحية قراءة فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved read-only access for NR-MACRO-092A, 6h window.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة فقط للخلية NR-MACRO-092A، نافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: Neighbor gNB-380 sector 2 shares PCI 92; overlap with NR-MACRO-092A is 51% of the serving area, correlating with HO failures and ping-pong at edges. I recommend retuning NR-MACRO-092A to a free PCI (e.g., 458). Approve a brief SSB reconfiguration (<30s)?",
+      "message_ar": "تم تدقيق الجيران: الجار gNB-380 القطاع 2 يستخدم PCI 92 نفسه؛ التداخل مع NR-MACRO-092A يبلغ 51% من منطقة الخدمة ويتوافق مع فشل التسليم والارتداد على الأطراف. أوصي بإعادة ضبط PCI للخلية NR-MACRO-092A إلى قيمة متاحة (مثلاً 458). هل توافق على إعادة تهيئة SSB قصيرة (<30 ثانية)؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved PCI retune with brief impact.",
+      "message_ar": "تمت الموافقة على إعادة ضبط PCI بتأثير وجيز."
+    },
+    {
+      "role": "agent",
+      "message_en": "PCI updated: NR-MACRO-092A from 92 to 458; neighbor relations and ANR lists refreshed. Short reconfiguration completed without errors. Starting live monitoring of HO outcomes, SINR, and RSRQ.",
+      "message_ar": "تم تحديث PCI: الخلية NR-MACRO-092A من 92 إلى 458؛ تحديث علاقات الجيران وقوائم ANR. اكتملت إعادة التهيئة القصيرة دون أخطاء. أبدأ مراقبة مباشرة لمؤشرات التسليم، SINR وRSRQ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial results (10 min): SINR improved to 0 dB, RSRQ to -9 dB; handover failures trending down; ping-pong decreasing.",
+      "message_ar": "نتائج أولية (10 دقائق): تحسن SINR إلى 0 dB وRSRQ إلى -9 dB؛ فشل التسليم يتناقص؛ الارتداد ينخفض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I will document the change and open a tracking record for the PCI retune to follow stability. Proceed?",
+      "message_ar": "اتجاه جيد. سأوثّق التغيير وأفتح سجل متابعة لإعادة ضبط PCI لمراقبة الاستقرار. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed to document.",
+      "message_ar": "تفضل بالتوثيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking record created with the PCI change details and baseline impact metrics; monitoring will continue through the upcoming peak.",
+      "message_ar": "تم إنشاء سجل متابعة يتضمن تفاصيل تغيير PCI ومؤشرات التأثير الأساسية؛ ستستمر المراقبة خلال فترة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement: handover failures trending down and SINR stabilized around 0–1 dB. Action taken: PCI parameter change on NR-MACRO-092A. Let’s monitor through the next busy hour; reference ticket DU-PCI-04127.",
+      "message_ar": "لوحظ تحسن: فشل التسليم يتناقص وSINR مستقر حول 0–1 dB. الإجراء المتخذ: تغيير معلمة PCI على NR-MACRO-092A. لنتابع المراقبة خلال ساعة الانشغال القادمة؛ مرجع التذكرة DU-PCI-04127."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy hour monitoring and update the ticket after the window with KPI deltas. If interference returns or a neighbor is impacted, we will rollback to the prior PCI and escalate to RF for a cluster replan.",
+      "message_ar": "سنتولى مراقبة ساعة الانشغال القادمة وسنحدّث التذكرة بعد انتهاء النافذة مع فروقات المؤشرات. إذا عاد التداخل أو تأثر جار، سنعود إلى PCI السابق ونصعّد إلى فريق الترددات لإعادة تخطيط على مستوى المجموعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision via neighbor analysis: a neighboring sector shared PCI 92 with the target cell, creating a 51% overlap and mobility degradation. Mitigation was applied by site parameter tuning to a free PCI and refreshing neighbor relations. A tracking ticket was created to monitor stability through the next busy hour.",
+    "ar": "تم تشخيص تعارض PCI عبر تحليل الجيران: قطاع مجاور يشارك PCI 92 مع الخلية المستهدفة مما سبب تداخل 51% وتدهوراً في الحركة. تمت المعالجة عبر ضبط معلمات الموقع إلى PCI متاح وتحديث علاقات الجيران. تم إنشاء تذكرة متابعة لمراقبة الاستقرار خلال ساعة الانشغال التالية."
+  }
+}

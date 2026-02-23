@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0026",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Backhaul congestion alarm active at an urban NR macro cell over the last 3h, with ~95% utilization, 47 ms latency, 92% queueing, 551 users, and 13 Mbps downlink.",
+    "ar": "إنذار ازدحام في الوصلة الخلفية نشط على خلية NR ماكرو حضرية خلال آخر 3 ساعات، مع استعمال يقارب 95%، وزمن تأخير 47 مللي ثانية، وامتلاء طابور 92%، و551 مستخدمًا، وتنزيل 13 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell showing a backhaul congestion alarm over the last 3h; during the shoulder period, eMBB users report streaming buffering.",
+      "message_ar": "خلية NR ماكرو في منطقة حضرية تُظهر إنذار ازدحام في الوصلة الخلفية خلال آخر 3 ساعات؛ وخلال فترة الكتف يبلّغ مستخدمو eMBB عن تقطيع في بث الفيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. First step: pull last 3h OSS stats for the affected cell to confirm backhaul bottleneck signals; please share the cell ID and approve read-only access.",
+      "message_ar": "سأتولى التشخيص. الخطوة الأولى: سحب إحصاءات الـOSS لآخر 3 ساعات للخلية المتأثرة لتأكيد مؤشرات اختناق الوصلة الخلفية؛ يرجى تزويدي بمعرّف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-41023A. Read-only access approved for the last 3 hours.",
+      "message_ar": "معرّف الخلية هو NR-41023A. تمّت الموافقة على وصول قراءة فقط لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check (3h) on NR-41023A: backhaul util 95%, latency 47 ms, jitter 6 ms, packet loss 1.16%, queue occupancy 92%. Radio load moderate (PRB 83%), RF acceptable (SINR 13 dB). DL ~13 Mbps with 551 users. Diagnosis: backhaul is the bottleneck. Next, I propose temporary site parameter tuning to prioritize critical traffic and reduce bufferbloat. Approve?",
+      "message_ar": "فحص OSS (3 ساعات) على NR-41023A: استعمال الوصلة الخلفية 95%، التأخير 47 مللي ثانية، التذبذب 6 مللي ثانية، فقدان حزم 1.16%، وامتلاء الطابور 92%. حمل الراديو متوسط (PRB 83%)، وجودة RF مقبولة (SINR ‏13 dB). التنزيل ~13 ميجابت/ث مع 551 مستخدمًا. التشخيص: الوصلة الخلفية هي عنق الزجاجة. أقترح ضبطًا مؤقتًا لمعاملات الموقع لتفضيل الحركة الحرجة وتقليل تضخم المخازن. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the temporary site parameter tuning.",
+      "message_ar": "موافق على المضي قدمًا بضبط معاملات الموقع المؤقت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter tuning: enabled stricter QoS prioritization, tightened non-GBR shaping, and adjusted queue management to curb bufferbloat; no service interruption. Initial spot-check shows queue occupancy down to ~78% and latency trending toward ~38 ms. If acceptable, I will open a tracking ticket for capacity follow-up and monitoring.",
+      "message_ar": "تم تطبيق ضبط المعلمات: تفعيل أولوية QoS أكثر صرامة، تشديد تشكيل حركة غير مضمونة الحصة، وضبط إدارة الطوابير لتقليل تضخم المخازن؛ دون انقطاع خدمة. فحص أولي يُظهر انخفاض امتلاء الطابور إلى ~78% وتوجّه التأخير نحو ~38 مللي ثانية. إذا كان مناسبًا، سأفتح بلاغ متابعة لتتبّع السعة والمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to open the tracking ticket.",
+      "message_ar": "موافَق على فتح بلاغ المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket opened for NR-41023A to document the mitigation and request backhaul capacity review; baseline and post-change notes attached.",
+      "message_ar": "تم فتح بلاغ متابعة لـ NR-41023A لتوثيق إجراء التخفيف وطلب مراجعة سعة الوصلة الخلفية؛ تم إرفاق خط الأساس وملاحظات ما بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change observation (~10 min): downlink improved to ~18–20 Mbps and backhaul packet loss dropped to ~0.6%.",
+      "message_ar": "ملاحظة بعد التغيير (~10 دقائق): تحسّن التنزيل إلى ~18–20 ميجابت/ث وانخفض فقدان حزم الوصلة الخلفية إلى ~0.6%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Mitigation remains in place and stability looks good; no further adjustments at this time.",
+      "message_ar": "تم الاستلام. يظل إجراء التخفيف مفعلًا والاستقرار جيد؛ لا تعديلات إضافية حاليًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: backhaul latency is trending down and queueing is lower. The site parameter tuning addressed the immediate issue. Let’s monitor through the next busy hour; I’ll track under DU-BH-04628.",
+      "message_ar": "تم تأكيد التحسّن: زمن تأخير الوصلة الخلفية في اتجاه هبوطي والطوابير أقل. ضبط معاملات الموقع عالج المشكلة الفورية. دعنا نراقب خلال ساعة الذروة القادمة؛ سأتابع تحت الرقم DU-BH-04628."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and update the ticket after that window. If congestion returns, we will escalate to transport for capacity or reroute; if adverse effects appear, we will roll back the tuning to the previous state.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنحدّث البلاغ بعد انتهاء الفترة. إذا عاد الازدحام فسوف نُصعّد إلى فريق النقل للسعة أو لإعادة التوجيه؛ وإن ظهرت آثار سلبية سنرجع الضبط إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41023A",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul QoS and queue tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Backhaul congestion on NR-41023A; temporary QoS/queue tuning applied; request capacity review; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed degraded backhaul on an urban NR macro cell during the shoulder period: utilization at 95% with elevated latency, loss, and queues while radio load remained moderate, indicating a backhaul bottleneck. Applied site parameter tuning to enable stricter QoS prioritization and improve queue management, which immediately reduced queueing and latency. Opened a tracking ticket (DU-BH-04628) for backhaul capacity review and will monitor through the next busy hour.",
+    "ar": "تم تأكيد تدهور الوصلة الخلفية على خلية NR ماكرو حضرية خلال فترة الكتف: استعمال 95% مع ارتفاع التأخير والفقد والطوابير بينما حمل الراديو متوسط، ما يشير إلى عنق زجاجة في الوصلة الخلفية. تم تطبيق ضبط معاملات الموقع لتمكين أولوية QoS أكثر صرامة وتحسين إدارة الطوابير، مما خفّض الطوابير والتأخير فورًا. تم فتح بلاغ متابعة (DU-BH-04628) لمراجعة سعة الوصلة الخلفية، وسيتم المراقبة خلال ساعة الذروة القادمة."
+  }
+}

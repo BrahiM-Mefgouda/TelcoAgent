@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_COVERAGE_EDGE-S0018",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_COVERAGE_EDGE",
+  "query": {
+    "en": "Rural NR macro sector over the last 6h shows ~12% BLER with interference / signal overlap (SINR -3 dB) and slow data (p50 ~7 Mbps) during shoulder hours.",
+    "ar": "قطاع ماكرو NR ريفي خلال آخر 6 ساعات يُظهر BLER ~12% مع تداخل/تراكب إشارات (SINR -3 dB) وبطء بيانات (الوسيط ~7 Mbps) خلال فترة الكتف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro sector has high BLER (~12%) and slow data; SINR around -3 dB suggests interference / signal overlap at the edge. Last 6h, shoulder period with eMBB streaming: RSRP -105 dBm, RSRQ -16 dB, ~67 users. Cell: NRRuralMacro-01. Please check.",
+      "message_ar": "قطاع ماكرو NR ريفي يعاني من BLER مرتفع (~12%) وبطء البيانات؛ SINR حوالي -3 dB يدل على تداخل/تراكب إشارات عند الحافة. آخر 6 ساعات بفترة كتف مع بث eMBB: RSRP -105 dBm و RSRQ -16 dB وحوالي 67 مستخدمًا. الخلية: NRRuralMacro-01. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling 6h OSS counters for NRRuralMacro-01 to validate BLER and radio conditions; please confirm read access.",
+      "message_ar": "سأبدأ بجلب عدادات OSS لآخر 6 ساعات للخلية NRRuralMacro-01 للتحقق من BLER وحالة الوصلة اللاسلكية؛ يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved; proceed.",
+      "message_ar": "تمّت الموافقة على الوصول للقراءة؛ تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows DL BLER avg 12% (peaks 18%), no active alarms; median SINR -3 dB, users ~60–70. I will fetch the BLER time series for the same 6h to isolate the shoulder-hour pattern now.",
+      "message_ar": "يُظهر OSS أن BLER في الوصلة الهابطة بمتوسط 12% (قمم 18%) ولا إنذارات نشطة؛ وسيط SINR -3 dB والمستخدمون ~60–70. سأجلب السلسلة الزمنية لـ BLER لنفس فترة 6 ساعات لعزل نمط فترة الكتف الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted.",
+      "message_ar": "تم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms sustained BLER elevation during the shoulder window with worst values at low RSRP bins; median throughput dips to ~7 Mbps. I propose conservative site parameter tuning to improve link adaptation and reduce BLER at the cell edge with minimal impact; proceed?",
+      "message_ar": "تؤكد السلسلة الزمنية ارتفاع BLER المستمر خلال نافذة الكتف مع أسوأ القيم عند مستويات RSRP المنخفضة؛ ينخفض الوسيط إلى ~7 Mbps. أقترح ضبطًا محافظًا لمعايرة معلمات الموقع لتحسين تكيّف الوصلة وتقليل BLER عند حافة الخلية بأقل تأثير؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize.",
+      "message_ar": "موافق على التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted tuning on NRRuralMacro-01 to ease BLER thresholds and balance cell-edge power allocation; change committed, monitoring immediate impact.",
+      "message_ar": "تنفيذ ضبط موجّه على NRRuralMacro-01 لتخفيف حدود BLER وموازنة توزيع القدرة عند حافة الخلية؛ تم اعتماد التغيير، وسأراقب الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early counters show BLER trending down to ~8–9% within a few minutes; buffering complaints have eased.",
+      "message_ar": "المؤشرات المبكرة تُظهر تراجع BLER إلى ~8–9% خلال بضع دقائق؛ وشكاوى التقطيع انخفضت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign; further stabilization is expected as adaptation converges. I will watch BLER and median throughput in the near window.",
+      "message_ar": "مؤشر إيجابي؛ من المتوقع مزيد من الاستقرار مع تقارب التكيّف. سأراقب BLER والإنتاجية الوسطية في النافذة القريبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "BLER is now near 7% and slow data complaints have reduced; the site parameter tuning appears effective. Let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "أصبح BLER الآن قرابة 7% وتراجعت شكاوى بطء البيانات؛ ويبدو أن ضبط معلمات الموقع كان فعّالًا. لنتابع المراقبة خلال ساعة الذروة التالية للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Summary: we validated the issue via counters and time series, then applied conservative tuning to reduce BLER at the cell edge. Acknowledged—we will own monitoring through the next busy hour and report BLER and user experience outcomes. If degradation reappears, we will escalate for deeper interference mitigation; if adverse effects occur, we will roll back to the previous state and reassess.",
+      "message_ar": "الخلاصة: قمنا بالتحقق من المشكلة عبر العدادات والسلسلة الزمنية ثم طبقنا ضبطًا محافظًا لتقليل BLER عند حافة الخلية. تم—سنتولى المراقبة خلال ساعة الذروة التالية ونوافيكم بنتائج BLER وتجربة المستخدم. إذا عاد التدهور سنصعّد لمعالجة التداخل بشكل أعمق؛ وإذا ظهرت آثار سلبية سنرجع إلى الحالة السابقة ونعيد التقييم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NRRuralMacro-01",
+        "last 6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NRRuralMacro-01",
+        "BLER",
+        "last 6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "BLER target, link adaptation aggressiveness, edge power balance"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on a rural NR macro cell during shoulder hours, correlated with low SINR and cell-edge conditions; time-series confirmed persistent BLER elevation. Executed site parameter tuning to improve link adaptation and balance edge power, which immediately reduced BLER and eased slow data symptoms. We will monitor through the next busy hour and adjust if needed.",
+    "ar": "تم تشخيص شذوذ في BLER على خلية NR ماكرو ريفية خلال فترة الكتف مرتبط بانخفاض SINR وظروف حافة التغطية؛ وأكدت السلسلة الزمنية استمرار ارتفاع BLER. تم تنفيذ ضبط لمعلمات الموقع لتحسين تكيّف الوصلة وموازنة القدرة عند الحافة، مما خفّض BLER فورًا وخفّف أعراض بطء البيانات. سنراقب خلال ساعة الذروة التالية ونتدخل عند الحاجة."
+  }
+}

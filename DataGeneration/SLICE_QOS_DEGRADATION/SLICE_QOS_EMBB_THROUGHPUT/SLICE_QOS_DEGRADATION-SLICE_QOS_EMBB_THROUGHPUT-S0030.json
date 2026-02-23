@@ -1,0 +1,116 @@
+{
+  "id": "SLICE_QOS_DEGRADATION-SLICE_QOS_EMBB_THROUGHPUT-S0030",
+  "intent": "SLICE_QOS_DEGRADATION",
+  "blueprint_id": "SLICE_QOS_EMBB_THROUGHPUT",
+  "query": {
+    "en": "Urban macro 5G NR eMBB slice shows QoS degradation over the last 4h during peak evening: median throughput 16 Mbps (p95 17), 20% SLA violations, latency 26 ms, with ~77% resource use and 273 users.",
+    "ar": "شريحة eMBB في موقع ماكرو 5G NR حضري تُظهر تدهورًا في الجودة خلال آخر 4 ساعات في ذروة المساء: وسيط السرعة 16 ميجابت/ث (95% عند 17)، خروقات SLA بنسبة 20%، تأخير 26 مللي ثانية، مع استخدام موارد ~77% و273 مستخدمًا."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro 5G NR cell shows eMBB QoS degradation over the last 4h in peak evening: median throughput ~16 Mbps (p95 ~17), latency ~26 ms, ~20% SLA breaches; PRB ~77%, users ~273. No alarms.",
+      "message_ar": "خلية ماكرو 5G NR حضرية تُظهر تدهورًا في QoS لشريحة eMBB خلال آخر 4 ساعات في ذروة المساء: وسيط السرعة ~16 ميجابت/ث (95% ~17)، التأخير ~26 مللي ثانية، خروقات SLA بنحو 20%؛ استخدام الموارد ~77%، عدد المستخدمين ~273. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by querying recent cell and slice statistics over the last 4 hours to baseline conditions. Please share the target cell ID and confirm I can proceed.",
+      "message_ar": "مفهوم. سأبدأ بالاستعلام عن إحصاءات الخلية والشريحة خلال آخر 4 ساعات لعمل خط أساس. يرجى تزويدي بمعرّف الخلية المستهدفة وتأكيد السماح بالمضي قدمًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-ULB-0456-S1. You have approval to proceed with the 4h check.",
+      "message_ar": "معرّف الخلية: NR-ULB-0456-S1. لديك موافقة للمتابعة بفترة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching recent network stats for NR-ULB-0456-S1 (last 4h). Findings: no outages, slice admission normal, PRB ranged ~75–85%, active eMBB sessions peaked in the evening. QoS index dipped versus baseline. Next, I will pull the QoS class time series to isolate the degradation window—shall I proceed?",
+      "message_ar": "جاري جلب إحصاءات الشبكة الحديثة للخلية NR-ULB-0456-S1 (آخر 4 ساعات). النتائج: لا انقطاعات، قبول الشريحة طبيعي، استخدام الموارد تراوح ~75–85%، وبلغت جلسات eMBB ذروتها مساءً. مؤشر الجودة انخفض مقارنة بالخط الأساس. بعد ذلك سأستخرج السلسلة الزمنية لفئة الجودة لتحديد نافذة التدهور—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, proceed.",
+      "message_ar": "موافق، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Retrieving QoS class time series for NR-ULB-0456-S1 (last 4h). Results: degradation concentrated around 18:30–20:15 with SLA violations peaking ~22% and latency near 30 ms; resources remain below hard saturation. Pattern aligns with fairness under heavy streaming. I propose a small slice policy update for eMBB: +10% minimum guaranteed share and a modest priority weight tweak. Approve?",
+      "message_ar": "أسترجع السلسلة الزمنية لفئة الجودة للخلية NR-ULB-0456-S1 (آخر 4 ساعات). النتائج: التدهور تركز بين 18:30 و20:15 مع بلوغ خروقات SLA ~22% وارتفاع التأخير قرب 30 مللي ثانية؛ الموارد دون مستوى التشبع الصلب. النمط يتوافق مع عدالة التخصيص تحت حمل بث محتوى. أقترح تحديثًا بسيطًا لسياسة شريحة eMBB: زيادة الحد الأدنى المضمون بنسبة 10% وتعديل طفيف لوزن الأولوية. أوافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the slice policy update now.",
+      "message_ar": "موافق على تطبيق تحديث سياسة الشريحة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying the eMBB slice policy update on NR-ULB-0456-S1 (eMBB-urban): +10% guaranteed share and adjusted priority weight. Change committed; verifying immediate impact over the next 10–15 minutes.",
+      "message_ar": "أطبّق تحديث سياسة شريحة eMBB على NR-ULB-0456-S1 (eMBB-urban): +10% حصة مضمونة وتعديل وزن الأولوية. تم اعتماد التعديل؛ سأتحقق من الأثر خلال 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~12 minutes, median throughput rose to ~22 Mbps and latency down to ~22 ms; SLA violations are trending down.",
+      "message_ar": "بعد ~12 دقيقة، ارتفع وسيط السرعة إلى ~22 ميجابت/ث وانخفض التأخير إلى ~22 مللي ثانية؛ خروقات SLA تتجه للانخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Promising. We'll maintain the change and observe during the next busy hour to confirm stability and sustained QoS improvement. If you agree, we'll use the next busy hour as the monitoring window.",
+      "message_ar": "مبشّر. سنبقي التعديل ونراقب خلال ساعة الذروة التالية لتأكيد الاستقرار وتحسّن الجودة المستمر. إذا وافقت، سنعتمد ساعة الذروة التالية نافذة المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: SLA violations trending down with higher median throughput. Action taken: slice policy update applied. Let's monitor through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: خروقات SLA في اتجاه هابط مع ارتفاع الوسيط. الإجراء المتخذ: تطبيق تحديث سياسة الشريحة. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we will own the next busy hour monitoring and report the results afterward. If degradation reappears, we will roll back the policy change and escalate to capacity planning; otherwise we will keep the optimization.",
+      "message_ar": "مؤكد—سنتولى مراقبة ساعة الذروة التالية ونوافيكم بالنتائج بعدها. إذا عاد التدهور سنقوم بالتراجع عن التغيير وتصعيد الأمر لفريق السعة، وإلا فسنُبقي التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-ULB-0456-S1",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-ULB-0456-S1",
+        "QoS cls",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_slice",
+      "args": [
+        "eMBB-urban",
+        "policy_update_min_share_+10%"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed eMBB slice QoS degradation on an urban macro 5G NR cell during peak evening by reviewing recent cell stats and the QoS class time series, which showed SLA violations peaking without full resource saturation. Mitigated by a slice policy update that increased the minimum guaranteed share and adjusted priority weights. Post-change checks indicated higher median throughput and lower latency; the team will continue monitoring through the next busy hour.",
+    "ar": "تم تشخيص تدهور QoS لشريحة eMBB على خلية ماكرو 5G NR حضرية أثناء ذروة المساء عبر مراجعة إحصاءات الخلية الحديثة والسلسلة الزمنية لفئة الجودة، والتي أظهرت ارتفاع خروقات SLA دون وصول الموارد إلى التشبع الكامل. جرى التخفيف عبر تحديث سياسة الشريحة بزيادة الحد الأدنى المضمون وتعديل أوزان الأولوية. أظهرت المراجعة بعد التغيير ارتفاع الوسيط وانخفاض التأخير؛ وسيستمر الفريق بالمراقبة خلال ساعة الذروة التالية."
+  }
+}

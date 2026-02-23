@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0022",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell showing slow data during peak evening; DL ~5 Mbps with high resource use (PRB≈91%), many users (~287), SINR ~6 dB, and a congestion alarm active over the last 3h.",
+    "ar": "خلية NR ماكرو في منطقة حضرية تُظهر بيانات بطيئة أثناء ذروة المساء؛ معدل تنزيل ~5 Mbps مع استخدام موارد عالٍ (PRB≈91%)، عدد مستخدمين ~287، SINR ~6 dB، وإنذار ازدحام نشط خلال آخر 3 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro during peak evening: many user complaints of slow streaming/downloads; congestion alarm active for ~3h. Please investigate.",
+      "message_ar": "خلية NR ماكرو ضمن منطقة حضرية أثناء ذروة المساء: شكاوى كثيرة من بطء البث والتنزيل؛ إنذار ازدحام نشط منذ ~3 ساعات. يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Current stats show DL ~5 Mbps, PRB ~91%, ~287 users, SINR ~6 dB, RSRQ -11 dB, p95 scheduling delay 109 ms—typical capacity pressure with eMBB traffic. I will start with an OSS health check over the last 3h. Share the cell ID and confirm I can proceed.",
+      "message_ar": "تم الاستلام. الإحصاءات الحالية تُظهر تنزيل ~5 Mbps، وPRB ~91%، ~287 مستخدماً، SINR ~6 dB، RSRQ -11 dB، وتأخير الجدولة p95 عند 109 مللي ثانية—ضغط سعة نموذجي مع حركة eMBB. سأبدأ بفحص الصحة عبر OSS لآخر 3 ساعات. يرجى تزويدي بمعرّف الخلية والتأكيد على المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-310-ABC-001. Approved to run checks for the last 3 hours.",
+      "message_ar": "معرّف الخلية: NR-310-ABC-001. موافق على تشغيل الفحوصات لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS health check on NR-310-ABC-001 for the 3h window. Results: DL PRB averages 92% with sustained peaks, active UEs 270–300, BLER ~3–4%, RSRQ -11 dB, SINR ~6 dB, no outages or resets. Next, I’ll review DL throughput trend over the same window to quantify impact. Proceed?",
+      "message_ar": "أُجري فحص الصحة عبر OSS للخلية NR-310-ABC-001 لمدة 3 ساعات. النتائج: متوسط PRB في DL عند 92% مع قمم مستمرة، عدد المستخدمين النشطين 270–300، BLER حوالي 3–4%، RSRQ -11 dB، SINR ~6 dB، ولا توجد انقطاعات أو عمليات إعادة تشغيل. بعد ذلك سأراجع منحنى معدل التنزيل خلال نفس النافذة لتحديد حجم التأثير. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling DL throughput timeseries for NR-310-ABC-001 over 3h. Trend: median falls to 4–6 Mbps during busy hour, correlating with PRB saturation and higher scheduler delay. This points to congestion rather than RF failure. I propose site parameter tuning to improve downlink scheduler fairness and queue control for eMBB. Approve optimization?",
+      "message_ar": "أجلب السلسلة الزمنية لمعدل التنزيل خلال 3 ساعات للخلية NR-310-ABC-001. الاتجاه: الوسيط ينخفض إلى 4–6 Mbps في ساعة الانشغال، مع ارتباط بتشبع PRB وارتفاع تأخير الجدولة. يشير ذلك إلى ازدحام وليس خللاً في RF. أقترح ضبط معلمات الموقع لتحسين عدالة الجدولة في DL والتحكم في الطوابير لـ eMBB. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize. Proceed now.",
+      "message_ar": "موافق على التحسين. تفضل الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization on NR-310-ABC-001: applied a capacity-leaning scheduler profile with adjusted PRB admission and queue thresholds; no coverage-affecting changes. Change complete; brief user impact expected <30s. I’ll watch counters for 10–15 minutes and report early effects.",
+      "message_ar": "تنفيذ التحسين على NR-310-ABC-001: تطبيق ملف جدولة مائل للسعة مع تعديل حدود قبول PRB وعَتبات الطوابير؛ دون تغييرات تؤثر على التغطية. اكتمل التغيير؛ تأثير بسيط متوقع أقل من 30 ثانية. سأراقب المؤشرات لمدة 10–15 دقيقة وأبلغ بالنتائج الأولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial read: user slow-data complaints are subsiding; median DL throughput ~11 Mbps; p95 scheduling delay down near 70 ms.",
+      "message_ar": "القراءة الأولية: شكاوى البيانات البطيئة تتراجع؛ الوسيط لمعدل التنزيل ~11 Mbps؛ وتأخير الجدولة p95 انخفض إلى نحو 70 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will continue observing DL throughput, PRB headroom, and latency as load evolves toward the busy period. Share any field feedback that comes in.",
+      "message_ar": "تحسن جيد. سأواصل مراقبة معدل التنزيل وهامش PRB والكمون مع تطور الحمل نحو فترة الانشغال. يرجى مشاركة أي ملاحظات ميدانية تصل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: slow data largely resolved and scheduler delays trending down after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: تم حل مشكلة البيانات البطيئة إلى حد كبير وتأخيرات الجدولة تتجه للانخفاض بعد ضبط معلمات الموقع. لنتابع المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We’ll own monitoring through the next busy hour and report throughput and latency status afterward. If performance regresses, we’ll roll back the tuning and escalate for capacity relief; otherwise, we’ll keep the changes in place.",
+      "message_ar": "تم الفهم. سنتولى المراقبة خلال ساعة الانشغال القادمة ونبلغ بحالة معدل التنزيل والكمون بعدها. إذا تدهور الأداء سنقوم بإرجاع الضبط والتصعيد لزيادة السعة؛ وإلا سنُبقي التغييرات كما هي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed urban NR downlink throughput drop during peak as congestion: PRB saturation ~92%, many users, moderate BLER, and high scheduler delay, with no outages. Reviewed throughput trend over 3 hours and then applied site parameter tuning to improve downlink scheduler fairness and queue control. Post-change, median throughput rose and scheduling delays fell; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص هبوط معدل التنزيل في شبكة NR الحضرية أثناء الذروة كازدحام: تشبّع PRB ~92%، عدد مستخدمين كبير، BLER متوسط، وتأخير جدولة مرتفع، دون انقطاعات. تمت مراجعة منحنى معدل التنزيل خلال 3 ساعات ثم تطبيق ضبط معلمات الموقع لتحسين عدالة الجدولة في التنزيل والتحكم في الطوابير. بعد التغيير ارتفع الوسيط لمعدل التنزيل وانخفضت تأخيرات الجدولة؛ وسنواصل المراقبة خلال ساعة الانشغال القادمة."
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0008",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows TA distribution drift over the last 3h with weak signal (-114 dBm), high distant serving (~23%), slow data (p50 ~7 Mbps), and handover failures (~13%) during the event.",
+    "ar": "خلية 5G NR صغيرة في الملعب تظهر انحرافاً في توزيع TA خلال آخر 3 ساعات مع إشارة ضعيفة (-114 dBm)، نسبة خدمة بعيدة (~23%)، بطء بيانات (p50 ~7 ميجابت/ث)، وإخفاقات تسليم (~13%) أثناء الحدث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro is struggling during the event: last 3h show TA median ~175 m, p95 ~413 m, distant serving ~23%, RSRP ~-114 dBm, HO failures ~13%, and slow data (p50 ~7 Mbps). Please investigate.",
+      "message_ar": "الخلية الصغيرة NR في الملعب تعاني أثناء الحدث: آخر 3 ساعات تُظهر وسيط TA ~175 م، p95 ~413 م، خدمة بعيدة ~23%، RSRP ~-114 dBm، إخفاقات التسليم ~13% وبطء بيانات (p50 ~7 ميجابت/ث). الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics. First, I’ll pull last 3h network stats for the cell to review TA distribution, HO failures, PRB load, and user density—streaming traffic is heavy. Share the cell ID and confirm access to proceed.",
+      "message_ar": "سأتولى التشخيص. أولاً، سأسحب إحصاءات الشبكة لآخر 3 ساعات للخلية لمراجعة توزيع TA، إخفاقات التسليم، حمل PRB، وكثافة المستخدمين—حركة البث مرتفعة. شارك معرف الخلية وأكد السماح بالوصول للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-07. Access approved for diagnostics.",
+      "message_ar": "معرف الخلية: NR-STAD-MICRO-07. الوصول معتمد لأعمال التشخيص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected last 3h stats: PRB ~85%, TA skewed to larger distances with a heavy tail; distant serving ~23%; RSRP weak at -114 dBm. This suggests spillover/loose mobility at the micro under crowd load. Next, I’ll fetch a TA time series for the same window to confirm drift versus event start. Proceed?",
+      "message_ar": "تم جمع إحصاءات آخر 3 ساعات: حمل PRB ~85%، توزيع TA منحاز لمسافات أكبر بذيل مرتفع؛ الخدمة البعيدة ~23%؛ الإشارة ضعيفة عند -114 dBm. هذا يشير إلى تمدد تغطية/حركية رخوة في الخلية مع ازدحام الحشود. بعد ذلك سأجلب سلسلة زمنية لـ TA للفترة نفسها لتأكيد الانحراف مقارنة ببداية الحدث. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the TA time series.",
+      "message_ar": "تفضل بمتابعة السلسلة الزمنية لـ TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series shows upward drift starting ~90 minutes ago; p95 near 400 m aligns with HO failure spikes. Diagnosis: overshooting and late exits from the micro. I propose a low-risk optimization now: slight down-tilt and marginally tighter mobility trigger (shorter TTT) to favor nearer cells. Approve change?",
+      "message_ar": "السلسلة الزمنية لـ TA تُظهر انحرافاً تصاعدياً بدأ قبل ~90 دقيقة؛ قيمة p95 قرب 400 م متزامنة مع ارتفاع إخفاقات التسليم. التشخيص: تمدد تغطية وتأخر الخروج من الخلية الصغيرة. أقترح تحسيناً منخفض المخاطر الآن: خفض ميل بسيط وتشديد طفيف لمحفز الحركة (TTT أقصر) لتمييز الخلايا الأقرب. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed parameter change.",
+      "message_ar": "موافق على تنفيذ تغيير المعاملات المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization applied on NR-STAD-MICRO-07: small down-tilt (~1°) and slightly tighter mobility trigger; no service interruption. Running immediate post-change checks on TA and HO.",
+      "message_ar": "تم تطبيق تحسين المعاملات على NR-STAD-MICRO-07: خفض ميل بسيط (~1°) وتشديد طفيف لمحفز الحركة؛ دون انقطاع خدمة. أجري فحوصات فورية بعد التغيير على TA وعمليات التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: the TA tail is shrinking and handover failures are trending down; median user throughput nudged up to about 9–10 Mbps.",
+      "message_ar": "الملاحظة الأولية: ذيل TA يتقلص وإخفاقات التسليم في انخفاض؛ ارتفع متوسط سرعة المستخدم إلى حوالي 9–10 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will continue watching TA distribution, HO failures, and user experience as the crowd fluctuates through the busy period and refine if drift reappears.",
+      "message_ar": "جيد. سأواصل متابعة توزيع TA وإخفاقات التسليم وتجربة المستخدم مع تغير كثافة الحشود خلال فترة الضغط، وسأجري ضبطاً إضافياً إذا عاد الانحراف."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Looks improved: fewer distant users and slow data easing. The site parameter tuning you applied on the micro is helping. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن واضح: عدد المستخدمين البعيدين أقل وبطء البيانات يتراجع. ضبط معاملات الموقع الذي قمت به على الخلية الصغيرة يساعد. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and update you afterward. If metrics worsen, we will roll back to previous settings; if drift persists, we will escalate to broader cluster tuning.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيك بالتحديث بعدها. إذا ساءت المؤشرات سنعود للإعدادات السابقة؛ وإذا استمر الانحراف سنصعد إلى ضبط أوسع على مستوى المجموعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-07",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_tuning: slight down-tilt (~1°) and tighter A3/TTT to reduce distant serving"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on the stadium NR micro during the event by reviewing 3h cell stats and confirming a rising TA trend. Identified overshooting/loose mobility with weak signal and high distant-serving. Mitigated via site parameter tuning (slight down-tilt and tighter mobility trigger), with immediate improvement in TA tail and handover stability; will monitor through the next busy hour.",
+    "ar": "تم تشخيص انحراف توزيع TA على خلية NR الصغيرة في الملعب أثناء الحدث عبر مراجعة إحصاءات 3 ساعات وتأكيد اتجاه TA المتصاعد. تم تحديد تمدد التغطية/حركية رخوة مع إشارة ضعيفة وخدمة بعيدة مرتفعة. جرى التخفيف عبر ضبط معاملات الموقع (خفض ميل بسيط وتشديد محفز الحركة)، مع تحسن فوري في ذيل TA واستقرار عمليات التسليم؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

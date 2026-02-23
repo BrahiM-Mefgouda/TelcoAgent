@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0027",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows slow data and rising handover failures in the last 24h after maintenance, with 5 configuration mismatches detected about 12h old.",
+    "ar": "تظهر خلية ماكرو NR في منطقة الضواحي بطء بيانات وارتفاعاً في إخفاقات التسليم خلال آخر 24 ساعة بعد الصيانة، مع اكتشاف 5 حالات عدم تطابق في الإعدادات بعمر يقارب 12 ساعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "After routine maintenance ~12h ago, suburban 5G NR macro NR-Suburb-Macro-104 shows slow data and higher handover failures; drift check flags 5 config mismatches. Please assess.",
+      "message_ar": "بعد صيانة روتينية قبل ~12 ساعة، الخلية الماكرو NR الفرعية NR-Suburb-Macro-104 تظهر بطء بيانات وزيادة فشل التسليم؛ فحص الانجراف يشير إلى 5 عدم تطابق في الإعدادات. يرجى التقييم."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with a live vs OSS configuration check over the last 24h to validate the mismatches and impacted features—eMBB streaming may be affected. Please confirm read-only access to NR-Suburb-Macro-104.",
+      "message_ar": "سأبدأ بفحص التكوين الحي مقابل OSS لآخر 24 ساعة للتحقق من عدم التطابق والميزات المتأثرة—قد يتأثر مرور eMBB الخاص بالبث. يرجى تأكيد وصول قراءة فقط إلى NR-Suburb-Macro-104."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-Suburb-Macro-104; 24h read-only is fine.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NR-Suburb-Macro-104؛ نافذة 24 ساعة قراءة فقط مناسبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing configuration/state check now. Findings: 5 items out-of-sync since ~12h—handover control offsets, beam sweep cycle, uplink power control limits, neighbor list checksum, and scheduler profile. I propose aligning to the OSS baseline via a config push. Approve?",
+      "message_ar": "أقوم الآن بفحص الحالة/التكوين. النتائج: 5 عناصر خارج التزامن منذ ~12 ساعة—إزاحات التحكم بالتسليم، دورة مسح الحزمة، حدود التحكم في طاقة الرفع، تحقق قائمة الجيران، وملف جدولة الموارد. أقترح المحاذاة إلى خط الأساس في OSS عبر دفع التكوين. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to push the baseline immediately.",
+      "message_ar": "موافقة على دفع خط الأساس فوراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing baseline config NR-Suburb-Macro-104:baseline_2025-09-13 now; apply succeeded with no alarms. We will watch throughput, BLER, and handovers. I will also open a tracking ticket for audit.",
+      "message_ar": "أقوم الآن بدفع تكوين خط الأساس NR-Suburb-Macro-104:baseline_2025-09-13؛ تم التطبيق بنجاح دون إنذارات. سنراقب الإنتاجية وBLER وتسليم المكالمات. سأفتح أيضاً تذكرة تتبع لأغراض التدقيق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the tracking ticket.",
+      "message_ar": "موافقة على إنشاء تذكرة التتبع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket opened summarizing the mismatch correction; I will share the reference in closing.",
+      "message_ar": "تم فتح تذكرة تتبع تُلخص تصحيح عدم التطابق؛ سأشارك المرجع في الختام."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: user tests show faster data (p50 ~14 Mbps), handover failures trending down, and BLER ~3%.",
+      "message_ar": "الملاحظة الأولية: اختبارات المستخدمين تظهر بيانات أسرع (حوالي 14 ميغابت/ث)، وإخفاقات التسليم في اتجاه هبوطي، وBLER حوالي 3%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. We will keep watching cell counters and user experience; any remaining anomalies reported from field?",
+      "message_ar": "مؤشرات جيدة. سنواصل متابعة عدادات الخلية وتجربة المستخدم؛ هل هناك أي شذوذات متبقية من الميدان؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—slow data alleviated and handover failures trending down after the config push; let’s monitor through the next busy hour. Reference the ticket DU-CFG-04231.",
+      "message_ar": "تم تأكيد التحسن—تم تخفيف بطء البيانات وإخفاقات التسليم في اتجاه هبوطي بعد دفع التكوين؛ لِنراقب خلال ساعة الذروة القادمة. المرجع للتذكرة DU-CFG-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and update DU-CFG-04231 afterward with results. If degradation reappears, we will roll back to the prior config and escalate to vendor support; otherwise we will close after a stable window.",
+      "message_ar": "تم—سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث DU-CFG-04231 بعد ذلك بالنتائج. إذا عاد التدهور سنرجع إلى التكوين السابق ونصعّد للجهة الموردة؛ وإلا فسنغلق بعد نافذة استقرار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-Macro-104",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "NR-Suburb-Macro-104:baseline_2025-09-13"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Config mismatch corrected on NR-Suburb-Macro-104; post-maintenance drift resolved"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated a post-maintenance configuration mismatch on the suburban 5G NR macro: 5 live parameters were out of sync with the OSS baseline, correlating with slow data and higher handover failures. Executed a config push to realign the cell and opened a tracking ticket for audit. Early KPIs improved; we will monitor through the next busy hour and update the ticket.",
+    "ar": "تم التحقق من عدم تطابق في الإعدادات بعد الصيانة على خلية ماكرو NR في الضواحي: 5 معلمات حية كانت خارج التزامن مع خط الأساس في OSS، وارتبط ذلك ببطء البيانات وارتفاع إخفاقات التسليم. تم تنفيذ دفع التكوين لإعادة المحاذاة وفتح تذكرة تتبع لأغراض التدقيق. تحسنت المؤشرات مبكراً؛ سنراقب خلال ساعة الذروة القادمة ونحدّث التذكرة."
+  }
+}

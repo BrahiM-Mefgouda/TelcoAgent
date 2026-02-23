@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0024",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate indoor NR micro cell in the office wing over the last 4h with slow data and an active congestion alarm (median DL ~6 Mbps, PRB ~88%, 161 users).",
+    "ar": "التحقق من خلية NR ميكرو داخلية في جناح المكتب خلال آخر 4 ساعات مع بيانات بطيئة وإنذار ازدحام نشط (متوسط التحميل الهابط ~6 Mbps، PRB ~88%، 161 مستخدمًا)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cell over the last 4h during off-peak shows slow data; a congestion alarm is active. PRB utilization ~88%, 161 users, median DL around 6 Mbps, BLER ~6%, scheduler latency p95 ~71 ms; users in the office wing report streaming buffering.",
+      "message_ar": "خلية NR ميكرو داخلية خلال آخر 4 ساعات وخلال خارج الذروة تظهر بيانات بطيئة؛ يوجد إنذار ازدحام نشط. استخدام PRB ~88%، 161 مستخدمًا، متوسط التحميل الهابط ~6 Mbps، BLER ~6%، وزمن مجدول p95 ~71 مللي ثانية؛ مستخدمون في جناح المكتب يبلّغون عن تقطّع البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a health and load pull for the last 4h to confirm the congestion pattern on this indoor micro cell. Please confirm the cell ID and approve read access.",
+      "message_ar": "تم. سأبدأ بسحب مؤشرات الحالة والحمل لآخر 4 ساعات لتأكيد نمط الازدحام لهذه الخلية الميكرو الداخلية. يرجى تأكيد معرف الخلية والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-IND-MICRO-245; read access approved.",
+      "message_ar": "معرّف الخلية: NR-IND-MICRO-245؛ موافقة على وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 4h counters: PRB peaks 88–92%, users up to 170, scheduler latency p95 68–75 ms; no outages or backhaul faults. This supports a capacity-driven DL degradation. Next, I will chart DL throughput over time to correlate with PRB and BLER. Proceed?",
+      "message_ar": "تم سحب مؤشرات 4 ساعات: ذروة PRB بين 88–92%، المستخدمون حتى 170، وزمن المجدول p95 بين 68–75 مللي ثانية؛ لا أعطال أو مشاكل وصل خلفي. هذا يشير إلى تدهور في التحميل الهابط بسبب السعة. سأرسم التحميل الهابط زمنيًا لربطه مع PRB وBLER. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافق على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series shows sustained median 5–7 Mbps with dips <4 Mbps aligning with PRB >90% and latency spikes; BLER stays ~5–7%. Diagnosis: scheduler/resource bottleneck, not radio errors. I propose targeted parameter optimization: rebalance eMBB QoS weights for streaming, increase scheduler fairness, and slightly tighten layer adaptation. Approve change window now?",
+      "message_ar": "السلسلة الزمنية للتحميل الهابط تُظهر متوسطًا مستمرًا 5–7 Mbps مع هبوط <4 Mbps يتزامن مع PRB >90% وارتفاعات في الكمون؛ BLER ثابت ~5–7%. التشخيص: اختناق في المجدول/الموارد وليس أخطاء راديوية. أقترح تحسينًا مستهدفًا للمعلمات: إعادة موازنة أوزان QoS لـ eMBB للبث، زيادة عدالة المجدول، وتشديد طفيف لتكيّف الطبقات. هل توافق على نافذة التغيير الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement during off-peak; proceed.",
+      "message_ar": "موافقة على التنفيذ خلال خارج الذروة؛ تفضّل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Preparing to push the optimization with conservative limits; brief impact <60 seconds expected. Confirm final go-ahead.",
+      "message_ar": "أستعد لتطبيق التحسين بحدود محافظة؛ متوقع تأثير قصير أقل من 60 ثانية. يرجى تأكيد الانطلاق النهائي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Go ahead.",
+      "message_ar": "انطلق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter optimization applied successfully. Initial 10-minute check: median DL improved to ~9 Mbps, PRB eased to 78–82%, and scheduler latency p95 down to ~45 ms. Monitoring continues.",
+      "message_ar": "تم تطبيق تحسين المعلمات بنجاح. فحص أولي لمدة 10 دقائق: تحسّن المتوسط للتحميل الهابط إلى ~9 Mbps، وانخفض PRB إلى 78–82%، وتراجع زمن المجدول p95 إلى ~45 مللي ثانية. سنستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data has eased and latency spikes are trending down. Action taken was parameter optimization. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "لوحظ تحسّن: تراجعت مشكلة بطء البيانات وانخفضت ذروات الكمون. الإجراء المتخذ كان تحسين المعلمات. لنتابع المراقبة خلال الساعتين إلى أربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours and share an update after the window. If performance regresses, we will roll back the changes and escalate to capacity planning; otherwise we will keep the tuning in place.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى أربع ساعات القادمة ونشارك تحديثًا بعد انتهاء الفترة. إذا تراجع الأداء سنرجع التغييرات ونصعّد إلى تخطيط السعة، وإلا فسنُبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-IND-MICRO-245",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-IND-MICRO-245",
+        "DL",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness+eMBB_QoS_weight+PDSCH_layer_adapt"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a downlink throughput drop on an indoor NR micro cell with high PRB utilization and elevated scheduler latency, indicating a capacity-driven bottleneck. Validated the pattern over the last 4 hours and applied site parameter tuning to rebalance eMBB QoS weights, improve scheduler fairness, and refine layer adaptation. Post-change, median DL improved and latency decreased; we will monitor and retain the optimization if stability holds.",
+    "ar": "تم تأكيد انخفاض التحميل الهابط في خلية NR ميكرو داخلية مع ارتفاع استخدام PRB وزمن مجدول مرتفع، ما يدل على اختناق سببه السعة. تم التحقق من النمط خلال آخر 4 ساعات وتطبيق ضبط معلمات للموقع لإعادة موازنة أوزان QoS لـ eMBB وتحسين عدالة المجدول وتحسين تكيّف الطبقات. بعد التغيير تحسّن المتوسط للتحميل الهابط وانخفض الكمون؛ سنراقب ونُبقي الضبط إذا استقرت الأداء."
+  }
+}

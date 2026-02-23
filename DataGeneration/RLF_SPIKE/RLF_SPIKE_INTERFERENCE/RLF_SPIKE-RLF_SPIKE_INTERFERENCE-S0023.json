@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0023",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "Suburban NR macro cell over the last 3h shows a spike in drops with interference / signal overlap and slow data during off-peak eMBB streaming.",
+    "ar": "قطاع ماكرو NR في منطقة سكنية خلال آخر 3 ساعات يظهر زيادة في حالات الانقطاع مع تداخل/تراكب الإشارة وبطء في البيانات أثناء بث eMBB خارج وقت الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a 3h off-peak spike in RLF on a suburban NR macro sector (NR-Suburb-102A). Users report slow data and occasional drops during streaming.",
+      "message_ar": "نلاحظ ارتفاعاً لمدة 3 ساعات خارج الذروة في حالات انقطاع الاتصال RLF على قطاع ماكرو NR ضمن منطقة سكنية (NR-Suburb-102A). المستخدمون يشتكون من بطء البيانات وانقطاعات متقطعة أثناء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics: first pull a 3h network stats snapshot, then review an RLF time series; if interference-driven (low SINR), I’ll apply targeted mobility/HO parameter tuning. Approve data access?",
+      "message_ar": "سأتولى التشخيص: أولاً سحب لقطة إحصاءات الشبكة لآخر 3 ساعات، ثم مراجعة سلسلة زمنية لـ RLF؛ وإذا كان السبب تداخلاً (SINR منخفض)، سأطبق ضبطاً مستهدفاً لمعاملات الحركة/التسليم. هل توافق على الوصول للبيانات؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for NR-Suburb-102A over the last 3 hours. Proceed.",
+      "message_ar": "موافق لخلية NR-Suburb-102A خلال آخر 3 ساعات. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot results: RLF ~4.7%, HO success ~84.7% (fail ~11%), BLER ~12%, median SINR −1 dB, RSRQ −10 dB; PRB ~54% with 162 users. No site alarms. This indicates interference/signal overlap at the edges. Proceed to the RLF time trend?",
+      "message_ar": "نتائج اللقطة: RLF حوالي 4.7%، نجاح التسليم ~84.7% (فشل ~11%)، BLER ~12%، قيمة SINR الوسطية −1 dB، وRSRQ −10 dB؛ استخدام PRB ~54% مع 162 مستخدماً. لا إنذارات على الموقع. هذا يشير إلى تداخل/تراكب الإشارة عند الحواف. هل نتابع إلى الاتجاه الزمني لـ RLF؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Continue.",
+      "message_ar": "موافق. تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms a distinct RLF spike within this 3h window aligning with off-peak eMBB streaming. Events cluster near boundary neighbors; frequent early A3 triggers suggest edge instability. I propose small increases to hysteresis and TTT plus a mild neighbor offset toward cleaner SINR cells. Apply now?",
+      "message_ar": "السلسلة الزمنية تؤكد قفزة واضحة في RLF ضمن نافذة 3 ساعات متزامنة مع بث eMBB خارج الذروة. تتجمع الأحداث قرب حدود الجيران؛ وتوحي محفزات A3 المبكرة المتكررة بعدم استقرار الحافة. أقترح زيادات طفيفة في الهسترة وزمن الانتظار TTT مع انحياز بسيط نحو الجيران ذوي SINR الأنظف. هل أطبق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Implement the minimal-risk tuning.",
+      "message_ar": "موافق. نفّذ ضبطاً منخفض المخاطر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility/interference tuning: +1 dB hysteresis, modest TTT increase, and slight neighbor bias toward higher-SINR cells. No service impact noted; beginning live post-change monitoring.",
+      "message_ar": "تم تطبيق ضبط للحركة/التداخل: زيادة الهسترة بمقدار 1 dB، رفع طفيف لـ TTT، وانحياز بسيط نحو الجيران ذوي SINR الأعلى. لا أثر خدمي ملحوظ؛ أبدأ مراقبة مباشرة بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation (15 min): drop events decreasing and BLER trending down. Median throughput nudged to around 8–9 Mbps.",
+      "message_ar": "ملاحظة مبكرة (15 دقيقة): انخفاض في حالات الانقطاع واتجاه BLER نحو التحسن. ارتفع الوسيط في السرعة إلى نحو 8–9 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I’ll watch HO success, RLF counters, and BLER in short intervals and verify edge behavior. If instability emerges, I’ll promptly revert the adjustments.",
+      "message_ar": "تم. سأراقب نجاح التسليم وعدادات RLF وBLER بفواصل قصيرة وأتحقق من سلوك الحواف. وإذا ظهرت حالة عدم استقرار فسأعيد الضبط فوراً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observation: RLF events are trending down after the mobility parameter optimization, and slow data reports are easing. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "الملاحظة: حالات RLF في اتجاه هبوطي بعد تحسين معاملات الحركة، وشكاوى بطء البيانات تتراجع. دعنا نراقب خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and share an update afterward. If RLF rises or HO success degrades, we will roll back the change and escalate to deeper interference investigation with neighbor coordination.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع القادمتين وسنشارك تحديثاً بعدها. إذا ارتفع RLF أو تراجع نجاح التسليم فسنعكس التغيير ونصعّد إلى تحقيق أعمق في التداخل مع تنسيق الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-102A",
+        "last_3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburb-102A",
+        "RLF",
+        "last_3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_interference_parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a suburban NR macro RLF spike with low SINR and elevated BLER indicating interference/signal overlap. Reviewed 3-hour counters and RLF time series, then applied targeted mobility and handover parameter tuning (hysteresis, TTT, neighbor bias) to stabilize edges. Early results show reduced RLF and better median throughput; continued monitoring is in place with rollback if needed.",
+    "ar": "تم تشخيص ارتفاع RLF على قطاع ماكرو NR في منطقة سكنية مع SINR منخفض وBLER مرتفع مما يدل على تداخل/تراكب الإشارة. جرى مراجعة عدادات 3 ساعات والسلسلة الزمنية لـ RLF ثم تطبيق ضبط مستهدف لمعاملات الحركة والتسليم (الهسترة وTTT وانحياز الجار) لاستقرار الحواف. تظهر النتائج المبكرة انخفاضاً في RLF وتحسناً في السرعة الوسيطية، مع استمرار المراقبة وإمكانية الرجوع عن التغيير عند الحاجة."
+  }
+}

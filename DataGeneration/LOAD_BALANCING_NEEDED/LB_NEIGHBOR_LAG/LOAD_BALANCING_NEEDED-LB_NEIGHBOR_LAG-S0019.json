@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0019",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban NR macro cell in the shoulder hour shows heavy resource use (~93% with 270 users) while neighbors average ~35% and handovers skew outward (52 vs 19), indicating load imbalance affecting eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية خلال ساعة الانتقال تُظهر استخدام موارد مرتفعًا (~93% مع 270 مستخدمًا) بينما متوسط الجيران ~35% وتوزيع التسليم يميل للخارج (52 مقابل 19)، مما يشير إلى عدم توازن في الحمل يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell has sustained ~93% PRB and ~270 users over the last 4 hours; neighbors average ~35%. HO-out is 52/5min vs HO-in 19/5min, SINR ~14 dB, RSRQ -7 dB. Please investigate potential load imbalance during the shoulder hour affecting eMBB streaming.",
+      "message_ar": "خلية ماكرو NR حضرية لديها ~93% استخدام PRB وحوالي 270 مستخدمًا خلال آخر 4 ساعات؛ متوسط الجيران ~35%. معدل التسليم للخارج 52/5 دقائق مقابل الداخل 19/5 دقائق، قيمة SINR حوالي 14 ديسيبل و RSRQ -7 ديسيبل. يرجى التحقق من احتمال عدم توازن الحمل خلال ساعة الانتقال وتأثيره على بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by auditing neighbor relations and load distribution over the last 4 hours to confirm imbalance and identify offload targets. Please confirm read access to the cell.",
+      "message_ar": "سأبدأ بتدقيق علاقات الجيران وتوزيع الحمل خلال آخر 4 ساعات لتأكيد عدم التوازن وتحديد أهداف التفريغ. يرجى تأكيد صلاحية الوصول للقراءة إلى الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for cell NR-MACRO-ALPHA-1. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NR-MACRO-ALPHA-1. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit complete: NR-MACRO-ALPHA-1 PRB 92–95%; neighbors NR-MACRO-BETA-2 at ~33% and NR-MACRO-GAMMA-3 at ~41%. HO matrix shows strong skew out of ALPHA-1 with limited entries to BETA-2/GAMMA-3. Mobility bias is neutral and no active load-based HO. This confirms a capacity imbalance with underused neighbors.",
+      "message_ar": "اكتمل التدقيق: PRB في NR-MACRO-ALPHA-1 بين 92–95%؛ الجيران NR-MACRO-BETA-2 حوالي 33% وNR-MACRO-GAMMA-3 حوالي 41%. مصفوفة التسليم تُظهر انحيازًا قويًا للخروج من ALPHA-1 مع دخول محدود إلى BETA-2/GAMMA-3. الانحياز الحركي محايد ولا يوجد تسليم قائم على الحمل. هذا يؤكد عدم توازن السعة مع وجود جيران منخفضي الاستخدام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed action: apply a small negative bias on ALPHA-1 toward BETA-2/GAMMA-3, a modest positive bias on those neighbors, and enable load-based handovers with target PRB ~75% using conservative hysteresis to avoid ping-pong. Expected offload 15–20%. Approve to implement?",
+      "message_ar": "الإجراء المقترح: تطبيق انحياز سلبي بسيط على ALPHA-1 باتجاه BETA-2/GAMMA-3، وانحياز إيجابي معتدل على هذين الجارين، وتمكين عمليات التسليم المعتمدة على الحمل بهدف PRB حوالي 75% مع هيسترة محافظة لتجنب الارتداد. التفريغ المتوقع 15–20%. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the mobility parameter optimization.",
+      "message_ar": "موافق. تابع تحسين معلمات الحركة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied on ALPHA-1/BETA-2/GAMMA-3. Initiating immediate health checks and observing PRB and HO distribution.",
+      "message_ar": "تم تطبيق التغييرات على ALPHA-1/BETA-2/GAMMA-3. جاري بدء فحوصات السلامة الفورية ومراقبة PRB وتوزيع التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial view: ALPHA-1 PRB down to ~78–80%, HO-ins to BETA-2/GAMMA-3 rising, RSRQ steady. User reports show smoother streaming.",
+      "message_ar": "القراءة الأولية: انخفض PRB في ALPHA-1 إلى ~78–80%، وزادت عمليات التسليم إلى BETA-2/GAMMA-3، وRSRQ ثابت. تقارير المستخدمين تشير إلى بث أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will continue observing for stability (ping-pong, HO failures, RSRQ drift) and verify neighbor PRB stays <70–75%.",
+      "message_ar": "جيد. سأواصل المراقبة من حيث الاستقرار (الارتداد، فشل التسليم، انحراف RSRQ) والتأكد من بقاء PRB لدى الجيران أقل من 70–75%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No anomalies detected so far; ping-pong rates remain normal.",
+      "message_ar": "لا توجد شذوذات حتى الآن؛ معدلات الارتداد ضمن الطبيعي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: resource use is trending lower and handovers are more balanced. This aligns with the mobility parameter optimization you applied. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تحسن ملحوظ: استخدام الموارد يتجه للانخفاض وتسليمات الحركة أصبحت أكثر توازنًا. يتماشى ذلك مع تحسين معلمات الحركة الذي قمت بتطبيقه. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own the next 2–4 hours of monitoring and report results. If degradation appears, we will roll back the bias changes; if capacity remains tight, we will escalate for capacity augmentation planning.",
+      "message_ar": "تم. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونوافيكم بالنتائج. إذا ظهر تدهور سنقوم بالتراجع عن تغييرات الانحياز؛ وإذا بقيت السعة ضيقة فسوف نصعّد لبحث توسيع السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-MACRO-ALPHA-1",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_bias_to_underused_neighbors+enable_load_based_HO"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban 5G NR macro: the serving cell was saturated while adjacent cells were underused and handovers were skewed outward. Conducted a neighbor audit and then applied site parameter tuning by biasing mobility toward underused neighbors and enabling load-based handovers. Post-change checks showed reduced resource use and better-balanced handovers, with continued monitoring in place.",
+    "ar": "تم تشخيص عدم توازن في الحمل على خلية ماكرو NR حضرية: الخلية الخادمة كانت مشبعة بينما الجيران منخفضو الاستخدام وتسليمات الحركة كانت منحازة للخارج. أُجري تدقيق للجيران ثم تم ضبط معلمات الموقع عبر تحيز الحركة نحو الجيران منخفضي الاستخدام وتمكين التسليم المعتمد على الحمل. أظهرت الفحوصات بعد التغيير انخفاضًا في استخدام الموارد وتحسن توازن التسليمات، مع الاستمرار في المراقبة."
+  }
+}

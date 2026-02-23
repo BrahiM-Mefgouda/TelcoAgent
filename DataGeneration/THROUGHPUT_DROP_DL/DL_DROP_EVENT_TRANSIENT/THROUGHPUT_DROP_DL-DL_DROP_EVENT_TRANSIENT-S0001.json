@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0001",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium area, last 2h: congestion alarm active; 5G NR microcell shows slow data with PRB ~94%, downlink throughput ~5 Mbps, BLER ~6%, RSRQ -15 dB, ~551 users, SINR 11 dB, and p95 scheduling delay 64 ms.",
+    "ar": "منطقة الملعب خلال آخر ساعتين: إنذار ازدحام نشط؛ الخلية الصغيرة 5G NR تُظهر بيانات بطيئة مع استهلاك PRB ~94%، ومعدل تنزيل ~5 ميجابت/ث، وBLER ~6%، وRSRQ -15 dB، و~551 مستخدمًا، وSINR 11 dB، وتأخر جدولة p95 يبلغ 64 مللي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "During the event, the stadium NR microcell has downlink slowdown; congestion alarm active in the last 2h. KPIs: PRB 93.9%, DL ~5 Mbps, BLER 5.9%, RSRQ -15 dB, SINR 11 dB, ~551 users, p95 scheduling delay 64 ms.",
+      "message_ar": "خلال الحدث، الخلية الصغيرة NR في الملعب تعاني من بطء في التنزيل؛ إنذار ازدحام نشط خلال آخر ساعتين. المؤشرات: PRB 93.9%، التنزيل ~5 ميجابت/ث، BLER 5.9%، RSRQ -15 dB، SINR 11 dB، ~551 مستخدمًا، وتأخر جدولة p95 يبلغ 64 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking the cell’s health and counters over the last 2 hours in the management system. Please confirm the affected cell ID and approve access.",
+      "message_ar": "سأبدأ بفحص حالة الخلية والعدادات لآخر ساعتين عبر نظام الإدارة. يرجى تأكيد معرّف الخلية المتأثرة والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-023. Access approved.",
+      "message_ar": "معرّف الخلية: NR-STAD-MICRO-023. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Health check pulled: radio and backhaul normal, no hardware alarms. PRB sits at 94–98%, DL buffers build up, and scheduling delay elevated. Neighbors show lower load. I will now extract downlink throughput and load time series for the same 2h window to correlate.",
+      "message_ar": "تم جلب فحص الحالة: الراديو والوصلة الخلفية طبيعيان، ولا إنذارات عتاد. استهلاك PRB عند 94–98%، تراكم في مخازن التنزيل، وتأخر جدولة مرتفع. الخلايا المجاورة بحمل أقل. سأستخرج الآن السلاسل الزمنية لمعدل التنزيل والتحميل لنفس نافذة الساعتين للمقارنة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms DL throughput dips during 18:05–19:40 with PRB saturation and modest BLER (~6%); poor RSRQ (-15 dB) aligns with heavy load. Root cause: capacity congestion on this microcell under event traffic (lots of streaming). I propose a no-restart optimization: tune scheduler/QoS weights and PRB allocation to favor eMBB and smooth queuing. Approve to apply now?",
+      "message_ar": "السلاسل الزمنية تؤكد انخفاض معدل التنزيل بين 18:05–19:40 مع تشبع PRB وBLER معتدل (~6%)؛ وRSRQ ضعيف (-15 dB) يتماشى مع الحمل الثقيل. السبب الجذري: ازدحام سعة على هذه الخلية الصغيرة أثناء الحدث (محتوى بث كبير). أقترح تحسينًا بدون إعادة تشغيل: ضبط أوزان المجدول/جودة الخدمة وتوزيع PRB لتمييز eMBB وتنعيم الطوابير. هل توافق على التطبيق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-STAD-MICRO-023: adjusted scheduling priorities and PRB allocation caps with conservative thresholds. No service interruption. I’m monitoring live KPIs for the next 15 minutes.",
+      "message_ar": "تم تطبيق التحسين على NR-STAD-MICRO-023: ضبط أولويات الجدولة وحدود تخصيص PRB بعتبات تحفظية. بدون انقطاع خدمة. أراقب المؤشرات الحية خلال الدقائق الـ15 القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes, DL throughput improved to ~12 Mbps, PRB ~86–88%, and p95 scheduling delay ~40 ms. No new alarms.",
+      "message_ar": "بعد 12 دقيقة، تحسن معدل التنزيل إلى ~12 ميجابت/ث، وPRB ~86–88%، وتأخر جدولة p95 ~40 مللي ثانية. لا توجد إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early recovery. I will continue watching load distribution to neighbors and user experience; if demand spikes, we can refine the tuning after we complete observations.",
+      "message_ar": "تحسن أولي جيد. سأواصل متابعة توزيع الحمل على الخلايا المجاورة وتجربة المستخدم؛ وإذا ارتفع الطلب سنُجري تحسينات إضافية بعد إكمال المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: slow data easing and DL throughput trending up. Action taken was site parameter tuning on scheduler/PRB allocation. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة التحسن: تراجع بطء البيانات وارتفاع معدل التنزيل. الإجراء المنفذ هو ضبط معلمات الموقع على الجدولة/تخصيص PRB. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and report on throughput, PRB, and delay. If performance degrades, we will escalate with temporary traffic steering; if regressions appear, we will roll back the tuning.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغ عن معدل التنزيل وPRB والتأخر. إذا تدهور الأداء سنصعّد عبر توجيه الحركة مؤقتًا؛ وإذا ظهرت انتكاسات فسنُرجع التعديلات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-023",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-023",
+        "DL",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_qos_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the 5G NR microcell showed congestion: slow data, high PRB utilization, and elevated scheduling delay. Time-series analysis confirmed downlink throughput drops aligned with PRB saturation and moderate errors, indicating a capacity bottleneck. We mitigated by site parameter tuning to scheduler priorities and PRB allocation, improving throughput and lowering delay; we will monitor through the next busy hour.",
+    "ar": "أثناء حدث الملعب، أظهرت الخلية الصغيرة 5G NR ازدحامًا: بيانات بطيئة، واستغلال PRB مرتفع، وتأخر جدولة مرتفع. أكدت السلاسل الزمنية انخفاضات التنزيل المتزامنة مع تشبع PRB وأخطاء متوسطة، ما يشير إلى اختناق سعة. قمنا بالتخفيف عبر ضبط معلمات الموقع لأولوية الجدولة وتوزيع PRB، مما حسّن معدل التنزيل وخفّض التأخر؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

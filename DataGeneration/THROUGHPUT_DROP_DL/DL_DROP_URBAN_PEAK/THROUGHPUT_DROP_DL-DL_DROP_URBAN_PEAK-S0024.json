@@ -1,0 +1,110 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0024",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows downlink throughput drop to 12 Mbps with high PRB utilization (~84%), 208 users, RSRQ -13 dB, SINR 9 dB, and p95 scheduler latency 88 ms over the last 3h, with a congestion alarm active.",
+    "ar": "موقع NR ماكرو حضري يظهر هبوطاً في سرعة التحميل إلى 12 مبس مع إشغال PRB مرتفع (~84%)، و208 مستخدمين، وRSRQ بقيمة -13 dB، وSINR بقيمة 9 dB، وزمن جدولة p95 يبلغ 88 مللي ثانية خلال آخر 3 ساعات، مع وجود إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-URB-01024-1 has a downlink throughput drop to 12 Mbps over the last 3h during shoulder hours; PRB utilization ~84%, 208 users, RSRQ -13 dB, SINR 9 dB, and p95 scheduler latency 88 ms. A congestion alarm is active and eMBB streaming users report buffering.",
+      "message_ar": "الموقع الحضري NR الماكرو NR-URB-01024-1 يعاني من هبوط في سرعات التحميل إلى 12 مبس خلال آخر 3 ساعات في وقت الكتف؛ إشغال PRB حوالي 84%، 208 مستخدمين، RSRQ -13 dB، SINR 9 dB، وزمن جدولة p95 يساوي 88 مللي ثانية. يوجد إنذار ازدحام نشط ومستخدمو eMBB للبث يشتكون من التقطيع."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead the diagnosis: first check OSS counters for NR-URB-01024-1 over 3h, then chart downlink throughput, and if congestion is confirmed, apply targeted site parameter tuning. Please confirm access to proceed.",
+      "message_ar": "سأتولى التشخيص: أولاً فحص عدادات OSS لـ NR-URB-01024-1 خلال 3 ساعات، ثم رسم اتجاه سرعة التحميل، وإذا تأكد الازدحام سنطبق ضبطاً مستهدفاً لمعلمات الموقع. يرجى تأكيد الإذن للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-URB-01024-1; use the 3h window.",
+      "message_ar": "تمت الموافقة على الوصول لـ NR-URB-01024-1؛ استخدم نافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters: PRB utilization 78–92% (peaks during shoulder), active users 190–226, median RSRQ -13 dB, median SINR 9–10 dB, p95 scheduler latency 80–95 ms; no backhaul/hardware faults beyond the congestion alarm. Proceeding to analyze downlink throughput trend.",
+      "message_ar": "تم سحب عدادات 3 ساعات: إشغال PRB بين 78–92% (قمم خلال وقت الكتف)، المستخدمون النشطون 190–226، RSRQ الوسطي -13 dB، SINR الوسطي 9–10 dB، زمن جدولة p95 بين 80–95 مللي ثانية؛ لا أعطال وصل خلفي/عتاد بخلاف إنذار الازدحام. سأتابع تحليل اتجاه سرعة التحميل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Downlink throughput time series shows baseline 45–60 Mbps off-peak, dropping to 10–15 Mbps with user surges; BLER stable around 5–7%. This indicates capacity contention and scheduler pressure rather than a radio fault. I will prepare a targeted optimization to relieve scheduling latency and improve fairness.",
+      "message_ar": "سلسلة زمنية لسرعة التحميل تظهر أساساً 45–60 مبس خارج الذروة، وتنخفض إلى 10–15 مبس مع تزايد المستخدمين؛ BLER ثابت حوالي 5–7%. هذا يشير إلى تنافس على السعة وضغط على المجدول أكثر من كونه عيب راديو. سأجهز تحسيناً مستهدفاً لتخفيف زمن الجدولة وتحسين العدالة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes: streaming stalls reported near the mall this afternoon; neighboring cells looked less busy.",
+      "message_ar": "ملاحظات ميدانية: تم الإبلاغ عن تقطيع في البث قرب المركز التجاري بعد الظهر؛ الخلايا المجاورة بدت أقل انشغالاً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Requesting approval to apply a non-intrusive site parameter tuning: adjust scheduler fairness/latency controls, moderate DL layering under poor quality, and refine admission thresholds to smooth peaks. No service interruption expected; changes are reversible.",
+      "message_ar": "أطلب الموافقة لتطبيق ضبط غير متداخل لمعلمات الموقع: تعديل ضوابط عدالة/كمون المجدول، تخفيف الترصيف في التحميل تحت الجودة الضعيفة، وتحسين عتبات القبول لتنعيم الذروات. لا يُتوقع انقطاع خدمة؛ والتعديلات قابلة للرجوع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the optimization.",
+      "message_ar": "موافقة على المضي في التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-URB-01024-1 to improve scheduler fairness and reduce queueing delay with conservative layering under low signal quality. Expecting lower p95 scheduling latency and a lift in downlink throughput; observing immediate effects over the next 10–15 minutes.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR-URB-01024-1 لتحسين عدالة المجدول وتقليل تأخير الطوابير مع ترصيف محافظ عند انخفاض جودة الإشارة. نتوقع خفض زمن الجدولة p95 ورفع سرعة التحميل؛ سنراقب التأثيرات الفورية خلال 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check shows improvement: buffering complaints subsiding and scheduler delays trending down. After the site parameter tuning, let's monitor through the next busy hour.",
+      "message_ar": "الفحص الأولي يُظهر تحسناً: شكاوى التقطيع تتراجع وتأخيرات المجدول تتجه للانخفاض. بعد ضبط معلمات الموقع، لنتابع المراقبة خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we applied site parameter tuning; we will own the next busy hour monitoring and report throughput and delay trends. If performance degrades, we will roll back; if congestion persists, we will escalate for broader capacity actions.",
+      "message_ar": "مفهوم—قمنا بضبط معلمات الموقع؛ سنتولى مراقبة ساعة الانشغال القادمة ونوافينا باتجاهات السرعة والتأخير. إذا تدهور الأداء سنرجع التغيير؛ وإذا استمر الازدحام سنصعّد لاتخاذ إجراءات سعة أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Analyzed OSS counters and downlink throughput trends for NR-URB-01024-1 over 3h, confirming high PRB utilization and elevated queueing delay driving throughput degradation during shoulder-hour eMBB traffic. Executed site parameter tuning to improve scheduler fairness and reduce latency, yielding early signs of recovery. Will monitor the next busy hour to ensure stability.",
+    "ar": "تم تحليل عدادات OSS واتجاهات سرعة التحميل لـ NR-URB-01024-1 خلال 3 ساعات، ما أكد ارتفاع إشغال PRB وازدياد تأخير الطوابير كسبب لتدهور السرعة خلال وقت الكتف وحركة eMBB. تم تنفيذ ضبط لمعلمات الموقع لتحسين عدالة المجدول وتقليل الكمون، مع مؤشرات مبكرة على التحسن. سيتم المراقبة خلال ساعة الانشغال القادمة لضمان الاستقرار."
+  }
+}

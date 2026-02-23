@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0018",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR micro cell in the last 2h: downlink throughput at 10 Mbps with 89% resource use, 499 users, RSRQ -15 dB, and p95 scheduling latency 58 ms; a congestion alarm is active.",
+    "ar": "خلية NR صغيرة في الملعب خلال آخر ساعتين: معدل التحميل 10 ميجابت/ث مع استخدام موارد 89% و499 مستخدمًا وRSRQ = -15 dB وزمن انتظار مجدول p95 = 58 مللي ثانية؛ يوجد إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell during the ongoing event: over the last 2h we see DL throughput ~10 Mbps, PRB ~89%, BLER ~4%, RSRQ -15 dB, SINR 5 dB, p95 scheduler latency 58 ms, ~499 users; congestion alarm active.",
+      "message_ar": "خلية NR صغيرة في الملعب أثناء الحدث القائم: خلال آخر ساعتين نرى معدل تحميل ~10 ميجابت/ث، واستخدام موارد ~89%، وBLER ~4%، وRSRQ -15 dB، وSINR 5 dB، وزمن انتظار مجدول p95 يبلغ 58 مللي ثانية، ~499 مستخدمًا؛ إنذار ازدحام نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by checking recent OSS counters for the last 2h. Please share the exact cell ID and confirm read/write access for a controlled optimization; traffic appears eMBB/streaming heavy.",
+      "message_ar": "تم الاستلام. سأبدأ بفحص عدادات OSS لآخر ساعتين. يرجى تزويدي بمعرّف الخلية الدقيق وتأكيد صلاحية القراءة/الكتابة لإجراء تحسين مضبوط؛ يبدو أن حركة المرور يغلب عليها eMBB/البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell: NRCell-STAD-05. Access approved for the next 30 minutes.",
+      "message_ar": "الخليّة: NRCell-STAD-05. تمّت الموافقة على الوصول خلال 30 دقيقة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing OSS health/load check (Step 1) for NRCell-STAD-05 over 2h: PRB 88–92%, p95 scheduler latency ~60 ms, no HW/backhaul alarms, BLER ~4%, RSRQ around -15 dB. Next: pull DL throughput series for correlation.",
+      "message_ar": "تنفيذ فحص الصحة/الحمل عبر OSS (الخطوة 1) للخلية NRCell-STAD-05 خلال ساعتين: استخدام PRB بين 88–92%، وزمن انتظار مجدول p95 ~60 مللي ثانية، لا إنذارات عتاد/وصلات خلفية، BLER ~4%، وRSRQ نحو -15 dB. التالي: سحب سلسلة زمنية لمعدل التحميل للارتباط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time series.",
+      "message_ar": "موافق على المضيّ قدماً في السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series over 2h (Step 2): sustained dip to 9–12 Mbps during peak; strong correlation with PRB saturation and poor RSRQ; traffic mix dominated by streaming.",
+      "message_ar": "السلسلة الزمنية للتحميل خلال ساعتين (الخطوة 2): هبوط مستمر إلى 9–12 ميجابت/ث أثناء الذروة؛ ارتباط قوي بتشبّع PRB وتدنّي RSRQ؛ مزيج الحركة يغلب عليه البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Crowd density peaked around halftime; no planned works and backhaul looks clean per NOC.",
+      "message_ar": "ازدادت كثافة الحشود عند استراحة الشوط؛ لا أعمال مجدولة والوصلة الخلفية تبدو سليمة حسب مركز التشغيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply targeted cell parameter optimization to improve DL scheduling efficiency, tighten PRB admission/buffer behavior, and protect latency under congestion. Change is low-risk and reversible. Requesting approval to proceed.",
+      "message_ar": "الخطة: تطبيق تحسين موجّه لمعاملات الخلية لتحسين كفاءة الجدولة للتحميل، وتشديد سلوك قبول PRB/المخازن، وحماية زمن التأخير تحت الازدحام. التغيير منخفض المخاطر وقابل للرجوع. أطلب الموافقة للمضيّ قدمًا."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied (Step 3). Scheduler/fairness weights adjusted and buffers tightened; change successful. Monitoring live KPIs for immediate effect.",
+      "message_ar": "تم تطبيق التحسين (الخطوة 3). تم ضبط أوزان الجدولة/الإنصاف وتشديد المخازن؛ التغيير ناجح. أراقب مؤشرات الأداء المباشرة للأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: median DL now ~18–20 Mbps and p95 scheduling latency down to ~35–40 ms; BLER steady. Action taken: parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسنًا: الوسيط للتحميل الآن ~18–20 ميجابت/ث وزمن انتظار p95 انخفض إلى ~35–40 مللي ثانية؛ BLER مستقر. الإجراء المتخذ: تحسين المعاملات. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterwards. If performance regresses, we will roll back to the previous settings; if congestion persists, we will escalate for additional capacity/offload.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثًا بعدها. إذا تراجعت الأداء، سنرجع إلى الإعدادات السابقة؛ وإذا استمر الازدحام، سنصعّد لزيادة السعة/التفريغ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on a stadium NR micro cell during an event as capacity-driven: high resource use, poor RSRQ, and elevated scheduler latency. Verified via OSS health/load check and DL KPI time series, then applied targeted site parameter tuning to improve scheduling efficiency and buffer/admission behavior. Post-change, throughput improved and latency reduced; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص انخفاض معدل التحميل في خلية NR صغيرة بالملعب أثناء الحدث بأنه ناجم عن السعة: استخدام موارد مرتفع، RSRQ ضعيف، وزمن انتظار مجدول مرتفع. تم التحقق عبر فحص الصحة/الحمل في OSS وسلسلة زمنية لمؤشرات التحميل، ثم تطبيق ضبط مُوجّه لمعاملات الموقع لتحسين كفاءة الجدولة وسلوك المخازن/القبول. بعد التغيير تحسن معدل التحميل وانخفض التأخير؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

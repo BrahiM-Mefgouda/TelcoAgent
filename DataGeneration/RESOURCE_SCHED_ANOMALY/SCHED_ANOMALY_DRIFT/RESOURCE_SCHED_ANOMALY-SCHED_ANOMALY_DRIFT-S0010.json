@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0010",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro over the last 6h shows high PRB utilization (~87%), low scheduling fairness (~0.47) with allocation skew (~19%), elevated p95 scheduler latency (63 ms), median DL throughput ~19 Mbps with a wide tail (p95–p50 gap ~16 Mbps), while SINR is adequate (~10 dB).",
+    "ar": "خلية NR ماكرو في منطقة حضرية خلال آخر 6 ساعات تُظهر ارتفاع استخدام موارد التردد (~87%)، انخفاض عدالة الجدولة (~0.47) مع انحراف التخصيص (~19%)، وارتفاع كمون المجدول عند p95 (63 مللي ثانية)، وسرعة تنزيل وسيط ~19 ميجابت/ث مع ذيل واسع (فجوة p95–p50 ~16 ميجابت/ث)، بينما مستوى SINR مقبول (~10 ديسيبل)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell, shoulder hours, eMBB heavy (streaming). Last 6h: PRB ~87%, fairness ~0.47, allocation skew ~19%, p95 scheduler latency 63 ms; median DL ~19 Mbps with a wide p95 tail. Radio quality is stable (SINR ~10 dB, RSRQ -12 dB). No alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة حضرية خلال ساعات الذروة الجزئية مع حركة eMBB (بث). آخر 6 ساعات: استخدام PRB ~87%، عدالة ~0.47، انحراف تخصيص ~19%، وكمون المجدول p95 عند 63 مللي ثانية؛ معدل تنزيل وسيط ~19 ميجابت/ث مع ذيل p95 واسع. جودة الراديو مستقرة (SINR ~10 ديسيبل، RSRQ -12 ديسيبل). لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 6h OSS counters for the impacted cell to verify resource and scheduler behavior. Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ باستخراج مؤشرات OSS لآخر 6 ساعات للخلية المتأثرة للتحقق من سلوك الموارد والمجدول. يرجى تأكيد معرّف الخلية والموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-1187. Read-only access approved for the last 6 hours.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-1187. تمت الموافقة على وصول قراءة فقط لآخر 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS counters for NR-URB-MACRO-1187 over 6h: sustained PRB >80%, fairness dips ~0.45 during bursts, allocation skew elevated; best-effort share ~53%, high-priority ~25%. Next, I will analyze PRB and scheduler time series over 6h to confirm drift and burst correlation. Proceed?",
+      "message_ar": "تم سحب مؤشرات OSS للخلية NR-URB-MACRO-1187 خلال 6 ساعات: استخدام PRB مستمر >80%، انخفاض العدالة إلى ~0.45 أثناء الاندفاعات، وانحراف تخصيص مرتفع؛ حصة أفضل-جهد ~53% والأولوية العالية ~25%. بعد ذلك سأحلل السلاسل الزمنية للـPRB والمجدول خلال 6 ساعات لتأكيد الانجراف وترابط الاندفاعات. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the 6h PRB and scheduler time series review.",
+      "message_ar": "موافَق على المتابعة بمراجعة السلاسل الزمنية للـPRB والمجدول لمدة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms burst clusters every 15–20 min with co-varying fairness dips and p95 scheduler latency spikes. This indicates a scheduler imbalance under eMBB bursts. I propose targeted parameter tuning: slightly increase fairness weighting, apply a gentle per-UE burst cap, and protect high-priority minimum grants. Low-risk change. Approve?",
+      "message_ar": "تؤكد السلاسل الزمنية عناقيد اندفاع كل 15–20 دقيقة مع انخفاضات في العدالة وارتفاعات في كمون المجدول p95 بشكل متزامن. يشير ذلك إلى اختلال توازن المجدول تحت اندفاعات eMBB. أقترح ضبطًا محددًا للمعاملات: رفعًا طفيفًا لوزن العدالة، ووضع حدٍّ خفيف لاندفاع كل مستخدم، وحماية الحد الأدنى لمنح الفئات ذات الأولوية العالية. تغيير منخفض المخاطر. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the scheduler tuning on NR-URB-MACRO-1187.",
+      "message_ar": "موافَق على تطبيق ضبط المجدول على الخلية NR-URB-MACRO-1187."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on NR-URB-MACRO-1187: increased fairness weight slightly, enabled a soft per-UE burst cap, and ensured minimum grants for high-priority flows. I will watch immediate counters for 15 minutes for stability and expect improved fairness and reduced p95 latency without harming median throughput.",
+      "message_ar": "تم تطبيق الضبط على NR-URB-MACRO-1187: زيادة طفيفة في وزن العدالة، تفعيل حد اندفاع خفيف لكل مستخدم، وضمان منحٍ أدنى للتدفقات عالية الأولوية. سأراقب المؤشرات الفورية لمدة 15 دقيقة للتحقق من الاستقرار مع توقع تحسن العدالة وانخفاض كمون p95 دون الإضرار بالمعدل الوسيط للسرعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes: p95 scheduler latency is down about 20%, fairness trending up, and the p95–p50 throughput gap is narrowing. Streaming feedback is smoother.",
+      "message_ar": "بعد حوالي 20 دقيقة: انخفض كمون المجدول p95 بنحو 20%، والعدالة في تحسّن، وفجوة p95–p50 في السرعة تتقلص. ملاحظات البثّ أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early signal. I’ll continue to observe PRB load, fairness, and high-priority protection through the next hour and check for any regressions. Please inform me of any user feedback spikes.",
+      "message_ar": "إشارة مبكرة جيدة. سأواصل مراقبة حمل PRB والعدالة وحماية الفئات عالية الأولوية خلال الساعة القادمة والتحقق من أي تراجعات. يرجى إبلاغي بأي ارتفاع في ملاحظات المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: latency spikes are trending down and fairness is more balanced. Action taken was scheduler parameter tuning. Let’s monitor through the next busy hour to confirm.",
+      "message_ar": "التحسّن مستمر: ارتفاعات الكمون في انخفاض والعدالة أصبحت أكثر توازناً. الإجراء المتخذ كان ضبط معاملات المجدول. لِنراقب خلال ساعة الذروة التالية للتأكيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring through the next busy hour and update you on fairness, PRB load, and p95 latency. If degradation returns, we will rollback the tuning; if symptoms persist, we will escalate for capacity planning.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال ساعة الذروة التالية ونزوّدك بتحديث حول العدالة وحمل PRB وكمون p95. إذا عاد التدهور سنُرجِع الضبط، وإذا استمرت الأعراض سنصعّد إلى تخطيط السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-1187",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-1187",
+        "PRB",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness, per_UE_burst_cap, hi_prio_min_grant"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro cell: high PRB load with low fairness and correlated p95 latency spikes during eMBB bursts. Executed a data pull and time-series analysis, then applied site parameter tuning to the scheduler (fairness weighting, gentle per-UE burst cap, and high-priority protection), which reduced latency spikes and improved fairness without harming median throughput.",
+    "ar": "تم تشخيص خلل في جدولة الموارد على خلية NR ماكرو حضرية: حمل PRB مرتفع مع عدالة منخفضة وارتفاعات مترابطة في كمون p95 أثناء اندفاعات eMBB. تم تنفيذ سحب بيانات وتحليل سلاسل زمنية ثم تطبيق ضبط لمعاملات الموقع على المجدول (وزن العدالة، حد اندفاع خفيف لكل مستخدم، وحماية الأولويات العالية)، ما خفّض ارتفاعات الكمون وحسّن العدالة دون التأثير على المعدل الوسيط للسرعة."
+  }
+}

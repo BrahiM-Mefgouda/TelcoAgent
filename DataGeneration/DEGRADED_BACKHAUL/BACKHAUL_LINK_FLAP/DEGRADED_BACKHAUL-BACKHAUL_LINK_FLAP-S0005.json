@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0005",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro over the past 6 hours shows frequent backhaul link flaps (~4/hr), bursty loss, elevated p95 latency/jitter, interface errors, and downlink near 9 Mbps with 226 users.",
+    "ar": "موقع NR ماكرو في منطقة شبه حضرية خلال آخر 6 ساعات يظهر تقطّعات متكررة في التراسل الخلفي (~4/ساعة)، فقداناً متقطعاً، ارتفاع p95 للكمون/التذبذب، أخطاء على الواجهة، وسرعة تنزيل تقارب 9 ميغابت/ث مع 226 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has 6h of user complaints and KPIs: backhaul link flaps ~4/hr, burst loss ~1.7%, p95 latency 46 ms, jitter 26 ms, 153 interface errors; ~226 users saw DL ~9 Mbps; no alarms raised.",
+      "message_ar": "الموقع NR ماكرو في منطقة شبه حضرية خلال 6 ساعات أظهر شكاوى ومؤشرات: تقطّع وصلة التراسل ~4/ساعة، فقدان متقطع ~1.7%، كمون p95=46 مللي ثانية، تذبذب 26 مللي ثانية، 153 خطأ على الواجهة؛ حوالي 226 مستخدماً بسرعات تنزيل ~9 ميغابت/ث؛ دون إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood; this points to degraded backhaul. I'll pull OSS counters for the last 6h to confirm and isolate. Please share the cell ID and approve read access.",
+      "message_ar": "مفهوم؛ المؤشرات تدل على تدهور التراسل الخلفي. سأجلب عدادات المنظومة لآخر 6 ساعات للتأكيد والعزل. الرجاء تزويدي بمعرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SB-1023-A; read access approved.",
+      "message_ar": "معرّف الخلية: NR-SB-1023-A؛ صلاحية القراءة معتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 6h OSS stats for NR-SB-1023-A: link flaps avg 4/hr, burst loss 1.73%, p95 latency 46 ms, jitter 26 ms, 153 interface errors; radio load moderate (PRB 57%), RF fair (SINR 10 dB, RSRP -95 dBm), ~226 users with eMBB streaming. This confirms backhaul impairment. I will apply targeted backhaul QoS and buffering tuning at the cell to damp loss/jitter and stabilize the link; please approve.",
+      "message_ar": "تم سحب إحصاءات 6 ساعات لـ NR-SB-1023-A: تقطّع الوصلة 4/ساعة، فقدان متقطع 1.73%، p95 كمون 46 مللي ثانية، تذبذب 26 مللي ثانية، 153 خطأ على الواجهة؛ حمل راديو متوسط (PRB 57%)، إشارات مقبولة (SINR 10 dB، RSRP -95 dBm)، ~226 مستخدماً مع بث eMBB. هذا يؤكد تدهور التراسل الخلفي. سأطبّق ضبطاً مستهدفاً لـ QoS والتخزين المؤقت على الخلية لتخفيف الفقد/التذبذب وتثبيت الوصلة؛ يرجى الاعتماد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning.",
+      "message_ar": "موافق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied low-risk site parameter tuning: increased egress buffering, refined QoS weights to reduce burstiness, and tightened link health thresholds; no service interruption. We'll watch counters for stabilization and expect lower flaps, loss, and latency.",
+      "message_ar": "تم تطبيق ضبط منخفض المخاطر: زيادة التخزين المؤقت للخروج، تحسين أوزان QoS لتقليل التدفق المتقطع، وتشديد عتبات صحة الوصلة؛ دون انقطاع خدمة. سنراقب العدادات لثبات المؤشرات ونتوقع انخفاض التقطّع والفقد والكمون."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: interface errors are no longer climbing and user streaming is smoother; latency spikes appear less frequent.",
+      "message_ar": "ملاحظة أولية: أخطاء الواجهة لم تعد ترتفع، والبث لدى المستخدمين أصبح أنعم؛ وارتفاعات الكمون أقل تكراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. To address the root cause, I propose opening a transport vendor case to inspect optics/cabling and the backhaul path. Shall I open a ticket and include today’s flaps, loss bursts, and errors?",
+      "message_ar": "جيد. لمعالجة السبب الجذري، أقترح فتح قضية مع مزود النقل لفحص البصريات/الكوابل ومسار التراسل الخلفي. هل أفتح تذكرة وأضمّن تقطّعات اليوم والفقد المتقطع والأخطاء؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please proceed and include those details.",
+      "message_ar": "نعم، تفضل بتنفيذ ذلك وأدرج هذه التفاصيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Transport ticket opened with a summary of link flaps, burst loss, elevated latency/jitter, and interface errors for NR-SB-1023-A; vendor review requested for optics and path integrity. I will continue to monitor post-change KPIs.",
+      "message_ar": "تم فتح تذكرة لدى مزود النقل تتضمن تلخيصاً لتقطّعات الوصلة، الفقد المتقطع، وارتفاع الكمون/التذبذب وأخطاء الواجهة لِـ NR-SB-1023-A؛ طُلبت مراجعة للبصريات وسلامة المسار. سأواصل مراقبة مؤشرات الأداء بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "So far, link flaps are trending down and jitter looks improved after the backhaul QoS/buffering tuning; let’s monitor through the next busy hour. Track this under DU-BH-04219.",
+      "message_ar": "حتى الآن، تقلّصت تقطّعات الوصلة ويبدو أن التذبذب تحسّن بعد ضبط QoS/التخزين المؤقت للتراسل الخلفي؛ لنتابع المراقبة خلال ساعة الذروة القادمة. يرجى المتابعة تحت رقم DU-BH-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next busy-hour watch and update the ticket after the window. If flaps persist, we’ll escalate with the transport vendor; if adverse effects appear, we’ll roll back the tuning.",
+      "message_ar": "تم الاستلام—سنتولى متابعة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا استمرت التقطّعات سنصعّد مع مزود النقل؛ وإذا ظهرت آثار جانبية سنعيد الضبط إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SB-1023-A",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul QoS/buffering tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul on NR-SB-1023-A: link flaps ~4/hr, burst loss ~1.7%, p95 latency 46 ms, jitter 26 ms, 153 interface errors; request vendor transport inspection (optics/cabling/path)."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Backhaul degradation was confirmed via 6h OSS stats showing frequent link flaps, burst loss, and elevated latency/jitter despite moderate radio load. We mitigated by applying site parameter tuning for backhaul QoS and buffering, then opened a vendor ticket for transport/optics inspection. We will monitor through the next busy hour and update with post-change stability.",
+    "ar": "تم تأكيد تدهور التراسل الخلفي عبر إحصاءات 6 ساعات التي أظهرت تقطّعات متكررة وفقداناً متقطعاً وارتفاعاً في الكمون/التذبذب رغم حمل راديو متوسط. تمت المعالجة عبر ضبط معلمات الموقع لـ QoS والتخزين المؤقت للتراسل الخلفي، وتم فتح تذكرة مع مزود النقل لفحص النقل/البصريات. سنواصل المراقبة خلال ساعة الذروة القادمة ونحدّث النتائج بعد الاستقرار."
+  }
+}

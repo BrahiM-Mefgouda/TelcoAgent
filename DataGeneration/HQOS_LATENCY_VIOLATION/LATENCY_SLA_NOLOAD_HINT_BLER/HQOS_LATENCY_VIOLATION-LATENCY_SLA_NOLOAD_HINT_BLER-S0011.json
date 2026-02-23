@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0011",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows off-peak latency around 72 ms over the last 3 hours with ~60% resource use, BLER ~6%, SINR 9 dB, 257 users, and p50 throughput 14 Mbps, impacting eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضاحوية تُظهر زمناً انتقالياً يقارب 72 مللي ثانية خلال آخر 3 ساعات مع استخدام موارد ~60% وBLER ~6% وSINR ‏9 dB و257 مستخدماً ومتوسط سرعة p50 يبلغ 14 ميجابت/ث، مما يؤثر على حركة eMBB (البث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Off-peak in a suburban NR macro, we see sustained latency ~72 ms over the last 3h, moderate load (~60% PRB), 257 users, SINR ~9 dB, BLER ~6%. No alarms; eMBB traffic with some streaming is affected.",
+      "message_ar": "خلال فترة خارج أوقات الذروة في موقع NR ماكرو بضواحي المدينة، نرى زمناً انتقالياً ثابتاً ~72 مللي ثانية خلال آخر 3 ساعات، وحملاً متوسطاً (~60% من الموارد)، 257 مستخدماً، وSINR ~9 dB وBLER ~6%. لا توجد إنذارات؛ حركة eMBB وفيها بعض البث متأثرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by checking OSS counters for the affected cell over the last 3 hours to validate scheduler/backhaul health and latency breakdown. Please confirm the target cell ID and grant read/write access for a safe change if needed.",
+      "message_ar": "سأبدأ بفحص عدادات OSS للخلية المتأثرة خلال آخر 3 ساعات للتحقق من صحة المجدول/الوصلات الخلفية وتفصيل التأخير. يرجى تأكيد معرّف الخلية ومنحي صلاحية القراءة/الكتابة لتنفيذ تغيير آمن عند الحاجة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Target cell is NR-Macro-SBR-041. Access approved for diagnostics and a controlled change.",
+      "message_ar": "الخلية المستهدفة هي NR-Macro-SBR-041. الموافقات متاحة للتشخيص وتنفيذ تغيير مُتحكم به."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot (3h) for NR-Macro-SBR-041: PRB 58–64% (avg 60.5%), latency p95 peaks 110–130 ms, no backhaul errors, BLER 5–7%, RSRQ -10 dB. Next, I will pull the latency time series to pinpoint patterns across QoS classes.",
+      "message_ar": "ملخص OSS (3 ساعات) للخلية NR-Macro-SBR-041: استخدام الموارد 58–64% (متوسط 60.5%)، قمم p95 للتأخير 110–130 مللي ثانية، لا أخطاء في الوصلة الخلفية، BLER بين 5–7%، وRSRQ -10 dB. بعد ذلك سأستخرج سلسلة الزمن للتأخير لتحديد الأنماط عبر فئات QoS."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency series shows median ~72 ms with spikes every 7–10 minutes; spikes align with slight BLER bumps, throughput stable at p50 ~14 Mbps. I will apply targeted QoS/scheduler tuning to prioritize low-latency traffic and reduce queuing delay. Approve execution now?",
+      "message_ar": "سلسلة التأخير تُظهر وسيطاً ~72 مللي ثانية مع ذُرى كل 7–10 دقائق؛ الذُرى تتزامن مع ارتفاع بسيط في BLER، بينما يظل معدل p50 ~14 ميجابت/ث ثابتاً. سأقوم بتطبيق ضبط مُستهدف لمعاملات QoS/المجدول لإعطاء أولوية لحركة الكمون المنخفض وتقليل تأخير الطوابير. هل تُوافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization now; minor risk accepted.",
+      "message_ar": "موافَق على تنفيذ التحسين الآن؛ المخاطر البسيطة مقبولة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-Macro-SBR-041. Post-check (5 min): p95 latency reduced from ~120 ms to ~85 ms, median from ~72 ms to ~55–60 ms; throughput unchanged; error counters clean. I will keep watching closely.",
+      "message_ar": "تم تطبيق التحسين على NR-Macro-SBR-041. التحقق اللاحق (5 دقائق): انخفض p95 للتأخير من ~120 مللي ثانية إلى ~85 مللي ثانية، والوسيط من ~72 مللي ثانية إلى ~55–60 مللي ثانية؛ لم يتغير معدل النقل؛ العدادات خالية من الأخطاء. سأستمر بالمراقبة الدقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Our probes show snappier web sessions and no drops so far.",
+      "message_ar": "تُظهر مجساتنا جلسات تصفح أسرع ولا توجد عمليات إسقاط حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I'll maintain temporary alert thresholds on latency and BLER for this cell and adjacent sector to catch any regression. No further changes planned unless new spikes appear.",
+      "message_ar": "جيد. سأحافظ على عتبات تنبيه مؤقتة للتأخير وBLER لهذه الخلية والقطاع المجاور لالتقاط أي ارتداد. لا تغييرات إضافية ما لم تظهر ذُرى جديدة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: latency spikes are lower and less frequent. Action taken: site parameter tuning for latency prioritization. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسن: ذُرى التأخير أقل وأقل تكراراً. الإجراء المتخذ: ضبط معلمات الموقع لإعطاء أولوية للكمون المنخفض. لنتابع المراقبة خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor for the next 2–4 hours and share updates. If latency rises again, we will escalate to deeper RF checks; if adverse effects appear, we will rollback the optimization.",
+      "message_ar": "تم الاستلام — سنراقب خلال الساعتين إلى الأربع القادمة ونوافيك بالتحديثات. إذا ارتفع التأخير مرة أخرى سنصعّد إلى فحوص RF أعمق؛ وإذا ظهرت آثار جانبية سنعود عن التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed a latency SLA violation on a suburban 5G NR macro cell during off-peak: moderate load with mild BLER caused periodic latency spikes. We validated counters and latency trends, then applied site parameter tuning to prioritize low-latency traffic and reduce queuing delay. Initial checks show lower latency tails; continued monitoring is in place.",
+    "ar": "تم تأكيد انتهاك SLA للكمون في خلية ماكرو 5G NR بضواحي المدينة خارج أوقات الذروة: حمل متوسط مع BLER بسيط تسبب بذُرى دورية في التأخير. تم التحقق من العدادات واتجاهات التأخير ثم تطبيق ضبط لمعلمات الموقع لإعطاء أولوية لحركة الكمون المنخفض وتقليل تأخير الطوابير. تُظهر الفحوصات الأولية انخفاضاً في ذيول التأخير؛ وسيستمر رصد الأداء."
+  }
+}

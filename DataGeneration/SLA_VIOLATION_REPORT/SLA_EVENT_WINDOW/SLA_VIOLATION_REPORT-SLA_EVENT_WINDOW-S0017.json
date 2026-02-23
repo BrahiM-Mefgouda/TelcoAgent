@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0017",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell breached SLA during the last 6h ingress window; alarm indicates congestion, QoS index 0.34 vs 0.97 target with high PRB and 46 ms latency affecting ~1.1k users.",
+    "ar": "خلية NR صغيرة في الاستاد خرقت SLA خلال نافذة 6 ساعات لمرحلة الدخول؛ يوجد إنذار يدل على ازدحام، مؤشر جودة الخدمة 0.34 مقابل الهدف 0.97 مع PRB مرتفع وكمون 46 مللي ثانية يؤثر على ~1.1 ألف مستخدم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 6h on a 5G NR micro cell shows a congestion alarm: QoS ~0.34 vs 0.97 target, PRB ~87%, latency ~46 ms, BLER ~7.6%, ~1072 users, p50 DL ~12 Mbps. Need to understand the SLA breach.",
+      "message_ar": "خلال نافذة 6 ساعات لمرحلة دخول الحشود في الاستاد على خلية 5G NR صغيرة، هناك إنذار ازدحام: مؤشر جودة الخدمة ~0.34 مقابل الهدف 0.97، استخدام PRB ~87%، كمون ~46 مللي ثانية، BLER ~7.6%، ~1072 مستخدمًا، ووسيط تنزيل ~12 ميغابت/ث. نحتاج فهم سبب خرق SLA."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis. First, I will pull network counters for the affected micro cell across the 6h ingress window, then chart the QoS trend for correlation. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأتولى التشخيص. أولًا سأجلب عدادات الشبكة للخلية المتأثرة خلال نافذة 6 ساعات لمرحلة الدخول، ثم أرسم اتجاه جودة الخدمة للمقارنة. يرجى تأكيد معرف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-03. Read access approved.",
+      "message_ar": "معرف الخلية: NR-STAD-MICRO-03. تمت الموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 6h stats for NR-STAD-MICRO-03: PRB utilization 78–95% (peak 95%), users 980–1120, DL latency median 46 ms, BLER 6–9%. No hard outage; patterns align with ingress congestion and heavy eMBB streaming. Next, I’ll extract the QoS time series.",
+      "message_ar": "تم سحب إحصاءات 6 ساعات للخلية NR-STAD-MICRO-03: استخدام PRB بين 78–95% (ذروة 95%)، المستخدمون 980–1120، وسيط كمون التنزيل 46 مللي ثانية، BLER بين 6–9%. لا يوجد انقطاع كامل؛ الأنماط تتوافق مع ازدحام الدخول وبث eMBB الكثيف. بعد ذلك سأستخرج السلسلة الزمنية لجودة الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to extract the QoS series.",
+      "message_ar": "تمت الموافقة على استخراج سلسلة جودة الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series shows sustained dips 0.20–0.45 from T+45 to T+210 min; SLA target 0.97 missed for 28% of intervals. Dips coincide with PRB spikes and latency elevation. Root cause: event-driven congestion on the NR micro layer during ingress.",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة تُظهر هبوطًا مستمرًا بين 0.20–0.45 من الدقيقة T+45 إلى T+210؛ تم تجاوز الهدف 0.97 في 28% من الفواصل الزمنية. الهبوط يتزامن مع ارتفاع PRB وزيادة الكمون. السبب الجذري: ازدحام مرتبط بالفعالية على طبقة NR الصغيرة أثناء الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes match—crowd video streaming dominated. Complaints eased as the crowd thinned; p50 DL ~12 Mbps at peak.",
+      "message_ar": "ملاحظات الميدان متطابقة—هيمن بث الفيديو من الحشود. الشكاوى خفت مع تراجع الكثافة؛ وسيط التنزيل ~12 ميغابت/ث في الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will file an SLA violation report and open an incident with the evidence (cell, window, metrics, impact, ingress phase). Please confirm to proceed.",
+      "message_ar": "سأقدم تقرير خرق SLA وأفتح حادثة مرفقة بالأدلة (الخلية، النافذة، المقاييس، الأثر، مرحلة الدخول). يرجى التأكيد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Please proceed with the report and incident creation.",
+      "message_ar": "يرجى المتابعة بإنشاء التقرير والحادثة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created incident DU-SLA-04291 documenting QoS below target for 28% of the 6h window, median latency 46 ms under congestion, PRB up to 95%, and ~1.1k users; categorized as event-driven congestion on the stadium NR micro cell. I will track post-event recovery and update the incident.",
+      "message_ar": "تم إنشاء الحادثة DU-SLA-04291 موثِّقة انخفاض مؤشر جودة الخدمة عن الهدف في 28% من نافذة 6 ساعات، ووسيط كمون 46 مللي ثانية تحت الازدحام، وPRB حتى 95%، وحوالي 1.1 ألف مستخدم؛ وصُنِّفت كازدحام مرتبط بالفعالية على خلية NR الصغيرة في الاستاد. سأتابع التعافي بعد الحدث وأحدّث الحادثة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement now—QoS recovering above 0.8 and violation intervals trending down as load eases. Action taken: SLA report logged and incident created. Let’s monitor through the next busy hour and update DU-SLA-04291.",
+      "message_ar": "نرى تحسنًا الآن—مؤشر جودة الخدمة يتعافى فوق 0.8 وفترات المخالفة تتناقص مع تراجع الحمل. الإجراء المتخذ: تسجيل تقرير SLA وإنشاء حادثة. لنتابع خلال الساعة المزدحمة القادمة ونحدّث DU-SLA-04291."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and post an update to the incident afterward. If degradation returns, we will escalate to capacity and event operations; if conditions normalize, we will close with a concise summary.",
+      "message_ar": "تم. سنتولى المراقبة خلال الساعة المزدحمة القادمة ونضيف تحديثًا للحادثة بعدها. إذا عاد التدهور سنصعّد إلى فرق السعة وعمليات الفعاليات؛ وإن استقرت الحالة سنغلق مع ملخص موجز."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "QoS",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA breach during stadium ingress on NR-STAD-MICRO-03; QoS below target for 28% of 6h; high PRB and elevated latency; heavy eMBB streaming load."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed event-driven congestion on the stadium NR micro cell during ingress, with QoS index dipping to 0.20–0.45 and missing the target for 28% of the 6h window, aligned with high PRB and elevated latency. Compiled an SLA violation report and opened incident DU-SLA-04291 for tracking and customer communications. Monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ازدحام مرتبط بالفعالية على خلية NR الصغيرة في الاستاد أثناء الدخول، مع هبوط مؤشر جودة الخدمة إلى 0.20–0.45 وتجاوز الهدف في 28% من نافذة 6 ساعات، متوافقًا مع ارتفاع PRB وزيادة الكمون. تم إعداد تقرير خرق SLA وفتح الحادثة DU-SLA-04291 للمتابعة والتواصل مع العملاء. ستستمر المراقبة خلال الساعة المزدحمة القادمة."
+  }
+}

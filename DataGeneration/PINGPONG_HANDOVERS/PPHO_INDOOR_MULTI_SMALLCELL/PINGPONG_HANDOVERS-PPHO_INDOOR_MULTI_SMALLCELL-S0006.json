@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0006",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "In the indoor office wing, the 5G micro cell shows ping-pong handovers at 23% with handover success around 84%, weak signal (~-102 dBm RSRP, -9 dB RSRQ), and moderate load (71% utilization, 154 users) in the last 3 hours.",
+    "ar": "في الجناح المكتبي الداخلي، يُظهر الموقع الصغير 5G معدل تسليمات متأرجحة 23% مع نجاح تسليم حوالي 84% وإشارة ضعيفة (~-102 dBm RSRP، ‏-9 dB RSRQ) وحمل متوسط (71% إشغال، 154 مستخدماً) خلال آخر 3 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro site in the office wing has elevated ping-pong handovers (23%) over the last 3 hours. HO success ~84%, attempts ~54/5min. Signal is weak (RSRP ~-102 dBm, RSRQ -9 dB, SINR ~9 dB). PRB utilization ~71% with 154 users, many streaming video. Please investigate.",
+      "message_ar": "الموقع الصغير NR الداخلي في الجناح المكتبي لديه تسليمات متأرجحة مرتفعة (23%) خلال آخر 3 ساعات. نجاح التسليم ~84%، محاولات ~54 لكل 5 دقائق. الإشارة ضعيفة (RSRP ~-102 dBm، RSRQ -9 dB، SINR ~9 dB). إشغال الموارد ~71% مع 154 مستخدماً وكثير منهم يبثون فيديو. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by collecting a 3h stats snapshot for the serving indoor small site to baseline neighbor and HO behavior. Please share the target cell ID and approve read access.",
+      "message_ar": "تم الاستلام. سأبدأ بجمع لقطة إحصائية لآخر 3 ساعات للموقع الداخلي الصغير لتأسيس خط أساس لسلوك الجوار والتسليم. الرجاء تزويدي بمعرّف الخلية المستهدفة والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-OFCW-MICRO-23-S1. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-OFCW-MICRO-23-S1. الوصول للقراءة مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot pulled for NR-OFCW-MICRO-23-S1 over 3h: median HO attempts ~54/5min; ping-pong dominated by S1<->S2 (38%) and S1<->S3 (22%). Current HO settings: A3 offset 1 dB, TTT 260 ms, hysteresis 0 dB. Load ~71%. I will analyze the HO time series next to isolate burst patterns—please confirm to proceed.",
+      "message_ar": "تم جمع اللقطة لـ NR-OFCW-MICRO-23-S1 خلال 3 ساعات: محاولات التسليم المتوسطة ~54 لكل 5 دقائق؛ يتصدر الذهاب والإياب بين S1<->S2 بنسبة 38% وS1<->S3 بنسبة 22%. إعدادات التسليم الحالية: إزاحة A3 بمقدار 1 dB، وTTT ‏260 ms، وهيستيريزيز 0 dB. الحمل ~71%. سأحلّل السلسلة الزمنية للتسليمات لتحديد أنماط الاندفاع—يرجى التأكيد للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series analysis.",
+      "message_ar": "تفضّل بالمتابعة في تحليل السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows spikes at shoulder periods with repeated back-and-forth within 5–20 s, consistent with overly sensitive entry criteria at low RSRP. Proposal: increase A3 offset to 2 dB, add 1 dB hysteresis, extend intra-frequency TTT to 320 ms, and enable a basic ping-pong guard on S1 and neighbors S2/S3. Requesting approval to apply this controlled change now.",
+      "message_ar": "تُظهر السلسلة الزمنية ارتفاعات في فترات الكتف مع ذهاب وإياب متكرر خلال 5–20 ثانية، بما يتوافق مع معايير دخول حساسة جداً عند RSRP منخفض. المقترح: رفع إزاحة A3 إلى 2 dB، إضافة هيستيريزيز 1 dB، تمديد TTT داخل نفس التردد إلى 320 ms، وتفعيل حماية أساسية ضد التسليمات المتأرجحة على S1 والجوار S2/S3. أطلب الموافقة لتطبيق هذا التغيير المضبوط الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the proposed change.",
+      "message_ar": "تمت الموافقة على تنفيذ التغيير المقترح."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed: applied handover parameter tuning (offset, hysteresis, TTT) on S1 and aligned with S2/S3. Commit successful; immediate counters are being watched. Please observe user experience and any residual bouncing.",
+      "message_ar": "تم التنفيذ: تفعيل ضبط معلمات التسليم (الإزاحة، الهيستيريزيز، TTT) على S1 وتنسيقها مع S2/S3. تم تثبيت التغييرات بنجاح؛ تتم متابعة العدّادات الفورية. يُرجى ملاحظة تجربة المستخدم وأي تذبذب متبقٍ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: ping-pong attempts dropped by ~30% in the last 15 minutes; median throughput remains ~24 Mbps. No alarms present.",
+      "message_ar": "ملاحظة أولية: انخفضت محاولات الذهاب والإياب بنحو 30% خلال آخر 15 دقيقة؛ يظل متوسط الإنتاجية ~24 ميجابت/ث. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. We will continue to observe ping-pong rate, HO success, and failure counters along with RSRP/RSRQ. Please confirm if most traffic is along the S1–S2 corridor where users stream video.",
+      "message_ar": "مؤشر جيد. سنواصل مراقبة معدل التسليمات المتأرجحة ونجاح التسليم وفواقده مع RSRP/RSRQ. يرجى التأكيد ما إذا كان أغلب المرور على ممر S1–S2 حيث يبث المستخدمون الفيديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—traffic concentrates in the S1–S2 corridor with heavy video streaming. Ping-pong rate is trending down and handover failures are easing after the handover parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "مؤكد—يتركز المرور في ممر S1–S2 مع بث فيديو كثيف. معدل التسليمات المتأرجحة في اتجاه الانخفاض وإخفاقات التسليم تتراجع بعد تحسين معلمات التسليم. دعونا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We’ll own monitoring for the next busy hour and report ping-pong rate, handover success, and any bounce pairs. If performance regresses, we will roll back to prior thresholds or tighten neighbor alignment; otherwise, we’ll retain the tuning and consider minor refinements based on trends.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونرفع تقريراً عن معدل التسليمات المتأرجحة ونجاح التسليم وأي أزواج تذبذب. في حال تدهورت الأداء سنعود إلى العتبات السابقة أو نُحكم مواءمة الجوار؛ وإلا سنُبقي الضبط وننظر في تحسينات طفيفة بناءً على الاتجاهات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers in an indoor 5G micro cell by reviewing recent network stats and analyzing handover time series, which showed rapid back-and-forth between adjacent sectors during shoulder hours with weak signal levels. Mitigation applied via site parameter tuning: increased entry threshold, added hysteresis, and extended time-to-trigger across the serving cell and key neighbors. Early indicators show reduced bouncing; continued monitoring through the next busy hour is planned.",
+    "ar": "تم تشخيص ارتفاع التسليمات المتأرجحة في موقع 5G داخلي صغير عبر مراجعة إحصاءات الشبكة الأخيرة وتحليل السلسلة الزمنية للتسليمات، والتي أظهرت ذهاباً وإياباً سريعاً بين القطاعات المتجاورة خلال ساعات الكتف مع مستويات إشارة ضعيفة. تم تطبيق إجراء تخفيف عبر ضبط معلمات الموقع: رفع عتبة الدخول، إضافة هيستيريزيز، وتمديد زمن البدء عبر الخلية الخادمة والجيران الرئيسيين. المؤشرات المبكرة تُظهر انخفاض التذبذب؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

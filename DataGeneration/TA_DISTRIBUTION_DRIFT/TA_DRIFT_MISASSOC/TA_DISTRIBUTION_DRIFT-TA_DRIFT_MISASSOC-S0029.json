@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0029",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro cell shows TA drift (p50 216 m, p95 466 m, std 137 m, drift index 0.33) with 25% distant-serving users, PRB ~79%, RSRP -114 dBm, SINR 9 dB, HO success ~90%, and slow data (median 5 Mbps) over the last 6h.",
+    "ar": "موقع NR ماكرو في منطقة ضاحية يُظهر انجرافاً في TA (الوسيط 216 م، p95=466 م، الانحراف المعياري 137 م، مؤشر الانجراف 0.33) مع نسبة 25% من المستخدمين مخدومين من مسافة بعيدة، واستخدام PRB ~79%، وRSRP -114 dBm، وSINR 9 dB، ونسبة نجاح تحويل ~90%، وبيانات بطيئة (وسيط 5 Mbps) خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-SB-231 shows widening TA and distant-serving; users report slow streaming and downloads across mixed hours. Can you investigate the last 6h?",
+      "message_ar": "الموقع NR ماكرو NR-SB-231 في منطقة ضاحية يظهر اتساعاً في TA وخدمة لمستخدمين بعيدين؛ المستخدمون يشتكون من بطء البث والتنزيل خلال أوقات مختلطة. هل يمكنكم التحقيق لآخر 6 ساعات؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling last 6h counters for NR-SB-231 and validating neighbor context. Please confirm access.",
+      "message_ar": "سأبدأ بسحب عدادات آخر 6 ساعات لـ NR-SB-231 والتحقق من سياق الجيران. يرجى تأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. NR-SB-231 is a macro at 3.5 GHz; no active alarms on the site.",
+      "message_ar": "تمت الموافقة على الوصول. NR-SB-231 موقع ماكرو على 3.5 جيجاهرتز؛ لا توجد إنذارات نشطة على الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled (6h): TA median 216 m, p95 466 m, std 137 m; distant-serving ~25% of users; PRB utilization ~79%; median DL 5 Mbps; RSRP ~-114 dBm, SINR ~9 dB; HO success ~90%. This confirms TA drift with misassociation risk.",
+      "message_ar": "تم سحب العدادّات (6 ساعات): وسيط TA 216 م، p95=466 م، الانحراف المعياري 137 م؛ نسبة الخدمة البعيدة ~25% من المستخدمين؛ استخدام PRB ~79%؛ وسيط التحميل 5 Mbps؛ RSRP ~-114 dBm وSINR ~9 dB؛ نجاح التحويل ~90%. هذا يؤكد انجراف TA مع احتمال سوء الارتباط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will plot the TA time series and distribution by hour to isolate drift patterns and correlation with load. Proceed?",
+      "message_ar": "بعد ذلك سأقوم برسم سلسلة زمنية لـ TA وتوزيعها حسب الساعة لعزل أنماط الانجراف وارتباطها بالحمل. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows TA widening mainly at 12:00–14:00 and 19:00–21:00; tail beyond 450 m aligns with the sector edge toward B-side neighbors. Slow data aligns with these windows. Root cause points to slight overshoot and permissive mobility thresholds.",
+      "message_ar": "السلسلة الزمنية تُظهر اتساع TA بشكل أساسي بين 12:00–14:00 و19:00–21:00؛ الذيل فوق 450 م يتوافق مع حافة القطاع نحو جيران الجانب B. البطء في البيانات يتطابق مع هذه الفترات. السبب المحتمل هو امتداد تغطية طفيف وحدود حركة مرنة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose a low-risk optimization: modest coverage shaping (effective down‑tilt equivalent) and refined mobility offsets to reduce distant-serving and stabilize TA. Live change <2 minutes. Approve?",
+      "message_ar": "أقترح تحسيناً منخفض المخاطر: تشكيل تغطية بسيط (ما يعادل خفض الميل) وتحسين إزاحات الحركة لتقليل الخدمة البعيدة واستقرار TA. التغيير الحي أقل من دقيقتين. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied and verified. Initial 10‑minute snapshot: TA median trending ~190–200 m, density beyond 450 m reduced, HO failures edging down; load stable. I’ll continue watching counters.",
+      "message_ar": "تم تطبيق التحسين والتحقق منه. لقطة أولية لمدة 10 دقائق: وسيط TA يتجه إلى ~190–200 م، وانخفضت الكثافة فوق 450 م، وانخفضت إخفاقات التحويل قليلاً؛ الحمل مستقر. سأستمر بمراقبة العدادات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: slow data complaints subsiding and median distance to the serving cell reduced. The site parameter tuning looks effective. Let’s monitor through the next busy hour to confirm TA stability.",
+      "message_ar": "هناك تحسن واضح: تراجع شكاوى البطء في البيانات وانخفاض المسافة الوسطية إلى الخلية الخادمة. يبدو أن ضبط معلمات الموقع فعّال. دعنا نراقب خلال ساعة الذروة القادمة لتأكيد استقرار TA."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed. We’ll own monitoring through the next busy hour and provide an update afterward. If drift persists, we will coordinate neighbor adjustments; if any regression appears, we will roll back the change.",
+      "message_ar": "متفق. سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً بعدها. إذا استمر الانجراف سننسق تعديلات مع الجيران؛ وإذا ظهر أي تراجع سنرجع التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The suburban NR macro cell exhibited TA distribution drift with a long tail and 25% distant-serving, correlating with slow data. We reviewed the last 6h counters and TA time series, then applied site parameter tuning to reshape coverage and refine mobility. Early results show reduced TA median and tail with improving user experience; we will monitor through the next busy hour.",
+    "ar": "أظهر موقع NR ماكرو في الضاحية انجرافاً في توزيع TA بذيل طويل ونسبة 25% من الخدمة البعيدة، متزامناً مع بطء في البيانات. قمنا بمراجعة عدادات آخر 6 ساعات والسلسلة الزمنية لـ TA، ثم طبقنا ضبطاً لمعلمات الموقع لتشكيل التغطية وتحسين الحركة. تُظهر النتائج الأولية انخفاض الوسيط والذيل في TA وتحسناً في تجربة المستخدم؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0012",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell shows downlink throughput at 13 Mbps with high resource use (≈79%) and 291 users over the last 3h; alarm indicates congestion and low SINR (interference/signal overlap).",
+    "ar": "خلية ماكرو NR في منطقة حضرية تُظهر معدل تنزيل 13 ميجابت/ث مع استغلال موارد مرتفع (≈79%) و291 مستخدماً خلال آخر 3 ساعات؛ يوجد إنذار يشير إلى ازدحام وSINR منخفض (تداخل/تراكب إشارة)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro sector has DL throughput around 13 Mbps during shoulder hours with eMBB/streaming; an alarm flags congestion. SINR ~3 dB, RSRQ -13 dB, about 291 users in the last 3 hours.",
+      "message_ar": "قطاع ماكرو 5G NR حضري لديه معدل تنزيل يقارب 13 ميجابت/ث خلال فترة الكتف مع حركة eMBB/بث؛ يوجد إنذار عن ازدحام. قيمة SINR حوالي 3 ديسيبل وRSRQ -13 ديسيبل وحوالي 291 مستخدماً خلال آخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will pull last 3h OSS counters for the impacted cell to validate load, interference, and quality. Please confirm the cell ID and grant read access.",
+      "message_ar": "تم الاستلام. سأجلب مؤشرات آخر 3 ساعات من نظام الإدارة للتحقق من الحمل والتداخل والجودة. يرجى تأكيد معرف الخلية ومنحي صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-1321A. Read access approved.",
+      "message_ar": "معرف الخلية: NR-URB-1321A. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check for NR-URB-1321A (3h): PRB utilization ~79%, users peak 291, DL throughput ~13 Mbps, BLER ~2.4% (normal), scheduler p95 latency 34 ms, SINR ~3 dB, RSRQ -13 dB. This indicates congestion with interference. Next, I will analyze the downlink KPI time series to correlate dips with load and interference across the window; proceed?",
+      "message_ar": "مراجعة نظام الإدارة للخلية NR-URB-1321A (3 ساعات): استغلال الموارد ~79%، ذروة المستخدمين 291، معدل تنزيل ~13 ميجابت/ث، BLER ~2.4% (طبيعي)، كمون المجدول p95 يساوي 34 مللي ثانية، SINR ~3 ديسيبل، RSRQ -13 ديسيبل. هذا يشير إلى ازدحام مع تداخل. بعد ذلك سأحلل السلاسل الزمنية لمؤشرات التنزيل لربط الانخفاضات بالحمل والتداخل خلال النافذة؛ هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series analysis.",
+      "message_ar": "تابع تحليل السلاسل الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows DL throughput drops aligning with PRB >80% and user spikes; no BLER spikes; scheduler latency rises during dips. Diagnosis: load-driven DL degradation aggravated by interference/signal overlap. I propose targeted live tuning on the cell to relieve congestion for eMBB traffic and reduce overlap (scheduler profile/PRB allocation and modest beam/power shaping). Approve change?",
+      "message_ar": "تُظهر السلاسل الزمنية انخفاضات في معدل التنزيل مع استغلال PRB يتجاوز 80% وارتفاعات المستخدمين؛ لا توجد ارتفاعات في BLER؛ كمون المجدول يرتفع أثناء الانخفاضات. التشخيص: تدهور تنزيل مدفوع بالحمل ومفاقم بتداخل/تراكب الإشارة. أقترح ضبطاً مباشراً مستهدفاً على الخلية لتخفيف الازدحام لحركة eMBB وتقليل التراكب (ملف المجدول/تخصيص PRB وتشكيل شعاعي/قدرة طفيف). هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. You can apply the tuning now.",
+      "message_ar": "موافق. يمكنك تطبيق الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted optimization on NR-URB-1321A: tuned downlink scheduler weights and PRB allocation for heavy eMBB mix; minor beam/power shaping to limit overlap. Change is active; observing for 10–15 minutes for initial impact.",
+      "message_ar": "تم تطبيق تحسين مستهدف على NR-URB-1321A: ضبط أوزان مجدول التنزيل وتخصيص PRB لملف eMBB كثيف؛ تشكيل شعاعي/قدرة طفيف للحد من التراكب. التغيير مفعل؛ نراقب لمدة 10–15 دقيقة للتأثير الأولي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: DL throughput improved to ~22–25 Mbps, PRB utilization ~72–75%, SINR ~5 dB, and p95 scheduler latency down to ~26 ms.",
+      "message_ar": "الملاحظة الأولية: تحسن معدل التنزيل إلى ~22–25 ميجابت/ث، واستغلال PRB ~72–75%، وSINR ~5 ديسيبل، وانخفض كمون المجدول p95 إلى ~26 مللي ثانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Promising improvement. We will continue watching through the upcoming busy period. If load pressure resurges, we can plan additional cluster-level interference mitigation and gentle load distribution as needed.",
+      "message_ar": "تحسن مبشر. سنواصل المراقبة خلال فترة الذروة القادمة. إذا عاد ضغط الحمل، يمكننا التخطيط لتخفيف إضافي للتداخل على مستوى العنقود وتوزيع حمل خفيف عند الحاجة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: downlink throughput holding above 22 Mbps and latency trending down. Action taken: site parameter tuning on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: معدل التنزيل ثابت فوق 22 ميجابت/ث والكمون في اتجاه هبوطي. الإجراء المُتخذ: ضبط معلمات الخلية. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next busy hour and report on throughput, PRB utilization, and SINR. If performance regresses, we will roll back the tuning and escalate for broader interference mitigation.",
+      "message_ar": "تم الفهم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنبلغ بمعدل التنزيل واستغلال PRB وSINR. إذا تراجع الأداء، سنرجع عن الضبط وسنقوم بالتصعيد لمعالجة التداخل على نطاق أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on an urban NR macro cell as load-driven congestion aggravated by interference, confirmed by high resource use, low SINR, and time-series correlation with user spikes. Executed site parameter tuning to optimize the downlink scheduler and PRB allocation with minor beam/power shaping. Post-change metrics improved, and the cell will be monitored through the next busy hour.",
+    "ar": "تم تشخيص انخفاض معدل التنزيل في خلية ماكرو NR حضرية على أنه ازدحام مدفوع بالحمل ومفاقم بالتداخل، وذلك من خلال استغلال موارد مرتفع وSINR منخفض وتوافق السلاسل الزمنية مع ارتفاعات المستخدمين. تم تنفيذ ضبط لمعلمات الموقع لتحسين مجدول التنزيل وتخصيص PRB مع تشكيل شعاعي/قدرة طفيف. تحسنت المؤشرات بعد التغيير وسيتم مراقبة الخلية خلال ساعة الذروة القادمة."
+  }
+}

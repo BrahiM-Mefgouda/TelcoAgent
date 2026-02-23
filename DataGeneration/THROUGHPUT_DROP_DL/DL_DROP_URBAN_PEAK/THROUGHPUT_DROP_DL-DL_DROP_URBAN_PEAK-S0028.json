@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_URBAN_PEAK-S0028",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_URBAN_PEAK",
+  "query": {
+    "en": "Urban NR macro site shows a downlink throughput drop over the last 3 hours during peak evening with a congestion alarm; DL throughput ~13 Mbps, PRB utilization 86%, 240 users, SINR 12 dB, and RSRQ -9 dB.",
+    "ar": "موقع NR ماكرو حضري يُظهر هبوطًا في إنتاجية التحميل خلال آخر 3 ساعات في ذروة المساء مع إنذار ازدحام؛ إنتاجية DL ~13 Mbps، إشغال PRB 86%، 240 مستخدمًا، SINR 12 dB، وRSRQ -9 dB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell shows DL throughput drop over the last 3h during peak evening; eMBB streaming complaints. Congestion alarm is active. Current stats: PRB ~86%, 240 users, DL ~13 Mbps, SINR 12 dB, RSRQ -9 dB, BLER ~4.5%, p95 sched latency 38 ms.",
+      "message_ar": "خلية NR ماكرو حضرية تظهر هبوطًا في إنتاجية التحميل خلال آخر 3 ساعات بوقت ذروة المساء؛ شكاوى eMBB (بث). يوجد إنذار ازدحام. الإحصاءات الحالية: إشغال PRB ~86%، 240 مستخدمًا، DL ~13 Mbps، SINR 12 dB، RSRQ -9 dB، BLER ~4.5%، وكمون الجدولة p95 عند 38 ms."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a counter check for the last 3h. Please share the cell ID and confirm access.",
+      "message_ar": "تم الاستلام. سأبدأ بفحص العدّادات لآخر 3 ساعات. يرجى مشاركة معرّف الخلية وتأكيد صلاحية الدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-ALPHA-12345-S1 (macro). You have access for the 3h window.",
+      "message_ar": "معرّف الخلية: NR-ALPHA-12345-S1 (ماكرو). لديك صلاحية للنافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-ALPHA-12345-S1 over 3h: DL PRB peaks at 90–92% between 18:45–20:30; connected users up to ~250; BLER stable 4–6%; SINR ~12 dB; no backhaul/outage flags. This indicates load-driven degradation. Next, I’ll pull the DL KPI time series to verify the trend.",
+      "message_ar": "أجري فحصًا عبر OSS لـ NR-ALPHA-12345-S1 خلال 3 ساعات: ذروة إشغال PRB للتحميل 90–92% بين 18:45–20:30؛ المستخدمون المتصلون حتى ~250؛ BLER مستقر 4–6%؛ SINR ~12 dB؛ لا مؤشرات لأعطال أو نقل خلفي. هذا يدل على تدهور بسبب الحمل. الخطوة التالية: سأجلب السلسلة الزمنية لمؤشرات التحميل للتأكد من الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms median throughput at 10–14 Mbps with troughs ~8 Mbps during peaks; p95 scheduling latency ~40 ms while PRB stays >85%. Signal quality is steady, so capacity is the bottleneck. I propose a low-risk optimization: tune scheduling and resource allocation for congestion relief on this cell. May I apply?",
+      "message_ar": "السلسلة الزمنية تؤكد أن الوسيط 10–14 Mbps مع قيعان ~8 Mbps وقت الذروة؛ كمون الجدولة p95 ~40 ms مع بقاء إشغال PRB >85%. جودة الإشارة ثابتة، لذا السعة هي عنق الزجاجة. أقترح تحسينًا منخفض المخاطر: ضبط الجدولة وتخصيص الموارد لتخفيف الازدحام على هذه الخلية. هل أطبّق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply now.",
+      "message_ar": "موافَق على التطبيق الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-ALPHA-12345-S1: adjusted DL scheduling aggressiveness and resource fairness to ease peak congestion; no service reset. I will watch immediate counters for stabilization over the next minutes.",
+      "message_ar": "تم تطبيق التحسين على NR-ALPHA-12345-S1: تعديل شراسة الجدولة للتحميل وعدالة الموارد لتخفيف ازدحام الذروة؛ دون إعادة تشغيل للخدمة. سأتابع العدّادات الفورية للدقائق القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: user tests show 22–26 Mbps DL and lower queueing perception; still busy.",
+      "message_ar": "ملاحظة أولية: اختبارات المستخدم تُظهر 22–26 Mbps للتحميل والشعور بالازدحام أقل؛ ما زال الحمل مرتفعًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. Counters now show PRB peaks easing to ~78–82% and p95 scheduling latency trending down. I recommend validating during the next busy period to confirm sustained improvement.",
+      "message_ar": "مؤشر جيد. العدّادات تُظهر أن ذروة إشغال PRB انخفضت إلى ~78–82% وكمون الجدولة p95 يتراجع. أوصي بالتحقق خلال فترة الانشغال القادمة لتأكيد الاستدامة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvements: downlink throughput is trending up and high-latency scheduling events are decreasing. Given the site parameter tuning we executed, let’s monitor during the next busy hour to confirm stability.",
+      "message_ar": "تمت ملاحظة تحسّن: إنتاجية التحميل في اتجاه تصاعدي وتناقص في أحداث الجدولة ذات الكمون العالي. وبالنظر إلى ضبط معلمات الموقع الذي نُفِّذ، دعنا نراقب خلال ساعة الذروة القادمة للتثبّت من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We tuned the cell’s DL scheduling and PRB allocation earlier; we will own monitoring through the next busy hour and share an update afterward. If congestion resurfaces, we will expand optimization to adjacent cells for load relief; if any adverse effects appear, we will roll back the tuning.",
+      "message_ar": "قمنا سابقًا بضبط جدولة التحميل وتخصيص PRB في الخلية؛ سنتولى المراقبة خلال ساعة الذروة القادمة وسنشارك تحديثًا بعدها. إذا عاد الازدحام سنوسّع التحسين ليشمل الخلايا المجاورة لتخفيف الحمل؛ وإذا ظهرت آثار سلبية سنرجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-ALPHA-12345-S1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-ALPHA-12345-S1",
+        "DL",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler and PRB allocation tuning for congestion relief"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated an urban NR macro downlink throughput drop during peak evening with a congestion alarm. Counters and time series showed capacity-driven degradation (PRB >85% and rising scheduling latency with stable SINR/BLER). Applied site parameter tuning to optimize downlink scheduling and resource allocation; immediate KPIs improved and we will monitor through the next busy hour.",
+    "ar": "تم التحقيق في هبوط إنتاجية التحميل لخلية NR ماكرو حضرية أثناء ذروة المساء مع وجود إنذار ازدحام. أظهرت العدّادات والسلسلة الزمنية تدهورًا مدفوعًا بالسعة (إشغال PRB >85% وارتفاع كمون الجدولة مع ثبات SINR/BLER). تم تنفيذ ضبط معلمات الموقع لتحسين جدولة التحميل وتخصيص الموارد؛ تحسّنت المؤشرات فورًا وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

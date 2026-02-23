@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0004",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6 hours shows uneven PRB distribution and poor fairness with high scheduling delay and interference / signal overlap, impacting eMBB streaming throughput.",
+    "ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات تُظهر عدم توازن في توزيع PRB وضعف الإنصاف مع تأخر مرتفع في الجدولة وتداخل/تراكب للإشارات، مما يؤثر على سرعات بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell over the last 6 hours during shoulder period shows uneven PRB distribution; users report buffering on eMBB streaming; SINR ~2 dB and RSRQ ~ -11 dB.",
+      "message_ar": "خلية NR ماكرو حضرية خلال آخر 6 ساعات وفي فترة ما بين الذروة تُظهر توزيع PRB غير متوازن؛ المستخدمون يبلغون عن تقطيع في بث eMBB؛ قيمة SINR نحو 2 dB و RSRQ حوالي -11 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead diagnosis: first, I'll pull OSS counters for the cell over the 6h window to verify PRB usage, fairness, QoS mix, and delay; please confirm the target cell ID and grant access.",
+      "message_ar": "سأتولى التشخيص: أولاً سأستخرج مؤشرات OSS للخلية خلال نافذة 6 ساعات للتحقق من استخدام PRB والإنصاف ومزيج QoS والتأخير؛ يرجى تأكيد معرف الخلية ومنحي صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID NR-ULB-2211; access approved.",
+      "message_ar": "معرّف الخلية NR-ULB-2211؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: PRB utilization ~74%, fairness index ≈0.45, allocation skew 15; high-priority share 29% vs best-effort 70%; p95 scheduling delay ~97 ms. SINR 2 dB indicates interference / signal overlap. Likely scheduler drift favoring best-effort. Next, I'll analyze PRB time series for the same 6h to locate shoulder-hour drift—proceed?",
+      "message_ar": "تم فحص OSS: استخدام PRB ~74%، مؤشر الإنصاف ≈0.45، انحراف التخصيص 15؛ حصة المرور عالي الأولوية 29% مقابل أفضل جهد 70%؛ تأخر الجدولة p95 ~97 مللي ثانية. قيمة SINR 2 dB تشير إلى تداخل/تراكب الإشارة. على الأرجح انحراف في المُجدول لصالح أفضل جهد. التالي سأحلل سلسلة زمنية لـ PRB لنفس 6 ساعات لتحديد الانحراف في فترة ما بين الذروة—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms shoulder-hour spikes with fairness dips; p50 DL throughput ~20 Mbps (p95 ~29 Mbps), high-priority share sags during peaks. Diagnosis: resource scheduling anomaly under interference. I propose tuning scheduler weights to improve proportional fairness, boost critical-class priority, and apply interference-aware handling for low-SINR UEs. Approve change?",
+      "message_ar": "السلسلة الزمنية تؤكد ارتفاعات في فترة ما بين الذروة مع هبوط في الإنصاف؛ سرعة تنزيل p50 ~20 ميجابت/ث (p95 ~29)، وحصة المرور عالي الأولوية تهبط أثناء الذروة. التشخيص: شذوذ في جدولة الموارد تحت تأثير التداخل. أقترح ضبط أوزان المُجدول لتحسين الإنصاف النسبي، ورفع أولوية الفئات الحرجة، وتطبيق معالجة واعية للتداخل لمشتركي SINR المنخفض. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate parameter tuning on NR-ULB-2211.",
+      "message_ar": "موافَق على ضبط المعلمات فوراً على NR-ULB-2211."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: updated scheduler weighting and QoS prioritization with interference-aware handling; commit successful. I’ll run rapid post-change checks for 15 minutes and track fairness and delay; please share any user feedback.",
+      "message_ar": "تم تطبيق التحسين: تحديث أوزان المُجدول وأولويات QoS مع معالجة واعية للتداخل؛ تم الاعتماد بنجاح. سأجري تحققاً سريعاً لمدة 15 دقيقة وأتابع الإنصاف والتأخير؛ يرجى مشاركة أي ملاحظات من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: scheduling delay p95 down to ~70 ms; p50 throughput up to ~24 Mbps; high-priority share ~38%. No alarms.",
+      "message_ar": "ملاحظة أولية: تأخر الجدولة p95 انخفض إلى ~70 مللي ثانية؛ سرعة p50 ارتفعت إلى ~24 ميجابت/ث؛ حصة المرور عالي الأولوية ~38%. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great—PRB distribution is more balanced and best-effort no longer dominates. I’ll continue watching fairness and delay through the upcoming busy hour.",
+      "message_ar": "ممتاز—توزيع PRB أصبح أكثر توازناً ولم يعد أفضل جهد يهيمن. سأواصل متابعة الإنصاف والتأخير خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: delay outliers trending down. Action taken was scheduler parameter tuning. Let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "التحسن مستمر: القيم الشاذة للتأخير في تراجع. الإجراء الذي تم هو ضبط معلمات المُجدول. لنتابع المراقبة خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update with fairness, delay, and throughput results. If degradation recurs, we will roll back the change and escalate for interference mitigation on surrounding cells; otherwise we’ll keep the optimization in place.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونزوّدك بنتائج الإنصاف والتأخير والسرعات. إذا عادت المشكلة فسنعيد التغيير ونصعّد لمعالجة التداخل على الخلايا المحيطة؛ وإلا فسنُبقي التحسين معمّماً."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro cell during shoulder hours: low fairness, PRB allocation skew, best-effort dominance, high scheduling delay, and interference / signal overlap. Verified via OSS and PRB time series, then applied site parameter tuning to scheduler weighting and QoS prioritization with interference-aware handling. Post-change checks show better latency, improved throughput, and more balanced PRB usage; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص شذوذ في جدولة الموارد على خلية NR ماكرو حضرية خلال فترة ما بين الذروة: إنصاف منخفض، انحراف في تخصيص PRB، هيمنة أفضل جهد، تأخر عالٍ في الجدولة، وتداخل/تراكب للإشارات. جرى التحقق عبر OSS والسلسلة الزمنية لـ PRB، ثم تنفيذ ضبط لمعلمات الموقع في أوزان المُجدول وأولويات QoS مع معالجة واعية للتداخل. بعد التغيير تحسّن التأخير وزادت السرعات وتوازن توزيع PRB؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

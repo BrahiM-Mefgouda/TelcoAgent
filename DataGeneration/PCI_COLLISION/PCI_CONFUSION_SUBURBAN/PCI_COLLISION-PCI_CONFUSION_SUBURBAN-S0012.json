@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0012",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "In the last 12h on a suburban NR macro cell, mobility is unstable with slow data and PCI confusion indicators (HO success ~83%, ping-pong 10%, SINR 6 dB, RSRQ −12 dB, BLER ~11%).",
+    "ar": "خلال آخر 12 ساعة على خلية NR ماكرو في منطقة ضاحية، يوجد عدم استقرار في التنقل مع بطء في البيانات ومؤشرات ارتباك PCI (نجاح التسليم ~83%، ارتداد 10%، SINR‏ 6 dB، RSRQ‏ −12 dB، BLER ~11%)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro cell over the last 12h shows mobility instability and slow data: HO success ~83%, ping-pong 10%, SINR 6 dB, RSRQ −12 dB, BLER 10.7%, p50 DL ~8 Mbps. eMBB users report streaming hiccups.",
+      "message_ar": "خلال آخر 12 ساعة، خلية NR ماكرو في منطقة ضاحية تُظهر عدم استقرار في التنقل وبطء في البيانات: نجاح التسليم ~83%، ارتداد 10%، SINR‏ 6 dB، RSRQ‏ −12 dB، BLER 10.7%، الوسيط في التنزيل ~8 Mbps. مستخدمو eMBB يبلغون عن تقطّع في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "This points to PCI confusion. I will start with a neighbor/PCI audit to confirm any duplicates or collisions. Please share the serving cell ID and approve read access for the last 12h.",
+      "message_ar": "هذا يشير إلى ارتباك في PCI. سأبدأ بتدقيق الجيران وPCI للتحقق من أي تكرار أو تصادم. يرجى مشاركة معرف الخلية الخادمة والموافقة على وصول القراءة لآخر 12 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-107-A. Read access approved for 12h. Neighbors are macro on the same layer; a strong neighbor uses PCI 115.",
+      "message_ar": "معرّف الخلية: NR-SUB-107-A. تمّت الموافقة على وصول القراءة لمدة 12 ساعة. الجيران ماكرو على نفس الطبقة؛ جار قوي يستخدم PCI 115."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor/PCI audit completed: overlapping sector NB-SUB-107-B is also broadcasting PCI 107 within the overlap (~−6 dB dominance), causing a collision; additional group proximity exists but no other direct duplicates. I propose retuning the serving PCI from 107 to a free value 203 that avoids group conflicts. Approve change?",
+      "message_ar": "تم إنهاء تدقيق الجيران/‏PCI: القطاع المتداخل NB-SUB-107-B يبث أيضًا PCI 107 داخل منطقة التداخل (~−6 dB في الهيمنة)، مما يسبب تصادمًا؛ هناك تقارب ضمن المجموعة لكن بلا تكرارات مباشرة أخرى. أقترح تغيير PCI الخلية الخادمة من 107 إلى قيمة متاحة 203 لتجنّب تعارضات المجموعة. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the PCI change now.",
+      "message_ar": "موافقة على المضي قدمًا بتغيير PCI الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying PCI retune to 203; brief reacquisition expected (<1s). Change applied successfully; neighbor relations refreshed and broadcast verified. I’m watching mobility and BLER immediately post-change.",
+      "message_ar": "تطبيق إعادة ضبط PCI إلى 203؛ من المتوقع إعادة اكتساب وجيزة (<1 ثانية). تم تطبيق التغيير بنجاح؛ تم تحديث علاقات الجوار والتحقق من البث. أراقب مؤشرات التنقل وBLER مباشرة بعد التغيير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: fewer ping-pong events and smoother user experience; HO failures appear to be dropping.",
+      "message_ar": "ملاحظة أولية: انخفاض في حالات الارتداد وتحسّن في تجربة المستخدم؛ حالات فشل التسليم تبدو في انخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-check indicates no duplicate PCI in the overlap, and access/setup looks normal. I will open a tracking ticket for field verification and neighbor coordination. Do you approve?",
+      "message_ar": "الفحص بعد التغيير يشير إلى عدم وجود PCI مكرر في منطقة التداخل، وإجراءات النفاذ/الإعداد طبيعية. سأفتح تذكرة متابعة للتحقق الميداني والتنسيق مع الجيران. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—please create it and note the 12h context and mobility symptoms.",
+      "message_ar": "موافق—يرجى إنشاؤها وتضمين سياق 12 ساعة وأعراض التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-PCI-04271 summarizing the PCI retune on NR-SUB-107-A, resolution of the collision with NB-SUB-107-B, and the initial improvement trend. Monitoring notes included.",
+      "message_ar": "تم إنشاء DU-PCI-04271 مع ملخص لإعادة ضبط PCI على NR-SUB-107-A وحل التصادم مع NB-SUB-107-B والاتجاه الأولي للتحسن. تم تضمين ملاحظات المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Good progress—ping-pong handovers are trending down. The action taken was a PCI parameter retune. Let’s monitor through the next busy hour and update DU-PCI-04271 afterward.",
+      "message_ar": "تقدّم جيد—حالات الارتداد في التسليم تتجه للانخفاض. الإجراء المتخذ كان إعادة ضبط معلمة PCI. لنراقب خلال ساعة الذروة القادمة ثم نحدّث DU-PCI-04271 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next busy-hour monitoring and provide an update to the ticket afterward. If issues recur, we’ll rollback to the prior PCI and escalate to RF planning for a wider re-plan.",
+      "message_ar": "تم التأكيد—سنقوم بمتابعة المراقبة خلال ساعة الذروة القادمة وتقديم تحديث للتذكرة بعدها. إذا عادت المشكلة، سنعيد PCI السابق ونصعّد الموضوع إلى فريق تخطيط الترددات لإعادة تخطيط أوسع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-SUB-107-A",
+        "intra-band neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PCI retune to 203 (avoid collisions)"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "PCI collision fixed; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on the suburban NR macro cell via neighbor audit, with an overlapping sector broadcasting the same PCI. Applied site parameter tuning by retuning the serving PCI to a free value to remove the collision and stabilize mobility. A tracking ticket was created for field verification and we will monitor through the next busy hour.",
+    "ar": "تم تشخيص تصادم PCI على خلية NR ماكرو في الضاحية عبر تدقيق الجيران، حيث وُجد قطاع متداخل يبث نفس PCI. تم تنفيذ ضبط معلمات الموقع بإعادة ضبط PCI للخلية الخادمة إلى قيمة متاحة لإزالة التصادم وتثبيت التنقل. تم إنشاء تذكرة متابعة للتحقق الميداني وسيتم المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0006",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "In the stadium over the last 2h, the NR micro cell shows slow data with DL throughput ~6 Mbps, ~621 users, very high resource use, and an active alarm indicating congestion.",
+    "ar": "خلال آخر ساعتين في الملعب، تُظهر خلية NR الميكرو بيانات بطيئة مع سرعة تحميل ~6 ميجابت/ث، نحو 621 مستخدمًا، واستخدام موارد مرتفعًا جدًا، وإنذارًا نشطًا يشير إلى ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell had a sharp DL throughput drop in the last 2h during event egress; an alarm fired and many users were streaming. Please investigate.",
+      "message_ar": "شهدت خلية NR الميكرو في الملعب هبوطًا حادًا في سرعة التحميل خلال آخر ساعتين أثناء خروج الحدث؛ ظهر إنذار وكان العديد من المستخدمين يبثون المحتوى. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a 2h OSS snapshot for the affected cell, then chart DL KPIs to isolate congestion. Please share the cell ID and approve diagnostics.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب لقطة من نظام الإدارة لمدة ساعتين للخلية المتأثرة، ثم أعرض مؤشرات التحميل لعزل الازدحام. يرجى تزويدي بمعرّف الخلية والموافقة على التشخيص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-12. Read-only access for the last 2h is approved.",
+      "message_ar": "معرّف الخلية هو NR-STAD-12. الموافقة على وصول للقراءة فقط لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS snapshot for NR-STAD-12 (last 2h): PRB ~98%, users ~621, DL ~6 Mbps, BLER ~5%, RSRQ -15 dB, SINR 8 dB. Indicates capacity saturation during egress. Proceed to DL time-series to confirm the drop profile?",
+      "message_ar": "تم سحب لقطة من نظام الإدارة للخلية NR-STAD-12 (آخر ساعتين): استخدام الموارد ~98%، المستخدمون ~621، التحميل ~6 ميجابت/ث، BLER ~5%، RSRQ -15 ديسيبل، SINR 8 ديسيبل. يدل على تشبّع السعة أثناء الخروج. هل أتابع بسلسلة زمنية لمؤشرات التحميل لتأكيد نمط الهبوط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time-series confirms a sharp dip during egress with p95 queuing delay peaking near 93 ms; interference is moderate. I propose low-risk parameter tuning to boost throughput and reduce queuing on this micro cell. Approve an immediate change window?",
+      "message_ar": "السلسلة الزمنية للتحميل تؤكد هبوطًا حادًا أثناء الخروج مع وصول تأخر الاصطفاف p95 إلى نحو 93 مللي ثانية؛ التداخل متوسط. أقترح ضبطًا بسيط المخاطر للمعاملات لرفع سرعة التحميل وتقليل الاصطفاف على هذه الخلية الميكرو. هل توافق على نافذة تغيير فورية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for an immediate change.",
+      "message_ar": "موافق على التغيير الفوري."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied targeted site parameter tuning on NR-STAD-12 (throughput prioritization, conservative modulation adaptation, and PRB distribution balancing). No reset required; change successful. Starting 10-minute validation.",
+      "message_ar": "تم تطبيق ضبط انتقائي لمعاملات الموقع على NR-STAD-12 (أولوية لأداء التحميل، تكييف محافظ للتضمين، وموازنة توزيع الموارد). دون إعادة تشغيل؛ التغيير ناجح. أبدأ تحققًا لمدة 10 دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial post-change looks better: median DL ~12–15 Mbps, PRB ~90–92%, p95 queuing delay ~55 ms. Load remains high.",
+      "message_ar": "المؤشرات بعد التغيير تبدو أفضل: الوسيط للتحميل ~12–15 ميجابت/ث، استخدام الموارد ~90–92%، تأخر الاصطفاف p95 ~55 مللي ثانية. ما زال الحمل مرتفعًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement under load. I will continue to watch DL trend, queuing, and user volume through the next rush. Please share any field feedback.",
+      "message_ar": "تحسن جيد تحت الحمل. سأواصل متابعة اتجاه التحميل، وتأخر الاصطفاف، وحجم المستخدمين خلال الذروة القادمة. يرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Throughput is improving and queuing delay is trending down. Action taken: site parameter tuning on NR-STAD-12. Let’s monitor over the next 2 hours.",
+      "message_ar": "التحميل يتحسن وتأخر الاصطفاف يتناقص. الإجراء المتخذ: ضبط معاملات الموقع على NR-STAD-12. لنتابع المراقبة خلال الساعتين القادمتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next 2 hours and provide an update afterward. If performance regresses, we will roll back the tuning; if congestion persists, we will escalate for temporary capacity relief.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين القادمتين ونقدم تحديثًا بعدها. إذا تراجعت الأداء سنقوم بالرجوع عن الضبط؛ وإذا استمر الازدحام فسنصعّد لطلب تعزيز سعة مؤقت."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-12",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-12",
+        "DL",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "throughput_boost_low_risk"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on the stadium NR micro cell during egress with extreme PRB utilization, high user load, moderate BLER, and degraded RSRQ indicating capacity congestion. Confirmed the dip via DL time-series and executed site parameter tuning to prioritize throughput and reduce queuing. Post-change metrics improved; continued monitoring is planned through the next busy period.",
+    "ar": "تم تشخيص هبوط في سرعة التحميل على خلية NR الميكرو في الملعب أثناء فترة الخروج مع استخدام موارد مرتفع جدًا، وحمل مستخدمين عالٍ، وBLER متوسط، وRSRQ متدهور يشير إلى ازدحام السعة. تم تأكيد الهبوط عبر السلسلة الزمنية للتحميل وتنفيذ ضبط لمعاملات الموقع لإعطاء أولوية للسرعة وتقليل الاصطفاف. تحسنت المؤشرات بعد التغيير؛ وسيستمر الرصد خلال الفترة المزدحمة التالية."
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0008",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro cell shows heavy load over 6h (PRB ~83% with 192 users) while neighbors average ~31%, HO out/in 32/12 per 5 min, RSRQ -12 dB, and median DL ~19 Mbps—indicative of a load imbalance suited for rebalancing across distant (~5.6 km) neighbors.",
+    "ar": "موقع ماكرو NR ريفي يُظهر حملاً مرتفعاً خلال 6 ساعات (استخدام الموارد ~83% مع 192 مستخدماً) بينما متوسط الجيران ~31%، ومعدلات تحويل 32/12 كل 5 دقائق، وRSRQ = -12 dB، ومتوسط تنزيل ~19 ميجابت/ث—ما يشير إلى عدم توازن بالحمل قابِل لإعادة التوزيع عبر جيران يبعدون ~5.6 كم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro NR-RUR-123 has been hot for the last 6h: PRB ~83%, 192 users, neighbor avg PRB ~31%, HO out/in 32/12 per 5 min, RSRQ -12 dB, p50 DL ~19 Mbps. No alarms. Mixed hours with eMBB streaming traffic—please review for load imbalance.",
+      "message_ar": "الموقع الماكرو الريفي NR-RUR-123 كان مزدحماً خلال آخر 6 ساعات: استخدام PRB ~83%، 192 مستخدماً، متوسط الجيران ~31%، تحويلات خروج/دخول 32/12 كل 5 دقائق، RSRQ -12 dB، والتحميل الوسيط ~19 ميجابت/ث. لا توجد إنذارات. ساعات مختلطة مع حركة eMBB للبث—يرجى المراجعة لاحتمال عدم توازن الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a neighbor/load audit to validate offload potential around 5–6 km. Please confirm access to run diagnostics for the last 6h on NR-RUR-123.",
+      "message_ar": "تم الاستلام. سأبدأ بتدقيق الجيران/الحمل للتحقق من إمكانية التفريغ ضمن نطاق 5–6 كم. الرجاء تأكيد صلاحية الوصول لتنفيذ الفحص لآخر 6 ساعات على NR-RUR-123."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-RUR-123. Primary neighbors are NR-RUR-122 and NR-RUR-124.",
+      "message_ar": "تمت الموافقة على الوصول لـ NR-RUR-123. الجاران الرئيسيان هما NR-RUR-122 وNR-RUR-124."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor/load audit result: NR-RUR-123 PRB 78–86% (median ~83%); NR-RUR-122 ~28%, NR-RUR-124 ~34%. Handover bias is neutral to both neighbors, symmetric margins, no conditional load-based offsets active; reselection priorities equal. Clear headroom on 122/124. I propose a controlled LB tune: +2 dB HO bias toward 122/124 when serving PRB >70%, guard with SINR >=10 dB, and a 20% offload cap.",
+      "message_ar": "نتيجة تدقيق الجيران/الحمل: استخدام NR-RUR-123 بين 78–86% (وسيط ~83%)؛ NR-RUR-122 ~28% وNR-RUR-124 ~34%. تحيز التسليم محايد لكلا الجارين مع هوامش متماثلة، ولا توجد انحيازات مشروطة حسب الحمل؛ أولويات إعادة الاختيار متساوية. هناك سعة متاحة واضحة على 122/124. أقترح ضبطاً مُتحكَّماً لتوزيع الحمل: تحيز تسليم +2 dB نحو 122/124 عند تجاوز استخدام الخلية 70%، مع حراسة SINR ≥10 dB وسقف تفريغ 20%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the controlled load-balancing tune as proposed.",
+      "message_ar": "تمت الموافقة على تنفيذ ضبط توزيع الحمل المُتحكَّم كما تم اقتراحه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing site parameter tuning now: enable conditional offload with +2 dB bias to NR-RUR-122/124, trigger at 70% PRB, guard at SINR ≥10 dB, cap offload at 20%. Change committed successfully.",
+      "message_ar": "أقوم الآن بتنفيذ ضبط معلمات الموقع: تمكين التفريغ الشرطي بتحيز +2 dB نحو NR-RUR-122/124، وتفعيل عند 70% استخدام PRB، مع حراسة SINR ≥10 dB، وسقف تفريغ 20%. تم اعتماد التغيير بنجاح."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Please confirm immediate sanity—no spikes in drops or radio link failures.",
+      "message_ar": "مفهوم. الرجاء تأكيد السلامة الفورية—لا ارتفاع في حالات السقوط أو فشل الروابط الراديوية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial post-change check (5–10 min): NR-RUR-123 PRB trending 74–76%, neighbors 122/124 at ~45–50%; HO in/out moving toward balance; RSRQ improving to around -10 dB; p50 DL rising to ~24–26 Mbps. I will continue observing through the next mixed-hour period.",
+      "message_ar": "التحقق الأولي بعد التغيير (5–10 دقائق): استخدام NR-RUR-123 يتجه إلى 74–76%، والجيران 122/124 عند ~45–50%؛ التحويلات دخول/خروج تتجه للتوازن؛ تحسن RSRQ إلى نحو -10 dB؛ وارتفاع التنزيل الوسيط إلى ~24–26 ميجابت/ث. سأواصل المراقبة خلال الفترة المختلطة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: load now ~72% and handovers more balanced; no abnormal drops. Action taken: site parameter tuning for load balancing. Monitor through the next busy hour.",
+      "message_ar": "نلاحظ تحسناً: الحمل الآن ~72% والتحويلات أكثر توازناً؛ لا سقوطات غير طبيعية. الإجراء المُتخذ: ضبط معلمات الموقع لتوزيع الحمل. يرجى المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update on PRB, HO balance, and user throughput. If congestion resurges or KPIs regress, we will roll back the bias and escalate to investigate alternative strategies.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنقدم تحديثاً حول استخدام PRB وتوازن التحويلات ومعدل نقل المستخدمين. إذا عاد الازدحام أو تراجعت مؤشرات الأداء، سنعيد التحيز ونصعّد للتحقيق في استراتيجيات بديلة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rural NR macro hot cell with PRB ~83%, underused neighbors (~31%), and imbalanced handovers. Performed a neighbor/load audit and applied site parameter tuning to bias handovers toward two underutilized neighbors with guarded conditions. Immediate results showed PRB reduction to mid-70s, improved RSRQ, and rising median throughput; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص خلية ماكرو NR ريفية ساخنة مع استخدام PRB ~83% وجيران منخفضي الاستخدام (~31%) وتحويلات غير متوازنة. أُجري تدقيق للجيران/الحمل وتم تطبيق ضبط معلمات الموقع لتحيز التحويلات نحو جارين منخفضي الاستخدام بشروط حماية. ظهرت نتائج فورية بانخفاض الاستخدام إلى منتصف السبعينيات وتحسن RSRQ وارتفاع المتوسط الوسيط لمعدل التنزيل؛ سنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

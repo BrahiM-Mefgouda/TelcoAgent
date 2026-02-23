@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_INTERFERENCE-S0005",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_INTERFERENCE",
+  "query": {
+    "en": "Suburban 5G macro shows a 3h rise in radio link failures with interference/signal overlap and slow data (p50 6 Mbps), SINR ~0 dB, BLER ~14%, and higher handover failures.",
+    "ar": "موقع 5G ماكرو في منطقة ضاحية يسجل ارتفاعاً خلال 3 ساعات في حالات فقدان الرابط مع تداخل/تراكب إشارة وبطء في البيانات (الوسيط 6 ميجابت/ث)، وقيمة SINR ~0 ديسيبل وBLER ~14% وازدياد في فشل التسليم."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "NR macro cell in a suburban area shows RLF spikes over the last 3h; users report slow data during shoulder hour with eMBB streaming. No alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية تُظهر ارتفاعات في فقدان الرابط خلال آخر 3 ساعات؛ المستخدمون يشتكون من بطء البيانات خلال ساعة الكتف مع بث eMBB. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll investigate mobility-driven drops and interference. First, I will pull last 3h network counters for the target cell. Please confirm the cell ID and approve read/change window.",
+      "message_ar": "مفهوم. سأتحقق من السقوط المرتبط بالحركة والتداخل. أولاً سأسترجع عدادات الشبكة لآخر 3 ساعات للخلية المستهدفة. يرجى تأكيد مُعرّف الخلية والموافقة على القراءة وإجراء التغييرات ضمن النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-1234. Read is approved, and changes are allowed during shoulder hours.",
+      "message_ar": "مُعرّف الخلية هو NR-1234. القراءة معتمدة، والتغييرات مسموحة خلال ساعة الكتف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h stats for NR-1234: RLF ≈4.5% (was <1%), BLER 12–16%, SINR ~0 dB, HO failures ~10%. Effects appear stronger near sector edges. Next, I will analyze RLF time series to isolate burst windows and relation to handover attempts.",
+      "message_ar": "تم سحب إحصاءات 3 ساعات للخلية NR-1234: فقدان الرابط ≈4.5% (كان <1%)، BLER بين 12–16%، SINR نحو 0 ديسيبل، وفشل التسليم ~10%. التأثير أوضح عند حواف القطاعات. بعد ذلك سأحلّل السلسلة الزمنية لفقدان الرابط لتحديد فترات الذروة وعلاقتها بمحاولات التسليم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the time-series analysis.",
+      "message_ar": "تابع تحليل السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "RLF peaks concentrated 10:20–11:35 with a surge in HO attempts and moderate PRB load (~60%). Pattern suggests interference/signal overlap causing late handovers and drops. I recommend mobility parameter optimization now: adjust thresholds/margins and time-to-trigger to prefer earlier, stable handovers. Approve?",
+      "message_ar": "ذُرى فقدان الرابط تركزت بين 10:20–11:35 مع ارتفاع في محاولات التسليم وحمل PRB متوسط (~60%). النمط يوحي بتداخل/تراكب إشارة يسبب تسليمات متأخرة وسقوط الروابط. أوصي بتحسين معلمات الحركة الآن: ضبط العتبات/الهوامش ووقت التحفيز لتفضيل التسليم المبكر والمستقر. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply mobility parameter optimization on NR-1234 now.",
+      "message_ar": "موافق على تطبيق تحسين معلمات الحركة على NR-1234 الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-1234: tuned mobility thresholds, margins, and timers; commit successful and health checks clean. Expect reduced RLF and improved HO success. I’ll start focused monitoring.",
+      "message_ar": "تم تطبيق التحسين على NR-1234: تم ضبط عتبات الحركة والهوامش والمؤقتات؛ تم الاعتماد بنجاح وفحوصات السلامة سليمة. نتوقع انخفاض فقدان الرابط وتحسن نجاح التسليم. سأبدأ مراقبة مركزة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after 10 minutes: RLF attempts trending down and BLER slightly improved; no user impact reported.",
+      "message_ar": "ملاحظة أولية بعد 10 دقائق: محاولات فقدان الرابط في اتجاه هبوطي وBLER تحسّن قليلاً؛ لا يوجد أثر سلبي على المستخدمين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I’ll keep watching RLF, HO success, SINR, and p50 throughput while the cell handles eMBB streaming load.",
+      "message_ar": "مؤشر جيد. سأواصل مراقبة فقدان الرابط، نجاح التسليم، SINR، والوسيط في معدل النقل بينما تتعامل الخلية مع حمل بث eMBB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see radio link failures trending down and handover success improving after the mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى أن حالات فقدان الرابط تتجه للانخفاض وتحسّن نجاح التسليم بعد تحسين معلمات الحركة. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and update on RLF, HO success, SINR, and user throughput. If degradation returns, we will roll back the changes or escalate to interference mitigation and a field check.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً حول فقدان الرابط، نجاح التسليم، SINR، ومعدل نقل المستخدمين. إذا عاد التدهور سنقوم بالتراجع عن التغييرات أو نصعّد إلى تخفيف التداخل وفحص ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-1234",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-1234",
+        "RLF",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility thresholds and TTT tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The RLF spike on the suburban 5G macro was linked to interference-driven late handovers, evidenced by SINR ~0 dB, BLER ~14%, and bursty RLF during shoulder hours. We reviewed OSS counters and the RLF time series, then executed site parameter tuning on mobility thresholds, margins, and timers to favor earlier, stable handovers. Early results show RLF trending down and handover success improving; monitoring continues through the next busy hour.",
+    "ar": "تم ربط ارتفاع فقدان الرابط في موقع 5G الماكرو بضواحي المدينة بتأخر التسليم الناتج عن التداخل، بدليل SINR ~0 ديسيبل وBLER ~14% وذروات في فقدان الرابط خلال ساعة الكتف. تمت مراجعة عدادات الشبكة والسلسلة الزمنية لفقدان الرابط، ثم تنفيذ ضبط لمعلمات الموقع على عتبات الحركة والهوامش والمؤقتات لتفضيل التسليم المبكر والمستقر. تظهر النتائج الأولية انخفاضاً في فقدان الرابط وتحسناً في نجاح التسليم؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

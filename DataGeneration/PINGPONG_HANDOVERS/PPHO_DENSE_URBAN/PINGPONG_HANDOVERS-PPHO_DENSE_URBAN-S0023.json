@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0023",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Urban NR macro during off-peak shows ~25% ping-pong handovers over the last 4 hours with low SINR (2 dB) indicating interference / signal overlap, PRB around 81%, and median downlink 23 Mbps for eMBB streaming users.",
+    "ar": "بيئة حضرية لشبكة NR ماكرو خلال وقت خارج الذروة تظهر معدل تبديل متكرر بنحو 25٪ خلال آخر 4 ساعات مع قيمة SINR منخفضة (2 dB) بما يشير إلى تداخل / تراكب إشارات، واستخدام PRB حوالي 81٪، ومتوسط تنزيل 23 ميجابت/ث لعملاء eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Off-peak in a dense urban NR macro, ping-pong rate is ~25% over 4h on cell NRD-12345. SINR ~2 dB, RSRP ~-109 dBm; some eMBB streaming complaints. Please check.",
+      "message_ar": "خلال وقت خارج الذروة في منطقة حضرية كثيفة ضمن موقع NR ماكرو، معدل التبديل المتكرر حوالي 25٪ خلال 4 ساعات على الخلية NRD-12345. قيمة SINR حوالي 2 dB وRSRP نحو -109 dBm؛ توجد شكاوى من بث eMBB. الرجاء المراجعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead diagnostics. First, I will review last 4h OSS metrics for NRD-12345 to verify mobility and RF conditions. Please confirm access.",
+      "message_ar": "سأتولى التشخيص. أولاً سأراجع مؤشرات الساعات الأربع الأخيرة للخلية NRD-12345 للتحقق من ظروف الحركة والراديو. الرجاء تأكيد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NRD-12345, 4-hour window.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NRD-12345 خلال نافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled health metrics: HO attempts ~91/5min, HO failures ~11%, ping-pong flags with two neighbors; PRB ~81%; RSRQ -12 dB, SINR 2 dB. Indicates boundary instability with interference/overlap. Next, I will analyze HO time series and neighbor pairs to isolate the churn. Proceed?",
+      "message_ar": "تم سحب المؤشرات: محاولات التسليم ~91/5 دقائق، فشل التسليم ~11٪، إشارات تبديل متكرر مع جارَين؛ استخدام PRB ~81٪؛ RSRQ -12 dB وSINR 2 dB. هذا يشير لعدم استقرار حدود مع تداخل/تراكب. بعد ذلك سأحلل السلاسل الزمنية للتسليم وأزواج الجيران لعزل المشكلة. أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows repetitive back-and-forth on NRD-12345↔NRD-12346 and ↔NRD-12347 within 1–2 minutes near edge conditions (RSRP ~-109 dBm, low SINR). Current thresholds/timers look permissive. I propose a modest increase to HO timers and hysteresis, plus a small positive offset to stabilize borders. Approve optimization?",
+      "message_ar": "السلسلة الزمنية تُظهر حركة ذهاباً وإياباً متكررة بين NRD-12345↔NRD-12346 و↔NRD-12347 خلال 1–2 دقيقة قرب أطراف التغطية (RSRP ~-109 dBm وSINR منخفض). العتبات والمؤقتات الحالية تبدو متساهلة. أقترح زيادة بسيطة لمؤقتات وعتبة الاستقرار مع إزاحة إيجابية صغيرة لتثبيت الحدود. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Implement the optimization.",
+      "message_ar": "موافق. نفّذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NRD-12345: slight uplift to HO timers and hysteresis with a small positive offset toward the two dominant neighbors. Change is reversible. I’ll watch HO success, ping-pong ratio, and user throughput during the next 15–20 minutes.",
+      "message_ar": "تم تطبيق التحسين على NRD-12345: زيادة طفيفة لمؤقتات وعتبة التسليم مع إزاحة إيجابية صغيرة باتجاه الجارين المسيطرين. التغيير قابل للرجوع. سأراقب نجاح التسليم، ومعدل التبديل المتكرر، ومعدل النقل للمستخدمين خلال 15–20 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "15 minutes post-change: ping-pong down to ~13%, HO success ~94%, median throughput steady at ~23 Mbps.",
+      "message_ar": "بعد 15 دقيقة من التغيير: انخفض التبديل المتكرر إلى ~13٪، نجاح التسليم ~94٪، ومتوسط معدل النقل ثابت عند ~23 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good initial response. I’ll continue to watch for any rise in HO failures or edge coverage regressions; no further action needed right now.",
+      "message_ar": "استجابة أولية جيدة. سأواصل مراقبة أي ارتفاع في فشل التسليم أو تراجع تغطية الأطراف؛ لا حاجة لإجراءات إضافية حالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend remains positive: ping-pong is trending down and handovers are smoother after the handover parameter tuning. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "الاتجاه ما زال إيجابياً: التبديل المتكرر في انخفاض وعمليات التسليم أصبحت أكثر سلاسة بعد ضبط معلمات التسليم. دعنا نراقب خلال الساعات 2–4 القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the 2–4 hour monitoring and update with ping-pong rate, HO success, and user impact at the end. If degradation reappears, we’ll roll back the thresholds; if interference dominates, we’ll escalate for interference mitigation. Summary: diagnosed ping-pong under interference/overlap, analyzed HO patterns, and stabilized borders via targeted parameter tuning.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات ونقدم تحديثاً بمعدل التبديل المتكرر، نجاح التسليم، وتأثير المستخدمين عند الانتهاء. إذا ظهر تدهور سنعود إلى العتبات السابقة؛ وإذا غلب التداخل فسوف نصعّد لمعالجة التداخل. الخلاصة: تم تشخيص التبديل المتكرر تحت تداخل/تراكب، تحليل أنماط التسليم، وتثبيت الحدود عبر ضبط معلمات موجه."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "High ping-pong handovers in a dense urban NR macro were traced to boundary instability under interference/signal overlap. The agent reviewed recent OSS data and HO time-series, then stabilized mobility by tuning handover timers, hysteresis, and a small offset. Post-change, ping-pong decreased and HO success improved; the cell will be monitored for the next few hours to ensure sustained performance.",
+    "ar": "تم تتبّع الارتفاع في التبديل المتكرر ضمن موقع NR ماكرو حضري كثيف إلى عدم استقرار الحدود تحت تداخل/تراكب إشارات. راجع الوكيل بيانات OSS الأخيرة والسلاسل الزمنية للتسليم، ثم ثبّت الحركة عبر ضبط مؤقتات وعتبة التسليم مع إزاحة بسيطة. بعد التغيير انخفض التبديل المتكرر وتحسّن نجاح التسليم؛ سيتم مراقبة الخلية خلال الساعات القادمة لضمان استدامة الأداء."
+  }
+}

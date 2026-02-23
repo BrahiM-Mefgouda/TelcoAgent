@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0006",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban NR macro cell shows interference / signal overlap with an active congestion alarm over the last 6h; SINR -1 dB, handover issues (22% fails, 24% ping-pong), and median downlink 19 Mbps under eMBB streaming load.",
+    "ar": "خلية NR ماكرو حضرية تُظهر تداخل / تراكب الإشارة مع إنذار ازدحام نشط خلال آخر 6 ساعات؛ SINR -1 dB ومشاكل تسليم (فشل 22% وتبادل 24%) ومعدل تنزيل وسطي 19 ميجابت/ث تحت حمل eMBB/البث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell ST-URB-115 showing interference / signal overlap over the last 6h; SINR -1 dB, RSRQ -12 dB, BLER 12%, HO failures 22% and ping-pong 24%. Median DL 19 Mbps on heavy eMBB streaming. Current PCI 253; neighbor PCI 217; overlap ~39%.",
+      "message_ar": "خلية NR ماكرو حضرية ST-URB-115 تُظهر تداخل / تراكب الإشارة خلال آخر 6 ساعات؛ SINR -1 dB وRSRQ -12 dB وBLER 12% وفشل التسليم 22% وتبادل 24%. معدل تنزيل وسيطي 19 ميجابت/ث مع حمل eMBB/البث. PCI الحالي 253؛ PCI الجار 217؛ تداخل ~39%."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I suspect a PCI collision. I will start by auditing neighbor relations and PCI reuse to confirm the root cause. Please approve read access to ST-URB-115 for the last 6h.",
+      "message_ar": "مفهوم. أشتبه بوجود تضارب PCI. سأبدأ بمراجعة الجيران وإعادة استخدام PCI لتأكيد السبب الجذري. يرجى اعتماد صلاحية القراءة لـ ST-URB-115 لآخر 6 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—read access to ST-URB-115 for 6h is granted. Dense macro neighbors.",
+      "message_ar": "تمت الموافقة—تم منح صلاحية القراءة لـ ST-URB-115 لمدة 6 ساعات. شبكة جيران كثيفة ماكرو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor review complete: NBR-218 also uses PCI 253 within the same cluster, and NBR-217 at PCI 217 has a strong SSB footprint; combined overlap ~39%. This aligns with low SINR and HO instability. Proposal: reassign serving PCI to a clean value (171) and refresh neighbor relations to remove ambiguity. Proceed?",
+      "message_ar": "اكتملت مراجعة الجيران: الجار NBR-218 يستخدم PCI 253 أيضاً ضمن نفس المجموعة، والجار NBR-217 على PCI 217 له بصمة SSB قوية؛ التداخل الإجمالي ~39%. هذا يتماشى مع SINR المنخفض وعدم استقرار التسليم. الاقتراح: إعادة تعيين PCI للخدمة إلى قيمة خالية (171) وتحديث علاقات الجوار لإزالة الالتباس. هل نمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now. Proceed.",
+      "message_ar": "موافق على التنفيذ الآن. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter update: change ST-URB-115 PCI 253 → 171 with immediate neighbor list updates and consistency checks. Committing with zero-impact safeguards.",
+      "message_ar": "تطبيق تحديث المعلمات: تغيير PCI لـ ST-URB-115 من 253 إلى 171 مع تحديثات فورية لقوائم الجيران وفحوصات الاتساق. تنفيذ آمن دون تأثير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Post-change checks: no duplicate PCIs detected, neighbor relations updated, and SSB overlap reduced. Requesting approval to open a tracking ticket for traceability and monitoring.",
+      "message_ar": "فحوصات ما بعد التغيير: لا توجد PCI مكررة، تم تحديث علاقات الجوار، وانخفض تداخل SSB. أطلب الموافقة على فتح تذكرة تتبع للتوثيق والمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—create the ticket.",
+      "message_ar": "موافق—أنشئ التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-PCI-04231 to track the PCI reassignment and neighbor updates on ST-URB-115. We will observe HO, BLER, and SINR stabilization over the next hours.",
+      "message_ar": "تم إنشاء DU-PCI-04231 لتتبع إعادة تعيين PCI وتحديثات الجيران على ST-URB-115. سنراقب استقرار مؤشرات التسليم وBLER وSINR خلال الساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early indicators (5–10 min): SINR improved to +1 dB in the hotspot, RSRQ to -10 dB, and ping-pong down ~6% from baseline. No new alarms.",
+      "message_ar": "مؤشرات مبكرة (5–10 دقائق): تحسن SINR إلى +1 dB في النقطة الساخنة، وRSRQ إلى -10 dB، وانخفض تبادل التسليم ~6% مقارنة بالأساس. لا إنذارات جديدة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement as well—ping-pong rate trending down and interference indicators easing. Action taken: PCI reassignment with neighbor parameter update. Let’s monitor through the next busy hour; I’ll track via DU-PCI-04231.",
+      "message_ar": "أرى تحسناً أيضاً—معدل تبادل التسليم ينخفض ومؤشرات التداخل تتحسن. الإجراء المتخذ: إعادة تعيين PCI مع تحديث معلمات الجيران. دعنا نراقب خلال ساعة الذروة القادمة؛ سأتابع عبر DU-PCI-04231."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket afterward. If performance worsens, we will roll back the change and escalate to RF design for deeper interference mitigation.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا ساء الأداء سنرجع التغيير ونصعّد إلى فريق تصميم الترددات لمعالجة التداخل بعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "ST-URB-115",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 9,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on urban NR macro cell ST-URB-115 by auditing neighbors, confirming same-PCI reuse and high overlap. Mitigated via site parameter tuning by reassigning the serving PCI and updating neighbor relations. A tracking ticket was created, and KPIs will be monitored through the next busy hour.",
+    "ar": "تم تشخيص تضارب PCI على خلية NR ماكرو حضرية ST-URB-115 عبر مراجعة الجيران وتأكيد إعادة استخدام نفس PCI وارتفاع التداخل. تم التخفيف من خلال ضبط معلمات الموقع بإعادة تعيين PCI للخدمة وتحديث علاقات الجوار. تم إنشاء تذكرة تتبع وسيتم مراقبة مؤشرات الأداء خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0007",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell shows high BLER (18.6%) with weak signal (-113 dBm) and interference/signal overlap (SINR 3 dB) over the last 2h, p50 downlink 13 Mbps; an alarm indicates possible congestion.",
+    "ar": "خلية NR ماكرو في منطقة ضاحية تُظهر BLER مرتفعاً (18.6%) مع إشارة ضعيفة (-113 dBm) وتداخل/تراكب إشارات (SINR ‏3 dB) خلال آخر ساعتين، ووسيط تنزيل 13 Mbps؛ يوجد إنذار يشير إلى احتمال ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-Suburban-33211-1 over the last 2h shows elevated BLER (~19%) with weak RSRP (-113 dBm) and SINR ~3 dB; customers report buffering during shoulder hours and an alarm was raised.",
+      "message_ar": "الخلية NR الماكرو NR-Suburban-33211-1 في منطقة ضاحية خلال آخر ساعتين تُظهر ارتفاع BLER (~19%) مع RSRP ضعيف (-113 dBm) و SINR ~3 dB؛ شكاوى عن تقطّع بث أثناء ساعات الذروة الجزئية وتم إطلاق إنذار."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll take lead: first pull last 2h OSS counters for NR-Suburban-33211-1, then chart BLER to confirm burst patterns; please confirm access.",
+      "message_ar": "سأتولى الخطوات: أولاً سأسحب عدادات OSS لآخر ساعتين للخلية NR-Suburban-33211-1، ثم أرسم اتجاه BLER للتحقق من النبضات؛ يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for stats on NR-Suburban-33211-1.",
+      "message_ar": "تمت الموافقة على الوصول لإحصاءات NR-Suburban-33211-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters: DL BLER 12–30% bursts (avg ~18.6%), RSRP -113 dBm, RSRQ -11 dB, SINR 3 dB, PRB util ~53%, neighbor load ~76%, p50 DL throughput ~13 Mbps; next I'll extract 2h BLER timeseries.",
+      "message_ar": "تم سحب العدادات: BLER الهابط نبضي 12–30% (متوسط ~18.6%)، RSRP -113 dBm، RSRQ -11 dB، SINR 3 dB، إشغال PRB ~53%، حمل الجيران ~76%، وسيط التنزيل ~13 Mbps؛ التالي سأستخرج سلسلة زمنية لـ BLER خلال ساعتين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "BLER timeseries confirms short interference/signal-overlap spikes aligning with higher neighbor load and eMBB streaming; mobility looks normal (HO-in ~10). I propose targeted interference-mitigation tuning on this sector; proceed?",
+      "message_ar": "السلسلة الزمنية تؤكد نبضات BLER قصيرة بسبب تداخل/تراكب إشارات متزامنة مع ارتفاع حمل الجيران وبث eMBB؛ التنقّل طبيعي (HO-in ~10). أقترح ضبطاً موجهاً لتخفيف التداخل على هذا القطاع؛ هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the parameter tuning now.",
+      "message_ar": "تابع ضبط المعلمات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied interference-mitigation tuning (scheduler robustness and retransmission aggressiveness within safe bounds) to NR-Suburban-33211-1; initial 5-min check: BLER down to 9–11%, SINR steady ~3–4 dB, throughput median up to ~16 Mbps. Please observe user impact.",
+      "message_ar": "تم تطبيق ضبط لتخفيف التداخل (تحسين متانة الجدولة وزيادة حدة إعادة الإرسال ضمن حدود آمنة) على NR-Suburban-33211-1؛ فحص أولي 5 دقائق: انخفض BLER إلى 9–11%، وSINR ثابت ~3–4 dB، وارتفع وسيط السرعة إلى ~16 Mbps. يرجى ملاحظة أثر المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: buffering largely gone and sessions are smoother; BLER bursts appear less frequent.",
+      "message_ar": "ملاحظات ميدانية: التقطّع زال إلى حد كبير والجلسات أكثر سلاسة؛ نبضات BLER أقل تكراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. Confirm your preferred monitoring window—next busy hour or the next 2–4 hours?",
+      "message_ar": "مؤشر جيد. يرجى تأكيد نافذة المراقبة المفضلة—ساعة الذروة القادمة أم الساعتان إلى أربع ساعات القادمة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Let’s monitor for the next 2–4 hours; BLER bursts are trending down after the interference‑mitigation parameter tuning.",
+      "message_ar": "لنراقب خلال الساعتين إلى الأربع ساعات القادمة؛ نبضات BLER تتجه للانخفاض بعد ضبط معلمات تخفيف التداخل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring for the next 2–4 hours and report post‑window results. If BLER spikes return, we will escalate to investigate external interferers and consider reversing the last tuning; if stability holds, we’ll keep the new settings.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة ونقدّم تقريراً بالنتائج بعدها. إذا عادت ارتفاعات BLER سنصعّد للتحقيق في مصادر تداخل خارجية وننظر في التراجع عن الضبط الأخير؛ وإذا استقرت الحالة سنُبقي الإعدادات الجديدة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburban-33211-1",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburban-33211-1",
+        "BLER",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "interference-mitigation parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a BLER anomaly on a suburban NR macro sector during shoulder eMBB traffic, driven by weak coverage and interference/signal overlap. Reviewed OSS counters and the 2h BLER trend, then applied site parameter tuning for interference mitigation. Post-change BLER improved to ~9–11%, and we will monitor over the next 2–4 hours.",
+    "ar": "تم تشخيص شذوذ في BLER على قطاع NR ماكرو بضاحية خلال حركة eMBB في وقت الذروة الجزئية، ناجم عن تغطية ضعيفة وتداخل/تراكب إشارات. تمت مراجعة عدادات النظام والاتجاه لمدة ساعتين لـ BLER ثم تطبيق ضبط معلمات للموقع لتخفيف التداخل. تحسّن BLER بعد التغيير إلى ~9–11%، وسنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

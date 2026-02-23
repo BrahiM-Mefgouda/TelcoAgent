@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0011",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office wing NR micro cells show elevated ping-pong handovers over the last 3 hours during off-peak eMBB usage, with interference / signal overlap degrading handover success (ping-pong ~15%, success ~81%).",
+    "ar": "تُظهر خلايا NR الصغيرة في الجناح المكتبي الداخلي ارتفاعاً في عمليات التسليم ذهاباً وإياباً خلال آخر 3 ساعات وخارج الذروة مع حركة eMBB، حيث يؤثر التداخل/تراكب الإشارة في نجاح التسليم (ping-pong ~15%، النجاح ~81%)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing frequent ping-pong handovers between NR micro cells in the east indoor office wing over the last 3h: HO success ~80.7%, ping-pong ~15%, fails ~20%, avg RSRP −110 dBm, RSRQ −13 dB, SINR ~3 dB; mostly eMBB streaming and it’s off-peak.",
+      "message_ar": "نلاحظ عمليات تسليم متكررة ذهاباً وإياباً بين خلايا NR صغيرة في الجناح المكتبي الداخلي الشرقي خلال آخر 3 ساعات: نجاح التسليم ~80.7%، معدل ping-pong ~15%، فشل ~20%، RSRP متوسط −110 dBm، RSRQ −13 dB، وSINR ~3 dB؛ الاستخدام أغلبه eMBB (بث) وخارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling last-3h mobility counters for the target indoor small site and its nearest neighbors to quantify sources/targets and radio quality. Please confirm access and share the primary cell label.",
+      "message_ar": "تم الاستلام. سأبدأ بجلب عدادات التنقل لآخر 3 ساعات للموقع الداخلي الصغير المستهدف وأقرب الجيران لتحديد المصدر/الهدف وجودة الراديو. يرجى تأكيد السماح بالوصول ومشاركتي تسمية الخلية الأساسية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Primary cell label: NR_S1_EAST_03; same 3-hour window.",
+      "message_ar": "الوصول مُعتمد. تسمية الخلية الأساسية: NR_S1_EAST_03؛ نفس نافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters pulled. Avg 121 HO attempts/5-min; HO success 80.7%, failures 20.0%. Ping-pong at 15%, dominated by NR_S1_EAST_03↔NR_S2_EAST_02 and ↔NR_S3_CORE_01. Radio stats: RSRP −110 dBm, RSRQ −13 dB, SINR 3 dB; PRB ~77% with 195 users. Next, I’ll extract HO time-series over 3h to inspect timing and symmetry—ok to proceed?",
+      "message_ar": "تم جلب العدادات. متوسط 121 محاولة تسليم/5 دقائق؛ نجاح 80.7%، فشل 20.0%. معدل ping-pong 15%، مهيمن بين NR_S1_EAST_03↔NR_S2_EAST_02 و↔NR_S3_CORE_01. إحصاءات الراديو: RSRP −110 dBm، RSRQ −13 dB، SINR 3 dB؛ إشغال PRB ~77% مع 195 مستخدماً. سأستخرج سلسلة زمنية للتسليم خلال 3 ساعات لفحص التوقيت والتناظر—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series shows cyclical bursts every 1–2 min near corridor boundaries; back-and-forth largely symmetric with S2/S3 and aligns with low SINR (overlap/interference). Current mobility thresholds: A3 offset 1 dB, hysteresis 2 dB, TTT 129 ms—too permissive for this overlap. Proposal: raise TTT to 256 ms, increase hysteresis to 3 dB, and A3 offset to 2 dB for S1 with symmetric neighbor updates. Approve optimization?",
+      "message_ar": "السلسلة الزمنية تُظهر اندفاعات دورية كل 1–2 دقيقة قرب ممرات الحدود؛ الذهاب‑والإياب متماثل غالباً مع S2/S3 ويتطابق مع SINR منخفض (تداخل/تراكب). العتبات الحالية: إزاحة A3 = 1 dB، التراخي = 2 dB، وTTT = 129 ms—متساهلة لهذا التراكب. الاقتراح: رفع TTT إلى 256 ms، زيادة التراخي إلى 3 dB، ورفع إزاحة A3 إلى 2 dB لخلية S1 مع تحديثات متناظرة للجيران. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now during off-peak.",
+      "message_ar": "موافَق على التنفيذ الآن خلال فترة خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying mobility tuning and committing changes. Done: TTT 256 ms, hysteresis 3 dB, A3 offset 2 dB on S1 with symmetric neighbor entries. Immediate check over ~10 min shows ping-pong down to ~9% and HO success ~86%, PRB stable at ~75%. I will continue to watch for regressions.",
+      "message_ar": "تم تطبيق ضبط التنقل وتثبيت التغييرات. المُنفَّذ: TTT 256 ms، التراخي 3 dB، وإزاحة A3 2 dB على S1 مع إدخالات جيران متناظرة. فحص فوري (~10 دقائق) يُظهر انخفاض ping-pong إلى ~9% ونجاح التسليم ~86%، واستقرار PRB عند ~75%. سأستمر بالمراقبة لأي ارتداد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick walk test in the wing shows fewer back-and-forth events; streaming sessions remain steady without stalls.",
+      "message_ar": "اختبار سير سريع في الجناح أظهر أحداث ذهاب‑وإياب أقل؛ جلسات البث مستقرة دون تقطّع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Target thresholds: keep ping-pong under 10% and HO success above 85% while SINR improves with the tuning; if we see spikes tied to a specific neighbor, I’ll consider refining neighbor offsets as a follow-up.",
+      "message_ar": "العتبات المستهدفة: إبقاء ping-pong أقل من 10% ونجاح التسليم فوق 85% مع تحسّن SINR بعد الضبط؛ إذا ظهرت زيادات مرتبطة بجار محدد سأفكّر في تحسين إزاحات الجار كمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change counters over the last 30 minutes confirm ping-pong trending down and HO failures easing; the mobility parameter tuning seems effective. Suggest monitoring through the next busy hour.",
+      "message_ar": "عدادات ما بعد التغيير خلال آخر 30 دقيقة تؤكد انخفاضاً في ping-pong وتراجعاً في حالات فشل التسليم؛ يبدو أن ضبط معلمات التنقل فعّال. أقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the monitoring through the next busy hour and share an update afterward. If degradation returns, we will escalate to a broader neighbor re-balance; if adverse effects appear, we will roll back to pre-change values.",
+      "message_ar": "تم—سنتولى المراقبة حتى ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا عاد التدهور سنصعّد إلى إعادة موازنة أوسع للجيران؛ وإذا ظهرت آثار سلبية سنقوم بالرجوع إلى القيم السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on an indoor NR micro cell by reviewing recent OSS counters and a handover time series, confirming signal overlap/interference with permissive mobility thresholds. Implemented site parameter tuning by increasing time-to-trigger and hysteresis and raising the A3 offset to stabilize handover decisions. Early KPIs improved, and ongoing monitoring will verify stability through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم ذهاباً وإياباً على خلية NR داخلية صغيرة عبر مراجعة عدادات OSS الحديثة والسلسلة الزمنية للتسليم، مما أكد تراكب/تداخل الإشارة مع عتبات تنقل متساهلة. تم تنفيذ ضبط معلمات الموقع برفع زمن البدء (TTT) والتراخي وزيادة إزاحة A3 لاستقرار قرارات التسليم. تحسنت المؤشرات الأولية، وسيتم متابعة الاستقرار خلال ساعة الذروة القادمة."
+  }
+}

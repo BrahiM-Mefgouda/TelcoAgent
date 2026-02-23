@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_CONFUSION_SUBURBAN-S0020",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_CONFUSION_SUBURBAN",
+  "query": {
+    "en": "Suburban NR macro cell shows 12h handover instability with ping‑pong 15%, HO failures 12%, RSRQ −14 dB, SINR 6 dB, and median DL throughput 13 Mbps amid eMBB streaming traffic.",
+    "ar": "الموقع الكلي NR في منطقة ضاحية يُظهر عدم استقرار في عمليات التسليم خلال 12 ساعة مع معدل تنقّل متأرجح 15% وفشل تسليم 12% وRSRQ −14 dB وSINR 6 dB ومتوسط تنزيل 13 ميجابت/ث مع حركة eMBB (بث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell has been unstable over the last 12h: ping‑pong ~15%, HO failures ~12%, RSRQ −14 dB, SINR 6 dB, p50 DL 13 Mbps with ~241 users. eMBB streaming complaints around peaks.",
+      "message_ar": "الموقع الكلي NR في الضاحية غير مستقر خلال آخر 12 ساعة: تنقّل متأرجح ~15%، فشل تسليم ~12%، RSRQ −14 dB، SINR 6 dB، ووسيط تنزيل 13 ميجابت/ث مع ~241 مستخدمًا. شكاوى بث eMBB عند الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking neighbor PCI relations to confirm a PCI collision/confusion. Please share the exact cell ID and approve read access for the last 12h.",
+      "message_ar": "سأبدأ بفحص علاقات PCI مع الجيران لتأكيد وجود تصادم/التباس في PCI. يرجى تزويدي بمعرّف الخلية الدقيق والموافقة على الوصول للقراءة لآخر 12 ساعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Suburb-Macro-483-S1. Access approved for diagnostics.",
+      "message_ar": "معرّف الخلية: NR-Suburb-Macro-483-S1. الوصول التشخيصي مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running neighbor and overlap audit now. Findings: NR-Suburb-Macro-483-S1 shares PCI 483 with NR-SiteB-S2 across ~18% overlapping footprint; also strong adjacency to a PCI 377 sector. This aligns with the ping‑pong and HO failures. I propose reassigning our sector to a free PCI 489 and refreshing neighbor relations. Approve?",
+      "message_ar": "أجري تدقيق الجيران والتداخل الآن. النتائج: الخلية NR-Suburb-Macro-483-S1 تشترك في PCI 483 مع NR-SiteB-S2 عبر تداخل يقارب 18%، مع تجاور قوي لقطاع PCI 377. هذا يتوافق مع التنقّل المتأرجح وفشل التسليم. أقترح إعادة تعيين PCI إلى 489 المتاح وتحديث علاقات الجيران. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed immediately.",
+      "message_ar": "موافق على التنفيذ فورًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing optimization: reassigning PCI to 489, refreshing neighbor relations, and aligning handover offsets. Brief broadcast re-acquisition expected (<1 min). Post-check: adjacency clean, no duplicate PCI in overlap.",
+      "message_ar": "تنفيذ التحسين: إعادة تعيين PCI إلى 489، تحديث علاقات الجيران، ومواءمة انحيازات التسليم. متوقع إعادة اكتساب بث قصيرة (<1 دقيقة). فحص لاحق: التجاور سليم ولا يوجد PCI مكرر ضمن التداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Live counters show HO failures trending down and fewer rapid back-and-forth moves.",
+      "message_ar": "العدادات الحية تُظهر انخفاضًا في فشل التسليم وتقليلًا في التحركات السريعة ذهابًا وإيابًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Documenting the change for traceability. Creating ticket DU-PCI-00157 covering the PCI reassignment and immediate post-checks.",
+      "message_ar": "أقوم بتوثيق التغيير للتتبع. إنشاء تذكرة DU-PCI-00157 تتضمن إعادة تعيين PCI والفحوصات اللاحقة الفورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. RSRQ has improved by about 2 dB and median DL throughput is edging up; no alarms observed.",
+      "message_ar": "تم التأكيد. تحسّن RSRQ بحوالي 2 dB وارتفع وسيط التنزيل قليلاً؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll keep watching mobility and quality through the next busy period; ping‑pong and HO failures should normalize further. Any field feedback?",
+      "message_ar": "سنواصل المراقبة لمؤشرات الحركة والجودة خلال فترة الذروة القادمة؛ من المتوقع أن ينخفض التنقّل المتأرجح وفشل التسليم أكثر. هل هناك ملاحظات ميدانية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing ping‑pong events tapering and handovers stabilizing after the site parameter tuning (PCI reassignment). Let’s monitor over the next busy hour; we’ll update DU-PCI-00157.",
+      "message_ar": "نلاحظ تراجع أحداث التنقّل المتأرجح واستقرارًا في عمليات التسليم بعد ضبط معلمات الموقع (إعادة تعيين PCI). لنراقب خلال ساعة الذروة القادمة؛ سنحدّث DU-PCI-00157."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next busy-hour monitoring and update the ticket with HO, ping‑pong, and quality trends. If degradation returns, we will escalate to extend the PCI plan across neighbors; if adverse effects appear, we will roll back to the prior setting.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وتحديث التذكرة باتجاهات التسليم والتنقّل المتأرجح والجودة. إذا عاد التدهور فسوف نصعّد لتوسيع خطة PCI على الجيران؛ وإذا ظهرت آثار سلبية فسنُرجع الإعداد السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-Suburb-Macro-483-S1",
+        "all"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "pci=489; anr_refresh=true; ho_offsets_align=true"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Resolved PCI collision by reassigning PCI on NR-Suburb-Macro-483-S1; neighbor relations refreshed; post-checks clean."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on a suburban NR macro sector where a neighbor shared the same PCI across an overlapping footprint, causing ping‑pong and higher handover failures. Executed site parameter tuning by reassigning the PCI and refreshing neighbor relations, which immediately stabilized mobility and improved quality. Created a follow-up ticket for monitoring and traceability.",
+    "ar": "تم تشخيص تصادم PCI في قطاع NR كلي ضمن الضواحي حيث شارك الجار نفس PCI ضمن تداخل، ما تسبب في تنقّل متأرجح وفشل تسليم أعلى. نُفِّذ ضبط معلمات الموقع عبر إعادة تعيين PCI وتحديث علاقات الجيران، مما أدى إلى استقرار فوري في الحركة وتحسن الجودة. تم إنشاء تذكرة متابعة للمراقبة والتتبع."
+  }
+}

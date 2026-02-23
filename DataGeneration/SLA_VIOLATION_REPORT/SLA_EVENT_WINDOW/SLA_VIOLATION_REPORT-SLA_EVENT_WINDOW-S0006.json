@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0006",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium 5G NR microcell over the last 6h shows QoS 0.25 vs 0.97 target, PRB 97.7%, latency 82 ms, 790 users with slow data; congestion alarm active.",
+    "ar": "خلية 5G NR ميكرو في الملعب خلال آخر 6 ساعات تُظهر جودة خدمة 0.25 مقابل الهدف 0.97، إشغال موارد 97.7%، كمون 82 مللي ثانية، 790 مستخدمًا مع بيانات بطيئة؛ إنذار ازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell over the last 6h is breaching SLA during egress; latency ~82 ms, PRB ~98%, p50 throughput 5 Mbps (slow data), ~790 users; please investigate.",
+      "message_ar": "خلية NR ميكرو في الملعب خلال آخر 6 ساعات تتجاوز اتفاقية الخدمة أثناء الخروج؛ الكمون ~82 مللي ثانية، إشغال الموارد ~98%، السرعة الوسيطة 5 ميغابت/ث (بيانات بطيئة)، ~790 مستخدمًا؛ يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead triage: pull network counters for NR-STAD-MICRO-03 over 6h, then review QoS time series to confirm the breach; if confirmed, I will raise an incident. Approve R/W access?",
+      "message_ar": "سأتولى التشخيص: سأسحب عدادات الشبكة للخلية NR-STAD-MICRO-03 خلال 6 ساعات، ثم أراجع السلسلة الزمنية لجودة الخدمة لتأكيد الخرق؛ وإذا تأكد سأفتح بلاغًا. هل توافق على صلاحيات القراءة/الكتابة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved R/W. Target cell is NR-STAD-MICRO-03; eMBB traffic is heavy with streaming.",
+      "message_ar": "تمت الموافقة على القراءة/الكتابة. الخلية المستهدفة هي NR-STAD-MICRO-03؛ حركة eMBB كثيفة مع البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Network counters reviewed: DL resource use 95–98% across the 6h window, active users peaked at 790 during egress, latency counters elevated, no hardware or backhaul faults, neighbor relations healthy. Proceeding to QoS trend check.",
+      "message_ar": "تمت مراجعة عدادات الشبكة: استخدام موارد التنزيل 95–98% خلال نافذة 6 ساعات، بلغ عدد المستخدمين النشطين ذروته 790 أثناء الخروج، مؤشرات الكمون مرتفعة، لا أعطال في العتاد أو النقل، والعلاقات مع الجيران سليمة. سأنتقل لفحص اتجاه جودة الخدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابِع."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series confirms the breach: average QoS 0.25 vs target 0.97, 29 violation intervals, peaks align with egress; correlated with PRB saturation and latency >80 ms. I will open an incident for capacity relief and tuning—approve?",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة تؤكد الخرق: متوسط الجودة 0.25 مقابل الهدف 0.97، 29 فترة انتهاك، القمم متزامنة مع الخروج؛ مرتبطة بتشبع الموارد والكمون >80 مللي ثانية. سأفتح بلاغًا لطلب تخفيف السعة والضبط—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident created summarizing stadium SLA breach with load and latency as contributors. I will monitor QoS, latency, and PRB closely over the next hours.",
+      "message_ar": "تم إنشاء البلاغ مع تلخيص خرق اتفاقية الخدمة في الملعب واعتبار الحمل والكمون من العوامل المساهمة. سأراقب جودة الخدمة والكمون وإشغال الموارد عن كثب خلال الساعات القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: user complaints are easing and latency is drifting down from ~80 ms toward the 60s as the crowd disperses.",
+      "message_ar": "ملاحظة أولية: الشكاوى تتراجع والكمون ينخفض من ~80 مللي ثانية نحو الستينات مع تفرق الحشود."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I’ll continue tracking for stabilization and alert on any renewed spikes; we can review after the next busy hour.",
+      "message_ar": "تم. سأواصل المتابعة حتى الاستقرار وسأبلغ عن أي ارتفاعات جديدة؛ يمكننا المراجعة بعد ساعة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement: slow data reports have dropped and latency continues trending down; action taken was SLA violation analysis and incident creation DU-SLA-01987. Let’s monitor through the next busy hour.",
+      "message_ar": "تحسّن ملحوظ: تقارير بطء البيانات انخفضت والكمون مستمر في الانخفاض؛ الإجراء المتخذ كان تحليل خرق اتفاقية الخدمة وإنشاء البلاغ DU-SLA-01987. لنتابع حتى ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own that window and update the ticket after it. If performance degrades again, we will escalate to capacity and RF teams for temporary relief; no config changes were applied, so no rollback is needed.",
+      "message_ar": "سنكون مسؤولين عن تلك الفترة وسنحدّث البلاغ بعدها. إذا تدهور الأداء مرة أخرى فسوف نُصعِّد إلى فرق السعة والترددات لتخفيف مؤقت؛ لم تُطبَّق تغييرات في الإعدادات، لذا لا حاجة للتراجع."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "QoS",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium 5G NR microcell SLA breach during egress: QoS 0.25<0.97, PRB 97.7%, latency 82 ms, p50 5 Mbps (slow data). Request capacity relief and parameter tuning."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed an SLA breach on the stadium 5G NR microcell during egress: QoS averaged 0.25 versus the 0.97 target, with PRB saturation and elevated latency causing slow data. We reviewed network counters and QoS trends, then opened an incident for capacity mitigation and site parameter tuning. We will monitor through the next busy hour and update the ticket.",
+    "ar": "تأكد خرق اتفاقية الخدمة على خلية 5G NR ميكرو في الملعب أثناء الخروج: متوسط جودة الخدمة 0.25 مقابل الهدف 0.97، مع تشبع الموارد وارتفاع الكمون مما سبب بطء البيانات. تمت مراجعة عدادات الشبكة واتجاهات جودة الخدمة، ثم تم فتح بلاغ لطلب تخفيف السعة وضبط معلمات الموقع. سنراقب خلال ساعة الذروة التالية ونحدّث البلاغ."
+  }
+}

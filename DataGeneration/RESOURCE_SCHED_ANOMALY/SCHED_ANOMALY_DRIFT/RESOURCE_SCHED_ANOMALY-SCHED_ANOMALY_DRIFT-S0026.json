@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0026",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell during peak shows very high PRB utilization (91%), low PRB fairness (0.53), allocation skew (19), and high p95 queuing latency (108 ms) impacting eMBB streaming.",
+    "ar": "خلية NR ماكرو في منطقة حضرية أثناء الذروة تُظهر إشغال PRB مرتفعاً جداً (91%)، وعدالة PRB منخفضة (0.53)، وانحراف تخصيص (19)، وزمن انتظار p95 عالٍ (108 مللي ثانية) يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell during peak has uneven user experience; PRB ~91%, PRB fairness ~0.53, allocation skew 19, p95 MAC queuing latency ~108 ms; SINR ~12 dB, RSRQ -10 dB; mostly eMBB; no active alarms.",
+      "message_ar": "خلية NR ماكرو حضرية أثناء الذروة تُظهر تجربة غير متساوية؛ PRB ~91%، عدالة PRB ~0.53، انحراف التخصيص 19، زمن انتظار MAC عند p95 ~108 مللي ثانية؛ SINR ~12 dB وRSRQ -10 dB؛ الحركة غالبها eMBB؛ لا إنذارات فعّالة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first check OSS counters for the last 6 hours on this cell to validate PRB load, QoS mix, and latency spikes. Please confirm read-only access.",
+      "message_ar": "سأفحص عدادات OSS لآخر 6 ساعات لهذه الخلية للتحقق من حمل PRB ومزيج QoS وذروات زمن الانتظار. الرجاء تأكيد صلاحية القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read-only access approved.",
+      "message_ar": "موافقة على صلاحية القراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS review (6h): sustained PRB 88–95% at peak, best-effort share 68–72%, p95 MAC/queue latency 100–120 ms, large p50–p95 throughput gap. Next, I will pull PRB time series for correlation across QoS classes.",
+      "message_ar": "مراجعة OSS (6 ساعات): PRB مستدام 88–95% في الذروة، حصة Best-Effort بين 68–72%، زمن انتظار MAC p95 بين 100–120 مللي ثانية، وفجوة كبيرة بين p50 وp95 لسرعة التحميل. الخطوة التالية: سأسحب سلسلة زمنية لـ PRB للربط عبر فئات QoS."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "The 6h time series shows 15–20 min bursts with pronounced imbalance: allocation skew peaks at 20, PRB fairness dips <0.55, and high-priority share remains ~17%. This is a resource allocation anomaly under eMBB load. I propose targeted tuning to rebalance QoS weights, gently throttle best-effort, and adjust queue depth limits; requesting approval for a safe change with auto-rollback.",
+      "message_ar": "السلسلة الزمنية (6 ساعات) تُظهر دفعات 15–20 دقيقة مع عدم توازن واضح: انحراف التخصيص يصل إلى 20، وعدالة PRB تهبط إلى أقل من 0.55، وحصة المرور عالي الأولوية تبقى ~17%. هذا شذوذ في تخصيص الموارد تحت حمل eMBB. أقترح ضبطاً مستهدفاً لإعادة موازنة أوزان QoS، وتخفيفاً لطيفاً لـ Best-Effort، وضبط حدود عمق الصفوف؛ أطلب الموافقة على تغيير آمن مع تراجع تلقائي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization now.",
+      "message_ar": "موافقة على تطبيق التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied to the NR macro cell. Immediate checks: PRB fairness ~0.62, allocation skew ~12, p95 MAC/queue latency ~85 ms, no errors observed. I will watch counters for 15 minutes.",
+      "message_ar": "تم تطبيق التحسين على خلية NR الماكرو. فحوصات فورية: عدالة PRB ~0.62، انحراف التخصيص ~12، زمن انتظار MAC p95 ~85 مللي ثانية، دون أخطاء. سأراقب العدادات لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes, user complaints have eased; median downlink ~24 Mbps; no new field issues.",
+      "message_ar": "بعد ~10 دقائق، انخفضت شكاوى المستخدمين؛ الوسيط للتحميل ~24 ميجابت/ث؛ لا مشاكل ميدانية جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. High-priority share is up to ~22%, best-effort down to ~64%, PRB utilization stable at 88–90%. Radio quality unchanged (SINR ~12 dB, RSRQ -10 dB). Please confirm an extended observation through the next busy hour.",
+      "message_ar": "جيد. حصة المرور عالي الأولوية ارتفعت إلى ~22% وBest-Effort انخفضت إلى ~64%، وإشغال PRB مستقر عند 88–90%. جودة الراديو كما هي (SINR ~12 dB وRSRQ -10 dB). يرجى تأكيد متابعة المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: queuing delays are trending down and PRB allocation looks more even. The action taken was parameter optimization on the cell. Let’s monitor through the next busy hour.",
+      "message_ar": "تم رصد تحسّن: زمن الانتظار يتناقص وتوزيع PRB أصبح أكثر توازناً. الإجراء كان تحسين معلمات الخلية. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and provide an update afterward. If degradation returns, we will roll back the change and consider temporary load steering; if stable, we will retain the tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونقدم تحديثاً بعدها. إذا عاد التدهور سنُرجِع التغيير وننظر في توجيه الحمل مؤقتاً؛ وإن استقر الأداء سنحافظ على الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource allocation anomaly on an urban NR macro cell during peak eMBB: high PRB utilization (~91%), low fairness, high allocation skew, and elevated p95 MAC queuing latency. Verified findings via OSS and PRB time series, then applied site parameter tuning to rebalance QoS weights, temper best-effort traffic, and adjust queue depths. Post-change, PRB fairness improved and p95 latency decreased; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص شذوذ في تخصيص الموارد على خلية NR ماكرو حضرية أثناء حمل eMBB في الذروة: إشغال PRB مرتفع (~91%)، عدالة منخفضة، انحراف تخصيص مرتفع، وارتفاع زمن انتظار MAC عند p95. تم التحقق عبر OSS والسلسلة الزمنية لـ PRB، ثم تطبيق ضبط لمعلمات الموقع لإعادة موازنة أوزان QoS وتخفيف حركة Best-Effort وضبط أعماق الصفوف. بعد التغيير تحسنت عدالة PRB وانخفض زمن الانتظار p95؛ تستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

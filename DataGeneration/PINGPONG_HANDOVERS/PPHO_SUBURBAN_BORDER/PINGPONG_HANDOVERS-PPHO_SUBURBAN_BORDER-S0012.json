@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0012",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban NR macro over the last 5 hours shows high ping-pong (14%) with handover failures (13%), weak signal (RSRP -114 dBm) and interference / signal overlap (SINR ~0 dB), with median throughput ~18 Mbps.",
+    "ar": "موقع NR ماكرو في منطقة ضاحوية خلال آخر 5 ساعات يظهر ارتفاع البيغ بونغ (14%) مع إخفاقات تسليم (13%) وإشارة ضعيفة (RSRP -114 dBm) وتداخل/تراكب الإشارة (SINR ~0 dB)، مع وسيط سرعة يقارب 18 Mbps."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro, last 5h: ping-pong ~14%, HO success ~84%, HO fails ~13%. SINR ~0 dB suggests interference / signal overlap. RSRP -114 dBm, RSRQ -8 dB, PRB ~63%, users ~228, BLER 7%. Off-peak, eMBB traffic; median DL ~18 Mbps.",
+      "message_ar": "موقع NR ماكرو في منطقة ضاحوية خلال آخر 5 ساعات: بيغ بونغ ~14%، نجاح التسليم ~84%، الإخفاق ~13%. قيمة SINR ~0 dB تشير إلى تداخل/تراكب الإشارة. RSRP -114 dBm، و RSRQ -8 dB، وإشغال PRB ~63%، والمستخدمون ~228، وBLER 7%. الفترة خارج الذروة مع حركة eMBB؛ وسيط التحميل ~18 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking OSS health, neighbor relations, and mobility parameters over the last 5 hours to confirm the ping-pong pattern and current A3/TTT/hysteresis. Please share the serving cell ID and approve access.",
+      "message_ar": "سأبدأ بفحص حالة OSS وعلاقات الجوار ومعلمات التنقل لآخر 5 ساعات لتأكيد نمط البيغ بونغ والتحقق من قيم A3/TTT/الهسترة الحالية. الرجاء تزويدي بهوية الخلية الخادمة والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SB-31021-1. Access approved for the last 5 hours.",
+      "message_ar": "معرّف الخلية: NR-SB-31021-1. الوصول مُعتمد لآخر 5 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check done: no alarms; PRB ~63% (moderate). Serving RSRP -114 dBm, RSRQ -8 dB, SINR 0 dB. Mobility params: A3 offset 0 dB, TTT 97 ms, hysteresis 1 dB. Neighbors NR-SB-31021-2/-3 active; highest quick-return counts between these pairs. Next, I will pull 5h HO time series to quantify oscillations.",
+      "message_ar": "تم فحص OSS: لا إنذارات؛ إشغال PRB ~63% (متوسط). للخدمة RSRP -114 dBm و RSRQ -8 dB و SINR 0 dB. معلمات التنقل: إزاحة A3 = 0 dB، وTTT = 97 ms، والهسترة = 1 dB. الجيران NR-SB-31021-2/-3 نشطون؛ أعلى عودة سريعة بين هذه الأزواج. التالي، سأجلب سلسلة زمنية لتسليمات HO خلال 5 ساعات لقياس التذبذب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time series check.",
+      "message_ar": "موافقة على المتابعة بجلب السلسلة الزمنية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms oscillations: HO attempts bounce between -2 and -3, peaking 02:10–03:20 off-peak with eMBB streaming; ping-pong ~14% baseline, HO success dips to ~84–85% when SINR ~0 dB. Root cause: low margin and short dwell under interference / signal overlap. Proposal: raise A3 offset by +2 dB, extend TTT to 160 ms, and increase hysteresis to 2 dB for the serving cell with symmetric neighbor entries. Impact expected minimal; rollback prepared. Approve optimization?",
+      "message_ar": "السلسلة الزمنية تؤكد التذبذب: محاولات التسليم تتنقل بين -2 و-3 وتبلغ الذروة 02:10–03:20 خارج الذروة مع بث eMBB؛ البيغ بونغ ~14% كخط أساس، ونجاح التسليم ينخفض إلى ~84–85% عند SINR ~0 dB. السبب الجذري: هامش منخفض وزمن مكوث قصير تحت تأثير التداخل/تراكب الإشارة. المقترح: زيادة إزاحة A3 بمقدار +2 dB، وتمديد TTT إلى 160 ms، ورفع الهسترة إلى 2 dB للخلية الخادمة مع ضبط متماثل للجيران. الأثر متوقع أن يكون محدوداً؛ وخطة تراجع جاهزة. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize with the proposed deltas.",
+      "message_ar": "موافقة على تنفيذ التحسين بالقيم المقترحة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: A3 +2 dB, TTT 160 ms, hysteresis 2 dB on serving and symmetric neighbor entries; changes committed and mobility stats restarted for a new baseline. I am monitoring immediate effects.",
+      "message_ar": "تم تطبيق التحسين: A3 +2 dB و TTT 160 ms و الهسترة 2 dB على الخلية الخادمة ومعاملات الجيران المتماثلة؛ تم اعتماد التغييرات وإعادة ضبط إحصاءات الحركة لخط أساس جديد. أراقب التأثيرات الفورية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "First 20 minutes post-change: ping-pong counters are trending down, HO failures stable; no alarms observed.",
+      "message_ar": "أول 20 دقيقة بعد التغيير: عدادات البيغ بونغ في منحنى هابط وإخفاقات التسليم مستقرة؛ لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early read (20–30 min): ping-pong now ~9–10%, HO success ~88–89%; BLER steady and median DL unchanged. I will continue to watch and share trend updates.",
+      "message_ar": "قراءة مبكرة (20–30 دقيقة): البيغ بونغ الآن ~9–10%، ونجاح التسليم ~88–89%؛ BLER مستقر والتحميل الوسيط دون تغيير. سأواصل المراقبة ومشاركة التطورات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing ping-pong events trending down with fewer quick returns after the site parameter tuning; let’s monitor over the next 2–4 hours.",
+      "message_ar": "نرى انخفاضاً في أحداث البيغ بونغ مع عودات سريعة أقل بعد ضبط معلمات الموقع؛ لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and update you on ping-pong rate, HO success, and any side effects. If issues recur or failures rise, we will roll back the parameter deltas and escalate for further neighbor retune; otherwise we will keep the settings.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونوافيك بمعدل البيغ بونغ ونجاح التسليم وأي آثار جانبية. إذا عادت المشكلة أو ارتفعت الإخفاقات، سنرجع التغييرات ونصعّد لبحث إعادة ضبط الجوار؛ وإلا فسنُبقي الإعدادات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong between NR-SB-31021-1 and adjacent cells under weak signal and interference/overlap, validated via OSS checks and 5-hour HO time series. Mitigated by site parameter tuning: increased A3 margin, extended dwell time, and raised hysteresis. Early results show ping-pong decreasing and handover success improving; continued monitoring is in place.",
+    "ar": "تم تشخيص ارتفاع البيغ بونغ بين NR-SB-31021-1 والخلايا المجاورة تحت إشارة ضعيفة وتداخل/تراكب، وتم التحقق عبر فحوصات OSS وسلسلة زمنية لتسليمات 5 ساعات. جرى التخفيف عبر ضبط معلمات الموقع: زيادة هامش A3 وتمديد زمن المكوث ورفع الهسترة. النتائج الأولية تُظهر انخفاض البيغ بونغ وتحسن نجاح التسليم؛ والمتابعة مستمرة."
+  }
+}

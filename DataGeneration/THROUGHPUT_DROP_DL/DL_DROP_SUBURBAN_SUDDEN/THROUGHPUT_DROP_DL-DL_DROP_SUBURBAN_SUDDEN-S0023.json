@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0023",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "In a suburban NR macro cell over the last 2h off-peak, there is a sudden downlink throughput drop to 14 Mbps with ~83% PRB utilization, ~10% BLER, 6 dB SINR, −15 dB RSRQ, and 177 users on eMBB streaming.",
+    "ar": "خلال آخر ساعتين في خلية NR ماكرو بضواحي، وخلال وقت خارج الذروة، حدث هبوط مفاجئ لسرعة التنزيل إلى 14 Mbps مع إشغال PRB ~83% وBLER ~10% وSINR 6 dB وRSRQ -15 dB و177 مستخدماً (eMBB مع بث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell saw a sudden DL throughput drop in the last 2h off-peak; current ~14 Mbps. PRB ~83%, BLER ~10%, SINR 6 dB, RSRQ -15 dB, 177 users (mostly eMBB streaming). No alarms.",
+      "message_ar": "خلية NR ماكرو في منطقة ضواحي شهدت هبوطاً مفاجئاً في سرعات التنزيل خلال آخر ساعتين خارج الذروة؛ الحالي ~14 Mbps. إشغال PRB ~83%، معدل أخطاء BLER ~10%، SINR 6 dB، وRSRQ -15 dB، 177 مستخدماً (غالبهم eMBB مع بث). لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll start by pulling last 2h counters for the cell from OSS, then chart the DL trend; if it’s a BLER-driven efficiency loss under moderate load, I’ll apply targeted site parameter tuning (DL scheduler, link adaptation, PRB smoothing). Please confirm cell ID and access.",
+      "message_ar": "تم الفهم. سأبدأ بسحب عدادات آخر ساعتين للخلية من نظام الإدارة، ثم أرسم اتجاه التنزيل؛ إذا كان فقداً بالكفاءة بسبب BLER مع حمل متوسط، سأطبق ضبطاً مستهدفاً لمعاملات الموقع (مجدول DL، تكيّف الرابط، تسوية PRB). يرجى تأكيد معرّف الخلية والسماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SB-1123-1. Access approved.",
+      "message_ar": "معرّف الخلية: NR-SB-1123-1. الوصول معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 2h OSS counters now. Findings: PRB utilization 78–92% with short peaks; DL BLER spiked to 11–13% starting ~90 minutes ago; SINR steady ~6 dB and RSRQ -15 dB; no HO/path issues and no alarms. This indicates efficiency loss under interference rather than an outage.",
+      "message_ar": "أقوم الآن بسحب عدادات آخر ساعتين من نظام الإدارة. النتائج: إشغال PRB بين 78–92% مع قمم قصيرة؛ BLER ارتفع إلى 11–13% منذ ~90 دقيقة؛ SINR ثابت ~6 dB وRSRQ -15 dB؛ لا مشاكل تحويل/مسار ولا إنذارات. المؤشرات تدل على فقد كفاءة تحت تداخل وليس انقطاعاً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "There was a brief streaming burst around that time due to a local event; backhaul looks normal.",
+      "message_ar": "كان هناك اندفاع بث قصير في ذلك الوقت بسبب فعالية محلية؛ ربط النقل يبدو طبيعياً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Fetching DL throughput time-series. It shows median throughput halved around 18:30, aligned with the BLER uptick; user count stable. Plan: apply tuning to favor eMBB throughput under low SINR by increasing link adaptation robustness, rebalancing DL scheduler weights, and smoothing per-user PRB allocation. Proceed?",
+      "message_ar": "أجلب السلسلة الزمنية لسرعة التنزيل. تُظهر أن الوسيط انخفض للنصف حوالي 18:30 متزامناً مع ارتفاع BLER؛ عدد المستخدمين مستقر. الخطة: تطبيق ضبط يعزز إنتاجية eMBB عند SINR منخفض عبر زيادة متانة تكيّف الرابط، إعادة موازنة أوزان مجدول DL، وتسوية تخصيص PRB لكل مستخدم. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed now during off-peak.",
+      "message_ar": "تابع الآن خلال وقت خارج الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying site parameter tuning on NR-SB-1123-1 (DL scheduler weighting, link adaptation robustness, PRB allocation smoothing). We’ll observe for 15 minutes; expectation BLER <7% and DL >22 Mbps if stable. I will watch counters and confirm.",
+      "message_ar": "أطبّق ضبط معاملات الموقع على NR-SB-1123-1 (أوزان مجدول DL، متانة تكيّف الرابط، تسوية تخصيص PRB). سنراقب 15 دقيقة؛ التوقع BLER أقل من 7% وتنزيل أكبر من 22 Mbps عند الاستقرار. سأتابع المؤشرات وأؤكد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. I’m monitoring on my side.",
+      "message_ar": "موافق. أراقب من جهتي."
+    },
+    {
+      "role": "agent",
+      "message_en": "15 minutes in: please share current DL throughput and BLER from your view to validate stability.",
+      "message_ar": "بعد 15 دقيقة: يرجى مشاركة سرعة التنزيل الحالية وBLER من جهتك للتحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: DL throughput now around 24–26 Mbps and errors trending down; the site parameter tuning you applied matches the change. Let’s monitor over the next 2–4 hours to ensure it holds.",
+      "message_ar": "أرى تحسناً: سرعة التنزيل الآن حوالي 24–26 Mbps والأخطاء في اتجاه هابط؛ ضبط معاملات الموقع الذي طبقته يتطابق مع التغيير. دعنا نراقب خلال الساعتين إلى الأربع القادمة للتأكد من الثبات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring for the next 2–4 hours and update with sustained throughput and BLER stability. If degradation returns, we will escalate to interference mitigation and roll back the tuning if it regresses.",
+      "message_ar": "تم. سنتولى المراقبة للساعتين إلى الأربع القادمتين وسنوافيك بثبات السرعة وBLER. إذا عادت المشكلة سنصعّد لمعالجة التداخل وسنُرجِع الضبط إذا ظهرت انتكاسة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SB-1123-1",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SB-1123-1",
+        "DL",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler, link adaptation, PRB smoothing"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a sudden downlink throughput drop on a suburban NR macro during off-peak. OSS and time-series confirmed moderate load with elevated BLER and poor signal quality, with throughput halving around the event window. Applied site parameter tuning (DL scheduler weighting, link adaptation robustness, PRB smoothing), improving throughput and reducing errors, with continued monitoring for the next few hours.",
+    "ar": "تم التحقيق في هبوط مفاجئ لسرعة التنزيل على خلية NR ماكرو في الضواحي خلال وقت خارج الذروة. أكدت بيانات نظام الإدارة والسلسلة الزمنية وجود حمل متوسط مع BLER مرتفع وجودة إشارة ضعيفة، وانخفاض السرعة إلى النصف حول وقت الحدث. تم تطبيق ضبط معاملات الموقع (أوزان مجدول DL، متانة تكيّف الرابط، تسوية PRB)، مما حسّن السرعة وخفّض الأخطاء، مع متابعة المراقبة خلال الساعات القليلة القادمة."
+  }
+}

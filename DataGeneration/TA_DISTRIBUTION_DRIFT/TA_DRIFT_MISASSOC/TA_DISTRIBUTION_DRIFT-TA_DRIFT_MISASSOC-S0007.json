@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0007",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro shows TA distribution drift (p50 197 m, p95 496 m) with 32% distant-serving, weak signal around -116 dBm, and slow data (p50 ~8 Mbps) over the last 6 hours.",
+    "ar": "موقع NR ماكرو في منطقة شبه حضرية يظهر انجرافاً في توزيع TA (p50 197 م، p95 496 م) مع 32% ارتباطات بعيدة، إشارة ضعيفة نحو -116 dBm وبطء في البيانات (~8 Mbps) خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro sector has TA drift and mis-association over the last 6h; users report slow data and weak RSRP around -116 dBm. Can you take lead?",
+      "message_ar": "القطاع NR ماكرو في منطقة شبه حضرية يظهر انجراف TA وارتباطات خاطئة خلال آخر 6 ساعات؛ المستخدمون يشتكون من بطء البيانات وإشارة RSRP ضعيفة (~-116 dBm). هل تتولى المعالجة؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by checking OSS KPIs for the last 6h to validate TA and mobility impact. Please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ بالتحقق من مؤشرات OSS لآخر 6 ساعات لتأكيد تأثير TA والتنقل. يرجى تأكيد معرف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SB123-1. Access approved for a 6h lookback; time-of-day is mixed with heavy streaming traffic.",
+      "message_ar": "معرّف الخلية: NR-SB123-1. تمّت الموافقة على الوصول لفترة 6 ساعات؛ أوقات الاستخدام مختلطة مع حركة بث فيديو كثيفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ran OSS check on NR-SB123-1 (6h): TA p50 197 m, p95 496 m, std 108; drift index 0.28; distant-serving 32%; RSRP median -116 dBm; HO success 86% with 13% failures; PRB 64%; no active alarms. Proceed to a TA time series to isolate peak periods?",
+      "message_ar": "تم فحص OSS للخلية NR-SB123-1 (6 ساعات): TA p50 197 م، p95 496 م، انحراف معياري 108؛ مؤشر الانجراف 0.28؛ الارتباطات البعيدة 32٪؛ متوسط RSRP -116 dBm؛ نجاح التنقل 86٪ مع 13٪ فشل؛ إشغال PRB 64٪؛ لا إنذارات نشطة. هل نتابع بسلسلة زمنية لـ TA لعزل فترات الذروة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA timeline confirms peaks under higher load (>200 users): median TA up ~25% and distant-serving spikes near sector edges; mobility events cluster to two neighbors. I propose a small optimization to tighten serving boundaries and reduce far-user attraction. Approve?",
+      "message_ar": "السلسلة الزمنية لـ TA تؤكد الذروات عند الحمل المرتفع (>200 مستخدم): ارتفاع الوسيط بنحو 25٪ وارتفاع الارتباطات البعيدة قرب حواف القطاع؛ تتركز أحداث التنقل باتجاه جارين. أقترح تحسيناً بسيطاً لشدّ حدود التغطية وتقليل جذب المستخدمين البعيدين. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-SB123-1: minor sector down-tilt, balanced power distribution, and tighter handover margins to favor nearer cells. No service impact observed. I will watch KPIs for initial effects.",
+      "message_ar": "تم تطبيق التحسين على NR-SB123-1: تقليل ميل رأسي طفيف للقطاع، موازنة توزيع القدرة، وهوامش تنقل أكثر إحكاماً لتمييز الخلايا الأقرب. لم يُسجَّل تأثير على الخدمة. سأراقب المؤشرات لتأثيرات أولية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial 10-minute check: TA p95 dropped to ~380 m, distant-serving near 20%, and early feedback shows better user throughput at the edge.",
+      "message_ar": "فحص أولي بعد 10 دقائق: انخفض TA p95 إلى ~380 م، والارتباطات البعيدة نحو 20٪، وملاحظات مبكرة تشير إلى تحسن سرعة المستخدمين عند الحافة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. Let’s keep observing stability and handover results. Please confirm a monitoring window.",
+      "message_ar": "تقدم جيد. دعنا نواصل مراقبة الاستقرار ونتائج التنقل. يرجى تأكيد نافذة المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: far-user attachments trending down and slow data reports easing. Action taken was site parameter tuning on serving boundaries. Monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: انخفاض ارتباطات المستخدمين البعيدين وتراجع شكاوى بطء البيانات. الإجراء المنفذ كان ضبط معلمات الموقع لحدود الخدمة. راقب خلال ساعة الازدحام القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We own the next busy-hour monitoring and will share KPI deltas afterward. If performance regresses, we will roll back the change and escalate for physical alignment and neighbor review.",
+      "message_ar": "تم الاستلام. سنقوم بمتابعة ساعة الازدحام القادمة وسنشارك فروقات المؤشرات بعدها. إذا تراجعت الأداء، سنعيد التغييرات ونصعّد لفحص الضبط الفيزيائي ومراجعة الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift and mis-association on a suburban NR macro, with high distant-serving and weak signal. Validated via OSS and TA time series showing load-driven peaks. Mitigated by site parameter tuning to tighten serving boundaries and reduce far-user attachment; monitoring through the next busy hour.",
+    "ar": "تم تشخيص انجراف توزيع TA وارتباطات خاطئة في موقع NR ماكرو شبه حضري مع ارتفاع الارتباطات البعيدة وضعف الإشارة. جرى التحقق عبر OSS والسلسلة الزمنية لـ TA التي أظهرت ذروات مرتبطة بالحمل. تمت المعالجة بضبط معلمات الموقع لشدّ حدود الخدمة وتقليل جذب المستخدمين البعيدين؛ مع المتابعة خلال ساعة الازدحام القادمة."
+  }
+}

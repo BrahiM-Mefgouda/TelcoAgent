@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0027",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell over the last 3h shows timing advance drift with weak signal, distant serving (~15%), and slow data.",
+    "ar": "خلية 5G NR ميكرو في الملعب خلال آخر 3 ساعات تُظهر انحرافاً في تقدم التوقيت مع إشارة ضعيفة وخدمة لمشتركين بعيدين (~15%) وبيانات بطيئة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell during ingress shows issues over the last 3h: slow data and higher handover failures. RSRP ~ -117 dBm, PRB ~78%. Please check.",
+      "message_ar": "خلية 5G NR ميكرو في الملعب خلال فترة الدخول تظهر مشاكل خلال آخر 3 ساعات: بيانات بطيئة وارتفاع في فشل التسليم بين الخلايا. قيمة RSRP حوالي -117 dBm واستخدام PRB حوالي 78%. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Likely timing-advance distribution drift with distant serving. I will start by checking OSS counters for the past 3h; please share the exact cell ID and approve access.",
+      "message_ar": "تم الاستلام. يُرجّح وجود انحراف في توزيع تقدم التوقيت مع خدمة لمشتركين بعيدين. سأبدأ بفحص عدادات الإدارة لآخر 3 ساعات؛ يرجى مشاركة معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-03. Access approved. Ingress crowd with eMBB streaming is expected.",
+      "message_ar": "معرّف الخلية: NR-STAD-MICRO-03. الوصول مُوافق عليه. من المتوقع وجود حشد دخول مع بث فيديو eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check on NR-STAD-MICRO-03 for 3h focusing on TA bins, PRB, HO failures, and RSRP. Results: TA skewed high (median ~260 m, 95th ~273–280 m), distant-serving ~15%, PRB ~78%, HO failures ~6%, weak RSRP around -117 dBm. Next, I’ll fetch TA time series to confirm drift over the window; proceed?",
+      "message_ar": "أجري فحصاً عبر الإدارة للخلية NR-STAD-MICRO-03 لمدة 3 ساعات مع التركيز على فئات TA وPRB وفشل التسليم وRSRP. النتائج: انحراف TA إلى القيم العالية (الوسيط ~260 م، 95% ~273–280 م)، خدمة بعيدة ~15%، PRB ~78%، فشل تسليم ~6%، وRSRP ضعيف ~ -117 dBm. بعد ذلك سأجلب سلسلة زمنية لـ TA لتأكيد الانحراف خلال النافذة؛ هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series confirms a climb from ~180 m to ~260 m during ingress, with 95th peaking near 280 m. This indicates overserving beyond the intended micro footprint, contributing to slow data and HO failures. I propose targeted site parameter tuning: reduce serving bias and tighten mobility toward nearby macros to curb distant serving. Low risk and reversible. Approve?",
+      "message_ar": "السلسلة الزمنية لـ TA تؤكد ارتفاعاً من ~180 م إلى ~260 م خلال الدخول، مع بلوغ 95% حوالي 280 م. يشير ذلك إلى خدمة خارج بصمة الخلية الميكرو، ما يسهم في بطء البيانات وفشل التسليم. أقترح ضبطاً مستهدفاً لإعدادات الموقع: تقليل الانحياز في الخدمة وتشديد معايير التنقل نحو الماكرو المجاورة للحد من الخدمة البعيدة. مخاطرة منخفضة وقابل للرجوع. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the change now.",
+      "message_ar": "موافق على تنفيذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility/coverage tuning on NR-STAD-MICRO-03: reduced serving bias toward neighbors and slightly tightened handover thresholds to shrink the footprint. No service interruption. Expect reduced TA spread, improved effective RSRP for served users, fewer HO failures, and better median throughput.",
+      "message_ar": "تم تطبيق ضبط للتنقل/التغطية على NR-STAD-MICRO-03: تقليل انحياز الخدمة نحو الجيران وتشديد طفيف لعَتبات التسليم لتصغير البصمة. دون انقطاع خدمة. متوقع انخفاض انتشار TA وتحسّن RSRP الفعّال للمستخدمين المخدومين وتقليل فشل التسليم وتحسن الوسيط في سرعة البيانات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "10 minutes after change: responsiveness improved, median throughput ~8 Mbps, and handover failures trending down. TA median appears to be dropping.",
+      "message_ar": "بعد 10 دقائق من التغيير: تحسّن التفاعل، والوسيط في سرعة البيانات ~8 Mbps، وفشل التسليم في انخفاض. ويبدو أن الوسيط لـ TA ينخفض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signs. I will continue watching TA distribution, HO failures, and user throughput as the crowd builds. Share any field observations.",
+      "message_ar": "مؤشرات جيدة. سأواصل متابعة توزيع TA وفشل التسليم وسرعات المستخدم مع تزايد الحشد. يرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement continues: TA spread narrowing and handover failures trending down. Action taken was site parameter tuning to reduce distant serving. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر: تضييق انتشار TA وانخفاض اتجاه فشل التسليم. الإجراء الذي تم هو ضبط معلمات الموقع لتقليل الخدمة البعيدة. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy hour monitoring and update with TA distribution, handover outcomes, and user throughput. If metrics regress, we will roll back the change and escalate for on-site verification; otherwise, we’ll keep the tuning in place.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة ونزوّدك بتحديث حول توزيع TA ونتائج التسليم وسرعة المستخدم. إذا تراجعت المؤشرات سنرجع التغيير ونصعّد للتحقق الميداني؛ وإن استقرّت سنبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-03",
+        "TA",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_bias_and_footprint_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "TA distribution drift was confirmed on the stadium NR micro cell, with TA median rising and a notable share of distant users during ingress. The agent analyzed recent OSS data and TA time series, then applied site parameter tuning to reduce serving bias and tighten mobility, shrinking the footprint. Early results show narrower TA spread, fewer handover failures, and improved median throughput; continued monitoring is planned.",
+    "ar": "تم تأكيد انحراف توزيع تقدم التوقيت في خلية NR الميكرو داخل الملعب، مع ارتفاع الوسيط ونسبة ملحوظة من المستخدمين البعيدين خلال الدخول. قام الوكيل بتحليل بيانات الإدارة والسلسلة الزمنية لـ TA ثم نفّذ ضبطاً لمعلمات الموقع لتقليل انحياز الخدمة وتشديد معايير التنقل لتصغير البصمة. النتائج الأولية تُظهر تضييق انتشار TA وانخفاض فشل التسليم وتحسّن الوسيط في السرعة، مع خطة متابعة مستمرة."
+  }
+}

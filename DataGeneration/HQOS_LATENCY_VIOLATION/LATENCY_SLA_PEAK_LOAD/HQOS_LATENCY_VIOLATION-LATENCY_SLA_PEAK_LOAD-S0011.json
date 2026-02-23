@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0011",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell breaching latency SLA over the last 2h shoulder window: p95 scheduler latency 92 ms (avg 41 ms), ~350 users, PRB ~83%; congestion alarm active during eMBB streaming traffic.",
+    "ar": "خلية ماكرو 5G NR حضرية تسجّل تجاوزًا لاتفاقية زمن الاستجابة خلال نافذة ساعتين (فترة الكتف): p95 لزمن المُجدول 92 مللي ثانية (المتوسط 41 مللي ثانية)، حوالي 350 مستخدمًا واستغلال PRB ~83%؛ يوجد إنذار ازدحام نشط أثناء حركة eMBB لبث الفيديو."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell NR-41023 is breaching the latency SLA over the last 2h shoulder period: p95 scheduler latency 92 ms (avg 41 ms), ~350 users, PRB ~83%. A congestion alarm is active.",
+      "message_ar": "الخلية الحضرية 5G NR (ماكرو) NR-41023 تتجاوز اتفاقية زمن الاستجابة خلال آخر ساعتين في فترة الكتف: p95 لزمن المُجدول 92 مللي ثانية (المتوسط 41 مللي ثانية)، حوالي 350 مستخدمًا واستغلال PRB ~83%. يوجد إنذار ازدحام نشط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion alarm. I will start by checking current network counters for NR-41023 over the 2h window to distinguish queuing vs radio/backhaul causes. Please confirm access to query live stats.",
+      "message_ar": "تم استلام إنذار الازدحام. سأبدأ بفحص عدادات الشبكة الحالية للخلية NR-41023 خلال نافذة الساعتين لتمييز ما إذا كان السبب طوابير الانتظار أم طبقة الراديو/الناقل الخلفي. يرجى تأكيد السماح بالوصول لقراءة الإحصاءات الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-41023 over the last 2 hours.",
+      "message_ar": "تمت الموافقة على الوصول للخلية NR-41023 لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Network counter check complete: PRB 82–88% with ~350 users; BLER ~2–3%; backhaul latency normal; buffer queue depth spikes during the shoulder period. This indicates scheduler queuing under load rather than radio errors. Next, I will analyze the cell’s latency time series for correlation. Proceed?",
+      "message_ar": "اكتمل فحص عدادات الشبكة: استغلال PRB بين 82–88% مع ~350 مستخدمًا؛ BLER حوالي 2–3%؛ زمن الناقل الخلفي طبيعي؛ توجد زيادات في عمق طوابير المخازن خلال فترة الكتف. يشير ذلك إلى طوابير المُجدول تحت الحمل وليس أخطاء راديو. بعد ذلك سأحلل السلاسل الزمنية لزمن التأخير في الخلية للتحقق من الترابط. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed. Most complaints are about video streaming (eMBB).",
+      "message_ar": "تفضل. أغلب الشكاوى تتعلق ببث الفيديو (eMBB)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling the latency time series for NR-41023 (last 2h), focusing on p95 and scheduler delay components for eMBB traffic.",
+      "message_ar": "سأجلب السلاسل الزمنية لزمن التأخير للخلية NR-41023 (آخر ساعتين) مع التركيز على قيمة p95 ومكونات تأخير المُجدول لحركة eMBB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "تمت الموافقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series analysis shows p95 latency spikes to 90–110 ms aligned with PRB peaks; queuing delay dominates while BLER remains low. Proposed mitigation: apply conservative scheduler tuning to prioritize latency for eMBB during high load. Okay to implement now?",
+      "message_ar": "تحليل السلاسل الزمنية يُظهر ارتفاعات p95 إلى 90–110 مللي ثانية متزامنة مع قمم استغلال PRB؛ تأخير الطوابير هو المسيطر بينما يبقى BLER منخفضًا. الإجراء المقترح: ضبط مُحافظ لمعلمات الجدولة لإعطاء أولوية للزمن لحركة eMBB أثناء الحمل العالي. هل نُنفذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied on NR-41023; changes took effect. Quick post-check shows p95 scheduler latency ~68 ms, median ~35 ms; PRB ~80–85%; queue depth reduced. Please confirm on-air behavior.",
+      "message_ar": "تم تطبيق الضبط على NR-41023 وأصبح ساريًا. فحص سريع بعد التنفيذ يُظهر p95 لزمن المُجدول ~68 مللي ثانية، والوسيط ~35 مللي ثانية؛ استغلال PRB ~80–85%؛ انخفض عمق الطوابير. يرجى التأكيد من السلوك على الهواء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency spikes are reduced and buffering complaints are tapering. The site parameter tuning you applied appears effective. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسّنًا: انخفضت ذروات التأخير وتتناقص شكاوى التقطيع في الفيديو. ضبط معلمات الموقع الذي قمت به يبدو فعّالًا. دعنا نراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update with latency and user-experience trends afterward. If degradation returns, we will roll back the tuning and escalate for capacity augmentation.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية وسنقدّم تحديثًا لاحقًا باتجاهات زمن التأخير وتجربة المستخدم. إذا عاد التدهور، سنقوم بالتراجع عن الضبط والتصعيد لزيادة السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA violation driven by scheduler queuing under high PRB utilization on an urban NR macro cell; radio errors and backhaul were normal. We reviewed network counters and the latency time series, then applied site parameter tuning to optimize scheduling and queue priorities for eMBB. We will monitor through the next busy hour for stability.",
+    "ar": "تم تشخيص تجاوز لاتفاقية زمن الاستجابة ناتج عن طوابير المُجدول مع استغلال PRB مرتفع على خلية NR حضرية ماكرو؛ كانت أخطاء الراديو والناقل الخلفي طبيعية. راجعنا عدادات الشبكة والسلاسل الزمنية للزمن، ثم نفذنا ضبط معلمات للموقع لتحسين أولويات الجدولة والطوابير لحركة eMBB. سنراقب خلال ساعة الذروة التالية للتحقق من الاستقرار."
+  }
+}

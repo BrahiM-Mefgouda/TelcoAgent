@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0022",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban NR macro over the last 2h shows slow data and interference/signal overlap: DL throughput ~8 Mbps, high resource load (~80% PRB), BLER ~8%, SINR ~3 dB, and ~223 users during the shoulder period.",
+    "ar": "موقع ماكرو NR في منطقة سكنية خلال آخر ساعتين يظهر بيانات بطيئة وتداخل/تراكب إشارات: سرعة التحميل ~8 Mbps، حمل موارد مرتفع (~80% PRB)، BLER ~8%، SINR ~3 dB، وحوالي 223 مستخدماً خلال فترة الكتف."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing a sudden DL throughput drop on a suburban NR macro over the last 2h during the shoulder period; no active alarms. Can you investigate?",
+      "message_ar": "نلاحظ هبوطاً مفاجئاً في سرعة التحميل على موقع ماكرو NR في منطقة سكنية خلال آخر ساعتين في فترة الكتف؛ لا توجد إنذارات فعّالة. هل يمكنك التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I will begin by checking recent radio health and load to validate interference and congestion. Please share the cell ID and approve read access for the 2h window.",
+      "message_ar": "سأبدأ بفحص صحة الراديو والحمل مؤخراً للتحقق من التداخل والازدحام. يرجى تزويدي بمعرّف الخليّة والموافقة على وصول قراءة لنافذة الساعتين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-MACRO-2451. Read-only access for the 2h window is approved.",
+      "message_ar": "معرّف الخليّة NR-SUB-MACRO-2451. تمت الموافقة على وصول القراءة لمدة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled OSS stats for NR-SUB-MACRO-2451 (last 2h): active users peaked 223; PRB utilization ~80%; SINR ~3 dB; RSRQ -11 dB; BLER ~8%; HO success ~91%; no cell/backhaul alarms. Next, I will plot DL KPIs across the window to time-correlate the drop—proceed?",
+      "message_ar": "تم سحب إحصاءات OSS لـ NR-SUB-MACRO-2451 (آخر ساعتين): بلغ المستخدمون النشطون ذروتهم 223؛ استعمال PRB ~80٪؛ قيمة SINR نحو 3 dB؛ RSRQ -11 dB؛ BLER ~8٪؛ نجاح التسليم ~91٪؛ لا إنذارات على الخلية أو النقل الخلفي. التالي، سأعرض مؤشرات التحميل عبر النافذة لربط الانخفاض زمنياً—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL timeseries confirms a drop from ~28–32 Mbps to ~8 Mbps coincident with PRB saturation spikes and SINR dips; BLER rises in the same intervals. Traffic mix is eMBB (video streaming). Root cause points to load plus interference. I propose a safe parameter tuning to improve downlink resource allocation and interference handling. Approve?",
+      "message_ar": "السلسلة الزمنية للتحميل تؤكد هبوط السرعة من نحو 28–32 Mbps إلى ~8 Mbps متزامناً مع ارتفاعات تشبع PRB وهبوط SINR؛ وترتفع BLER في نفس الفترات. مزيج الحركة eMBB (بث فيديو). السبب الجذري يشير إلى الحمل مع التداخل. أقترح ضبطاً آمناً للمعايير لتحسين تخصيص موارد التحميل ومعالجة التداخل. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-SUB-MACRO-2451: refined downlink resource allocation fairness and interference mitigation profile with conservative limits. Change is active; I am monitoring stability and gains.",
+      "message_ar": "تم تطبيق ضبط معايير للموقع NR-SUB-MACRO-2451: تحسين عدالة تخصيص موارد التحميل وملف تخفيف التداخل بحدود محافظة. التغيير مفعل؛ أنا أراقب الاستقرار والمكاسب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. I will watch user feedback locally.",
+      "message_ar": "تم. سأراقب ملاحظات المستخدمين محلياً."
+    },
+    {
+      "role": "agent",
+      "message_en": "First 15 minutes post-change: PRB headroom improved (~70–75%), BLER down to ~5–6%, SINR +1–2 dB; median DL throughput trending ~18–20 Mbps. Please confirm from the field.",
+      "message_ar": "أول 15 دقيقة بعد التغيير: تحسّن هامش PRB (~70–75٪)، انخفاض BLER إلى ~5–6٪، وارتفاع SINR بمقدار 1–2 dB؛ السرعة المتوسطة للتحميل تتجه إلى ~18–20 Mbps. يرجى التأكيد من الميدان."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field checks show speeds improving with fewer buffering reports; interference symptoms eased. Action taken: site parameter tuning for downlink resource allocation and interference. Suggest monitoring through the next busy hour.",
+      "message_ar": "تُظهر الفحوصات الميدانية تحسّن السرعات مع شكاوى أقل من التقطيع؛ وانخفضت مؤشرات التداخل. الإجراء المتخذ: ضبط معايير للموقع لتخصيص موارد التحميل والتخفيف من التداخل. أقترح المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor through the next busy hour and share an update afterward. If performance regresses, we will escalate to neighboring coordination and roll back the change if instability appears.",
+      "message_ar": "تم—سنتولّى المراقبة خلال ساعة الذروة التالية ونشارك تحديثاً بعدها. إذا تراجع الأداء سنصعّد للتنسيق مع الخلايا المجاورة وسنعيد الإعداد السابق إذا ظهر عدم استقرار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-2451",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-MACRO-2451",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The suburban NR macro experienced a downlink throughput drop driven by high resource utilization and low SINR, indicating interference and load. We verified the condition via the DL KPI timeline and then applied site parameter tuning to improve downlink resource allocation and interference handling. Early results show lower BLER, modest SINR gains, and DL throughput recovery; we will continue monitoring through the next busy hour.",
+    "ar": "شهد موقع ماكرو NR في منطقة سكنية هبوطاً في سرعة التحميل بسبب ارتفاع استهلاك الموارد وانخفاض SINR مما يشير إلى التداخل والحمل. تم التحقق عبر السلسلة الزمنية لمؤشرات التحميل ثم تطبيق ضبط معايير للموقع لتحسين تخصيص موارد التحميل ومعالجة التداخل. النتائج الأولية تُظهر انخفاض BLER وتحسناً بسيطاً في SINR وتعافي سرعة التحميل؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

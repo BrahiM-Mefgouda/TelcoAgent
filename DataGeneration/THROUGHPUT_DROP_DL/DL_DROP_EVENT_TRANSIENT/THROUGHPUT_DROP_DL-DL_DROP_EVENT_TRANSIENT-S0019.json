@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0019",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR micro cell over the last 2h shows slow data with a congestion alarm: DL median ~7 Mbps, PRB ~90%, BLER ~5.7%, RSRQ -16 dB, SINR 11 dB, scheduler latency p95 128 ms, about 407 users.",
+    "ar": "خلية NR من نوع micro في الملعب خلال آخر ساعتين تُظهر بيانات بطيئة مع إنذار ازدحام: متوسط سرعة التنزيل ~7 ميجابت/ث، استخدام PRB ~90%، BLER ~5.7%، RSRQ -16 ديسيبل، SINR 11 ديسيبل، كمون المجدول p95 يساوي 128 مللي ثانية، وعدد المستخدمين حوالي 407."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell during a live event, last 2h: slow downlink data with an active alarm; DL ~7 Mbps, PRB ~90%, BLER ~5–6%, p95 scheduler latency 128 ms, RSRQ -16 dB, SINR 11 dB, ~407 users. Please take lead.",
+      "message_ar": "خلية NR صغيرة (micro) في الملعب أثناء فعالية مباشرة خلال آخر ساعتين: بيانات تنزيل بطيئة مع إنذار نشط؛ سرعة التنزيل ~7 ميجابت/ث، استخدام PRB ~90%، BLER ~5–6%، كمون المجدول (p95) 128 مللي ثانية، RSRQ -16 ديسيبل، SINR 11 ديسيبل، ~407 مستخدمين. الرجاء تولي المهمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling last-2h network counters for the impacted cell to verify load, errors, and latency. Share the exact cell ID and confirm access to live stats?",
+      "message_ar": "سأبدأ بسحب عدادات الشبكة لآخر ساعتين للخلية المتأثرة للتحقق من الحمل والأخطاء والكمون. زودني بمعرف الخلية الدقيق وأكد السماح بالوصول إلى الإحصاءات الحية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_STAD_MICRO_01. Access approved.",
+      "message_ar": "معرف الخلية: NR_STAD_MICRO_01. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last-2h stats: DL PRB 88–96%, BLER 5–7%, RSRQ ~-16 dB, SINR ~11 dB, p95 scheduler latency 120–135 ms, users 350–410. No hardware or fault events. This points to event-driven load pressure. Next, I’ll extract the downlink throughput time series versus user load to confirm the drop window; proceed?",
+      "message_ar": "تم سحب إحصاءات آخر ساعتين: استخدام PRB للتنزيل 88–96%، BLER بين 5–7%، RSRQ حوالي -16 ديسيبل، SINR حوالي 11 ديسيبل، كمون المجدول (p95) 120–135 مللي ثانية، وعدد المستخدمين 350–410. لا توجد أعطال أو أحداث عتادية. يشير ذلك إلى ضغط حمل بسبب الفعالية. بعد ذلك سأستخرج السلاسل الزمنية لسرعة التنزيل مقابل عدد المستخدمين لتأكيد فترة الهبوط؛ المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms DL median dipped to 6–8 Mbps during peaks, tightly correlated with >90% PRB and rising queueing; retransmissions are moderate. This is capacity-limited rather than a radio fault. I propose a temporary site parameter tuning to improve DL scheduling efficiency for eMBB streaming: adjust scheduler weighting, slightly tighten reliability (BLER target), and lower buffer thresholds to reduce queuing. Approve apply-and-monitor?",
+      "message_ar": "تؤكد السلاسل الزمنية أن الوسيط لسرعة التنزيل هبط إلى 6–8 ميجابت/ث وقت الذروة، مترابطاً بقوة مع استخدام PRB >90% وارتفاع الاصطفاف؛ وإعادة الإرسال متوسطة. المشكلة ناتجة عن محدودية السعة وليست عطباً راديوياً. أقترح ضبطاً مؤقتاً لمعلمات الموقع لتحسين كفاءة جدولة التنزيل لسيناريو بث eMBB: تعديل أوزان المجدول، تشديد بسيط لموثوقية الإرسال (هدف BLER)، وخفض عتبات المخازن لتقليل الاصطفاف. هل توافق على التطبيق والمراقبة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied tuning on NR_STAD_MICRO_01 with no service interruption. Early impact (5 min): DL median ~10–12 Mbps, p95 scheduler latency ~90–100 ms, BLER ~4–5%, PRB ~84–88%. I’ll keep observing live counters. Can you validate from user feedback?",
+      "message_ar": "تم تطبيق الضبط على NR_STAD_MICRO_01 دون انقطاع للخدمة. الأثر المبكر (5 دقائق): وسيط سرعة التنزيل ~10–12 ميجابت/ث، كمون المجدول (p95) ~90–100 مللي ثانية، BLER ~4–5%، واستخدام PRB ~84–88%. سأواصل مراقبة المؤشرات الحية. هل يمكنك التأكيد من ناحية تجربة المستخدم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Users report smoother streaming; spot tests show ~11 Mbps and lower waiting times. Looks improved.",
+      "message_ar": "المستخدمون يبلّغون عن بث أكثر سلاسة؛ اختبارات سريعة تُظهر ~11 ميجابت/ث ووقت انتظار أقل. يبدو تحسناً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I’ll maintain the current tuning through the event and watch for side effects (e.g., BLER spikes or drops). No further changes planned unless KPIs drift.",
+      "message_ar": "تم. سأُبقي الضبط الحالي طوال الفعالية وأراقب أي آثار جانبية (مثلاً ارتفاع BLER أو حالات سقوط). لا تغييرات إضافية ما لم تنحرف مؤشرات الأداء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data easing and high scheduler latency trending down. Action taken was site parameter tuning to optimize DL scheduling. Let’s monitor over the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: تراجع البطء في البيانات وانخفاض اتجاه كمون المجدول المرتفع. الإجراء المنفّذ هو ضبط معلمات الموقع لتحسين جدولة التنزيل. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and share an update afterward. If KPIs regress, we will roll back the tuning; if heavy load returns, we will escalate for temporary capacity relief via neighboring cells.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية وسنوافيك بتحديث بعدها. إذا تراجعت مؤشرات الأداء فسنقوم بإرجاع الضبط؛ وإذا عاد الحمل الشديد فسنصعّد لطلب تخفيف سعة مؤقت عبر الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STAD_MICRO_01",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STAD_MICRO_01",
+        "DL",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler tuning, BLER target, buffer thresholds"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium event, the NR micro cell showed high PRB utilization, low downlink throughput, and elevated scheduler latency indicating capacity-driven degradation. We verified the 2-hour downlink time series and then mitigated with site parameter tuning focused on downlink scheduling efficiency and reliability. Post-optimization, throughput and latency improved, and we will monitor through the next busy hour.",
+    "ar": "خلال الفعالية في الملعب أظهرت خلية NR الصغيرة استخدام PRB مرتفعاً، وسرعة تنزيل منخفضة، وارتفاعاً في كمون المجدول مما يشير إلى تدهور ناتج عن السعة. تحققنا من السلاسل الزمنية للتنزيل خلال ساعتين ثم قمنا بالتخفيف عبر ضبط معلمات الموقع مع تركيز على كفاءة جدولة التنزيل والموثوقية. بعد الضبط تحسنت السرعة والكمون، وسنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

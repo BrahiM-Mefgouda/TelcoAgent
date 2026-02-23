@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0024",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban 5G NR macro cell over the last 24h shows QoS index 0.28 vs SLA 0.96 with 17 violations, PRB ~76%, latency 34 ms, median DL 16 Mbps; congestion alarm observed.",
+    "ar": "خلية ماكرو NR حضرية خلال آخر 24 ساعة تظهر مؤشر QoS عند 0.28 مقابل حد SLA 0.96 مع 17 انتهاكًا، واستخدام PRB ~76%، وزمن تأخير 34 مللي ثانية، وسرعة تنزيل وسيط 16 ميجابت/ث؛ مع ملاحظة إنذار ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have an SLA breach alarm on an urban 5G NR macro sector (24h window). QoS index is 0.28 vs 0.96 threshold, 17 violations; PRB ~76%, latency ~34 ms, p50 DL ~16 Mbps, users ~613. Please assist.",
+      "message_ar": "لدينا إنذار خرق SLA على قطاع ماكرو NR حضري (نافذة 24 ساعة). مؤشر QoS عند 0.28 مقابل حد 0.96، مع 17 انتهاكًا؛ استخدام PRB ~76%، زمن التأخير ~34 مللي ثانية، سرعة تنزيل وسيط ~16 ميجابت/ث، وعدد المستخدمين ~613. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics: first pull a 24h OSS health snapshot for the specific cell, then analyze the QoS time series; if confirmed, I will file an SLA breach report. Please share the cell ID and approve read access.",
+      "message_ar": "سأتولى التشخيص: أولًا سأسحب لقطة حالة من النظام خلال 24 ساعة للخلية المحددة، ثم أحلل سلسلة زمنية لمؤشر QoS؛ وإذا تأكد الأمر سأقوم برفع تقرير خرق SLA. يرجى مشاركة معرّف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-URB-MACRO-073-S1. Read access approved for the last 24h. Busy hours are mixed; eMBB usage is high with streaming complaints.",
+      "message_ar": "معرّف الخلية: NR-URB-MACRO-073-S1. تمت الموافقة على صلاحية القراءة لآخر 24 ساعة. ساعات الانشغال مختلطة؛ استخدام eMBB مرتفع مع شكاوى من البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot pulled: cell available, no hard outages; QoS alarm active. PRB utilization avg 72% with peaks ~88% at 18:00–22:00; latency median 32–36 ms; BLER 4–7%. Backhaul KPIs normal; neighbor states healthy. This points to congestion-driven QoS degradation. Next, I’ll analyze the QoS index time series for correlation and trend.",
+      "message_ar": "تم سحب لقطة الحالة: الخلية متاحة ولا توجد انقطاعات صلبة؛ إنذار QoS نشط. متوسط استخدام PRB 72% مع ذروات ~88% بين 18:00–22:00؛ وسيط التأخير 32–36 مللي ثانية؛ BLER بين 4–7%. مؤشرات الربط الخلفي طبيعية وحالة الجيران جيدة. هذا يشير إلى تدهور QoS بسبب الازدحام. بعد ذلك سأحلل السلسلة الزمنية لمؤشر QoS للارتباط والاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged. Field noted evening buffering from users. No maintenance or changes reported.",
+      "message_ar": "تم الاستلام. الميدان أشار إلى حدوث تقطيع في المساء لدى المستخدمين. لا توجد أعمال صيانة أو تغييرات معلنة."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series confirms off-peak ~0.95, dropping to 0.24–0.30 during 18:30–21:45; 17 SLA class breaches recorded. The dips align with PRB >80% and queue build-up; transport remains clean. Root cause: capacity pressure on the NR macro sector. I recommend creating an SLA breach report with evidence and requesting capacity review and traffic engineering attention.",
+      "message_ar": "السلسلة الزمنية لـ QoS تؤكد ~0.95 خارج الذروة، وتنخفض إلى 0.24–0.30 خلال 21:45–18:30؛ تم تسجيل 17 خرقًا لفئة SLA. الانخفاضات تتوافق مع PRB>80% وتراكم الطوابير؛ النقل بقي سليمًا. السبب الجذري: ضغط سعة على قطاع الماكرو NR. أوصي بإنشاء تقرير خرق SLA مع الأدلة وطلب مراجعة السعة واهتمام هندسة حركة المرور."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood and agreed. Proceed with the report and include the charts.",
+      "message_ar": "مفهوم ومتفق. تفضل بإعداد التقرير وإرفاق الرسوم البيانية."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will register the SLA violation report, attach QoS/PRB charts and findings, and set a monitoring window for the next busy hour. Confirm approval to proceed.",
+      "message_ar": "سأقوم بتسجيل تقرير خرق SLA، وإرفاق مخططات QoS/PRB والنتائج، وتعيين نافذة مراقبة لساعة الذروة القادمة. يرجى تأكيد الموافقة على المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please proceed.",
+      "message_ar": "تمت الموافقة. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA violation report created with evidence and notes; capacity review notified and monitoring flag set for the next busy hour.",
+      "message_ar": "تم إنشاء تقرير خرق SLA مع الأدلة والملاحظات؛ تم إخطار فريق مراجعة السعة وتم تفعيل المراقبة لساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement: QoS index has inched up from 0.26 to 0.32 and buffering complaints are fewer. Action taken: QoS trend analysis and SLA violation report creation. Let’s monitor through the next busy hour and track violations; reference DU-QOS-04157.",
+      "message_ar": "نلاحظ تحسنًا أوليًا: ارتفع مؤشر QoS من 0.26 إلى 0.32 وانخفضت شكاوى التقطيع. الإجراء المتخذ: تحليل اتجاه QoS وإنشاء تقرير خرق SLA. دعنا نراقب خلال ساعة الذروة القادمة ونتتبع الانتهاكات؛ المرجع DU-QOS-04157."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and update the ticket after the window. If QoS degrades again, we will escalate to capacity planning and transport teams; no rollback is needed since no live parameters were changed.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا تدهور QoS مرة أخرى فسنصعّد إلى فرق تخطيط السعة والنقل؛ ولا حاجة لأي تراجع لأننا لم نغير أي معاملات مباشرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a 5G NR macro SLA breach driven by congestion: OSS health was clean while QoS time series dropped to 0.24–0.30 during peak hours, aligning with high PRB utilization and queue build-up. Actions taken: performed time-series analysis to confirm the QoS degradation and created an SLA violation report with evidence for capacity review and continued monitoring.",
+    "ar": "تم تشخيص خرق SLA في خلية ماكرو 5G NR ناجم عن الازدحام: كانت صحة النظام سليمة بينما انخفض مؤشر QoS إلى 0.24–0.30 خلال ساعات الذروة متوافقًا مع ارتفاع استخدام PRB وتراكم الطوابير. الإجراءات المتخذة: إجراء تحليل سلسلة زمنية لتأكيد تدهور QoS وإنشاء تقرير خرق SLA مع الأدلة لمراجعة السعة والمتابعة بالمراقبة."
+  }
+}

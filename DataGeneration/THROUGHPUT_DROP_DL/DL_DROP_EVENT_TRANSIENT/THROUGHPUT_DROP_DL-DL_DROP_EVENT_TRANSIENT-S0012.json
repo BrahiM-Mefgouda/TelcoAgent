@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0012",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR microcell shows slow data over the last 2h with a congestion alarm active (DL ~4 Mbps, PRB ~92%, SINR ~5 dB).",
+    "ar": "خلية NR صغيرة في الملعب تُظهر بيانات بطيئة خلال آخر ساعتين مع وجود إنذار ازدحام (تنزيل ~4 ميجابت/ث، إشغال موارد ~92%، SINR ~5 ديسيبل)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR microcell has severe downlink slowdown over the last 2h during egress; alarm active. KPIs: DL ~4 Mbps, PRB ~92%, SINR 5 dB, RSRQ -10 dB, p95 latency 114 ms, 378 users.",
+      "message_ar": "الخلية الصغيرة NR في الملعب تعاني تباطؤاً شديداً في التنزيل خلال آخر ساعتين أثناء خروج الجمهور؛ يوجد إنذار مفعّل. المؤشرات: تنزيل ~4 ميجابت/ث، إشغال موارد ~92%، SINR 5 ديسيبل، RSRQ ‏-10 ديسيبل، كمون p95 ‏114 مللي ثانية، 378 مستخدماً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will 1) check OSS counters for the last 2h, 2) review downlink throughput time series, and 3) apply targeted parameter tuning to ease congestion and latency. Please share the cell ID and confirm read access.",
+      "message_ar": "تم. سأقوم بـ 1) فحص مؤشرات المنصة للآخر ساعتين، 2) مراجعة سلسلة زمنية لسرعات التنزيل، و3) تطبيق ضبط معلمات مستهدف لتخفيف الازدحام والكمون. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-045-MICRO-1. Read access approved. Traffic is heavy eMBB with streaming during egress.",
+      "message_ar": "معرّف الخلية: NR-STAD-045-MICRO-1. صلاحية القراءة معتمدة. الحركة eMBB كثيفة مع بث فيديو أثناء الخروج."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-STAD-045-MICRO-1 over 2h: very high PRB load (~92%), moderate BLER (~4%), low-average SINR (~5 dB), RSRQ -10 dB, no faults/backhaul issues. This is congestion-bound during egress. Proceed to pull DL time series?",
+      "message_ar": "أجري فحص المنصة للخلية NR-STAD-045-MICRO-1 خلال ساعتين: حمل PRB مرتفع جداً (~92%)، BLER معتدل (~4%)، SINR منخفض متوسط (~5 ديسيبل)، RSRQ ‏-10 ديسيبل، لا أعطال/لا مشاكل نقل خلفي. الحالة ناتجة عن ازدحام أثناء الخروج. أتابع بسحب السلسلة الزمنية للتنزيل؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead.",
+      "message_ar": "موافق. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling DL throughput series (2h): median fell to ~4 Mbps during egress with user spikes; off-peak recovers. CQI distribution shifted lower. Diagnosis: capacity overload. I propose a congestion-relief tune: adjust downlink resource fairness, cap short PRB bursts per UE, and tighten buffer thresholds to curb p95 latency. Approve change?",
+      "message_ar": "أسحب سلسلة سرعات التنزيل (ساعتان): الوسيط هبط إلى ~4 ميجابت/ث أثناء الخروج مع ارتفاع المستخدمين؛ ويتحسن خارج الذروة. توزع CQI انخفض. التشخيص: حمل يفوق السعة. أقترح ضبط تخفيف الازدحام: تحسين عدالة تخصيص الموارد في التنزيل، تقليل اندفاعات PRB القصيرة لكل مستخدم، وتشديد عتبات المخازن لتقليل كمون p95. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—please proceed, but avoid harming voice quality.",
+      "message_ar": "موافق—تفضل، مع تجنب التأثير على جودة الصوت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization on NR-STAD-045-MICRO-1 now; change committed. Initial checks: PRB utilization easing to ~85%, p95 latency trending <90 ms, no new alarms. I will watch counters for stabilization—please verify user experience.",
+      "message_ar": "أطبّق التحسين على NR-STAD-045-MICRO-1 الآن؛ تم اعتماد التغيير. الفحوصات الأولية: إشغال PRB انخفض إلى ~85%، كمون p95 يتجه إلى أقل من 90 مللي ثانية، لا إنذارات جديدة. سأراقب المؤشرات للاستقرار—يرجى التحقق من تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field checks show better UX: pages load faster and streaming is smoother; test speeds climbed from ~3–5 to ~8–12 Mbps.",
+      "message_ar": "الفحوص الميدانية تُظهر تحسناً: صفحات أسرع والبث أكثر سلاسة؛ السرعات ارتفعت من ~3–5 إلى ~8–12 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "My side confirms DL PDCP p50 ~9 Mbps and BLER stable near 4%. Suggest monitoring through the next busy wave; please confirm the window.",
+      "message_ar": "من جهتي، تؤكد المؤشرات وسيط PDCP للتنزيل ~9 ميجابت/ث وBLER ثابت قرب 4%. أقترح المراقبة خلال موجة الازدحام القادمة؛ يرجى تأكيد النافذة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed improvement: median throughput up and p95 latency trending down after your site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تم التأكيد: ارتفع الوسيط للتنزيل وانخفض توجه كمون p95 بعد ضبط معلمات الموقع. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring for the next busy hour and post an update. If congestion resurges, we will escalate by extending tuning to adjacent cells; if adverse effects appear, we will rollback to the previous parameters.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة ونقدم تحديثاً بعدها. إذا عاد الازدحام سنصعّد بتوسيع الضبط إلى الخلايا المجاورة؛ وإذا ظهرت آثار سلبية فسنعود إلى المعلمات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a stadium NR microcell with a congestion alarm and slow data over the last 2 hours. OSS checks and downlink time series confirmed a capacity-bound cell during egress, with very high PRB load and elevated p95 latency. Applied site parameter tuning to improve resource fairness and reduce queuing; throughput and latency improved, and we will monitor through the next busy hour.",
+    "ar": "تمت معالجة خلية NR في ملعب مع إنذار ازدحام وبيانات بطيئة خلال آخر ساعتين. أكد فحص المنصة والسلسلة الزمنية للتنزيل أن الخلية كانت مقيدة بالسعة أثناء الخروج مع إشغال PRB مرتفع وكمون p95 مرتفع. تم تنفيذ ضبط معلمات الموقع لتحسين عدالة الموارد وتقليل الاصطفاف؛ تحسنت السرعة والكمون، وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

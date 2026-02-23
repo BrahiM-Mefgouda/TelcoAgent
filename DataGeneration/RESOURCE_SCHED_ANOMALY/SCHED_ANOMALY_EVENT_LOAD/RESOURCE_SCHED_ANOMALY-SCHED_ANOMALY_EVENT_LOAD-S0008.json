@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_EVENT_LOAD-S0008",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_EVENT_LOAD",
+  "query": {
+    "en": "Stadium 5G NR micro cell shows congestion with high PRB use (~88%), skewed scheduling (fairness ~0.56, best-effort 77%), high P95 scheduling latency (~81 ms), and 892 users over the last 3 hours.",
+    "ar": "خلية 5G NR ميكرو في الملعب تُظهر ازدحامًا مع استخدام PRB مرتفع (~88%)، وجدولة منحازة (العدالة ~0.56، أفضل جهد 77%)، وكمون جدولة P95 مرتفع (~81 مللي ثانية)، و892 مستخدمًا خلال آخر 3 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Live event in the stadium: the NR micro cell triggered a congestion alarm in the last 3 hours; about 892 users, median DL ~11 Mbps, P95 scheduler latency ~81 ms, fairness looks low; SINR around 11 dB.",
+      "message_ar": "حدث مباشر في الملعب: خلية NR ميكرو أطلقت إنذار ازدحام خلال آخر 3 ساعات؛ نحو 892 مستخدمًا، وسيط التنزيل ~11 ميغابت/ث، كمون المجدِّل P95 ~81 مللي ثانية، العدالة منخفضة؛ SINR حوالي 11 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; symptoms point to a resource scheduling imbalance under eMBB streaming load. Please confirm the serving cell ID and approve me to pull last 3 hours of RAN stats for that cell.",
+      "message_ar": "مفهوم؛ الأعراض تشير إلى اختلال في جدولة الموارد تحت حمل eMBB مع البث. الرجاء تأكيد معرّف الخلية والموافقة على سحب إحصاءات شبكة الراديو لآخر 3 ساعات لتلك الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-05-S1. Access approved for the last 3 hours.",
+      "message_ar": "معرّف الخلية: NR-STAD-05-S1. الموافقة ممنوحة لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled RAN stats for NR-STAD-05-S1 over 3 hours: DL PRB use ~88%, best‑effort share ~77%, high‑priority share ~15%, allocation skew 23, fairness ~0.56; radio quality steady (RSRQ −11 dB, SINR 11 dB). I will run a PRB/scheduler trend analysis to confirm timing of the imbalance—proceed?",
+      "message_ar": "تم سحب إحصاءات شبكة الراديو للخلية NR-STAD-05-S1 خلال 3 ساعات: استخدام PRB للتنزيل ~88%، حصة أفضل جهد ~77%، حصة الأولويات العالية ~15%، انحراف التخصيص 23، العدالة ~0.56؛ جودة الراديو مستقرة (RSRQ −11 dB، SINR 11 dB). سأجري تحليل اتجاهات PRB/المجدِّل لتأكيد توقيت الاختلال—هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend confirms peaks with PRB bursts and fairness dips; queueing grows and P95 scheduling latency rises when best‑effort dominates. No interference issues observed. I recommend targeted scheduler tuning: raise high‑priority weight, cap best‑effort share, and enable a short‑term fairness guard for the event. Approve the change?",
+      "message_ar": "الاتجاهات تؤكد قممًا مع اندفاعات PRB وانخفاضات في العدالة؛ تزداد الطوابير ويرتفع كمون الجدولة P95 عند هيمنة حركة أفضل جهد. لا مؤشرات لتداخل. أوصي بضبط مستهدف للمجدِّل: رفع وزن الأولوية العالية، تحديد حد أعلى لحصة أفضل جهد، وتمكين حماية عدالة قصيرة الأمد خلال الحدث. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied tuning on NR-STAD-05-S1: +10% weight to high‑priority flows, best‑effort capped at 65%, fairness guard enabled, and shorter buffer aging to cut latency. Monitoring immediate impact for 10 minutes; please share any on‑ground feedback.",
+      "message_ar": "تم تطبيق الضبط على NR-STAD-05-S1: زيادة 10% في وزن التدفقات ذات الأولوية العالية، تحديد حصة أفضل جهد عند 65%، تفعيل حماية العدالة، وتقليل زمن تقادم المخزن لتخفيض الكمون. نراقب الأثر الفوري لمدة 10 دقائق؛ يرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs are positive—fairness trending up and the latency gap narrowing; fewer complaints from the stands.",
+      "message_ar": "المؤشرات الأولية إيجابية—العدالة تتجه للأعلى والفجوة في الكمون تضيق؛ شكاوى أقل من المدرجات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Telemetry corroborates this: fairness ~0.70, high‑priority share ~24%, P95 scheduling latency trending toward 60–65 ms with median throughput steady. I propose keeping this tuning through the event; we can revert afterward if needed.",
+      "message_ar": "القياسات تؤكد ذلك: العدالة ~0.70، حصة الأولوية العالية ~24%، وكمون الجدولة P95 يتجه إلى 60–65 مللي ثانية مع بقاء الوسيط مستقراً. أقترح الإبقاء على هذا الضبط طوال الحدث؛ ويمكننا الرجوع عنه لاحقًا إذا لزم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed—latency coming down and fairness improving. Action taken: traffic scheduler parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن—الكمون ينخفض والعدالة تتحسن. الإجراء المتخذ: ضبط معلمات مجدِّل المرور. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and report metrics and user impact afterward. If performance degrades, we will roll back the tuning; if congestion resurges, we will escalate by adding temporary capacity and revisiting the weights.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونوافيك بالنتائج وأثرها على المستخدمين بعدها. إذا تدهور الأداء سنرجع الضبط، وإذا عاد الازدحام سنصعّد بإضافة سعة مؤقتة ومراجعة الأوزان."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling imbalance on the stadium 5G micro cell during the event: high PRB load with best‑effort traffic dominating, depressed fairness, and elevated scheduling latency. Pulled network stats and PRB trends, then executed site parameter tuning on the traffic scheduler to boost high‑priority share and enable a fairness guard. Post‑change, fairness and high‑priority share improved and latency decreased; we will monitor through the next busy hour.",
+    "ar": "تم تشخيص اختلال في جدولة الموارد على خلية 5G ميكرو في الملعب خلال الحدث: حمل PRB مرتفع مع هيمنة حركة أفضل جهد، عدالة منخفضة، وكمون جدولة مرتفع. تم سحب إحصاءات الشبكة واتجاهات PRB ثم تنفيذ ضبط معلمات الموقع على مجدِّل المرور لزيادة حصة الأولوية العالية وتمكين حماية العدالة. بعد التغيير تحسنت العدالة وحصة الأولوية العالية وانخفض الكمون؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

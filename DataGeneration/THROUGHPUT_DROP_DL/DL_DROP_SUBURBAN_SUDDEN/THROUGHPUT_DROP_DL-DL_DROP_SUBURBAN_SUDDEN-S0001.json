@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0001",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows a sudden downlink throughput drop to 10 Mbps over the last 2h peak with 192 users, moderate BLER (~8.7%) and poor RSRQ (-17 dB) while SINR is 11 dB and PRB utilization ~69%.",
+    "ar": "شهدت خلية ماكرو 5G NR في منطقة الضواحي هبوطًا مفاجئًا في سرعة التحميل إلى 10 ميغابت/ث خلال آخر ساعتين أثناء الذروة مع 192 مستخدمًا، وBLER متوسط (~8.7%) وRSRQ ضعيف (-17 dB) بينما SINR يساوي 11 dB واستهلاك PRB حوالي 69%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a sudden DL throughput drop on a suburban 5G NR macro over the last 2h peak; eMBB users reported streaming buffering. Snapshot: ~10 Mbps, 192 users, PRB ~69%, BLER ~8.7%, RSRQ -17 dB, SINR 11 dB; no site alarms.",
+      "message_ar": "لدينا هبوط مفاجئ في سرعة التحميل على خلية ماكرو 5G NR في منطقة الضواحي خلال آخر ساعتين من الذروة؛ اشتكى مشتركو eMBB من تقطع البث. اللقطات الحالية: ~10 ميغابت/ث، 192 مستخدمًا، PRB ~69%، BLER ~8.7%، RSRQ -17 dB، وSINR 11 dB؛ لا إنذارات على الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by pulling last 2h counters for the affected cell, then review DL throughput time series, and if needed apply a low-risk parameter optimization. Please share the cell ID and confirm read/execute access.",
+      "message_ar": "مفهوم. سأبدأ بسحب مؤشرات آخر ساعتين للخلية المتأثرة، ثم مراجعة منحنى سرعة التحميل، وإذا لزم الأمر سأطبق تحسينًا منخفض المخاطر على معلمات الخلية. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة والتنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-MACRO-3421. Approved for read checks and a small optimization if required.",
+      "message_ar": "معرّف الخلية: NR-SUB-MACRO-3421. موافق على فحوصات القراءة وتحسين بسيط إذا لزم."
+    },
+    {
+      "role": "agent",
+      "message_en": "From the last 2h counters: load is moderate (PRB 65–72%), users peaked ~198, BLER 7–10%, RSRQ -16 to -18 dB, SINR 10–12 dB; no backhaul or HW errors, mobility stable. This points to quality-driven throughput loss rather than congestion. Proceeding to analyze the DL throughput trend.",
+      "message_ar": "من مؤشرات آخر ساعتين: الحمل متوسط (PRB 65–72%)، بلغ المستخدمون ذروة ~198، BLER بين 7–10%، RSRQ بين -16 و-18 dB، وSINR بين 10–12 dB؛ لا أخطاء نقل أو عتاد والحركية مستقرة. هذا يشير إلى فقدان سرعة ناتج عن الجودة وليس الازدحام. سأتقدم لتحليل منحنى سرعة التحميل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL user throughput time series shows a sharp dip at 18:25 from ~30 Mbps to 9–12 Mbps, aligned with a BLER uptick and MCS downshift while load stayed similar. I recommend targeted tuning to make link adaptation less conservative and bias DL scheduling toward eMBB in the sector center. Requesting approval to implement.",
+      "message_ar": "يُظهر منحنى سرعة التحميل للمستخدم هبوطًا حادًا عند 18:25 من ~30 إلى 9–12 ميغابت/ث متزامنًا مع ارتفاع BLER وهبوط تدرّج MCS بينما بقي الحمل مشابهًا. أوصي بضبط مستهدف لجعل تكيّف المعدّل أقل تحفظًا وتحييز الجدولة نزولًا لصالح eMBB في مركز القطاع. أطلب الموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization.",
+      "message_ar": "موافق على تنفيذ التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on NR-SUB-MACRO-3421 with low risk and no session drops. Early readings (5–10 min) show BLER easing from ~9% to ~6.5% and DL user throughput rising toward 16–18 Mbps. I will keep observing for stabilization.",
+      "message_ar": "تم تطبيق تحسين منخفض المخاطر على NR-SUB-MACRO-3421 دون إسقاط جلسات. القراءات الأولية (5–10 دقائق) تُظهر انخفاض BLER من ~9% إلى ~6.5% وارتفاع سرعة التحميل للمستخدم نحو 16–18 ميغابت/ث. سأواصل المراقبة حتى الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing initial improvement: DL throughput medians around 18–20 Mbps and BLER trending down; no new complaints so far.",
+      "message_ar": "نرى تحسنًا أوليًا: تتوسط سرعات التحميل 18–20 ميغابت/ث وBLER بات في انخفاض؛ لا شكاوى جديدة حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. Please confirm a monitoring window; validating during the next busy period will help verify sustained gains.",
+      "message_ar": "تقدم جيد. يرجى تأكيد نافذة المراقبة؛ سيساعد التحقق خلال فترة الذروة القادمة على تأكيد استدامة التحسن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: BLER is trending down and DL throughput is increasing after the site parameter optimization. Let’s monitor over the next 2–4 hours, including the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: BLER في اتجاه هبوطي وسرعة التحميل ترتفع بعد تحسين معلمات الموقع. لِنراقب خلال الساعتين إلى الأربع القادمات بما يشمل ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next 2–4 hours and update you after the window. If performance degrades, we will roll back the change; if quality issues persist with moderate load, we will escalate for interference investigation.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع القادمات وسنزوّدك بتحديث بعد انتهاء النافذة. إذا تدهور الأداء سنعكس التغيير؛ وإذا استمرت مشكلات الجودة مع حمل معتدل فسنصعّد لتحليل احتمالات التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-3421",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-MACRO-3421",
+        "DL",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler/link adaptation bias for eMBB; mild interference mitigation; conservative, reversible"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigation of the suburban NR macro cell showed a sudden DL throughput dip with moderate load but degraded radio quality (elevated BLER, poor RSRQ), confirmed by counters and DL time-series. We applied site parameter tuning to make link adaptation less conservative and bias DL scheduling toward eMBB. Early results show BLER decreasing and throughput improving; we will monitor through the next busy hour to confirm stability.",
+    "ar": "أظهرت التحقيقات في خلية NR بالضواحي هبوطًا مفاجئًا في سرعة التحميل مع حمل معتدل لكن جودة راديوية متدهورة (BLER مرتفع وRSRQ ضعيف)، وذلك وفق المؤشرات ومنحنى السرعة. قمنا بضبط معلمات الموقع لتقليل تحفظ تكيّف المعدّل وتحييز الجدولة نزولًا لصالح eMBB. تظهر النتائج الأولية انخفاض BLER وتحسن السرعة؛ سنراقب خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+  }
+}

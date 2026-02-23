@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0020",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Alarm indicates localized congestion and interference / signal overlap on an urban NR macro over the last 6h: SINR ~4 dB, RSRQ -17 dB, neighbor PCI overlap 57, ping-pong 26%, and HO failures 27%.",
+    "ar": "التنبيه يشير إلى ازدحام موضعي وتداخل/تراكب إشارات على موقع ماكرو NR حضري خلال آخر 6 ساعات: قيمة SINR نحو 4 dB، وRSRQ -17 dB، وتداخل PCI مع الجوار 57، ومعدل بينغ-بونغ 26%، وإخفاقات تسليم 27%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Alarm active on the urban NR macro cluster for the last 6h: SINR ~4 dB, RSRQ -17 dB, ping-pong 26%, HO failures 27%, neighbor PCI overlap 57. Traffic is eMBB with streaming.",
+      "message_ar": "التنبيه نشط على عنقود ماكرو NR حضري خلال آخر 6 ساعات: قيمة SINR نحو 4 dB، وRSRQ -17 dB، ومعدل بينغ-بونغ 26%، وإخفاقات التسليم 27%، وتداخل PCI مع الجوار 57. الحركة eMBB مع بث فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will start by auditing neighbors for a potential PCI collision on the impacted cell over the last 6h. Please confirm the cell ID and authorize read access.",
+      "message_ar": "مفهوم. سأبدأ بتدقيق الجيران للتحقق من احتمال تعارض PCI على الخلية المتأثرة خلال آخر 6 ساعات. يرجى تأكيد معرّف الخلية وتفويض وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR1234A; read access approved.",
+      "message_ar": "معرّف الخلية هو NR1234A؛ تم منح صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing neighbor audit on NR1234A and adjacent cells for the 6h window. Findings: neighbor NR1234B is using the same PCI 483 (collision); sector NR1234C with PCI 377 overlaps 57% of the shared footprint; boundary events align with elevated HO failures and ping-pong.",
+      "message_ar": "أقوم الآن بتدقيق الجيران للخلية NR1234A والخلايا المجاورة ضمن نافذة 6 ساعات. النتائج: الجار NR1234B يستخدم نفس PCI 483 (تعارض)، والقطاع NR1234C بـ PCI 377 لديه تداخل قدره 57% في منطقة مشتركة؛ أحداث الحدود تتماشى مع ارتفاع إخفاقات التسليم ومعدل البينغ-بونغ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes: near the Main Ave mall we observed frequent SSB confusion and rapid reselections between A and B.",
+      "message_ar": "ملاحظات ميدانية: قرب مركز التسوق في Main Ave رُصد ارتباك متكرر في SSB وإعادة اختيار سريعة بين A وB."
+    },
+    {
+      "role": "agent",
+      "message_en": "To clear the collision, I propose retuning NR1234A to an available PCI (491) and refreshing neighbor relations. Brief impact expected (<1 min). Do you approve?",
+      "message_ar": "لإزالة التعارض، أقترح إعادة ضبط PCI للخلية NR1234A إلى قيمة متاحة (491) وتحديث علاقات الجوار. من المتوقع تأثير وجيز (<1 دقيقة). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter optimization now: retuned NR1234A to PCI 491 and updated neighbor relations; post-checks show sectors healthy. Starting live monitoring of SINR, HO success, and ping-pong.",
+      "message_ar": "أقوم الآن بتحسين الإعدادات: تمت إعادة ضبط PCI للخلية NR1234A إلى 491 وتحديث علاقات الجوار؛ الفحوصات اللاحقة تؤكد سلامة القطاعات. أبدأ مراقبة مباشرة لقيم SINR ونسبة نجاح التسليم ومعدل البينغ-بونغ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial 10-minute snapshot: SINR improved to ~7 dB and ping-pong is trending down.",
+      "message_ar": "لقطة أولية لمدة 10 دقائق: تحسنت قيمة SINR إلى نحو 7 dB ومعدل البينغ-بونغ في اتجاه هبوطي."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability and a follow-up spot check, I will create a record. Ticket DU-PCI-02417 opened to document the PCI retune and interference clearance.",
+      "message_ar": "لأغراض التتبع وفحص لاحق، سأقوم بإنشاء سجل. تم فتح التذكرة DU-PCI-02417 لتوثيق إعادة ضبط PCI وإزالة التداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, handover failures are trending down; the PCI parameter optimization aligns with the improvement. Let’s monitor through the next busy hour (next 2–4 hours) and track via DU-PCI-02417.",
+      "message_ar": "بعد التغيير، إخفاقات التسليم في اتجاه هبوطي؛ ويتماشى ذلك مع تحسين إعدادات PCI. لنتابع المراقبة خلال ساعة الذروة القادمة (خلال 2–4 ساعات القادمة) والمتابعة عبر DU-PCI-02417."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring window and update DU-PCI-02417 afterward with KPI deltas. If issues persist, we will escalate to regional RF for a wider re-plan; if regressions appear, we will reverse the change. Actions completed today: neighbor audit, parameter tuning, and record creation.",
+      "message_ar": "تم الاستلام. سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدّث DU-PCI-02417 بعدها بفروقات مؤشرات الأداء. إذا استمرت المشكلة، سنصعّد إلى فريق الترددات الإقليمي لإعادة تخطيط أوسع؛ وإذا ظهرت تراجعات، سنقوم بعكس التغيير. الإجراءات المنفذة اليوم: تدقيق الجيران، ضبط الإعدادات، وإنشاء السجل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on the urban NR macro via neighbor analysis, explaining the interference, ping‑pong, and handover failures. Mitigated by site parameter tuning: retuned the cell PCI and refreshed neighbor relations. Logged DU-PCI-02417 for traceability and will monitor KPIs over the next busy hour.",
+    "ar": "تم تشخيص تعارض PCI على موقع ماكرو NR حضري عبر تحليل الجيران، ما يفسر التداخل ومعدل البينغ-بونغ وإخفاقات التسليم. تمت المعالجة من خلال ضبط إعدادات الموقع: إعادة ضبط PCI للخلية وتحديث علاقات الجوار. تم تسجيل DU-PCI-02417 للتتبع وسيتم مراقبة مؤشرات الأداء خلال ساعة الذروة القادمة."
+  }
+}

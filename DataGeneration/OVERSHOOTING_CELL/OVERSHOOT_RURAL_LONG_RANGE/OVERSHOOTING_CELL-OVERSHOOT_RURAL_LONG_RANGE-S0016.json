@@ -1,0 +1,114 @@
+{
+  "id": "OVERSHOOTING_CELL-OVERSHOOT_RURAL_LONG_RANGE-S0016",
+  "intent": "OVERSHOOTING_CELL",
+  "blueprint_id": "OVERSHOOT_RURAL_LONG_RANGE",
+  "query": {
+    "en": "Rural 5G NR macro cell shows long-range serving with high distant-user share (39%), long timing advance (~2.6 km), weak RSRP/RSRQ and interference / signal overlap (SINR -5 dB), causing mobility issues over the last 12h.",
+    "ar": "خلية ماكرو 5G NR ريفية تُظهر خدمة لمسافات بعيدة مع نسبة عالية من المستخدمين البعيدين (39%) وقيمة TA طويلة (~2.6 كم) وجودة ضعيفة (RSRP/RSRQ) وتداخل/تراكب إشارة (SINR ‏-5 dB) مما يسبب مشاكل تنقل خلال آخر 12 ساعة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural 5G NR macro cell over the last 12h shows long-range serving: TA p95 ≈ 2.66 km, 39% users served from afar; nearest neighbor ~8 km. Radio quality is weak (RSRP -107 dBm, RSRQ -17 dB) with interference / signal overlap (SINR -5 dB). Mobility is impacted (HO failures 17%, ping-pong 9%, RLF 6%). Load is moderate (PRB ~44%, 90 users) and median throughput ~11 Mbps. No alarms. FWA users report occasional buffering during streaming. Please investigate overshooting.",
+      "message_ar": "خلية ماكرو 5G NR في منطقة ريفية خلال آخر 12 ساعة تُظهر تغطية بعيدة: قيمة TA p95 ≈ 2.66 كم، و39% من المستخدمين تُخدم من مسافات بعيدة؛ أقرب جار ~8 كم. جودة الراديو ضعيفة (RSRP ‏-107 dBm، RSRQ ‏-17 dB) مع تداخل/تراكب إشارة (SINR ‏-5 dB). هناك تأثير على التنقل (فشل تسليم 17%، پينغ-پونغ 9%، فقدان ربط راديو 6%). الحمل متوسط (PRB ~44%، 90 مستخدمًا) ومتوسط السرعة ~11 Mbps. لا توجد إنذارات. مشتركو FWA يبلّغون عن تقطّع أثناء البث. الرجاء التحقيق في ظاهرة التغطية المفرطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—symptoms point to an overshooting macro with interference; I will start with a coverage heatmap for the rural area over the last 12h to confirm the footprint. Share the cell ID and approve remote diagnostics.",
+      "message_ar": "متفق—المؤشرات تدل على ماكرو يتجاوز نطاقه مع تداخل؛ سأبدأ بخريطة تغطية للمنطقة الريفية لآخر 12 ساعة لتأكيد البصمة. يرجى تزويدي بمعرّف الخلية والموافقة على التشخيص عن بُعد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-RURAL-123-S1. Approved to run read-only diagnostics.",
+      "message_ar": "معرّف الخلية: NR-RURAL-123-S1. مُوافق على تنفيذ فحوصات للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running coverage analysis now... Findings: the sector’s main beam extends ~10–12 km, with significant overlap into adjacent clusters; TA distribution peaks around 2–3 km. The served area exceeds the planned footprint and aligns with poor SINR pockets at the edge. This confirms overshooting.",
+      "message_ar": "أجري تحليل التغطية الآن... النتائج: الحزمة الرئيسية للقطاع تمتد ~10–12 كم مع تراكب ملحوظ إلى عناقيد مجاورة؛ يتجه توزيع TA إلى الذروة عند 2–3 كم. المساحة المخدومة تتجاوز المخطط وتتماشى مع جيوب SINR ضعيفة عند الأطراف. هذا يؤكد التغطية المفرطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "That matches field notes—UEs at 7–10 km often camp on this sector.",
+      "message_ar": "هذا يطابق الملاحظات الميدانية—أجهزة على بُعد 7–10 كم ترتكز غالبًا على هذا القطاع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will review neighbor relations and mobility thresholds to see why distant UEs remain attached. Approve a neighbor configuration audit for NR-RURAL-123-S1.",
+      "message_ar": "الخطوة التالية، سأراجع علاقات الجوار وعَتبات التنقل لمعرفة سبب بقاء الأجهزة البعيدة متصلة. يرجى الموافقة على تدقيق إعدادات الجيران للخلية NR-RURAL-123-S1."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit results: two nearby sectors at 7.8 km and 9.1 km are missing as neighbors; several relations have permissive offsets favoring the serving cell, and timers are long. This encourages sticky serving and HO failures. I propose: add the missing neighbors, bias offsets toward closer cells (~2 dB), and tighten timers. Also plan a mild down-tilt (1°) and reduce broadcast power by ~1 dB to shrink the footprint. Approve controlled changes?",
+      "message_ar": "نتائج تدقيق الجيران: هناك قطاعان قريبان عند 7.8 كم و9.1 كم غير مضافين كجيران؛ وبعض العلاقات لديها إزاحات متساهلة لصالح الخلية الحالية مع مؤقتات طويلة. هذا يشجع الارتكاز ويزيد فشل التسليم. أقترح: إضافة الجيران المفقودين، تحييز الإزاحات لصالح الخلايا الأقرب (~2 dB)، وتشديد المؤقتات. كما أقترح ميلًا بسيطًا للأسفل (1°) وتقليل قدرة البث بنحو 1 dB لتقليص البصمة. هل توافق على تغييرات مضبوطة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate implementation.",
+      "message_ar": "موافق على التنفيذ الفوري."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying optimization now: added two neighbors, adjusted mobility offsets (-2 dB toward nearer cells) and timers, applied 1° additional down-tilt and ~1 dB power back-off. Changes committed successfully. Expect lower distant-serving ratio, improved SINR, and reduced HO failures within 15–30 minutes.",
+      "message_ar": "أقوم بتطبيق التحسين الآن: تمت إضافة الجارين، تعديل إزاحات التنقل (-2 dB لصالح الخلايا الأقرب) والمؤقتات، وتطبيق ميل إضافي للأسفل بمقدار 1° وتخفيض قدرة بنحو 1 dB. تم اعتماد التغييرات بنجاح. نتوقع انخفاض نسبة المستخدمين البعيدين، تحسن SINR، وانخفاض فشل التسليم خلال 15–30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 20 minutes, early signs are positive: distant serving dropped from 39% to 24%, median SINR improved from -5 dB to about -1 dB, and handover failures are trending down toward ~10%. Action taken: site parameter tuning and neighbor updates. Let's monitor through the next busy hour.",
+      "message_ar": "بعد 20 دقيقة، المؤشرات الأولية إيجابية: انخفضت خدمة البعيدين من 39% إلى 24%، وتحسّن متوسط SINR من -5 dB إلى نحو -1 dB، وفشل التسليم يتجه للانخفاض نحو ~10%. الإجراء المُتخذ: ضبط معلمات الموقع وتحديث الجيران. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and share an update afterward. If KPIs regress, we will roll back the tilt/power and mobility bias; if issues persist, we will escalate for a field check on antenna alignment and further parameter refinement.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك التحديث بعدها. إذا تراجعت المؤشرات، سنعكس تعديلات الميل/القدرة والتحيز في التنقل؛ وإذا استمرت المشكلة، سنصعّد لزيارة ميدانية لفحص محاذاة الهوائي ومزيد من ضبط المعلمات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed an overshooting rural 5G NR macro sector with extended footprint and signal overlap, evidenced by long timing advance, high distant-serving share, and poor SINR. We analyzed coverage, audited neighbors, then applied site parameter tuning: added missing neighbors, adjusted mobility offsets/timers, and reduced footprint via slight down-tilt and power back-off. Early metrics improved; continued monitoring through the next busy hour is in place.",
+    "ar": "تبيّن أن قطاع ماكرو 5G NR ريفي يعاني من تغطية مفرطة مع بصمة ممتدة وتراكب إشارة، بدلالة TA طويل ونسبة مرتفعة من المستخدمين البعيدين وSINR ضعيف. تم تحليل التغطية وتدقيق الجيران ثم تنفيذ ضبط لمعلمات الموقع: إضافة الجيران المفقودين، تعديل إزاحات/مؤقتات التنقل، وتقليص البصمة بميل بسيط للأسفل وتخفيض القدرة. تحسنت المؤشرات الأولية؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

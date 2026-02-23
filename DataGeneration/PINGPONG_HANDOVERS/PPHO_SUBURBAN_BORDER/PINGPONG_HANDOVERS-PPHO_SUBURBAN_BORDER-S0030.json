@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0030",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows ping-pong handovers with slow data (p50 ~7 Mbps) over the last 5h.",
+    "ar": "خلية ماكرو 5G NR في منطقة شبه حضرية تظهر عمليات تسليم ذهاباً وإياباً مع بيانات بطيئة (الوسيط ~7 ميجابت/ث) خلال آخر 5 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro border cell has been unstable over the last 5h during shoulder hours. Users on eMBB (video streaming) report slow data and frequent toggling between sectors. KPIs: HO success ~89.5%, ping-pong ~12%, HO fails ~13%, RSRP -114 dBm, RSRQ -13 dB, SINR 9 dB, median DL 7 Mbps. No active alarms.",
+      "message_ar": "خلية حدودية ماكرو NR في منطقة شبه حضرية غير مستقرة خلال آخر 5 ساعات في فترة ما بين الذروة. مستخدمو eMBB (بث فيديو) يشتكون من بطء البيانات وتبديل متكرر بين القطاعات. مؤشرات الأداء: نجاح التسليم ~89.5%، عمليات التسليم ذهاباً وإياباً ~12%، فشل التسليم ~13%، RSRP -114 dBm، RSRQ -13 dB، SINR 9 dB، الوسيط للتحميل 7 ميجابت/ث. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start with an OSS health check for the last 5h to confirm mobility behavior. Please confirm the target cell ID and grant access.",
+      "message_ar": "سأبدأ بفحص حالة من منصة الإدارة لآخر 5 ساعات لتأكيد سلوك الحركة. يرجى تأكيد معرف الخلية المستهدفة ومنحي الإذن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-MACRO-3321. Access is approved.",
+      "message_ar": "معرف الخلية هو NR-SUB-MACRO-3321. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 5h OSS counters for NR-SUB-MACRO-3321: high border HO attempts and elevated two-way HOs with neighbors 3322 and 3319. Current mobility: A3 offset 2 dB, TTT 84 ms, hysteresis 1 dB. Next, I will analyze HO and ping-pong time series for the same window to pinpoint offending pairs/time bands. Proceed?",
+      "message_ar": "تم جلب عدادات آخر 5 ساعات للخلية NR-SUB-MACRO-3321: محاولات تسليم مرتفعة على الحدود وتبادلات ثنائية الاتجاه مع الجيران 3322 و3319. إعدادات الحركة الحالية: A3 offset‏ 2 dB، TTT‏ 84 ms، hysteresis‏ 1 dB. بعد ذلك سأحلل السلاسل الزمنية للتسليم وعمليات الذهاب والإياب لنفس النافذة لتحديد الأزواج/الفترات المسببة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead.",
+      "message_ar": "موافق. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series over 5h shows ping-pong spikes up to ~16% at 17:00–18:00, mainly 3321↔3322, with HO failures peaking ~15% when serving RSRP drops below −113 dBm. With SINR ~9 dB and median DL 7 Mbps, aggressive mobility at the border is the likely root cause. I propose tuning: increase TTT to 128 ms, raise hysteresis to 2 dB, and A3 offset to 3 dB on 3321 and symmetric relations to 3322/3319. Apply now?",
+      "message_ar": "السلاسل الزمنية للتسليم خلال 5 ساعات تُظهر ارتفاعات لعمليات الذهاب والإياب حتى ~16% بين 17:00–18:00، بشكل رئيسي بين 3321↔3322، مع ذروة فشل تسليم ~15% عندما ينخفض RSRP للخدمة دون −113 dBm. مع SINR ~9 dB ووسيط تحميل 7 ميجابت/ث، تبدو إعدادات الحركة العدوانية على الحدود هي السبب المرجح. أقترح ضبطاً: رفع TTT إلى 128 ms، ورفع hysteresis إلى 2 dB، و A3 offset إلى 3 dB على 3321 وعلاقاتها المتماثلة مع 3322/3319. هل نطبق الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the change now.",
+      "message_ar": "نفّذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility optimization on NR-SUB-MACRO-3321 and its relations to 3322/3319: TTT 128 ms, hysteresis 2 dB, A3 offset 3 dB. Commit completed without service impact. Starting quick post-change checks; we expect reduced ping-pongs and steadier throughput.",
+      "message_ar": "تم تطبيق تحسين إعدادات الحركة على NR-SUB-MACRO-3321 وعلاقاتها مع 3322/3319: TTT إلى 128 ms، hysteresis إلى 2 dB، و A3 offset إلى 3 dB. تم التنفيذ دون تأثير على الخدمة. أبدأ تحققاً سريعاً بعد التغيير؛ نتوقع انخفاض عمليات الذهاب والإياب واستقراراً أفضل في معدل النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Immediate field observation: toggling along the border route has dropped noticeably; sessions feel steadier.",
+      "message_ar": "ملاحظة ميدانية فورية: الانقلاب بين الخلايا على مسار الحدود انخفض بشكل ملحوظ؛ الجلسات أصبحت أكثر استقراراً."
+    },
+    {
+      "role": "agent",
+      "message_en": "Positive early sign. I will continue to watch ping-pong and HO failure counters for short-term stability and confirm consistency across neighbor pairs.",
+      "message_ar": "إشارة مبكرة إيجابية. سأواصل متابعة مؤشرات الذهاب والإياب وفشل التسليم للتحقق من الاستقرار قصير المدى وتأكيد الاتساق عبر أزواج الجيران."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: ping-pong handovers trending down and median downlink rising toward ~9 Mbps after the mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى تحسناً: عمليات التسليم ذهاباً وإياباً تتجه للانخفاض والتحميل الوسيط يرتفع نحو ~9 ميجابت/ث بعد تحسين معلمات الحركة. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and share an update. If regressions appear (drops or rising HO failures), we will roll back the tuning; if stable or improved, we will keep the settings and consider extending to adjacent sectors.",
+      "message_ar": "تم. سنراقب خلال ساعة الذروة القادمة ونشارك تحديثاً. إذا ظهرت تراجعات (انقطاعات أو ارتفاع في فشل التسليم) فسنرجع الضبط؛ وإذا بقي الأداء مستقراً أو تحسن فسنُبقي الإعدادات وننظر في توسيعها إلى القطاعات المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MACRO-3321",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-MACRO-3321",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase TTT 84->128 ms; raise hysteresis 1->2 dB; raise A3 offset 2->3 dB on 3321 and symmetric neighbor relations to 3322/3319"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed suburban NR macro border ping-pong driven by aggressive mobility thresholds: OSS counters and HO time series highlighted high two-way handovers mainly between 3321 and 3322, with poor signal levels and slow data. Mitigation applied via site parameter tuning by increasing TTT, hysteresis, and A3 offset on the serving cell and symmetric neighbor relations. We will monitor through the next busy hour and proceed with broader rollout only if stability holds.",
+    "ar": "تم تشخيص عمليات الذهاب والإياب على حدود خلية ماكرو NR شبه حضرية بسبب عتبات حركة عدوانية: أظهرت عدادات منصة الإدارة والسلاسل الزمنية للتسليم ارتفاع التبادلات الثنائية خصوصاً بين 3321 و3322 مع مستويات إشارة ضعيفة وبطء في البيانات. تم التخفيف عبر ضبط معلمات الموقع برفع TTT وhysteresis وA3 offset على الخلية الخادمة والعلاقات المتماثلة مع الجيران. سنراقب خلال ساعة الذروة القادمة ونمضي في التوسعة فقط إذا ثبت الاستقرار."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0029",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G macro cell shows a latency SLA violation during shoulder hours with a congestion alarm active: PRB utilization ~85%, 343 users, BLER ~5.8%, median throughput 13 Mbps, and p95 scheduler latency 49 ms affecting eMBB streaming.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر خرقاً لاتفاقية زمن التأخير خلال فترة انتقالية مع تنبيه ازدحام فعّال: إشغال PRB ~85%، 343 مستخدماً، BLER ~5.8%، متوسط السرعة 13 Mbps، وزمن جدولة p95 يساوي 49 ms يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro cell breached latency SLA in the last 2h during shoulder hours. Alarm is active; PRB ~85%, 343 users, BLER ~5.8%, p50 throughput 13 Mbps, p95 scheduler latency 49 ms; heavy eMBB streaming observed.",
+      "message_ar": "خلية NR ماكرو حضرية خرقت SLA للزمن خلال آخر ساعتين في فترة انتقالية. التنبيه فعّال؛ إشغال PRB ~85%، 343 مستخدماً، BLER ~5.8%، سرعة وسيطة 13 Mbps، وزمن جدولة p95 = 49 ms؛ يوجد بث eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion alarm. I will start by pulling the last 2h runtime counters to baseline utilization, queuing, and errors. Please confirm the cell ID and approve read access.",
+      "message_ar": "تم استلام تنبيه الازدحام. سأبدأ بسحب عدّادات الساعتين الماضيتين لعمل خط أساس للإشغال والاصطفاف والأخطاء. يرجى تأكيد معرف الخلية والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-112. Read access approved.",
+      "message_ar": "معرف الخلية هو NR-URB-MACRO-112. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline pulled: PRB ranged 82–88%; DL buffer occupancy spiked to ~70% between :15–:40; BLER steady at 5–6%; no radio or backhaul faults. This suggests queue buildup under load. Next, I will extract the latency time series by QoS class for the same 2h to confirm delay distribution; proceed?",
+      "message_ar": "تم إنشاء خط الأساس: نطاق PRB بين 82–88%؛ ارتفع إشغال مخزن DL إلى ~70% بين :15 و :40؛ BLER ثابت عند 5–6%؛ لا أعطال راديوية أو نقل خلفي. هذا يشير إلى تراكم طوابير تحت الحمل. بعد ذلك سأستخرج سلسلة زمنية لزمن التأخير حسب فئة الجودة لنفس الساعتين لتأكيد توزيع التأخير؛ هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency series confirms peaks during shoulder: p95 around 48–51 ms; eMBB queue depth elevated while error rates remain normal; low-latency traffic unaffected. With utilization below saturation and no faults, the bottleneck is the resource allocation policy. I propose targeted site parameter tuning to reduce eMBB queue delay (tighten latency target and cap queue depth). Approve immediate change?",
+      "message_ar": "السلسلة الزمنية تؤكد الذروات خلال الفترة الانتقالية: p95 نحو 48–51 ms؛ عمق طابور eMBB مرتفع بينما معدلات الأخطاء طبيعية؛ الحركة منخفضة التأخير غير متأثرة. مع كون الإشغال دون التشبع ودون أعطال، عنق الزجاجة في سياسة تخصيص الموارد. أقترح ضبطاً مستهدفاً لمعاملات الموقع لتقليل تأخير طابور eMBB (تشديد الهدف الزمني وحدّ عمق الطابور). هل توافق على تطبيق التغيير فوراً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the parameter tuning now.",
+      "message_ar": "تمت الموافقة على تطبيق ضبط المعاملات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter tuning applied on NR-URB-MACRO-112 (reduced eMBB queue buffer and tightened latency target). Change is live with no session drops observed. We will watch for 10 minutes for stabilization.",
+      "message_ar": "تم تطبيق ضبط المعاملات على NR-URB-MACRO-112 (تقليص مخزن طابور eMBB وتشديد الهدف الزمني). التغيير فعّال دون فقدان جلسات. سنراقب لمدة 10 دقائق للاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes, p95 latency is ~36 ms, BLER unchanged, and median throughput improved to 14–15 Mbps. User count steady.",
+      "message_ar": "بعد ~10 دقائق، زمن p95 حوالي 36 ms، وBLER دون تغيير، والسرعة الوسيطة تحسنت إلى 14–15 Mbps. عدد المستخدمين مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. I will continue observing to ensure the improvement persists across load variations and that neighboring cells remain balanced. No further user impact expected.",
+      "message_ar": "اتجاه جيد. سأستمر بالمراقبة لضمان استمرار التحسن عبر تغيرات الحمل وأن الخلايا المجاورة تبقى متوازنة. لا يُتوقع تأثير إضافي على المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: queuing delay trending down and p95 latency near 35–36 ms after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تم تأكيد التحسن: تأخير الطوابير في انخفاض وp95 قريب من 35–36 ms بعد ضبط معاملات الموقع. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If latency rises again, we will roll back the tuning and escalate for capacity relief; otherwise, we will retain the optimization.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونقدّم تحديثاً بعد ذلك. إذا ارتفع التأخير مجدداً سنعيد الضبط ونتصعّد لبحث زيادة السعة؛ وإلا سنحافظ على التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-112",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-112",
+        "latency",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "hqos_scheduler_tuning"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated the urban 5G macro cell’s latency breach by reviewing live counters and a 2h latency time series, which indicated queue buildup under load with no radio faults. Applied site parameter tuning to adjust the scheduler behavior and cap eMBB queue depth, reducing p95 latency from ~49 ms to ~36 ms. We will monitor through the next busy hour to confirm stability.",
+    "ar": "تم التحقيق في خرق زمن التأخير لخلية ماكرو 5G حضرية عبر مراجعة العدّادات الحية وسلسلة زمنية لمدة ساعتين، والتي أظهرت تراكم طوابير تحت الحمل دون أعطال راديوية. تم تنفيذ ضبط معاملات الموقع لضبط سلوك الموزّع وحدّ عمق طابور eMBB، ما خفّض p95 من ~49 ms إلى ~36 ms. سنواصل المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+  }
+}

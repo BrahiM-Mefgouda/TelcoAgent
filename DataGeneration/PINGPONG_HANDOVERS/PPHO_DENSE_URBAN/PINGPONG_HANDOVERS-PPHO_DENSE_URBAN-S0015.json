@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0015",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro sector shows 27% ping-pong handovers during peak evening with high HO attempts (132/5min) and low SINR (~3 dB) indicating interference/signal overlap; please diagnose and stabilize mobility.",
+    "ar": "قطاع ماكرو NR في منطقة حضرية كثيفة يعاني من 27% تذبذب في التسليم خلال ذروة المساء مع محاولات تسليم مرتفعة (132 لكل 5 دقائق) وSINR منخفض (~3 dB) مما يدل على تداخل/تراكب الإشارة؛ يرجى التشخيص واستقرار الحركة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Dense urban NR macro sector NR-12345-1 during peak evening shows ping-pong handovers at 27%, HO success ~86.8%, failures ~12%. RSRP -102 dBm, RSRQ -12 dB, SINR ~3 dB. PRB ~83%, 210 users, median DL ~19 Mbps. Traffic is eMBB with some video streaming. No active alarms.",
+      "message_ar": "قطاع ماكرو NR ضمن منطقة حضرية كثيفة (NR-12345-1) خلال ذروة المساء يظهر تذبذب تسليم 27%، نجاح التسليم ~86.8%، الإخفاقات ~12%. RSRP -102 dBm، RSRQ -12 dB، وSINR ~3 dB. إشغال PRB ~83%، 210 مستخدمين، ومتوسط تنزيل ~19 Mbps. الحركة eMBB مع بث فيديو. لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. The low SINR suggests interference/signal overlap driving ping-pong. I will first pull last 4h mobility counters for NR-12345-1 to baseline HO attempts, ping-pong, and neighbor relations. Please approve OSS access.",
+      "message_ar": "مفهوم. يشير انخفاض SINR إلى تداخل/تراكب إشارة يسبب التذبذب. سأقوم أولاً بجمع عدادات الحركة لآخر 4 ساعات للقطاع NR-12345-1 لقياس محاولات التسليم، التذبذب، وعلاقات الجوار. يرجى اعتماد الوصول إلى النظام."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for NR-12345-1, 4-hour window.",
+      "message_ar": "تمت الموافقة للقطاع NR-12345-1 مع نافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm high activity: ~132 HO attempts/5min with elevated short-stay returns; top neighbors are NR-12345-2 and NR-67890-1 with close signal levels. Next, I will review the HO event time series to pinpoint when and toward which edges the oscillations peak.",
+      "message_ar": "تؤكد العدادات نشاطًا مرتفعًا: ~132 محاولة تسليم/5 دقائق مع عودة سريعة مرتفعة؛ أبرز الجيران هما NR-12345-2 وNR-67890-1 مع مستويات إشارة متقاربة. بعد ذلك سأراجع السلسلة الزمنية لأحداث التسليم لتحديد توقيت وواجهات الذروة للتذبذب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows spikes aligned with peak evening; oscillations are concentrated on the NW and NE borders toward NR-12345-2 and NR-67890-1. With RSRQ ~-12 dB and SINR ~3 dB, criteria are too permissive. I propose tuning mobility: raise A3 offset to 3 dB, extend TTT to 512 ms, and increase hysteresis to 5 dB for those neighbor relations. Approve to apply?",
+      "message_ar": "السلسلة الزمنية تُظهر ارتفاعات متزامنة مع ذروة المساء؛ التذبذب يتركز على الحدود الشمالية الغربية والشمالية الشرقية باتجاه NR-12345-2 وNR-67890-1. مع RSRQ ~-12 dB وSINR ~3 dB، تبدو المعايير متساهلة. أقترح ضبط الحركة: رفع A3 إلى 3 dB، تمديد TTT إلى 512 ms، وزيادة الهسترة إلى 5 dB لعلاقات الجوار المعنية. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement these mobility adjustments now.",
+      "message_ar": "موافقة على تنفيذ تعديلات الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter changes on NR-12345-1 toward NR-12345-2 and NR-67890-1. Changes committed; initial health checks are clean. I will watch near-real-time HO stats for immediate impact and verify no rise in failures.",
+      "message_ar": "أقوم بتطبيق تغييرات المعلمات على NR-12345-1 باتجاه NR-12345-2 وNR-67890-1. تم اعتماد التغييرات؛ فحوصات السلامة الأولية سليمة. سأراقب إحصاءات التسليم الفورية للتأثير المباشر وأتحقق من عدم زيادة الإخفاقات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early view: ping-pong returns per 5 minutes dropped from ~27% to ~15%, HO failures stable, RSRQ trending slightly better. Throughput unchanged.",
+      "message_ar": "المشاهدة الأولية: انخفضت العودة السريعة خلال 5 دقائق من ~27% إلى ~15%، إخفاقات التسليم ثابتة، وRSRQ يتحسن قليلًا. معدل النقل دون تغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. I’ll continue to observe during busy period; if oscillations persist above target, we can fine-tune per neighbor or revisit overlap causes. For now, hold the current settings while we validate stability.",
+      "message_ar": "مؤشر جيد. سأواصل المراقبة خلال فترة الانشغال؛ إن استمر التذبذب فوق الهدف، يمكننا الضبط لكل جار أو إعادة النظر بأسباب التراكب. في الوقت الحالي سنثبت الإعدادات حتى نتحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Over the last checks, ping-pong events keep trending down and short-stay returns are lower; the site parameter optimization seems effective. Let’s monitor through the next busy hour.",
+      "message_ar": "خلال الفحوصات الأخيرة، يستمر انخفاض أحداث التذبذب وانخفضت حالات العودة السريعة؛ يبدو أن تحسين معلمات الموقع فعّال. لنواصل المراقبة خلال الساعة المزدحمة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy hour monitoring and update with ping-pong rate, HO success, and any side effects. If degradation reappears, we will roll back to prior thresholds and escalate for deeper RF overlap review.",
+      "message_ar": "مفهوم. سنتولى مراقبة الساعة المزدحمة التالية وسنزود بتحديث يشمل معدل التذبذب، نجاح التسليم، وأي آثار جانبية. إذا عادت المؤشرات للتدهور سنعود إلى الحدود السابقة ونصعّد لمراجعة أعمق لتراكب التغطية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-12345-1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-12345-1",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset=+1dB; TTT=512ms; hysteresis=+1dB toward NR-12345-2/NR-67890-1"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong in a dense urban NR macro during peak evening as interference/signal overlap with permissive mobility thresholds. Pulled recent counters, reviewed handover time series, then mitigated by site parameter tuning (raised A3 offset, extended TTT, and increased hysteresis toward dominant neighbors). Monitoring continues through the next busy hour to confirm sustained reduction without side effects.",
+    "ar": "تم تشخيص ارتفاع التذبذب في قطاع ماكرو NR حضري كثيف خلال ذروة المساء كحالة تداخل/تراكب مع عتبات حركة متساهلة. تم جمع العدادات الحديثة ومراجعة السلسلة الزمنية لأحداث التسليم ثم تم التخفيف عبر ضبط معلمات الموقع (رفع A3، تمديد TTT، وزيادة الهسترة نحو الجيران المسيطرين). ستستمر المراقبة خلال الساعة المزدحمة التالية للتأكد من استمرار التحسن دون آثار جانبية."
+  }
+}

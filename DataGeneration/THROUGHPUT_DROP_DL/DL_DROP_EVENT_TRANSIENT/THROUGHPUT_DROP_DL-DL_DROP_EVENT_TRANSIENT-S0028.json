@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0028",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "In the stadium 5G NR microcell over the last 2 hours, an alarm indicates congestion with slow data (~6 Mbps) amid ~90% PRB use, RSRQ -14 dB, SINR 9 dB, p95 MAC latency 117 ms, and ~543 users.",
+    "ar": "في خليّة 5G NR الصغيرة داخل الملعب خلال آخر ساعتين، يوجد إنذار يدل على ازدحام مع بيانات بطيئة (~6 ميجابت/ث) مع إشغال PRB يقارب 90% وRSRQ عند -14 dB وSINR عند 9 dB وكمون MAC p95 يبلغ 117 مللي ثانية وحوالي 543 مستخدماً."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium 5G NR microcell shows downlink throughput slump during the ongoing event: median ~6 Mbps, PRB ~90%, p95 MAC latency 117 ms, RSRQ -14 dB, SINR 9 dB, ~543 users; alarm indicates congestion. Please check.",
+      "message_ar": "الخليّة الصغيرة 5G NR في الملعب تُظهر هبوطاً في سرعة التنزيل أثناء الحدث الجاري: الوسيط ~6 ميجابت/ث، إشغال PRB ~90%، كمون MAC p95 يبلغ 117 مللي ثانية، RSRQ = -14 dB، وSINR = 9 dB، وعدد المستخدمين ~543؛ يوجد إنذار يدل على ازدحام. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling live stats for the last 2 hours, then trend downlink KPIs before applying targeted scheduler tuning to relieve congestion. Please confirm the cell identifier and authorize read/write access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب الإحصائيات الحية لآخر ساعتين ثم تحليل مؤشرات التنزيل زمنياً قبل تطبيق ضبط انتقائي للجدولة لتخفيف الازدحام. يرجى تأكيد معرف الخليّة والتصريح بالوصول قراءة/كتابة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-STAD-MICRO-21; access approved for read/write during this window.",
+      "message_ar": "معرّف الخليّة هو NR-STAD-MICRO-21؛ الوصول قراءة/كتابة مُعتمد خلال هذه الفترة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 1: Collected operational counters for NR-STAD-MICRO-21 over last 2 hours. Findings: PRB utilization 88–95%, median DL user throughput 5–7 Mbps, BLER 6–9%, p95 MAC latency peaking ~120 ms, active users 520–560. No hard faults. Next, I will analyze DL trends to isolate peak patterns.",
+      "message_ar": "الخطوة 1: جمعت عدّادات التشغيل لـ NR-STAD-MICRO-21 خلال آخر ساعتين. النتائج: إشغال PRB بين 88–95%، وسرعة تنزيل للمستخدمين 5–7 ميجابت/ث، BLER بين 6–9%، وكمون MAC p95 يصل ~120 مللي ثانية، وعدد المستخدمين 520–560. لا أعطال حرجة. التالي، سأحلل اتجاهات التنزيل لعزل أنماط الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 2: DL time series confirms event-driven congestion: as users climb past ~540, DL throughput dips, RSRQ degrades to -15 dB, and latency spikes; SINR remains ~9 dB. Likely heavy eMBB streaming pressure. I propose immediate site parameter tuning on the scheduler and resource margins to improve fairness and short-burst capacity. Approve to apply?",
+      "message_ar": "الخطوة 2: السلاسل الزمنية للتنزيل تؤكد ازدحاماً ناتجاً عن الحدث: عند تجاوز المستخدمين ~540 تنخفض سرعة التنزيل، يتدهور RSRQ إلى -15 dB، ويزداد الكمون؛ بينما يبقى SINR نحو ~9 dB. يرجّح ضغط عالٍ من بث eMBB. أقترح ضبط معلمات الموقع للجدولة وهوامش الموارد فوراً لتحسين الإنصاف والسعة القصيرة. هل توافق على التطبيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize now.",
+      "message_ar": "موافَق على التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 3: Applied site parameter tuning: adjusted scheduler weights toward throughput fairness, enabled a modest PRB headroom, slightly relaxed DL aggressiveness, and reduced buffer targets to cut queuing. Change completed successfully; monitoring for impact.",
+      "message_ar": "الخطوة 3: تم تطبيق ضبط معلمات الموقع: تعديل أوزان المجدول نحو إنصاف السرعة، تمكين هامش PRB بسيط، تخفيف محدود لعدوانية التنزيل، وتقليل أهداف المخزن المؤقت لتقليص الطوابير. اكتملت التغييرات بنجاح؛ أراقب الأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better—median DL climbing above 10 Mbps and p95 MAC latency easing. Continuing to watch.",
+      "message_ar": "المؤشرات الأولية أفضل—الوسيط للتنزيل يتجاوز 10 ميجابت/ث وكمون MAC p95 يتراجع. سأستمر بالمراقبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I expect further stabilization as traffic normalizes. If congestion resurges, I can consider additional balancing in a later window, but current tuning should carry the peak.",
+      "message_ar": "جيد. أتوقع المزيد من الاستقرار مع عودة الحركة لطبيعتها. إن عاد الازدحام، يمكن النظر في موازنة إضافية في وقت لاحق، لكن الضبط الحالي يفترض أن يغطي الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement sustained: user throughput trending up and latency spikes trending down after the site parameter tuning. Let's monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن مستمر: سرعة المستخدمين في ارتفاع وحدّة طفرات الكمون في انخفاض بعد ضبط معلمات الموقع. لنواصل المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy hour monitoring and report throughput and latency status afterward. Today we tuned the scheduler and resource margins to alleviate congestion. If performance degrades, we will escalate to broader load balancing; if adverse effects appear, we will roll back to the prior baseline.",
+      "message_ar": "تم—سنكون مسؤولين عن مراقبة ساعة الذروة القادمة وسنقدم تقريراً عن حالة السرعة والكمون بعدها. قمنا اليوم بضبط المجدول وهوامش الموارد لتخفيف الازدحام. إذا تدهور الأداء سنصعّد إلى موازنة حمل أوسع؛ وإذا ظهرت آثار سلبية سنرجع إلى الأساس السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-MICRO-21",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-MICRO-21",
+        "DL",
+        "last_2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_weights=throughput_fairness;prb_headroom=+5%;dl_aggressiveness=slight_relax;buffer_target=-10%"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Analysis of the stadium 5G NR microcell over the last 2 hours confirmed event-driven congestion: PRB at 88–95%, median DL at 5–7 Mbps, degraded RSRQ, and elevated MAC latency, with SINR stable. Time-series trends aligned dips with user surges, indicating capacity saturation rather than interference. Mitigation was done via site parameter tuning on the scheduler and resource margins, improving throughput and reducing latency during the event.",
+    "ar": "أظهر تحليل خليّة 5G NR في الملعب خلال آخر ساعتين ازدحاماً مرتبطاً بالحدث: إشغال PRB بين 88–95%، وسرعة تنزيل وسطية 5–7 ميجابت/ث، وتدهور في RSRQ وارتفاع في كمون MAC مع بقاء SINR مستقراً. أكدت السلاسل الزمنية ارتباط الانخفاضات بزيادات عدد المستخدمين، ما يشير إلى تشبّع سعة وليس تداخلاً. تمت المعالجة عبر ضبط معلمات الموقع للمجدول وهوامش الموارد، مما حسّن السرعة وخفّض الكمون أثناء الحدث."
+  }
+}

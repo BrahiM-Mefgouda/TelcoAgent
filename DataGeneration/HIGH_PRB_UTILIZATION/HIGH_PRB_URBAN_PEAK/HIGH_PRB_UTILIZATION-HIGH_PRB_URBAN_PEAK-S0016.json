@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_URBAN_PEAK-S0016",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell shows 97% PRB use over the past 2 hours with 335 users, DL 12 Mbps, UL 4 Mbps, p95 latency 47 ms, and a congestion alarm during evening eMBB streaming.",
+    "ar": "خلية ماكرو NR حضرية تُظهر استخدام PRB بنسبة 97٪ خلال آخر ساعتين مع 335 مستخدمًا، وتنزيل 12 ميجابت/ث، ورفع 4 ميجابت/ث، وكمون p95 يبلغ 47 مللي ثانية، مع إنذار ازدحام أثناء تدفّق eMBB المسائي."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell under evening peak: PRB ~97%, 335 users, DL 12 Mbps, UL 4 Mbps, p95 latency 47 ms, BLER ~6%. Alarm is active; heavy eMBB streaming.",
+      "message_ar": "خلية NR ماكرو حضرية خلال الذروة المسائية: استخدام PRB ~97٪، 335 مستخدمًا، تنزيل 12 ميجابت/ث، رفع 4 ميجابت/ث، كمون p95 يبلغ 47 مللي ثانية، BLER ~6٪. الإنذار نشط؛ تدفّق eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start diagnostics for the last 2 hours; please confirm the cell ID and approve access.",
+      "message_ar": "سأبدأ التشخيص لآخر ساعتين؛ يرجى تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-41012-3. Access approved, 2-hour window confirmed.",
+      "message_ar": "معرّف الخلية هو NR-41012-3. الوصول مُعتمد، نافذة ساعتين مؤكدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 2h OSS counters for NR-41012-3: PRB >95% sustained, DL/UL throughput depressed, p95 queueing latency 47 ms, RLF ~4.6%. This is capacity congestion. I propose targeted resource-allocator tuning (fairness weights, admission guard, retransmission pressure) to relieve PRB load. Approve?",
+      "message_ar": "تم سحب عدادات آخر ساعتين للخلية NR-41012-3: استخدام PRB يتجاوز 95٪ بشكل مستمر، تدهور في سرعات التحميل والرفع، كمون صفوف p95 عند 47 مللي ثانية، وRLF حوالي 4.6٪. هذه ازدحام سِعَوي. أقترح ضبطًا موجّهًا لموزّع الموارد (أوزان الإنصاف، حارس القبول، ضغط إعادة الإرسال) لتخفيف حمل PRB. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to optimize.",
+      "message_ar": "موافق على التحسين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: increased fairness to cell-edge users, limited short-burst dominance, and reduced retransmission pressure to cut waste. Change committed; observing live counters for initial impact.",
+      "message_ar": "تم تطبيق التحسين: زيادة الإنصاف لمستخدمي حافة الخلية، تقليل هيمنة الاندفاعات القصيرة، وخفض ضغط إعادة الإرسال لتقليل الهدر. تم اعتماد التغيير؛ أراقب القياسات الحية للتأثير الأولي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement after a few minutes: PRB down to ~89–91%, DL ~19 Mbps, UL ~5 Mbps, p95 latency ~34 ms, BLER ~4.8%.",
+      "message_ar": "هناك تحسن بعد بضع دقائق: استخدام PRB انخفض إلى ~89–91٪، التنزيل ~19 ميجابت/ث، الرفع ~5 ميجابت/ث، كمون p95 ~34 مللي ثانية، وBLER ~4.8٪."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. For traceability, I will open a tracking ticket and continue monitoring through the peak. Is that fine?",
+      "message_ar": "اتجاه جيد. من أجل التتبع، سأفتح تذكرة متابعة وأستمر بالمراقبة خلال الذروة. هل هذا مناسب؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, proceed with the ticket.",
+      "message_ar": "نعم، تفضل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket created: DU-PRB-03456 with change details and initial results. I will keep it updated.",
+      "message_ar": "تم إنشاء التذكرة: DU-PRB-03456 مع تفاصيل التغيير والنتائج الأولية. سأقوم بتحديثها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: PRB load trending down and user data rates higher. Action taken was site parameter tuning for congestion relief. Let’s monitor for the next 2 hours; reference DU-PRB-03456.",
+      "message_ar": "تمت ملاحظة التحسن: حمل PRB يتجه للانخفاض وسرعات البيانات للمستخدمين أعلى. الإجراء المتخذ كان ضبط معلمات الموقع لتخفيف الازدحام. لنتابع المراقبة خلال الساعتين القادمتين؛ المرجع DU-PRB-03456."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2 hours of monitoring and update the ticket after the window. If KPIs regress, we will roll back the tuning; if congestion persists, we will escalate for capacity enhancement.",
+      "message_ar": "سنتولى مراقبة الساعتين القادمتين وسنحدّث التذكرة بعد انتهاء النافذة. إذا تراجعت مؤشرات الأداء، سنقوم بالتراجع عن الضبط؛ وإذا استمر الازدحام، سنصعّد لزيادة السعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41012-3",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "PRB_congestion_mitigation_v1"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB utilization on NR-41012-3; applied resource-allocator tuning; monitor 2h during evening peak."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained PRB saturation during the evening peak on the urban NR macro cell, degrading latency and throughput. Executed site parameter tuning to relieve resource pressure, which reduced PRB load and improved user rates. A tracking ticket was created for continued observation over the next 2 hours.",
+    "ar": "تم تشخيص تشبّع مستمر في موارد PRB خلال الذروة المسائية على خلية NR ماكرو حضرية مما أثّر على الكمون ومعدلات النقل. نُفِّذ ضبط لمعلمات الموقع لتخفيف ضغط الموارد، ما خفّض حمل PRB وحسّن سرعات المستخدمين. تم إنشاء تذكرة متابعة للمراقبة خلال الساعتين القادمتين."
+  }
+}

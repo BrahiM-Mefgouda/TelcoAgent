@@ -1,0 +1,118 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0012",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro shows interference/signal overlap and slow data after integration, with HO failures 14%, ping-pong 26%, SINR 4 dB, and an active alarm indicating congestion/outage.",
+    "ar": "موقع ماكرو 5G في منطقة حضرية يعاني من تداخل/تراكب للإشارة وبطء بيانات بعد الدمج، مع فشل تسليمات 14% وتقلّبات بين الخلايا 26% وSINR عند 4 dB، ويوجد إنذار نشط يدل على ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration alarm on an urban NR macro; users (eMBB streaming) report slow data. KPIs: SINR ~4 dB, RSRQ -13 dB, BLER ~12%, HO success ~77%, ping-pong 26%, p50 DL ~5 Mbps. Please assist.",
+      "message_ar": "يوجد إنذار بعد الدمج على موقع ماكرو NR حضري؛ مستخدمو eMBB (البث) يشتكون من بطء البيانات. المؤشرات: SINR نحو 4 dB، RSRQ -13 dB، BLER ~12%، نجاح التسليم ~77%، تقلبات بين الخلايا 26%، وسيط DL ~5 ميجابت/ث. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the alarm. To confirm suspected PCI collision causing interference and mobility issues, I will run a neighbor check on this cell for the last 8 hours. Approve read-only access?",
+      "message_ar": "تم الاستلام. للتحقق من اشتباه تصادم PCI المسبب للتداخل ومشاكل الحركة، سأجري فحص الجوار لهذه الخلية لآخر 8 ساعات. هل توافق على وصول للقراءة فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed with read-only diagnostics.",
+      "message_ar": "موافق، تابع التشخيص للقراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: the new sector uses PCI 107, and an adjacent macro on the same layer also advertises PCI 107 within ~0.8 km. Overlap region ~57%, consistent with HO failures and ping-pong. This confirms a PCI collision.",
+      "message_ar": "اكتمل تدقيق الجوار: القطاع الجديد يستخدم PCI 107، وموقع ماكرو مجاور على نفس الطبقة يعلن PCI 107 ضمن ~0.8 كم. منطقة التداخل ~57%، وهذا يفسر فشل التسليم والتقلبات. هذا يؤكد وجود تصادم PCI."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: reassign this cell PCI from 107 to a free value (e.g., 335) and refresh neighbor relations to clear confusion. Expected: higher SINR, lower BLER, improved HO success. Approve immediate change?",
+      "message_ar": "الخطة: إعادة تعيين PCI لهذه الخلية من 107 إلى قيمة شاغرة (مثلاً 335) وتحديث علاقات الجوار لإزالة الالتباس. المتوقع: رفع SINR وخفض BLER وتحسن نجاح التسليم. هل توافق على تنفيذ التغيير الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to perform the change now.",
+      "message_ar": "موافق على تنفيذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI reassignment and neighbor relation refresh; brief broadcast interruption (<1 s) expected. Change applied successfully; cell re-accepted UEs.",
+      "message_ar": "أقوم بإعادة تعيين PCI وتحديث علاقات الجوار؛ متوقع انقطاع بث وجيز (<1 ثانية). تم تطبيق التغيير بنجاح؛ عاودت الخلية قبول المشتركين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early signs look better: SINR trending ~6–7 dB, ping-pong indications falling, and p50 DL moving above 7–8 Mbps.",
+      "message_ar": "المؤشرات الأولية أفضل: SINR يتجه إلى ~6–7 dB، وانخفاض في مؤشرات التقلبات، وDL الوسيط يرتفع فوق 7–8 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I'll document this fix for traceability and continue watching counters. Do you agree to log a tracking record?",
+      "message_ar": "جيد. سأوثّق هذا الإصلاح للمرجعية وأواصل متابعة العدادات. هل توافق على فتح سجل تتبع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please log it.",
+      "message_ar": "نعم، يرجى فتحه."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created record DU-PCI-04219 for the PCI correction; initial counters reset and notes added.",
+      "message_ar": "تم إنشاء السجل DU-PCI-04219 لتصحيح PCI؛ تم تهيئة العدادات الأولية وإضافة الملاحظات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: handover failures are trending down and slow data complaints are easing. Action taken was PCI reassignment with neighbor parameter optimization; let's monitor through the next busy hour. Reference DU-PCI-04219.",
+      "message_ar": "تمت ملاحظة تحسن: حالات فشل التسليم في انخفاض وشكاوى بطء البيانات تتراجع. الإجراء كان إعادة تعيين PCI مع تحسين معلمات الجوار؛ لنراقب حتى ساعة الذروة القادمة. المرجع DU-PCI-04219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the busy-hour monitoring and update the ticket afterward. If degradation reappears, we'll escalate to regional RF for cluster-wide retune; if adverse effects are seen, we will roll back to the prior PCI and re-evaluate.",
+      "message_ar": "سنتولى مراقبة ساعة الذروة وتحديث التذكرة بعدها. إذا عاد التدهور سنصعّد إلى فريق الترددات الإقليمي لإعادة ضبط على مستوى العنقود؛ وإذا ظهرت آثار سلبية سنعود إلى PCI السابق ونعيد التقييم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosis confirmed a PCI collision after integration: the new sector shared PCI 107 with a nearby macro, causing interference, handover failures, and ping-pong. We retuned the site parameters by reassigning the PCI and refreshing neighbor relations, then logged a tracking ticket. Early KPIs improved (SINR and mobility), and we will continue monitoring during the next busy hour.",
+    "ar": "التشخيص أكد وجود تصادم PCI بعد الدمج: القطاع الجديد شارك PCI 107 مع ماكرو قريب، ما سبب تداخلًا وفشل تسليم وتقلبات. قمنا بضبط معلمات الموقع بإعادة تعيين PCI وتحديث علاقات الجوار، ثم تم تسجيل تذكرة متابعة. تحسنت المؤشرات الأولية (SINR والحركة)، وسنواصل المراقبة خلال ساعة الذروة القادمة."
+  }
+}

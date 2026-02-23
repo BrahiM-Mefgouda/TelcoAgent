@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0012",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell over the last 3 hours off-peak shows latency at 45 ms with 139 users, BLER ~7.8%, SINR 10 dB, and p50 throughput at 8 Mbps causing slow data.",
+    "ar": "خلية ماكرو NR في منطقة شبه حضرية خلال آخر 3 ساعات خارج الذروة تُظهر كمونًا عند 45 مللي ثانية مع 139 مستخدمًا، وBLER حوالي 7.8%، وSINR ‏10 dB، ومعدل نقل p50 عند 8 Mbps مما يسبب بيانات بطيئة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell, last 3h off-peak: latency ~45 ms, p50 throughput 8 Mbps (slow data), BLER ~7.8%, SINR 10 dB, PRB ~60%, 139 users, no alarms.",
+      "message_ar": "خلية ماكرو NR في منطقة شبه حضرية، آخر 3 ساعات خارج الذروة: الكمون ~45 مللي ثانية، معدل نقل p50 يبلغ 8 Mbps (بيانات بطيئة)، BLER ~7.8%، وSINR ‏10 dB، وPRB ~60%، و139 مستخدمًا، ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll pull a management snapshot for this cell over the 3h window to validate queues and retransmissions; please approve access. Traffic is mainly eMBB (streaming).",
+      "message_ar": "سأجلب لقطة من نظام الإدارة لهذه الخلية خلال نافذة 3 ساعات للتحقق من الطوابير وإعادة الإرسال؛ يرجى الموافقة على الوصول. الحركة أساسًا eMBB (بث)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved.",
+      "message_ar": "تمت الموافقة على الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot shows moderate load (PRB 55–65%), elevated DL retransmissions, and intermittent RLC buffer buildup; low share of low-latency bearers; no cell faults. Next, I will pull detailed latency time series for the same window to isolate spikes and correlation—proceed?",
+      "message_ar": "تُظهر اللقطة حملاً متوسطًا (PRB 55–65%)، وارتفاعًا في إعادة الإرسال بالوصلة الهابطة، وتراكمًا متقطعًا في مخازن RLC؛ وحصة منخفضة لحاملات الكمون المنخفض؛ ولا توجد أعطال بالخلية. بعد ذلك سأجلب سلسلة زمنية مفصلة للكمون للفترة نفسها لعزل الارتفاعات والارتباط—هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency trend shows p50 ~45 ms with p95 spikes 60–70 ms about every 15 minutes, coinciding with BLER ~8–9% while load stays moderate. This indicates radio retries driving queuing. I recommend a safe latency-oriented tuning (scheduler/queue trims and modest BLER target tightening). Approve change?",
+      "message_ar": "منحنى الكمون يُظهر p50 ~45 مللي ثانية مع ارتفاعات p95 بين 60–70 مللي ثانية كل ~15 دقيقة، متزامنة مع BLER ~8–9% بينما الحمل متوسط. هذا يشير إلى أن إعادة المحاولات الراديوية تُسبب التكدس في الطوابير. أوصي بضبط موجه للكمون (تقليص الطوابير وضبط هدف BLER بشكل متحفظ). هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning to prioritize low-latency flows and trim buffers; commit successful. Immediate post-check: BLER ~6.5% and median latency trending 28–32 ms; no error counters increased. I will keep observing.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع لإعطاء أولوية للتدفقات ذات الكمون المنخفض وتقليص المخازن؛ تم الالتزام بنجاح. فحص فوري بعد التغيير: BLER ~6.5% والكمون الوسيط يتجه إلى 28–32 مللي ثانية؛ دون ارتفاع في العدادات. سأستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged; watching KPIs.",
+      "message_ar": "تم، سأراقب مؤشرات الأداء."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please watch p50 latency and BLER over the next short interval and share any user feedback.",
+      "message_ar": "يرجى متابعة كمون p50 وBLER خلال الفترة القصيرة القادمة ومشاركتنا أي ملاحظات من المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "p50 latency is now ~30 ms and slow data reports are easing after the site parameter tuning. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "كمون p50 الآن ~30 مللي ثانية وتقارير البيانات البطيئة تتراجع بعد ضبط معلمات الموقع. دعونا نراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and update you on latency and BLER. If latency regresses or BLER rises, we will roll back the last change and escalate to RF/transport as needed.",
+      "message_ar": "سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنزودكم بتحديث حول الكمون وBLER. إذا تراجع الأداء أو ارتفع BLER، سنعيد آخر تغيير ونصعّد إلى فرق الترددات/النقل عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a latency SLA breach in a suburban NR macro cell during off-peak with slow data symptoms. Management stats and latency time-series showed periodic latency spikes correlating with elevated BLER under moderate load. Applied site parameter tuning to prioritize low-latency traffic and trim buffers, resulting in improved BLER and reduced median latency; continued monitoring is in place.",
+    "ar": "تم التحقيق في خرق SLA للكمون في خلية ماكرو NR شبه حضرية خارج أوقات الذروة مع أعراض بيانات بطيئة. أظهرت إحصاءات الإدارة والسلسلة الزمنية للكمون ارتفاعات دورية في الكمون مرتبطة بزيادة BLER رغم الحمل المتوسط. تم تطبيق ضبط معلمات الموقع لإعطاء أولوية للتدفقات منخفضة الكمون وتقليص المخازن، ما أدى إلى تحسن BLER وانخفاض الكمون الوسيط؛ المراقبة مستمرة."
+  }
+}

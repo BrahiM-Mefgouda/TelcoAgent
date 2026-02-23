@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0013",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G macro cell shows elevated ping-pong handovers over the last 5h with HO success around 86% and median throughput ~6 Mbps causing slow data for eMBB streaming users.",
+    "ar": "موقع ماكرو 5G في منطقة سكنية يُظهر ارتفاعاً في عمليات التسليم ذهاباً وإياباً خلال آخر 5 ساعات مع نجاح تسليم يقارب 86% ومعدل نقل وسطي ~6 ميجابت/ث، مما يسبب بطئاً في البيانات لمستخدمي بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Over the last 5h, suburban 5G macro cell NR-SUB-MAC-012 shows ping-pong handovers ~15%, HO success ~86%, and median throughput ~6 Mbps during shoulder hours; traffic is mostly eMBB streaming.",
+      "message_ar": "خلال آخر 5 ساعات، يُظهر الموقع الماكرو NR-SUB-MAC-012 في منطقة سكنية معدل تسليم ذهاباً وإياباً ~15%، ونسبة نجاح تسليم ~86%، ومعدل نقل وسطي ~6 ميجابت/ث خلال فترة الذروة المتوسطة؛ الحركة غالبها بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will first pull recent mobility and neighbor statistics for NR-SUB-MAC-012 over 5h to validate ping-pong pairs and current HO thresholds. Please confirm access.",
+      "message_ar": "تم الفهم. سأقوم أولاً بجلب إحصاءات الحركة والجيران لـ NR-SUB-MAC-012 خلال 5 ساعات للتحقق من أزواج التسليم ذهاباً وإياباً وقيم عتبات التسليم الحالية. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for NR-SUB-MAC-012, window 5h.",
+      "message_ar": "تمت الموافقة على الوصول لـ NR-SUB-MAC-012، نافذة 5 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters: top ping-pong pairs are with NR-SUB-MAC-011 and NR-SUB-MAC-013; 38% of returns occur within 60s. Current thresholds: A3 offset 2 dB, TTT 180 ms, hysteresis 2 dB. Neighbor list consistent; no alarms.",
+      "message_ar": "تم سحب العدّادات: أبرز أزواج التسليم ذهاباً وإياباً مع NR-SUB-MAC-011 وNR-SUB-MAC-013؛ 38% من العودة تتم خلال 60 ثانية. القيم الحالية: إزاحة A3 بمقدار 2 ديسيبل، وTTT 180 مللي ثانية، وعتبة الهسترة 2 ديسيبل. قائمة الجيران متسقة ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will review HO and mobility time series to pinpoint spike periods and correlate with quality/load. Proceed?",
+      "message_ar": "بعد ذلك، سأراجع السلاسل الزمنية للتسليم والحركة لتحديد فترات الارتفاع وربطها بالجودة/الحمولة. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows spikes between 16:00–18:00 with ping-pong at 14–16% and HO success dipping to 84–86%. BLER ~5%, PRB 65–70%, RSRQ ~-9 dB, SINR ~9 dB. Pattern indicates border oscillation rather than congestion.",
+      "message_ar": "السلاسل الزمنية تُظهر ارتفاعاً بين 16:00 و18:00 مع معدل ذهاب/إياب 14–16% وانخفاض نجاح التسليم إلى 84–86%. نسبة BLER ~5%، واستغلال PRB 65–70%، وRSRQ حوالي -9 ديسيبل، وSINR حوالي 9 ديسيبل. النمط يشير إلى تذبذب على الحدود وليس ازدحاماً."
+    },
+    {
+      "role": "agent",
+      "message_en": "To damp ping-pong at the borders, I propose modest mobility tuning: raise A3 offset to 3 dB toward 011/013, increase TTT to 320 ms, and set hysteresis to 3 dB with a short return guard. Minimal impact expected. Approve to implement now?",
+      "message_ar": "للحد من الذهاب/الإياب على الحدود، أقترح ضبطاً طفيفاً للحركة: رفع إزاحة A3 إلى 3 ديسيبل باتجاه 011/013، وزيادة TTT إلى 320 مللي ثانية، وضبط الهسترة إلى 3 ديسيبل مع حارس عودة قصير. التأثير الجانبي المتوقع محدود. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "تمت الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied on NR-SUB-MAC-012 toward 011/013; commit successful and rollback is ready. I will watch early counters for regressions.",
+      "message_ar": "تم تطبيق التغييرات على NR-SUB-MAC-012 باتجاه 011/013؛ تم الاعتماد بنجاح وخطة الرجوع جاهزة. سأراقب المؤشرات الأولية لأي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: ping-pong returns have dropped to about 8% and HO success is trending up. The site parameter tuning looks effective. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "ملاحظة أولية: انخفضت العودات ذهاباً وإياباً إلى نحو 8% ونسبة نجاح التسليم تتحسن. يبدو أن ضبط معلمات الموقع فعّال. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next 2–4 hours and report outcomes. If performance degrades, we will roll back the change and escalate to field RF; otherwise we will keep the optimization and close out.",
+      "message_ar": "تم الاستلام. سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونبلغ بالنتائج. إذا تدهور الأداء، سنرجع عن التغيير ونصعّد إلى فريق الترددات الميداني؛ وإلا سنُبقي التحسين ونقوم بالإغلاق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-MAC-012",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-MAC-012",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "Increase A3 offset to 3 dB toward NR-SUB-MAC-011/013, set TTT to 320 ms, hysteresis to 3 dB, and enable short return guard"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers on a suburban 5G macro cell during shoulder hours, with HO success around 86% and slow data. Analysis of handover timelines confirmed border flapping without congestion. Mitigation was applied via site parameter tuning (A3 offset, TTT, hysteresis) to stabilize mobility, with short-term monitoring to verify sustained improvement.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم ذهاباً وإياباً في موقع ماكرو 5G سكني خلال فترة الذروة المتوسطة مع نجاح تسليم يقارب 86% وبطء في البيانات. أكّد تحليل السلاسل الزمنية للتسليم وجود تذبذب حدودي دون ازدحام. تم تطبيق إجراء تخفيفي عبر ضبط معلمات الموقع (إزاحة A3 ووقت TTT والهسترة) لاستقرار الحركة، مع مراقبة قصيرة الأجل للتحقق من استدامة التحسّن."
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0010",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro site over 24h shows ~9% URLLC slice admission denials with ~23 requests/min, PRB ~81% and slice utilization 59%, indicating the 96% admission threshold is overly strict.",
+    "ar": "موقع ماكرو NR حضري خلال 24 ساعة يظهر نسبة رفض قبول لشريحة URLLC بحوالي 9% مع ~23 طلب/دقيقة، واستخدام PRB ~81% واستغلال الشريحة 59%، ما يشير إلى أن حد القبول 96% صارم للغاية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector shows rising URLLC slice admission denials (~9%) over the last 24h; ~23 requests/min, PRB ~81%, slice utilization ~59%, latency ~12 ms. eMBB (streaming) dominates. Please investigate.",
+      "message_ar": "قطاع ماكرو NR حضري يُظهر ارتفاعاً في رفض قبول شريحة URLLC (~9%) خلال آخر 24 ساعة؛ ~23 طلب/دقيقة، استخدام PRB ~81%، استغلال الشريحة ~59%، والزمن ~12 مللي ثانية. حركة eMBB (بث) هي المهيمنة. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first pull the OSS performance and current slice policy for the affected cell over 24h. Please share the exact cell/sector and URLLC slice IDs, and confirm access.",
+      "message_ar": "سأقوم أولاً بسحب مؤشرات الأداء وسياسة الشريحة الحالية من نظام التشغيل للشبكة خلال 24 ساعة. يرجى مشاركة معرّفات الخلية/القطاع وشريحة URLLC وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-24567-S2; URLLC slice: SL-URLLC-07. Access approved.",
+      "message_ar": "معرّف الخلية: NR-24567-S2؛ شريحة URLLC: SL-URLLC-07. الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Retrieved KPIs and slice rules. Findings: repeated URLLC admissions rejected while PRB stays ~80–82% and URLLC utilization ~59%. Admission threshold is set to 96% with low pre-emption, leading to unnecessary rejections during mixed hours.",
+      "message_ar": "تم جلب المؤشرات وقواعد الشريحة. النتائج: رفض متكرر لقبول URLLC بينما يبقى PRB ~80–82% واستغلال URLLC ~59%. حد القبول مضبوط على 96% مع أولوية إزاحة منخفضة، ما يؤدي إلى رفض غير ضروري خلال ساعات الحركة المختلطة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. No alarms or backhaul issues noted here.",
+      "message_ar": "مفهوم. لا توجد إنذارات أو مشاكل في الربط الخلفي لدينا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed fix: reduce URLLC admission threshold to 85%, enable moderate pre-emption over eMBB, and cap reservation at 70% to protect eMBB. This targets the 9% denial rate without impacting latency. Approve for NR-24567-S2 / SL-URLLC-07?",
+      "message_ar": "الإصلاح المقترح: خفض حد قبول URLLC إلى 85%، تفعيل إزاحة متوسطة على حساب eMBB، وتحديد حد حجز عند 70% لحماية eMBB. الهدف خفض نسبة الرفض 9% دون تأثير على الكمون. هل توافق لتطبيقه على NR-24567-S2 / SL-URLLC-07؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for this sector. Maintain the latency target and avoid pushing congestion elsewhere. Proceed.",
+      "message_ar": "موافَق لهذا القطاع. حافظ على هدف الكمون وتجنب نقل الازدحام إلى أماكن أخرى. تفضّل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Policy update applied on NR-24567-S2 for SL-URLLC-07. Initial check (10 min): admission denials dropped to ~3%; PRB ~79–81%; latency steady ~12 ms. No adverse impact to eMBB observed.",
+      "message_ar": "تم تطبيق تحديث السياسة على NR-24567-S2 لشريحة SL-URLLC-07. فحص أولي (10 دقائق): انخفضت حالات الرفض إلى ~3%؛ PRB ~79–81%؛ الكمون ثابت ~12 مللي ثانية. لا تأثير سلبي على eMBB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field probes confirm more URLLC sessions are admitted; denial rate ~3% this interval. Stability looks good.",
+      "message_ar": "قياسات الحقل تؤكد قبول عدد أكبر من جلسات URLLC؛ نسبة الرفض ~3% في هذه الفترة. الاستقرار جيد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Logging a follow-up ticket with the policy change and monitoring notes for traceability. Ticket DU-SLICE-04178 is created.",
+      "message_ar": "سأقوم بتسجيل تذكرة متابعة تتضمن تعديل السياسة وملاحظات المراقبة لتتبع الحالة. تم إنشاء التذكرة DU-SLICE-04178."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: admission denials trending down. Action restated: slice policy update applied (threshold and pre-emption adjusted). Let’s monitor through the next busy hour and track via DU-SLICE-04178.",
+      "message_ar": "تحسّن ملحوظ: انخفاض في اتجاه حالات رفض القبول. الإجراء المُتخذ: تم تطبيق تحديث سياسة الشريحة (تعديل الحد والإزاحة). لنتابع خلال ساعة الذروة القادمة والمتابعة عبر DU-SLICE-04178."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update DU-SLICE-04178 with admission and latency trends. If denials rise or latency degrades, we will roll back the change and escalate to the slicing team for deeper analysis.",
+      "message_ar": "سنقوم نحن بمتابعة الأداء خلال ساعة الذروة القادمة وتحديث DU-SLICE-04178 باتجاهات القبول والكمون. إذا ارتفعت حالات الرفض أو تدهور الكمون، سنُرجع التغيير ونصعّد الأمر إلى فريق الشرائح لتحليل أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-24567-S2",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "SL-URLLC-07",
+        "admission_threshold=85%;preemption=moderate;reservation_cap=70%"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC admission denials due to strict threshold; policy updated on NR-24567-S2; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed URLLC slice admission failures on an urban NR macro sector caused by an overly strict 96% admission threshold despite moderate PRB and slice utilization. Applied a slice policy update lowering the threshold, enabling moderate pre-emption, and capping reservation to protect eMBB, then created a follow-up ticket. Early results show admission denials reduced with latency unchanged; continued monitoring is planned for the next busy hour.",
+    "ar": "تم تشخيص حالات فشل قبول شريحة URLLC في قطاع ماكرو NR حضري نتيجة حد قبول صارم 96% رغم استخدام PRB واستغلال الشريحة بمستويات متوسطة. تم تطبيق تحديث لسياسة الشريحة بخفض الحد، وتمكين إزاحة متوسطة، وتحديد حد حجز لحماية eMBB، ثم إنشاء تذكرة متابعة. النتائج الأولية تُظهر انخفاضاً في الرفض مع ثبات الكمون؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0025",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell over the last 6h shows a congestion alarm with QoS ~0.13 vs 0.99 target, PRB ~91.6%, latency 77 ms, 661 users, and p50 downlink 12 Mbps.",
+    "ar": "خلية NR صغيرة في الملعب خلال آخر 6 ساعات تظهر إنذار ازدحام مع جودة خدمة ~0.13 مقابل هدف 0.99، واستغلال PRB ~91.6%، وزمن تأخير 77 مللي ثانية، و661 مستخدماً، ومعدل تنزيل وسيطي 12 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium ingress over the last 6h on the NR micro cell shows a congestion alarm; QoS is ~0.13 vs 0.99 target, PRB ~91.6%, latency 77 ms, BLER 9.4%, ~661 users, and p50 DL 12 Mbps.",
+      "message_ar": "خلال آخر 6 ساعات أثناء دخول الجماهير في الملعب وعلى خلية NR صغيرة هناك إنذار ازدحام؛ جودة الخدمة ~0.13 مقابل هدف 0.99، واستغلال PRB ~91.6%، وزمن التأخير 77 مللي ثانية، وBLER بنسبة 9.4%، وحوالي 661 مستخدماً، والتنزيل الوسطي 12 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling OSS stats for cell NR-STAD-05-MICRO-01 over the last 6h to validate load and errors; please confirm access and the cell ID.",
+      "message_ar": "سأبدأ بجلب إحصاءات النظام للإدارة من الخلية NR-STAD-05-MICRO-01 خلال آخر 6 ساعات للتحقق من الحمل والأخطاء؛ يرجى تأكيد صلاحية الوصول ومعرّف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved and cell ID confirmed: NR-STAD-05-MICRO-01; no maintenance ongoing.",
+      "message_ar": "تمت الموافقة على الوصول وتأكيد معرّف الخلية: NR-STAD-05-MICRO-01؛ لا توجد صيانة جارية."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS shows sustained high load: PRB peaking 95% (avg ~91.6%), DL p50 ~12 Mbps, latency ~77 ms, BLER ~9–10%, and no backhaul alarms. Next, I will plot the QoS index for the same 6h window to assess SLA breaches—proceed?",
+      "message_ar": "تُظهر بيانات نظام الإدارة حملاً مرتفعاً مستمراً: استغلال PRB يصل إلى 95% (بمتوسط ~91.6%)، والتنزيل الوسطي ~12 ميجابت/ث، وزمن التأخير ~77 مللي ثانية، وBLER ~9–10%، ولا إنذارات في النقل الخلفي. سأرسم الآن مؤشر جودة الخدمة لنفس نافذة 6 ساعات لتقييم انتهاكات SLA—هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed; note there was a streaming spike at gates during ingress.",
+      "message_ar": "تابع؛ كانت هناك ذروة بث عند البوابات أثناء الدخول."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS timeseries confirms severe degradation: median ~0.13 with prolonged dips and ~56% of intervals below the SLA target 0.99; it correlates with PRB >85%. Root cause is congestion on the stadium micro during ingress. I will open an incident for expedited capacity/scheduler tuning and temporary traffic steering—approve?",
+      "message_ar": "سلسلة مؤشر جودة الخدمة تؤكد التدهور الحاد: وسيط ~0.13 مع هبوطات طويلة وحوالي 56% من الفترات تحت هدف SLA البالغ 0.99؛ ويرتبط ذلك باستغلال PRB>85%. السبب الجذري هو الازدحام على الخلية الصغيرة في الملعب أثناء الدخول. سأفتح بلاغاً لتسريع ضبط السعة/الجدولة والتوجيه المؤقت للحركة—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; include the ingress event context and stadium micro details.",
+      "message_ar": "موافق؛ أدرج سياق حدث الدخول وتفاصيل الخلية الصغيرة في الملعب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident DU-SLA-04127 opened with analysis, QoS and load evidence, and a request for priority handling of capacity/scheduler adjustments and temporary steering. I will continue tracking and attach updates.",
+      "message_ar": "تم فتح البلاغ DU-SLA-04127 مع التحليل وأدلة الجودة والحمل، وطلب المعالجة بالأولوية لضبط السعة/الجدولة والتوجيه المؤقت. سأستمر بالمتابعة وإرفاق التحديثات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-event, load eased slightly: PRB ~82% and latency down to ~55 ms, but QoS is still below target.",
+      "message_ar": "بعد الحدث، انخفض الحمل قليلاً: PRB حوالي 82% وانخفض التأخير إلى ~55 مللي ثانية، لكن جودة الخدمة ما زالت دون الهدف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; I added these observations to DU-SLA-04127 and will keep collecting KPIs through the next peak period. No further on-air changes from our side until operations act on the ticket.",
+      "message_ar": "تم؛ أضفت هذه الملاحظات إلى DU-SLA-04127 وسأواصل جمع مؤشرات الأداء خلال فترة الذروة التالية. لا تغييرات على الهواء من جانبنا حتى تتخذ العمليات إجراءً على البلاغ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted with latency trending down and QoS rising, though still short of target. After OSS and QoS analysis, you opened the incident and documented findings. Let’s monitor through the next busy hour and review against DU-SLA-04127.",
+      "message_ar": "لوحظ تحسن مع انخفاض التأخير وارتفاع جودة الخدمة، رغم أنها لا تزال دون الهدف. بعد تحليل بيانات الإدارة ومؤشر الجودة قمت بفتح البلاغ وتوثيق النتائج. لنتابع خلال ساعة الذروة التالية ونراجع مقابل DU-SLA-04127."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update DU-SLA-04127 after the window. If QoS remains degraded, we will escalate for temporary offload and capacity measures; if any temporary changes cause negative impact, we will roll back to the previous state.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة التالية وسنحدّث DU-SLA-04127 بعد انتهاء النافذة. إذا بقيت جودة الخدمة متدهورة فسوف نُصعّد لتنفيذ تفريغ مؤقت وإجراءات زيادة السعة؛ وإذا تسببت أي تغييرات مؤقتة في تأثير سلبي فسنعود إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-STAD-05-MICRO-01",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-STAD-05-MICRO-01",
+        "QoS",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA breach at stadium NR micro during ingress: QoS 0.13 vs 0.99, PRB 91.6%, latency 77 ms, users 661. Request capacity/scheduler adjustments and temporary steering."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "During the stadium ingress window, the NR micro cell suffered congestion, with high PRB utilization and elevated latency driving the QoS index down to ~0.13, breaching the SLA target. The agent confirmed the issue via live stats and a QoS time series, then opened incident DU-SLA-04127 for priority capacity and scheduler tuning with temporary traffic steering. Monitoring will continue through the next busy hour and the ticket will be updated with outcomes.",
+    "ar": "خلال فترة دخول الجماهير في الملعب، عانت خلية NR الصغيرة من ازدحام أدى إلى ارتفاع استغلال الموارد وزمن التأخير وانخفاض مؤشر جودة الخدمة إلى ~0.13 بما يخالف هدف SLA. أكد الوكيل المشكلة عبر إحصاءات مباشرة وسلسلة زمنية لمؤشر الجودة، ثم فتح البلاغ DU-SLA-04127 لطلب ضبط السعة والجدولة بشكل عاجل مع توجيه مؤقت للحركة. ستستمر المراقبة خلال ساعة الذروة التالية وسيتم تحديث البلاغ بالنتائج."
+  }
+}

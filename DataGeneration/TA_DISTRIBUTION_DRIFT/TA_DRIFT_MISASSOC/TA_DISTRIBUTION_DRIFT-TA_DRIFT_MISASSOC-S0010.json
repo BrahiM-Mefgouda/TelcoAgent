@@ -1,0 +1,120 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_MISASSOC-S0010",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_MISASSOC",
+  "query": {
+    "en": "Suburban NR macro over the last 6h shows timing advance drift with high TA percentiles and 18% distant serving, alongside interference / signal overlap (SINR ~4 dB).",
+    "ar": "قطاع ماكرو NR في منطقة ضاحية خلال آخر 6 ساعات يعاني انحرافاً في توزيع زمن الوصول مع قيم مئوية مرتفعة ونسبة تخديم بعيد 18% مع وجود تداخل/تراكب إشارات (SINR ~4 dB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 6h shows TA distribution drift: p50 ~274 m, p95 ~318 m, std 79 m; distant serving ~18%. HO success ~89% with ~9% failures. RSRP ~-112 dBm, RSRQ -12 dB, SINR ~4 dB. Mixed hours with some streaming usage.",
+      "message_ar": "القطاع الماكرو NR في منطقة ضاحية خلال آخر 6 ساعات يظهر انحرافاً في توزيع زمن الوصول: الوسيط ~274 م، p95 ~318 م، والانحراف المعياري 79 م؛ نسبة التخديم البعيد ~18%. نجاح التسليم ~89% مع ~9% فشل. RSRP حوالي -112 dBm و RSRQ -12 dB و SINR ~4 dB. الحركة خلال أوقات مختلطة مع بعض البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "This suggests overshoot/mis-association aggravated by interference/signal overlap. I will start with an OSS health check for the last 6h to pull mobility/coverage KPIs and neighbor context. Please confirm access to the sector.",
+      "message_ar": "هذا يشير إلى تمدد تغطية/ارتباط خاطئ يتفاقم بسبب التداخل/تراكب الإشارات. سأبدأ بفحص صحة عبر نظام الإدارة للشبكة لآخر 6 ساعات لجلب مؤشرات التنقل/التغطية وسياق الجيران. يرجى تأكيد صلاحية الوصول إلى القطاع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved (read-only) for the sector and the same 6h window. No active alarms.",
+      "message_ar": "تمت الموافقة على الوصول (قراءة فقط) للقطاع ولنفس نافذة 6 ساعات. لا توجد إنذارات فعالة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing OSS check now for the 6h window to collect TA, HO, RSRP/RSRQ/SINR, PRB, and neighbor relations.",
+      "message_ar": "أقوم الآن بتنفيذ فحص عبر نظام الإدارة للشبكة لنافذة 6 ساعات لجمع TA وعمليات التسليم وRSRP/RSRQ/SINR وPRB وعلاقات الجيران."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: TA p95 318 m with upward drift; distant serving 18%. Signal weak (RSRP -112 dBm) and quality poor (RSRQ -12 dB, SINR 3–5 dB). HO failures ~9% concentrated at cell edges; adjacent sectors intermittently stronger. This indicates range overshoot and boundary mis-association.",
+      "message_ar": "النتائج: TA p95 عند 318 م مع اتجاه تصاعدي؛ التخديم البعيد 18%. الإشارة ضعيفة (RSRP -112 dBm) والجودة منخفضة (RSRQ -12 dB وSINR بين 3–5 dB). فشل التسليم ~9% متمركز عند حواف الخلية؛ القطاعات المجاورة أقوى بشكل متقطع. هذا يدل على تمدد تغطية وارتباط خاطئ عند الحدود."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I will analyze the TA time series to pinpoint when the drift peaks and correlate with interference and load. Proceed?",
+      "message_ar": "التالي، سأحلل السلسلة الزمنية لـ TA لتحديد أوقات الذروة وربطها بالتداخل والحمل. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافَق على المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "TA time series shows spikes during mixed hours; p95 rises by ~20–30 m during dips in SINR and higher PRB use. Pattern matches overshoot under load causing UEs to camp from farther away.",
+      "message_ar": "السلسلة الزمنية لـ TA تظهر قمماً خلال الأوقات المختلطة؛ يرتفع p95 بحوالي 20–30 م بالتزامن مع انخفاض SINR وارتفاع استخدام PRB. النمط يتوافق مع تمدد التغطية تحت الحمل مما يدفع الأجهزة للبقاء على هذا القطاع من مسافات أبعد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Remediation proposal: apply targeted mobility/coverage tuning—minor effective downtilt (≈0.5–1°) via reduced range bias and slightly tighter neighbor preference to trigger earlier handovers. No service interruption expected. Requesting approval to implement.",
+      "message_ar": "اقتراح المعالجة: ضبط انتقائي لمعلمات التنقل/التغطية—خفض فعّال بسيط للميل (≈0.5–1°) عبر تقليل تحيز المدى وتشديد طفيف لتفضيل الجيران لتحفيز التسليم المبكر. لا يتوقع انقطاع للخدمة. أطلب الموافقة على التنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: small coverage bias reduction and mobility threshold tuning committed. Post-change checks are clean; initial narrowing of TA distribution observed. I will continue monitoring.",
+      "message_ar": "تم تطبيق التحسين: تقليل بسيط لتحيز التغطية مع ضبط عتبات التنقل. فحوصات ما بعد التغيير سليمة؛ لوحظ تضيق أولي في توزيع TA. سأستمر بالمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: distant serving trending toward ~12% and TA p95 decreasing. Your parameter tuning appears effective. Let’s monitor through the next 2–4 hours.",
+      "message_ar": "تحسن مبكر ملحوظ: تراجع التخديم البعيد نحو ~12% وانخفاض TA p95. يبدو أن ضبط المعلمات كان فعّالاً. لنتابع المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor for the next 2–4 hours and report on TA distribution, distant serving, and HO failures. If degradation returns, we will roll back the minor tweaks or escalate for an RF retune/field check.",
+      "message_ar": "تم. سنراقب خلال الساعتين إلى الأربع القادمة ونقدم تقريراً عن توزيع TA والتخديم البعيد وفشل عمليات التسليم. إذا عادت المشكلة، سنقوم بعكس التعديلات الطفيفة أو التصعيد لإعادة ضبط ترددات الراديو/فحص ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed timing advance distribution drift on a suburban NR macro with weak signal and interference, causing mis-association/overshoot. Reviewed network health and TA time series, then applied targeted site parameter tuning (minor range bias reduction and mobility threshold adjustments) to reduce overshoot. Early metrics improved; continued monitoring is planned for the next 2–4 hours.",
+    "ar": "تم تشخيص انحراف في توزيع زمن الوصول على قطاع ماكرو NR في منطقة ضاحية مع إشارة ضعيفة وتداخل، ما أدى إلى ارتباط خاطئ/تمدد تغطية. تم فحص حالة الشبكة وتحليل السلسلة الزمنية لـ TA ثم تطبيق ضبط انتقائي لمعاملات الموقع (تقليل طفيف لتحيز المدى وضبط عتبات التنقل) للحد من التمدد. ظهرت مؤشرات تحسن مبكر؛ وستستمر المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+  }
+}

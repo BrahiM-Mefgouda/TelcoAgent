@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0009",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR micro cell shows slow data in the last 2h with a congestion alarm active and clear interference / signal overlap.",
+    "ar": "خلية NR صغيرة في الملعب تُظهر بيانات بطيئة خلال آخر ساعتين مع إنذار ازدحام مفعّل ووجود تداخل/تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR micro cell NR-STAD-B3 has slow data over the last 2h, congestion alarm active, and interference / signal overlap reported; ~445 users during ingress; please assist.",
+      "message_ar": "خلية NR صغيرة في الملعب NR-STAD-B3 تعاني من بيانات بطيئة خلال آخر ساعتين مع إنذار ازدحام مفعّل وتداخل/تراكب الإشارة؛ نحو 445 مستخدمًا أثناء مرحلة الدخول؛ الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling OSS counters for NR-STAD-B3 over the last 2h to validate load and radio health; confirm I have read access and no ongoing changes?",
+      "message_ar": "سأبدأ بسحب عدادات OSS لخلية NR-STAD-B3 لآخر ساعتين للتحقق من الحمل وصحة الراديو؛ هل تؤكد توفر صلاحية القراءة وعدم وجود تغييرات جارية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read access approved; no planned changes; the phase is ingress with crowds entering.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة؛ لا توجد تغييرات مخططة؛ المرحلة هي دخول الجماهير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled counters: PRB utilization 98.5%, users 445, DL throughput ~6 Mbps, SINR 2 dB, RSRQ -14 dB, BLER ~6%, scheduler p95 latency 103 ms—severe congestion with low radio quality. Next, I'll chart the DL throughput and load series for the same 2h to pinpoint the drop—proceed?",
+      "message_ar": "تم سحب العدادات: استخدام PRB بنسبة 98.5%، المستخدمون 445، معدل التحميل ~6 Mbps، SINR عند 2 dB، RSRQ -14 dB، BLER ~6%، كمون المُجدول p95 يساوي 103 ms—ازدحام شديد مع جودة راديو منخفضة. بعد ذلك سأرسم السلسلة الزمنية لمعدل التحميل والحمل لنفس الساعتين لتحديد نقطة الهبوط—هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows the drop aligning with gate opening; load pegged, latency spikes, and interference persists. To mitigate, I propose site parameter tuning: adjust traffic scheduler weights to protect eMBB streaming, cap per-UE bursty PRB, and slightly relax link adaptation for low SINR UEs. Approve an immediate change window?",
+      "message_ar": "تُظهر السلسلة الزمنية أن الهبوط تزامن مع فتح البوابات؛ الحمل في الذروة، ارتفاعات في الكمون، واستمرار التداخل. للتخفيف، أقترح ضبط معلمات الموقع: تعديل أوزان المُجدول لحماية بث eMBB، وضع حد PRB لكل مستخدم للاندفاعات، وتخفيف بسيط لتكيّف الوصلة للمستخدمين ذوي SINR المنخفض. هل توافق على نافذة تغيير فورية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; proceed now.",
+      "message_ar": "موافق؛ نفّذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied parameter optimization to NR-STAD-B3: scheduler fairness/priority tuned and conservative MCS bias enabled for poor-SINR UEs; change committed successfully. Early counters show DL throughput improving to ~9–10 Mbps and p95 scheduling latency easing; I'll watch for stability.",
+      "message_ar": "تم تطبيق تحسين المعلمات على NR-STAD-B3: ضبط عدالة/أولوية المُجدول وتفعيل انحياز MCS تحفظي للمستخدمين ذوي SINR المنخفض؛ تم اعتماد التغيير بنجاح. المؤشرات المبكرة تُظهر تحسن معدل التحميل إلى ~9–10 Mbps وتراجع كمون المُجدول p95؛ سأراقب الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field checks confirm improvement: speed tests now ~10 Mbps down, video streaming is smoother, and retransmissions look lower.",
+      "message_ar": "التحقق الميداني يؤكد التحسن: اختبارات السرعة الآن ~10 Mbps تحميل، بث الفيديو أكثر سلاسة، وإعادة الإرسال أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will continue observing load, downlink rate, BLER, and interference for the next period and compare against adjacent cells to ensure no negative spillover.",
+      "message_ar": "جيد. سأواصل مراقبة الحمل، معدل التحميل، BLER، والتداخل خلال الفترة القادمة ومقارنة الخلية بالخلايا المجاورة لضمان عدم وجود أثر جانبي سلبي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see sustained gains—slow data complaints down and scheduler delays trending lower after the site parameter tuning. Let's monitor through the next busy hour.",
+      "message_ar": "نرى مكاسب مستمرة—انخفضت شكاوى بطء البيانات وانخفضت تأخيرات المُجدول بعد ضبط معلمات الموقع. لنتابع المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged; we will own the next busy hour watch and share an update afterward. If performance degrades, we'll escalate to traffic offload and revert the tuning if adverse effects appear.",
+      "message_ar": "تم التأكيد؛ سنتولى مراقبة ساعة الذروة القادمة ونشارك تحديثًا بعد ذلك. إذا تدهور الأداء، سنصعّد إلى تفريغ حركة المرور وسنرجع الضبط إذا ظهرت آثار سلبية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a downlink throughput drop on the stadium NR micro cell during ingress: PRB ~98.5%, low SINR with interference, elevated scheduler latency, and DL near 6 Mbps. Verified via 2-hour OSS counters and DL time series, then applied site parameter tuning to adjust scheduler priorities and link adaptation. Post-change, throughput and latency improved; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص هبوط في معدل التحميل لخلية NR صغيرة في الملعب أثناء مرحلة الدخول: استخدام PRB ~98.5%، SINR منخفض مع تداخل، كمون مُجدول مرتفع، ومعدل تحميل يقارب 6 Mbps. تم التحقق عبر عدادات OSS لمدة ساعتين والسلسلة الزمنية للتحميل، ثم تطبيق ضبط لمعلمات الموقع لتعديل أولويات المُجدول وتكيّف الوصلة. بعد التعديل تحسن المعدل والكمون؛ ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

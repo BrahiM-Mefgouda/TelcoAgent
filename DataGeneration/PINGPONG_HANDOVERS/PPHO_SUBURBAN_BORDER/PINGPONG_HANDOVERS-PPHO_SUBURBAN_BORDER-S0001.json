@@ -1,0 +1,105 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0001",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows high ping-pong handovers (19%) and only 86% handover success over the last 5 hours during peak eMBB traffic.",
+    "ar": "خلية ماكرو 5G NR في منطقة ضواحي تُظهر معدل تبديلات ذهاب وإياب مرتفعًا (19٪) ونجاح تبديل منخفضًا (86٪) خلال آخر 5 ساعات أثناء ذروة حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro border cell with elevated ping-pong over the last 5h at peak; HO success 86%, ping-pong 19%, HO fail 7%. RSRP -103 dBm, RSRQ -12 dB, SINR 10 dB, ~323 users, impacting streaming users. No active alarms.",
+      "message_ar": "خلية حدودية ماكرو NR في الضواحي تُظهر ارتفاعًا في الذهاب والإياب خلال آخر 5 ساعات وقت الذروة؛ نجاح التبديل 86٪، الذهاب والإياب 19٪، فشل التبديل 7٪. RSRP -103 dBm، RSRQ -12 dB، SINR 10 dB، حوالي 323 مستخدمًا، مع تأثير على مستخدمي البث. لا توجد إنذارات فعّالة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the fix: first check recent health/config and counters for the last 5h, then review HO time series for ping-pong patterns, and if confirmed, apply targeted mobility parameter tuning. Please confirm access.",
+      "message_ar": "سأتولى المعالجة: أولًا التحقق من الحالة/الإعدادات والعدادات لآخر 5 ساعات، ثم مراجعة السلاسل الزمنية للتبديل لرصد نمط الذهاب والإياب، وإذا تأكد الأمر سنجري ضبطًا مستهدفًا لمعاملات التنقل. يرجى تأكيد الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the 5h window. Proceed.",
+      "message_ar": "تمت الموافقة على الوصول لفترة 5 ساعات. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checked current config and counters: PRB utilization 78%, 323 users. Radio quality around RSRP -103 dBm, RSRQ -12 dB, SINR 10 dB. Mobility settings show A3 offset 4 dB, TTT ~129 ms, hysteresis 3 dB. No radio faults. Conditions suggest early triggering risk at the border under load.",
+      "message_ar": "تم فحص الإعدادات والعدادات الحالية: استخدام PRB عند 78٪، وعدد المستخدمين 323. جودة الراديو: RSRP حوالي -103 dBm، وRSRQ -12 dB، وSINR 10 dB. إعدادات التنقل: إزاحة A3 بقيمة 4 dB، ووقت TTT حوالي 129 ms، والهسترة 3 dB. لا توجد أعطال راديوية. الوضع يوحي بمخاطر تحفيز مبكر للتبديل على الحدود تحت الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series confirms frequent back-and-forth between adjacent eastern and southeastern sectors; 61% of returns occur within <2 s and align with peak load intervals. This explains degraded mobility efficiency and median DL throughput around 13 Mbps.",
+      "message_ar": "السلاسل الزمنية للتبديل تؤكد تكرار الذهاب والإياب بين القطاعات الشرقية والجنوبية الشرقية المجاورة؛ 61٪ من حالات العودة تحدث خلال أقل من ثانيتين وتتوافق مع فترات الحمل الذروي. هذا يفسّر تراجع كفاءة التنقل ومتوسط سرعة التحميل عند حوالي 13 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: increase TTT to 192 ms and raise hysteresis to 4 dB while keeping A3 offset at 4 dB to delay marginal HOs and suppress ping-pong. Change is bounded and reversible. Approve optimization?",
+      "message_ar": "المقترح: رفع TTT إلى 192 ms وزيادة الهسترة إلى 4 dB مع الإبقاء على إزاحة A3 عند 4 dB لتأخير التبديلات الهامشية وتقليل الذهاب والإياب. التغيير محدود وقابل للعكس. هل توافق على التحسين؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the mobility parameter optimization.",
+      "message_ar": "موافق. تفضل بتنفيذ تحسين معاملات التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on the serving cell: increased TTT and hysteresis per proposal. Commit successful; baseline saved. Starting live monitoring for stability and HO outcomes.",
+      "message_ar": "تم تطبيق التحسين على الخلية الخادمة: زيادة TTT والهسترة حسب المقترح. تم تنفيذ الالتزام بنجاح وحفظ النسخة الأساسية. أبدأ المراقبة الحية للاستقرار ونتائج التبديل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 30 minutes, ping-pong dropped from 19% to 11% and HO success improved to 91%; back-and-forth events across border sectors are trending down. Action taken: mobility parameter optimization (TTT/hysteresis). Let’s monitor through the next busy hour.",
+      "message_ar": "بعد 30 دقيقة، انخفض الذهاب والإياب من 19٪ إلى 11٪ وتحسّن نجاح التبديل إلى 91٪؛ حالات الذهاب والإياب عبر القطاعات الحدودية في اتجاه نزولي. الإجراء المتخذ: تحسين معاملات التنقل (TTT/الهسترة). دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and provide an update afterward. If performance regresses, we will escalate to neighbor retuning and interference checks; if negative side effects appear, we will roll back to the previous values.",
+      "message_ar": "تم التأكيد. سنراقب خلال ساعة الذروة القادمة ونقدّم تحديثًا بعدها. إذا تراجعت الأداء سنصعّد إلى إعادة ضبط الجيران والتحقق من التداخل؛ وإذا ظهرت آثار جانبية سلبية سنعود إلى القيم السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "SUBURBAN-NR-MACRO-BDR01",
+        "last_5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "SUBURBAN-NR-MACRO-BDR01",
+        "HO",
+        "last_5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_a3_ttt_hyst"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a suburban 5G NR macro cell with high ping-pong handovers during peak hours. Verified via recent counters and HO time series that rapid back-and-forth events occurred between adjacent border sectors under load. Mitigated by site parameter tuning, increasing TTT and hysteresis to stabilize mobility; early results show improved HO success and reduced ping-pong.",
+    "ar": "تم تشخيص خلية ماكرو 5G NR في الضواحي بارتفاع في الذهاب والإياب خلال ساعات الذروة. أُكد ذلك عبر العدادات الحديثة والسلاسل الزمنية للتبديل التي أظهرت عودة سريعة بين القطاعات الحدودية المتجاورة تحت الحمل. تم التخفيف عبر ضبط معاملات الموقع برفع TTT والهسترة لتحقيق استقرار في التنقل؛ وتُظهر النتائج الأولية تحسنًا في نجاح التبديل وانخفاضًا في الذهاب والإياب."
+  }
+}

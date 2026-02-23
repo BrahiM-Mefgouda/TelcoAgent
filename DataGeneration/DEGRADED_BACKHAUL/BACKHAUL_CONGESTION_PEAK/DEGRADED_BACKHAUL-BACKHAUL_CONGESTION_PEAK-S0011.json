@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0011",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a congestion alarm over the last 3h: backhaul util 84%, latency 29 ms, jitter 24 ms, 2.6% loss, ~358 users and slow data (~6 Mbps DL), PRB ~63%, SINR 7 dB — investigate backhaul degradation during the shoulder hour with eMBB streaming traffic.",
+    "ar": "خلية ماكرو 5G NR حضرية تظهر إنذار ازدحام خلال آخر 3 ساعات: استخدام الوصلة الخلفية 84%، زمن التأخير 29 مللي ثانية، تذبذب 24 مللي ثانية، فقدان حزم 2.6%، نحو 358 مستخدمًا وبيانات بطيئة (~6 Mbps تنزيل)، PRB ~63%، وSINR بـ 7 dB — نحتاج للتحقق من تدهور الوصلة الخلفية خلال فترة الكتف مع حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell raising congestion alarm over the last 3h. Users report slow data at shoulder hour, mostly eMBB streaming. Snapshot: backhaul 84% util, 29 ms latency, 24 ms jitter, 2.6% loss, queue 65%, PRB ~63%, SINR 7 dB, DL ~6 Mbps with 358 users.",
+      "message_ar": "خلية NR ماكرو حضرية سجلت إنذار ازدحام خلال آخر 3 ساعات. المستخدمون يشتكون من بطء البيانات في فترة الكتف، مع بث eMBB بشكل رئيسي. اللقطات: استخدام الوصلة الخلفية 84%، زمن تأخير 29 مللي ثانية، تذبذب 24 مللي ثانية، فقدان 2.6%، امتلاء الصف 65%، PRB ~63%، SINR 7 dB، والتنزيل ~6 Mbps مع 358 مستخدمًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will begin by pulling the cell’s last 3h operational counters to confirm if transport is the bottleneck. Please approve read access.",
+      "message_ar": "تم. سأبدأ بسحب مؤشرات التشغيل لآخر 3 ساعات لهذه الخلية لتأكيد إن كانت الوصلة الخلفية هي عنق الزجاجة. يرجى اعتماد الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read-only access on this cell over the last 3 hours.",
+      "message_ar": "تمت الموافقة على وصول القراءة فقط لهذه الخلية خلال آخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm backhaul congestion: utilization 82–91%, latency 28–36 ms, loss 2.4–2.8%, jitter 20–26 ms, queue 60–70%. Radio load is moderate (PRB ~60–65%) and RF is acceptable (SINR ~7 dB), indicating transport is limiting. I propose targeted site parameter tuning to mitigate congestion (prioritize delay-sensitive flows and tighten queue handling). Approve change?",
+      "message_ar": "المؤشرات تؤكد ازدحام الوصلة الخلفية: الاستخدام 82–91%، زمن التأخير 28–36 مللي ثانية، الفقد 2.4–2.8%، التذبذب 20–26 مللي ثانية، وامتلاء الصف 60–70%. حمل الراديو متوسط (PRB ~60–65%) وجودة الإشارة مقبولة (SINR ~7 dB)، ما يشير إلى أن الحد هو النقل. أقترح ضبط معلمات الموقع للتخفيف من الازدحام (إعطاء أولوية للتدفقات الحساسة للتأخير وتحسين إدارة الطابور). هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning on this cell.",
+      "message_ar": "موافق على تنفيذ الضبط على هذه الخلية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tuning applied successfully with no service interruption; congestion control and scheduling protections adjusted for interactive traffic. I’m observing short-term stabilization. Please share immediate post-change symptoms if available.",
+      "message_ar": "تم تطبيق الضبط بنجاح دون انقطاع خدمة؛ تم تعديل التحكم بالازدحام وحمايات الجدولة لحركة المرور التفاعلية. أراقب الاستقرار قصير المدى. يرجى مشاركة الأعراض بعد التغيير إذا توفرت."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change: latency now ~22–24 ms, jitter ~16–18 ms, queue ~40–45%. Test flows show DL around 9–11 Mbps. Users report better responsiveness.",
+      "message_ar": "بعد التغيير: زمن التأخير الآن ~22–24 مللي ثانية، التذبذب ~16–18 مللي ثانية، امتلاء الصف ~40–45%. تدفقات الاختبار تظهر تنزيلًا حوالي 9–11 Mbps. المستخدمون يذكرون تحسنًا في الاستجابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. For sustained relief and to prevent recurrence at peaks, I will raise a transport follow-up for capacity augmentation and path QoS verification. Please confirm to proceed with logging this request.",
+      "message_ar": "تحسن جيد. ولضمان حل مستدام ومنع تكرار المشكلة عند الذروة، سأفتح متابعة مع فريق النقل لزيادة السعة والتحقق من جودة الخدمة على المسار. يرجى التأكيد للمضي قدمًا في تسجيل الطلب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed. Proceed with logging the request.",
+      "message_ar": "مؤكد. تفضل بتسجيل الطلب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-BH-04357 for transport capacity review and end-to-end QoS validation, with before/after KPIs attached.",
+      "message_ar": "تم إنشاء DU-BH-04357 لمراجعة سعة النقل والتحقق من جودة الخدمة من طرف إلى طرف، مع إرفاق مؤشرات الأداء قبل وبعد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holding: packet loss trending down and latency stable after the site parameter tuning/config push. Let’s monitor over the next 2–4 hours; we’ll reference DU-BH-04357.",
+      "message_ar": "التحسن مستمر: فقدان الحزم يتناقص وزمن التأخير مستقر بعد ضبط معلمات الموقع/دفع الإعداد. فلنراقب خلال الساعات 2–4 القادمة؛ سنشير إلى DU-BH-04357."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. We will own monitoring for the next 2–4 hours and update the ticket afterward. If metrics regress or queues exceed 70%, we will escalate to transport for interim path relief; if any adverse radio effects appear, we will roll back the tuning and inform you.",
+      "message_ar": "مفهوم. سنتولى المراقبة خلال الساعات 2–4 القادمة وسنحدّث التذكرة بعدها. إذا تدهورت المؤشرات أو تجاوز امتلاء الصف 70% سنصعّد إلى فريق النقل لإيجاد تخفيف مؤقت، وإذا ظهرت آثار سلبية على الراديو فسنعود عن الضبط ونبلغكم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a transport-limited condition: backhaul was saturated with elevated latency, jitter, and packet loss while radio load and RF were moderate. Applied site parameter tuning to mitigate congestion and protect interactive traffic, yielding immediate improvements. Opened a ticket for capacity augmentation and end-to-end QoS verification to ensure sustained relief.",
+    "ar": "تم تشخيص حالة محدودة بالنقل: كانت الوصلة الخلفية مشبعة مع ارتفاع في التأخير والتذبذب وفقدان الحزم بينما كان حمل الراديو وجودة الإشارة ضمن الحدود المتوسطة. تم تنفيذ ضبط معلمات الموقع للتخفيف من الازدحام وحماية الحركة التفاعلية مما أدى إلى تحسن فوري. تم فتح تذكرة لزيادة السعة والتحقق من جودة الخدمة طرفًا لطرف لضمان استمرار الحل."
+  }
+}

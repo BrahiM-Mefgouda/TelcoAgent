@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0020",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor NR micro cell shows a 4h downlink dip with congestion alarm: PRB utilization ~95%, ~198 users, DL throughput ~11 Mbps, and elevated scheduling delay in the office wing.",
+    "ar": "موقع داخلي بتقنية NR (خلايا صغيرة) يظهر هبوطاً في الساعات الأربع الماضية مع إنذار ازدحام: إشغال موارد الراديو ~95%، حوالي 198 مستخدماً، سرعة تنزيل ~11 ميجابت/ث، وتأخر جدولة مرتفع في جناح المكاتب."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing a downlink throughput drop on the indoor NR micro cell during business hours. Congestion alarm is active; DL is around 11 Mbps with ~198 users and p95 scheduling delay ~46 ms, BLER ~2.6%. Some eMBB streaming complaints from the office wing.",
+      "message_ar": "نلاحظ هبوطاً في سرعة التنزيل على خلية NR داخلية (مايكرو) خلال ساعات العمل. إنذار الازدحام نشط؛ التنزيل حوالي 11 ميجابت/ث مع ~198 مستخدماً وتأخر جدولة p95 ~46 مللي ثانية، ومعدل BLER ~2.6%. هناك شكاوى متعلقة ببث eMBB من جناح المكاتب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: 1) pull last 4h counters for the cell, 2) review downlink trends, 3) if capacity-bound, apply targeted capacity tuning. Please share the cell ID, confirm access for the 4h window, and note any recent changes.",
+      "message_ar": "الخطة: 1) سحب عدادات آخر 4 ساعات للخلية، 2) مراجعة اتجاهات التنزيل، 3) إذا كانت المشكلة سعة، سنجري ضبطاً مستهدفاً للسعة. يرجى تزويدي بمعرّف الخلية، وتأكيد صلاحية الوصول لمدة 4 ساعات، وذكر أي تغييرات حديثة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-IND-MICRO-2214. Access approved for the 4h window. No recent changes or maintenance noted.",
+      "message_ar": "معرّف الخلية هو NR-IND-MICRO-2214. الوصول مُوافق عليه لمدة 4 ساعات. لا تغييرات أو صيانة حديثة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying the last 4h counters for NR-IND-MICRO-2214 now. Findings: PRB utilization sustained 93–97%, active users peaked ~206, no RF/backhaul faults, and BLER steady ~2–3%. This aligns with congestion on the indoor micro. Proceed to downlink trend analysis?",
+      "message_ar": "أقوم الآن بسحب عدادات آخر 4 ساعات للخلية NR-IND-MICRO-2214. النتائج: إشغال PRB ثابت عند 93–97%، عدد المستخدمين بلغ الذروة ~206، لا أعطال في الراديو/الربط الخلفي، وBLER ثابت ~2–3%. هذا يتماشى مع الازدحام على الخلية الداخلية. هل نتابع تحليل اتجاهات التنزيل؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the downlink trend analysis.",
+      "message_ar": "تفضل بالمتابعة في تحليل اتجاهات التنزيل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewing DL throughput and scheduler delay over 4h: median DL ~11–13 Mbps with dips at busy hour; p95 scheduling delay 45–50 ms; BLER stable. Diagnosis: PRB contention causing throughput degradation. I propose capacity tuning for this indoor NR micro (adjust DL allocation weights and burst handling). Approve to implement?",
+      "message_ar": "أراجع سرعة التنزيل وتأخر المجدول خلال 4 ساعات: الوسيط ~11–13 ميجابت/ث مع هبوطات في ساعة الذروة؛ تأخر جدولة p95 بين 45–50 مللي ثانية؛ BLER مستقر. التشخيص: تنافس على PRB يسبب انخفاض السرعة. أقترح ضبط سعة للخلية الداخلية NR (تعديل أوزان تخصيص DL وتحسين التعامل مع الذروات). هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Limit changes to NR-IND-MICRO-2214 only.",
+      "message_ar": "موافق. احصر التغييرات على الخلية NR-IND-MICRO-2214 فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying capacity tuning now on NR-IND-MICRO-2214. Post-change quick checks: PRB headroom improved ~5%, immediate DL uptick to ~16–18 Mbps, p95 scheduling delay down to ~32 ms, BLER unchanged. I’ll monitor briefly; please confirm from your side.",
+      "message_ar": "أقوم بتطبيق ضبط السعة الآن على NR-IND-MICRO-2214. فحوصات سريعة بعد التغيير: تحسن هامش PRB بنحو ~5%، ارتفاع فوري في سرعة التنزيل إلى ~16–18 ميجابت/ث، وانخفاض تأخر الجدولة p95 إلى ~32 مللي ثانية، وBLER دون تغيير. سأراقب لفترة وجيزة؛ يرجى التأكيد من جانبكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: office wing speed tests up from ~10 to ~17 Mbps, streaming stabilized, and the congestion alarm cleared.",
+      "message_ar": "أرى تحسناً: اختبارات السرعة في جناح المكاتب ارتفعت من ~10 إلى ~17 ميجابت/ث، البث أصبح مستقراً، وإنذار الازدحام اختفى."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. We’ll hold the current tuning and observe the next busy period. No further actions now; let me know if any residual complaints appear.",
+      "message_ar": "ممتاز. سنُبقي الضبط الحالي ونراقب فترة الذروة التالية. لا إجراءات إضافية حالياً؛ أبلغني إن ظهرت شكاوى متبقية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Downlink throughput is trending up and scheduler delays are trending down after the site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "اتجاه سرعة التنزيل في ارتفاع وتأخرات المجدول في انخفاض بعد ضبط معلمات الموقع. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the monitoring through the next busy hour and share an update afterward. If congestion returns, we’ll roll back the tuning and escalate for capacity relief.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة التالية ونشارك تحديثاً بعد ذلك. إذا عاد الازدحام، سنقوم بالرجوع عن الضبط والتصعيد لإيجاد حلول سعة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The indoor NR micro cell’s downlink degradation was diagnosed as PRB congestion after network counters and DL trend analysis showed sustained high load with stable BLER and elevated scheduler delay. Targeted site parameter tuning was applied to improve downlink allocation and burst handling, resulting in higher throughput and reduced delay. We will monitor during the next busy hour to ensure stability.",
+    "ar": "تم تشخيص تدهور التنزيل في الخلية الداخلية NR (مايكرو) كازدحام على موارد PRB بعد تحليل العدادات واتجاهات التنزيل الذي أظهر حملاً مرتفعاً مستمراً مع BLER مستقر وتأخر جدولة مرتفع. تم تطبيق ضبط مستهدف لمعلمات الموقع لتحسين تخصيص التنزيل والتعامل مع الذروات، ما أدى إلى زيادة السرعة وتقليل التأخر. سنواصل المراقبة خلال ساعة الذروة التالية لضمان الاستقرار."
+  }
+}

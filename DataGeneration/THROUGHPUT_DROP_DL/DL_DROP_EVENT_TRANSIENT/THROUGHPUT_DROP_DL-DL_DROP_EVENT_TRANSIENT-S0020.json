@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_EVENT_TRANSIENT-S0020",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_EVENT_TRANSIENT",
+  "query": {
+    "en": "Stadium NR microcell shows a 2h downlink throughput drop to ~10 Mbps with very low SINR (~2 dB) indicating interference/signal overlap, and a congestion alarm is active.",
+    "ar": "الموقع في الملعب (خلية NR صغيرة) يُظهر انخفاضاً في معدل التحميل خلال ساعتين إلى ~10 ميجابت/ث مع قيمة SINR منخفضة جداً (~2 دB) ما يدل على تداخل/تراكب الإشارة، بالإضافة إلى إنذار ازدحام فعّال."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR microcell experiencing DL throughput ~10 Mbps over the last 2h; congestion alarm active. PRB ~95%, SINR ~2 dB, RSRQ -11 dB, BLER ~6.7%, users peaked ~623 (ingress). Need assistance.",
+      "message_ar": "خلية NR صغيرة في الملعب تعاني من معدل تنزيل ~10 ميجابت/ث خلال آخر ساعتين؛ إنذار ازدحام فعّال. استهلاك PRB ~95%، قيمة SINR ~2 دB، وRSRQ -11 dB، وBLER ~6.7%، وعدد المستخدمين بلغ ~623 (بداية دخول الحضور). نحتاج للمساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the recovery. Plan: 1) check OSS counters for the last 2h, 2) review DL KPI timeline, 3) apply targeted parameter tuning to relieve congestion and mitigate interference. Please confirm cell ID and access.",
+      "message_ar": "سأتولى عملية المعالجة. الخطة: 1) فحص مؤشرات OSS لآخر ساعتين، 2) مراجعة السلسلة الزمنية لمؤشرات التنزيل، 3) تطبيق ضبط معلمات مستهدف لتقليل الازدحام والتداخل. يرجى تأكيد مُعرّف الخلية والتصريح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-MICRO-STM-043. Access for the 2h window is approved.",
+      "message_ar": "معرّف الخلية: NR-MICRO-STM-043. تم منح الإذن للوصول ضمن مدة الساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS health/load check on NR-MICRO-STM-043 for the last 2h now. Findings: no faults or resets; PRB utilization peaked ~95%; p95 scheduler latency ~66 ms; users peaked ~623; backhaul normal.",
+      "message_ar": "أجري حالياً تدقيق الحالة/الحمولة عبر OSS للخلية NR-MICRO-STM-043 لآخر ساعتين. النتائج: لا أعطال أو إعادة تشغيل؛ استهلاك PRB بلغ ذروته ~95%؛ تأخير المجدول p95 حوالي 66 مللي ثانية؛ عدد المستخدمين بلغ ~623؛ الربط الخلفي طبيعي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Context: stadium ingress; heavy eMBB usage with video streaming expected.",
+      "message_ar": "سياق الحالة: بداية دخول الحضور إلى الملعب؛ استخدام eMBB كثيف متوقع مع بث فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing downlink KPI timeline for the same window. Result: DL throughput averages ~10 Mbps with dips at ingress; BLER moderate (~6–7%); SINR ~2 dB and RSRQ -11 dB indicate interference/signal overlap under load. Requesting approval to apply conservative site parameter tuning (scheduler fairness and congestion control, link adaptation robustness).",
+      "message_ar": "أحلّل السلسلة الزمنية لمؤشرات التنزيل لنفس النافذة. النتيجة: متوسط معدل التنزيل ~10 ميجابت/ث مع هبوطات عند بداية الدخول؛ BLER معتدل (~6–7%)؛ SINR ~2 دB وRSRQ -11 dB يدلان على تداخل/تراكب الإشارة تحت الحمولة. أطلب الموافقة لتطبيق ضبط محافظ لمعلمات الموقع (تحسين عدالة المُجدول والتحكم بالازدحام وتعزيز متانة تكيّف الرابط)."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the tuning on NR-MICRO-STM-043.",
+      "message_ar": "موافق. تفضل بتنفيذ الضبط على NR-MICRO-STM-043."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing parameter optimization on NR-MICRO-STM-043 now; commit successful. Expecting modest DL throughput and latency improvements under load. Monitoring immediate post-change behavior for 10–15 minutes.",
+      "message_ar": "أقوم الآن بتنفيذ تحسين المعلمات على NR-MICRO-STM-043؛ تم تطبيق التغييرات بنجاح. من المتوقع تحسن متواضع في معدل التنزيل والزمن تحت الحمولة. سأراقب السلوك بعد التغيير لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change: DL throughput trending ~15–18 Mbps; p95 scheduler latency ~50 ms; PRB still high but stable. No new alarms.",
+      "message_ar": "بعد التغيير: معدل التنزيل يتجه نحو ~15–18 ميجابت/ث؛ تأخير المجدول p95 حوالي 50 مللي ثانية؛ استهلاك PRB ما زال مرتفعاً لكنه مستقر. لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Early signs are positive; continuing to observe stability during the ongoing ingress.",
+      "message_ar": "تم. المؤشرات الأولية إيجابية؛ أواصل متابعة الاستقرار خلال فترة دخول الحضور الجارية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: downlink throughput is rising and scheduling delay is trending down. Action taken was site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن: معدل التنزيل يرتفع وتأخير الجدولة في اتجاه الانخفاض. الإجراء المتخذ كان ضبط معلمات الموقع. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and report KPI deltas afterward. If degradation recurs, we will escalate to the capacity team; if any adverse effect appears, we will roll back the tuning.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونوافيكم بفروقات المؤشرات بعدها. إذا عاد التدهور سنقوم بالتصعيد إلى فريق السعة؛ وإذا ظهرت آثار جانبية سلبية سنقوم بالتراجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "DL",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a stadium NR microcell DL throughput drop during ingress: OSS showed very high load and elevated scheduling delay, and the DL KPI timeline indicated interference-limited conditions under congestion. Applied conservative site parameter tuning to improve scheduler behavior and link robustness, resulting in higher throughput and lower delay. Continued monitoring is planned through the next busy hour.",
+    "ar": "تم تشخيص انخفاض معدل التنزيل في خلية NR صغيرة داخل الملعب أثناء بداية الدخول: أظهر OSS حمولة عالية جداً وتأخير جدولة مرتفع، وأظهرت السلسلة الزمنية لمؤشرات التنزيل ظروفاً مقيدة بالتداخل تحت الازدحام. تم تطبيق ضبط محافظ لمعلمات الموقع لتحسين سلوك المُجدول وتعزيز متانة الرابط، ما أدى إلى زيادة المعدل وانخفاض التأخير. ستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

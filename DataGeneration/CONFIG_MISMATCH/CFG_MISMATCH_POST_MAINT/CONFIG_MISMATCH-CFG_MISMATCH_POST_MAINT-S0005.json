@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0005",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows post-maintenance configuration drift with 3 mismatches over the last 10 hours, handover failures around 6%, median downlink 35 Mbps, and PRB utilization near 46%.",
+    "ar": "خلية ماكرو NR في منطقة ضاحية تُظهر انحراف إعدادات بعد الصيانة مع 3 اختلافات خلال آخر 10 ساعات، وفشل تسليم بنحو 6%، ومتوسط تحميل 35 ميجابت/ث، واستغلال موارد يقارب 46%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-maintenance check on a suburban 5G NR macro cell over the last 24h: users noted occasional streaming buffering; handover failures about 6%, median DL ~35 Mbps, PRB ~46%, no active alarms.",
+      "message_ar": "فحص بعد الصيانة لخلية ماكرو NR في منطقة ضاحية خلال آخر 24 ساعة: لوحظ تقطع بسيط في بث الفيديو؛ فشل التسليم بين الخلايا ~6%، متوسط سرعة التحميل ~35 ميجابت/ث، واستخدام الموارد ~46%، بدون إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start with a configuration-drift audit. Please share the cell ID and approve a 24h query to compare OSS target versus the live state.",
+      "message_ar": "سأبدأ بتدقيق انحراف الإعدادات. يرجى تزويدي بمعرّف الخلية والموافقة على استعلام لمدة 24 ساعة لمقارنة الحالة المرجعية في OSS مع الحالة الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SB123-1. Read access approved for the last 24h.",
+      "message_ar": "معرّف الخلية: NR-SB123-1. تمت الموافقة على الوصول القرائي لآخر 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running the audit now. Result for NR-SB123-1 over 24h: 3 mismatches detected (mobility A3 offset deviates by +2 dB, hysteresis differs by 1 dB, one neighbor relation missing). Drift started ~10h ago. I propose reconciling by pushing the OSS baseline to live. Approve the change?",
+      "message_ar": "أجري التدقيق الآن. النتيجة لخلية NR-SB123-1 خلال 24 ساعة: تم رصد 3 اختلافات (انحراف A3 في التنقل +2 dB، فرق في الهيستريس 1 dB، وعلاقة جار مفقودة). بدأ الانحراف منذ ~10 ساعات. أقترح المزامنة بدفع خط الأساس من OSS إلى الحالة الحية. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the change now.",
+      "message_ar": "تمت الموافقة على تنفيذ التغيير الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pushing reconciled config (ID: NR_MACRO_RECONCILE_2025-09-13) to NR-SB123-1. Push completed; live now matches OSS; no new alarms. We will watch handover and session stability.",
+      "message_ar": "جاري دفع الإعدادات المتزامنة (المعرف: NR_MACRO_RECONCILE_2025-09-13) إلى NR-SB123-1. تم الإكمال؛ الحالة الحية تطابق OSS؛ لا إنذارات جديدة. سنراقب استقرار التسليم والجلسات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check: handover rejects dropped on recent attempts, and streaming feels smoother.",
+      "message_ar": "فحص أولي: انخفضت رفضات التسليم في المحاولات الأخيرة، وتجربة البث أصبحت أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Documenting actions and evidence under ticket DU-CFG-04192 for traceability (mismatches and config push recorded). I will continue to monitor and compare against the last busy-hour baseline.",
+      "message_ar": "أقوم بتوثيق الإجراءات والأدلة ضمن التذكرة DU-CFG-04192 لضمان التتبع (تم تسجيل الاختلافات ودفع الإعداد). سأواصل المراقبة والمقارنة مع خط أساس ساعة الذروة الأخيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field spot-check shows median downlink improving toward ~38 Mbps, and fewer failed handovers so far.",
+      "message_ar": "فحص ميداني سريع يُظهر تحسناً في متوسط التحميل نحو ~38 ميجابت/ث مع عدد أقل من فشل التسليم حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: monitor through the next busy hour and update the ticket with trend deltas. Please confirm this monitoring window.",
+      "message_ar": "الخطة: المراقبة خلال ساعة الذروة التالية وتحديث التذكرة بالفروقات في الاتجاهات. يرجى تأكيد نافذة المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed—handover failures are trending down; with the config push applied, let’s monitor through the next busy hour and reassess afterward. We’ll reference DU-CFG-04192.",
+      "message_ar": "تم التأكيد—حالات فشل التسليم في انخفاض؛ بعد تطبيق دفع الإعداد، لنرصد خلال ساعة الذروة التالية ثم نعيد التقييم. سنشير إلى DU-CFG-04192."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next busy-hour monitoring and update DU-CFG-04192 afterward. If degradation returns, we will roll back the last change and escalate to field operations; if issues persist, we will investigate neighbor definitions further.",
+      "message_ar": "مفهوم. سنتولى مراقبة ساعة الذروة القادمة ونحدّث DU-CFG-04192 بعدها. إذا عادت التدهورات سنرجع آخر تغيير ونصعّد إلى فرق الميدان؛ وإذا استمرت المشاكل سنحقق أكثر في تعريفات الجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "config_id"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Post-maintenance checks revealed a configuration mismatch between OSS and the live state on a suburban 5G NR macro cell (3 parameters off, drift starting ~10h ago). We validated via audit, reconciled by executing a config push to align live with the OSS baseline, and recorded the change under DU-CFG-04192. We will monitor the next busy hour to ensure handover stability and throughput remain improved.",
+    "ar": "أظهر الفحص بعد الصيانة وجود عدم تطابق في الإعدادات بين OSS والحالة الحية لخلية ماكرو NR في منطقة ضاحية (3 معلمات مختلفة، بدأ الانحراف منذ ~10 ساعات). تم التحقق عبر التدقيق، ثم تمت المزامنة بدفع الإعداد ليتطابق الحي مع خط أساس OSS، وتم توثيق التغيير ضمن DU-CFG-04192. سنراقب خلال ساعة الذروة التالية لضمان استمرار تحسن الاستقرار والسرعة."
+  }
+}

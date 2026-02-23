@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0021",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro cell shows latency around 51 ms during off-peak eMBB with moderate load, elevated BLER, and interference / signal overlap (SINR ~2 dB); please investigate and stabilize.",
+    "ar": "خلية NR ماكرو في منطقة ضواحٍ تُظهر زمن استجابة نحو 51 مللي ثانية خلال وقت خارج الذروة مع حركة eMBB، وحمل متوسط، وBLER مرتفع، وتداخل/تراكب إشارة (SINR ~2 dB)؛ يرجى التحقيق والمعالجة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell CELL_NR_MACRO_12 is breaching latency SLA over the last 3h during off-peak eMBB. Median latency ~51 ms, SINR ~2 dB, BLER ~13%, PRB ~59%, users ~240; streaming complaints noted.",
+      "message_ar": "القطاع NR ماكرو في الضواحي CELL_NR_MACRO_12 يتجاوز SLA للزمن خلال آخر 3 ساعات في وقت خارج الذروة مع eMBB. الوسيط ~51 مللي ثانية، SINR ~2 dB، BLER ~13%، استخدام PRB ~59%، المستخدمون ~240؛ توجد شكاوى بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking recent counters and health for CELL_NR_MACRO_12 over the last 3h to validate the breach and correlate with interference / signal overlap and BLER. Approve access to proceed?",
+      "message_ar": "سأبدأ بفحص العدادات والصحة الأخيرة للخلية CELL_NR_MACRO_12 خلال آخر 3 ساعات للتحقق من التجاوز وربطه بالتداخل/تراكب الإشارة وBLER. هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. You have access for CELL_NR_MACRO_12, last 3h.",
+      "message_ar": "موافق. لديك صلاحية الوصول لـ CELL_NR_MACRO_12 لآخر 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h stats: p50 latency ~51 ms, p95 ~92 ms; BLER 12–14%; SINR median 2–3 dB; PRB ~58–60%. No alarms. Next, I will review the latency trend to pinpoint spikes.",
+      "message_ar": "تم سحب إحصاءات 3 ساعات: p50 ~51 مللي ثانية وp95 ~92 مللي ثانية؛ BLER بين 12–14%؛ وسيط SINR بين 2–3 dB؛ PRB ~58–60%. لا إنذارات. التالي سأراجع منحنى التأخير لتحديد القفزات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend shows spikes every ~10–15 minutes with queueing under moderate load; higher latency aligns with BLER peaks. This indicates scheduling/retransmission overhead rather than pure congestion. I propose targeted tuning to prioritize low-latency traffic and reduce retries. Approve change?",
+      "message_ar": "المنحنى يُظهر طفرات كل ~10–15 دقيقة مع طوابير تحت حمل متوسط؛ ارتفاع التأخير يتزامن مع ذرى BLER. هذا يدل على عبء الجدولة وإعادة الإرسال وليس ازدحاماً بحتاً. أقترح ضبطاً مستهدفاً لإعطاء أولوية لحركة المرور منخفضة التأخير وتقليل الإعادات. هل توافق على التعديل؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the tuning now.",
+      "message_ar": "موافَق على تنفيذ الضبط الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning for latency QoS on the cell: adjusted scheduling priorities, HARQ/BLER thresholds, and UL power control margins within safe bounds. Change completed and committed. Please observe for immediate impact.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع لتحسين زمن الاستجابة على الخلية: تعديل أولويات الجدولة وعتبات HARQ/BLER وهوامش التحكم بقدرة الرفع ضمن الحدود الآمنة. اكتمل التغيير وتم اعتماده. يرجى الملاحظة للتحقق من الأثر الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: median latency is dropping into mid-30 ms, and streaming buffers less for test users.",
+      "message_ar": "الملاحظة الأولية: الوسيط انخفض إلى منتصف 30 مللي ثانية، والتخزين المؤقت للبث أقل لدى مستخدمي الاختبار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good sign. We will watch stability and any coupling between BLER and latency as user load varies. I will await your confirmation after increased traffic.",
+      "message_ar": "إشارة جيدة. سنراقب الاستقرار وأي اقتران بين BLER والتأخير مع تغير الحمل. سأنتظر تأكيدك بعد زيادة الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Update: latency violations trending down and p50 now ~33 ms. This matches the site parameter tuning you applied for latency QoS. Let’s monitor for the next 2–4 hours to ensure stability.",
+      "message_ar": "تحديث: تجاوزات التأخير في انخفاض وp50 الآن ~33 مللي ثانية. هذا يتماشى مع ضبط معلمات الموقع الذي قمت به لتحسين زمن الاستجابة. دعنا نراقب خلال الساعات 2–4 القادمة لضمان الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the 2–4 hour monitoring window and track latency, BLER, and user experience; we will report the outcome after the window. If performance regresses, we will roll back the tuning and escalate to interference mitigation with adjacent cells; if it holds, we will keep the changes.",
+      "message_ar": "تم. سندير نافذة المراقبة لمدة 2–4 ساعات ونتابع التأخير وBLER وتجربة المستخدم؛ وسنبلغ بالنتيجة بعد انتهاء النافذة. إذا تراجع الأداء سنعود عن الضبط ونصعّد لمعالجة التداخل مع الخلايا المجاورة؛ وإذا استقر سنُبقي التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "CELL_NR_MACRO_12",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "CELL_NR_MACRO_12",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated the latency SLA breach by checking recent counters and analyzing the latency trend, which showed periodic spikes under moderate load correlated with high BLER and low SINR. Applied site parameter tuning to prioritize low-latency traffic and reduce retransmission overhead. Early results show p50 latency improving into the low-to-mid 30 ms; continued monitoring is planned to confirm stability.",
+    "ar": "تم التحقق من تجاوز SLA للتأخير عبر فحص العدادات الحديثة وتحليل منحنى التأخير الذي أظهر طفرات دورية تحت حمل متوسط مرتبطة بارتفاع BLER وانخفاض SINR. تم تنفيذ ضبط معلمات الموقع لإعطاء أولوية لحركة المرور منخفضة التأخير وتقليل عبء إعادة الإرسال. النتائج الأولية تُظهر تحسّن p50 إلى نطاق 30 مللي ثانية؛ وسيستمر الرصد للتأكد من الاستقرار."
+  }
+}

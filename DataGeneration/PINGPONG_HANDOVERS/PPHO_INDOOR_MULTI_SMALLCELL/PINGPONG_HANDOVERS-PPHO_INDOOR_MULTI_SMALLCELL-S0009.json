@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_INDOOR_MULTI_SMALLCELL-S0009",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_INDOOR_MULTI_SMALLCELL",
+  "query": {
+    "en": "Indoor office 5G micro cells show a 26% ping‑pong handover rate with SINR 3 dB indicating interference/signal overlap and peak‑hour slow data.",
+    "ar": "خلايا 5G الميكرو داخل المكتب تُظهر معدل بينغ بونغ 26% مع SINR بقيمة 3 dB ما يشير إلى تداخل/تراكب إشارات وبطء بيانات خلال ساعة الذروة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing frequent ping-pong handovers and slow data on an indoor enterprise floor during peak hours; users report sessions bouncing between sectors. Can you investigate?",
+      "message_ar": "نلاحظ تبديلات بينغ بونغ متكررة وبطءاً في البيانات في طابق مؤسسة داخلي خلال ساعات الذروة؛ المستخدمون يبلغون عن تنقل الجلسات بين القطاعات. هل يمكنكم التحقيق؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll start by pulling the last 3h OSS stats for the primary cell of this indoor small site. Please confirm the cell ID and grant read access.",
+      "message_ar": "سأبدأ بسحب إحصاءات آخر 3 ساعات من نظام الإدارة للخلية الأساسية في هذا الموقع الداخلي الصغير. يرجى تأكيد معرّف الخلية ومنح صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Primary cell: NR_SMB_345_1 with neighbor micros _2 and _3. Use a 3h window.",
+      "message_ar": "تم منح الوصول. الخلية الأساسية: NR_SMB_345_1 مع خلايا مجاورة صغرى _2 و_3. استخدم إطاراً زمنياً قدره 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS summary for NR_SMB_345_1 over 3h: HO success 83.3%, ping‑pong 26%, HO failures 12%, attempts ~54/5min. Radio quality weak (RSRP −105 dBm, RSRQ −11 dB, SINR 3 dB → interference/signal overlap). Load moderate‑high (PRB ~75%, 209 users). Current mobility: A3 offset 1 dB, TTT 214 ms, hysteresis 2 dB. Proceeding to detailed HO trends next.",
+      "message_ar": "ملخص النظام لـ NR_SMB_345_1 خلال 3 ساعات: نجاح التسليم 83.3%، البينغ بونغ 26%، فشل التسليم 12%، المحاولات ~54 كل 5 دقائق. جودة الراديو ضعيفة (RSRP −105 dBm، RSRQ −11 dB، SINR 3 dB → تداخل/تراكب إشارات). الحمل متوسط مرتفع (PRB ~75%، 209 مستخدمين). إعدادات التنقل الحالية: إزاحة A3 بمقدار 1 dB، وTTT = 214 ms، والهسترة 2 dB. سأتجه الآن لاتجاهات التسليم التفصيلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Users are moving between rooms and some are streaming video.",
+      "message_ar": "مفهوم. المستخدمون يتحركون بين الغرف وبعضهم يبث فيديو."
+    },
+    {
+      "role": "agent",
+      "message_en": "HO time series shows rapid toggles peaking during busy 30‑minute spans, dominated by NR_SMB_345_1↔_2↔_3. To reduce ping‑pong while preserving edge mobility, I propose optimizing thresholds: raise A3 to 2 dB, increase TTT to 320 ms (intra‑frequency), and set hysteresis to 3 dB across the cluster. Please confirm to implement.",
+      "message_ar": "السلسلة الزمنية للتسليم تُظهر تبديلات سريعة تبلغ ذروتها خلال فترات انشغال 30 دقيقة، وتتكرر بين NR_SMB_345_1↔_2↔_3. لتقليل البينغ بونغ مع الحفاظ على حركة الأطراف، أقترح تحسين العتبات: رفع A3 إلى 2 dB، وزيادة TTT إلى 320 ms ضمن نفس التردد، وضبط الهسترة إلى 3 dB عبر العُنقود. يرجى التأكيد للتنفيذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply those mobility parameter changes on the three indoor micros now.",
+      "message_ar": "موافَق على تطبيق تلك التعديلات في معلمات الحركة على الخلايا الميكروية الثلاث الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing parameter optimization on NR_SMB_345_1–_3: applied tuned A3/TTT/hysteresis and neighbor safeguards; no service interruption observed. Expect fewer oscillations and fewer non‑beneficial HOs under interference.",
+      "message_ar": "جارٍ تنفيذ تحسين المعلمات على NR_SMB_345_1–_3: تم تطبيق ضبط A3/TTT/الهسترة مع إجراءات حماية علاقات الجوار؛ دون انقطاع خدمة. نتوقع انخفاض التذبذبات وتقليل عمليات التسليم غير المفيدة تحت التداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial probes show fewer back‑and‑forth events in the last 10 minutes. Any risk to edge users?",
+      "message_ar": "المؤشرات الأولية تُظهر انخفاضاً في الذهاب والإياب خلال آخر 10 دقائق. هل هناك مخاطر على مستخدمي الأطراف؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Edge impact should be minimal given modest threshold increases; early counters show ping‑pong attempts down ~18% with HO failures easing. I’ll continue watching mobility and user throughput during peak.",
+      "message_ar": "تأثير الأطراف يجب أن يكون محدوداً نظراً لزيادات طفيفة في العتبات؛ المؤشرات المبكرة تُظهر انخفاض محاولات البينغ بونغ بنحو 18% مع تراجع في فشل التسليم. سأواصل مراقبة التنقل وسرعات المستخدمين خلال الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement continues—rapid toggles trending down and slow data complaints easing. The handover parameter optimization looks effective. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسن مستمر—التبديلات السريعة تتجه للانخفاض وشكاوى بطء البيانات تتراجع. تحسين معلمات التسليم يبدو فعّالاً. لنتابع خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next busy‑hour monitoring and share an update afterward. If degradation appears, we will roll back to prior thresholds or isolate changes per cell; if gains stall, we will escalate for deeper interference mitigation.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا ظهر تدهور سنعود إلى العتبات السابقة أو نعزل التغييرات لكل خلية؛ وإذا توقفت المكاسب سنصعّد لمعالجة التداخل بشكل أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_SMB_345_1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_SMB_345_1",
+        "HO",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3=2 dB, TTT=320 ms, hysteresis=3 dB applied across NR_SMB_345_1-3"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping‑pong handovers on an indoor micro cluster with weak signal quality and interference, confirmed by OSS stats and handover time series. Mitigated by site parameter tuning—raising A3, increasing TTT, and adding hysteresis across the affected cells. Early indicators show fewer oscillations; continued monitoring during the next busy hour is planned.",
+    "ar": "تم تشخيص معدل بينغ بونغ مرتفع في عنقود ميكرو داخلي مع جودة إشارة ضعيفة وتداخل، وذلك وفق ملخص النظام والسلسلة الزمنية لعمليات التسليم. تمت المعالجة عبر ضبط معلمات الموقع برفع A3 وزيادة TTT وإضافة هسترة عبر الخلايا المتأثرة. المؤشرات المبكرة تُظهر انخفاض التذبذبات؛ وسيستمر الرصد خلال ساعة الذروة القادمة."
+  }
+}

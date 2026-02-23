@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0028",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows 92% PRB over the last 3 hours with a congestion alarm, low SINR (~4 dB) indicating interference/signal overlap, 236 users, and moderate throughput impacting eMBB streaming.",
+    "ar": "موقع ماكرو NR حضري يظهر إشغال PRB بنسبة 92% خلال آخر 3 ساعات مع إنذار ازدحام، وSINR منخفض (~4 dB) يدل على تداخل/تراكب للإشارة، 236 مستخدمًا، ومعدل نقل متوسط يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-UTR-028-S02-Cell3 is raising a congestion alarm over the last 3 hours: PRB ~92%, 236 users, DL ~10 Mbps, UL ~6 Mbps, BLER ~6%, SINR ~4 dB, RSRQ -12 dB, and neighbor PCI overlap reported. Handover failures around 9% during shoulder hours with eMBB streaming.",
+      "message_ar": "موقع ماكرو NR الحضري NR-UTR-028-S02-Cell3 يظهر إنذار ازدحام خلال آخر 3 ساعات: PRB ~92%، 236 مستخدمًا، تنزيل ~10 Mbps، رفع ~6 Mbps، BLER ~6%، SINR ~4 dB، وRSRQ -12 dB مع تداخل PCI من الجوار. فشل التسليمات حوالي 9% خلال ساعات الحمل المتوسط مع بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling 3-hour OSS stats for NR-UTR-028-S02-Cell3 to validate PRB congestion, interference indicators, and mobility. Please confirm read access.",
+      "message_ar": "تم الاستلام. سأبدأ بسحب إحصاءات OSS لآخر 3 ساعات للخلية NR-UTR-028-S02-Cell3 للتحقق من ازدحام PRB ومؤشرات التداخل والتنقل. يرجى تأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Read-only access approved for NR-UTR-028-S02-Cell3. Proceed.",
+      "message_ar": "تمت الموافقة على صلاحية القراءة لـ NR-UTR-028-S02-Cell3. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS confirms sustained PRB p95 ~94%, UE peak ~240, BLER 6.3%, SINR 3–5 dB, RSRQ ~-12 dB, with noticeable PCI overlap; queuing latency p95 ~32 ms and HO failures ~9%. To mitigate quickly, I propose: 1) enable load-based mobility offsets to offload to lighter neighbors, 2) retune resource scheduler weights toward proportional fairness, 3) apply minor electrical down-tilt (~-0.5°) to reduce overlap. Expected PRB relief ~10–15% with minimal risk. Approve live changes?",
+      "message_ar": "تؤكد بيانات OSS استمرار PRB p95 ~94%، ذروة المستخدمين ~240، BLER ‏6.3%، SINR بين 3–5 dB، وRSRQ حوالي -12 dB مع تراكب PCI ملحوظ؛ وزمن انتظار p95 ~32 مللي ثانية وفشل تسليمات ~9%. للتخفيف السريع أقترح: 1) تفعيل انحيازات تنقل معتمدة على الحمل لتحويل الحمل إلى الجيران الأخف، 2) إعادة ضبط أوزان مُجدول الموارد نحو العدالة النسبية، 3) تطبيق إمالة كهربائية طفيفة (~-0.5°) لتقليل التداخل. المتوقع خفض PRB بنحو 10–15% مع مخاطرة منخفضة. هل توافق على التغيير المباشر؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now; please avoid any service impact.",
+      "message_ar": "موافق على التنفيذ الآن؛ يرجى تجنب أي تأثير على الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing and committing changes: applied load-based mobility offsets to offload to underutilized neighbors, adjusted resource scheduler weights for fairer PRB sharing, and set a minor -0.5° electrical down-tilt to reduce overlap. No service interruption observed. I will watch KPIs for the next 15 minutes.",
+      "message_ar": "أقوم بتنفيذ وتثبيت التغييرات: تم تطبيق انحيازات تنقل معتمدة على الحمل لتحويل الحمل إلى الجيران الأقل استخدامًا، وضبط أوزان مُجدول الموارد لتوزيع أكثر عدلاً للـ PRB، وتعيين إمالة كهربائية طفيفة -0.5° لتقليل التداخل. لم يُلاحظ أي انقطاع في الخدمة. سأراقب مؤشرات الأداء خلال 15 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~10 minutes, PRB is down to about 84–86%, SINR improved by ~1 dB, and packet errors slightly lower. User count is steady.",
+      "message_ar": "بعد حوالي 10 دقائق، انخفض PRB إلى حوالي 84–86%، وتحسن SINR بنحو 1 dB، وانخفضت أخطاء الحزم قليلاً. عدد المستخدمين ثابت."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. For traceability through the next busy period and follow-up, I recommend logging an action record. Shall I create a case?",
+      "message_ar": "تحسن جيد. من أجل التتبع خلال فترة الانشغال القادمة والمتابعة، أوصي بتوثيق إجراء. هل أقوم بإنشاء قضية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes, please create it.",
+      "message_ar": "نعم، يرجى إنشاؤها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created case DU-PRB-02852: “PRB congestion mitigation with load offload and parameter tuning on NR-UTR-028-S02-Cell3.” We will keep it open through the next busy hour and continue monitoring.",
+      "message_ar": "تم إنشاء القضية DU-PRB-02852: \"تخفيف ازدحام PRB بتحويل الحمل وضبط المعلمات على NR-UTR-028-S02-Cell3\". سنبقيها مفتوحة خلال ساعة الانشغال القادمة مع الاستمرار في المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is holding: high resource occupancy eased and retry errors trending down. Action taken was site parameter tuning with traffic offload; let’s monitor over the next 2–4 hours under DU-PRB-02852.",
+      "message_ar": "التحسن مستمر: انخفضت نسبة إشغال الموارد العالية وتناقصت أخطاء الإعادة. الإجراء المتخذ هو ضبط معلمات الموقع مع تحويل للحمل؛ لِنُراقب خلال الساعتين إلى الأربع ساعات القادمة ضمن DU-PRB-02852."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring for the next 2–4 hours and update the ticket afterward. If congestion returns or errors worsen, we will roll back today’s changes and escalate to RF for interference re-plan; otherwise, we will retain the optimization.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد ذلك. إذا عاد الازدحام أو ساءت الأخطاء، سنرجع تغييرات اليوم ونصعّد إلى فريق RF لإعادة تخطيط التداخل؛ وإلا فسنُبقي على التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high PRB congestion with signs of interference/signal overlap on an urban NR macro cell using recent OSS data. Mitigated by site parameter tuning: enabled load-based mobility offload, adjusted resource scheduler weights, and applied minor tilt to reduce overlap. Created a tracking case and will monitor through the next busy period for stability.",
+    "ar": "تم تشخيص ازدحام مرتفع في PRB مع مؤشرات تداخل/تراكب للإشارة على موقع ماكرو NR حضري باستخدام بيانات OSS الأخيرة. تمت المعالجة عبر ضبط معلمات الموقع: تفعيل تحويل الحمل المعتمد على الحمل، وضبط أوزان مُجدول الموارد، وتطبيق إمالة طفيفة لتقليل التراكب. تم إنشاء قضية للمتابعة وسيتم المراقبة خلال فترة الانشغال القادمة للتحقق من الاستقرار."
+  }
+}

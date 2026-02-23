@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_INDOOR_EDGE-S0030",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_INDOOR_EDGE",
+  "query": {
+    "en": "Indoor 5G micro hotspot shows elevated handover failures with interference/signal overlap and slow data (HO success ~86%, ping-pong ~25%, median throughput ~8 Mbps) over the last 4 hours.",
+    "ar": "نقطة ساخنة داخلية لـ5G (ميكرو) تُظهر ارتفاعاً في فشل التسليم مع تداخل/تراكب إشارات وبطء في البيانات (نجاح التسليم ~86%، ارتداد ~25%، ومتوسط السرعة ~8 Mbps) خلال آخر 4 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor 5G micro cell over the past 4 hours shows rising handover failures around a lobby-corridor hotspot during shoulder hours; HO success ~86%, ping-pong ~25%, SINR ~0 dB, RSRP ~-113 dBm, and ~130 users impacting eMBB streaming. Please investigate.",
+      "message_ar": "خلية 5G داخلية (ميكرو) خلال آخر 4 ساعات تُظهر ارتفاعاً في فشل التسليم حول نقطة ازدحام ممر/ردهة خلال فترة الكتف؛ نجاح التسليم ~86%، ارتداد ~25%، SINR ~0 dB، RSRP ~-113 dBm، وحوالي 130 مستخدماً مما يؤثر على بث eMBB. يرجى التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start with a coverage/overlap assessment of the indoor area to locate interference-driven HO hotspots; please approve diagnostic access.",
+      "message_ar": "تم الاستلام. سأبدأ بتقييم التغطية/التراكب للمنطقة الداخلية لتحديد نقاط التسليم المتأثرة بالتداخل؛ يرجى الموافقة على صلاحية التشخيص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. No active alarms; traffic is mostly eMBB within the last 4 hours.",
+      "message_ar": "تمت الموافقة. لا توجد إنذارات نشطة؛ الحركة في الغالب eMBB خلال آخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage view shows weak dominance and high overlap near the western wing and elevator lobby: serving levels around -110 to -115 dBm with RSRQ ~-14 dB and neighboring cells comparable, explaining ping-pong and HO failures. Next, I will apply targeted mobility tuning: add 1 dB hysteresis, slightly increase TTT (from 193 to 256 ms), and adjust offset +1 dB toward the dominant neighbors to reduce premature triggers. Approve to proceed?",
+      "message_ar": "تظهر طبقة التغطية ضعف الهيمنة وتراكباً عالياً قرب الجناح الغربي ومصاعد الردهة: مستويات الخلية الخادمة بين -110 إلى -115 dBm مع RSRQ حوالي -14 dB وجيران بمستويات مماثلة، ما يفسر الارتداد وفشل التسليم. بعد ذلك سأطبق تحسينات تنقل مستهدفة: إضافة 1 dB هستيرسيس، زيادة طفيفة في TTT (من 193 إلى 256 مللي ثانية)، وتعديل الإزاحة +1 dB باتجاه الجيران المهيمنين لتقليل التحفيز المبكر. هل توافق على المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the mobility parameter changes.",
+      "message_ar": "موافق على تنفيذ تغييرات معلمات التنقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied successfully. Expected outcome: fewer ping-pong events, higher HO success in the hotspot, and p50 throughput recovering above ~10 Mbps as interference-driven handovers stabilize.",
+      "message_ar": "تم تطبيق التغييرات بنجاح. النتيجة المتوقعة: عدد أقل من حالات الارتداد، ارتفاع نسبة نجاح التسليم في النقطة الساخنة، وتعافي السرعة المتوسطة p50 لأعلى من ~10 Mbps مع استقرار عمليات التسليم المتأثرة بالتداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early indication: ping-pong is trending down and HO success is edging up; no new user complaints yet.",
+      "message_ar": "مؤشرات مبكرة: الارتداد في انخفاض ونسبة نجاح التسليم في تحسن طفيف؛ لا توجد شكاوى مستخدمين جديدة حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will observe short-term HO/RLF counters and watch UE behavior in that hotspot. Let me know if any zones still show drops.",
+      "message_ar": "جيّد. سأراقب مؤشرات HO/RLF قصيرة الأجل وسلوك الأجهزة في تلك النقطة الساخنة. أبلغني إن كانت هناك مناطق لا تزال تُظهر انقطاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Elevator lobby still has occasional drops; corridor area is noticeably better. Median throughput is near ~10 Mbps.",
+      "message_ar": "لا تزال هناك انقطاعات متفرقة عند مصعد الردهة؛ منطقة الممر أفضل بشكل ملحوظ. السرعة المتوسطة قريبة من ~10 Mbps."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Remaining drops likely stem from deep-indoor attenuation around the elevator shaft; the current tuning should continue to settle. If persistence is seen, we can consider in-building enhancements separately after we observe stability.",
+      "message_ar": "تم الفهم. من المحتمل أن تكون الانقطاعات المتبقية ناجمة عن ضعف الإشارة العميق داخل المبنى قرب عمود المصعد؛ ومن المتوقع أن يستمر الضبط الحالي في التحسن. إذا استمرت المشكلة، يمكن النظر في تحسينات داخلية بشكل منفصل بعد التحقق من الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted improvement: ping-pong decreasing and handover success improving after the mobility parameter optimization. Let’s monitor over the next 2–4 hours during the shoulder/busy period.",
+      "message_ar": "تمت ملاحظة التحسن: انخفاض الارتداد وتحسن نجاح التسليم بعد تحسين معلمات التنقل. لنراقب خلال الساعتين إلى الأربع ساعات القادمة في فترة الكتف/الانشغال."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed. We will monitor for the next 2–4 hours and update you on HO success, ping-pong rate, and throughput. If metrics regress, we will roll back the parameter change; if elevator-lobby drops persist despite stable KPIs, we will escalate for an indoor coverage survey.",
+      "message_ar": "متفق. سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونوافيكم بتحديث عن نجاح التسليم، معدل الارتداد، والسرعة. إذا تدهورت المؤشرات فسنعيد المعلمات السابقة؛ وإذا استمرت الانقطاعات قرب المصعد رغم استقرار المؤشرات، فسوف نصعّد لإجراء مسح تغطية داخلي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "area",
+        "grid"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor handover failure hotspot caused by weak serving dominance and interference/signal overlap around the western wing and elevator lobby. Executed site parameter tuning to add modest hysteresis, slightly increase time-to-trigger, and bias offsets toward dominant neighbors, reducing premature handovers and ping-pong. Early results show improving handover success and throughput; we will continue monitoring and adjust if needed.",
+    "ar": "تم تشخيص نقطة ساخنة لفشل التسليم داخل المبنى ناتجة عن ضعف هيمنة الخلية الخادمة وتراكب/تداخل الإشارات قرب الجناح الغربي ومصعد الردهة. تم تنفيذ ضبط لمعلمات الموقع بإضافة هستيرسيس بسيط، وزيادة طفيفة لوقت التحفيز، وتحييز الإزاحات نحو الجيران المهيمنين لتقليل التسليمات المبكرة والارتداد. تظهر النتائج المبكرة تحسناً في نجاح التسليم والسرعة؛ سنواصل المراقبة وإجراء التعديلات عند الحاجة."
+  }
+}

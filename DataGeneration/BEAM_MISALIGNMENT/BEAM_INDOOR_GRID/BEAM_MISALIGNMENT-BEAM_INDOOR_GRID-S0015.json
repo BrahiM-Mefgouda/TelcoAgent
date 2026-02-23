@@ -1,0 +1,113 @@
+{
+  "id": "BEAM_MISALIGNMENT-BEAM_INDOOR_GRID-S0015",
+  "intent": "BEAM_MISALIGNMENT",
+  "blueprint_id": "BEAM_INDOOR_GRID",
+  "query": {
+    "en": "Indoor office wing users on the NR pico report fluctuating signal with interference/signal overlap during peak hours, with weak RSRP and beam failures affecting eMBB traffic.",
+    "ar": "مستخدِمو جناح المكاتب الداخلي على خلية NR بيكو يبلّغون عن إشارة متقلبة مع تداخل/تراكب للإشارة خلال ساعات الذروة، مع RSRP ضعيف وإخفاقات في الحزم تؤثر على حركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-hour complaints from the indoor office wing on the NR pico: RSRP around -105 dBm with fluctuating signal, SINR ~3 dB indicating interference/overlap, beam failures ~5% with ~28 recovery events/hr; median DL ~22 Mbps; about 146 users with heavy eMBB streaming.",
+      "message_ar": "شكاوى خلال ساعة الذروة من جناح المكاتب الداخلي على خلية NR بيكو: RSRP حوالي -105 dBm مع إشارة متقلبة، وSINR ~3 dB ما يشير إلى تداخل/تراكب، وإخفاقات حزم ~5% مع ~28 حدث تعافي/ساعة؛ متوسط سرعة تنزيل ~22 ميجابت/ث؛ حوالي 146 مستخدمًا مع بث eMBB كثيف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. This looks like beam misalignment on the indoor small site. I will first review the indoor grid coverage for the last 6 hours to visualize SSB patterns; please confirm the serving cell ID and approve read access.",
+      "message_ar": "مفهوم. يبدو أن هناك انحرافًا في الحزم في الموقع الداخلي الصغير. سأراجع أولًا تغطية الشبكة الداخلية لآخر 6 ساعات لعرض نمط SSB؛ يرجى تأكيد معرّف الخلية الخادمة والموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-PICO-OFW-L3-01, location: office wing level-3 east. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-PICO-OFW-L3-01، الموقع: جناح المكاتب، الطابق الثالث الشرقي. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled the floor-plan heatmap: main SSB lobe is skewed ~25–30° toward the corridor, with weak pockets near the east cubicles; RSRP variance ~10 dB matches the fluctuating reports. Some overlap from the adjacent small cell is evident. Next, I will perform beam parameter optimization (fine azimuth trim, slight downtilt bias, SSB weight rebalancing). Approve a short change window with rollback if needed?",
+      "message_ar": "تم سحب خريطة الحرارة للمخطط: الفص الرئيسي لـSSB منحرف ~25–30° نحو الممر، مع مناطق ضعف قرب مكعبات الشرق؛ تباين RSRP ~10 dB يطابق تقارير التذبذب. يوجد تراكب من الخلية الصغيرة المجاورة. بعد ذلك، سأجري تحسينًا لمعلمات الحزمة (تصحيح دقيق للسمت، انحياز ميل خفيف، وإعادة موازنة أوزان SSB). هل توافق على نافذة تغيير قصيرة مع إمكانية الرجوع إذا لزم؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the low-risk tuning now.",
+      "message_ar": "موافق على المتابعة بإجراء الضبط منخفض المخاطر الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Beam alignment tuning applied on NR-PICO-OFW-L3-01: minor azimuth correction, reduced SSB sidelobe, and rebalanced beamforming weights; no service reset. Quick check shows RSRP median +4–6 dB in the affected grid and SINR rising from ~3 dB to ~6 dB; beam-failure counters stabilizing. Please observe locally for a few minutes.",
+      "message_ar": "تم تطبيق ضبط محاذاة الحزم على NR-PICO-OFW-L3-01: تصحيح طفيف للسمت، تقليل الفص الجانبي لـSSB، وإعادة موازنة أوزان التشكيل الشعاعي؛ بدون إعادة تشغيل للخدمة. الفحص السريع يُظهر ارتفاع الوسيط في RSRP بمقدار +4–6 dB في الشبكة المتأثرة وارتفاع SINR من ~3 dB إلى ~6 dB؛ ومؤشرات إخفاقات الحزم تستقر. يرجى الملاحظة محليًا لبضع دقائق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field handset shows steadier bars; RSRP improved by about 5 dB in the east cubicles and SINR sits around 6–7 dB. Beam failures are trending down.",
+      "message_ar": "جهاز الحقل يُظهر مؤشرات أكثر استقرارًا؛ تحسّن RSRP بحوالي 5 dB في مكعبات الشرق وSINR حوالي 6–7 dB. إخفاقات الحزم في اتجاه الانخفاض."
+    },
+    {
+      "role": "agent",
+      "message_en": "Great. I will document the change and create a tracking ticket with before/after metrics and a concise mitigation summary. May I proceed?",
+      "message_ar": "رائع. سأوثّق التغيير وأُنشئ تذكرة تتبع مع مؤشرات قبل/بعد وملخص للتخفيف. هل يمكنني المتابعة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed, and include the key screenshots and deltas.",
+      "message_ar": "تابع، وضمّن لقطات الشاشة الرئيسية والفروقات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket created and populated with the heatmaps and KPI deltas. We will continue watching live counters through the next busy interval.",
+      "message_ar": "تم إنشاء تذكرة التتبع وتعبئتها بخراطيم الحرارة وفروقات مؤشرات الأداء. سنواصل متابعة العدّادات الحية خلال فترة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds so far—beam failures trending down and signal fluctuation reduced after the beam parameter optimization. Let’s monitor through the next busy hour; reference ticket DU-BEAM-04572.",
+      "message_ar": "التحسّن مستمر حتى الآن—إخفاقات الحزم في اتجاه الانخفاض وتراجع تذبذب الإشارة بعد تحسين معلمات الحزمة. دعنا نراقب خلال ساعة الذروة التالية؛ المرجع DU-BEAM-04572."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next busy hour monitoring and update the ticket after the window. If degradation reappears, we will escalate to on-site alignment, or roll back to the prior setting.",
+      "message_ar": "تم الاستلام. سنتولى مراقبة ساعة الذروة التالية وسنحدّث التذكرة بعد انتهاء النافذة. إذا عاد التدهور، سنصعّد إلى مواءمة ميدانية أو نرجع إلى الإعداد السابق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "indoor",
+        "office-wing-L3E"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "beam alignment tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Indoor NR pico beam misalignment mitigated; monitor next busy hour"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed indoor beam misalignment by reviewing the office-wing grid coverage, which showed a skewed SSB lobe and high RSRP variance. Mitigated by site parameter tuning to realign beams and rebalance weights, yielding improved RSRP and SINR with fewer beam failures. Created a tracking ticket and will monitor through the next busy hour.",
+    "ar": "تم تشخيص انحراف الحزم الداخلي عبر مراجعة شبكة التغطية في جناح المكاتب، والتي أظهرت فص SSB منحرفًا وتباينًا مرتفعًا في RSRP. تم التخفيف عبر ضبط معلمات الموقع لإعادة محاذاة الحزم وإعادة موازنة الأوزان، مما أدى إلى تحسن RSRP وSINR وانخفاض إخفاقات الحزم. تم إنشاء تذكرة تتبع وسيتم المراقبة خلال ساعة الذروة التالية."
+  }
+}

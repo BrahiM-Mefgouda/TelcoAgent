@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0010",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Investigate congestion on the indoor office NR micro cell over the last 4h: PRB utilization ~92%, 142 users, and downlink throughput near 10 Mbps.",
+    "ar": "التحقق من الازدحام على خلية NR داخلية في المكتب خلال آخر 4 ساعات: إشغال PRB ~92%، 142 مستخدماً، وسرعة تحميل تقارب 10 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Congestion alarm on our indoor NR micro cell serving the East office wing during business hours: downlink around 10 Mbps with ~142 users (heavy eMBB streaming). Cell: NR_INDOOR_MICRO_245.",
+      "message_ar": "إنذار ازدحام على خلية NR داخلية من نوع مايكرو تغطي جناح المكتب الشرقي خلال ساعات العمل: سرعة التحميل نحو 10 ميجابت/ث مع ~142 مستخدماً (بث eMBB كثيف). المعرّف: NR_INDOOR_MICRO_245."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll lead the diagnosis: first pull last 4h health/load for NR_INDOOR_MICRO_245, then chart DL KPIs, and if congestion is confirmed, apply targeted parameter tuning. Please confirm access.",
+      "message_ar": "سأتولى التشخيص: أولاً سأسحب حالة الحمل لآخر 4 ساعات للخلية NR_INDOOR_MICRO_245، ثم أرسم مؤشرات التحميل، وإن تأكد الازدحام سنجري ضبطاً انتقائياً للمعلمات. يرجى تأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; no planned changes today on this site.",
+      "message_ar": "الوصول مُوافق عليه؛ لا تغييرات مخططة اليوم على هذا الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Initial check complete: PRB utilization averaged 91% with peaks at 98%; active users peaked at 156. Downlink throughput hovered near 10 Mbps; BLER stable (~2–3%); scheduler p95 latency ~46 ms. No hardware or backhaul alarms. Requesting to proceed with DL KPI time series for the last 4h.",
+      "message_ar": "اكتمل الفحص الأولي: إشغال PRB بمتوسط 91% وذرى 98%؛ المستخدمون النشطون بلغوا 156. معدل التحميل حوالي 10 ميجابت/ث؛ BLER مستقر (~2–3%)؛ كمون المُجدول p95 نحو 46 مللي ثانية. لا أعطال عتادية أو نقل خلفي. أطلب المتابعة إلى سلاسل زمنية لمؤشرات التحميل لآخر 4 ساعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL time series confirms lunchtime congestion: 12:00–15:00 shows PRB saturation and DL median dropping to 9–11 Mbps; p95 scheduling latency spikes to 55–60 ms while BLER remains normal. I propose parameter optimization on scheduler fairness and PRB allocation to relieve contention. Approve?",
+      "message_ar": "السلاسل الزمنية تؤكد الازدحام وقت الظهيرة: 12:00–15:00 تشهد تشبع PRB وهبوط الوسيط التحميلي إلى 9–11 ميجابت/ث؛ ارتفاع p95 لكمون الجدولة إلى 55–60 مللي ثانية مع بقاء BLER طبيعياً. أقترح ضبط معلمات تتعلق بإنصاف المُجدول وتخصيص PRB لتخفيف التزاحم. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the parameter optimization now.",
+      "message_ar": "موافق على تنفيذ ضبط المعلمات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed with no service interruption: tuned scheduler fairness toward balanced throughput, adjusted DL admission/PRB burst behavior for heavy flows, and enabled opportunistic multi-layer scheduling where CQI permits. I’ll watch counters for the next few minutes—please perform a quick spot check on user experience in the East wing.",
+      "message_ar": "تم تنفيذ التغيير دون انقطاع: تم ضبط إنصاف المُجدول لتحقيق توازن في السعات، وتعديل سلوك القبول/اندفاع PRB لحِمل التدفقات الثقيلة، وتم تفعيل الجدولة متعددة الطبقات انتهازياً حيث تسمح جودة القناة. سأراقب العدادات لبضع دقائق—يرجى إجراء تحقق سريع لتجربة المستخدم في الجناح الشرقي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Quick check from test UE shows smoother streaming and DL up to ~22 Mbps; PRB peaks appear lower.",
+      "message_ar": "تحقق سريع من جهاز اختبار يُظهر بثاً أكثر سلاسة وسرعة تحميل حتى ~22 ميجابت/ث؛ ذرى PRB تبدو أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Early counters show PRB peaks easing and latency normalizing. I’ll continue observing and await your proposed formal monitoring window.",
+      "message_ar": "تم الاستلام. المؤشرات الأولية تُظهر تراجع ذرى PRB وتطبيع الكمون. سأواصل المتابعة وأنتظر نافذة المراقبة المقترحة منكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: downlink rates trending upward and scheduling delays trending down after the parameter optimization. Let’s monitor through the next busy hour to ensure stability.",
+      "message_ar": "تم تأكيد التحسن: سرعات التحميل ترتفع وتأخيرات الجدولة تتناقص بعد ضبط المعلمات. لنتابع المراقبة خلال ساعة الذروة القادمة لضمان الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own monitoring for the next busy hour and report DL throughput, PRB utilization, and scheduling delay trends afterward. If congestion resurges or rates fall, we will revert the tuning and escalate for capacity augmentation; otherwise we will keep the optimization in place. Summary: diagnosed load-driven DL degradation on the indoor NR micro cell, validated with 4h trends, applied site parameter tuning to improve scheduler fairness and PRB use; we will update you after the window.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال ساعة الذروة القادمة ونبلغكم لاحقاً باتجاهات سرعة التحميل، وإشغال PRB، وتأخيرات الجدولة. إذا عاد الازدحام أو انخفضت السرعات، سنرجع الضبط ونتصعّد لزيادة السعة؛ وإلا سنُبقي التحسين نافذاً. خلاصة: تم تشخيص تدهور التحميل بفعل الحمل على الخلية الداخلية NR، وتأكيده عبر اتجاهات 4 ساعات، ثم تطبيق ضبط معلمات الموقع لتحسين إنصاف المُجدول واستخدام PRB؛ سنوافيكم بعد انتهاء النافذة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_INDOOR_MICRO_245",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_INDOOR_MICRO_245",
+        "DL",
+        "last 4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "scheduler_fairness+PRB_allocation"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The indoor NR micro cell showed business-hour downlink degradation caused by high load (PRB >90%, ~142 users) while error rates remained normal. We reviewed health and DL KPI trends and then executed site parameter tuning on scheduler fairness and PRB allocation to mitigate congestion. Early results indicate higher throughput and reduced scheduling delay; monitoring continues through the next busy hour.",
+    "ar": "أظهرت الخلية الداخلية NR تدهوراً في سرعة التحميل خلال ساعات العمل بسبب حمل مرتفع (إشغال PRB >90% وقرابة 142 مستخدماً) مع بقاء معدلات الخطأ طبيعية. تم مراجعة الحالة واتجاهات مؤشرات التحميل ثم تنفيذ ضبط معلمات الموقع لإنصاف المُجدول وتخصيص PRB لتخفيف الازدحام. تشير النتائج الأولية إلى زيادة السرعة وانخفاض تأخيرات الجدولة؛ وستستمر المراقبة خلال ساعة الذروة القادمة."
+  }
+}

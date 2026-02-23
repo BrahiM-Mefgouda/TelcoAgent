@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0017",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell shows frequent backhaul link flaps (~7/hour) with loss bursts, p95 latency 35 ms, jitter 17 ms, 65 interface errors, and downlink 18 Mbps for 253 users, impacting eMBB streaming.",
+    "ar": "موقع NR ماكرو في منطقة ضواحٍ يظهر تقطّعاً متكرراً في الوصلة الخلفية (~7/ساعة) مع دفعات فقدان، زمن تأخير p95 يبلغ 35 مللي ثانية، اهتزاز 17 مللي ثانية، 65 خطأ على الواجهة، ومعدل تنزيل 18 ميجابت/ث لـ253 مستخدماً مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Past 6 hours, users on a suburban NR macro sector reported buffering and inconsistent throughput; no active alarms. Can you check for backhaul instability?",
+      "message_ar": "خلال آخر 6 ساعات، أبلغ المستخدمون على قطاع NR ماكرو في منطقة ضواحي عن تقطيع في البث وتذبذب في السرعات دون وجود إنذارات نشطة. هل يمكنك التحقق من عدم استقرار الوصلة الخلفية؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling OSS counters for the last 6 hours to validate link-state transitions and interface errors. Please share the exact cell ID and approve read access.",
+      "message_ar": "تم. سأبدأ بسحب عدادات نظام الإدارة لآخر 6 ساعات للتحقق من تغييرات حالة الوصلة وأخطاء الواجهة. يرجى تزويدي بمعرّف الخلية الدقيق والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-0134A-1. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-0134A-1. تمّت الموافقة على وصول القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete for NR-SUB-0134A-1 over 6h: frequent backhaul link flaps (~7/hr), loss bursts, p95 latency 35 ms, jitter 17 ms, and 65 interface errors. Radio looks reasonable (PRB ~66%, SINR ~19 dB). This indicates degraded backhaul. I propose applying parameter tuning to stabilize keepalives and dampen flap recovery. Approve to proceed?",
+      "message_ar": "اكتمل فحص نظام الإدارة للخلية NR-SUB-0134A-1 خلال 6 ساعات: تقطّع متكرر في الوصلة الخلفية (~7/ساعة)، دفعات فقدان، زمن تأخير p95 يبلغ 35 مللي ثانية، اهتزاز 17 مللي ثانية، و65 خطأ على الواجهة. طبقة الراديو تبدو معقولة (PRB ~66%، وSINR ~19 ديسيبل). هذا يشير إلى تدهور في الوصلة الخلفية. أقترح ضبط معلمات لتثبيت رسائل keepalive وتخفيف تأثير التقطّع. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the tuning now.",
+      "message_ar": "موافَق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter tuning executed to stabilize the backhaul interface on NR-SUB-0134A-1. Early observation (10 minutes): no new link flaps, interface error counters stable, and downlink throughput trending up from ~18 Mbps. I will keep observing for short-term behavior.",
+      "message_ar": "تم تنفيذ ضبط المعلمات لتثبيت واجهة الوصلة الخلفية على NR-SUB-0134A-1. الملاحظة الأولية (10 دقائق): لا توجد تقطّعات جديدة، عدادات أخطاء الواجهة ثابتة، ومعدل التنزيل يتحسن من ~18 ميجابت/ث. سأواصل المراقبة لسلوك المدى القصير."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: streaming is smoother and fewer stalls; occasional jitter spikes remain.",
+      "message_ar": "ملاحظات ميدانية: البث أصبح أكثر سلاسة مع تقليل التوقفات؛ ما زالت هناك ارتفاعات متقطعة في الاهتزاز."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. For traceability and transport follow-up, I recommend opening a tracking ticket and setting a monitoring window. Do you approve creating the ticket?",
+      "message_ar": "مفهوم. لضمان التتبع والمتابعة مع فريق النقل، أوصي بفتح بطاقة متابعة وتحديد نافذة مراقبة. هل توافق على إنشاء البطاقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create the ticket.",
+      "message_ar": "موافَق على إنشاء البطاقة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Ticket DU-BH-02847 created: degraded backhaul with frequent link flaps mitigated by parameter tuning on NR-SUB-0134A-1; monitoring in progress and transport engagement noted.",
+      "message_ar": "تم إنشاء البطاقة DU-BH-02847: تدهور في الوصلة الخلفية مع تقطّعات متكررة، وتم التخفيف عبر ضبط المعلمات على NR-SUB-0134A-1؛ تتم المراقبة حالياً مع الإشارة إلى إشراك فريق النقل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see improvement already—link flaps trending down. After your site parameter tuning, let’s monitor through the next busy hour to confirm stability and update DU-BH-02847.",
+      "message_ar": "نلاحظ تحسناً بالفعل—انخفاضاً في مؤشرات التقطّع. بعد ضبط معلمات الموقع، دعنا نراقب خلال ساعة الذروة القادمة لتأكيد الاستقرار وتحديث DU-BH-02847."
+    },
+    {
+      "role": "agent",
+      "message_en": "Agreed—we’ll own the next busy hour and update the ticket afterward with stability and throughput status. If flaps or loss bursts recur, we will escalate to the transport provider; if any negative user impact appears, we will roll back the change.",
+      "message_ar": "متفق—سنتولى مراقبة ساعة الذروة القادمة وسنحدّث البطاقة بعدها بحالة الاستقرار ومعدلات النقل. إذا عادت التقطّعات أو دفعات الفقدان، سنصعّد إلى مزود النقل؛ وإذا ظهر تأثير سلبي على المستخدمين، فسنرجع التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-0134A-1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_flap_dampening, keepalive_timers, egress_queue_tuning"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul with frequent link flaps on NR-SUB-0134A-1; tuning applied; monitor and coordinate transport follow-up."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro cell: frequent link flaps, loss bursts, elevated latency/jitter, and interface errors while radio load and signal were normal. Applied site parameter tuning to stabilize keepalives and dampen flap recovery, then opened a tracking ticket for transport follow-up. We will monitor through the next busy hour to confirm link stability and throughput recovery.",
+    "ar": "تم تشخيص تدهور في الوصلة الخلفية على خلية NR ماكرو في منطقة ضواحٍ: تقطّعات متكررة، دفعات فقدان، ارتفاع في التأخير/الاهتزاز، وأخطاء واجهة مع مؤشرات راديوية طبيعية. تم تنفيذ ضبط معلمات الموقع لتثبيت keepalive وتخفيف أثر التقطّع، ثم فتح بطاقة متابعة للتنسيق مع فريق النقل. سنواصل المراقبة خلال ساعة الذروة القادمة لتأكيد الاستقرار وتحسن معدل النقل."
+  }
+}

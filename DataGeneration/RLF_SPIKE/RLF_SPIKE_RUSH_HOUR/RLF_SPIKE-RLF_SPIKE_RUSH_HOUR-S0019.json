@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0019",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban 5G macro cell shows a rush-hour RLF spike (~6%), high PRB utilization (~91%), low SINR (5 dB), and reduced handover success (~83%) over the last 2 hours, with a congestion alarm during heavy eMBB streaming.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر ارتفاعاً في إسقاطات الاتصال خلال ساعة الذروة (~6%) مع ارتفاع استهلاك المورد الراديوي (~91%) وانخفاض SINR (5 dB) وتراجع نجاح التسليم (~83%) خلال آخر ساعتين، مع وجود إنذار ازدحام أثناء حركة eMBB الثقيلة للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing a rush-hour RLF spike over the last 2 hours on an urban NR macro; congestion alarm active. KPIs: RLF ~6%, HO success ~83%, elevated T310 expiries, PRB ~91%, SINR ~5 dB, RSRQ -11 dB.",
+      "message_ar": "نرصد ارتفاع RLF خلال آخر ساعتين على خلية NR ماكرو حضرية في المساء الذروي؛ الإنذار نشط. المؤشرات: RLF ~6%، نجاح التسليم ~83%، انتهاء T310 مرتفع، PRB ~91%، SINR ~5 dB، RSRQ ‎-11 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking OSS counters for the affected cell over the last 2 hours to validate mobility degradations and neighbor trends. Please confirm the cell ID and approve read-only access.",
+      "message_ar": "سأبدأ بفحص عدادات المنظومة للخلية المتأثرة خلال آخر ساعتين للتحقق من تدهور التنقل واتجاهات الجيران. يرجى تأكيد معرف الخلية والموافقة على وصول القراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell is NR-URB-5521; 2-hour window confirmed. Access approved.",
+      "message_ar": "المعرف NR-URB-5521، والنطاق الزمني ساعتان مؤكد. الوصول معتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Querying OSS now for NR-URB-5521 (2h). Initial read: RLF 6.2%, T310 expiry ~8%, HO failures ~10%, PRB >90%, users ~480. No recent config changes. Next, I will chart RLF over time to isolate the peak.",
+      "message_ar": "أستعلم الآن من المنظومة لـ NR-URB-5521 (ساعتان). القراءة الأولية: RLF 6.2%، معدل انتهاء T310 ~8%، فشل التسليم ~10%، PRB >90%، المستخدمون ~480. لا تغييرات ضبط حديثة. الخطوة التالية: رسم سلسلة زمنية لـ RLF لعزل الذروة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Traffic burst was between 18:30–20:30.",
+      "message_ar": "تم. كانت ذروة الحركة بين 18:30 و20:30."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plotting the RLF time series for NR-URB-5521 (2h). Spike aligns with 18:40–19:50, coinciding with PRB saturation; RSRQ around -11 dB and SINR ~5 dB. HO attempts to neighbors N1/N2 rose while success dipped—consistent with late handover under load.",
+      "message_ar": "أعرض السلسلة الزمنية لـ RLF لـ NR-URB-5521 (ساعتان). ترتفع بين 18:40–19:50 متزامنة مع تشبع PRB؛ RSRQ نحو ‎-11 dB وSINR ~5 dB. ازدادت محاولات التسليم إلى الجيران N1/N2 مع هبوط النجاح، ما يدل على تسليم متأخر تحت الحمل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. No outages or maintenance on neighbors; site hardware healthy.",
+      "message_ar": "مفهوم. لا أعطال أو أعمال صيانة على الجيران؛ عتاد الموقع سليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Mitigation plan: tune mobility thresholds and timers for earlier offload to the strongest neighbors during high load, and slightly extend the link recovery timer to reduce premature releases. Low-risk and reversible. Do you approve execution now?",
+      "message_ar": "خطة التخفيف: ضبط عتبات/مؤقتات التنقل لتمكين تسليم أبكر إلى الجيران الأقوى أثناء الحمل العالي، مع تمديد بسيط لمؤقت استعادة الرابط لتقليل الإسقاطات المبكرة. تغيير منخفض المخاطر وقابل للرجوع. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed.",
+      "message_ar": "موافق على التنفيذ."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying mobility parameter optimization on NR-URB-5521 now. Change committed; immediate post-check shows HO success +4 pp, T310 expiries trending down, and p95 latency easing. I will watch for stabilization over the next busy interval.",
+      "message_ar": "تم تطبيق تحسين معلمات التنقل على NR-URB-5521. تم اعتماد التغيير؛ الفحص الفوري يظهر تحسناً +4 نقاط مئوية في نجاح التسليم، وتراجع انتهاء T310، وتراجع في كمون P95. سأراقب حتى الاستقرار خلال فترة الانشغال التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 minutes, RLF down from ~6% to ~3.5% and HO success approaching 90%; the mobility parameter optimization looks effective. Let's monitor for the next 2–4 hours.",
+      "message_ar": "بعد 15 دقيقة انخفض RLF من ~6% إلى ~3.5% وارتفع نجاح التسليم نحو 90%؛ يبدو أن تحسين معلمات التنقل فعّال. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will monitor for the next 2–4 hours and share an update on RLF, HO success, and T310 expiry trends. If regressions appear, we will rollback the change; if issues persist, we will escalate for deeper interference analysis and potential neighbor retune.",
+      "message_ar": "تم—سنراقب خلال الساعتين إلى الأربع ساعات القادمة ونشارك تحديثاً حول RLF ونجاح التسليم واتجاهات انتهاء T310. إذا ظهرت انتكاسة سنرجع التغيير؛ وإذا استمرت المشكلة سنصعّد لتحليل تداخل أعمق وإعادة ضبط محتملة للجيران."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-5521",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-5521",
+        "RLF",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Validated a rush-hour radio link failure spike on the urban 5G macro via OSS counters and RLF time-series, correlating with PRB saturation and degraded RSRQ/SINR. Applied site parameter tuning to mobility thresholds and timers to enable earlier handovers and reduce premature releases. Post-change checks show improving RLF and handover success; we will continue monitoring through the next busy window.",
+    "ar": "تم التحقق من ارتفاع إسقاطات الاتصال خلال ساعة الذروة على خلية 5G حضرية عبر عدادات المنظومة والسلسلة الزمنية لـ RLF، مع ارتباط بتشبع PRB وتدهور RSRQ/SINR. تم تنفيذ ضبط معلمات الموقع لعتبات ومؤقتات التنقل لتمكين تسليم أبكر وتقليل الإطلاقات المبكرة. تظهر فحوصات ما بعد التغيير تحسناً في RLF ونجاح التسليم؛ سنواصل المراقبة خلال فترة الانشغال التالية."
+  }
+}

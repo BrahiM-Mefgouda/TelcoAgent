@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_URBAN_PEAK-S0021",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_URBAN_PEAK",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a 2h congestion alarm with ~91% PRB load, 301 users, and downlink around 8 Mbps (slow data) during the shoulder period with eMBB streaming.",
+    "ar": "خلية ماكرو 5G NR حضرية تُظهر إنذار ازدحام خلال ساعتين مع حمولة PRB بحوالي 91% و301 مستخدم وسرعة تنزيل تقارب 8 ميجابت/ث (بيانات بطيئة) خلال فترة الكتف مع حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell under 2h congestion alarm: ~91% PRB load, 301 users, DL ~8 Mbps, UL ~4 Mbps, BLER ~5%, p95 latency ~57 ms during shoulder period with eMBB streaming.",
+      "message_ar": "خلية ماكرو NR حضرية تحت إنذار ازدحام لمدة ساعتين: حمولة PRB ~91%، 301 مستخدم، تنزيل ~8 ميجابت/ث، رفع ~4 ميجابت/ث، BLER ~5%، مهلة p95 ~57 مللي ثانية خلال فترة الكتف مع بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 2h network stats for the impacted cell. Please share the cell ID and approve read access.",
+      "message_ar": "سأبدأ بجلب إحصائيات آخر ساعتين للخلية المتأثرة. يرجى تزويدي بمعرّف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-ULB-021. Read access approved.",
+      "message_ar": "معرّف الخلية هو NR-ULB-021. تمت الموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected last-2h KPIs for NR-ULB-021: PRB utilization avg 91–92% (peaks 98%); 301 active users; DL median ~8 Mbps (slow data); UL ~4 Mbps; BLER ~5.4%; p95 latency ~57 ms; RLF ~4.6%. Confirms congestion aligned with shoulder-period eMBB mix.",
+      "message_ar": "تم جمع مؤشرات الأداء لآخر ساعتين للخلية NR-ULB-021: استخدام PRB بمتوسط 91–92% (يبلغ الذروة 98%)؛ 301 مستخدم نشط؛ تنزيل وسيط ~8 ميجابت/ث (بيانات بطيئة)؛ رفع ~4 ميجابت/ث؛ BLER ~5.4%؛ مهلة p95 ~57 مللي ثانية؛ RLF ~4.6%. يؤكد الازدحام المتوافق مع فترة الكتف وحركة eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed mitigation: apply load optimization on this cell—tune resource-allocation weights, tighten admission at high occupancy, and enable gentle offload thresholds to neighbors. Low risk and reversible. Approve write access to proceed now?",
+      "message_ar": "الإجراء المقترح: تطبيق تحسين الحمل على هذه الخلية—ضبط أوزان تخصيص الموارد، تشديد القبول عند الازدحام العالي، وتمكين عتبات تفريغ خفيفة نحو الخلايا المجاورة. مخاطرة منخفضة ويمكن الرجوع عنه. هل توافق على صلاحية الكتابة للتنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Write access approved.",
+      "message_ar": "تمت الموافقة على صلاحية الكتابة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executed parameter tuning on NR-ULB-021 and committed: refined resource-allocation weights for capacity, adjusted admission limits under high load, and enabled a DL-favoring pattern during peak minutes. No errors; changes are reversible.",
+      "message_ar": "تم تنفيذ ضبط المعلمات على NR-ULB-021 واعتماده: تحسين أوزان تخصيص الموارد لزيادة السعة، تعديل حدود القبول عند الحمل المرتفع، وتمكين نمط مائل للتنزيل خلال دقائق الذروة. دون أخطاء؛ ويمكن التراجع عن التغييرات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Please observe for ~10 minutes and share quick readings: PRB occupancy trend, DL median throughput, p95 latency, and user experience, especially streaming.",
+      "message_ar": "يرجى المراقبة لمدة ~10 دقائق ومشاركة قراءات سريعة: اتجاه إشغال PRB، وسيط سرعة التنزيل، مهلة p95، وتجربة المستخدم، خاصة البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 10 minutes: PRB now ~78–82%, DL median 12–15 Mbps, p95 latency ~38 ms. Streaming stalls appear reduced.",
+      "message_ar": "بعد 10 دقائق: PRB الآن ~78–82%، وسيط التنزيل 12–15 ميجابت/ث، مهلة p95 ~38 مللي ثانية. حالات توقف البث تبدو أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ops record DU-LOAD-03421 with pre/post metrics and change notes for traceability.",
+      "message_ar": "تم إنشاء سجل تشغيلي DU-LOAD-03421 يتضمن مؤشرات قبل/بعد وملاحظات التغيير لأغراض التتبع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted—PRB pressure trending down and downlink throughput up. Action taken: site parameter tuning for load relief. Let’s monitor over the next 2–4 hours; please track via DU-LOAD-03421.",
+      "message_ar": "تمت ملاحظة تحسن—انخفاض ضغط PRB وارتفاع سرعة التنزيل. الإجراء المتخذ: ضبط معلمات الموقع لتخفيف الحمل. لنتابع خلال الساعتين إلى الأربع ساعات القادمات؛ يرجى المتابعة عبر DU-LOAD-03421."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own the next 2–4 hours of monitoring and update DU-LOAD-03421 afterward. If congestion returns, we will roll back to prior settings or extend load relief in coordination with neighbors.",
+      "message_ar": "تم التأكيد—سنتولى مراقبة الساعتين إلى الأربع ساعات المقبلات وسنحدث DU-LOAD-03421 بعدها. إذا عاد الازدحام، سنعود للإعدادات السابقة أو نوسّع تخفيف الحمل بالتنسيق مع الخلايا المجاورة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed sustained high PRB usage with depressed throughput and elevated latency during the shoulder period. Applied site parameter tuning to optimize resource allocation and admission limits, reducing load and improving user rates. A follow-up record DU-LOAD-03421 was created, and the cell will be monitored through the next busy window with rollback available if congestion returns.",
+    "ar": "تم تأكيد ارتفاع مستمر في استهلاك PRB مع انخفاض السرعات وارتفاع المهلة خلال فترة الكتف. تم تنفيذ ضبط معلمات الموقع لتحسين تخصيص الموارد وحدود القبول، مما خفّض الحمل وحسّن سرعات المستخدمين. تم إنشاء سجل متابعة DU-LOAD-03421، وسيتم مراقبة الخلية خلال فترة الانشغال التالية مع إمكانية الرجوع إذا عاد الازدحام."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_DOWNTOWN_SPOT-S0010",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_DOWNTOWN_SPOT",
+  "query": {
+    "en": "Urban 5G macro cell shows elevated handover failures over the last 3h during peak evening eMBB, with interference / signal overlap (SINR ~2 dB) and an active alarm indicating congestion/outage.",
+    "ar": "خلية ماكرو 5G حضرية تُظهر ارتفاعاً في فشل التسليم خلال آخر 3 ساعات في ذروة المساء لحركة eMBB، مع تداخل / تراكب إشارة (SINR ~2 dB) وإنذار نشط يشير إلى ازدحام/انقطاع."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Downtown NR macro cell NR-DWTN-001-S1 has rising HO failures in the last 3h; alarms indicate possible congestion/outage. HO success ~86%, failures ~13%, ping-pong ~12%, RLF ~3.3%. RF is weak (RSRP -103 dBm, RSRQ -14 dB, SINR ~2 dB). Peak evening eMBB with streaming impacted.",
+      "message_ar": "خلية NR ماكرو في وسط المدينة NR-DWTN-001-S1 لديها ارتفاع في فشل التسليم خلال آخر 3 ساعات؛ الإنذارات تشير إلى احتمال ازدحام/انقطاع. نجاح التسليم ~86%، الفشل ~13%، بينغ-بونغ ~12%، وانقطاع الاتصال ~3.3%. التغطية ضعيفة (RSRP -103 dBm، RSRQ -14 dB، SINR ~2 dB). ذروة مسائية مع eMBB وتأثرت خدمات البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll first localize the hotspot via a downtown coverage heatmap, then apply targeted mobility parameter tuning if overlap is confirmed. Please confirm access and the exact grid for NR-DWTN-001-S1.",
+      "message_ar": "سأحدد موقع البؤرة أولاً عبر خريطة تغطية لمنطقة وسط المدينة، ثم أطبق ضبطاً مستهدفاً لمعاملات الحركة إذا تأكد التراكب. يرجى تأكيد الوصول وتحديد الشبكة المكانية الدقيقة لِـ NR-DWTN-001-S1."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Grid: Downtown-Block-C3 to C7. Neighboring macros: NR-DWTN-002 and NR-DWTN-003.",
+      "message_ar": "الوصول مُعتمد. الشبكة: Downtown-Block-C3 إلى C7. الخلايا المجاورة: NR-DWTN-002 وNR-DWTN-003."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running coverage analysis for urban Downtown-Block-C3–C7 over the last 3h focusing on HO outcomes and interference contours.",
+      "message_ar": "أُجري تحليل التغطية لمنطقة حضرية Downtown-Block-C3–C7 خلال آخر 3 ساعات مع التركيز على نتائج التسليم ومحاور التداخل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field notes: users near Station Ave & 5th St report drops during streaming.",
+      "message_ar": "ملاحظات ميدانية: مستخدمون قرب Station Ave و5th St يبلغون عن انقطاعات أثناء البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: a failure hotspot at Station Ave/5th St where NR-DWTN-001 overlaps with 002/003; dominance is weak with SINR 0–3 dB and RSRP -105 to -108 dBm. Boundary looks late with current A3=2 dB and TTT=180 ms, causing late HOs and ping-pong. I propose targeted tuning: reduce A3 toward 002/003 for earlier handover, add reverse margin to prevent bounce-back, and slightly shorten the edge timer. Proceed?",
+      "message_ar": "النتائج: بؤرة فشل عند Station Ave/5th St حيث تتداخل NR-DWTN-001 مع 002/003؛ الهيمنة ضعيفة مع SINR بين 0–3 dB وRSRP بين -105 إلى -108 dBm. يبدو الحد متأخّراً مع A3=2 dB وTTT=180 ms مما يسبب تسليماً متأخراً وبينغ-بونغ. أقترح ضبطاً مستهدفاً: تقليل A3 باتجاه 002/003 لتسليم أبكر، إضافة هامش عكسي لمنع الارتداد، وتقليص طفيف لمؤقت الحافة. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the parameter changes now.",
+      "message_ar": "موافق على تطبيق تغييرات المعاملات الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying mobility parameter optimization: neighbor-specific A3 reduced toward 002/003 and increased on reverse paths, edge timer shortened moderately. Change validated and committed; rollback point saved. Starting live monitoring.",
+      "message_ar": "أطبق تحسين معاملات الحركة: تقليل A3 باتجاه 002/003 وزيادته في المسارات العكسية، مع تقليص معتدل لمؤقت الحافة. تم التحقق من التغيير وتثبيته وحفظ نقطة الرجوع. أبدأ المراقبة الحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check (20 min): handover failures dropping from ~13% to ~8%, ping-pong trending down. Users report fewer interruptions.",
+      "message_ar": "فحص مبكر (20 دقيقة): فشل التسليم انخفض من ~13% إلى ~8%، والبينغ-بونغ يتراجع. تقارير المستخدمين تشير إلى انقطاعات أقل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good trend. Provisional stats show HO success ~92%, RLF easing, and fewer edge retries. I’ll keep observing through the next busy period to confirm stability.",
+      "message_ar": "الاتجاه جيد. الإحصاءات الأولية تظهر نجاح التسليم ~92%، وتراجعاً في الانقطاعات، ومحاولات أقل على الحواف. سأواصل المراقبة خلال فترة الانشغال التالية لتأكيد الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement confirmed: handover failures trending down and ping-pong reduced. Action taken was mobility parameter optimization. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "تم تأكيد التحسن: عمليات فشل التسليم في انخفاض وتقليل البينغ-بونغ. الإجراء المتخذ كان تحسين معاملات الحركة. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the next 2–4 hours of monitoring and share an update afterward. If degradation returns, we will escalate to neighbor coordination and roll back the tuning to the saved state if needed.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة ونشارك تحديثاً بعدها. إذا عاد التدهور، سنصعّد إلى تنسيق مع الخلايا المجاورة ونرجع الضبط إلى الحالة المحفوظة عند الحاجة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "urban",
+        "Downtown-Block-C3-C7"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Coverage analysis identified a handover failure hotspot at the border of NR-DWTN-001 with neighbors 002/003, dominated by interference and weak edge signal causing late and unstable handovers. We mitigated it via site parameter tuning: adjusted neighbor-specific offsets and shortened the edge timer to favor earlier, stable handovers while reducing ping-pong. Post-change, handover failures decreased and success rate improved; continued monitoring is in place.",
+    "ar": "كشف تحليل التغطية عن بؤرة فشل تسليم عند حدود NR-DWTN-001 مع الجارتين 002/003، تهيمن عليها التداخل والإشارة الضعيفة عند الحافة مما أدى إلى تسليمات متأخرة وغير مستقرة. تم التخفيف عبر ضبط معاملات الموقع: تعديل الإزاحات الخاصة بالجيران وتقليص مؤقت الحافة لتفضيل تسليمات أبكر وأكثر استقراراً مع تقليل البينغ-بونغ. بعد التغيير انخفضت حالات فشل التسليم وتحسن معدل النجاح؛ وتستمر المراقبة."
+  }
+}

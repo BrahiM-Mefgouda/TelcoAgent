@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0018",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban NR macro shows 85 ms latency over the last 3h with moderate load (79% PRB, 190 users), low SINR (~1 dB) indicating interference / signal overlap and elevated BLER (~7.6%), impacting eMBB streaming.",
+    "ar": "خلية ماكرو NR في الضواحي تُظهر زمن استجابة 85 مللي ثانية خلال آخر 3 ساعات مع حمل متوسط (PRB 79%، 190 مستخدمًا)، وحساسية إشارة منخفضة SINR (~1 ديسيبل) تدل على تداخل/تراكب الإشارة وارتفاع BLER (~7.6%)، مما يؤثر على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Seeing elevated downlink latency (~85 ms avg over 3h) on a suburban NR macro during shoulder hours. PRB ~79%, ~190 users, SINR ~1 dB, BLER ~7–8%. eMBB streaming users report buffering.",
+      "message_ar": "نلاحظ ارتفاعًا في زمن استجابة الوصلة الهابطة (~85 مللي ثانية بمتوسط خلال 3 ساعات) على خلية NR ماكرو في منطقة ضواحي خلال فترة الكتف. PRB ~79%، ~190 مستخدمًا، SINR ~1 ديسيبل، BLER ~7–8%. مستخدمو بث eMBB يبلّغون عن تقطيع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Low SINR suggests interference / signal overlap driving BLER and latency. I will start by pulling OSS counters for the last 3h. Please share the cell ID and confirm read access.",
+      "message_ar": "تم الاستلام. انخفاض SINR يشير إلى تداخل/تراكب الإشارة ما يرفع BLER وزمن الاستجابة. سأبدأ بجلب عدادات النظام لآخر 3 ساعات. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SB-0471. Read access approved for the 3h window.",
+      "message_ar": "معرّف الخلية: NR-SB-0471. تمت الموافقة على صلاحية القراءة لنافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling health and QoS counters for NR-SB-0471 over the 3h window, focusing on PRB, users, BLER, SINR, and bearer latency.",
+      "message_ar": "يجري سحب عدادات الحالة وجودة الخدمة للخلية NR-SB-0471 خلال نافذة 3 ساعات مع التركيز على PRB، عدد المستخدمين، BLER، SINR، وزمن تأخير الحوامل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Copy.",
+      "message_ar": "تم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Findings: PRB 78–82% with 180–200 users; no active alarms. DL latency avg ~85 ms, p95 140–160 ms. SINR oscillates 0–2 dB; BLER 6–9% with brief peaks to 10–12%. Backhaul normal. Next, I will chart latency timeseries to verify correlation with BLER/SINR. Proceed?",
+      "message_ar": "النتائج: PRB بين 78–82% مع 180–200 مستخدم؛ لا توجد إنذارات نشطة. زمن استجابة DL بمتوسط ~85 مللي ثانية، p95 بين 140–160 مللي ثانية. SINR يتذبذب بين 0–2 ديسيبل؛ BLER بين 6–9% مع قمم قصيرة 10–12%. الربط الخلفي طبيعي. الخطوة التالية: تحليل السلسلة الزمنية لزمن الاستجابة للتحقق من الارتباط مع BLER/SINR. هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency timeseries shows bursts around shoulder hours aligned with BLER spikes and SINR dips; queuing time increases during those intervals. I propose targeted optimization to improve QoS handling for latency-sensitive traffic and slightly increase link robustness to cut retries. Approve change?",
+      "message_ar": "السلسلة الزمنية لزمن الاستجابة تُظهر اندفاعات خلال فترة الكتف متزامنة مع ارتفاع BLER وانخفاض SINR؛ يزداد وقت الاصطفاف خلال تلك الفترات. أقترح ضبطًا مستهدفًا لتحسين معالجة QoS لحركة الحساسة للزمن وزيادة طفيفة في متانة الرابط لتقليل الإعادات. هل توافق على التغيير؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-SB-0471 (QoS prioritization and link robustness tweaks). No restart required; change successful. Early counters show BLER trending toward ~5–6% and median latency easing. I will observe for stabilization over the next hour.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR-SB-0471 (تحسين أولوية QoS وتعديلات متانة الرابط). دون إعادة تشغيل؛ التغيير ناجح. المؤشرات الأولية تُظهر BLER باتجاه ~5–6% وتراجعًا في الوسيط لزمن الاستجابة. سأراقب حتى يستقر الأداء خلال الساعة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: median latency ~55 ms and p95 ~110 ms; BLER ~4% and fewer streaming stalls. This matches the site parameter tuning. Suggest monitoring through the next busy hour.",
+      "message_ar": "هناك تحسن: الوسيط لزمن الاستجابة ~55 مللي ثانية وp95 ~110 مللي ثانية؛ BLER ~4% وتقليل في تقطيع البث. هذا يتماشى مع ضبط معلمات الموقع. أقترح المراقبة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and share an update. If KPIs regress, we will roll back the tuning; if interference signs persist, we will escalate for interference mitigation. Summary: we analyzed counters and the latency trend, then executed site parameter tuning to improve QoS and reduce BLER; monitoring continues.",
+      "message_ar": "تم. سنراقب خلال ساعة الذروة القادمة ونشارك التحديث. إذا تراجعت المؤشرات، سنقوم بالتراجع عن الضبط؛ وإذا استمرت مؤشرات التداخل، سنصعّد لمعالجة التداخل. خلاصة: حلّلنا العدادات والسلسلة الزمنية لزمن الاستجابة ثم نفذنا ضبط معلمات الموقع لتحسين QoS وتقليل BLER؛ المراقبة مستمرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "The latency SLA violation on a suburban NR macro was tied to interference / signal overlap and elevated BLER during shoulder hours. After reviewing OSS counters and the latency trend, we performed site parameter tuning to QoS handling and link robustness, which reduced BLER and lowered median latency. We will monitor through the next busy hour to confirm stability.",
+    "ar": "تم ربط خرق SLA لزمن الاستجابة على خلية NR ماكرو في الضواحي بتداخل/تراكب الإشارة وارتفاع BLER خلال فترة الكتف. بعد مراجعة العدادات والسلسلة الزمنية لزمن الاستجابة، قمنا بضبط معلمات الموقع لمعالجة QoS وتعزيز متانة الرابط، مما خفّض BLER وخفّض الزمن الوسطي للاستجابة. سنراقب خلال ساعة الذروة القادمة لتأكيد الاستقرار."
+  }
+}

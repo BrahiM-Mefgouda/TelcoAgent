@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0010",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell shows ~7 backhaul link flaps per hour, bursty loss near 33%, p95 latency 38 ms, 217 interface errors, PRB ~69%, 191 users, and DL ~14 Mbps during mixed hours with eMBB streaming—please investigate degraded backhaul.",
+    "ar": "موقع ماكرو NR في منطقة ضاحية يُظهر نحو 7 تقلبات في رابط النقل الخلفي لكل ساعة، فقدان متقطّع يقارب 33%، كمون p95=38 مللي ثانية، 217 خطأ واجهة، استهلاك موارد ~69%، 191 مستخدماً، وتنزيل ~14 ميجابت/ث خلال ساعات مختلطة مع بث eMBB—يرجى التحقق من تدهور الربط الخلفي."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Over the last 6h on a suburban NR macro, users report buffering during eMBB streaming and slow data; we see ~7 backhaul link flaps per hour, bursty loss ~33%, p95 latency 38 ms, jitter 17 ms, and 217 interface errors; PRB ~69%, 191 users, DL ~14 Mbps.",
+      "message_ar": "خلال آخر 6 ساعات في موقع ماكرو NR بضواحي المدينة، لدينا شكاوى من تقطيع أثناء بث eMBB وبطء البيانات؛ نرصد نحو 7 تقلبات/ساعة في رابط النقل الخلفي، فقدان متقطع يقارب 33%، كمون p95=38 مللي ثانية، تذبذب 17 مللي ثانية، و217 خطأ على الواجهة؛ استهلاك الموارد ~69%، 191 مستخدماً، والتنزيل ~14 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull the last 6h performance counters for the affected cell. Please confirm the cell ID and approve read-only diagnostics.",
+      "message_ar": "سأقوم بجلب مؤشرات الأداء لآخر 6 ساعات للخلية المتأثرة. يرجى تأكيد معرف الخلية والموافقة على تشخيصات للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB-045-M1. Read-only diagnostics approved.",
+      "message_ar": "معرف الخلية هو NR-SUB-045-M1. التشخيص للقراءة فقط مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "6h data fetched: backhaul link state flaps = 42, interface errors = 217, loss bursts peaking 30–35%, p95 latency 38 ms, jitter 17 ms. Radio load is moderate (PRB ~69%, SINR 9 dB, RSRP -105 dBm), pointing to transport degradation. I propose conservative backhaul queue/flow-control tuning to smooth bursts and protect realtime while capping eMBB peaks. Approve?",
+      "message_ar": "تم جلب بيانات 6 ساعات: تقلبات حالة رابط النقل الخلفي = 42، أخطاء الواجهة = 217، قمم فقدان متقطع 30–35%، كمون p95=38 مللي ثانية، تذبذب 17 مللي ثانية. حمل الراديو متوسط (PRB ~69%، SINR 9 ديسيبل، RSRP -105 دBm)، ما يشير إلى تدهور في النقل. أقترح ضبطاً محافظاً لطوابير النقل والتحكم بالتدفق لتنعيم الفقدان وحماية الزمن الحقيقي مع تقييد قمم eMBB. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization now.",
+      "message_ar": "موافق على تنفيذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: adjusted queue depth, pacing, and buffering on the cell’s transport path; no service reset. Initial check shows no new flaps in the last interval. I recommend opening a transport ticket with evidence—shall I proceed?",
+      "message_ar": "تم تطبيق التحسين: تعديل عمق الطوابير والإيقاع والتخزين المؤقت في مسار النقل الخاص بالخلية؛ دون إعادة للخدمة. الفحص الأولي لا يظهر تقلبات جديدة في الفترة الأخيرة. أوصي بفتح تذكرة للجهة المسؤولة عن النقل مع الأدلة—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed and include flap rate, interface errors, and the 6h window.",
+      "message_ar": "تابع وأدرج معدل التقلبات، أخطاء الواجهة، ونافذة 6 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Transport ticket DU-BH-00137 created with evidence: flap rate ~7/h, 217 interface errors, ~33% loss bursts, and the 6h window; assigned to transport for follow-up. We will continue monitoring user impact.",
+      "message_ar": "تم إنشاء تذكرة النقل DU-BH-00137 مع الأدلة: معدل التقلب ~7/ساعة، 217 خطأ واجهة، فقدان متقطع ~33%، ونافذة 6 ساعات؛ وتم تحويلها لفريق النقل للمتابعة. سنواصل المراقبة لتأثير المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "25 minutes after the change: fewer loss bursts, steadier DL around 18–20 Mbps, and no link flaps so far.",
+      "message_ar": "بعد 25 دقيقة من التعديل: انخفاض في الفقدان المتقطع، وثبات أكبر في التنزيل حوالي 18–20 ميجابت/ث، ولا توجد تقلبات في الرابط حتى الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good progress. We will track against the prior hour and watch for regressions. Please confirm your preferred monitoring window.",
+      "message_ar": "تقدم جيد. سنقارن بالساعة السابقة ونراقب أي تراجع. يرجى تأكيد نافذة المراقبة المفضلة لديك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement noted: backhaul link flaps trending to zero and lower latency variability. Action taken was backhaul parameter tuning and opening ticket DU-BH-00137. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تم رصد تحسن: تقلبات رابط النقل الخلفي باتجاه الصفر وتذبذب أقل في الكمون. الإجراء المتخذ كان ضبط معلمات الربط الخلفي وفتح التذكرة DU-BH-00137. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood—we will own the next 2–4 hours and update the ticket after the window with results. If degradation returns, we will escalate to transport for vendor action; if performance regresses, we will roll back the tuning to the prior state.",
+      "message_ar": "مفهوم—سنتولى المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنحدّث التذكرة بعد انتهاء النافذة بالنتائج. إذا عاد التدهور فسنقوم بالتصعيد لفريق النقل للتعامل مع المورّد؛ وإذا تراجعت الأداء سنعيد الإعدادات كما كانت."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro: OSS data showed frequent link flaps, interface errors, and bursty loss despite moderate radio load. Applied site parameter tuning on backhaul queues/flow control to stabilize traffic. Opened a transport ticket for provider follow-up and will monitor for stability.",
+    "ar": "تم تشخيص تدهور في الربط الخلفي لموقع ماكرو NR بضواحي المدينة: أظهرت بيانات النظام تقلبات متكررة في الرابط وأخطاء واجهة وفقداناً متقطعاً رغم حمل راديو متوسط. تم تنفيذ ضبط لمعلمات الموقع على طوابير الربط الخلفي والتحكم بالتدفق لاستقرار المرور. تم فتح تذكرة لفريق النقل للمتابعة وسيتم المراقبة للتحقق من الاستقرار."
+  }
+}

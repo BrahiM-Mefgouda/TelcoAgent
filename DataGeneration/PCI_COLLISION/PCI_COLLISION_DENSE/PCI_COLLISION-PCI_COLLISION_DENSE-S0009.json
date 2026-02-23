@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_COLLISION_DENSE-S0009",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_COLLISION_DENSE",
+  "query": {
+    "en": "Urban macro 5G NR cell with an active congestion alarm is showing slow data, handover issues, and likely PCI overlap in the last 6 hours.",
+    "ar": "خلية ماكرو 5G NR حضرية مع إنذار ازدحام نشط تُظهر بيانات بطيئة ومشكلات تسليم واحتمال تداخل PCI خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro 5G NR sector NR-ULB-0101-1 over the last 6h shows HO success 74% with failures 20% and ping-pong 19%; RSRQ −16 dB, SINR 5 dB, BLER 13%, median DL 5 Mbps (slow); 350 users; there is an active congestion alarm impacting enterprise private users.",
+      "message_ar": "قطاع ماكرو 5G NR حضري (NR-ULB-0101-1) خلال آخر 6 ساعات يُظهر نجاح تسليم 74% مع فشل 20% وارتداد 19%؛ RSRQ −16 dB وSINR 5 dB وBLER 13%، والسرعة المتوسطة للتحميل 5 ميجابت/ث (بطيئة)؛ 350 مستخدمًا؛ وهناك إنذار ازدحام نشط يؤثر على مستخدمي الشبكة الخاصة للمؤسسات."
+    },
+    {
+      "role": "agent",
+      "message_en": "This pattern suggests a PCI conflict degrading mobility. I will start with a neighbor audit for NR-ULB-0101-1 over the last 6 hours—please confirm the target and approve access.",
+      "message_ar": "هذا النمط يوحي بوجود تعارض PCI يؤثر على الحركة. سأبدأ بتدقيق الجيران للخلية NR-ULB-0101-1 خلال آخر 6 ساعات—يرجى تأكيد الهدف والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed target NR-ULB-0101-1; access approved.",
+      "message_ar": "تم تأكيد الهدف NR-ULB-0101-1؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit result: adjacent sector NR-ULB-0102-2 shares PCI 224 with the serving cell; coverage overlap is about 39%, aligning with the HO failures and ping-pong spikes. Proposal: retune the serving cell PCI from 224 to 221 and refresh neighbor relations to clear the collision—proceed?",
+      "message_ar": "نتيجة تدقيق الجيران: القطاع المجاور NR-ULB-0102-2 يشترك في نفس PCI 224 مع الخلية الخادمة؛ يوجد تداخل تغطية بنحو 39%، ويتوافق ذلك مع فشل التسليم وارتفاع الارتداد. الاقتراح: إعادة ضبط PCI للخلية الخادمة من 224 إلى 221 وتحديث علاقات الجوار لإزالة التعارض—هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing parameter change: update PCI to 221 and refresh mobility relations. Applied successfully; duplicate PCI cleared, neighbor list consistent, RSRQ improving to ~−13 dB with slightly lower BLER; traffic remains stable.",
+      "message_ar": "تنفيذ تعديل المعلمات: تغيير PCI إلى 221 وتحديث علاقات الحركة. تم التطبيق بنجاح؛ زال التعارض في PCI، وقائمة الجيران متسقة، وتحسن RSRQ إلى نحو −13 dB مع انخفاض طفيف في BLER؛ والحركة مستقرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing early improvement—fewer ping-pong events and faster downlink on test UEs.",
+      "message_ar": "نرى تحسنًا مبكرًا—انخفاضًا في الارتداد وتسارعًا في التنزيل على أجهزة الاختبار."
+    },
+    {
+      "role": "agent",
+      "message_en": "For traceability, I will open a change record and attach pre/post counters—okay to proceed?",
+      "message_ar": "لأغراض التتبع، سأفتح سجل تغيير وأُرفق عدادات ما قبل/ما بعد—هل نتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change record created for the PCI retune on NR-ULB-0101-1 and mobility clean-up. We will keep watching KPIs.",
+      "message_ar": "تم إنشاء سجل تغيير لإعادة ضبط PCI على NR-ULB-0101-1 وتنظيف إعدادات الحركة. سنواصل مراقبة المؤشرات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, slow data is easing and handover failures are trending down; the PCI parameter optimization/config push helped. Let’s monitor through the next busy hour and track HO success and median throughput under DU-PCI-03217.",
+      "message_ar": "بعد التغيير، تباطؤ البيانات بدأ يخفّ وإخفاقات التسليم تتجه للانخفاض؛ وقد ساعد تحسين معلمة PCI/دفع الإعداد. لِنراقب خلال ساعة الذروة القادمة ونتتبع نجاح التسليم والسرعة المتوسطة تحت DU-PCI-03217."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we will own monitoring through the next busy hour and update the ticket after the window. If degradation returns, we will roll back the PCI change and escalate to field RF for on-site checks; otherwise, we will keep the new setting.",
+      "message_ar": "تم الاستلام—سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعد انتهاء النافذة. إذا عادت التدهورات، سنرجع تغيير PCI ونُصعّد إلى فريق ترددات الميدان لفحوصات ميدانية؛ وإلا سنُبقي الإعداد الجديد."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision between the serving NR macro cell (PCI 224) and an adjacent sector with overlapping coverage, driving HO failures, ping-pong, and slow data. Conducted a neighbor review, then applied site parameter tuning by retuning PCI to 221 and refreshing mobility relations, and logged a change record. We will monitor during the next busy hour to confirm stabilization.",
+    "ar": "تم تشخيص تعارض PCI بين الخلية الخادمة في شبكة NR الماكرو (PCI 224) وقطاع مجاور بتداخل تغطية، ما أدى إلى إخفاقات التسليم والارتداد وبطء البيانات. تم تنفيذ مراجعة للجيران ثم تطبيق ضبط معلمات الموقع عبر إعادة ضبط PCI إلى 221 وتحديث علاقات الحركة، مع تسجيل سجل تغيير. سنراقب خلال ساعة الذروة القادمة للتأكد من الاستقرار."
+  }
+}

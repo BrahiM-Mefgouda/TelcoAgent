@@ -1,0 +1,115 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_PEAK_LOAD-S0013",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_PEAK_LOAD",
+  "query": {
+    "en": "Urban 5G NR macro cell shows a congestion alarm over the last 2 hours with ~85% resource use, 377 users, latency around 40 ms and p95 at 70 ms during peak-evening eMBB traffic.",
+    "ar": "خلية ماكرو NR حضرية بها إنذار ازدحام خلال آخر ساعتين مع استخدام موارد ~85% و377 مستخدمًا، وزمن تأخير نحو 40 مللي ثانية وp95 عند 70 مللي ثانية خلال ذروة المساء لحركة eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-evening alarm on the urban 5G NR macro cell; latency ~40 ms with p95 ~70 ms, PRB ~85%, 377 users on eMBB (heavy streaming). Please investigate.",
+      "message_ar": "إنذار خلال ذروة المساء على خلية ماكرو NR حضرية؛ التأخير ~40 مللي ثانية مع p95 ~70 مللي ثانية، واستخدام PRB ~85%، و377 مستخدمًا على eMBB (بث كثيف). يرجى الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 2 hours for the impacted cell; please share the exact cell ID and confirm approval for diagnostics.",
+      "message_ar": "سأبدأ بجلب بيانات آخر ساعتين للخلية المتأثرة؛ يرجى تزويدي بمعرف الخلية الدقيق وتأكيد الموافقة على الفحص."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-105. Approval granted for a 2-hour diagnostic window.",
+      "message_ar": "معرّف الخلية هو NR-URB-MACRO-105. تمت الموافقة على نافذة فحص لمدة ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS snapshot complete: PRB sustained 82–90%, active users peak >380, BLER 3–4% (acceptable), no backhaul alarms; latency spikes align with high load. Next, I will analyze the latency time series over the same window to isolate queuing behavior—approve to proceed.",
+      "message_ar": "تم الحصول على لقطة من النظام: استمر استخدام PRB بين 82–90%، وذروة المستخدمين النشطين >380، وBLER بين 3–4% (مقبول)، ولا توجد إنذارات على الربط الخلفي؛ طفرات التأخير متزامنة مع الحمل المرتفع. بعد ذلك سأحلل السلسلة الزمنية للتأخير في نفس النافذة لعزل تأثير الطوابير—يرجى الموافقة للمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the latency time series analysis.",
+      "message_ar": "تمت الموافقة على متابعة تحليل السلسلة الزمنية للتأخير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Latency time series shows median 38–42 ms and p95 bursts 65–80 ms aligned with PRB saturation; queuing delay dominates, not radio errors. I propose targeted HQoS tuning to prioritize eMBB during peak by increasing scheduler weighting and smoothing burst absorption. Approve execution?",
+      "message_ar": "السلسلة الزمنية للتأخير تُظهر وسيط 38–42 مللي ثانية وطفرات p95 بين 65–80 مللي ثانية متزامنة مع تشبع PRB؛ تأخير الطوابير هو المسيطر وليس أخطاء الراديو. أقترح ضبط HQoS لاستهداف أولوية eMBB أثناء الذروة عبر زيادة وزن المجدول وتحسين امتصاص الطفرات. هل توافق على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute the tuning.",
+      "message_ar": "موافق على تنفيذ الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on the cell: increased eMBB scheduling weight, relaxed queue thresholds, and refined delay budget; change committed with a rollback path. Starting short-term monitoring for latency and user impact.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على الخلية: زيادة وزن جدولة eMBB، وتخفيف حدود الطوابير، وتحسين ميزانية التأخير؛ تم اعتماد التغيير مع إمكانية الرجوع. أبدأ مراقبة قصيرة الأمد للتأخير وتأثير المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial check after 10 minutes: p95 scheduling latency improved to ~55 ms; median remains ~38–40 ms; no new errors observed.",
+      "message_ar": "فحص أولي بعد 10 دقائق: تحسن تأخير الجدولة p95 إلى ~55 مللي ثانية؛ والوسيط ~38–40 مللي ثانية؛ ولا توجد أخطاء جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Trend looks positive. I will continue observing through the upcoming busy interval; please flag any anomalies you see on the user side.",
+      "message_ar": "المؤشر إيجابي. سأواصل المتابعة خلال فترة الانشغال القادمة؛ يرجى إبلاغي بأي شذوذ تلاحظونه على جانب المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: p95 latency trending down and high-queue events reduced. Action taken: site parameter tuning on the cell. Recommend monitoring through the next busy hour.",
+      "message_ar": "تحسن ملحوظ: p95 للتأخير يتجه للانخفاض وتقلّصت أحداث الطوابير العالية. الإجراء المنفذ: ضبط معلمات الموقع على الخلية. أقترح المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the monitoring for the next busy hour and report back afterward. If latency regresses, we will roll back the change and escalate for capacity/backhaul review.",
+      "message_ar": "تم. سنتولى المتابعة خلال ساعة الذروة القادمة ونقدم تحديثًا بعدها. إذا تدهور التأخير، سنرجع التغيير ونصعّد لمراجعة السعة/الربط الخلفي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "latency",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated a latency SLA breach on an urban 5G NR macro cell during peak evening. Verified high load with stable radio quality, analyzed the latency time series, and applied site parameter tuning to prioritize eMBB and smooth queuing. Early results show p95 latency improving; we will monitor through the next busy hour.",
+    "ar": "تم التحقيق في خرق SLA للتأخير على خلية ماكرو NR حضرية خلال ذروة المساء. تم التحقق من الحمل المرتفع مع جودة راديو مستقرة، وتحليل السلسلة الزمنية للتأخير، وتطبيق ضبط معلمات الموقع لإعطاء أولوية لـ eMBB وتخفيف الطوابير. النتائج الأولية تُظهر تحسّن p95 للتأخير؛ سنواصل المتابعة خلال ساعة الذروة القادمة."
+  }
+}

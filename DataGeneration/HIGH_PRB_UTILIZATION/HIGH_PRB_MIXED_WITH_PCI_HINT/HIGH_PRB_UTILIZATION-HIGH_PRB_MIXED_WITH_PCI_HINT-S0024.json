@@ -1,0 +1,118 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0024",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3h shoulder window with ~92% PRB use, low SINR (~1 dB) indicating interference/signal overlap, 206 users, BLER ~7.9%, and DL throughput around 9 Mbps during eMBB streaming traffic.",
+    "ar": "خلية ماكرو NR حضرية تظهر إنذار ازدحام خلال آخر 3 ساعات في فترة المتوسّط مع استخدام PRB ~92%، وSINR منخفض (~1 dB) يدل على تداخل/تراكب إشارة، و206 مستخدمين، وBLER ~7.9%، ومعدل تنزيل يقارب 9 ميجابت/ث أثناء حركة eMBB للبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR_Urban_Macro_Alpha has a congestion alarm in the last 3h shoulder window: PRB ~91–92%, 206 users, DL 9 Mbps, UL 10 Mbps, BLER ~7.9%, scheduler p95 latency 35 ms, SINR ~1 dB, RLF 2.7%, HO failures ~8%, and 9 neighbors with PCI overlap. Traffic is mostly eMBB streaming.",
+      "message_ar": "الخلية الماكرو NR الحضرية NR_Urban_Macro_Alpha لديها إنذار ازدحام خلال آخر 3 ساعات في فترة المتوسّط: PRB حوالي 91–92%، 206 مستخدمين، تنزيل 9 ميجابت/ث، رفع 10 ميجابت/ث، BLER ~7.9%، كمون المجدول p95 يبلغ 35 مللي ثانية، SINR ~1 dB، معدل فقد الاتصال 2.7%، فشل التسليم ~8%، و9 جيران مع تداخل PCI. الحركة أغلبها eMBB للبث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull the last 3h OSS counters for this 5G NR macro to validate load, latency, and interference symptoms. Please confirm access.",
+      "message_ar": "تم الاستلام. سأقوم أولاً بسحب عدادات آخر 3 ساعات من نظام الإدارة للتحقق من الحمل والكمون وأعراض التداخل لهذه الخلية NR. يرجى تأكيد السماح بالدخول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for diagnostics on NR_Urban_Macro_Alpha.",
+      "message_ar": "تمت الموافقة على الوصول للتشخيص على NR_Urban_Macro_Alpha."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 3h counters: PRB avg 89%, p95 94%; active UEs p95 210; scheduler backlog elevated (p95 35 ms); DL median 9–10 Mbps; BLER 7–8%; SINR median ~1 dB. No backhaul alarms. Underutilized neighbors sit at ~60–70% PRB. This confirms capacity pressure compounded by interference/signal overlap.",
+      "message_ar": "تم سحب عدادات 3 ساعات: متوسط PRB 89%، وقيمة p95 تبلغ 94%؛ عدد المستخدمين النشطين p95 يساوي 210؛ تراكم المجدول مرتفع (p95 35 مللي ثانية)؛ التنزيل الوسيط 9–10 ميجابت/ث؛ BLER بين 7–8%؛ ووسيط SINR حوالي 1 dB. لا إنذارات في النقل الخلفي. الجيران منخفضو الاستغلال عند ~60–70% PRB. هذا يؤكد ضغط السعة مع تفاقمه بتداخل/تراكب الإشارة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposal: apply a targeted parameter optimization—increase load-based mobility bias toward underutilized neighbors, tune scheduler fairness/PRB per-UE under congestion, and slightly tighten admission thresholds. Minimal and reversible. Proceed?",
+      "message_ar": "الاقتراح: تطبيق تحسين موجّه للمعاملات—زيادة انحياز التنقل المعتمد على الحمل نحو الجيران الأقل ازدحاماً، ضبط عدالة المجدول/حد PRB لكل مستخدم أثناء الازدحام، وتشديد بسيط لعَتبات القبول. التغيير طفيف وقابل للعكس. هل نمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization now.",
+      "message_ar": "تمت الموافقة على تنفيذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied successfully. Early impact (10–15 min): PRB p95 down to 85–86%, avg ~80%; scheduler p95 latency ~24 ms; DL median ~13 Mbps; BLER ~6%; SINR improving to ~2.2 dB; no new alarms. Continuing to observe.",
+      "message_ar": "تم تطبيق التحسين بنجاح. الأثر الأولي (10–15 دقيقة): انخفضت قيمة p95 لـ PRB إلى 85–86%، والمتوسط ~80%؛ كمون المجدول p95 حوالي 24 مللي ثانية؛ التنزيل الوسيط ~13 ميجابت/ث؛ BLER ~6%؛ تحسن SINR إلى ~2.2 dB؛ لا توجد إنذارات جديدة. سنواصل المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback aligns—buffering decreased and fewer failures. Some interference symptoms persist near edges.",
+      "message_ar": "تتوافق التغذية الميدانية—انخفض التقطيع وقلت حالات الفشل. ما زالت بعض أعراض التداخل تظهر قرب الحواف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Given residual interference and 9 overlapping PCIs, I will log a follow-up ticket for RF to review PCI/coverage and keep this cell under observation through the next busy hour. Shall I proceed?",
+      "message_ar": "نظراً للتداخل المتبقي ووجود 9 حالات تراكب PCI، سأقوم بفتح تذكرة متابعة لفريق الترددات لمراجعة PCI/التغطية والإبقاء على مراقبة هذه الخلية خلال ساعة الذروة القادمة. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the ticket.",
+      "message_ar": "تفضل بإنشاء التذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-PRB-00472 to document high PRB utilization mitigation and residual interference; tracking improvements and PCI overlap review. I will monitor counters and user experience during the next busy hour.",
+      "message_ar": "تم إنشاء التذكرة DU-PRB-00472 لتوثيق تخفيف ارتفاع استخدام PRB والتداخل المتبقي؛ متابعة التحسن ومراجعة تراكب PCI. سأراقب العدادات وتجربة المستخدم خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: PRB now trending below 85% and buffering complaints down. Action taken was site parameter optimization/config push. Let’s monitor for the next 2–4 hours and update DU-PRB-00472.",
+      "message_ar": "نلاحظ تحسناً: PRB يتجه الآن إلى أقل من 85% وانخفضت شكاوى التقطيع. الإجراء المتخذ كان تحسين معاملات الموقع/دفع الإعدادات. لنراقب خلال الساعتين إلى الأربع ساعات القادمة وتحديث DU-PRB-00472."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own the next 2–4 hours of monitoring and update the ticket after the window. If load rises again above ~90% or latency worsens, we will roll back the tuning; if SINR stays low, we will escalate to RF for interference mitigation and PCI review.",
+      "message_ar": "تم—سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وتحديث التذكرة بعد انتهاء الفترة. إذا ارتفع الحمل مجدداً فوق ~90% أو ساء الكمون، سنقوم بعكس الضبط؛ وإذا بقي SINR منخفضاً، سنصعّد إلى فريق الترددات لتخفيف التداخل ومراجعة PCI."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_Urban_Macro_Alpha",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_balance_offsets,scheduler_fairness,admission_thresholds"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB utilization with interference; applied parameter tuning; monitor and review PCI overlaps"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 11,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed sustained high PRB utilization on an urban NR macro with low SINR indicating interference/signal overlap. Applied site parameter tuning to bias load toward underutilized neighbors and improve scheduler fairness, reducing PRB and latency while improving throughput. Opened a follow-up ticket for PCI/coverage review and will monitor performance through the next busy period.",
+    "ar": "تم تشخيص ارتفاع مستمر في استخدام PRB على خلية NR حضرية مع SINR منخفض يشير إلى تداخل/تراكب إشارة. تم تطبيق ضبط معاملات الموقع لتحويل الحمل إلى الجيران الأقل ازدحاماً وتحسين عدالة المجدول، مما خفض استخدام PRB والكمون وحسّن معدل النقل. تم فتح تذكرة متابعة لمراجعة PCI/التغطية وسيتم مراقبة الأداء خلال فترة الذروة القادمة."
+  }
+}

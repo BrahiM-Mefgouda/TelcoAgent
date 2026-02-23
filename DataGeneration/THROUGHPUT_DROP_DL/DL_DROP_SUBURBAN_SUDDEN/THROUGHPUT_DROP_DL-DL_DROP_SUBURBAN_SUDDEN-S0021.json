@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_SUBURBAN_SUDDEN-S0021",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_SUBURBAN_SUDDEN",
+  "query": {
+    "en": "Investigate a sudden downlink throughput drop to 9 Mbps on a suburban 5G NR macro cell over the last 2 hours during off-peak, with 0 dB SINR indicating interference/signal overlap.",
+    "ar": "التحقق من هبوط مفاجئ في معدل التحميل إلى 9 ميجابت/ث في خلية ماكرو 5G NR بضاحية خلال آخر ساعتين وخارج الذروة، مع SINR يساوي 0 dB ما يشير إلى تداخل/تراكب إشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell shows a sudden DL throughput drop in the last 2 hours during off-peak; eMBB streaming users report buffering. Current snapshot: DL ≈9 Mbps, SINR ≈0 dB, BLER ≈11%, PRB ≈64%, HO success ≈92%; no alarms. Please investigate.",
+      "message_ar": "خلية NR ماكرو في منطقة ضاحية شهدت هبوطاً مفاجئاً في معدل التحميل خلال آخر ساعتين وخارج أوقات الذروة؛ مستخدمو eMBB للبث يبلّغون عن تقطيع. اللقطة الحالية: التحميل ≈ 9 ميجابت/ث، SINR ≈ 0 dB، BLER ≈ 11%، استغلال PRB ≈ 64%، نجاح التسليم ≈ 92%؛ لا توجد إنذارات. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling OSS counters for the affected cell over the last 2 hours. Please provide the cell ID and confirm access.",
+      "message_ar": "تم. سأبدأ بجلب عدادات OSS للخلية المتأثرة خلال آخر ساعتين. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-SUB-415-1. Access approved.",
+      "message_ar": "معرّف الخلية: NR-SUB-415-1. السماح بالوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS counters pulled. DL median fell from ~45 Mbps to ~9 Mbps between 13:20–15:20; SINR median ~0 dB, RSRQ −12 dB; PRB 60–65%; BLER 10–12%; handovers stable. This points to interference/signal overlap rather than congestion. Next, I'll review the DL KPI time series to pinpoint onset—proceed?",
+      "message_ar": "تم جلب العدادات. انخفض الوسيط للتحميل من ~45 إلى ~9 ميجابت/ث بين 13:20–15:20؛ متوسط SINR ~0 dB وRSRQ −12 dB؛ PRB بين 60–65%؛ BLER بين 10–12%؛ التسليمات مستقرة. المؤشرات تدل على تداخل/تراكب إشارة وليس ازدحاماً. التالي سأراجع السلاسل الزمنية لمؤشرات التحميل لتحديد نقطة البدء—هل أمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "DL KPI time series reviewed. At 13:22Z there is an abrupt SINR and RSRQ drop, user count steady (~150), handover failures not spiking, and DL resource allocation not saturated. Likely external noise/overlap. I propose targeted site parameter tuning to harden link adaptation and DL robustness. Approve immediate change (off-peak)?",
+      "message_ar": "تمت مراجعة السلاسل الزمنية. عند 13:22Z حدث هبوط حاد في SINR وRSRQ مع ثبات عدد المستخدمين (~150)، وعدم ارتفاع في فشل التسليم، وعدم تشبع تخصيص الموارد السفلية. الاحتمال الأكبر ضوضاء/تراكب خارجي. أقترح ضبطاً مستهدفاً لمعاملات الموقع لتعزيز تكيّف الوصلة ومتانة التحميل. هل توافق على تنفيذ فوري (خارج الذروة)؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافق على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied on NR-SUB-415-1: site parameter tuning for link adaptation and DL robustness, with refined allocation weighting for eMBB. Push successful; monitoring live counters for 10–15 minutes.",
+      "message_ar": "تم تطبيق التغيير على NR-SUB-415-1: ضبط معاملات الموقع لتكيّف الوصلة ومتانة التحميل مع تحسين أوزان التخصيص لخدمة eMBB. نُفّذ الدفع بنجاح؛ أراقب العدادات الحية لمدة 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 12 minutes: user DL rates up to ~28 Mbps, SINR ~3 dB, BLER ~6–7%; no negative impact on handovers.",
+      "message_ar": "بعد 12 دقيقة: معدلات التحميل للمستخدمين ارتفعت إلى ~28 ميجابت/ث، وSINR ~3 dB، وBLER ~6–7%؛ دون تأثير سلبي على التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will keep short-term observation, verify session stability, and compare with adjacent cells for balance. Do you agree to a broader monitoring window?",
+      "message_ar": "تحسّن جيد. سأستمر في المراقبة قصيرة المدى، وأتحقق من استقرار الجلسات، وأقارن مع الخلايا المجاورة للتوازن. هل توافق على نافذة مراقبة أوسع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Yes—improvement noted with BLER trending down and downlink rates rising. Action taken was site parameter tuning. Let's monitor over the next 2–4 hours.",
+      "message_ar": "نعم—تحسن ملحوظ مع تراجع BLER وارتفاع معدلات التحميل. الإجراء كان ضبط معاملات الموقع. لنراقب خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and share updates on throughput, BLER, and SINR afterward. If degradation reappears, we will escalate to investigate external interference; if adverse effects are seen, we will roll back the tuning.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنشارك المستجدات حول التحميل وBLER وSINR بعدها. إذا عاد التدهور سنصعّد للتحقق من التداخل الخارجي؛ وإن ظهرت آثار سلبية سنرجع الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB-415-1",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB-415-1",
+        "DL",
+        "last 2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a suburban NR macro downlink throughput drop as interference-driven: counters and time series showed low SINR/RSRQ with moderate load and stable mobility. Executed site parameter tuning to harden link adaptation and DL robustness, after which user rates increased and BLER declined. We will monitor over the next hours to confirm stability.",
+    "ar": "تم تشخيص هبوط التحميل في خلية NR ماكرو بضاحية بأنه ناجم عن تداخل: العدادات والسلاسل الزمنية أظهرت SINR/RSRQ منخفضين مع حمل معتدل وحركية مستقرة. نُفذ ضبط معاملات الموقع لتعزيز تكيّف الوصلة ومتانة التحميل، ما رفع السرعات وخفّض BLER. سنواصل المراقبة خلال الساعات القادمة للتأكد من الاستقرار."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0015",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Over the last 5h, a suburban NR macro sector shows high ping-pong handovers with HO success ~88% and SINR ~7 dB; RSRP at -106 dBm with ~197 users suggests border instability.",
+    "ar": "خلال آخر 5 ساعات، يظهر قطاع ماكرو NR في منطقة ضواحٍ ارتفاعاً في البينغ بونغ في التسليم مع نجاح ~88% وSINR ~7 dB؛ RSRP عند ‎-106 dBm ومع ~197 مستخدماً يوحي بعدم استقرار على الحدود."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro border sector has elevated ping-pong handovers in the last 5h (shoulder period). HO success 88.2%, ping-pong 23%, HO fails 12%. RSRP -106 dBm, RSRQ -10 dB, SINR 7 dB, BLER 6.6%, PRB 59%, ~197 users. TTT 199 ms, hysteresis 3 dB, A3 offset 0 dB.",
+      "message_ar": "قطاع حدودي لموقع ماكرو NR في الضواحي يظهر ارتفاعاً في عمليات التسليم ذهاباً وإياباً خلال آخر 5 ساعات (فترة الكتف). نجاح التسليم 88.2%، معدل البينغ بونغ 23%، فشل التسليم 12%. RSRP ‏-106 dBm، RSRQ ‏-10 dB، SINR ‏7 dB، BLER ‏6.6%، استغلال PRB ‏59%، ~197 مستخدماً. TTT ‏199 ms، هيستريزيس 3 dB، إزاحة A3 تساوي 0 dB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis. Likely border oscillation from conservative mobility thresholds. Step 1: check OSS for configuration and mobility counters over 5h. Please share the target cell ID and approve read access.",
+      "message_ar": "سأتولى التشخيص. الاحتمال وجود تذبذب حدودي بسبب عتبات حركة غير كافية. الخطوة 1: فحص OSS لتكوين الخلية وعدّادات الحركة لآخر 5 ساعات. يرجى مشاركة معرف الخلية المستهدفة والموافقة على وصول القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell is NR-Suburb-234-1; read access approved. Context: shoulder hour with eMBB streaming around a suburban road.",
+      "message_ar": "الخلية NR-Suburb-234-1؛ الوصول للقراءة مُعتمد. السياق: فترة كتف مع بث eMBB قرب طريق فرعي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Running OSS check for NR-Suburb-234-1 over 5h. Config shows A3 offset 0 dB, TTT ~200 ms, hysteresis 3 dB. Mobility counters indicate frequent short-stay returns (<60 s); a dominant border neighbor pair drives most returns. Proceed to HO time-series to quantify ping-pong windows?",
+      "message_ar": "أجري فحص OSS لـ NR-Suburb-234-1 خلال 5 ساعات. التكوين: إزاحة A3 = 0 dB، TTT ≈ 200 ms، هيستريزيس 3 dB. عدّادات الحركة تشير إلى عودات قصيرة للإقامة (<60 ثانية)؛ زوج حدودي مهيمن يسبب معظم العودات. أتابع خطوة سلسلة زمنية لمؤشرات التسليم لتحديد فترات البينغ بونغ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved, go ahead.",
+      "message_ar": "موافَق، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled HO time series for 5h. Ping-pong peaks during shoulder with streaming; return-within-1min rate ~24–28%, HO success dips to 86–89% then recovers. Proposal: raise A3 offset by +2 dB, extend TTT to 320 ms, and increase hysteresis to 4 dB on affected borders. Approve immediate change?",
+      "message_ar": "استخرجت السلسلة الزمنية للتسليم لآخر 5 ساعات. الذروة أثناء فترة الكتف ومع بث eMBB؛ معدل العودة خلال دقيقة ~24–28%، وينخفض لاحقاً. نجاح التسليم ينخفض إلى 86–89%. الاقتراح: زيادة إزاحة A3 بمقدار +2 dB، تمديد TTT إلى 320 ms، ورفع الهيستريزيس إلى 4 dB على الحدود المتأثرة. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved—apply now with those bounds; I’ll observe.",
+      "message_ar": "موافق—نفّذ الآن ضمن هذه الحدود؛ سأراقب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied on NR-Suburb-234-1 borders: A3 offset +2 dB, TTT 320 ms, hysteresis 4 dB; no neighbor list edits. Monitoring live counters for 30–60 min; expectation: ping-pong <12% and HO success >93%.",
+      "message_ar": "تم تطبيق التغييرات على حدود NR-Suburb-234-1: +2 dB لإزاحة A3، TTT = 320 ms، هيستريزيس = 4 dB؛ بلا تعديلات على قائمة الجيران. أراقب العدّادات الحية لمدة 30–60 دقيقة؛ التوقع هبوط البينغ بونغ <12% ونجاح التسليم >93%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 35 min, ping-pong trending ~10–12%, HO success ~94%, p50 DL ~14 Mbps. No new complaints.",
+      "message_ar": "بعد 35 دقيقة، البينغ بونغ يتجه إلى ~10–12%، نجاح التسليم ~94%، الوسيط DL ~14 Mbps. لا شكاوى جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early trend. I’ll keep watching mobility KPIs and user experience, especially at the east border. If any rebound appears, I’ll respond promptly.",
+      "message_ar": "اتجاه مبكر جيد. سأواصل مراقبة مؤشرات الحركة وتجربة المستخدمين، خصوصاً عند الحد الشرقي. إن ظهر ارتداد سأتصرف فوراً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed—ping-pong returns trending down. After site parameter tuning, let’s monitor through the next busy hour to confirm stability.",
+      "message_ar": "تحسّن ملحوظ—عمليات العودة في البينغ بونغ في انخفاض. بعد ضبط معلمات الموقع، لنتابع المراقبة خلال ساعة الذروة التالية للتأكد من الاستقرار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed—we’ll own monitoring through the next busy hour and share an update. If ping-pong rises above 15% or HO failures climb, we’ll rollback; otherwise we’ll retain the tuning and consider fine-tuning with you. Summary: OSS review, HO trend analysis, and mobility parameter tuning executed; monitoring plan in place.",
+      "message_ar": "تم التأكيد—سنتولّى المراقبة خلال ساعة الذروة التالية وسنشارك تحديثاً. إذا ارتفع البينغ بونغ فوق 15% أو زادت إخفاقات التسليم، سنرجع التعديل؛ وإلا سنُبقي الضبط وننظر في تحسينات دقيقة معكم. الملخص: تم تنفيذ مراجعة عبر النظام، وتحليل اتجاهات التسليم، وضبط معلمات الحركة؛ وخطة مراقبة قيد التنفيذ."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers at a suburban 5G NR macro border. Reviewed OSS configuration and HO time series, confirming short-stay returns driven by low A3 offset, short dwell time, and low hysteresis. Mitigated via site parameter tuning by raising the offset, extending TTT, and increasing hysteresis, improving HO success and reducing ping-pong; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع البينغ بونغ في التسليم عند حدود موقع ماكرو 5G NR في الضواحي. تمت مراجعة تكوين النظام والسلسلة الزمنية للتسليم وتأكيد عودات قصيرة ناجمة عن إزاحة A3 منخفضة ومدة إقامة قصيرة وهيستريزيس منخفض. تمت المعالجة عبر ضبط معلمات الموقع برفع الإزاحة وتمديد TTT وزيادة الهيستريزيس، مما حسّن نجاح التسليم وقلل البينغ بونغ؛ وتستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

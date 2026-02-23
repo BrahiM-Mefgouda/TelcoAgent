@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0011",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Investigate elevated ping‑pong handovers on a suburban NR macro over the last 5h (HO success ~84%, ping‑pong ~11%, failures ~13%, median RSRP −100 dBm, RSRQ −13 dB, SINR 10 dB) affecting eMBB streaming.",
+    "ar": "التحقق من ارتفاع عمليات التسليم التبادلي السريع في خلية ماكرو NR بمنطقة ضاحية خلال آخر 5 ساعات (نجاح التسليم ~84%، ping‑pong ~11%، فشل ~13%، متوسط RSRP −100 dBm، وRSRQ −13 dB، وSINR 10 dB) وتأثيره على بث eMBB."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell over the last 5h off‑peak shows elevated ping‑pong handovers: HO success ~84%, ping‑pong ~11%, HO failures ~13%. Edge RF around RSRP −100 dBm, RSRQ −13 dB, SINR 10 dB; traffic is mostly eMBB streaming.",
+      "message_ar": "خلية ماكرو NR في منطقة ضاحية خلال آخر 5 ساعات (خارج الذروة) تُظهر ارتفاعاً في عمليات التسليم التبادلي السريع: نجاح التسليم ~84%، ping‑pong ~11%، وفشل التسليم ~13%. قياسات الحافة RSRP −100 dBm وRSRQ −13 dB وSINR 10 dB؛ الحركة أغلبها بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by reviewing 5h counters to isolate oscillating neighbor pairs and edge load. Please share the cell ID and confirm access to query performance data.",
+      "message_ar": "سأبدأ بمراجعة عدّادات آخر 5 ساعات لعزل الأزواج المتذبذبة من الجيران وحِمل الحافة. يرجى تزويدي بمعرّف الخلية وتأكيد السماح بالوصول لبيانات الأداء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SUB123-1. Access approved for read-only queries over the 5h window.",
+      "message_ar": "معرّف الخلية هو NR-SUB123-1. تمّ اعتماد الوصول للقراءة فقط خلال نافذة 5 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 5h counters for NR-SUB123-1: ping‑pong concentrated at borders with rapid returns (<60s), HO failures ~13%, PRB ~55%, BLER ~6–7%, no active alarms. I will now analyze the handover trend series.",
+      "message_ar": "تم سحب عدّادات 5 ساعات للخلية NR-SUB123-1: تركّز ping‑pong عند الحدود مع عودات سريعة (<60 ثانية)، فشل التسليم ~13%، إشغال PRB ~55%، BLER ~6–7%، ولا توجد إنذارات فعّالة. سأحلّل الآن سلسلة اتجاهات عمليات التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "The 5h handover time series shows recurrent back‑and‑forth bursts every 30–60s during light load, aligning with marginal RSRP/RSRQ. Current mobility thresholds look permissive at borders, driving oscillations.",
+      "message_ar": "سلسلة الزمن لعمليات التسليم خلال 5 ساعات تُظهر اندفاعات متكررة ذهاباً وإياباً كل 30–60 ثانية أثناء الحِمل الخفيف، وتتماشى مع RSRP/RSRQ هامشيين. عتبات التنقل الحالية تبدو متساهلة عند الحدود مما يسبب التذبذب."
+    },
+    {
+      "role": "agent",
+      "message_en": "Requesting approval to apply a targeted mobility tuning limited to border neighbors to increase stability (slightly higher stickiness and dwell before return) while safeguarding failure rate.",
+      "message_ar": "أطلب الموافقة على تطبيق ضبط مُستهدف لمعاملات التنقل مقتصر على الجيران الحدّيين لتحسين الاستقرار (زيادة طفيفة في التمسك ووقت المكوث قبل العودة) مع الحفاظ على معدل الفشل."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the mobility parameter tuning now (off‑peak).",
+      "message_ar": "تمت الموافقة على تطبيق ضبط معاملات التنقل الآن (خارج الذروة)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization executed on NR-SUB123-1 for border mobility; change validated with no alarms or regressions. Beginning post‑change checks and short monitoring.",
+      "message_ar": "تم تنفيذ التحسين على NR-SUB123-1 لتنقل الحدود؛ تم التحقق من التغيير دون إنذارات أو تراجعات. أبدأ بفحوصات ما بعد التغيير ومراقبة قصيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: rapid back‑and‑forth events are trending down; no rise in drops; median throughput remains ~24 Mbps.",
+      "message_ar": "ملاحظة أولية: الأحداث السريعة ذهاباً وإياباً تتجه للانخفاض؛ لا زيادة في الانقطاعات؛ يبقى متوسط الإنتاجية ~24 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Early KPIs (15–20 min) show ping‑pong reduced from ~11% to ~6–7%, HO success edging toward ~88–89%; BLER steady and load unchanged. I will continue to watch border relations.",
+      "message_ar": "المؤشرات المبكرة (15–20 دقيقة) تُظهر انخفاض ping‑pong من ~11% إلى ~6–7%، وتحسّن نجاح التسليم نحو ~88–89%؛ ثبات BLER وعدم تغيّر الحِمل. سأواصل مراقبة علاقات الحدود."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed improvement: ping‑pong events trending down and handover success improving after the mobility parameter optimization. Let’s monitor for the next 2–4 hours.",
+      "message_ar": "تمت ملاحظة تحسّن: تقلّ أحداث ping‑pong ويتحسّن نجاح التسليم بعد تحسين معاملات التنقل. لنراقب خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will monitor over the next 2–4 hours and share an update. If ping‑pong rises or failures increase, we will roll back the change and pursue deeper neighbor retuning or a field check; otherwise we will baseline the optimization.",
+      "message_ar": "سنراقب خلال الساعتين إلى الأربع القادمة ونشارك تحديثاً. إذا ارتفع ping‑pong أو زادت حالات الفشل، سنقوم بعكس التغيير ونتجه إلى إعادة ضبط أعمق للجيران أو فحص ميداني؛ وإلا فسنثبت التحسين كخط أساس."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SUB123-1",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-SUB123-1",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping‑pong handovers on a suburban NR macro by reviewing recent counters and handover time trends, which showed recurrent oscillations at borders under marginal RSRP/RSRQ. Applied site parameter tuning to mobility to increase edge stability and reduce rapid returns. Early KPIs indicate reduced ping‑pong and improving handover success; continued monitoring is planned.",
+    "ar": "تم تشخيص ارتفاع عمليات التسليم التبادلي السريع في خلية ماكرو NR بضاحية عبر مراجعة العدّادات الحديثة واتجاهات التسليم، والتي أظهرت تذبذبات متكررة عند الحدود مع RSRP/RSRQ هامشيين. تم تطبيق ضبط لمعاملات الموقع الخاصة بالتنقل لزيادة الاستقرار عند الحواف وتقليل العودات السريعة. تشير المؤشرات المبكرة إلى انخفاض ping‑pong وتحسّن نجاح التسليم؛ وسيستمر الرصد."
+  }
+}

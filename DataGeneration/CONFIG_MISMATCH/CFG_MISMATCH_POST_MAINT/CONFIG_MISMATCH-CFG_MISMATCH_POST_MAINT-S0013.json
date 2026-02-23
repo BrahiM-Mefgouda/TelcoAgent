@@ -1,0 +1,113 @@
+{
+  "id": "CONFIG_MISMATCH-CFG_MISMATCH_POST_MAINT-S0013",
+  "intent": "CONFIG_MISMATCH",
+  "blueprint_id": "CFG_MISMATCH_POST_MAINT",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows 3 post-maintenance config mismatches (~23h old) with mild handover failures (~4%), BLER ~6.6%, and median throughput ~21 Mbps.",
+    "ar": "خلية 5G NR ماكرو في منطقة ضاحية تعرض 3 فروقات إعدادات بعد الصيانة (عمرها ~23 ساعة) مع ارتفاع طفيف في فشل التسليم (~4%)، وBLER حوالي 6.6%، ومتوسط سرعات تنزيل ~21 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "After planned maintenance ~23 hours ago on suburban NR macro cell NR-CTY-23456-S1, we’re seeing slightly elevated handover failures and BLER. eMBB users reported brief streaming stutters during mixed busy periods. No alarms.",
+      "message_ar": "بعد صيانة مخططة منذ ~23 ساعة على خلية NR ماكرو في الضاحية NR-CTY-23456-S1، نلاحظ ارتفاعاً طفيفاً في فشل التسليم وBLER. المستخدمون لخدمات eMBB أبلغوا عن تقطعات قصيرة في البث خلال فترات ازدحام متباينة. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Likely post-maintenance configuration drift. I will compare live vs baseline over the last 24h and, if mismatches are confirmed, proceed to realign via a baseline config push. Please confirm the cell ID and grant access.",
+      "message_ar": "المرجح وجود انحراف إعدادات بعد الصيانة. سأقارن الإعدادات الحية مع الخط الأساس خلال آخر 24 ساعة، وإذا تأكدت الفروقات سأقوم بإعادة المحاذاة بدفع الإعدادات القياسية. برجاء تأكيد معرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell is NR-CTY-23456-S1. Access approved for the last 24 hours.",
+      "message_ar": "الخلية هي NR-CTY-23456-S1. الوصول مُعتمَد لآخر 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Live vs baseline check complete: 3 mismatches detected, all timestamped near the maintenance window (~23h). Findings: handover thresholds offset from baseline (+2 dB), SSB periodicity different, and scheduler weighting deviated. Recommend restoring the standard baseline package CFG-NR-BASELINE-2025.09.1. Approve?",
+      "message_ar": "تمت مقارنة الإعدادات الحية مع الخط الأساس: تم اكتشاف 3 فروقات، جميعها مؤرخة قرب نافذة الصيانة (~23 ساعة). النتائج: انحراف في عتبات التسليم (+2 dB) عن الأساس، اختلاف في دورية SSB، وتغير في أوزان الجدولة. أوصي باستعادة الحزمة القياسية CFG-NR-BASELINE-2025.09.1. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to restore the baseline package.",
+      "message_ar": "موافق على استعادة الحزمة القياسية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Baseline pushed and committed. Minimal service impact observed (<1–2s). Counters are refreshing—please watch HO failures and BLER for the next few minutes while the cell stabilizes.",
+      "message_ar": "تم دفع الخط الأساس واعتماده. تأثير الخدمة كان ضئيلاً (<1–2 ثانية). يتم تحديث العدادات—يرجى مراقبة فشل التسليم وBLER لبضع دقائق حتى تستقر الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial view: BLER is down to ~5.2%, handover failures trending down, and median DL throughput moved to ~22 Mbps. Streaming tests look smoother.",
+      "message_ar": "المؤشرات الأولية: BLER انخفض إلى ~5.2%، وفشل التسليم في اتجاه تنازلي، ومتوسط سرعة التنزيل وصل ~22 ميجابت/ث. اختبارات البث أصبحت أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. I will create a tracking record to document the post-maintenance mismatches and the baseline restoration, with before/after snapshots. Proceed?",
+      "message_ar": "تحسّن جيد. سأنشئ سجل تتبّع لتوثيق فروقات ما بعد الصيانة واستعادة الخط الأساس، مع لقطات قبل/بعد. هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed. Please include the mismatch details and the time correlation with the maintenance window.",
+      "message_ar": "تفضل. الرجاء تضمين تفاصيل الفروقات والربط الزمني مع نافذة الصيانة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket created with a summary of the mismatches and the baseline realignment; evidence attached. No further live changes planned right now.",
+      "message_ar": "تم إنشاء تذكرة تتبّع بملخص الفروقات وإعادة المحاذاة للخط الأساس؛ تم إرفاق الأدلة. لا توجد تغييرات فورية إضافية مخططة الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing continued improvement: BLER stabilizing near 5% and handover failures trending down after the config push. Let’s monitor through the next busy hour and update DU-CFG-02873 accordingly.",
+      "message_ar": "نرى استمرار التحسّن: BLER يستقر قرب 5% وفشل التسليم في اتجاه انخفاض بعد دفع الإعدادات. دعنا نراقب خلال ساعة الازدحام القادمة ونُحدّث DU-CFG-02873 وفقاً لذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we’ll own monitoring through the next busy hour and update the ticket afterward. If issues recur, we will roll back the change and escalate to field operations; otherwise we’ll confirm stability before closure.",
+      "message_ar": "تم التأكيد—سنتولى المراقبة خلال ساعة الازدحام القادمة وسنحدّث التذكرة بعدها. إذا عادت المشكلة سنُرجع التغيير ونصعّد إلى عمليات الحقل؛ وإلا سنؤكد الاستقرار قبل الإغلاق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-CTY-23456-S1",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "push_config",
+      "args": [
+        "CFG-NR-BASELINE-2025.09.1"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Post-maintenance config mismatches on NR-CTY-23456-S1 resolved via baseline config push; attach diffs and before/after KPIs; monitor next busy hour."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed post-maintenance configuration drift on a suburban 5G NR macro cell with three mismatched parameters impacting handovers and BLER. Realigned the site by restoring the baseline configuration and documented the change with a tracking ticket. We will monitor performance through the next busy hour and update the ticket with results.",
+    "ar": "تم تشخيص انحراف إعدادات بعد الصيانة على خلية 5G NR ماكرو في منطقة ضاحية مع ثلاثة إعدادات غير متطابقة أثرت على التسليم وBLER. تمت إعادة محاذاة الموقع عبر استعادة الإعدادات القياسية وتم توثيق التغيير بتذكرة تتبّع. سنراقب الأداء خلال ساعة الازدحام القادمة ونحدّث التذكرة بالنتائج."
+  }
+}

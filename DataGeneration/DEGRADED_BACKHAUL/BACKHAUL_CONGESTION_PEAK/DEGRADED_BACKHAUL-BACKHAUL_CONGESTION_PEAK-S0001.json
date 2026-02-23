@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_CONGESTION_PEAK-S0001",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_CONGESTION_PEAK",
+  "query": {
+    "en": "Urban NR macro cell shows a congestion alarm over the last 3h: backhaul utilization 87%, latency 81 ms, jitter 21 ms, packet loss ~0.9%, and DL throughput 12 Mbps with ~569 eMBB streaming users.",
+    "ar": "خلية ماكرو NR حضرية تظهر إنذار ازدحام خلال آخر 3 ساعات: استخدام المسار الخلفي 87%، زمن تأخير 81 مللي ثانية، تذبذب 21 مللي ثانية، فقدان حزم ~0.9%، ومعدل تنزيل 12 ميجابت/ث مع نحو 569 مستخدم eMBB (بث)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro NR-URB-MACRO-102 raised a congestion alarm over the last 3 hours. DL throughput is ~12 Mbps; backhaul util ~87%, latency ~81 ms, jitter 21 ms, loss ~0.9%, about 569 users on eMBB (streaming).",
+      "message_ar": "الخلية الماكرو NR-URB-MACRO-102 في منطقة حضرية أطلقت إنذار ازدحام خلال آخر 3 ساعات. معدل التنزيل ~12 ميجابت/ث؛ استخدام المسار الخلفي ~87%، زمن التأخير ~81 مللي ثانية، التذبذب 21 مللي ثانية، الفقد ~0.9%، مع حوالي 569 مستخدمًا على eMBB (بث)."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will first verify backhaul statistics for the last 3h to confirm the bottleneck, then apply targeted queue/QoS tuning if confirmed. Please confirm access and the cell ID.",
+      "message_ar": "سأتحقق أولًا من إحصاءات المسار الخلفي لآخر 3 ساعات لتأكيد عنق الزجاجة، ثم أطبق ضبطًا مستهدفًا للصفوف وجودة الخدمة إذا تأكد. يرجى تأكيد الإذن وتزويدي بمعرّف الخلية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-102; access and safe changes are approved.",
+      "message_ar": "معرّف الخلية هو NR-URB-MACRO-102؛ الوصول والتغييرات الآمنة مُعتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Checked operational stats for NR-URB-MACRO-102 (last 3h): backhaul utilization 87%, latency 81 ms, jitter 21 ms, loss ~0.9%. PRB ~80%, SINR 17 dB, RSRP -105 dBm. RF is acceptable; the bottleneck is backhaul during peak streaming. I propose targeted queue/AQM and QoS weight tuning to relieve congestion. Proceed?",
+      "message_ar": "تمت مراجعة إحصاءات التشغيل للخلية NR-URB-MACRO-102 (آخر 3 ساعات): استخدام المسار الخلفي 87%، زمن التأخير 81 مللي ثانية، التذبذب 21 مللي ثانية، الفقد ~0.9%. استهلاك الموارد الراديوية ~80%، نسبة إشارة إلى تداخل 17 ديسيبل، RSRP -105 dBm. الطبقة الراديوية مقبولة؛ عنق الزجاجة في المسار الخلفي أثناء أوقات الذروة والبث. أقترح ضبط أوزان QoS وإدارة صفوف/AQM لتخفيف الازدحام. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please proceed with the tuning.",
+      "message_ar": "موافق. يرجى المضي قدمًا في الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied conservative backhaul optimizations on NR-URB-MACRO-102: reduced queue thresholds, enabled gentle AQM marking where supported, and adjusted QoS weights to smooth bursts and prioritize critical flows. No service interruption occurred; please observe KPIs for immediate impact.",
+      "message_ar": "تم تطبيق تحسينات محافظة على المسار الخلفي للخلية NR-URB-MACRO-102: خفض عتبات الصفوف، تفعيل تعليم AQM بشكل معتدل حيثما أمكن، وضبط أوزان QoS لتنعيم الاندفاعات وإعطاء أولوية للتدفقات الحرجة. لم يحدث انقطاع خدمة؛ يرجى مراقبة مؤشرات الأداء للتأثير الفوري."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial snapshot shows improvement: backhaul latency ~48 ms, queue occupancy ~55%, DL throughput ~18 Mbps, and the congestion alarm cleared.",
+      "message_ar": "اللقطة الأولية تُظهر تحسنًا: زمن تأخير المسار الخلفي ~48 مللي ثانية، إشغال الصفوف ~55%، معدل التنزيل ~18 ميجابت/ث، وتمت إزالة إنذار الازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement. To ensure continuity and capacity review, I will document the event and actions and open a follow-up ticket requesting transport review. Ok to log?",
+      "message_ar": "تحسن جيد. لضمان الاستمرارية ومراجعة السعة، سأوثّق الحدث والإجراءات وأفتح تذكرة متابعة لطلب مراجعة النقل. هل الموافقة على التوثيق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to log a ticket.",
+      "message_ar": "موافق على فتح تذكرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created ticket DU-BH-01437: peak-hour degraded backhaul on NR-URB-MACRO-102; actions taken—queue/AQM/QoS tuning; request—transport capacity review and trend monitoring.",
+      "message_ar": "تم إنشاء التذكرة DU-BH-01437: تدهور المسار الخلفي في ساعة الذروة على الخلية NR-URB-MACRO-102؛ الإجراءات المتخذة—ضبط الصفوف/AQM وQoS؛ الطلب—مراجعة سعة النقل ومراقبة الاتجاهات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Packet loss is trending down to ~0.3% after the parameter optimization. Let’s monitor through the next busy hour; we’ll track via DU-BH-01437.",
+      "message_ar": "فقدان الحزم يتجه إلى الانخفاض حتى ~0.3% بعد ضبط المعلمات. لنتابع المراقبة خلال ساعة الذروة القادمة؛ سنتابع عبر DU-BH-01437."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and update the ticket after the window. If congestion returns, we will escalate to the transport team for capacity upgrade; if any adverse effects appear, we will roll back the tuning.",
+      "message_ar": "سنكون مسؤولين عن المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء الفترة. إذا عاد الازدحام سنصعّد إلى فريق النقل لزيادة السعة؛ وإن ظهرت آثار جانبية سنرجع عن الضبط."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-102",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul queue thresholds and QoS weights (peak)"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Peak-hour degraded backhaul on NR-URB-MACRO-102; tuned backhaul queue/AQM/QoS; request transport capacity review"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Confirmed peak-hour degraded backhaul on the urban NR macro: high utilization, latency, and queueing with adequate RF/PRB, causing low downlink throughput. Mitigated by site parameter tuning for backhaul queueing and QoS, then created a follow-up ticket (DU-BH-01437) for transport capacity review. Monitoring will continue through the next busy hour.",
+    "ar": "تم تأكيد تدهور المسار الخلفي في ساعة الذروة على خلية NR حضرية: استخدام وزمن تأخير وإشغال صفوف مرتفع مع طبقة راديوية/موارد مقبولة، ما أدى إلى انخفاض معدل التنزيل. تم التخفيف عبر ضبط معلمات الموقع لصفوف المسار الخلفي وجودة الخدمة، ثم إنشاء تذكرة متابعة (DU-BH-01437) لمراجعة سعة النقل. ستستمر المتابعة خلال ساعة الذروة القادمة."
+  }
+}

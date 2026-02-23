@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0025",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban 5G NR macro cell shows QoS at 0.155 in the last 24h versus 0.990 target, 47 SLA violations, latency 63 ms, PRB 74%, BLER 11%, p50 throughput 17 Mbps, 390 users; congestion alarm is active.",
+    "ar": "خلية ماكرو 5G NR في منطقة حضرية أظهرت QoS بقيمة 0.155 خلال آخر 24 ساعة مقابل الهدف 0.990، مع 47 مخالفة لاتفاقية الخدمة، وزمن تأخير 63 مللي ثانية، واستغلال PRB بنسبة 74%، وBLER بنسبة 11%، وسرعة p50 تبلغ 17 ميجابت/ث، و390 مستخدمًا؛ تنبيه الازدحام نشط."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have an SLA violation alarm on an urban 5G NR macro cell over the last 24h: QoS index 0.155 vs 0.990 target, 47 violation intervals; latency 63 ms, PRB 74%, BLER 11%, p50 throughput 17 Mbps, ~390 users. Please investigate.",
+      "message_ar": "لدينا إنذار مخالفة لاتفاقية الخدمة على خلية ماكرو 5G NR حضرية خلال آخر 24 ساعة: مؤشر QoS عند 0.155 مقابل الهدف 0.990، مع 47 فترة مخالفة؛ زمن التأخير 63 مللي ثانية، واستغلال PRB 74%، وBLER 11%، وسرعة p50 تساوي 17 ميجابت/ث، وحوالي 390 مستخدمًا. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead the diagnosis: first review OSS counters for the past 24h, then pull the QoS time series to confirm the downward trend; if confirmed, I will file an SLA report and open a case. Please share the cell ID and confirm read access.",
+      "message_ar": "سأتولى التشخيص: أولًا مراجعة العدادات خلال آخر 24 ساعة، ثم سحب سلسلة زمنية لمؤشر QoS لتأكيد الاتجاه الهابط؛ وإذا تأكد ذلك سأرفع تقرير مخالفة SLA وأفتح قضية. يرجى تزويدي بمعرف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-URB-MACRO-001; access approved. User complaints are mainly from eMBB streaming.",
+      "message_ar": "معرّف الخلية NR-URB-MACRO-001؛ الوصول مُعتمد. الشكاوى بشكل رئيسي من مستخدمي eMBB للبث المرئي."
+    },
+    {
+      "role": "agent",
+      "message_en": "Reviewing live performance for NR-URB-MACRO-001 over the last 24h. Findings: no hard outage; busy-hour PRB peaks ~85% (avg ~74%); BLER 10–12%; latency around 63 ms. Next, I will extract the 24h QoS index time series to quantify violations—proceed?",
+      "message_ar": "أراجع الأداء خلال آخر 24 ساعة للخلية NR-URB-MACRO-001. النتائج: لا يوجد انقطاع كامل؛ ذروة PRB في ساعات الانشغال ~85% (المتوسط ~74%)؛ BLER بين 10–12%؛ والزمن حوالي 63 مللي ثانية. التالي، سأستخرج السلسلة الزمنية لمؤشر QoS لـ24 ساعة لتكميم المخالفات—أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the QoS time series extraction.",
+      "message_ar": "تفضل باستخراج السلسلة الزمنية لمؤشر QoS."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series confirms sustained decline: multiple dips below 0.2 with 47 violation windows across mixed hours; degradations correlate with PRB spikes and BLER surges. This meets SLA breach criteria. I will document the incident and open an SLA case—please confirm.",
+      "message_ar": "السلسلة الزمنية لمؤشر QoS تؤكد تراجعًا مستمرًا: انخفاضات متعددة تحت 0.2 مع 47 نافذة مخالفة عبر ساعات مختلطة؛ ويتزامن التدهور مع ارتفاعات PRB وزيادات BLER. هذا يطابق معايير خرق SLA. سأوثّق الحادث وأفتح قضية SLA—يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed, go ahead.",
+      "message_ar": "مؤكد، تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA violation report submitted and a case has been opened summarizing the QoS decline with high latency and BLER under load. No parameter changes made; I will continue close observation of QoS, latency, and PRB.",
+      "message_ar": "تم تقديم تقرير مخالفة SLA وتم فتح قضية تتضمن ملخص تراجع مؤشر QoS مع ارتفاع زمن التأخير وBLER تحت الحمل. لم يتم إجراء أي تغييرات على المعلمات؛ سأستمر في المتابعة الدقيقة لـQoS والزمن وPRB."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. Field confirms no physical issues on-site and backhaul KPIs look nominal.",
+      "message_ar": "تم. يؤكد الميدان عدم وجود مشاكل مادية في الموقع ومؤشرات الربط الخلفي تبدو طبيعية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I will track QoS and latency against PRB load; if deterioration persists, we will escalate via the case for capacity and interference remediation; if it eases, we will document stabilization.",
+      "message_ar": "مفهوم. سأتابع QoS والزمن مقابل حمل PRB؛ إذا استمر التدهور سنصعّد عبر القضية لمعالجة السعة والتداخل؛ وإذا تحسن سنوثّق الاستقرار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "In the past hour, violations eased with fewer dips and latency pockets softening. Action taken: SLA violation report and case opened (DU-QOS-01234). Let’s monitor through the next busy hour.",
+      "message_ar": "خلال الساعة الماضية، تراجعت المخالفات مع انخفاض الانخفاضات وتراجع جيوب التأخير. الإجراء المتخذ: رفع تقرير مخالفة SLA وفتح قضية (DU-QOS-01234). لنتابع خلال ساعة الانشغال القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring through the next busy hour and update the ticket after the window. If KPIs worsen, we will escalate for capacity/interference remediation; if they normalize, we will close out with a summary and no changes.",
+      "message_ar": "تم الاستلام. سنتولى المتابعة خلال ساعة الانشغال القادمة ونحدّث التذكرة بعد انتهاء النافذة. إذا ساءت المؤشرات سنصعّد لمعالجة السعة/التداخل؛ وإذا عادت لطبيعتها سنغلقها مع ملخص ودون تغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-URB-MACRO-001",
+        "last_24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-URB-MACRO-001",
+        "QoS",
+        "last_24h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "SLA QoS trend down for NR-URB-MACRO-001 over last_24h; elevated latency/BLER; PRB ~74%; 47 violations"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "SLA breach confirmed on the urban 5G NR macro cell: the QoS index trend over 24h showed sustained decline with 47 violation windows, correlating with high PRB load and elevated BLER/latency. We reviewed counters, analyzed the QoS time series, and raised an SLA case for remediation. Ongoing monitoring will track QoS and latency through the next busy hour to inform next actions.",
+    "ar": "تم تأكيد خرق اتفاقية الخدمة على خلية ماكرو 5G NR حضرية: أظهر اتجاه مؤشر QoS خلال 24 ساعة تراجعًا مستمرًا مع 47 نافذة مخالفة، متزامنًا مع ارتفاع حمل PRB وزيادة BLER/الزمن. قمنا بمراجعة العدادات وتحليل السلسلة الزمنية لمؤشر QoS وفتحنا قضية لمعالجة المشكلة. ستستمر المتابعة خلال ساعة الانشغال القادمة لمراقبة QoS والزمن وتحديد الخطوات التالية."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0018",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban NR macro cell has an alarm indicating congestion/outage with slow data and interference/signal overlap after integration; PCI 488 shows ~30% neighbor overlap, handover failures 21%, SINR ~0 dB over the last 8h.",
+    "ar": "خلية NR ماكرو حضرية لديها إنذار يدل على ازدحام/انقطاع مع بيانات بطيئة وتداخل/تراكب للإشارة بعد الدمج؛ PCI 488 يظهر تداخل جار بنحو 30%، وفشل تسليم 21%، وSINR حوالي 0 dB خلال آخر 8 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Post-integration on the urban NR macro, we see slow data and HO issues. Alarm is active. KPIs last 8h: SINR ~0 dB, HO success ~72%, ping-pong 19%, ~270 users, mixed hours with eMBB streaming.",
+      "message_ar": "بعد الدمج على خلية NR ماكرو حضرية نلاحظ بيانات بطيئة ومشاكل تسليم. الإنذار فعّال. مؤشرات آخر 8 ساعات: SINR ~0 dB، نجاح التسليم ~72%، بينغ بونغ 19%، حوالي 270 مستخدمًا، ساعات مختلطة مع بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will run a neighbor consistency audit to detect any PCI collision using the last 8h window. Please confirm access to the target cell and its neighbors.",
+      "message_ar": "تم الاستلام. سأجري تدقيقًا لهيكل الجيران لاكتشاف أي تعارض PCI باستخدام نافذة الـ8 ساعات الماضية. يرجى تأكيد الوصول إلى الخلية المستهدفة وجيرانها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved for the cell and cluster neighbors for the last 8 hours.",
+      "message_ar": "تمت الموافقة على الوصول للخلية وجيرانها ضمن العنقود لآخر 8 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: our cell uses PCI 488; detected collision/group reuse with an adjacent NR sector causing ~30% overlap and elevated HO failures/ping-pong. I propose immediate PCI re-assignment to a non-conflicting value from the plan with minimal impact (<30s). Approve?",
+      "message_ar": "اكتمل تدقيق الجيران: الخلية لدينا تستخدم PCI 488؛ تم رصد تعارض/إعادة استخدام ضمن مجموعة مع قطاع NR مجاور يسبب تداخلًا بنحو 30% وارتفاع فشل التسليم/البينغ بونغ. أقترح إعادة تعيين PCI فورًا لقيمة غير متضاربة من الخطة مع تأثير طفيف (<30 ثانية). هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed now; traffic steady with eMBB streaming.",
+      "message_ar": "موافَق على التنفيذ الآن؛ الحركة مستقرة مع بث eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing PCI re-assignment and refreshing neighbor relations/HO offsets. Change applied; brief reset completed. Initial post-checks: HO success trending up, BLER stable (~7%), PRB ~75% unchanged. Please confirm user experience.",
+      "message_ar": "جارٍ تنفيذ إعادة تعيين PCI وتحديث علاقات الجيران وإزاحات التسليم. تم تطبيق التغيير؛ اكتمل إعادة الضبط القصير. الفحوصات الأولية بعد التنفيذ: نجاح التسليم يتحسن، BLER مستقر (~7%)، وPRB ~75% دون تغيير. يرجى تأكيد تجربة المستخدم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing faster session starts and fewer drops; SINR improved to ~3–4 dB and ping-pong events are tapering.",
+      "message_ar": "نلاحظ بدء الجلسات أسرع وانخفاض الانقطاعات؛ تحسن SINR إلى ~3–4 dB وأحداث البينغ بونغ في تراجع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will log the change for traceability and propose a short watch period. Approve opening a record with the PCI fix and pre/post KPIs?",
+      "message_ar": "جيد. سأقوم بتوثيق التغيير للرجوع إليه وأقترح فترة مراقبة قصيرة. هل توافق على فتح سجل يتضمن إصلاح PCI ومؤشرات ما قبل/بعد التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; include neighbor overlap and HO failure notes.",
+      "message_ar": "موافَق؛ يرجى تضمين نسبة تداخل الجيران وملاحظات فشل التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created: DU-PCI-04217 with findings from the neighbor analysis, the PCI re-assignment, and early improvements. I will continue checks through the next busy hour.",
+      "message_ar": "تم إنشاء السجل: DU-PCI-04217 متضمّنًا نتائج تحليل الجيران، وإعادة تعيين PCI، والتحسنات الأولية. سأواصل المتابعة خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Metrics show handover failures trending down and slow data easing after the PCI re-assignment; let’s monitor through the next busy hour and update DU-PCI-04217.",
+      "message_ar": "المؤشرات تُظهر انخفاضًا في فشل التسليم وتراجع بطء البيانات بعد إعادة تعيين PCI؛ لنراقب خلال ساعة الذروة القادمة ونحدّث DU-PCI-04217."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring for the next busy hour and update the ticket afterward. If interference resurges, we will escalate to cluster RF design; if regressions appear, we will rollback to the previous PCI and re-evaluate.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا عاد التداخل سنصعّد إلى تصميم RF على مستوى العنقود؛ وإذا ظهرت تراجعات سنعود إلى قيمة PCI السابقة ونعيد التقييم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision on the urban NR macro after integration by analyzing neighbor relations and overlap. Mitigated by re-assigning the PCI and refreshing neighbor relations/handovers; early KPIs show improved SINR and fewer handover issues. Logged the action with a change record for traceability and set a monitoring plan through the next busy hour.",
+    "ar": "تم تشخيص تعارض PCI على خلية NR ماكرو حضرية بعد الدمج عبر تحليل علاقات الجيران ونسبة التداخل. تمت المعالجة بإعادة تعيين PCI وتحديث علاقات الجيران/التسليم؛ وتُظهر المؤشرات المبكرة تحسنًا في SINR وانخفاض مشاكل التسليم. تم توثيق الإجراء بسجل تغيير ووُضعت خطة مراقبة خلال ساعة الذروة التالية."
+  }
+}

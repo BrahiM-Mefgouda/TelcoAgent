@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0006",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium 5G NR micro over the last 3h shows TA drift (p95 ~372 m, index ~0.55), distant serving ~17%, weak signal (~-107 dBm), HO failures ~13%, and slow data (median ~5 Mbps).",
+    "ar": "موقع ميكرو 5G NR في الاستاد خلال آخر 3 ساعات يظهر انجرافًا في TA (p95 ≈372 م، المؤشر ≈0.55)، ونسبة خدمة بعيدة ≈17%، وإشارة ضعيفة (≈-107 dBm)، وفشل تسليم ≈13%، وبطء في البيانات (الوسيط ≈5 Mbps)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium 5G NR micro, last 3h during egress. Users report slow data and video streaming stalls; TA drift index ~0.55, TA p95 ~372 m, distant serving ~17%, RSRP ~-107 dBm, HO failures ~13%. Need assistance.",
+      "message_ar": "موقع ميكرو 5G NR في الاستاد خلال آخر 3 ساعات أثناء خروج الجماهير. هناك بطء في البيانات وتعثر في بث الفيديو؛ مؤشر انجراف TA ≈0.55 وTA p95 ≈372 م، ونسبة الخدمة البعيدة ≈17%، وRSRP ≈-107 dBm، ومعدل فشل التسليم ≈13%. نحتاج المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first pull OSS counters for the target cell over the past 3h to confirm scope and load before any tuning. Please approve access to the cell and this window.",
+      "message_ar": "تم الاستلام. سأقوم أولًا بسحب مؤشرات الخلية من أنظمة الإدارة خلال آخر 3 ساعات لتأكيد النطاق والحِمل قبل أي ضبط. يرجى الموافقة على الوصول إلى الخلية وهذه الفترة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the stadium micro cell, 3h window.",
+      "message_ar": "موافَق على موقع الميكرو في الاستاد، نافذة 3 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Snapshot confirms: PRB utilization ~90%, TA median ~221 m and p95 ~372 m, distant serving 17%, weak signal around -107 dBm, and HO failures peaking during egress. Next, I'll analyze TA time series across the 3h to quantify the drift versus baseline. Proceed?",
+      "message_ar": "تؤكد اللقطة: استهلاك موارد التردد ≈90%، ووسيط TA ≈221 م وp95 ≈372 م، ونسبة الخدمة البعيدة 17%، وإشارة ضعيفة نحو -107 dBm، وفشل تسليم يبلغ ذروته أثناء الخروج. التالي: سأحلل السلاسل الزمنية لـ TA خلال 3 ساعات لقياس الانجراف مقابل الأساس. هل أمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows a right-shift starting ~90 min ago, with TA p95 spikes up to ~380 m around 18:20, aligned with higher HO failures and median user throughput ~5 Mbps. Likely cause: the micro is overserving moving users during egress. I propose immediate parameter tuning to slightly shrink the footprint and tighten handover margins with adjacent cells. Approve?",
+      "message_ar": "تُظهر السلاسل الزمنية انحرافًا لليمين بدأ قبل ~90 دقيقة، مع ارتفاعات في TA p95 حتى ~380 م حوالي 18:20، متزامنة مع زيادة فشل التسليم وانخفاض وسطي سرعة المستخدم إلى ~5 ميجابت/ث. السبب المرجح: الميكرو يبالغ في التغطية لمستخدمين متحركين أثناء الخروج. أقترح ضبطًا فوريًا للمعلمات لتقليص البصمة قليلًا وتشديد هوامش التسليم مع الخلايا المجاورة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the change now.",
+      "message_ar": "موافق على تطبيق التعديل الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied. Early checks (15 min) show distant serving down 17%→9%, TA p95 372→325 m, HO failures trending 13%→8%, and median throughput 5→7 Mbps. I will continue to watch during egress.",
+      "message_ar": "تم تطبيق التحسين. الفحوصات المبكرة (15 دقيقة) تُظهر انخفاض الخدمة البعيدة من 17% إلى 9%، وTA p95 من 372 إلى 325 م، واتجاه فشل التسليم من 13% إلى 8%، وارتفاع الوسيط من 5 إلى 7 ميجابت/ث. سأواصل المتابعة أثناء الخروج."
+    },
+    {
+      "role": "engineer",
+      "message_en": "On-ground feedback matches: fewer slow-data complaints near exits; handovers feel smoother.",
+      "message_ar": "الملاحظات الميدانية متطابقة: شكاوى بطء البيانات أقل قرب المخارج؛ عمليات التسليم تبدو أكثر سلاسة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. We'll keep an eye on TA percentiles, HO failures, and user throughput for the remainder of the 3h window. No further action planned unless regression appears.",
+      "message_ar": "جيد. سنراقب نسب TA، وفشل التسليم، وسرعات المستخدم لبقية نافذة الـ3 ساعات. لا إجراءات إضافية ما لم يظهر تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: handover failures trending down and user speeds rising. Your site parameter tuning helped. Let's monitor through the next busy hour.",
+      "message_ar": "نرى تحسنًا: فشل التسليم في اتجاه هابط وسرعات المستخدم في ارتفاع. ضبط معلمات الموقع كان مفيدًا. لنواصل المراقبة خلال الساعة المزدحمة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We will own the next busy-hour monitoring and share updates on TA distribution, handovers, and user speeds afterward. If degradation returns, we will roll back the change or escalate to RF design/field for on-site checks.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة الساعة المزدحمة القادمة ونشارك المستجدات حول توزيع TA وعمليات التسليم وسرعات المستخدم بعدها. إذا عاد التدهور، سنرجع عن التغيير أو نصعّد إلى فريق التصميم اللاسلكي/الميدان لفحوصات ميدانية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on the stadium NR micro during egress by reviewing OSS counters and TA time series, which showed a right-shift with elevated distant serving and handover failures. Applied site parameter tuning to slightly reduce the cell footprint and tighten handover margins, reducing distant serving and failures while improving median throughput. We will monitor the next busy hour and adjust if regression occurs.",
+    "ar": "تم تشخيص انجراف توزيع TA في موقع NR الميكرو بالاستاد أثناء خروج الجماهير عبر مراجعة مؤشرات أنظمة الإدارة والسلاسل الزمنية لـ TA، والتي أظهرت انحرافًا لليمين مع ارتفاع الخدمة البعيدة وفشل التسليم. تم تنفيذ ضبط لمعلمات الموقع لتقليص البصمة قليلًا وتشديد هوامش التسليم، مما خفّض الخدمة البعيدة والفشل وحسّن الوسيط في السرعة. سنراقب الساعة المزدحمة القادمة ونجري التعديلات عند ظهور أي تراجع."
+  }
+}

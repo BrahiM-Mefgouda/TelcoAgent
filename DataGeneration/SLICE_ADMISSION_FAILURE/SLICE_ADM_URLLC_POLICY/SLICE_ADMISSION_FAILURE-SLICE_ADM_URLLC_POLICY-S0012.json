@@ -1,0 +1,114 @@
+{
+  "id": "SLICE_ADMISSION_FAILURE-SLICE_ADM_URLLC_POLICY-S0012",
+  "intent": "SLICE_ADMISSION_FAILURE",
+  "blueprint_id": "SLICE_ADM_URLLC_POLICY",
+  "query": {
+    "en": "Urban NR macro slice shows 13% admission denials over the last 24h with ~66% PRB, 49% slice utilization, ~55 requests/min, 25 ms latency, and a policy threshold set at 91%.",
+    "ar": "شريحة في خلية NR ماكرو حضرية تسجل 13% رفض قبول خلال آخر 24 ساعة مع ~66% PRB و49% استخدام للشريحة و~55 طلب/دقيقة وكمون 25 مللي ثانية، مع عتبة سياسة مضبوطة عند 91%."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell shows elevated URLLC slice admission denials over the last 24h (~13%); PRB ~66%, slice utilization 49%, latency ~25 ms, ~55 requests/min, no alarms. eMBB (streaming) dominates traffic.",
+      "message_ar": "خلية NR ماكرو في منطقة حضرية تظهر ارتفاعاً في رفض قبول شريحة URLLC خلال آخر 24 ساعة (~13%)؛ إشغال PRB ~66%، استخدام الشريحة 49%، الكمون ~25 مللي ثانية، ~55 طلب/دقيقة، بلا إنذارات. حركة eMBB (بث) مسيطرة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Likely a tight admission control policy. Please confirm the target cell ID and approve a 24h OSS pull; if confirmed, I will review and tune the URLLC policy to reduce denials.",
+      "message_ar": "تم الاستلام. المرجح أن سياسة التحكم بالقبول مشددة. يرجى تأكيد معرف الخلية والموافقة على سحب بيانات 24 ساعة؛ عند التأكيد سأراجع سياسة URLLC وأقوم بضبطها لتقليل الرفض."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-AB12-001-L3; approval granted for a 24h query.",
+      "message_ar": "معرف الخلية NR-AB12-001-L3؛ الموافقة ممنوحة لسحب بيانات 24 ساعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling 24h stats for NR-AB12-001-L3 now. Findings: URLLC admission guard is high (threshold 91%), denials at 13% despite headroom (PRB ~66%, moderate URLLC load). Proposal: lower the URLLC admission threshold to 75% with slight burst tolerance; approve?",
+      "message_ar": "أقوم بسحب إحصاءات 24 ساعة لـ NR-AB12-001-L3 الآن. النتائج: حراسة قبول URLLC مرتفعة (العتبة 91%)، ورفض 13% رغم وجود سعة (PRB ~66% وحمل URLLC متوسط). الاقتراح: خفض عتبة القبول إلى 75% مع سماح اندفاعي بسيط؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the policy change now.",
+      "message_ar": "موافق على تنفيذ تعديل السياسة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying URLLC policy update on NR-AB12-001-L3: reduce admission threshold to 75% and enable modest burst tolerance. Change committed; I propose opening a tracking ticket for visibility and busy-hour monitoring—approve?",
+      "message_ar": "جارٍ تطبيق تحديث سياسة URLLC على NR-AB12-001-L3: خفض عتبة القبول إلى 75% وتفعيل سماح اندفاعي معتدل. تم اعتماد التغيير؛ أقترح فتح تذكرة تتبع للشفافية ومراقبة ساعة الذروة—هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved; please include the change details.",
+      "message_ar": "موافق؛ يرجى تضمين تفاصيل التغيير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Created DU-SLICE-00137 to document the policy update and post-change monitoring. I will watch admission attempts/denials and URLLC latency through the next busy period.",
+      "message_ar": "تم إنشاء DU-SLICE-00137 لتوثيق تحديث السياسة ومراقبة ما بعد التغيير. سأراقب محاولات/رفض القبول وكمون URLLC خلال فترة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early check (10 minutes): admission denials are trending toward single digits; latency is steady.",
+      "message_ar": "فحص مبكر (10 دقائق): رفض القبول يتجه إلى خانة الآحاد؛ الكمون مستقر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Positive sign. We’ll continue observing admission counters and user-plane latency; please flag any anomaly.",
+      "message_ar": "مؤشر إيجابي. سنواصل متابعة عدادات القبول وكمون طبقة المستخدم؛ يرجى التنبيه عن أي شذوذ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observation: admission denials trending down with stabilization; confirming the slice policy update on NR-AB12-001-L3. Let’s monitor through the next busy hour; reference DU-SLICE-00137.",
+      "message_ar": "الملاحظة: رفض القبول في اتجاه هبوطي مع استقرار؛ أؤكد تنفيذ تحديث سياسة الشريحة على NR-AB12-001-L3. لنتابع المراقبة خلال ساعة الذروة القادمة؛ المرجع DU-SLICE-00137."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and will update the ticket after the window. If denials rise or latency degrades, we will revert the threshold and escalate to slicing design for deeper review.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعد انتهاء النافذة. إذا ارتفع الرفض أو ساء الكمون سنرجع العتبة السابقة ونصعّد الحالة إلى فريق تصميم الشرائح لمراجعة أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-AB12-001-L3",
+        "24h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_slice",
+      "args": [
+        "URLLC",
+        "admission_threshold=75%"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "URLLC admission denials due to strict policy; threshold tuned to 75% on NR-AB12-001-L3"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated URLLC slice admission denials on an urban NR macro cell caused by an overly strict admission guard at 91% despite available radio headroom. Updated the slice policy by lowering the admission threshold to 75% with modest burst tolerance, then opened a tracking ticket and initiated busy-hour monitoring to verify reduced denials and stable latency.",
+    "ar": "تم تشخيص ارتفاع رفض قبول شريحة URLLC على خلية NR ماكرو حضرية بسبب حراسة قبول مشددة عند 91% رغم توفر سعة راديوية. تم تحديث سياسة الشريحة بخفض عتبة القبول إلى 75% مع سماح اندفاعي معتدل، ثم فتح تذكرة تتبع وبدء مراقبة ساعة الذروة للتحقق من انخفاض الرفض وثبات الكمون."
+  }
+}

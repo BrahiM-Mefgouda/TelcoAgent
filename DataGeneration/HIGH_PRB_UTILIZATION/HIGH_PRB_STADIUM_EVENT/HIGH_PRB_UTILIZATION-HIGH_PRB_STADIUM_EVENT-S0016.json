@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_STADIUM_EVENT-S0016",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_STADIUM_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows congestion over the last 2h during ingress, with ~98% PRB, 570 users, slow data (DL ~8 Mbps, UL ~2 Mbps), BLER ~7%, and p95 scheduling latency 58 ms.",
+    "ar": "خلية NR ميكرو في الملعب تُظهر ازدحاماً خلال آخر ساعتين أثناء الدخول، مع ~98% استغلال PRB و570 مستخدماً، بيانات بطيئة (تحميل ~8 ميجابت/ث ورفع ~2 ميجابت/ث)، BLER ~7% وزمن جدولة p95 يبلغ 58 ملّي ثانية."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Congestion alarm on the stadium NR micro cell during ingress; users report slow data and streaming buffering. Please investigate.",
+      "message_ar": "إنذار ازدحام على خلية NR ميكرو في الملعب أثناء الدخول؛ يبلّغ المستخدمون عن بطء البيانات وتقطّع البث. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start by pulling the last 2h stats to quantify PRB load, throughput, latency, and errors. Share the target cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب إحصاءات آخر ساعتين لقياس حمل PRB، ومعدل النقل، والزمن، والأخطاء. تفضل بتزويدي بمعرّف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_STAD_MICRO_07. Access approved for the last 2h window.",
+      "message_ar": "معرّف الخلية: NR_STAD_MICRO_07. تمت الموافقة على الوصول لنافذة الساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected counters: PRB utilization sustained 95–99%, peak users 570, median DL 8 Mbps and UL 2 Mbps, BLER ~7%, p95 scheduling latency 58 ms. This confirms severe load.",
+      "message_ar": "تم جمع العدادات: استغلال PRB بين 95–99% بشكل مستمر، ذروة المستخدمين 570، متوسط التحميل 8 ميجابت/ث ورفع 2 ميجابت/ث، BLER حوالي 7%، وزمن جدولة p95 يبلغ 58 ملّي ثانية. هذا يؤكد حملاً عالياً."
+    },
+    {
+      "role": "engineer",
+      "message_en": "This aligns with ingress; heavy eMBB traffic and a dense crowd in the lower stands.",
+      "message_ar": "هذا يتماشى مع مرحلة الدخول؛ حركة eMBB كثيفة وحشود كبيرة في المدرجات السفلى."
+    },
+    {
+      "role": "agent",
+      "message_en": "To relieve PRB pressure quickly, I propose applying a temporary congestion profile on this cell: tighter per-UE allocation, fairness bias to spread resources, and slight deprioritization of best-effort eMBB. Please approve.",
+      "message_ar": "لتخفيف ضغط PRB بسرعة، أقترح تطبيق ملف ازدحام مؤقت على هذه الخلية: تقليص الحصة لكل مستخدم، وزيادة الإنصاف لتوزيع الموارد، وتخفيض طفيف لأولوية eMBB غير المضمونة. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the temporary tuning; keep impact minimal.",
+      "message_ar": "موافق. نفّذ الضبط المؤقت مع الحفاظ على أقل تأثير ممكن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied and validated; no alarms raised. Early deltas: PRB down ~5–7%, p95 scheduling latency improved ~10–15 ms, BLER stable.",
+      "message_ar": "تم تطبيق التغيير والتحقق منه دون إنذارات. المؤشرات الأولية: انخفاض PRB بنحو 5–7%، وتحسن زمن الجدولة p95 بمقدار 10–15 ملّي ثانية، واستقرار BLER."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field checks show fewer buffering events and steadier speeds; median DL now around 12–14 Mbps.",
+      "message_ar": "الفحوصات الميدانية تُظهر تقليل التقطّع واستقرار السرعات؛ متوسط التحميل الآن قرابة 12–14 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll document this with a follow-up ticket and note a post-event revert plan. Created DU-LOAD-03219.",
+      "message_ar": "سأوثّق ذلك بتذكرة متابعة مع خطة عكس بعد الحدث. تم إنشاء DU-LOAD-03219."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement observed: slow data complaints have eased and scheduling delays are trending down after the parameter optimization. Let's monitor through the next busy hour; we’ll track on DU-LOAD-03219.",
+      "message_ar": "تمت ملاحظة تحسّن: شكاوى بطء البيانات خفّت وتأخر الجدولة يتناقص بعد تحسين المعلمات. لنتابع خلال ساعة الذروة القادمة؛ سنُتابع على DU-LOAD-03219."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next busy-hour monitoring and update the ticket afterward. If load spikes again, we’ll escalate for temporary capacity/offload; if stable, we’ll safely roll back the temporary profile post-event.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونحدّث التذكرة بعدها. إذا ارتفع الحمل مجدداً سنصعّد لإضافة سعة/تفريغ مؤقت؛ وإن استقرت الحالة سنرجع الملف المؤقت بأمان بعد الحدث."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STAD_MICRO_07",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "eMBB_congestion_profile"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB mitigation applied on stadium NR micro during ingress; monitor and revert post-event"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "High PRB utilization was confirmed on the stadium NR micro during ingress with near saturation, slow data, and elevated scheduling delay. We applied short-term site parameter tuning to tighten fairness and reduce per-UE resource grabs, which eased PRB load and stabilized throughput. A ticket was opened to track monitoring and to revert the temporary settings after the event.",
+    "ar": "تم تأكيد ارتفاع استغلال PRB على خلية NR ميكرو في الملعب أثناء الدخول مع شبه تشبع وبطء البيانات وارتفاع تأخر الجدولة. قمنا بتطبيق ضبط مؤقت لمعلمات الموقع لتعزيز الإنصاف وتقليل حجز الموارد لكل مستخدم، مما خفف الحمل على PRB واستقر الأداء. تم فتح تذكرة لمتابعة المراقبة وعكس الإعدادات المؤقتة بعد الحدث."
+  }
+}

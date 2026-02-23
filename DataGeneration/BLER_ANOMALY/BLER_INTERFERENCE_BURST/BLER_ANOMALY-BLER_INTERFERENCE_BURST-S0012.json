@@ -1,0 +1,115 @@
+{
+  "id": "BLER_ANOMALY-BLER_INTERFERENCE_BURST-S0012",
+  "intent": "BLER_ANOMALY",
+  "blueprint_id": "BLER_INTERFERENCE_BURST",
+  "query": {
+    "en": "Suburban NR macro cell over the last 2h shows high BLER (~20%) with slow data (p50 ~4 Mbps) and an active alarm indicating a congestion condition during off-peak eMBB streaming.",
+    "ar": "خلية ماكرو NR في منطقة ضاحية خلال آخر ساعتين تُظهر ارتفاعاً في BLER (~20%) مع بيانات بطيئة (الوسيط ~4 ميجابت/ث) وإنذار نشط يشير إلى حالة ازدحام أثناء فترة خارج الذروة وحركة eMBB الخاصة بالبث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro site, last 2h alarm active. Off-peak but users report buffering on streaming. KPIs: RSRP -112 dBm, RSRQ -15 dB, SINR 8 dB, BLER about 20%, PRB ~54%, p50 DL ~4 Mbps, neighbors heavily loaded. Please assist.",
+      "message_ar": "موقع ماكرو NR في الضواحي، إنذار نشط خلال آخر ساعتين. خارج الذروة لكن المستخدمين يبلغون عن تقطّع في البث. مؤشرات: RSRP ‏-112 dBm، RSRQ ‏-15 dB، SINR ‏8 dB، BLER حوالي 20%، استخدام PRB ~54%، الوسيط للتحميل ~4 ميجابت/ث، الجيران بحمل عالٍ. الرجاء المساعدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. The alarm suggests a local congestion condition. I will start by checking OSS counters for the last 2h to verify BLER bursts and interference symptoms. Please provide the cell ID and confirm read access.",
+      "message_ar": "تم الاستلام. يشير الإنذار إلى حالة ازدحام محلية. سأبدأ بالتحقق من عدادات النظام للفترة الأخيرة (ساعتين) للتحقق من اندفاعات BLER وعلامات التداخل. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-44211. You have read access for the last 2 hours.",
+      "message_ar": "معرّف الخلية: NR-Cell-44211. لديك صلاحية قراءة لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled performance counters for NR-Cell-44211 over 2h: BLER shows bursty peaks up to ~32%, median ~19%; RSRQ degraded, CQI dips align with bursts; PRB ~54%; neighbor load ~73%; handovers stable; no outage flags. This points to intermittent interference under load. Next, I’ll review BLER time series to confirm burst periodicity—proceed?",
+      "message_ar": "تم سحب مؤشرات الأداء للخلية NR-Cell-44211 خلال ساعتين: BLER يظهر قمماً اندفاعية تصل إلى ~32%، والوسيط ~19%؛ RSRQ متدهور مع هبوط CQI متزامن مع القمم؛ استخدام PRB ~54%؛ حمل الجيران ~73%؛ تسليمات مستقرة؛ لا إشارات انقطاع. هذا يشير إلى تداخل متقطع تحت الحمل. بعد ذلك سأراجع السلسلة الزمنية لـ BLER لتأكيد دورية الاندفاعات—هل أمضي قدماً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the BLER time series review.",
+      "message_ar": "موافَق على المتابعة لمراجعة السلسلة الزمنية لـ BLER."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms spiky BLER every ~4–6 minutes aligned with neighbor load pulses; median BLER ~18–20% with p50 DL dips to 3–4 Mbps. Likely inter-cell interference affecting eMBB streaming. I propose a safe optimization: tighten interference coordination and increase modulation/coding robustness under poor CQI. Approve change now (off-peak)?",
+      "message_ar": "السلسلة الزمنية تؤكد BLER متعرجاً كل ~4–6 دقائق ومتزامناً مع نبضات حمل الجيران؛ الوسيط ~18–20% مع هبوط الوسيط للتحميل إلى 3–4 ميجابت/ث. من المرجح وجود تداخل بين الخلايا يؤثر على حركة eMBB. أقترح تحسيناً آمناً: تشديد تنسيق تقليل التداخل وزيادة متانة التضمين/الترميز عند CQI المنخفض. هل توافق على تطبيق التغيير الآن (خارج الذروة)؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the optimization now.",
+      "message_ar": "موافَق على تنفيذ التحسين الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied site parameter tuning on NR-Cell-44211: increased interference mitigation aggressiveness and slightly constrained high-order modulation under low CQI; minor DL power robustness tweak. No resets needed; fully reversible. Starting live observation for 30 minutes.",
+      "message_ar": "تم تطبيق ضبط معلمات الموقع على NR-Cell-44211: زيادة شدة التخفيف من التداخل وتقييد طفيف للتضمين عالي الرتبة عند CQI المنخفض؛ تعديل طفيف لتعزيز متانة القدرة الهابطة. دون الحاجة لإعادة تشغيل؛ قابل للعكس بالكامل. أبدأ المراقبة الحية لمدة 30 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~25 minutes: BLER median down to ~9–11% with peaks <18%; p50 DL improved to ~8 Mbps; PRB remains ~55%; no handover anomalies observed.",
+      "message_ar": "بعد ~25 دقيقة: انخفض الوسيط لـ BLER إلى ~9–11% مع قمم أقل من 18%؛ تحسن الوسيط للتحميل إلى ~8 ميجابت/ث؛ بقاء استخدام PRB ~55%؛ دون شذوذات في التسليم."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good improvement and stable behavior. Keep current settings; I will watch for any latency or UL error side-effects while users continue streaming.",
+      "message_ar": "تحسن جيد وسلوك مستقر. أبقِ الإعدادات الحالية؛ سأراقب أي آثار جانبية على الكمون أو أخطاء الرفع بينما يستمر المستخدمون في البث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained—BLER spikes trending down. Action taken was site parameter tuning for interference mitigation. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "التحسن مستمر—انخفاض اتجاه اندفاعات BLER. الإجراء الذي تم اتخاذه هو ضبط معلمات الموقع لتخفيف التداخل. لنواصل المراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own the next 2–4 hours of monitoring and share an update afterward. If BLER spikes return, we will roll back the change and escalate to RF for interference source investigation.",
+      "message_ar": "سنقوم نحن بمتابعة المراقبة خلال الساعتين إلى الأربع ساعات القادمة وسنشارك تحديثاً بعدها. إذا عادت اندفاعات BLER، سنقوم بعكس التغيير وتصعيد الحالة إلى فريق الترددات للتحقيق في مصدر التداخل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-44211",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-44211",
+        "BLER",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "ICIC_tuning+robust_MCS"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed bursty BLER on a suburban NR macro cell during off-peak, correlated with neighbor load, weak signal quality, and CQI dips—indicative of inter-cell interference. Executed site parameter tuning to strengthen interference coordination and increase robustness of modulation/coding under poor CQI, which reduced BLER and improved median throughput. We will continue monitoring and keep the change reversible if adverse behavior reappears.",
+    "ar": "تم تشخيص BLER اندفاعي على خلية ماكرو NR في الضواحي خارج الذروة، متزامن مع حمل الجيران وضعف جودة الإشارة وهبوط CQI—ما يدل على تداخل بين الخلايا. تم تنفيذ ضبط معلمات الموقع لتعزيز تنسيق تقليل التداخل وزيادة متانة التضمين/الترميز عند CQI المنخفض، مما خفّض BLER وحسّن الوسيط لمعدل التحميل. سنواصل المراقبة مع إبقاء التغيير قابلاً للعكس في حال عودة السلوك السلبي."
+  }
+}

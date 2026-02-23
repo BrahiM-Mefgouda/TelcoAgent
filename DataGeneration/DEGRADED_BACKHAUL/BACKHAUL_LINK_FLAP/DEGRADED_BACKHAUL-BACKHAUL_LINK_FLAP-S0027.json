@@ -1,0 +1,113 @@
+{
+  "id": "DEGRADED_BACKHAUL-BACKHAUL_LINK_FLAP-S0027",
+  "intent": "DEGRADED_BACKHAUL",
+  "blueprint_id": "BACKHAUL_LINK_FLAP",
+  "query": {
+    "en": "Suburban NR macro cell shows frequent backhaul link flaps (~8/hr) over the last 6h with 29% burst loss, p95 latency 54 ms, jitter 27 ms, 338 interface errors, and downlink near 9 Mbps.",
+    "ar": "موقع ماكرو NR في منطقة ضاحية يعاني من تقطعات متكررة في الوصلة الخلفية (~8/ساعة) خلال آخر 6 ساعات مع فقدان انفجاري 29% وزمن تأخير p95 بمقدار 54 مللي ثانية وتذبذب 27 مللي ثانية و338 خطأ في الواجهة ومعدل تنزيل يقارب 9 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro, last 6h: backhaul link flaps about 8/hour, burst loss ~29%, p95 latency 54 ms, jitter 27 ms, and 338 interface errors. DL around 9 Mbps; users report streaming stalls. No active alarms. You have access.",
+      "message_ar": "موقع ماكرو NR في الضواحي خلال آخر 6 ساعات: تقطعات في الوصلة الخلفية حوالي 8 مرات/ساعة، فقدان انفجاري ~29%، زمن تأخير p95 يساوي 54 مللي ثانية، تذبذب 27 مللي ثانية، و338 خطأ على الواجهة. معدل التنزيل حوالي 9 ميجابت/ث؛ يشكو المستخدمون من توقفات أثناء البث. لا توجد إنذارات نشطة. لديك صلاحية الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will start by pulling controller counters and backhaul status for the affected cell over the last 6h to isolate transport vs RF. Please confirm the exact cell ID and approve read/write for corrective actions.",
+      "message_ar": "تم الاستلام. سأبدأ بجلب عدادات وحدة التحكم وحالة الوصلة الخلفية للخلية المتأثرة خلال آخر 6 ساعات لعزل مشكلة النقل عن طبقة الراديو. يرجى تأكيد معرف الخلية الدقيق والموافقة على صلاحية القراءة/الكتابة للإجراءات التصحيحية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-SBR-0134-M1. No planned works. Read/write is approved.",
+      "message_ar": "معرف الخلية هو NR-SBR-0134-M1. لا توجد أعمال مجدولة. صلاحية القراءة/الكتابة معتمدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 6h stats for NR-SBR-0134-M1: 47 link flap events (~7.8/hr), burst loss peaks ~30%, p95 latency 54 ms, jitter 27 ms. Physical interface shows 338 frame/CRC errors. Radio side is moderate (PRB ~52%, SINR 7 dB, RSRP -110 dBm). This points to unstable backhaul rather than RF.",
+      "message_ar": "تم جمع إحصائيات 6 ساعات للخلية NR-SBR-0134-M1: 47 حدث تقطع (~7.8/ساعة)، قفزات فقدان تصل ~30%، p95 للتأخير 54 مللي ثانية، والتذبذب 27 مللي ثانية. الواجهة الفيزيائية تُظهر 338 خطأ إطار/CRC. جانب الراديو متوسط (استغلال الموارد ~52%، SINR يساوي 7 ديسيبل، وRSRP -110 dBm). هذا يشير إلى عدم استقرار في الوصلة الخلفية وليس مشكلة في الراديو."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Proceed with stabilization. Minimal user impact preferred.",
+      "message_ar": "مفهوم. تفضل بتنفيذ إجراءات الاستقرار. يُفضل أقل تأثير ممكن على المستخدمين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply backhaul stabilization on this cell—enable link-flap dampening on the transport side, increase egress buffering by ~15% with gentle AQM, slightly relax RLC/PDCP reordering to absorb bursts, and temporarily cap peak per-UE rate to smooth eMBB traffic. Confirm to proceed.",
+      "message_ar": "الخطة: تطبيق استقرار للوصلة الخلفية على هذه الخلية—تفعيل تخميد تقطعات الوصلة على جانب النقل، زيادة مخازن الخرج بحوالي 15% مع إدارة طوابير فعّالة خفيفة، تخفيف بسيط لإعدادات إعادة الترتيب في RLC/PDCP لاستيعاب الانفجارات، ووضع حد مؤقت لأقصى معدل لكل مستخدم لتنعيم حركة eMBB. يرجى التأكيد للمباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Go ahead.",
+      "message_ar": "موافق. تفضل بالمتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied successfully to NR-SBR-0134-M1. Initial check shows no new flap events in the last 5 minutes and burst loss on probes dropping below 10%, with latency trending down by ~15 ms. Please validate from your side.",
+      "message_ar": "تم تطبيق التغييرات بنجاح على NR-SBR-0134-M1. الفحص الأولي يُظهر عدم وجود تقطعات جديدة خلال آخر 5 دقائق وانخفاض الفقدان الانفجاري في القياسات إلى أقل من 10%، مع اتجاه نزولي للتأخير بحوالي 15 مللي ثانية. يرجى التحقق من جانبكم."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: downlink now 15–18 Mbps, p95 latency ~38 ms, jitter ~16 ms. Streaming stalls have cleared for test users.",
+      "message_ar": "نلاحظ تحسناً: التنزيل الآن 15–18 ميجابت/ث، p95 للتأخير ~38 مللي ثانية، والتذبذب ~16 مللي ثانية. توقّفات البث اختفت لدى مستخدمي الاختبار."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will document the change set and register it for operations follow-up with before/after metrics and the 6h snapshot. We’ll keep a close watch; share any anomalies you see.",
+      "message_ar": "جيد. سأوثّق مجموعة التغييرات وتسجيلها لمتابعة العمليات مع إرفاق مؤشرات قبل/بعد ولقطة الست ساعات. سنستمر بالمراقبة الدقيقة؛ شاركوني أي شذوذ تلاحظونه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Trend looks positive—link flaps trending down and latency improved. Action taken was a parameter optimization to stabilize the backhaul. Let’s monitor over the next 2–4 hours. Tracking is under DU-BH-00187.",
+      "message_ar": "الاتجاه إيجابي—تقل التقطعات وتحسّن التأخير. الإجراء المنفّذ كان تحسين إعدادات لتثبيت الوصلة الخلفية. دعنا نراقب خلال الساعتين إلى الأربع القادمة. المتابعة تحت DU-BH-00187."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own the next 2–4 hours of monitoring and will update the ticket after the window. If instability returns, we’ll rollback the buffering/AQM tweaks and escalate to the backhaul provider; if stability holds, we’ll keep the tuning and close out.",
+      "message_ar": "تم. سنتولى مراقبة الساعتين إلى الأربع القادمتين وسنحدّث التذكرة بعد انتهاء الفترة. إذا عادت حالة عدم الاستقرار فسنعكس تعديلات التخزين وإدارة الطوابير ونصعّد لمزوّد الوصلة الخلفية؛ وإن استقرت الحالة فسنُبقي الضبط ونُنهي الإجراء."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-SBR-0134-M1",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "backhaul_stabilization_parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Degraded backhaul with link flaps on NR-SBR-0134-M1; applied stabilization and observing for 2–4 hours."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed degraded backhaul on a suburban NR macro cell: frequent link flaps, burst loss, and interface errors with moderate RF load, indicating transport instability. Executed site parameter tuning to stabilize the backhaul (flap dampening, buffering with AQM, and slight RLC/PDCP tolerance), and created a tracking ticket for follow-up. Post-change indicators improved; monitoring will continue to ensure stability.",
+    "ar": "تم تشخيص تدهور في الوصلة الخلفية لخلية ماكرو NR في الضواحي: تقطعات متكررة وفقدان انفجاري وأخطاء على الواجهة مع حمل راديو متوسط، ما يشير إلى عدم استقرار في النقل. تم تنفيذ ضبط معلمات الموقع لتثبيت الوصلة الخلفية (تخميد التقطعات، زيادة التخزين المؤقت مع إدارة طوابير فعّالة، وتوسيع طفيف لتسامح RLC/PDCP)، وإنشاء تذكرة متابعة. المؤشرات بعد التغيير تحسنت؛ ستستمر المراقبة لضمان الاستقرار."
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_RURAL_SINGLE_HOT-S0011",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_RURAL_SINGLE_HOT",
+  "query": {
+    "en": "Rural NR macro shows high resource use and slow data: PRB ~83%, 139 users, median DL ~7 Mbps, neighbors ~50% with imbalance; assess load balancing over the last 6h.",
+    "ar": "خلية NR ماكرو ريفية تُظهر استخدام موارد مرتفعاً وبيانات بطيئة: PRB ~83%، 139 مستخدماً، متوسط تنزيل ~7 ميجابت/ث، الجيران ~50% مع عدم توازن؛ تقييم موازنة الحمل خلال آخر 6 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Rural NR macro looks hot over the last 6h: PRB ~83%, 139 users, neighbors ~50%, median DL ~7 Mbps (slow data). No active alarms.",
+      "message_ar": "خلية NR ماكرو ريفية تبدو مرتفعة الإشغال خلال آخر 6 ساعات: PRB ~83%، 139 مستخدماً، الجيران ~50%، متوسط تنزيل ~7 ميجابت/ث (بيانات بطيئة). لا توجد إنذارات فعّالة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. I’ll run a neighbor load audit for cell NR-RURAL-001 across its ~6–7 km cluster for the last 6h to confirm imbalance and HO directions, aiming to stabilize streaming traffic. Approve read access?",
+      "message_ar": "مفهوم. سأجري تدقيق حمل الجيران للخلية NR-RURAL-001 عبر عنقود ~6–7 كم لآخر 6 ساعات لتأكيد عدم التوازن واتجاهات التسليم، بهدف استقرار البث. هل توافق على وصول القراءة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Cell is NR-RURAL-001 with surrounding macro neighbors. Proceed.",
+      "message_ar": "موافق. الخلية NR-RURAL-001 مع جيران ماكرو محيطين. تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Audit results: NR-RURAL-001 PRB 82–85%; neighbors 45–55%. HO out ~9/5min vs in ~5/5min. Radio quality acceptable (SINR ~13 dB, RSRQ −12 dB). Single hot cell with underused neighbors confirmed.",
+      "message_ar": "نتائج التدقيق: NR-RURAL-001 بإشغال PRB 82–85%؛ الجيران 45–55%. تسليمات خارجية ~9/5 دقائق مقابل داخلية ~5/5 دقائق. جودة الراديو مقبولة (SINR ~13 dB، RSRQ −12 dB). تم تأكيد خلية واحدة ساخنة مع جيران منخفضي الاستخدام."
+    },
+    {
+      "role": "agent",
+      "message_en": "I propose mild load-based steering toward the three lighter neighbors to rebalance traffic with minimal risk. Do I have approval to implement?",
+      "message_ar": "أقترح توجيهاً قائماً على الحمل بشكل معتدل نحو ثلاثة جيران أخف لإعادة توازن الحركة مع مخاطرة منخفضة. هل أمتلك الموافقة على التنفيذ؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement the load balancing change.",
+      "message_ar": "موافق على تنفيذ تغيير موازنة الحمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Executing: apply gentle offload bias to adjacent macros and enable load-aware HO thresholds. Target PRB ≤70% and median DL ≥10 Mbps.",
+      "message_ar": "تنفيذ: تطبيق انحياز تحويل خفيف إلى الماكرو المجاورة وتفعيل عتبات تسليم واعية للحمل. الهدف PRB ≤70% ومتوسط تنزيل ≥10 ميجابت/ث."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied successfully; counters refreshed. I’ll watch PRB, user distribution, and HO balance for initial effect.",
+      "message_ar": "تم تطبيق التغيير بنجاح؛ تم تحديث العدّادات. سأراقب PRB وتوزيع المستخدمين وتوازن التسليم للتأثير الأولي."
+    },
+    {
+      "role": "engineer",
+      "message_en": "No alarms observed; neighbors remain around ~50% load.",
+      "message_ar": "لا توجد إنذارات؛ الجيران ما زالوا حول ~50% حمل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Early samples show PRB starting to trend down and HO in/out more balanced. I’ll continue monitoring for the next 15–20 minutes.",
+      "message_ar": "جيد. العينات المبكرة تُظهر بدء انخفاض PRB وتوازن أفضل في التسليم دخولاً/خروجاً. سأواصل المراقبة لمدة 15–20 دقيقة القادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~20 minutes, NR-RURAL-001 PRB is ~68–70% and median DL is ~11 Mbps; handovers look balanced. Load balancing parameter tuning is in place. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد ~20 دقيقة، أصبح PRB في NR-RURAL-001 حوالي 68–70% ومتوسط التنزيل ~11 ميجابت/ث؛ تبدو عمليات التسليم متوازنة. تم تطبيق ضبط معلمات موازنة الحمل. دعنا نراقب خلال ساعة الانشغال التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We’ll own the next busy-hour monitoring and share an update afterward. If load rises again, we’ll extend the offload bias; if any degradation appears, we’ll roll back to the prior state.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة ساعة الانشغال التالية وسنشارك تحديثاً بعدها. إذا ارتفع الحمل مرة أخرى، سنزيد انحياز التحويل؛ وإذا ظهرت أي تدهورات، سنرجع إلى الحالة السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NR-RURAL-001",
+        "macro_neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_balancing_bias"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "A neighbor load audit confirmed a single hot NR macro in a rural cluster with high resource utilization and slow data while surrounding cells were underused. Site parameter tuning was applied to bias handovers toward lighter neighbors, rebalancing traffic and improving median throughput. Monitoring will continue through the next busy hour to ensure stability.",
+    "ar": "أكد تدقيق حمل الجيران وجود خلية NR ماكرو واحدة ساخنة في عنقود ريفي مع ارتفاع الاستخدام وبطء البيانات بينما كانت الخلايا المحيطة منخفضة الاستخدام. تم تنفيذ ضبط معلمات الموقع لتوجيه التسليم نحو الجيران الأخف، مما أعاد توازن الحركة وحسّن متوسط السرعة. ستستمر المراقبة خلال ساعة الانشغال التالية لضمان الاستقرار."
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "PCI_COLLISION-PCI_AFTER_INTEGRATION-S0002",
+  "intent": "PCI_COLLISION",
+  "blueprint_id": "PCI_AFTER_INTEGRATION",
+  "query": {
+    "en": "Urban 5G NR macro shows active alarms over the last 8h with handover failures at 20%, ping-pong 14%, and SINR -1 dB indicating interference / signal overlap after integration.",
+    "ar": "موقع ماكرو 5G NR حضري يظهر إنذارات نشطة خلال آخر 8 ساعات مع فشل تسليم 20% وارتداد تسليم 14% وSINR يبلغ -1 ديسيبل مما يشير إلى تداخل/تراكب إشارة بعد الدمج."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban 5G NR macro just integrated; alarms active in the past 8h. HO failures ~20%, ping-pong ~14%, SINR ≈ -1 dB, median DL 21 Mbps. Users report streaming stalls at mixed hours.",
+      "message_ar": "تم دمج موقع ماكرو 5G NR حضري للتو؛ إنذارات نشطة خلال آخر 8 ساعات. فشل التسليم ~20%، ارتداد التسليم ~14%، SINR ≈ -1 ديسيبل، والتحميل المتوسط 21 ميجابت/ث. المستخدمون يشتكون من تقطعات في البث خلال أوقات مختلطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Symptoms indicate interference / signal overlap consistent with a post-integration PCI conflict. I will start by auditing neighbor PCI relations across the last 8h. Please confirm the target cell ID and grant access.",
+      "message_ar": "الأعراض تشير إلى تداخل/تراكب إشارة متوافق مع تعارض PCI بعد الدمج. سأبدأ بتدقيق علاقات PCI مع الجيران خلال آخر 8 ساعات. يرجى تأكيد معرف الخلية المستهدفة ومنح صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Target cell: NR-41023A (macro). Access approved for the last 8h window.",
+      "message_ar": "الخلية المستهدفة: NR-41023A (ماكرو). تم منح صلاحية الوصول لفترة الـ8 ساعات الماضية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor audit complete: NR-41023A uses PCI 136; nearby sector NR-40987B also on PCI 136 within 0.8 km. SSB footprint overlap ~42%. This explains HO failures and RSRQ degradation. Proposed fix: reassign NR-41023A to PCI 138 with neighbor table refresh. Approve?",
+      "message_ar": "تم إنهاء تدقيق الجيران: NR-41023A تستخدم PCI 136؛ والقطاع القريب NR-40987B أيضاً على PCI 136 ضمن 0.8 كم. تداخل بصمة SSB حوالي 42%. هذا يفسر فشل التسليم وتدهور RSRQ. الإجراء المقترح: إعادة تعيين PCI للخلية NR-41023A إلى 138 مع تحديث جدول الجيران. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change applied: NR-41023A PCI -> 138; collision-distance check passed; neighbor relations refreshed. Early 5‑min snapshot: HO success +5 pp (≈86%→91%), BLER down to ~11%, RSRQ median improves from -9 dB to -8 dB. Monitoring short-term stability.",
+      "message_ar": "تم تطبيق التغيير: PCI للخلية NR-41023A أصبح 138؛ فحص مسافة التعارض ناجح؛ تم تحديث علاقات الجيران. لقطة أولية 5 دقائق: تحسن نجاح التسليم +5 نقاط مئوية (≈86%→91%)، وانخفاض BLER إلى ~11%، وتحسن RSRQ الوسطي من -9 ديسيبل إلى -8 ديسيبل. أراقب الاستقرار القصير الأمد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Traces show fewer ping-pong events and no new alarms. Load remains high around 65% PRB.",
+      "message_ar": "السجلات تظهر انخفاضاً في أحداث الارتداد ولا توجد إنذارات جديدة. الحمل ما زال مرتفعاً بحوالي 65% من موارد PRB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good signal. I will document the change and impact for traceability and follow-up.",
+      "message_ar": "مؤشر جيد. سأوثّق التغيير وتأثيره من أجل التتبع والمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with documentation.",
+      "message_ar": "تفضل بالتوثيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Record created DU-PCI-04273 covering the PCI reassignment and neighbor refresh with pre/post KPIs.",
+      "message_ar": "تم إنشاء السجل DU-PCI-04273 ويغطي إعادة تعيين PCI وتحديث الجيران مع مؤشرات الأداء قبل/بعد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Post-change, handover failures are trending down and SINR is stabilizing. This aligns with the PCI re-assignment and neighbor refresh. Let’s monitor through the next busy hour and update DU-PCI-04273 afterward.",
+      "message_ar": "بعد التغيير، حالات فشل التسليم في اتجاه هبوطي وSINR يستقر. هذا يتماشى مع إعادة تعيين PCI وتحديث الجيران. دعنا نراقب خلال ساعة الذروة القادمة ونحدّث DU-PCI-04273 بعدها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own monitoring for the next busy hour and update the ticket afterward. If degradation reappears, we will roll back to the prior PCI and expand the audit to adjacent sectors; otherwise we keep the new plan and close out.",
+      "message_ar": "تم الاستلام. سنقوم نحن بمتابعة المراقبة خلال ساعة الذروة القادمة وسنحدّث التذكرة بعدها. إذا ظهرت تدهورات سنعيد PCI السابق ونوسّع التدقيق إلى القطاعات المجاورة؛ وإلا سنبقي الخطة الجديدة ونُتم الإغلاق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a PCI collision after integration: the target cell and a nearby sector shared PCI 136 with ~42% overlap, driving interference, handover failures, and ping-pong. Mitigation was applied by tuning site parameters to reassign the PCI and refresh neighbor relations, followed by documentation via a ticket for follow-up.",
+    "ar": "تم تشخيص تعارض PCI بعد الدمج: الخلية المستهدفة وقطاع قريب يشتركان في PCI 136 مع تداخل يقارب 42% مما أدى إلى تداخل وفشل تسليم وارتداد. تم تنفيذ التخفيف عبر ضبط معلمات الموقع بإعادة تعيين PCI وتحديث علاقات الجيران، ثم توثيق الإجراء بتذكرة للمتابعة."
+  }
+}

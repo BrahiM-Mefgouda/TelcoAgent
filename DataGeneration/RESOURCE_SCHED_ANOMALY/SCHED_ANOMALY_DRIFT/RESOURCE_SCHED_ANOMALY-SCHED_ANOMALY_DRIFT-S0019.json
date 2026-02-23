@@ -1,0 +1,115 @@
+{
+  "id": "RESOURCE_SCHED_ANOMALY-SCHED_ANOMALY_DRIFT-S0019",
+  "intent": "RESOURCE_SCHED_ANOMALY",
+  "blueprint_id": "SCHED_ANOMALY_DRIFT",
+  "query": {
+    "en": "Urban NR macro cell over the last 6h shows high PRB utilization (~85%), low fairness (~0.64) with allocation skew 12, wide throughput spread (p50 16 vs p95 57 Mbps), and interference/signal overlap (SINR ~4 dB), affecting eMBB streaming—requesting scheduling anomaly check.",
+    "ar": "خلية NR ماكرو في منطقة حضرية خلال آخر 6 ساعات تُظهر ارتفاعاً في استهلاك PRB (~85%)، وانخفاض العدالة (~0.64) مع انحراف تخصيص 12، وتبايناً واسعاً في السرعات (الوسيط 16 مقابل 95% 57 ميجابت/ث)، ووجود تداخل/تراكب إشارات (SINR ~4 dB)، مما يؤثر على خدمات eMBB—نطلب فحص خلل محتمل في الجدولة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell over the last 6h is showing high PRB utilization (~85%), low fairness (~0.64), allocation skew 12, and wide throughput spread (p50 16 Mbps vs p95 57 Mbps); streaming users during the shoulder period also reported inconsistency, with interference/signal overlap likely (SINR ~4 dB, RSRQ -11 dB). Please investigate a possible scheduling anomaly.",
+      "message_ar": "الخلية NR ماكرو في منطقة حضرية خلال آخر 6 ساعات تُظهر ارتفاعاً في استهلاك موارد PRB (~85%)، وانخفاض العدالة (~0.64)، وانحراف التخصيص 12، وتبايناً واسعاً في السرعات (الوسيط 16 ميجابت/ث مقابل 95% 57 ميجابت/ث)؛ وقد أبلغ مستخدمو البث خلال فترة الكتف عن عدم ثبات، مع احتمال تداخل/تراكب إشارات (SINR ~4 dB و RSRQ -11 dB). الرجاء التحقيق في احتمال وجود خلل في الجدولة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will lead diagnostics: first pull last 6h counters and config from OSS, then review PRB and queue time series; if confirmed, I'll apply targeted scheduler tuning. Please share the cell identifier and confirm access.",
+      "message_ar": "سأتولى التشخيص: أولاً سأسحب عدادات وتكوين آخر 6 ساعات من نظام الإدارة، ثم أراجع السلاسل الزمنية للـPRB والطوابير؛ وإذا تأكدت المشكلة سأطبق ضبطاً انتقائياً لمُجدول الموارد. يرجى تزويدي بمعرّف الخلية وتأكيد صلاحية الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-UTR-12345-1. Access approved for read and change; no active alarms.",
+      "message_ar": "معرّف الخلية: NR-UTR-12345-1. الوصول معتمد للقراءة والتغيير؛ لا توجد إنذارات نشطة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled last 6h counters for NR-UTR-12345-1: PRB utilization ~85%, fairness ~0.64, allocation skew 12; QoS mix shows high-priority ~20% and best-effort ~70%; p95 scheduler latency ~36 ms; RF quality weak (SINR ~4 dB, RSRQ -11 dB). Proceeding to detailed PRB/scheduler time series.",
+      "message_ar": "تم سحب عدادات آخر 6 ساعات للخلية NR-UTR-12345-1: استهلاك PRB ~85%، العدالة ~0.64، انحراف التخصيص 12؛ مزيج جودة الخدمة يظهر أولوية عالية ~20% وأفضل جهد ~70%؛ كمون المُجدول 95% ~36 مللي ثانية؛ جودة الراديو ضعيفة (SINR ~4 dB و RSRQ -11 dB). سأنتقل إلى السلاسل الزمنية التفصيلية للـPRB/المُجدول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Acknowledged.",
+      "message_ar": "تم الاستلام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time-series over 6h shows persistent best-effort dominance during the shoulder period, fairness dips to ~0.6 with spikes in allocation skew, and throughput spread widens (p50 16 vs p95 57 Mbps). This is consistent with a resource scheduling drift aggravated by interference. I recommend mitigation via scheduler parameter tuning.",
+      "message_ar": "تُظهر السلاسل الزمنية خلال 6 ساعات هيمنة مستمرة لحركة أفضل جهد في فترة الكتف، مع هبوط العدالة إلى ~0.6 وارتفاعات في انحراف التخصيص، واتساع تباين السرعات (الوسيط 16 مقابل 95% 57 ميجابت/ث). هذا يتوافق مع انحراف في جدولة الموارد يتفاقم بسبب التداخل. أوصي بالتخفيف عبر ضبط معلمات المُجدول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood; users noted stalls around 18:00. Please proceed as needed.",
+      "message_ar": "مفهوم؛ المستخدمون لاحظوا توقفات قصيرة حوالي 18:00. يرجى المضي قدماً حسب الحاجة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan to apply low-risk tuning: rebalance QoS weights to increase high-priority share, impose a soft PRB cap on best-effort during congestion, and raise the fairness target; changes will be limited to this cell. Approve to execute now?",
+      "message_ar": "خطتي تطبيق ضبط منخفض المخاطر: إعادة موازنة أوزان جودة الخدمة لزيادة حصة الأولوية العالية، فرض حد ناعم لـPRB على حركة أفضل جهد أثناء الازدحام، ورفع هدف العدالة؛ وستُحصر التغييرات في هذه الخلية. هل توافق على التنفيذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to execute now for NR-UTR-12345-1.",
+      "message_ar": "موافق على التنفيذ الآن للخلية NR-UTR-12345-1."
+    },
+    {
+      "role": "agent",
+      "message_en": "Change executed and verified on NR-UTR-12345-1; immediate counters show best-effort share easing (~70% -> ~62%) and high-priority rising. I will watch short-term stability and user impact.",
+      "message_ar": "تم تنفيذ التغيير والتحقق منه على NR-UTR-12345-1؛ تُظهر العدادات الفورية انخفاض حصة أفضل جهد (~70% -> ~62%) وارتفاع حصة الأولوية العالية. سأتابع الاستقرار قصير الأمد وأثر المستخدمين."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: fairness is trending up and scheduler latency is edging down; throughput spread is narrowing. Action taken: scheduler parameter tuning on the cell. Let's monitor through the next busy hour.",
+      "message_ar": "تمت ملاحظة تحسن مبكر: العدالة تتجه للارتفاع وكمون المُجدول ينخفض تدريجياً؛ وتقل فجوة السرعات. الإجراء المتخذ: ضبط معلمات المُجدول على الخلية. لنراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—scheduler tuning has been applied on the cell. We will own monitoring through the next busy hour and share updates on fairness, PRB mix, and latency. If degradation reappears, we will roll back the tuning; if interference remains the limiter, we will escalate for interference mitigation and load distribution.",
+      "message_ar": "تم التأكيد—تم تطبيق ضبط المُجدول على الخلية. سنتولى المراقبة خلال ساعة الذروة التالية ونشارك التحديثات حول العدالة ومزيج PRB والكمون. إذا عادت التدهورات سنرجع الضبط؛ وإذا بقي التداخل هو العامل المقيّد فسوف نصعّد لمعالجة التداخل وتوزيع الحمل."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "PRB",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a resource scheduling anomaly on an urban NR macro cell during the last 6 hours: high PRB utilization, low fairness, best-effort dominance, and interference-driven spread in user rates. We pulled counters and time series, then applied site parameter tuning to rebalance QoS weights, raise fairness, and limit best-effort usage. Monitoring will continue through the next busy hour to confirm sustained gains.",
+    "ar": "تم تشخيص خلل في جدولة الموارد على خلية NR ماكرو حضرية خلال آخر 6 ساعات: استهلاك PRB مرتفع، عدالة منخفضة، هيمنة أفضل جهد، وتباين في السرعات مدفوع بالتداخل. قمنا بسحب العدادات والسلاسل الزمنية ثم طبقنا ضبط معلمات للموقع لإعادة موازنة أوزان جودة الخدمة ورفع العدالة وتقييد استخدام أفضل جهد. سنواصل المراقبة خلال ساعة الذروة التالية للتأكد من استدامة التحسن."
+  }
+}

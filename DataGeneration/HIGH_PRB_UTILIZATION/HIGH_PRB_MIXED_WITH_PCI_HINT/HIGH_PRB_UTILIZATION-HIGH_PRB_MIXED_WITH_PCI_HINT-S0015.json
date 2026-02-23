@@ -1,0 +1,113 @@
+{
+  "id": "HIGH_PRB_UTILIZATION-HIGH_PRB_MIXED_WITH_PCI_HINT-S0015",
+  "intent": "HIGH_PRB_UTILIZATION",
+  "blueprint_id": "HIGH_PRB_MIXED_WITH_PCI_HINT",
+  "query": {
+    "en": "Urban 5G macro cell has congestion alarms in the last 3 hours with ~92% resource utilization, 272 users, DL/UL 15/10 Mbps, RSRQ -14 dB, SINR 9 dB, BLER ~6%, and 19 neighbor PCI overlaps.",
+    "ar": "خلية ماكرو 5G حضرية بها إنذارات ازدحام خلال آخر 3 ساعات مع إشغال موارد ~92%، 272 مستخدمًا، سرعة تحميل/رفع 15/10 ميجابت/ث، RSRQ -14 ديسيبل، SINR 9 ديسيبل، BLER ~6%، و19 تداخل PCI من الجيران."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro sector NR-Cell-UGB123-1 has congestion alarms over the last 3h: PRB ~92%, 272 users in peak evening eMBB (heavy streaming), DL/UL 15/10 Mbps, RSRQ -14 dB, SINR 9 dB, BLER ~6%, HO failures ~7%. Please check.",
+      "message_ar": "قطاع ماكرو NR حضري NR-Cell-UGB123-1 لديه إنذارات ازدحام خلال آخر 3 ساعات: إشغال الموارد ~92%، 272 مستخدمًا في ذروة المساء eMBB (بث كثيف)، سرعة التحميل/الرفع 15/10 ميجابت/ث، RSRQ -14 ديسيبل، SINR 9 ديسيبل، BLER ~6%، وفشل التسليم ~7%. الرجاء الفحص."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will pull live network counters for NR-Cell-UGB123-1 over the last 3h to validate sustained PRB saturation and related KPIs. Approve read-only access?",
+      "message_ar": "سأقوم بسحب عدادات الشبكة الحية للخلية NR-Cell-UGB123-1 خلال آخر 3 ساعات للتحقق من استمرار تشبع الموارد والمؤشرات ذات الصلة. هل توافقون على وصول قراءة فقط؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Read-only access is granted.",
+      "message_ar": "موافق. تم منح وصول قراءة فقط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters confirm sustained load: PRB avg ~92% (p95 ~96%), active users 270–280, DL p50 ~15 Mbps, UL ~10 Mbps, scheduler p95 36 ms, BLER ~6%, RLF 4.4%. RSRQ -14 dB and 19 overlapping neighbors indicate interference pressure. Root cause: capacity-driven PRB congestion with interference. I propose targeted site parameter tuning to load-share to neighbors and adjust scheduler weights for eMBB to reduce PRB occupancy. Proceed?",
+      "message_ar": "العدادات تؤكد حملًا مستمرًا: متوسط إشغال الموارد ~92% (p95 ~96%)، مستخدمون نشطون 270–280، التحميل الوسيط ~15 ميجابت/ث، الرفع ~10 ميجابت/ث، تأخير المُجدول p95 عند 36 مللي ثانية، BLER ~6%، ومعدل انقطاع اتصال 4.4%. RSRQ -14 ديسيبل ووجود 19 جارًا متداخلًا يشيران إلى ضغط تداخلي. السبب الجذري: ازدحام موارد مدفوع بالسعة مع تداخل. أقترح ضبطًا انتقائيًا لمعلمات الموقع لمشاركة الحمل مع الجيران وتعديل أوزان المُجدول لـ eMBB لتقليل إشغال الموارد. هل نمضي قدمًا؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning.",
+      "message_ar": "امضِ قدمًا في الضبط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Parameter tuning executed with minimal impact: adjusted load management thresholds to offload edge users, refined handover offsets to healthy neighbors, and rebalanced scheduler weights for eMBB; minor power control retune applied to improve quality. Expect 10–15% PRB relief. Request permission to open a tracking ticket for change and monitoring.",
+      "message_ar": "تم تنفيذ ضبط المعلمات بتأثير طفيف: تعديل عتبات إدارة الحمل لنقل مستخدمي الأطراف، تحسين انحيازات التسليم إلى الجيران الجيدين، وإعادة موازنة أوزان المُجدول لـ eMBB؛ مع إعادة ضبط بسيطة للتحكم في القدرة لتحسين الجودة. من المتوقع تخفيف إشغال الموارد بنسبة 10–15%. أطلب الإذن بفتح تذكرة تتبع للتغيير والمراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to create a tracking ticket.",
+      "message_ar": "موافق على إنشاء تذكرة تتبع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Tracking ticket DU-PRB-02761 is created. I’m monitoring live counters for the next 30–60 minutes and will watch alarms and user experience. Please share any on-ground observations.",
+      "message_ar": "تم إنشاء تذكرة التتبع DU-PRB-02761. سأراقب العدادات الحية خلال 30–60 دقيقة القادمة وسأتابع الإنذارات وتجربة المستخدم. يرجى مشاركة أي ملاحظات ميدانية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~40 minutes: users down to ~230, PRB now ~78–82%, DL throughput ~22 Mbps, and handover failures trending down. Congestion alarm cleared.",
+      "message_ar": "بعد حوالي 40 دقيقة: انخفض عدد المستخدمين إلى ~230، إشغال الموارد الآن ~78–82%، سرعة التحميل ~22 ميجابت/ث، وفشل التسليم في اتجاه هبوطي. تم مسح إنذار الازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good recovery and stability observed. I will continue watching during the next busy period and keep the change reversible if any regressions appear. Any customer complaints reported so far?",
+      "message_ar": "تحسن جيد واستقرار ملحوظ. سأواصل المتابعة خلال الفترة المزدحمة التالية مع إبقاء التغيير قابلاً للرجوع إذا ظهرت أي تراجعات. هل وردت أي شكاوى من العملاء حتى الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "No complaints so far. Utilization is holding near ~80% and DL throughput is improved. Following the site parameter tuning/load optimization, let’s monitor for the next 2–4 hours; tracking under DU-PRB-02761.",
+      "message_ar": "لا توجد شكاوى حتى الآن. الاستهلاك مستقر قرب ~80% وسرعة التحميل تحسنت. بعد ضبط معلمات الموقع/تحسين التحميل، دعنا نراقب خلال الساعتين إلى الأربع ساعات القادمة؛ المتابعة تحت DU-PRB-02761."
+    },
+    {
+      "role": "agent",
+      "message_en": "Confirmed. We will own the next 2–4 hours of monitoring and update the ticket after the window. If congestion returns or latency rises, we will escalate for capacity relief; if any regressions occur, we will roll back today’s tuning.",
+      "message_ar": "تم التأكيد. سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة وسنحدث التذكرة بعد انتهاء الفترة. إذا عاد الازدحام أو ارتفع التأخير، سنصعّد لزيادة السعة؛ وإذا حدثت أي تراجعات سنعود إلى ضبط اليوم."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-UGB123-1",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "load_sharing,scheduler_weights,HO_offsets,power_control"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "High PRB congestion on NR-Cell-UGB123-1; tuning applied and monitoring in place"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated peak-evening congestion on an urban NR macro cell and confirmed sustained PRB saturation with quality pressure from overlapping neighbors. Executed site parameter tuning for load sharing and scheduler optimization, then created a tracking ticket. Early results show PRB utilization reduced and throughput improved; continued monitoring is planned.",
+    "ar": "تم التحقيق في الازدحام وقت الذروة على خلية NR حضرية وتأكيد تشبع الموارد المستمر مع ضغط جودة بسبب جيران متداخلين. نُفذ ضبط لمعلمات الموقع لمشاركة الحمل وتحسين المُجدول، ثم تم إنشاء تذكرة تتبع. النتائج الأولية تُظهر انخفاض إشغال الموارد وتحسن السرعة؛ وستستمر المراقبة."
+  }
+}

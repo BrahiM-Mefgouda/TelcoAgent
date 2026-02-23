@@ -1,0 +1,115 @@
+{
+  "id": "RLF_SPIKE-RLF_SPIKE_RUSH_HOUR-S0014",
+  "intent": "RLF_SPIKE",
+  "blueprint_id": "RLF_SPIKE_RUSH_HOUR",
+  "query": {
+    "en": "Urban NR macro cell shows a rush-hour RLF spike with slow data and a congestion alarm; RLF ~5.9%, handovers ~78% success, high T310 expiries, PRB ~82%, SINR 8 dB, p95 latency 55 ms, and about 394 users in the last 2 hours.",
+    "ar": "خلية NR ماكرو حضرية تُظهر ارتفاعاً في فقدان الارتباط خلال ساعة الذروة مع بطء في البيانات ووجود إنذار ازدحام؛ معدل RLF ~5.9%، نجاح التسليم ~78%، ارتفاع انتهاء T310، إشغال PRB ~82%، قيمة SINR ‏8 dB، كمون p95 ‏55 ms، وحوالي 394 مستخدماً خلال آخر ساعتين."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening in the urban NR macro cell; we have a congestion alarm and users report buffering during streaming. Over the last 2 hours, drops and handovers look worse.",
+      "message_ar": "وقت الذروة المسائي في خلية NR ماكرو حضرية؛ لدينا إنذار ازدحام ويبلغ المستخدمون عن تقطّع أثناء البث. خلال آخر ساعتين، تبدو حالات السقوط والتسليم أسوأ."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling the last 2h network counters to validate RLF, HO, PRB, and radio quality. Please share the cell ID and confirm read access.",
+      "message_ar": "سأبدأ بسحب عدّادات الشبكة لآخر ساعتين للتحقق من RLF وعمليات التسليم وPRB وجودة الإشارة. يرجى مشاركة معرف الخلية وتأكيد صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_URB_MACRO_123. Read access approved for the last 2 hours.",
+      "message_ar": "معرف الخلية: NR_URB_MACRO_123. صلاحية القراءة معتمدة لآخر ساعتين."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling counters now and reviewing RLF rate, T310 expiries, HO success, PRB utilization, SINR/RSRQ, latency, and median throughput. Findings: RLF 5.9%, HO success 78%, T310 elevated, PRB 82%, SINR 8 dB, p95 latency 55 ms, p50 DL 6 Mbps, users ~394.",
+      "message_ar": "أقوم الآن بجلب العدّادات ومراجعة معدل RLF، انتهاء T310، نجاح التسليم، إشغال PRB، قيم SINR/RSRQ، الكمون، ومتوسط السرعة. النتائج: RLF ‏5.9%، نجاح التسليم ‏78%، ارتفاع في T310، إشغال PRB ‏82%، SINR ‏8 dB، كمون p95 ‏55 ms، سرعة تنزيل p50 ‏6 Mbps، وعدد المستخدمين ~394."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. Field reports align; neighboring east/west sectors are busy and around 380–400 users attach at peak.",
+      "message_ar": "مفهوم. تقارير الميدان متطابقة؛ القطاعات الشرقية/الغربية مزدحمة وحوالي 380–400 مستخدم متصلون عند الذروة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Next, I'll chart the RLF time series for the last 2h to locate spikes and correlate with handovers to adjacent cells. Please confirm.",
+      "message_ar": "التالي، سأرسم سلسلة زمنية لـ RLF لآخر ساعتين لتحديد القمم وربطها بعمليات التسليم إلى الخلايا المجاورة. يرجى التأكيد."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Confirmed.",
+      "message_ar": "مؤكد."
+    },
+    {
+      "role": "agent",
+      "message_en": "The time series shows sharp RLF peaks between 18:30–19:45, coinciding with increased HO attempts toward east/west neighbors. The pattern suggests late handovers under load and an overly long edge time-to-trigger.",
+      "message_ar": "السلسلة الزمنية تُظهر قمماً حادة لـ RLF بين 18:30 و19:45، بالتزامن مع زيادة محاولات التسليم نحو الجيران الشرقي والغربي. النمط يوحي بتسليمات متأخرة تحت الحمل وزمن تفعيل طويل عند الحافة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement low-risk mobility tuning now.",
+      "message_ar": "موافقة على تنفيذ ضبط منخفض المخاطر لمعاملات الحركة الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying targeted mobility optimization: slight reduction of handover margins toward the affected neighbors and a shorter edge time-to-trigger to avoid late HOs. The change is minimal and reversible; completed successfully.",
+      "message_ar": "أقوم بتطبيق تحسين مستهدف للحركة: خفض طفيف لهوامش التسليم نحو الجيران المتأثرين وتقليل زمن التفعيل عند الحافة لتفادي التسليم المتأخر. التغيير محدود وقابل للرجوع؛ تم بنجاح."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early improvement observed: radio link failures trending down and handover success rising toward ~86%. Action taken was site mobility parameter tuning; let’s monitor through the next busy hour.",
+      "message_ar": "تحسن مبكر ملحوظ: حالات فقدان الارتباط تتناقص ونجاح التسليم يرتفع نحو ~86%. الإجراء المتخذ كان ضبط معاملات الحركة للموقع؛ لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If drops or handovers worsen, we will escalate to broader load balancing; if regressions appear, we will roll back the change.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة ونشارك تحديثاً بعدها. إذا ساءت حالات السقوط أو التسليم سنصعّد إلى موازنة حمل أوسع؛ وإذا ظهرت تراجعات سنعود عن التغيير."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_URB_MACRO_123",
+        "2h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_URB_MACRO_123",
+        "RLF",
+        "2h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility_parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a rush-hour radio link failure spike on the urban NR macro cell by validating counters and reviewing RLF time trends, which peaked alongside heavy handover activity and high load. Mitigated with site mobility parameter tuning (handover margins and time-to-trigger) to reduce late handovers and stabilize connections. We will monitor during the next busy hour to confirm sustained improvement.",
+    "ar": "تم تشخيص ارتفاع في فقدان الارتباط خلال ساعة الذروة على خلية NR ماكرو حضرية عبر التحقق من العدّادات ومراجعة الاتجاه الزمني لـ RLF الذي بلغ الذروة مع نشاط تسليم كثيف وحمل مرتفع. تمت المعالجة عبر ضبط معاملات الحركة في الموقع (هوامش التسليم وزمن التفعيل) لتقليل التسليمات المتأخرة واستقرار الاتصالات. سنواصل المتابعة خلال ساعة الذروة القادمة للتأكد من استمرار التحسن."
+  }
+}

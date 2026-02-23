@@ -1,0 +1,110 @@
+{
+  "id": "HQOS_LATENCY_VIOLATION-LATENCY_SLA_NOLOAD_HINT_BLER-S0003",
+  "intent": "HQOS_LATENCY_VIOLATION",
+  "blueprint_id": "LATENCY_SLA_NOLOAD_HINT_BLER",
+  "query": {
+    "en": "Suburban 5G NR macro cell shows ~96 ms user-plane latency over the last 3h during peak eMBB (streaming), with moderate load (~56% PRB), BLER ~12%, RSRQ -14 dB and SINR ~4 dB indicating interference/signal overlap.",
+    "ar": "الموقع الضواحي لشبكة 5G NR (ماكرو) يسجل زمناً متأخراً بحوالي 96 مللي ثانية خلال آخر 3 ساعات أثناء الذروة مع eMBB (بث)، بحمل متوسط (~56% PRB) وBLER ~12% وRSRQ -14 dB وSINR ~4 dB مما يشير إلى تداخل/تراكب الإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban NR macro cell NR-Suburb-Macro-123 has high user latency in the last 3h peak. eMBB streaming users report lag. Snapshot: median DL latency ~96 ms, PRB ~56%, users ~150, BLER ~12%, RSRQ -14 dB, SINR ~4 dB. Please check.",
+      "message_ar": "الموقع NR ماكرو في الضواحي NR-Suburb-Macro-123 يظهر زمناً متأخراً مرتفعاً خلال ذروة آخر 3 ساعات. مستخدمو eMBB (البث) يشتكون من تقطّع. القيم الحالية: متوسط زمن التأخير ~96 مللي ثانية، PRB ~56%، المستخدمون ~150، BLER ~12%، RSRQ -14 dB، وSINR ~4 dB. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis. Plan: pull 3h OSS counters and chart latency to correlate with interference/signal overlap and BLER. Please confirm access for NR-Suburb-Macro-123.",
+      "message_ar": "سأتولى التشخيص. الخطة: سحب عدادات آخر 3 ساعات من المنصة ومخطط زمن التأخير وربطها بالتداخل/تراكب الإشارة وBLER. يرجى تأكيد صلاحية الوصول للموقع NR-Suburb-Macro-123."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved on NR-Suburb-Macro-123. No planned work on the site.",
+      "message_ar": "تمت الموافقة على الوصول إلى NR-Suburb-Macro-123. لا توجد أعمال مخططة في الموقع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 1 done: 3h counters show moderate load (PRB 55–60%), users 130–160, no active alarms. Quality: RSRQ -14 dB, SINR 3–5 dB, BLER 11–14%. DL latency p50 85–110 ms, p95 up to 160 ms. Symptoms align with interference-driven retransmissions raising queueing delay.",
+      "message_ar": "اكتمل الخطوة 1: عدادات 3 ساعات تشير إلى حمل متوسط (PRB 55–60%)، المستخدمون 130–160، ولا إنذارات فعالة. الجودة: RSRQ -14 dB، وSINR بين 3–5 dB، وBLER بين 11–14%. زمن التأخير في الوصلة الهابطة p50 بين 85–110 مللي ثانية وp95 يصل إلى 160 مللي ثانية. الأعراض تتفق مع عمليات إعادة الإرسال الناتجة عن التداخل وزيادة تأخير الطوابير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 2: Latency timeseries over 3h shows peaks 18:15–19:10 with jitter bursts aligned to BLER spikes; median throughput ~17 Mbps. HQoS latency class is breaching under moderate RF impairment. I propose a low-risk optimization: prioritize latency-sensitive traffic and slightly tighten link-robustness to curb retransmissions. Approve?",
+      "message_ar": "الخطوة 2: سلسلة زمنية لزمن التأخير على مدى 3 ساعات تُظهر قمماً بين 18:15–19:10 مع تذبذب يتزامن مع ارتفاعات BLER؛ متوسط السرعة ~17 ميجابت/ث. فئة جودة الخدمة الخاصة بالكمون تتجاوز الحدود تحت تدهور لاسلكي متوسط. أقترح تحسيناً منخفض المخاطر: رفع أولوية المرور الحساس للكمون وتشديداً طفيفاً لمتانة الوصلة لتقليل إعادة الإرسال. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the optimization on this cell.",
+      "message_ar": "موافَق على تطبيق التحسين على هذه الخلية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Step 3 executed: applied targeted site parameter tuning for QoS latency and link robustness; change committed with no service impact. Immediate check (5 min): BLER ~8–9%, latency p50 ~58–65 ms, p95 < 110 ms; PRB remains ~56%. I’ll keep observing.",
+      "message_ar": "تم تنفيذ الخطوة 3: تطبيق ضبط انتقائي لمعاملات الموقع لتحسين زمن التأخير وجودة الرابط؛ تم اعتماد التغيير دون تأثير خدمي. تحقق فوري (5 دقائق): BLER ~8–9%، زمن التأخير p50 ~58–65 مللي ثانية، وp95 أقل من 110 مللي ثانية؛ PRB يبقى ~56%. سأستمر في المراقبة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Field feedback: streaming stutters have reduced and app responsiveness improved on this sector. Continue to watch.",
+      "message_ar": "ملاحظات ميدانية: تقطّع البث انخفض وتحسنت استجابة التطبيقات على هذا القطاع. الرجاء المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I’ll track latency p50/p95, BLER trends, and interference effects, and verify that eMBB streaming remains stable as traffic fluctuates.",
+      "message_ar": "تم. سأتابع مؤشرات زمن التأخير p50/p95، واتجاهات BLER، وتأثيرات التداخل، وأتحقق من بقاء بث eMBB مستقراً مع تغير الحركة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 30 minutes, latency is smoother and queueing delays are trending down. The improvement follows your site parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "بعد 30 دقيقة، أصبح زمن التأخير أكثر سلاسة وتأخيرات الطوابير في اتجاه هبوطي. التحسن جاء بعد ضبط معاملات الموقع الذي نفذته. لنراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring over the next busy hour and share an update on latency and BLER stability afterward. If latency regresses, we will roll back the change and escalate for interference mitigation; otherwise we keep the tuning in place.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة القادمة وسنشارك تحديثاً حول استقرار زمن التأخير وBLER بعدها. إذا تراجع الأداء سنرجع التغيير ونصعّد لمعالجة التداخل؛ وإلا سنبقي الضبط الحالي."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Suburb-Macro-123",
+        "3h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Suburb-Macro-123",
+        "latency",
+        "3h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "QoS_latency_and_link_robustness"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 5,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 7,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a latency SLA breach on a suburban 5G NR macro cell during peak eMBB traffic, with moderate load but elevated BLER and interference/signal overlap driving retransmissions and queueing delay. Executed site parameter tuning to prioritize latency-sensitive traffic and improve link robustness, which immediately reduced BLER and lowered median and tail latency. We will monitor through the next busy hour to confirm sustained improvement.",
+    "ar": "تم تشخيص خرق لاتفاقية زمن التأخير في موقع 5G NR ماكرو ضمن منطقة ضواحٍ أثناء ذروة حركة eMBB، حيث أدى BLER المرتفع والتداخل/تراكب الإشارة إلى زيادات في إعادة الإرسال وتأخير الطوابير رغم أن الحمل متوسط. تم تنفيذ ضبط لمعاملات الموقع لرفع أولوية المرور الحساس للكمون وتحسين متانة الرابط، ما خفّض BLER فوراً وخفّض زمن التأخير المتوسط وطرفي التوزيع. سنراقب خلال ساعة الذروة القادمة للتأكد من استدامة التحسن."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "TA_DISTRIBUTION_DRIFT-TA_DRIFT_EVENT-S0004",
+  "intent": "TA_DISTRIBUTION_DRIFT",
+  "blueprint_id": "TA_DRIFT_EVENT",
+  "query": {
+    "en": "Stadium NR micro cell shows TA distribution drift over the last 3 hours during the event, with TA p50 ~167 m, p95 ~261 m, drift index ~0.39, distant serving ~22%, high resource use ~90%, weak signal around -112 dBm, handover failures ~9%, and median throughput ~12 Mbps.",
+    "ar": "تظهر خلية NR الصغيرة في الملعب انحرافاً في توزيع TA خلال آخر 3 ساعات أثناء الحدث، مع TA p50 نحو 167 م وp95 نحو 261 م، ومؤشر الانحراف ~0.39، ونسبة الخدمة البعيدة ~22%، واستهلاك موارد مرتفع ~90%، وإشارة ضعيفة حوالي -112 dBm، وفشل تسليم ~9%، ومتوسط سرعة تنزيل ~12 ميجابت/ث."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We’re seeing TA distribution drift on the NR micro cell at the stadium during the event over the last 3 hours: TA p95 ~261 m, drift index ~0.39, distant serving ~22%, PRB ~90%, RSRP ~-112 dBm, HO failures ~9%, throughput p50 ~12 Mbps. Please investigate.",
+      "message_ar": "نلاحظ انحرافاً في توزيع TA على خلية NR الصغيرة في الملعب خلال الحدث خلال آخر 3 ساعات: TA p95 ~261 م، مؤشر الانحراف ~0.39، نسبة الخدمة البعيدة ~22%، استهلاك الموارد ~90%، RSRP ~-112 dBm، فشل التسليم ~9%، ومتوسط سرعة ~12 ميجابت/ث. الرجاء التحقيق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. I will first review last 3 hours network counters for the impacted cell, then analyze the TA trend; if confirmed, I’ll apply light coverage and mobility tuning to reduce distant serving. Please share the cell ID and confirm I can run diagnostics; any ongoing work on this site?",
+      "message_ar": "تم الاستلام. سأراجع أولاً مؤشرات الشبكة لآخر 3 ساعات للخلية المتأثرة، ثم أحلل اتجاه TA؛ وإذا تأكدت المشكلة، سأجري تحسيناً خفيفاً للتغطية والحركة لتقليل الخدمة البعيدة. يرجى مشاركة معرف الخلية وتأكيد السماح بالتشخيص؛ هل هناك أعمال جارية على هذا الموقع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-STAD-MICRO-034. You are approved to run read-only diagnostics. No concurrent changes reported.",
+      "message_ar": "معرف الخلية: NR-STAD-MICRO-034. لديك موافقة لإجراء تشخيصات قراءة فقط. لا توجد تغييرات متزامنة مُبلّغ عنها."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 3 hours counters for NR-STAD-MICRO-034 now. Initial view: PRB utilization peaks near 90%, HO failures around 9% concentrated toward east-side neighbors, RSRP distribution skewed with ~40% of UEs below -110 dBm, and far-UE share ~22% (TA >200 m). This supports a TA drift during the event.",
+      "message_ar": "أقوم الآن بجلب مؤشرات آخر 3 ساعات للخلية NR-STAD-MICRO-034. النظرة الأولية: استهلاك PRB يبلغ ذروته قرب 90%، وفشل التسليم حوالي 9% ومتمركز باتجاه الجيران الشرقيين، وتوزيع RSRP منحاز مع ~40% من المستخدمين دون -110 dBm، ونسبة المستخدمين البعيدين ~22% (TA>200 م). هذا يدعم وجود انحراف TA أثناء الحدث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. You are approved to continue your diagnostics.",
+      "message_ar": "تمت الملاحظة. لديك موافقة لمتابعة التشخيص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing TA trend over the same 3-hour window. The TA median and p95 rise during crowd inflow and halftime (likely heavy video streaming), with late mobility toward macro neighbors on the east. The drift aligns with load and weak dominance, indicating the micro cell is stretching coverage.",
+      "message_ar": "أقوم بتحليل اتجاه TA خلال نفس نافذة 3 ساعات. يرتفع الوسيط وp95 للـTA أثناء دخول الحشود وفي فترة الاستراحة (مرجح وجود بث فيديو كثيف)، مع حركة متأخرة نحو الجيران الماكرو شرقاً. الانحراف يتوافق مع الحمل وضعف الهيمنة، ما يشير إلى تمدد تغطية الخلية الصغيرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. You are cleared to proceed with a safe, reversible optimization to mitigate the drift.",
+      "message_ar": "مفهوم. لديك إذن للمضي في تحسين آمن وقابل للرجوع للتخفيف من الانحراف."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply a light coverage shrink and mobility bias toward closer cells (minor tilt/footprint adjustment and handover offset tuning). Target: reduce far-UE share by 6–10% and lower HO failures by ~2–3 pp with minimal throughput impact. Please confirm to proceed; rollback is immediate if any regression appears.",
+      "message_ar": "الخطة: تطبيق تقليص خفيف للبصمة وتحيز حركة نحو الخلايا الأقرب (تعديل بسيط للبصمة/الزاوية وتعديل إزاحات التسليم). الهدف: خفض نسبة المستخدمين البعيدين بنسبة 6–10% وتقليل فشل التسليم بنحو 2–3 نقاط مئوية مع تأثير طفيف على السرعة. يرجى التأكيد للمضي قدماً؛ التراجع فوري إذا ظهر أي تراجع."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Proceed with the live optimization.",
+      "message_ar": "موافق. تفضل بتنفيذ التحسين المباشر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied. Early effects (5–10 min post-change): far-UE share down to ~14–16%, PRB eased to ~82–84%, HO failures trending ~6–7%, TA p95 improving toward ~210–220 m, and served-user RSRP improved by ~3 dB. No adverse alarms or drops observed.",
+      "message_ar": "تم تطبيق التحسين. التأثيرات المبكرة (5–10 دقائق بعد التغيير): انخفضت نسبة المستخدمين البعيدين إلى ~14–16%، وانخفض استهلاك PRB إلى ~82–84%، واتجاه فشل التسليم إلى ~6–7%، وتحسن TA p95 نحو ~210–220 م، وتحسنت RSRP للمستخدمين المخدومين بنحو ~3 dB. لم تُلاحظ إنذارات سلبية أو انقطاعات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "We see handover failures trending down and far-UE share reduced, consistent with the site parameter tuning you applied. Let’s monitor through the next busy hour.",
+      "message_ar": "نرى فشل التسليم يتجه للانخفاض وتقليل نسبة المستخدمين البعيدين، بما يتماشى مع ضبط معلمات الموقع الذي قمت به. دعنا نراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will monitor through the next busy hour and report TA distribution, far-UE ratio, PRB load, and HO failures. If drift or failures rise again, we will escalate to a broader cluster optimization; if any degradation appears, we will roll back to the previous settings.",
+      "message_ar": "تم. سنراقب خلال ساعة الذروة القادمة ونبلغ عن توزيع TA ونسبة المستخدمين البعيدين وحمل PRB وفشل التسليم. إذا عاد الانحراف أو ارتفعت الإخفاقات سنصعّد إلى تحسين أوسع على مستوى العنقود؛ وإذا ظهرت أي تدهورات فسنعيد الإعدادات السابقة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "TA",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed TA distribution drift on the stadium NR micro cell during the event, with elevated far-UE serving, weak signal levels, and higher handover failures. Reviewed recent counters and TA trend, then applied site parameter tuning with a light coverage shrink and mobility bias to favor closer cells. Early results show reduced distant serving, lower PRB load, and fewer handover failures; we will continue monitoring through the next busy hour.",
+    "ar": "تم تشخيص انحراف في توزيع TA على خلية NR الصغيرة في الملعب أثناء الحدث، مع ارتفاع خدمة المستخدمين البعيدين وضعف مستوى الإشارة وزيادة فشل التسليم. جرى مراجعة المؤشرات الأخيرة واتجاه TA، ثم تطبيق ضبط لمعلمات الموقع بتقليص خفيف للتغطية وتحيز للحركة لصالح الخلايا الأقرب. تظهر النتائج المبكرة انخفاض الخدمة البعيدة، وانخفاض حمل PRB، وتراجع فشل التسليم؛ سنواصل المتابعة خلال ساعة الذروة القادمة."
+  }
+}

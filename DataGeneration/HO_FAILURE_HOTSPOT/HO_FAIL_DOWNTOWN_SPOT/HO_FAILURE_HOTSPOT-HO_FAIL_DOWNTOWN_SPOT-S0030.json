@@ -1,0 +1,114 @@
+{
+  "id": "HO_FAILURE_HOTSPOT-HO_FAIL_DOWNTOWN_SPOT-S0030",
+  "intent": "HO_FAILURE_HOTSPOT",
+  "blueprint_id": "HO_FAIL_DOWNTOWN_SPOT",
+  "query": {
+    "en": "Downtown urban 5G macro shows high handover failures and slow data during peak evening, with interference/signal overlap (SINR around 4 dB), weak signal (~-115 dBm), and an active alarm indicating congestion/outage over the last 3 hours.",
+    "ar": "موقع ماكرو 5G في وسط المدينة يُظهر ارتفاعاً في فشل التسليم وبطء البيانات خلال ذروة المساء، مع تداخل/تراكب إشارات (SINR نحو 4 dB) وضعف الإشارة (~‑115 dBm)، ووجود إنذار نشط يشير إلى ازدحام/انقطاع خلال آخر 3 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak-evening in the downtown NR macro: handover failures elevated for ~3h; alarm active suggesting congestion/outage; users report slow data and buffering on streaming.",
+      "message_ar": "خلال ذروة المساء في موقع NR ماكرو بوسط المدينة: فشل التسليم مرتفع منذ نحو 3 ساعات؛ إنذار نشط يشير إلى ازدحام/انقطاع؛ المستخدمون يشتكون من بطء البيانات وتعثر البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I'll start with a coverage/interference heatmap over the urban grid for the last 3h to localize the hotspot; please confirm access and the impacted cell/sector ID.",
+      "message_ar": "سأبدأ بخريطة تغطية/تداخل على شبكة المدينة لآخر 3 ساعات لتحديد البؤرة؛ يرجى تأكيد الوصول ومعرّف الخلية/القطاع المتأثر."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved. Affected sector: NR-DTWN-001-S2; neighboring sectors S1 and S3 see spillover.",
+      "message_ar": "الوصول معتمد. القطاع المتأثر: NR-DTWN-001-S2؛ القطاعات المجاورة S1 و S3 تشهد تسرب تغطية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Coverage view shows weak dominance around Main & 5th: RSRP ~-115 dBm, RSRQ ~-15 dB, SINR 3–5 dB with overlap from S1/S3; HO attempts dense with ping‑pong pockets. I propose mobility tuning on S2: lower A3 offset 2→1 dB, TTT 84→96 ms, add slight edge bias to stronger neighbors to trigger earlier, more stable HOs. Approve?",
+      "message_ar": "تعرض الخريطة ضعف الهيمنة قرب Main & 5th: RSRP ~-115 dBm، RSRQ ~-15 dB، وSINR بين 3–5 dB مع تراكب من S1/S3؛ محاولات التسليم كثيفة مع جيوب ping‑pong. أقترح ضبط حركة بين الخلايا على S2: خفض إزاحة A3 من 2 إلى 1 dB، وTTT من 84 إلى 96 ms، وإضافة انحياز طفيف على الأطراف لأقوى الجيران لتحفيز عمليات تسليم أبكر وأكثر استقراراً. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for S2; proceed.",
+      "message_ar": "موافق لـ S2؛ تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applying parameter optimization now on S2; change set: A3 offset 1 dB, TTT 96 ms, HO hysteresis 1 dB, neighbor edge bias +1 dB along the corridor. No service interruption expected.",
+      "message_ar": "أطبّق الآن ضبط المعلمات على S2؛ مجموعة التغييرات: A3 = 1 dB، TTT = 96 ms، هيستريزيس التسليم 1 dB، وانحياز حافة للجيران +1 dB على الممر. لا يُتوقع انقطاع خدمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation: HO failures per 5 minutes are dropping and ping‑pong attempts easing; no new alarms.",
+      "message_ar": "ملاحظة أولية: فشل التسليم لكل 5 دقائق يتناقص ومحاولات ping‑pong تتراجع؛ لا إنذارات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. Early counters show HO success trending up and radio link failures easing; interference remains moderate near the station, so benefits may be partial under peak load.",
+      "message_ar": "جيد. المؤشرات المبكرة تُظهر تحسناً في نجاح التسليم وتراجعاً في فشل الرابط الراديوي؛ يظل التداخل متوسطاً قرب المحطة، لذا قد يكون الأثر جزئياً تحت الحمل الأقصى."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Customer care notes streaming is stabilizing and median throughput nudged up.",
+      "message_ar": "ملاحظات خدمة العملاء: استقرار في البث وارتفاع طفيف في الوسيط العام للسرعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We'll keep watching HO failures, ping‑pong rate, and drop events across S2/S1/S3 during busy hours; if degradation returns, I'll refine neighbor biases within safe bounds.",
+      "message_ar": "سنواصل مراقبة فشل التسليم ومعدل ping‑pong وحالات السقوط عبر S2/S1/S3 خلال ساعات الازدحام؛ وإذا عادت المشكلة سأعدّل انحيازات الجيران ضمن حدود آمنة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 20 minutes, handover failures continue trending down and slow data reports are fewer; the mobility parameter optimization/config push appears effective. Let's monitor through the next busy hour.",
+      "message_ar": "بعد 20 دقيقة، يستمر فشل التسليم في الانخفاض وتقارير بطء البيانات أقل؛ تبدو عملية تحسين معلمات التنقل/دفع الإعدادات فعّالة. لنتابع المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged—we'll own monitoring through the next busy hour and report HO success, ping‑pong, and user experience after the window. If issues recur, we'll escalate to broader neighbor tuning; if adverse effects appear, we'll roll back the change set.",
+      "message_ar": "تمّ—سنتولى المراقبة خلال ساعة الذروة التالية ونوافيكم بتحديث عن نجاح التسليم وping‑pong وتجربة المستخدم بعد انتهاء الفترة. إذا عادت المشاكل سنصعّد لضبط أوسع للجيران، وإن ظهرت آثار سلبية سنعود عن مجموعة التغييرات."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "coverage_map",
+      "args": [
+        "urban",
+        "downtown_200m"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "mobility:A3_offset=1dB;TTT=96ms;HO_hyst=1dB;edge_bias_to_neighbors=+1dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a handover failure hotspot on the downtown NR macro using a coverage/interference view, which showed weak serving dominance and overlapping neighboring sectors causing interference near the corridor. Applied site parameter tuning on the affected sector by adjusting mobility offsets, time-to-trigger, hysteresis, and neighbor edge bias. Early results show handover failures decreasing and user experience improving; we will continue monitoring during the next busy hour.",
+    "ar": "تم تشخيص بؤرة لفشل التسليم في موقع NR بوسط المدينة عبر خريطة تغطية/تداخل أظهرت ضعف هيمنة الخلية وتداخل قطاعات مجاورة قرب الممر. تم تطبيق ضبط لمعلمات الموقع عبر تعديل إزاحات التنقل ووقت الاستجابة والهيستريزيس وانحياز الحافة للجيران في القطاع المتأثر. النتائج الأولية تُظهر انخفاض فشل التسليم وتحسّن تجربة المستخدم؛ سنواصل المراقبة خلال ساعة الذروة التالية."
+  }
+}

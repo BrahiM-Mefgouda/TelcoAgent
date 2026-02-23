@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0008",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban NR macro sector during peak evening shows high PRB load (~88%) with 274 users; neighbors ~41% and handovers skewed out (54 vs 20 per 5 min), indicating load imbalance under eMBB streaming demand—please assess offloading to lighter neighbors within 4h.",
+    "ar": "قطاع NR ماكرو حضري خلال ذروة المساء يظهر حمل PRB مرتفعًا (~88%) مع 274 مستخدمًا؛ الجيران ~41% والتحويلات متحيزة للخارج (54 مقابل 20 لكل 5 دقائق)، ما يشير إلى عدم توازن الحمل مع طلب eMBB (بث)—يرجى تقييم التفريغ إلى الجيران الأخف خلال 4 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell in peak evening is heavily loaded: PRB ~88% with 274 users; neighbors average ~41%. HO out is 54/5min vs in 20/5min; eMBB streaming users report slowdowns. Can you help rebalance within the next 4 hours?",
+      "message_ar": "الخلية NR الماكرو في منطقة حضرية خلال ذروة المساء محملة بشدة: PRB ~88% مع 274 مستخدمًا؛ متوسط الجيران ~41%. الخروج بالتحويل 54/5د مقابل الدخول 20/5د؛ مستخدمو eMBB (بث) يبلغون عن تباطؤ. هل يمكنك المساعدة في إعادة التوازن خلال 4 ساعات؟"
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. Plan: audit neighbor relations and load distribution for the serving sector and adjacent NR cells, then apply targeted load-balancing tuning to steer traffic to underutilized neighbors if confirmed. Please confirm change window and share the target cell ID.",
+      "message_ar": "تم الاستلام. الخطة: تدقيق علاقات الجوار وتوزيع الحمل للقطاع الخادم والخلايا NR المجاورة، ثم تطبيق ضبط موجه لموازنة الحمل لتحويل الحركة إلى الجيران الأقل انشغالًا إذا تأكد ذلك. يرجى تأكيد نافذة التغيير وتزويدي بمعرّف الخلية المستهدفة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for read and changes within the 4h window. Target cell: NRCell-ALPHA-1 (macro sector).",
+      "message_ar": "موافق على القراءة وإجراء التغييرات ضمن نافذة 4 ساعات. الخلية المستهدفة: NRCell-ALPHA-1 (قطاع ماكرو)."
+    },
+    {
+      "role": "agent",
+      "message_en": "Starting neighbor/load audit on NRCell-ALPHA-1. Snapshot: serving PRB ~88% vs neighbor average ~41%; HO out/in 54/20 per 5 min. Offload potential identified to BETA-1 and GAMMA-2 (~35–40% load). I’ll apply a modest bias toward these neighbors and slightly relax HO thresholds to reduce serving stickiness. Proceeding with your approval.",
+      "message_ar": "أبدأ تدقيق الجوار/الحمل على NRCell-ALPHA-1. الملخص: PRB للخادم ~88% مقابل متوسط الجيران ~41%؛ الخروج/الدخول بالتحويل 54/20 لكل 5 دقائق. تم تحديد إمكانية التفريغ إلى BETA-1 وGAMMA-2 (~35–40% حمل). سأطبّق انحيازًا معتدلًا لصالح هذين الجارين مع تخفيف بسيط لعَتبات التحويل لتقليل التمسك بالخادم. سأتقدم بموافقتك."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Please proceed and keep changes conservative.",
+      "message_ar": "موافق. الرجاء المتابعة والحفاظ على تغييرات محافظة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Implementing controlled load-balancing tuning: small positive bias toward BETA-1/GAMMA-2 and slightly lower HO hysteresis; no power changes. Changes committed; begin 15-minute observation for PRB, HO distribution, and session stability.",
+      "message_ar": "أطبّق ضبطًا مضبوطًا لموازنة الحمل: انحياز إيجابي صغير نحو BETA-1/GAMMA-2 وتقليل طفيف لهسترة التحويل؛ دون تغييرات قدرة. تم اعتماد التغييرات؛ نبدأ مراقبة لمدة 15 دقيقة لـ PRB وتوزيع التحويل واستقرار الجلسات."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 15 minutes: serving PRB down to ~74%, users ~238; HO out/in now ~42/31 per 5 min; streaming sessions look steadier.",
+      "message_ar": "بعد 15 دقيقة: PRB للخادم انخفض إلى ~74%، المستخدمون ~238؛ الخروج/الدخول بالتحويل ~42/31 لكل 5 دقائق؛ جلسات البث أكثر استقرارًا."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good initial shift. Holding parameters to avoid oscillation. Continue observing for another 30–45 minutes; please flag if PRB rises above 80% again.",
+      "message_ar": "تحوّل أولي جيد. سنُبقي المعلمات لتجنب التذبذب. سنواصل المراقبة لمدة 30–45 دقيقة إضافية؛ يرجى التنبيه إذا عاد PRB فوق 80%."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 40 minutes total: serving PRB stabilizing at 70–72%; neighbor loads up by ~8–10%; RSRQ improved to -11 dB; no drop spikes.",
+      "message_ar": "بعد 40 دقيقة إجمالًا: PRB للخادم مستقر عند 70–72%؛ أحمال الجيران ارتفعت ~8–10%؛ تحسن RSRQ إلى -11 dB؛ لا ارتفاعات في السقوط."
+    },
+    {
+      "role": "agent",
+      "message_en": "Improvement confirmed. I’ll keep tracking PRB, HO balance, and user experience through the busy period and prepare a brief impact note on the offloaded share.",
+      "message_ar": "تم تأكيد التحسن. سأواصل تتبع PRB وتوازن التحويل وتجربة المستخدم خلال فترة الانشغال وأُعد ملخصًا موجزًا لتأثير نسبة المرور المُفرَّغ."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Observed PRB utilization reduced from ~88% to ~71% with handovers more balanced. Thanks for the neighbor audit and load-balancing parameter tuning. Let’s monitor over the next busy hour.",
+      "message_ar": "نلاحظ أن استعمال PRB انخفض من ~88% إلى ~71% مع توازن أفضل في التحويلات. شكرًا على تدقيق الجوار وضبط معلمات موازنة الحمل. لِنُراقب خلال ساعة الذروة القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We’ll own monitoring for the next busy hour and update with PRB/HO distribution and user-experience trends afterward. If congestion resurges, we’ll escalate by reverting the tuning and considering a broader redistribution; if instability or ping‑pong appears, we will roll back to baseline immediately.",
+      "message_ar": "تم. سنتولى المراقبة خلال ساعة الذروة القادمة وسنوافيك بتحديث عن PRB وتوزيع التحويل واتجاهات تجربة المستخدم بعد ذلك. إذا عاد الازدحام سنصعّد عبر إعادة الضبط والنظر في توزيع أوسع؛ وإذا ظهرت عدم استقرار أو تبديل متأرجح فسنعود فورًا إلى الإعدادات الأساسية."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "NRCell-ALPHA-1",
+        "all"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "LB_bias:+3dB;HO_hyst:-1dB;toward:BETA-1,GAMMA-2;guardrails:on"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed load imbalance on an urban NR macro cell during peak evening: serving PRB at ~88% while neighbors averaged ~41%, with handovers skewed outward. Conducted a neighbor audit and applied site parameter tuning to bias traffic toward underutilized neighbors, bringing PRB down to ~70–74% and improving session stability. We will monitor during the next busy hour and adjust only if congestion or instability returns.",
+    "ar": "تم تشخيص عدم توازن في الحمل على خلية NR ماكرو حضرية خلال ذروة المساء: PRB للخادم ~88% بينما متوسط الجيران ~41% مع تحيز التحويلات للخارج. أُجري تدقيق للجوار وتم تطبيق ضبط لمعلمات الموقع لتوجيه الحركة نحو الجيران الأقل انشغالًا، مما خفّض PRB إلى ~70–74% وحسّن استقرار الجلسات. سنراقب خلال ساعة الذروة القادمة ونعدل فقط إذا عاد الازدحام أو ظهرت عدم استقرار."
+  }
+}

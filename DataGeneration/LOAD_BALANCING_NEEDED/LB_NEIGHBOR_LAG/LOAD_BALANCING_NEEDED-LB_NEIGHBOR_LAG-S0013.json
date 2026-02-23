@@ -1,0 +1,106 @@
+{
+  "id": "LOAD_BALANCING_NEEDED-LB_NEIGHBOR_LAG-S0013",
+  "intent": "LOAD_BALANCING_NEEDED",
+  "blueprint_id": "LB_NEIGHBOR_LAG",
+  "query": {
+    "en": "Urban 5G NR macro cell shows 89% resource use with 247 users during peak evening; neighbors average 63% and handovers out 50 vs in 18, pointing to load imbalance to address within the next 4 hours.",
+    "ar": "الموقع الحضري 5G NR (ماكرو) يُظهر استخدام موارد 89% مع 247 مستخدماً خلال ذروة المساء؛ متوسط الجيران 63% ونقلات الخروج 50 مقابل الدخول 18، ما يشير إلى عدم توازن الحمل ينبغي معالجته خلال 4 ساعات."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Peak evening on urban 5G NR macro cell NR-URB-MACRO-110: PRB ~89%, 247 users; neighbors avg ~63%; HO out 50/5min vs in 18/5min; RSRQ -13 dB, SINR 8 dB; no alarms in last 4h. Heavy eMBB streaming.",
+      "message_ar": "خلال ذروة المساء على خلية ماكرو 5G NR حضرية NR-URB-MACRO-110: استخدام PRB ~89%، 247 مستخدماً؛ متوسط الجيران ~63%؛ تحويلات خروج 50/5د مقابل دخول 18/5د؛ RSRQ ‏-13 dB وSINR ‏8 dB؛ لا إنذارات خلال آخر 4 ساعات. حركة eMBB (بث) كثيفة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Clear load imbalance. I will start by reviewing neighbor relations and recent loads to confirm distribution gaps. Please confirm access to audit NR-URB-MACRO-110 and its NR neighbors for the last 4h; any blackout or ongoing work?",
+      "message_ar": "هناك عدم توازن حمل واضح. سأبدأ بمراجعة علاقات الجوار والأحمال الأخيرة لتأكيد فجوات التوزيع. يرجى تأكيد الإذن للتدقيق على NR-URB-MACRO-110 وجيرانها على NR لآخر 4 ساعات؛ هل توجد فترات حجب أو أعمال جارية؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Access approved; no blackouts or ongoing work on this cluster.",
+      "message_ar": "تمت الموافقة على الوصول؛ لا توجد فترات حجب أو أعمال جارية على هذا العنقود."
+    },
+    {
+      "role": "agent",
+      "message_en": "Neighbor/HO audit results: adjacent cells (NR-URB-MACRO-112/114/116) at 58–66% PRB; serving cell has +3 dB CIO toward the cluster and A3 TTT 160 ms; two NR neighbors lacked load-based mobility relations. HO out skews to farther cells. Proposal: normalize CIO to 0 dB, reduce A3 TTT to 80 ms, enable load-based HO to 112/114/116, and add missing relations. Expect 10–15% load shift. Approve?",
+      "message_ar": "نتائج تدقيق الجوار والتحويلات: الخلايا المجاورة (NR-URB-MACRO-112/114/116) عند 58–66% PRB؛ الخلية الخادمة لديها CIO ‏+3 dB نحو العنقود وA3 TTT ‏160 ms؛ علاقتا جوار NR مفقودتان لمعايرة التنقل المعتمد على الحمل. تحويلات الخروج تميل إلى خلايا أبعد. الاقتراح: ضبط CIO إلى 0 dB، خفض A3 TTT إلى 80 ms، تفعيل التحويل المعتمد على الحمل نحو 112/114/116، وإضافة العلاقات الناقصة. متوقع تحويل 10–15% من الحمل. الموافقة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with those parameter changes.",
+      "message_ar": "تمت الموافقة على المضي بهذه التغييرات في المعاملات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Plan: apply changes on NR-URB-MACRO-110 only; no power changes. Target neighbors: 112/114/116. Immediate execution; rollback would restore current CIO/TTT and disable load-based HO. Proceed now?",
+      "message_ar": "الخطة: تطبيق التغييرات على NR-URB-MACRO-110 فقط؛ دون تغييرات طاقة. الجيران المستهدفون: 112/114/116. تنفيذ فوري؛ التراجع سيستعيد قيم CIO/TTT الحالية ويعطل التحويل المعتمد على الحمل. ننفذ الآن؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed now.",
+      "message_ar": "نفّذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: CIO set to 0 dB, A3 TTT 80 ms, load-based HO enabled to 112/114/116, and missing relations added. Committed successfully. Begin 15-minute observation; please share initial KPIs when available.",
+      "message_ar": "تم تطبيق التحسين: ضبط CIO إلى 0 dB، وA3 TTT إلى 80 ms، وتفعيل التحويل المعتمد على الحمل نحو 112/114/116، وإضافة العلاقات المفقودة. تم الاعتماد بنجاح. نبدأ مراقبة لمدة 15 دقيقة؛ يرجى مشاركة المؤشرات الأولية عند توفرها."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes: PRB down to ~80–82%, HO in up to ~29–32/5min, served users ~210, RSRQ improved by ~1 dB. No error spikes observed.",
+      "message_ar": "بعد ~15 دقيقة: PRB انخفض إلى ~80–82%، تحويلات الدخول ارتفعت إلى ~29–32/5د، المستخدمون المخدومون ~210، وتحسن RSRQ بنحو ~1 dB. لا ارتفاعات أخطاء ملحوظة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early effect. I will keep watching during the busy period and expect further alignment toward neighbor averages if trends hold. Any site-specific notes to consider?",
+      "message_ar": "تأثير مبكر جيد. سأواصل المراقبة خلال فترة الانشغال وأتوقع مزيداً من التقارب نحو متوسطات الجيران إذا استمرت الاتجاهات. هل توجد ملاحظات خاصة بالموقع يجب أخذها بالاعتبار؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement sustained: PRB now ~77–79% and handover imbalance reduced. The action taken was load balancing parameter optimization on NR-URB-MACRO-110. Recommend monitoring over the next 2–4 hours.",
+      "message_ar": "التحسن مستمر: أصبح PRB الآن ~77–79% وتقلص عدم توازن التحويلات. الإجراء المتخذ كان تحسين معاملات موازنة الحمل على NR-URB-MACRO-110. أوصي بالمراقبة خلال الساعتين إلى الأربع ساعات القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will own the monitoring for the next 2–4 hours and report updated load, handover rates, and user distribution. If adverse effects appear, we will revert the changes; if congestion returns, we will escalate to extend balancing across additional neighbors.",
+      "message_ar": "تم التأكيد. سنتولى المراقبة خلال الساعتين إلى الأربع ساعات المقبلة ونقدم تقريراً بتحديثات الحمل ومعدلات التحويل وتوزيع المستخدمين. إذا ظهرت آثار سلبية فسنُرجع التغييرات؛ وإذا عاد الازدحام فسنصعّد لتوسيع الموازنة عبر جيران إضافيين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "neighbor_audit",
+      "args": [
+        "cell_id",
+        "neighbors"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 2
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed a load imbalance on an urban 5G NR macro cell: the serving cell was overutilized versus neighbors due to biased mobility and missing relations. After a neighbor audit, we tuned site parameters by normalizing offsets, shortening handover timing, enabling load-based handover, and adding missing neighbors to redistribute traffic. Early results show PRB utilization dropping toward neighbor levels; we will continue monitoring and adjust if needed.",
+    "ar": "تم تشخيص عدم توازن حمل على خلية ماكرو 5G NR حضرية: الخلية الخادمة كانت مرتفعة الاستخدام مقارنة بالجيران بسبب انحياز في التنقل وعلاقات ناقصة. بعد تدقيق الجوار، قمنا بضبط معاملات الموقع عبر تطبيع الانحيازات، تقصير زمن التحويل، تفعيل التحويل المعتمد على الحمل، وإضافة الجيران المفقودين لإعادة توزيع الحركة. تظهر النتائج الأولية انخفاض استخدام PRB باتجاه مستويات الجيران؛ سنواصل المراقبة ونُجري تعديلات عند الحاجة."
+  }
+}

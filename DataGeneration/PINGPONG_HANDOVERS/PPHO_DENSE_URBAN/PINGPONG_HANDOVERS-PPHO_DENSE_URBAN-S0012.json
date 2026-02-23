@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0012",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Urban NR macro over the last 4h shows ~16% ping-pong handovers, HO success ~82.6%, high attempts (148/5min), SINR ~6 dB, and slow data during eMBB streaming—please investigate and stabilize mobility.",
+    "ar": "موقع ماكرو NR حضري خلال آخر 4 ساعات يُظهر نحو 16% تبدلات سريعة بين الخلايا مع نجاح تسليم ~82.6% ومحاولات مرتفعة (148/5د)، وSINR ~6 dB وبطء في البيانات أثناء بث eMBB—يرجى التحقيق وتثبيت الحركة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Off-peak last 4h on an urban NR macro cell, users reported slow data during eMBB streaming; HO success ~82.6%, ping-pong ~16%, RSRP ~-96 dBm, RSRQ -11 dB, SINR ~6 dB, no alarms.",
+      "message_ar": "خلال آخر 4 ساعات وخارج الذروة على موقع ماكرو حضري NR، أبلغ المستخدمون عن بطء في البيانات أثناء بث eMBB؛ نجاح التسليم ~82.6%، التبدلات السريعة ~16%، RSRP ~-96 dBm، RSRQ -11 dB، SINR ~6 dB، ولا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by pulling OSS counters for the past 4h on the impacted cell to baseline mobility and load. Please confirm the cell ID and approve read access.",
+      "message_ar": "سأبدأ بسحب عدادات الشبكة لآخر 4 ساعات للخلية المتأثرة لعمل خط أساس للحركة والحمل. يرجى تأكيد معرّف الخلية والموافقة على الوصول للقراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID is NR-41123-1; access approved for the 4h window.",
+      "message_ar": "معرّف الخلية هو NR-41123-1؛ الوصول معتمد ضمن نافذة 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Counters reviewed: HO success 82.6%, HO attempts 148/5min, ping-pong 16%; PRB ~85%, 242 users, moderate radio quality (SINR 6 dB). Next, I will analyze HO time series by neighbor to pinpoint ping-pong pairs. Approve?",
+      "message_ar": "تمت مراجعة العدادات: نجاح التسليم 82.6%، محاولات التسليم 148/5د، التبدلات السريعة 16%؛ إشغال الموارد ~85%، 242 مستخدمًا، وجود جودة راديوية متوسطة (SINR 6 dB). التالي: سأحلّل السلاسل الزمنية لعمليات التسليم حسب الجيران لتحديد الأزواج المسببة للتبدلات؛ هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series shows frequent back-and-forth between NR-41123-1 and neighbors NR-41123-2/3 at the cell edge. Current mobility: A3 offset 0 dB, TTT 145 ms, hysteresis 3 dB. I propose targeted tuning: raise TTT to 220 ms, increase hysteresis to 4 dB, and add +1 dB serving bias against 2/3. Proceed?",
+      "message_ar": "تُظهر السلاسل الزمنية تبادلاً متكرراً بين NR-41123-1 والجيران NR-41123-2/3 خاصة على الحواف. إعدادات الحركة الحالية: إزاحة A3 = 0 dB، TTT = 145 ms، الهسترة = 3 dB. أقترح ضبطاً موجهاً: رفع TTT إلى 220 ms، زيادة الهسترة إلى 4 dB، وإضافة +1 dB انحياز لصالح الخلية مقابل 2/3. هل نمضي؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed with the tuning now; low-traffic window is fine.",
+      "message_ar": "تفضل بالمضي بالتعديل الآن؛ نافذة الحمل المنخفض مناسبة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Applied mobility changes: TTT 145→220 ms, hysteresis 3→4 dB, +1 dB serving bias vs NR-41123-2/3. Change validated; starting live monitoring of HO outcomes and user throughput.",
+      "message_ar": "تم تطبيق تغييرات الحركة: TTT 145→220 ms، الهسترة 3→4 dB، وانحياز +1 dB لصالح الخلية مقابل NR-41123-2/3. تم التحقق من التغيير؛ أبدأ مراقبة نتائج التسليم ومعدل نقل المستخدمين مباشرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Early observation: rapid back-and-forth events are down and mid-cell users see less buffering; no new alerts.",
+      "message_ar": "ملاحظة أولية: انخفضت أحداث التبدل السريع ويواجه مستخدمو منتصف الخلية تقطّعاً أقل؛ لا تنبيهات جديدة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good. I will track neighbor-wise HO distribution and ping-pong rate, and verify load remains stable. I will share deltas in success rate and p50 throughput.",
+      "message_ar": "جيد. سأراقب توزيع التسليم لكل جار ومعدل التبدل السريع، وأتحقق من بقاء الحمل مستقراً. سأشارك الفروقات في معدل النجاح ووسيط السرعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer rapid handovers and smoother sessions; the site parameter tuning looks effective. Let’s monitor over the next 2–4 hours for sustained improvement.",
+      "message_ar": "نرى عدداً أقل من التبدلات السريعة وجلسات أكثر سلاسة؛ يبدو أن ضبط معلمات الموقع فعّال. لنراقب خلال الساعتين إلى الأربع ساعات القادمة لضمان الاستدامة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours, tracking ping-pong rate, HO success, and p50 throughput, and will update you afterward. If metrics regress, we will roll back the tuning and escalate for deeper RF investigation.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع ساعات القادمة، متابعين معدل التبدل السريع ونجاح التسليم ووسيط السرعة، وسنحدّثك بعدها. إذا تراجعت المؤشرات سنرجع الضبط ونصعّد لتحقيق لاسلكي أعمق."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-41123-1",
+        "4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-41123-1",
+        "HO",
+        "4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "TTT 145->220 ms; hysteresis 3->4 dB; +1 dB serving bias vs NR-41123-2/3"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 2,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed urban NR macro ping-pong handovers by reviewing OSS counters and HO time series, confirming frequent back-and-forth with neighbors NR-41123-2/3 under moderate radio quality and high HO attempts. Mitigation was applied via site parameter tuning: increased time-to-trigger, raised hysteresis, and added a slight serving bias to reduce ping-pong. Early results show fewer rapid handovers and a better user experience, with continued monitoring in place.",
+    "ar": "تم تشخيص التبدلات السريعة في موقع ماكرو NR حضري عبر مراجعة عدادات الشبكة والسلاسل الزمنية لعمليات التسليم، مما أكد تبادلاً متكرراً مع الجيران NR-41123-2/3 ضمن جودة راديوية متوسطة ومحاولات تسليم مرتفعة. تم تطبيق التخفيف عبر ضبط معلمات الموقع برفع زمن التفعيل وزيادة الهسترة وإضافة انحياز طفيف لصالح الخلية لتقليل التبدلات السريعة. تظهر النتائج الأولية انخفاضاً في التبدلات السريعة وتحسناً في تجربة المستخدم، مع استمرار المراقبة."
+  }
+}

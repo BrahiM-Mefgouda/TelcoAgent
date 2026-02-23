@@ -1,0 +1,115 @@
+{
+  "id": "THROUGHPUT_DROP_DL-DL_DROP_INDOOR_CAP-S0006",
+  "intent": "THROUGHPUT_DROP_DL",
+  "blueprint_id": "DL_DROP_INDOOR_CAP",
+  "query": {
+    "en": "Indoor NR micro cell has a downlink throughput drop to ~10 Mbps during off-peak with 89% resource use and a congestion alarm active.",
+    "ar": "خلية NR داخلية (مايكرو) تُظهر هبوطاً في معدل التنزيل إلى ~10 ميجابت/ث خارج أوقات الذروة مع إشغال موارد 89% ووجود إنذار ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Indoor NR micro cell shows an off-peak downlink drop: PRB ~89%, 176 users, DL ≈10 Mbps, p95 scheduling latency ~65 ms. Congestion alarm present; office wing users report streaming buffering.",
+      "message_ar": "الخلية NR الداخلية (مايكرو) تُظهر هبوطاً في السعة أثناء خارج أوقات الذروة: إشغال الموارد ~89%، 176 مستخدماً، سرعة تنزيل ≈10 ميجابت/ث، وزمن جدولة p95 ~65 مللي ثانية. يوجد إنذار ازدحام؛ مستخدمو جناح المكتب يبلّغون عن تقطّع في البث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking OSS counters for the last 4 hours, then plot downlink KPIs and, if confirmed, apply targeted parameter optimization to ease PRB pressure on this indoor micro site. Please share the cell ID and approve access.",
+      "message_ar": "سأبدأ بفحص عدادات النظام للإطار الزمني آخر 4 ساعات، ثم عرض مؤشرات التنزيل، وإذا تأكدت المشكلة سأطبق تحسيناً موجهاً للمعلمات لتخفيف ضغط الموارد في هذا الموقع الداخلي المايكرو. الرجاء تزويدي بمعرّف الخلية والموافقة على الوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR_Micro_Indoor_23F_A. Access approved.",
+      "message_ar": "معرّف الخلية: NR_Micro_Indoor_23F_A. تم اعتماد الوصول."
+    },
+    {
+      "role": "agent",
+      "message_en": "OSS check complete: RF looks clean (BLER ~4–5%), but load is sustained—PRB 88–92%, users peak ~180, p95 scheduling latency 60–70 ms. This aligns with congestion rather than radio faults. Proceeding to extract downlink throughput timeseries for the last 4 hours to profile dips and variance.",
+      "message_ar": "تم فحص النظام: طبقة الراديو سليمة تقريباً (BLER ~4–5%)، لكن الحمل مرتفع ومستمر—إشغال الموارد 88–92%، وعدد المستخدمين يصل ~180، وزمن جدولة p95 بين 60–70 مللي ثانية. يتوافق ذلك مع ازدحام وليس أعطال راديوية. سأستخرج سلسلة زمنية لسرعة التنزيل لآخر 4 ساعات لتعرّف الهبوط والتذبذب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Okay, proceed.",
+      "message_ar": "حسناً، تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Timeseries results: median DL 9–12 Mbps with periodic 5–10 min dips; eMBB traffic dominates (streaming). No error bursts seen. I propose parameter optimization on this cell to improve scheduling efficiency and free PRBs. Do you approve?",
+      "message_ar": "نتائج السلسلة الزمنية: وسطي التنزيل 9–12 ميجابت/ث مع هبوطات دورية كل 5–10 دقائق؛ حركة eMBB هي السائدة (بث). لا توجد اندفاعات أخطاء. أقترح تحسين معلمات هذه الخلية لرفع كفاءة الجدولة وتحرير الموارد. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for parameter optimization on NR_Micro_Indoor_23F_A.",
+      "message_ar": "موافق على تحسين المعلمات للخلية NR_Micro_Indoor_23F_A."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied: adjusted downlink scheduling priorities for active flows, trimmed control overhead, and tightened queuing thresholds; MCS kept within BLER guard. Change limited to this cell with safe rollback. Starting a 15-minute observation.",
+      "message_ar": "تم التطبيق: تعديل أولويات جدولة التنزيل للتدفقات النشطة، تقليل الحمل التحكمي، وتشديد عتبات الطوابير؛ مع إبقاء MCS ضمن حدود BLER. التغيير محصور بهذه الخلية مع إمكانية رجوع آمن. أبدأ مراقبة لمدة 15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After 5 minutes, user DL is ~18–22 Mbps and p95 scheduling latency is ~40 ms; streaming complaints are decreasing.",
+      "message_ar": "بعد 5 دقائق، سرعة تنزيل المستخدم ~18–22 ميجابت/ث وزمن جدولة p95 ~40 مللي ثانية؛ شكاوى البث تتناقص."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early response. I will continue sampling KPIs and user counts; please flag any residual buffering in the office wing.",
+      "message_ar": "استجابة مبكرة جيدة. سأواصل أخذ عينات من المؤشرات وعدد المستخدمين؛ يرجى الإبلاغ عن أي تقطّع متبقٍ في جناح المكتب."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement is holding: average user throughput is near 20 Mbps and scheduling delays are trending down after the parameter optimization. Let’s monitor over the next 2–4 hours.",
+      "message_ar": "التحسن مستمر: متوسط سرعة المستخدم حوالي 20 ميجابت/ث وتأخيرات الجدولة في اتجاه هابط بعد تحسين المعلمات. لنراقب خلال الساعتين إلى الأربع القادمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and share an update afterward. If congestion resurges, we will escalate to neighbor coordination; if regressions appear, we will roll back the change safely.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع القادمتين وسنشارك تحديثاً بعدها. إذا عاد الازدحام سنصعّد إلى تنسيق مع الخلايا المجاورة؛ وإذا ظهرت تراجعات سنعود عن التغيير بأمان."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_Micro_Indoor_23F_A",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_Micro_Indoor_23F_A",
+        "DL",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "DL scheduler weights; PRB allocation; queue thresholds"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an indoor NR micro cell with downlink throughput degradation driven by high PRB utilization and elevated scheduling delay while BLER remained normal. Reviewed OSS counters and the DL timeseries, then applied targeted site parameter tuning to improve scheduler efficiency and PRB availability. Post-change, throughput and latency improved; short-term monitoring is in place.",
+    "ar": "تم تشخيص خلية NR داخلية (مايكرو) تعاني من انخفاض سرعة التنزيل بسبب ارتفاع إشغال الموارد وزمن الجدولة مع بقاء BLER طبيعياً. تم فحص عدادات النظام والسلسلة الزمنية للتنزيل، ثم تطبيق ضبط موجه لمعلمات الموقع لتحسين كفاءة المجدول وتحرير الموارد. بعد التعديل تحسنت السرعة والزمن، وتم البدء بمراقبة قصيرة المدى."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_SUBURBAN_BORDER-S0002",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_SUBURBAN_BORDER",
+  "query": {
+    "en": "Suburban 5G NR macro over the last 5 hours shows elevated ping-pong handovers (21%) and ~85% handover success during peak eMBB usage with weak edge signal (RSRP ~-108 dBm) and high load (~81% PRB).",
+    "ar": "موقع 5G NR ماكرو في منطقة سكنية فرعية خلال آخر 5 ساعات يُظهر ارتفاعاً في التسليمات الراجعة (21%) ونسبة نجاح تسليم تقارب 85% أثناء ذروة استخدام eMBB مع إشارة طرفية ضعيفة (RSRP ≈ -108 dBm) وحمل مرتفع (~81% PRB)."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Suburban 5G NR macro border cell shows elevated ping-pong over the last 5h during peak eMBB; HO success ~85%, ping-pong 21%, RSRP ~-108 dBm, RSRQ -12 dB, PRB ~81%, 330 users. No alarms.",
+      "message_ar": "خلية حدودية 5G NR ماكرو في منطقة سكنية فرعية تُظهر ارتفاعاً في التسليمات الراجعة خلال آخر 5 ساعات وفي ذروة حركة eMBB؛ نجاح التسليم ~85%، معدل الارتداد 21%، RSRP ≈ -108 dBm، RSRQ -12 dB، إشغال PRB ~81%، 330 مستخدماً. لا توجد إنذارات."
+    },
+    {
+      "role": "agent",
+      "message_en": "I’ll lead the diagnosis: first pull last 5h mobility and neighbor counters, then validate HO stability before tuning. Please share the cell ID and confirm access.",
+      "message_ar": "سأقود التشخيص: سأجمع أولاً عدّادات التنقل والجيران لآخر 5 ساعات ثم أتحقق من استقرار التسليم قبل الضبط. يرجى مشاركة معرف الخلية وتأكيد السماح بالوصول."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-Cell-78421; you have approval for read access.",
+      "message_ar": "معرف الخلية: NR-Cell-78421؛ لديك موافقة وصول للقراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Collected 5h counters: heavy A3 back-and-forth with neighbors NR-Cell-78422 and 78390; ~21% short-cycle returns (<60 s), HO failures ~10%. Current settings: A3 offset 2 dB, hysteresis 0 dB, TTT 275 ms. Next, I’ll chart HO and ping-pong history per neighbor.",
+      "message_ar": "تم جمع عدّادات آخر 5 ساعات: عودة A3 مرتفعة مع الجارين NR-Cell-78422 و78390؛ ~21% عودات قصيرة (<60 ثانية)، فشل التسليم ~10%. الإعدادات الحالية: إزاحة A3 = 2 dB، هيسترة = 0 dB، TTT = 275 ms. بعد ذلك سأعرض تاريخ التسليم والارتداد لكل جار."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to proceed with the time-trend check.",
+      "message_ar": "موافقة على متابعة فحص الاتجاه الزمني."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series over 5h confirms peak spikes: 70% of ping-pong involves 78422/78390 with returns in 30–60 s; HO success dips to 83–86%. Pattern matches ping-pong under weak edge signal and high load. I propose adding 2 dB hysteresis, raising TTT to 360 ms, and +1 dB outbound margin toward those neighbors. Approve?",
+      "message_ar": "السلاسل الزمنية خلال 5 ساعات تؤكد ارتفاعات في الذروة: 70% من الارتداد يخص 78422/78390 مع عودات خلال 30–60 ثانية؛ نجاح التسليم ينخفض إلى 83–86%. النمط يتوافق مع Ping‑Pong تحت تغطية طرفية ضعيفة وحمل مرتفع. أقترح إضافة هيسترة 2 dB، ورفع TTT إلى 360 ms، وهامش خروج +1 dB نحو هذين الجارين. هل الموافقة متاحة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to apply the mobility tuning now.",
+      "message_ar": "موافقة على تطبيق ضبط التنقل الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied: hysteresis 2 dB, TTT 360 ms, neighbor margin +1 dB to 78422/78390; A3 base offset unchanged. No other edits. I’ll watch counters for early effect; please share any observation after 10–15 minutes.",
+      "message_ar": "تم تطبيق التغييرات: هيسترة 2 dB، TTT 360 ms، هامش جار +1 dB لـ 78422/78390؛ مع إبقاء إزاحة A3 الأساسية دون تغيير. لا تعديلات أخرى. سأراقب العدّادات للأثر الأولي؛ يرجى مشاركة أي ملاحظة بعد 10–15 دقيقة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "After ~15 minutes, ping-pong is down to ~11–12% and HO success trending toward 90%; short-cycle returns reduced on 78422/78390.",
+      "message_ar": "بعد ~15 دقيقة، انخفض الارتداد إلى ~11–12% وارتفع نجاح التسليم باتجاه 90%؛ تقلّصت العودات القصيرة على 78422/78390."
+    },
+    {
+      "role": "agent",
+      "message_en": "Good early trend. I’ll continue observing under higher load; a slight throughput uplift is expected as oscillations drop. Please flag any residual symptoms.",
+      "message_ar": "اتجاه مبكر جيد. سأواصل المراقبة عند الحمل الأعلى؛ من المتوقع تحسّن طفيف في الإنتاجية مع تراجع الاهتزازات. يرجى الإبلاغ عن أي أعراض متبقية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement holds: ping-pong around 10% and HO success near 90% since the mobility parameter optimization. Let’s monitor through the next busy hour.",
+      "message_ar": "التحسّن مستمر: الارتداد يقارب 10% ونجاح التسليم قريب من 90% منذ تحسين معلمات التنقل. لنواصل المراقبة خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We’ll own monitoring through the next busy hour and update you afterward. If regressions appear, we’ll roll back the mobility tweak; if instability persists, we’ll escalate for targeted neighbor retuning and a field check.",
+      "message_ar": "سنتولى المراقبة خلال ساعة الذروة التالية ونوافيك بالتحديث بعدها. إذا ظهرت انتكاسات سنرجع الضبط السابق؛ وإن استمر عدم الاستقرار سنصعّد لإعادة ضبط الجيران بشكل مستهدف وفحص ميداني."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-Cell-78421",
+        "5h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-Cell-78421",
+        "HO",
+        "5h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "hysteresis:+2dB; TTT:360ms; neighbor_margin(78422,78390):+1dB"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Investigated elevated ping-pong on a suburban 5G NR macro by reviewing last 5h mobility counters and handover time series, isolating two border neighbors driving short-cycle returns during peak load. Applied site parameter tuning—added hysteresis, modest TTT increase, and a small neighbor margin—to stabilize mobility. Early KPIs show reduced ping-pong and improved handover success; monitoring continues through the next busy hour.",
+    "ar": "تم تشخيص ارتفاع التسليمات الراجعة في موقع 5G NR ماكرو بمنطقة سكنية فرعية عبر مراجعة عدّادات التنقل والسلاسل الزمنية للتسليم خلال آخر 5 ساعات، ما حدد جارين حدوديين يسببان عودات قصيرة في الذروة. تم تنفيذ ضبط معلمات على الموقع بإضافة هيسترة، ورفع طفيف لـ TTT، وهوامش بسيطة تجاه الجيران لتحقيق استقرار الحركة. تُظهر المؤشرات المبكرة انخفاض الارتداد وتحسّن نجاح التسليم؛ وستستمر المراقبة خلال ساعة الذروة التالية."
+  }
+}

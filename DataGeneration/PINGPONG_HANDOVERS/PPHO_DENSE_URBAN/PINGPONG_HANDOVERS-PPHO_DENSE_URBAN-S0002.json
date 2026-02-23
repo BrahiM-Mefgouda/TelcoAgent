@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0002",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban NR macro cell shows high ping-pong handovers (24%) with ~83% handover success, weak serving signal (-109 dBm), and heavy resource use (~89%) during the shoulder period with eMBB streaming; investigate and optimize mobility.",
+    "ar": "موقع NR ماكرو حضري كثيف يظهر معدل تبديل متبادل مرتفع (24%) مع نجاح تسليم يقارب 83% وإشارة خدمة ضعيفة (-109 dBm) واستخدام موارد مرتفع (~89%) خلال فترة الكتف مع بث eMBB؛ نحتاج للتحقق وتحسين الحركة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban NR macro cell NR-12345-1 has elevated ping-pong handovers ~24% over the last 4 hours during the shoulder period; users report session bouncing, mostly streaming.",
+      "message_ar": "الخلية NR-12345-1 (ماكرو حضرية) لديها تبديل متبادل مرتفع ~24% خلال آخر 4 ساعات في فترة الكتف؛ المستخدمون يشتكون من قفزات في الجلسات، معظمها بث."
+    },
+    {
+      "role": "agent",
+      "message_en": "I will start by checking the last 4 hours of mobility counters for NR-12345-1 to confirm severity and neighbor involvement; please approve read-only access.",
+      "message_ar": "سأبدأ بفحص مؤشرات الحركة لآخر 4 ساعات للخلية NR-12345-1 لتأكيد الشدة والعلاقات المجاورة المتورطة؛ الرجاء الموافقة على وصول للقراءة فقط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. No site alarms; traffic mix is eMBB.",
+      "message_ar": "موافق. لا توجد إنذارات في الموقع؛ المزيج المروري eMBB."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled recent counters for NR-12345-1 (4h): HO success 83.3%, ping-pong 24%, HO failures 11%, PRB ~89%, median RSRP -109 dBm, RSRQ -8 dB, SINR 13 dB. This suggests aggressive handovers under load. Next, I will analyze HO time series by neighbor to isolate the back-and-forth pairs; approve?",
+      "message_ar": "تمت مراجعة المؤشرات لآخر 4 ساعات للخلية NR-12345-1: نجاح التسليم 83.3%، التبديل المتبادل 24%، إخفاقات التسليم 11%، إشغال الموارد ~89%، RSRP وسطي -109 dBm، RSRQ -8 dB، وSINR 13 dB. هذا يوحي بتسليمات عدوانية تحت الحمل. الخطوة التالية: تحليل السلاسل الزمنية للتسليم حسب الجوار لعزل الأزواج المتبادلة؛ هل توافقون؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved. Field note: dense urban grid with overlapping macros; no special events.",
+      "message_ar": "موافق. ملاحظة ميدانية: شبكة حضرية كثيفة مع تداخل ماكرو؛ لا فعاليات خاصة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series complete: spikes every 5–10 min; 38% of returns within 60 s. Dominant pair NR-12345-1 ↔ NR-12346-1 (62% of ping-pong), secondary with NR-12347-1. Triggers cluster at RSRP −108 to −110 dBm; current thresholds appear a bit aggressive. HO success remains stable when dwell time increases.",
+      "message_ar": "اكتمل تحليل السلاسل الزمنية: ذروات كل 5–10 دقائق؛ 38% من العودات خلال 60 ثانية. الزوج المهيمن NR-12345-1 ↔ NR-12346-1 (62% من التبديل المتبادل)، وثانوي مع NR-12347-1. التفريغ يحدث عند RSRP بين −108 و−110 dBm؛ العتبات الحالية تبدو عدوانية قليلاً. نجاح التسليم يبقى مستقراً مع زيادة زمن المكوث."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Understood. No hardware or backhaul issues observed. Proceed if the change is low-risk.",
+      "message_ar": "مفهوم. لا مشاكل عتادية أو نقل خلفي. تفضل إذا كان التغيير منخفض المخاطر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Proposed mitigation: increase time-to-trigger to 128 ms, raise hysteresis to 4 dB, and +1 dB on the A3 threshold for the top two neighbor relations, plus enforce a 2 s minimum dwell on target. Expected to cut ping-pong by ~30–40% with minimal impact on success. Request approval to implement now.",
+      "message_ar": "الاقتراح: زيادة زمن البدء إلى 128 مللي ثانية، رفع الهسترة إلى 4 ديسيبل، وزيادة عتبة A3 بمقدار 1 ديسيبل لأقوى علاقتين، مع فرض حد أدنى 2 ثانية للبقاء على الخلية الهدف. متوقع خفض التبديل المتبادل ~30–40% بأثر طفيف على النجاح. أطلب الموافقة على التنفيذ الآن."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to implement now.",
+      "message_ar": "موافقة على التنفيذ الآن."
+    },
+    {
+      "role": "agent",
+      "message_en": "Changes applied on NR-12345-1 for neighbors NR-12346-1/NR-12347-1; commit successful. Quick check (10 min): ping-pong trending 14–16%, HO success ~85%, failures not increased, p50 throughput ~28 Mbps. I will keep watching.",
+      "message_ar": "تم تطبيق ضبط المعلمات على NR-12345-1 لعلاقات NR-12346-1/NR-12347-1؛ تم التثبيت بنجاح. فحص سريع (10 دقائق): التبديل المتبادل يتجه إلى 14–16%، نجاح التسليم ~85%، دون زيادة في الإخفاقات، ووسيط السرعة ~28 ميغابت/ث. سأستمر في المتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing fewer rapid returns; ping-pong down from 24% to about 15% after the site mobility parameter tuning. Let’s monitor through the next busy hour.",
+      "message_ar": "نلاحظ انخفاضاً في العودات السريعة؛ التبديل المتبادل انخفض من 24% إلى نحو 15% بعد ضبط معلمات الحركة بالموقع. دعنا نراقب خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own monitoring through the next busy hour and share an update afterward. If regressions or failures rise, we will roll back the tuning and investigate neighbor relations further; otherwise we will keep the optimization in place.",
+      "message_ar": "سنتولى المتابعة خلال ساعة الذروة التالية ونشارك تحديثاً بعد ذلك. إذا ظهرت انتكاسة أو ارتفعت الإخفاقات فسنعكس الضبط ونتحقق من علاقات الجوار بشكل أعمق؛ وإلا سنُبقي التحسين."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR-12345-1",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR-12345-1",
+        "HO",
+        "last_4h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "A3_offset=+1dB;TTT=128ms;hysteresis=4dB;min_time_on_target=2s;neighbors=NR-12346-1,NR-12347-1"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 10,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed high ping-pong handovers on a dense urban NR macro by reviewing recent counters and handover time series, isolating the dominant neighbor pairs driving rapid returns. Mitigation was executed via site parameter tuning (A3 threshold, time-to-trigger, hysteresis, and a dwell guard) on the affected relations. Early results show reduced ping-pong with stable handover success; continued monitoring is in place.",
+    "ar": "تم تشخيص ارتفاع التبديل المتبادل في موقع NR حضري كثيف عبر مراجعة المؤشرات الحديثة والسلاسل الزمنية للتسليم، مع تحديد أزواج الجوار المهيمنة المسببة للعودات السريعة. تم التنفيذ عبر ضبط معلمات الموقع (عتبة A3، زمن البدء، الهسترة، وحارس زمن المكوث) على العلاقات المتأثرة. تظهر النتائج الأولية انخفاض التبديل المتبادل مع بقاء نجاح التسليم مستقراً؛ المراقبة مستمرة."
+  }
+}

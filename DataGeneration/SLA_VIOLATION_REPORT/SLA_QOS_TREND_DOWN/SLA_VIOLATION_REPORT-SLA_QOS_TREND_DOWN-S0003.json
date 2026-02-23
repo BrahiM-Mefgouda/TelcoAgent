@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_QOS_TREND_DOWN-S0003",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_QOS_TREND_DOWN",
+  "query": {
+    "en": "Urban NR macro over 24h shows severe QoS drop (2.36% vs 99.02% target) with latency 59 ms, BLER 7.5%, PRB 61%, 494 users, and p50 DL 19 Mbps; congestion alarm is active.",
+    "ar": "موقع ماكرو NR حضري خلال 24 ساعة يظهر هبوطاً حاداً في جودة الخدمة (2.36% مقابل هدف 99.02%) مع كمون 59 مللي ثانية، BLER بنسبة 7.5%، إشغال موارد 61%، 494 مستخدماً، وسرعة تنزيل وسيطة 19 ميغابت/ث؛ إنذار الازدحام مفعّل."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "We have a 24h alarm on an urban 5G NR macro sector; users report buffering during eMBB streaming. Current stats: QoS compliance ~2.36% vs 99.02% target, latency ~59 ms, BLER ~7.5%, PRB ~61%, ~494 users, p50 DL ~19 Mbps. Please assess.",
+      "message_ar": "لدينا إنذار خلال 24 ساعة على قطاع ماكرو NR حضري؛ أبلغ المستخدمون عن تقطّع أثناء بث eMBB. الإحصاءات الحالية: امتثال جودة الخدمة ~2.36% مقابل هدف 99.02%، الكمون ~59 مللي ثانية، BLER ~7.5%، إشغال الموارد ~61%، ~494 مستخدماً، وسرعة تنزيل وسيطة ~19 ميغابت/ث. الرجاء التحقق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged the congestion alarm. I will start by pulling a 24h OSS snapshot for the affected cell; please confirm the cell ID and grant read access.",
+      "message_ar": "تم استلام إنذار الازدحام. سأبدأ بسحب لقطة من النظام للإحصاءات خلال 24 ساعة للخلية المعنية؛ يرجى تأكيد معرّف الخلية ومنحي صلاحية القراءة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Cell ID: NR-CTY-04567-A-S1, 24h window. Read access approved.",
+      "message_ar": "معرّف الخلية: NR-CTY-04567-A-S1، نافذة 24 ساعة. تمت الموافقة على صلاحية القراءة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulled 24h counters and alarms for NR-CTY-04567-A-S1: no hard faults or outages; PRB peaks 85–90% at busy hours; median latency climbs to 70–85 ms; BLER spikes up to ~12%; user load ~500. This aligns with eMBB streaming periods. Next, I'll extract the QoS compliance time series over 24h to quantify the trend.",
+      "message_ar": "تم سحب عدّادات وإنذارات 24 ساعة للخلية NR-CTY-04567-A-S1: لا أعطال صلبة أو انقطاعات؛ ذروة إشغال الموارد 85–90% في ساعات الذروة؛ يتصاعد الوسيط في الكمون إلى 70–85 مللي ثانية؛ ترتفع BLER حتى ~12%؛ حمل المستخدمين ~500. يتماشى ذلك مع فترات بث eMBB. الخطوة التالية: سأستخرج سلسلة زمنية لامتثال جودة الخدمة خلال 24 ساعة لقياس الاتجاه."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved to pull the QoS time series.",
+      "message_ar": "موافق على سحب السلسلة الزمنية لجودة الخدمة."
+    },
+    {
+      "role": "agent",
+      "message_en": "QoS time series shows a steady decline from morning, bottoming near 1.8% around 19:00 and staying far below the 99% target across mixed hours. The pattern indicates a persistent QoS class violation tied to busy-hour latency/BLER pressure rather than a transient fault. I recommend opening an SLA incident for cross-domain action and tracking.",
+      "message_ar": "السلسلة الزمنية لجودة الخدمة تُظهر تراجعاً مستمراً منذ الصباح، وتبلغ قرابة 1.8% حوالَي 19:00 وتبقى أدنى بكثير من الهدف 99% عبر ساعات مختلطة. يُشير النمط إلى انتهاك مستمر لفئة الجودة مرتبط بضغط الكمون/BLER في ساعات الذروة وليس عطلاً عابراً. أوصي بفتح بلاغ SLA لاتخاذ إجراءات عبر الفرق والمتابعة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed; include 24h evidence and a brief impact summary.",
+      "message_ar": "تفضل بالمتابعة؛ أرفق أدلة 24 ساعة وملخص تأثير موجز."
+    },
+    {
+      "role": "agent",
+      "message_en": "SLA incident opened with summary: 'NR macro NR-CTY-04567-A-S1 — 24h QoS breach with busy-hour latency/BLER spikes and high PRB; eMBB streaming impacted.' Charts and notes attached. I will track the cell through the next busy hour.",
+      "message_ar": "تم فتح بلاغ SLA بالملخص: 'ماكرو NR-CTY-04567-A-S1 — خرق جودة الخدمة خلال 24 ساعة مع ارتفاعات في الكمون/BLER في ساعات الذروة وإشغال موارد عالٍ؛ تأثير على بث eMBB.' تم إرفاق الرسوم والملاحظات. سأتابع الخلية خلال ساعة الذروة التالية."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Current observation: with traffic easing, median latency is ~52 ms and BLER ~5–6%; QoS compliance has climbed to about 12%. No actions were taken locally.",
+      "message_ar": "الملاحظة الحالية: مع انخفاض الحركة، أصبح الوسيط في الكمون ~52 مللي ثانية وBLER ~5–6%؛ ارتفع امتثال الجودة إلى نحو 12%. لم تُتخذ إجراءات محلية."
+    },
+    {
+      "role": "agent",
+      "message_en": "Noted. We'll continue observing trendlines; if the next busy hour still falls far below target, we'll escalate to capacity and transport teams for deeper analysis; if it recovers to target, we'll propose closure.",
+      "message_ar": "تم. سنواصل متابعة المنحنيات؛ إذا بقيت ساعة الذروة التالية دون الهدف بكثير فسوف نرفع الأمر إلى فرق السعة والنقل لتحليل أعمق؛ وإذا عاد المؤشر إلى الهدف سنقترح الإغلاق."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Seeing improvement: latency is trending down and QoS compliance is ticking up. We completed the QoS time-series analysis and opened an incident; please monitor over the next busy hour. Track under DU-QOS-10458.",
+      "message_ar": "نرى تحسناً: الكمون يتجه للانخفاض وامتثال الجودة يرتفع تدريجياً. أكملنا تحليل السلسلة الزمنية للجودة وفتحنا بلاغاً؛ يرجى المراقبة خلال ساعة الذروة التالية. المتابعة تحت DU-QOS-10458."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analysis completed and an incident is open. We will own the next busy-hour monitoring and update the ticket after the window. If QoS degrades again, we will escalate to core and backhaul operations; no rollback is needed as no live parameters were changed.",
+      "message_ar": "تم إكمال التحليل وتم فتح بلاغ. سنقوم نحن بمراقبة ساعة الذروة التالية وسنحدّث البلاغ بعد انتهاء الفترة. إذا تدهورت الجودة مجدداً سنصعّد إلى فرق النواة والنقل؛ لا حاجة للتراجع لأننا لم نغيّر أي إعدادات مباشرة."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "QoS",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "summary"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed an SLA QoS violation on an urban 5G NR macro by querying network counters and analyzing the 24h QoS time series, confirming compliance near 2% versus a 99% target aligned with busy-hour latency/BLER spikes and elevated PRB. Opened an incident for cross-domain mitigation and initiated focused monitoring through the next busy hour.",
+    "ar": "تم تشخيص انتهاك SLA لجودة الخدمة على موقع ماكرو 5G NR حضري عبر مراجعة عدّادات الشبكة وتحليل سلسلة زمنية لمدة 24 ساعة، مما أكد امتثالاً يقارب 2% مقابل هدف 99% متزامناً مع ارتفاعات في الكمون/BLER وإشغال موارد مرتفع في ساعات الذروة. تم فتح بلاغ لاتخاذ إجراءات علاجية عبر الفرق وبدء مراقبة مركّزة خلال ساعة الذروة التالية."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "id": "PINGPONG_HANDOVERS-PPHO_DENSE_URBAN-S0020",
+  "intent": "PINGPONG_HANDOVERS",
+  "blueprint_id": "PPHO_DENSE_URBAN",
+  "query": {
+    "en": "Dense urban 5G macro shows ~26% ping-pong handovers and low SINR (~2 dB) over the last 4h during peak evening eMBB traffic, indicating interference / signal overlap.",
+    "ar": "موقع ماكرو 5G في منطقة حضرية يسجل ~26% من مناولات الذهاب‑والإياب مع SINR منخفض (~2 dB) خلال آخر 4 ساعات أثناء ذروة المساء لحركة eMBB، ما يشير إلى تداخل/تراكب للإشارة."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Urban macro NR sector with high ping-pong over the last 4h during peak evening eMBB (lots of streaming). Ping-pong ~26%, HO attempts ~122/5min, failures ~16%, RSRP ~-100 dBm, SINR ~2 dB. Need assistance.",
+      "message_ar": "قطاع ماكرو NR حضري يعاني من ذهاب‑وإياب مرتفع خلال آخر 4 ساعات أثناء ذروة المساء لحركة eMBB (الكثير من البث). الذهاب‑والإياب ~26%، محاولات HO ~122/5د، الإخفاقات ~16%، RSRP ~-100 dBm، وSINR ~2 dB. نحتاج المساندة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Low SINR suggests interference / signal overlap. Current mobility settings look light (A3=2 dB, TTT=295 ms, hysteresis=1 dB). I will first check mobility counters and neighbor pairs for the last 4h. Approve access?",
+      "message_ar": "الـ SINR المنخفض يشير إلى تداخل/تراكب للإشارة. إعدادات الحركة تبدو خفيفة (A3=2 dB، TTT=295 ms، hysteresis=1 dB). سأبدأ بفحص عدادات الحركة وعلاقات الجوار لآخر 4 ساعات. هل توافق على الوصول؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for the last 4h window.",
+      "message_ar": "موافق على نافذة آخر 4 ساعات."
+    },
+    {
+      "role": "agent",
+      "message_en": "Check complete: ping-pong is concentrated between a few adjacent macros; the top pair contributes ~40% of oscillations. HO attempts steady at ~120/5min; success ~91–92%. Next, I will pull HO/ping-pong time series to isolate peak-hour patterns. Proceed?",
+      "message_ar": "تم الفحص: الذهاب‑والإياب متركز بين عدة ماكرو متجاورة؛ أعلى زوج يساهم بحوالي 40% من التذبذبات. محاولات HO ثابتة ~120/5د؛ النجاح ~91–92%. التالي، سأسحب سلسلة زمنية لمؤشرات HO/الذهاب‑والإياب لعزل نمط ساعة الذروة. هل أتابع؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تفضل."
+    },
+    {
+      "role": "agent",
+      "message_en": "Time series confirms spikes during peak evening with rapid RSRP swings (±3 dB) around the trigger and overlapping coverage. Proposal: reduce oscillations by slightly increasing TTT and hysteresis and nudging A3 offset up by ~1 dB. Apply a guarded update?",
+      "message_ar": "السلسلة الزمنية تؤكد قمماً أثناء المساء مع تقلبات RSRP سريعة (±3 dB) قرب عتبة التفعيل وتداخل تغطية. الاقتراح: تقليل التذبذب برفع طفيف لـ TTT والهيستريز وزيادة إزاحة A3 بنحو 1 dB. هل نطبق تحديثاً محافظاً؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved for immediate change with caution.",
+      "message_ar": "موافَق على التغيير الفوري مع الحذر."
+    },
+    {
+      "role": "agent",
+      "message_en": "Optimization applied on the target sector and main neighbors with minimal impact; automatic rollback armed if HO failures rise. I will watch mobility counters and ping-pong indicators for the next 15 minutes.",
+      "message_ar": "تم تطبيق التحسين على القطاع المستهدف وجيرانه الرئيسيين بأثر أدنى؛ تم تفعيل رجوع تلقائي إذا ارتفعت إخفاقات HO. سأراقب عدادات الحركة ومؤشرات الذهاب‑والإياب خلال 15 دقيقة قادمة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Initial observation after ~10 minutes: ping-pong attempts down about 18%, HO success stable, p50 throughput unchanged.",
+      "message_ar": "ملاحظة أولية بعد ~10 دقائق: محاولات الذهاب‑والإياب انخفضت بنحو 18%، نجاح HO مستقر، وسيط السرعة لم يتغير."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We will continue short-term observation and verify borders for edge cases; if stable, we keep the tuning.",
+      "message_ar": "مفهوم. سنواصل المراقبة القصيرة ونتحقق من الحدود لحالات الحافة؛ إذا استقر الوضع سنُبقي الضبط."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Improvement continues: ping-pong events trending down and handovers stable after site parameter tuning. Let’s monitor over the next 2–4 hours into the next busy hour.",
+      "message_ar": "التحسّن مستمر: أحداث الذهاب‑والإياب في اتجاه هبوطي والمناولات مستقرة بعد ضبط معلمات الموقع. لنتابع المراقبة خلال الساعتين إلى الأربع المقبلتين حتى ساعة ازدحام تالية."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the next 2–4 hours of monitoring and report trend deltas after the window. If indicators worsen, we will immediately rollback the tuning and escalate to interference mitigation and neighbor rebalancing.",
+      "message_ar": "سنتولى مراقبة الساعتين إلى الأربع المقبلتين ونوافيك بتغيرات الاتجاه بعد انتهائها. إذا ساءت المؤشرات سنرجع التعديلات فوراً ونصعد إلى معالجة التداخل وإعادة موازنة الجوار."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "cell_id",
+        "window"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "cell_id",
+        "HO",
+        "window"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "optimize_cell",
+      "args": [
+        "parameters"
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "Diagnosed elevated ping-pong handovers in a dense urban 5G macro during peak evening, driven by overlapping coverage and low SINR. Verified via OSS counters and HO time series, then mitigated by site parameter tuning (slightly higher TTT and hysteresis with a modest A3 offset increase). Monitoring will continue through the next busy hour to confirm sustained stability.",
+    "ar": "تم تشخيص ارتفاع مناولات الذهاب‑والإياب في موقع ماكرو 5G حضري أثناء ذروة المساء نتيجة تداخل التغطية وانخفاض SINR. تم التحقق عبر عدادات OSS والسلسلة الزمنية لمؤشرات HO، ثم تمت المعالجة بضبط معلمات الموقع (رفع طفيف لـ TTT والهيستريز مع زيادة متواضعة في إزاحة A3). ستستمر المراقبة خلال ساعة الازدحام التالية للتأكد من الاستقرار المستدام."
+  }
+}

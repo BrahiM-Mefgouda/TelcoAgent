@@ -1,0 +1,115 @@
+{
+  "id": "SLA_VIOLATION_REPORT-SLA_EVENT_WINDOW-S0007",
+  "intent": "SLA_VIOLATION_REPORT",
+  "blueprint_id": "SLA_EVENT_WINDOW",
+  "query": {
+    "en": "Stadium NR micro cell shows an SLA breach over the last 6h during the event: QoS index 0.09 vs 0.99 target, violations 41%, PRB 81%, latency 111 ms, 785 users; alarm indicates congestion.",
+    "ar": "خلية NR صغيرة في الاستاد تُظهر خرقاً لاتفاقية مستوى الخدمة خلال آخر 6 ساعات أثناء الحدث: مؤشر الجودة 0.09 مقابل الهدف 0.99، الخروقات 41%، استخدام الموارد 81%، الكمون 111 مللي ثانية، 785 مستخدماً؛ الإنذار يشير إلى ازدحام."
+  },
+  "dialogue": [
+    {
+      "role": "engineer",
+      "message_en": "Stadium NR microcell breaching SLA during the ongoing event (6h window). QoS ~0.09 vs 0.99, violations ~41%, PRB ~82%, latency ~111 ms, 785 users. Alarm suggests congestion.",
+      "message_ar": "خلية 5G NR صغيرة في الاستاد تخرق اتفاقية مستوى الخدمة خلال الحدث الجاري (نافذة 6 ساعات). مؤشر الجودة ~0.09 مقابل 0.99، الخروقات ~41%، استخدام الموارد ~82%، الكمون ~111 مللي ثانية، 785 مستخدماً. الإنذار يشير إلى ازدحام."
+    },
+    {
+      "role": "agent",
+      "message_en": "Understood. Please confirm the affected cell ID and approve me to pull last 6h stats from the network management system; I will then analyze the QoS time series and act.",
+      "message_ar": "تم الفهم. يرجى تأكيد معرف الخلية المتأثرة والموافقة على سحب إحصاءات آخر 6 ساعات من نظام الإدارة الشبكي؛ بعدها سأحلل سلسلة مؤشر الجودة وأتخذ الإجراء."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Use NR_STADIUM_MICRO_03; access approved.",
+      "message_ar": "استخدم NR_STADIUM_MICRO_03؛ الوصول مُعتمد."
+    },
+    {
+      "role": "agent",
+      "message_en": "Pulling last 6h from the network management system for NR_STADIUM_MICRO_03 now. Findings: cell on-air, no active faults; heavy eMBB load, PRB 81–88%; latency spikes 95–140 ms; BLER ~6%. Congestion aligns with the event. Proceed to QoS time-series check?",
+      "message_ar": "أقوم بسحب بيانات آخر 6 ساعات من نظام الإدارة الشبكي للخلية NR_STADIUM_MICRO_03 الآن. النتائج: الخلية عاملة ولا أعطال نشطة؛ حمل eMBB مرتفع، استخدام الموارد 81–88%؛ ارتفاعات كمون 95–140 مللي ثانية؛ BLER ~6%. الازدحام متوافق مع الحدث. هل أتابع بفحص سلسلة مؤشر الجودة؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Proceed.",
+      "message_ar": "تابع."
+    },
+    {
+      "role": "agent",
+      "message_en": "Analyzing QoS time series over 6h. Results: QoS index dipped to 0.07 at peak and stayed below 0.2 for three consecutive 30‑min intervals; violation ratio 41%. Degradation correlates with streaming peak demand. I recommend opening an SLA incident for visibility and tracking. Approve?",
+      "message_ar": "أحلّل سلسلة مؤشر الجودة خلال 6 ساعات. النتائج: هبط المؤشر إلى 0.07 عند الذروة وبقي دون 0.2 لثلاث فترات متتالية مدتها 30 دقيقة؛ نسبة الخروقات 41%. التدهور مرتبط بذروة الطلب على البث. أوصي بفتح تذكرة خرق SLA للرصد والتتبع. هل توافق؟"
+    },
+    {
+      "role": "engineer",
+      "message_en": "Approved.",
+      "message_ar": "موافق."
+    },
+    {
+      "role": "agent",
+      "message_en": "Incident created: DU-SLA-04827 for NR_STADIUM_MICRO_03 (QoS ~0.09 < 0.99, latency ~111 ms, PRB ~82%, users ~785; event-related congestion). KPIs linked for live watch. I will monitor through the busy period and post updates in the ticket.",
+      "message_ar": "تم إنشاء التذكرة: DU-SLA-04827 للخلية NR_STADIUM_MICRO_03 (مؤشر الجودة ~0.09 < 0.99، الكمون ~111 مللي ثانية، استخدام الموارد ~82%، ~785 مستخدماً؛ ازدحام مرتبط بالحدث). تم ربط مؤشرات الأداء للمتابعة الحية. سأراقب خلال فترة الانشغال وأضيف التحديثات في التذكرة."
+    },
+    {
+      "role": "engineer",
+      "message_en": "Noted. After a crowd shift, latency is around 95–100 ms and QoS ticked up slightly per our dashboard.",
+      "message_ar": "تم. بعد تحرك الجماهير، الكمون حوالي 95–100 مللي ثانية ومؤشر الجودة تحسن قليلاً وفق لوحة المتابعة."
+    },
+    {
+      "role": "agent",
+      "message_en": "Acknowledged. We see the same mild improvement; if it worsens, we will coordinate with capacity and traffic teams after the event. Continuing to track DU-SLA-04827.",
+      "message_ar": "تم الاستلام. نرى التحسن الطفيف نفسه؛ وإذا ساءت الحالة فسنتواصل مع فرق السعة وحركة المرور بعد الحدث. مستمرون في متابعة DU-SLA-04827."
+    },
+    {
+      "role": "engineer",
+      "message_en": "QoS index is trending up toward ~0.25 and latency easing below 100 ms. Action taken: SLA incident ticket creation and tracking. Propose monitoring over the next 2–4 hours under event load and updating DU-SLA-04827 accordingly.",
+      "message_ar": "مؤشر الجودة يتجه صعوداً نحو ~0.25 مع انخفاض الكمون دون 100 مللي ثانية. الإجراء المتخذ: إنشاء وتتبّع تذكرة خرق SLA. أقترح المراقبة خلال الساعات 2–4 القادمة تحت حمل الحدث وتحديث DU-SLA-04827 وفقاً لذلك."
+    },
+    {
+      "role": "agent",
+      "message_en": "We will own the 2–4 hour monitoring window and update the ticket afterward. If QoS degrades again, we will escalate to network operations and field support; if stability holds, we will close the ticket after validation. No rollback is required for this action.",
+      "message_ar": "سنتولى نافذة المراقبة لمدة 2–4 ساعات وسنحدِّث التذكرة بعدها. إذا تدهور مؤشر الجودة مجدداً سنصعّد إلى تشغيل الشبكة والدعم الميداني؛ وإن استقرت الحالة سنغلق التذكرة بعد التحقق. لا حاجة للتراجع عن أي إجراء."
+    }
+  ],
+  "gold_path": [
+    {
+      "step": 1,
+      "tool": "oss_query",
+      "args": [
+        "NR_STADIUM_MICRO_03",
+        "6h"
+      ]
+    },
+    {
+      "step": 2,
+      "tool": "kpi_timeseries",
+      "args": [
+        "NR_STADIUM_MICRO_03",
+        "QoS",
+        "6h"
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "create_ticket",
+      "args": [
+        "Stadium NR microcell SLA breach during event: QoS ~0.09 vs 0.99 target, violations 41%, PRB ~0.82, latency ~111 ms, users ~785; congestion alarm active."
+      ]
+    }
+  ],
+  "flow_alignment": [
+    {
+      "turn_index": 4,
+      "gold_step": 1
+    },
+    {
+      "turn_index": 6,
+      "gold_step": 2
+    },
+    {
+      "turn_index": 8,
+      "gold_step": 3
+    }
+  ],
+  "gold_summary": {
+    "en": "We investigated the stadium 5G NR microcell during the live event and confirmed a sustained SLA breach: QoS index near 0.09 versus the 0.99 target, with high resource utilization and elevated latency linked to peak streaming demand. We reviewed QoS behavior over the 6-hour window and opened an incident ticket for operational mitigation and tracking. We will continue monitoring and update the ticket through the busy period.",
+    "ar": "قمنا بتحليل خلية 5G NR الصغيرة في الاستاد أثناء الحدث الحي وأكدنا خرقاً مستمراً لاتفاقية مستوى الخدمة: مؤشر جودة يقارب 0.09 مقابل الهدف 0.99 مع استخدام موارد مرتفع وكمون متزايد مرتبط بذروة البث. استعرضنا سلوك مؤشر الجودة خلال نافذة 6 ساعات وأنشأنا تذكرة حادثة للتخفيف التشغيلي والتتبع. سنواصل المراقبة ونحدّث التذكرة خلال فترة الانشغال."
+  }
+}
