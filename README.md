@@ -1,9 +1,7 @@
 # 📡 TelcoAgent
-**Telecom-specific multilingual (English ⇄ Arabic) benchmark artifacts for evaluating LLM agents on troubleshooting workflows.**
+**Telecom-specific multilingual (English - Arabic) benchmark for evaluating Large Language Models (SLM) agents on troubleshooting workflows.**
 
-This repository packages the **data + annotations + evaluation outputs** introduced in:
-
-**“A Roadmap to Evaluating Multi-Lingual Telecom LLM Agents: A Benchmark” (2026)**
+This repository packages the **data + annotations + evaluation outputs** introduced in our paper: **“A Roadmap to Evaluating Multi-Lingual Telecom LLM Agents: A Benchmark” (2026)**
 
 > **Core idea:** TelcoAgent does not only test whether a model can *answer telecom questions*.  
 > It evaluates whether an **agent** can **operate like a telecom engineer assistant**:
