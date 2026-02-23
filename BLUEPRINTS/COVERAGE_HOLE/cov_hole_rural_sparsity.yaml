@@ -1,0 +1,33 @@
+intent: COVERAGE_HOLE
+blueprint_id: COV_HOLE_RURAL_SPARSITY
+description: >
+  Rural sparse grid with large inter-site distances causing persistent low-RSRP pockets.
+
+context:
+  area: rural
+  time_window: 24h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.6, FWA: 0.4 }
+
+constraints:
+  rsrp_dBm:               { min: -128, max: -110 }
+  rsrq_dB:                { min: -19,  max: -11, corr_with: rsrp_dBm, slope: 0.20 }
+  sinr_dB:                { min: -9,   max: 6,   corr_with: rsrp_dBm, slope: 0.35 }
+  coverage_gap_ratio:     { min: 15,   max: 45 }
+  ta_std_m:               { min: 80,   max: 250 }
+  PRB_util:               { min: 0.20, max: 0.60 }
+  throughput_p50_mbps:
+    min: 1
+    max: 10
+    depends_on: sinr_dB
+    corr: positive
+  users:                  { min: 10,   max: 120, dist: triangular, mode: 40 }
+  intersite_distance_km:  { min: 3.0,  max: 12.0 }
+
+notes: >
+  OSS evidence plus coverage map to corroborate persistent holes; likely requires site addition/sectorization or tilt/power re-optimization.

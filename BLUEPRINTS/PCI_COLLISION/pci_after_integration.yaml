@@ -1,0 +1,36 @@
+intent: PCI_COLLISION
+blueprint_id: PCI_AFTER_INTEGRATION
+description: >
+  New site integration introduced a PCI clash with a neighbor, degrading mobility and radio quality.
+
+context:
+  area: urban
+  time_window: 8h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+  pci_self:                { min: 0,   max: 503 }         
+  pci_neighbor:            { min: 0,   max: 503 }
+  neighbor_pci_overlap:   { min: 25,  max: 60 }           
+  ho_fail_rate:           { min: 12,  max: 28 }
+  ping_pong_rate:         { min: 10,  max: 26 }
+  HO_success:              { min: 0.70, max: 0.88 }
+  rsrq_dB:                 { min: -17, max: -9 }
+  sinr_dB:                 { min: -3,  max: 10, corr_with: rsrq_dB, slope: 0.35 }
+  BLER:                    { min: 0.05, max: 0.14 }       
+  prb_util:                { min: 0.45, max: 0.85 }        
+  throughput_p50_mbps:
+    min: 4
+    max: 22
+    depends_on: sinr_dB
+    corr: positive
+  users:                   { min: 160, max: 420, dist: triangular, mode: 260 }
+
+notes: >
+  Immediate PCI re-plan recommended; adjust neighbor relations if needed and track via ticket.

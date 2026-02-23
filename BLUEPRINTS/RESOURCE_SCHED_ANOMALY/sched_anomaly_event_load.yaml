@@ -1,0 +1,32 @@
+intent: RESOURCE_SCHED_ANOMALY
+blueprint_id: SCHED_ANOMALY_EVENT_LOAD
+description: >
+  Event surge at a stadium triggers abnormal scheduling decisions and QoS imbalance during the window.
+
+context:
+  area: stadium
+  time_window: 3h
+  alarm: true
+  tech: NR
+  cell_role: micro
+
+priors:
+  event_phase: { ingress: 0.35, in_event: 0.45, egress: 0.20 }
+  traffic_mix: { eMBB: 0.97, enterprise_private: 0.03 }
+
+constraints:
+  PRB_util:                 { min: 0.85, max: 0.99 }        
+  prb_fairness_index:       { min: 0.35, max: 0.70 }          
+  prb_allocation_skew:     { min: 18,  max: 45 }             
+  qci_high_prio_share:     { min: 10,  max: 30 }             
+  qci_best_effort_share:   { min: 55,  max: 80 }             
+  p50_thr_mbps:             { min: 3,   max: 16 }
+  p95_thr_mbps:             { min: 10,  max: 40 }
+  p95_minus_p50_gap_mbps:   { min: 8,   max: 32 }              
+  sched_latency_p95_ms:     { min: 40,  max: 140 }
+  rsrq_dB:                  { min: -16, max: -9 }              
+  sinr_dB:                  { min: 0,   max: 12 }
+  users:                    { min: 300, max: 1200, dist: triangular, mode: 700 }
+
+notes: >
+  Apply temporary scheduler/QoS tuning for the event window (weights/priorities/timeslot config); verify fairness and class-share recovery.

@@ -1,0 +1,32 @@
+intent: COVERAGE_HOLE
+blueprint_id: COV_HOLE_SUBURBAN_INDOOR
+description: >
+  Suburban indoor basement deadspot (mall) with persistent low-RSRP pocket and user complaints.
+  
+context:
+  area: indoor
+  time_window: 24h
+  alarm: false
+  tech: NR
+  cell_role: micro
+
+priors:
+  time_of_day: { peak: 0.5, shoulder: 0.3, offpeak: 0.2 }
+  traffic_mix: { eMBB: 0.85, enterprise_private: 0.15 }
+
+constraints:
+  rsrp_dBm:               { min: -125, max: -105 }
+  rsrq_dB:                { min: -17,  max: -9, corr_with: rsrp_dBm, slope: 0.25 }
+  sinr_dB:                { min: -6,   max: 7,  corr_with: rsrp_dBm, slope: 0.35 }
+  coverage_gap_ratio:    { min: 12,   max: 35 }
+  ta_std_m:               { min: 30,   max: 90 }
+  PRB_util:               { min: 0.30, max: 0.70 }
+  throughput_p50_mbps:
+    min: 2
+    max: 18
+    depends_on: sinr_dB
+    corr: positive
+  users:                  { min: 60, max: 300, dist: triangular, mode: 150 }
+
+notes: >
+  Use coverage_map as primary evidence; if deadspot persists, escalate with site plan change or in-building booster deployment.

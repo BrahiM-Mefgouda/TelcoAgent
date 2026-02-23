@@ -1,0 +1,41 @@
+intent: PINGPONG_HANDOVERS
+blueprint_id: PPHO_INDOOR_MULTI_SMALLCELL
+description: >
+  Indoor multi-smallcell deployment; tight cells and reflections cause frequent ping-pong handovers.
+
+context:
+  area: indoor
+  time_window: 3h
+  alarm: false
+  tech: NR
+  cell_role: micro
+
+priors:
+  time_of_day: { peak: 0.5, shoulder: 0.4, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+  HO_success:              { min: 0.78, max: 0.90 }        
+  ping_pong_rate:         { min: 14,  max: 34 }
+  ho_attempts_per_5min:    { min: 30,  max: 140 }
+  ho_fail_rate:           { min: 8,   max: 20 }
+
+  rsrp_dBm:                { min: -112, max: -94 }
+  rsrq_dB:                 { min: -14,  max: -7 }
+  sinr_dB:                 { min: 1,    max: 14 }
+
+  PRB_util:                { min: 0.50, max: 0.85 }
+  users:                   { min: 80,   max: 320, dist: triangular, mode: 180 }
+
+  a3_offset_dB:            { min: 0.0,  max: 4.0 }
+  ttt_ms:                  { min: 80,   max: 320 }
+  hysteresis_dB:           { min: 0.0,  max: 4.0 }
+
+  throughput_p50_mbps:
+    min: 6
+    max: 30
+    depends_on: sinr_dB
+    corr: positive
+
+notes: >
+  Raise hysteresis and adjust TTT/A3 to dampen ping-pong; consider minor beam/coverage tweaks if reflections dominate.

@@ -1,0 +1,28 @@
+intent: SLICE_ADMISSION_FAILURE
+blueprint_id: SLICE_ADM_URLLC_POLICY
+description: >
+  URLLC slice requests denied due to strict admission policy thresholds, even without severe congestion.
+
+context:
+  area: urban
+  time_window: 24h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { URLLC: 0.25, eMBB: 0.65, enterprise_private: 0.10 }
+
+constraints:
+  PRB_util:                { min: 0.60, max: 0.90 }            
+  admission_denial_rate:  { min: 8,   max: 28 }               
+  slice_requests_per_min:  { min: 10,  max: 60 }
+  slice_utilization:      { min: 45,  max: 80 }
+  latency_ms:              { min: 8,   max: 25 }               
+  policy_threshold_param:  { min: 85,  max: 100 }             
+
+notes: >
+  Denials driven by strict URLLC policy thresholds rather than congestion.
+  Recommend safe relaxation of admission parameters (e.g., threshold or priority adjustment),
+  and raise a ticket for policy change.

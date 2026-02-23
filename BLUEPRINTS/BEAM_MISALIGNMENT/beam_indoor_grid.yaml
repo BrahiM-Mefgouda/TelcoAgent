@@ -1,0 +1,35 @@
+intent: BEAM_MISALIGNMENT
+blueprint_id: BEAM_INDOOR_GRID
+description: >
+  Indoor beam misalignment causing patchy coverage and SINR dips.
+  Focus on SSB dominance, variance, and beam failure recovery.
+
+context:
+  area: indoor
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: pico
+
+priors:
+  time_of_day: { peak: 0.6, shoulder: 0.3, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  rsrp_dBm:               { min: -118, max: -95 }
+  sinr_dB:                { min: -3,  max: 10,  corr_with: rsrp_dBm, slope: 0.35 }
+  dominance_ratio:        { min: 0.25, max: 0.60 }
+  ssb_rsrp_var_dB:        { min: 4.0,  max: 12.0 }
+  beam_fail_rate:         { min: 1.0,  max: 8.0 }         
+  bfr_events_per_hr:      { min: 5,    max: 40 }
+  throughput_p50_mbps:
+    min: 5
+    max: 25
+    depends_on: sinr_dB
+    corr: positive
+  coverage_gap_ratio:     { min: 5,    max: 20 }          
+  users:                  { min: 100,  max: 250, dist: triangular, mode: 160 }
+
+notes: >
+  Confirm misalignment via SSB heatmap / grid audit.
+  Recommend re-tilt or beam weighting adjustment; verify KPI improvement and raise a ticket if needed.

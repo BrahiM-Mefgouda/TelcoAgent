@@ -1,0 +1,35 @@
+intent: RLF_SPIKE
+blueprint_id: RLF_SPIKE_COVERAGE_EDGE
+description: >
+  Rural coverage edge with weak RSRP/RSRQ causing rises in RLFs.
+
+context:
+  area: rural
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.7, FWA: 0.3 }
+
+constraints:
+  rsrp_dBm:              { min: -124, max: -108 }
+  rsrq_dB:               { min: -18,  max: -11 }
+  sinr_dB:               { min: -6,   max: 7 }
+  RLF_rate:              { min: 0.025, max: 0.06 }         
+  HO_success:            { min: 0.78, max: 0.92 }
+  BLER:                  { min: 0.03, max: 0.12 }
+  PRB_util:              { min: 0.35, max: 0.75 }
+  ta_std_m:              { min: 60,   max: 220 }
+  throughput_p50_mbps:
+    min: 2
+    max: 14
+    depends_on: sinr_dB
+    corr: positive
+  users:                 { min: 20, max: 160, dist: triangular, mode: 70 }
+
+notes: >
+  Coverage deficit at the edge; adjust mobility (hysteresis/TTT) and consider minor coverage tweaks.
+  Raise a ticket for field action if the issue persists.

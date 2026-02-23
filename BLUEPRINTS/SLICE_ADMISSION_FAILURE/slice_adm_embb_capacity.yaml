@@ -1,0 +1,28 @@
+intent: SLICE_ADMISSION_FAILURE
+blueprint_id: SLICE_ADM_EMBB_CAPACITY
+description: >
+  eMBB slice admission blocked under capacity pressure during a stadium event.
+
+context:
+  area: stadium
+  time_window: 4h
+  alarm: true
+  tech: NR
+  cell_role: micro
+
+priors:
+  event_phase: { ingress: 0.35, in_event: 0.45, egress: 0.20 }
+
+constraints:
+  PRB_util:                { min: 0.85, max: 0.98 }             
+  admission_denial_rate:  { min: 12,  max: 45 }              
+  slice_requests_per_min:  { min: 20,  max: 120 }
+  slice_utilization:      { min: 70,  max: 98 }
+  latency_ms:              { min: 30,  max: 110 }
+  throughput_p50_mbps:     { min: 2,   max: 14 }
+  users:                   { min: 300, max: 1200, dist: triangular, mode: 700 }
+  policy_min_guarantee_Mbps: { min: 50,  max: 200 }
+  policy_priority_level:   { min: 1,   max: 3 }                
+
+notes: >
+  Capacity-driven denial of eMBB slice requests; suggest temporary priority or admission-policy adjustment for the event window.

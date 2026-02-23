@@ -1,0 +1,30 @@
+intent: TA_DISTRIBUTION_DRIFT
+blueprint_id: TA_DRIFT_EVENT
+description: >
+  Stadium event traffic temporarily shifts Timing Advance (TA) distribution.
+
+context:
+  area: stadium
+  time_window: 3h
+  alarm: false
+  tech: NR
+  cell_role: micro
+
+priors:
+  event_phase: { ingress: 0.35, in_event: 0.45, egress: 0.20 }
+
+constraints:
+  TA:                   { min: 150, max: 380 }            
+  ta_p50:               { min: 140, max: 300 }
+  ta_p95:               { min: 260, max: 520 }
+  ta_std:               { min: 40,  max: 140 }
+  ta_drift_index:       { min: 0.20, max: 0.55 }          
+  distant_serving_ratio: { min: 8,   max: 25 }             
+  PRB_util:             { min: 0.70, max: 0.96 }           
+  rsrp_dBm:             { min: -118, max: -100 }
+  ho_fail_rate:        { min: 6,   max: 18 }
+  throughput_p50_mbps:  { min: 3,   max: 14 }
+
+notes: >
+  Temporary TA shift due to crowd geometry; apply conservative margin/offset tweak if needed,
+  then rollback after the event. Record via ticket if changes are applied.

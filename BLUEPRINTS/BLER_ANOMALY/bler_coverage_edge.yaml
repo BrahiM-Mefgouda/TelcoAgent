@@ -1,0 +1,31 @@
+intent: BLER_ANOMALY
+blueprint_id: BLER_COVERAGE_EDGE
+description: >
+  Rural coverage-edge users experience elevated BLER due to weak RSRP/RSRQ and interference sensitivity.
+
+context:
+  area: rural
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak: 0.4, shoulder: 0.4, offpeak: 0.2 }
+  traffic_mix: { eMBB: 0.7, FWA: 0.3 }
+
+constraints:
+  rsrp_dBm:    { min: -122, max: -104 }
+  rsrq_dB:     { min: -18,  max: -10 }
+  sinr_dB:     { min: -5,   max: 8 }
+  BLER:        { min: 0.06, max: 0.16 }
+  throughput_p50_mbps:
+    min: 2
+    max: 12
+    depends_on: sinr_dB
+    corr: positive
+  users:       { min: 20, max: 120, dist: triangular, mode: 60 }
+
+notes: >
+  Elevated BLER at coverage edge—verify with coverage map and KPI trends.
+  Consider tuning handover thresholds, scheduling, or triggering a drive test if persistent.

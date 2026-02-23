@@ -1,0 +1,40 @@
+intent: HO_FAILURE_HOTSPOT
+blueprint_id: HO_FAIL_INDOOR_EDGE
+description: >
+  Indoor small-cell border causing localized handover failures and ping-pong in a tight deployment.
+
+context:
+  area: indoor
+  time_window: 4h
+  alarm: false
+  tech: NR
+  cell_role: micro
+
+priors:
+  time_of_day: { peak: 0.5, shoulder: 0.4, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+
+constraints:
+  HO_success:              { min: 0.78, max: 0.90 }          
+  ho_fail_rate:           { min: 8,   max: 20 }
+  ping_pong_rate:         { min: 10,  max: 28 }
+  RLF_rate:                { min: 0.02, max: 0.06 }
+
+  rsrp_dBm:                { min: -116, max: -98 }
+  rsrq_dB:                 { min: -15,  max: -8 }
+  sinr_dB:                 { min: -1,   max: 12 }
+
+  a3_offset_dB:            { min: 0.0,  max: 4.0 }
+  ttt_ms:                  { min: 80,   max: 320 }
+  hysteresis_dB:           { min: 0.0,  max: 4.0 }
+
+  throughput_p50_mbps:
+    min: 6
+    max: 30
+    depends_on: sinr_dB
+    corr: positive
+  users:                   { min: 80, max: 300, dist: triangular, mode: 160 }
+
+notes: >
+  Tune borders via A3/TTT/hysteresis; consider minor coverage tweaks (tilt/power) if overlap drives ping-pong.

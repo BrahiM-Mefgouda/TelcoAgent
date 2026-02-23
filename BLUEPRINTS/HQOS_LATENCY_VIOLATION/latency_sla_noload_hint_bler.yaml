@@ -1,0 +1,39 @@
+intent: HQOS_LATENCY_VIOLATION
+blueprint_id: LATENCY_SLA_NOLOAD_HINT_BLER
+description: >
+  Latency SLA breach under normal load; elevated BLER suggests radio quality contribution.
+
+context:
+  area: suburban
+  time_window: 3h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { shoulder: 0.6, peak: 0.3, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.85, enterprise_private: 0.15 }
+
+constraints:
+  PRB_util:         { min: 0.55, max: 0.80 }
+  BLER:             { min: 0.06, max: 0.14 }
+  rsrq_dB:          { min: -16, max: -9 }
+  sinr_dB:
+    min: -2
+    max: 12
+    corr_with: rsrq_dB
+    slope: 0.35
+  latency_ms:
+    min: 40
+    max: 100
+    depends_on: BLER
+    corr: positive
+  throughput_p50_mbps:
+    min: 6
+    max: 30
+    depends_on: sinr_dB
+    corr: positive
+  users:            { min: 100, max: 280, dist: triangular, mode: 170 }
+
+notes: >
+  Address radio quality (MCS/power) alongside scheduler tuning; confirm latency-BLER correlation before changes.

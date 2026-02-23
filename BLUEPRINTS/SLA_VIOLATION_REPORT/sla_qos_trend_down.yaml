@@ -1,0 +1,32 @@
+intent: SLA_VIOLATION_REPORT
+blueprint_id: SLA_QOS_TREND_DOWN
+description: >
+  QoS composite shows a steady downward trend over a full day, breaching SLA targets.
+
+context:
+  area: urban
+  time_window: 24h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  QoS:                    { min: 0.0, max: 0.6 }     
+  sla_threshold:          { min: 0.95, max: 1.0 }
+  sla_violation_ratio:   { min: 15,  max: 50 }
+  PRB_util:               { min: 0.55, max: 0.85 }
+  latency_ms:             { min: 30,  max: 100 }
+  BLER:                   { min: 0.03, max: 0.12 }
+  throughput_p50_mbps:
+    min: 4
+    max: 20
+    depends_on: PRB_util
+    corr: negative
+  users:                  { min: 200, max: 700, dist: triangular, mode: 400 }
+
+notes: >
+  Confirm SLA breach from downward QoS trend; summarize impacted services and raise a ticket.

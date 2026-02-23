@@ -1,0 +1,40 @@
+intent: PCI_COLLISION
+blueprint_id: PCI_CONFUSION_SUBURBAN
+description: >
+  Suburban mild PCI confusion without alarm; sporadic HO issues and quality dips.
+
+context:
+  area: suburban
+  time_window: 12h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  pci_self:                { min: 0,   max: 503 }
+  pci_neighbor:            { min: 0,   max: 503 }
+  neighbor_pci_overlap:   { min: 8,   max: 22 }          
+  HO_success:              { min: 0.82, max: 0.92 }
+  ho_fail_rate:           { min: 6,   max: 14 }
+  ping_pong_rate:         { min: 6,   max: 16 }
+  rsrq_dB:                 { min: -15, max: -8 }
+  sinr_dB:
+    min: -1
+    max: 12
+    corr_with: rsrq_dB
+    slope: 0.30
+  BLER:                    { min: 0.04, max: 0.12 }        
+  prb_util:                { min: 0.40, max: 0.80 }
+  throughput_p50_mbps:
+    min: 6
+    max: 28
+    depends_on: sinr_dB
+    corr: positive
+  users:                   { min: 120, max: 380, dist: triangular, mode: 220 }
+
+notes: >
+  If confusion confirmed, reassign PCI or tidy neighbor relations; open a ticket if the issue persists.

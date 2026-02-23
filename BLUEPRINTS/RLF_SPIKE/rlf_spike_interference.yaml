@@ -1,0 +1,41 @@
+intent: RLF_SPIKE
+blueprint_id: RLF_SPIKE_INTERFERENCE
+description: >
+  Suburban interference suspected: RLF rises with elevated BLER and degraded RSRQ/SINR.
+
+context:
+  area: suburban
+  time_window: 3h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { shoulder: 0.6, peak: 0.3, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.85, enterprise_private: 0.15 }
+
+constraints:
+  rsrq_dB:               { min: -18,  max: -10 }
+  sinr_dB:
+    min: -4
+    max: 10
+    corr_with: rsrq_dB
+    slope: 0.35
+  BLER:                  { min: 0.06, max: 0.15 }      
+
+  RLF_rate:              { min: 0.03, max: 0.07 }      
+  HO_success:            { min: 0.78, max: 0.92 }
+  ho_fail_rate:         { min: 8,   max: 20 }
+
+  PRB_util:              { min: 0.45, max: 0.85 }
+  users:                 { min: 100, max: 320, dist: triangular, mode: 200 }
+
+  throughput_p50_mbps:
+    min: 3
+    max: 20
+    depends_on: sinr_dB
+    corr: positive
+
+notes: >
+  Interference-driven drops: tune timers (TTT/hysteresis) and check PCI/neighbor relations.
+  Address radio quality (power/ICIC) alongside mobility tuning if BLER/SINR remain poor.

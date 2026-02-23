@@ -1,0 +1,63 @@
+intent: HIGH_PRB_UTILIZATION
+blueprint_id: HIGH_PRB_MIXED_WITH_PCI_HINT
+description: >
+  Congestion is present, with weak indications of neighbor/PCI issues that may exacerbate KPIs.
+
+context:
+  area: urban
+  time_window: 3h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+
+priors:
+  time_of_day: { peak_evening: 0.6, shoulder: 0.4 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+
+  PRB_util:
+    min: 0.88
+    max: 0.96
+    dist: mixture
+    p_hi: 0.6
+    hi_min: 0.92
+    hi_max: 0.96
+    lo_min: 0.88
+    lo_max: 0.92
+  DL_thr_Mbps:
+    min: 6
+    max: 16
+    depends_on: PRB_util
+    corr: negative
+  UL_thr_Mbps:
+    min: 3
+    max: 12
+    depends_on: PRB_util
+    corr: negative
+  BLER:
+    min: 0.030
+    max: 0.080
+    depends_on: PRB_util
+    corr: positive
+  RLF_rate: { min: 0.020, max: 0.050 }
+  sched_latency_p95_ms:
+    min: 20
+    max: 80
+    depends_on: PRB_util
+    corr: positive
+  users: { min: 180, max: 320, dist: triangular, mode: 250 }
+
+  ho_fail_rate:         { min: 3,  max: 10 }         # slight HO instability
+  neighbor_pci_overlap: { min: 8,  max: 25 }         # proxy signal, not definitive
+  rsrq_dB:               { min: -16, max: -9 }        # worse with overlap/interference
+  sinr_dB:
+    min: 0
+    max: 12
+    corr_with: rsrq_dB
+    slope: 0.35
+
+notes: >
+  Primary diagnosis remains congestion. Allow neighbor/PCI checks as optional probes in tougher cases,
+  without changing the canonical resolution path.

@@ -1,0 +1,29 @@
+intent: SLICE_QOS_DEGRADATION
+blueprint_id: SLICE_QOS_URLLC_LATENCY
+description: >
+  URLLC slice shows latency inflation even under moderate load, breaching QoS expectations.
+
+context:
+  area: urban
+  time_window: 4h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak: 0.6, shoulder: 0.3, offpeak: 0.1 }
+  traffic_mix: { URLLC: 0.3, eMBB: 0.6, enterprise_private: 0.1 }
+
+constraints:
+  QoS_class:               { min: 0.0,  max: 0.6 }         
+  PRB_util:                { min: 0.65, max: 0.90 }       
+  latency_ms:              { min: 12,   max: 40 }           
+  jitter_ms:               { min: 4,    max: 15 }
+  slice_violation_ratio:  { min: 20,   max: 50 }
+  slice_requests_per_min:  { min: 15,   max: 80 }
+  throughput_p50_mbps:     { min: 2,    max: 12 }
+  users:                   { min: 50,   max: 200, dist: triangular, mode: 120 }
+
+notes: >
+  URLLC latency inflation indicates misaligned scheduler or priority configuration.
+  Adjust slice scheduler weights/priorities to restore SLA compliance.

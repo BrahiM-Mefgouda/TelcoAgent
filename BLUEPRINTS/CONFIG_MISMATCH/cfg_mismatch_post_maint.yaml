@@ -1,0 +1,32 @@
+intent: CONFIG_MISMATCH
+blueprint_id: CFG_MISMATCH_POST_MAINT
+description: >
+  Post-maintenance audit finds live parameters diverging from OSS-configured values.
+
+context:
+  area: suburban
+  time_window: 24h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }   
+  traffic_mix: { eMBB: 0.8, enterprise_private: 0.2 }
+
+constraints:
+  mismatch_count:        { min: 1,  max: 6 }
+  param_drift_score:     { min: 0.20, max: 0.60 }     
+  drift_age_hours:       { min: 1,  max: 24 }
+  ho_fail_rate:          { min: 1,  max: 8 }        
+  bler:                  { min: 0.01, max: 0.08 }     
+  prb_util:              { min: 0.25, max: 0.75 }
+  throughput_p50_mbps:
+    min: 6
+    max: 35
+    depends_on: bler
+    corr: negative
+
+
+notes: >
+  Verify drift introduced by maintenance; confirm via config diff and live audit, dry-run the corrective patch, then escalate via ticket if needed.

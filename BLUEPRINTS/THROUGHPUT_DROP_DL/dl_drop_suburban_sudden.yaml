@@ -1,0 +1,36 @@
+intent: THROUGHPUT_DROP_DL
+blueprint_id: DL_DROP_SUBURBAN_SUDDEN
+description: >
+  Suburban site experiences a sudden downlink throughput drop likely driven by temporary interference.
+
+context:
+  area: suburban
+  time_window: 2h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { shoulder: 0.6, peak: 0.3, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.85, enterprise_private: 0.15 }
+
+constraints:
+  PRB_util:               { min: 0.60, max: 0.85 }               
+  DL_thr_Mbps:
+    min: 6
+    max: 18
+    depends_on: BLER
+    corr: negative
+  BLER:                    { min: 0.04, max: 0.12 }               
+  rsrq_dB:                 { min: -18,  max: -10 }                 
+  sinr_dB:
+    min: -2
+    max: 11
+    corr_with: rsrq_dB
+    slope: 0.35
+  HO_success:              { min: 0.82, max: 0.93 }
+  users:                   { min: 100, max: 320, dist: triangular, mode: 200 }
+
+notes: >
+  If BLER is elevated while PRB load is normal, point to interference.
+  Recommend MCS/power-control tweaks (and ICIC/neighbor tidying if indicated) after confirming trends.

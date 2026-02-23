@@ -1,0 +1,27 @@
+intent: SLICE_QOS_DEGRADATION
+blueprint_id: SLICE_QOS_EMBB_THROUGHPUT
+description: >
+  eMBB slice suffers throughput degradation due to contention with other active slices.
+
+context:
+  area: urban
+  time_window: 4h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.7, shoulder: 0.3 }
+  traffic_mix: { eMBB: 0.85, URLLC: 0.10, enterprise_private: 0.05 }
+
+constraints:
+  QoS_class:               { min: 0.0,  max: 0.6 }            
+  PRB_util:                { min: 0.75, max: 0.95 }           
+  slice_throughput_p50:    { min: 6,    max: 18 }              
+  slice_throughput_p95:    { min: 14,   max: 40 }
+  slice_violation_ratio:  { min: 15,   max: 45 }             
+  latency_ms:              { min: 20,   max: 60 }
+  users:                   { min: 200,  max: 600, dist: triangular, mode: 350 }
+
+notes: >
+  eMBB degradation driven by inter-slice contention; rebalance slice weights or adjust policies.

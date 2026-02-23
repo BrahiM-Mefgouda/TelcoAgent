@@ -1,0 +1,40 @@
+intent: HO_FAILURE_HOTSPOT
+blueprint_id: HO_FAIL_DOWNTOWN_SPOT
+description: >
+  Downtown intersection with a concentrated handover-failure pocket (busy crossroads, overlapping macros).
+
+context:
+  area: urban
+  time_window: 3h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.6, shoulder: 0.3, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+
+  HO_success:            { min: 0.78, max: 0.90 }      
+  RLF_rate:              { min: 0.03, max: 0.07 }      
+  ho_fail_rate:         { min: 10,   max: 22 }
+  ping_pong_rate:       { min: 6,    max: 20 }
+  ho_attempts_per_5min:  { min: 25,   max: 120 }
+
+  rsrp_dBm:              { min: -118, max: -98 }
+  rsrq_dB:               { min: -16,  max: -8 }
+  sinr_dB:               { min: -2,   max: 10 }
+
+  a3_offset_dB:          { min: 0.0,  max: 4.0 }
+  ttt_ms:                { min: 80,   max: 320 }
+
+  throughput_p50_mbps:
+    min: 5
+    max: 25
+    depends_on: sinr_dB
+    corr: positive
+  users:                 { min: 180, max: 480, dist: triangular, mode: 300 }
+
+notes: >
+  Combine coverage insight with mobility tuning (A3 offset / TTT / hysteresis). Address neighbor list/overlap if indicated.

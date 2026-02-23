@@ -1,0 +1,33 @@
+intent: COVERAGE_HOLE
+blueprint_id: COV_HOLE_DOWNTOWN
+description: >
+  Downtown canyon with a low-RSRP pocket and user complaints.
+ 
+context:
+  area: urban
+  time_window: 24h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak: 0.5, shoulder: 0.3, offpeak: 0.2 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  rsrp_dBm:               { min: -122, max: -102 }
+  rsrq_dB:                { min: -18,  max: -10, corr_with: rsrp_dBm, slope: 0.20 }
+  sinr_dB:                { min: -7,   max: 8,   corr_with: rsrp_dBm, slope: 0.40 }
+  coverage_gap_ratio:     { min: 8,    max: 30 }
+  ta_std_m:               { min: 40,   max: 100 }
+  PRB_util:               { min: 0.40, max: 0.80 }  
+  throughput_p50_mbps:
+    min: 3
+    max: 30
+    depends_on: sinr_dB
+    corr: positive
+  users:                  { min: 120, max: 450, dist: triangular, mode: 260 }
+
+
+notes: >
+  Coverage histogram should show low-RSRP dominance; propose tilt/power/neighbor adjustments and escalate as needed.

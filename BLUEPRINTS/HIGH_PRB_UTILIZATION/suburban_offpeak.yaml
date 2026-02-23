@@ -1,0 +1,45 @@
+intent: HIGH_PRB_UTILIZATION
+blueprint_id: HIGH_PRB_SUBURBAN_OFFPEAK
+description: >
+  Suburban cell shows moderate PRB congestion outside peak hours; no alarm raised.
+
+context:
+  area: suburban
+  time_window: 4h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { offpeak: 0.6, shoulder: 0.4 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  PRB_util:
+    min: 0.86
+    max: 0.92
+  DL_thr_Mbps:
+    min: 8
+    max: 22
+    depends_on: PRB_util
+    corr: negative
+  UL_thr_Mbps:
+    min: 4
+    max: 14
+    depends_on: PRB_util
+    corr: negative
+  RLF_rate: { min: 0.015, max: 0.040 }
+  BLER:
+    min: 0.020
+    max: 0.060
+    depends_on: PRB_util
+    corr: positive
+  sched_latency_p95_ms:
+    min: 18
+    max: 60
+    depends_on: PRB_util
+    corr: positive
+  users: { min: 120, max: 220, dist: triangular, mode: 170 }
+
+notes: >
+  Mild but persistent load outside peak; timer/scheduler tuning and light load balancing may still be warranted.

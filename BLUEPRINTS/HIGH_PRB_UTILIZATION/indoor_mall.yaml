@@ -1,0 +1,35 @@
+intent: HIGH_PRB_UTILIZATION
+blueprint_id: HIGH_PRB_INDOOR_MALL
+description: >
+  Indoor hotspot (shopping mall). High user density causing PRB saturation; latency complaints common.
+
+context:
+  area: indoor
+  time_window: 3h
+  alarm: true
+  tech: NR
+  cell_role: micro
+
+priors:
+  time_of_day: { peak_evening: 0.6, shoulder_afternoon: 0.3, offpeak_morning: 0.1 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+  PRB_util:            { min: 0.90, max: 0.97, dist: mixture, p_hi: 0.7, hi_min: 0.93, hi_max: 0.97, lo_min: 0.90, lo_max: 0.93 }
+  DL_thr_Mbps:
+    min: 4
+    max: 12
+    depends_on: PRB_util
+    corr: negative
+  UL_thr_Mbps:
+    min: 2
+    max: 10
+    depends_on: PRB_util
+    corr: negative
+  RLF_rate:            { min: 0.020, max: 0.045 }
+  BLER:                { min: 0.035, max: 0.080, depends_on: PRB_util, corr: positive }
+  sched_latency_p95_ms:{ min: 25, max: 90,  depends_on: PRB_util, corr: positive }
+  users:               { min: 220, max: 400, dist: triangular, mode: 320 }
+
+notes: >
+  Hotspot behavior; consider short-term tuning (e.g., HO/TTT/T310, QCI prioritization, mild load balancing). Capacity augments are out of scope for this run.

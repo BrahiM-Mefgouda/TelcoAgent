@@ -1,0 +1,31 @@
+intent: THROUGHPUT_DROP_DL
+blueprint_id: DL_DROP_EVENT_TRANSIENT
+description: >
+  Stadium hotspot with transient downlink throughput collapse during the showtime window.
+
+context:
+  area: stadium
+  time_window: 2h
+  alarm: true
+  tech: NR
+  cell_role: micro
+
+priors:
+  event_phase: { ingress: 0.25, in_event: 0.55, egress: 0.20 }
+
+constraints:
+  PRB_util:              { min: 0.88, max: 0.99 }  
+  DL_thr_Mbps:           { min: 2,    max: 10 }    
+  BLER:                  { min: 0.03, max: 0.08 } 
+  rsrq_dB:               { min: -16,  max: -9 }
+  sinr_dB:
+    min: 0
+    max: 12
+    corr_with: rsrq_dB
+    slope: 0.35
+  sched_latency_p95_ms:  { min: 35,   max: 130, depends_on: PRB_util, corr: positive }
+  users:                 { min: 280,  max: 650, dist: triangular, mode: 500 }  
+
+notes: >
+  Event-driven congestion: confirm trend in-window, then tune scheduler/PRB allocation;
+  consider temporary relief policies for the event.

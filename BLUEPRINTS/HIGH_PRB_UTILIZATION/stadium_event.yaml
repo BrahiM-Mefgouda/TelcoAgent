@@ -1,0 +1,53 @@
+intent: HIGH_PRB_UTILIZATION
+blueprint_id: HIGH_PRB_STADIUM_EVENT
+description: >
+  Temporary event surge near a stadium; sharp PRB spike confined to the event window.
+
+
+context:
+  area: stadium
+  time_window: 2h
+  alarm: true
+  tech: NR
+  cell_role: micro
+
+priors:
+  event_phase: { ingress: 0.35, in_event: 0.45, egress: 0.20 }
+  traffic_mix: { eMBB: 0.97, enterprise_private: 0.03 }
+
+constraints:
+  PRB_util:
+    min: 0.92
+    max: 0.99
+    dist: mixture
+    p_hi: 0.75
+    hi_min: 0.95
+    hi_max: 0.99
+    lo_min: 0.92
+    lo_max: 0.95
+  DL_thr_Mbps:
+    min: 3
+    max: 10
+    depends_on: PRB_util
+    corr: negative
+  UL_thr_Mbps:
+    min: 1
+    max: 8
+    depends_on: PRB_util
+    corr: negative
+  BLER:
+    min: 0.040
+    max: 0.090
+    depends_on: PRB_util
+    corr: positive
+  RLF_rate:               { min: 0.025, max: 0.055 }
+  sched_latency_p95_ms:
+    min: 35
+    max: 120
+    depends_on: PRB_util
+    corr: positive
+  users:                  { min: 300, max: 600, dist: triangular, mode: 480 }
+
+
+notes: >
+  Event-driven transient congestion; inspect PRB trend within the exact window before recommending parameter changes.

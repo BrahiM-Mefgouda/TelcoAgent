@@ -1,0 +1,36 @@
+intent: DEGRADED_BACKHAUL
+blueprint_id: BACKHAUL_CONGESTION_PEAK
+description: >
+  Backhaul congestion at peak hours: radio KPIs look acceptable, but transport bottleneck degrades user throughput.
+
+context:
+  area: urban
+  time_window: 3h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak: 0.7, shoulder: 0.3 }
+  traffic_mix: { eMBB: 0.85, FWA: 0.15 }
+
+constraints:
+  bh_util:            { min: 80,  max: 98 }
+  bh_latency_ms:       { min: 25,  max: 120 }
+  bh_packet_loss:     { min: 0.5, max: 3.0 }
+  jitter_ms:           { min: 5,   max: 25 }
+  queue_occupancy:    { min: 60,  max: 98 }
+
+  PRB_util:            { min: 0.60, max: 0.85 }     
+  sinr_dB:             { min: 5,    max: 18 }
+  rsrp_dBm:            { min: -110, max: -95 }
+
+  DL_thr_Mbps:
+    min: 4
+    max: 16
+    depends_on: bh_util
+    corr: negative
+  users:               { min: 150,  max: 600, dist: triangular, mode: 320 }
+
+notes: >
+  Recommend traffic shaping or reroute; raise a ticket to transport/NOC with backhaul evidence from timeseries and alarms.

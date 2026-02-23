@@ -1,0 +1,41 @@
+intent: PINGPONG_HANDOVERS
+blueprint_id: PPHO_SUBURBAN_BORDER
+description: >
+  Suburban cell border with marginal RSRP causing back-and-forth (ping-pong) handovers.
+
+context:
+  area: suburban
+  time_window: 5h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { shoulder: 0.6, peak: 0.3, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  HO_success:              { min: 0.82, max: 0.93 }        
+  ping_pong_rate:         { min: 10,  max: 26 }
+  ho_fail_rate:           { min: 6,   max: 14 }
+
+  rsrp_dBm:                { min: -116, max: -100 }
+  rsrq_dB:                 { min: -14,  max: -8 }
+  sinr_dB:                 { min: -1,   max: 12, corr_with: rsrq_dB, slope: 0.35 }
+
+  PRB_util:                { min: 0.50, max: 0.85 }
+  users:                   { min: 120, max: 380, dist: triangular, mode: 220 }
+
+  BLER:                    { min: 0.02, max: 0.08 }        
+  throughput_p50_mbps:
+    min: 5
+    max: 26
+    depends_on: sinr_dB
+    corr: positive
+
+  a3_offset_dB:            { min: 0.0,  max: 4.0 }
+  ttt_ms:                  { min: 80,   max: 320 }
+  hysteresis_dB:           { min: 0.0,  max: 4.0 }
+
+notes: >
+  Adjust hysteresis/TTT (and A3 if needed) to dampen ping-pong; validate coverage gradients and neighbor relations.

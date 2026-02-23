@@ -1,0 +1,25 @@
+intent: CELL_OUTAGE_DETECTION
+blueprint_id: OUTAGE_GRADUAL_NO_ALARM
+description: >
+  Gradual KPI degradation leading to cell outage without clear alarm signals.
+
+context:
+  area: suburban
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak: 0.5, shoulder: 0.3, offpeak: 0.2 }
+  traffic_mix: { eMBB: 0.8, FWA: 0.2 }
+
+constraints:
+  availability:      { min: 50, max: 90 }
+  throughput_p50_mbps:{ min: 0,  max: 5 }
+  user_drop_rate:    { min: 10, max: 30 }
+  call_setup_fail:   { min: 15, max: 40 }
+
+
+notes: >
+  Outage developing slowly without alarms. Confirm via KPIs and trends; raise ticket for field inspection.

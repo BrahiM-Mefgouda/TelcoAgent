@@ -1,0 +1,38 @@
+intent: TA_DISTRIBUTION_DRIFT
+blueprint_id: TA_DRIFT_MISASSOC
+description: >
+  Users exhibit abnormal TA distribution due to mis-association to non-optimal cells.
+
+context:
+  area: suburban
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+
+constraints:
+  TA:                    { min: 180, max: 400 }            
+  ta_p50:                { min: 170, max: 320 }
+  ta_p95:                { min: 300, max: 560 }
+  ta_std:                { min: 50,  max: 160 }
+  ta_drift_index:        { min: 0.25, max: 0.60 }         
+  distant_serving_ratio: { min: 12,  max: 35 }          
+  HO_success:            { min: 0.80, max: 0.93 }       
+  ho_fail_rate:         { min: 6,   max: 18 }
+  rsrp_dBm:              { min: -118, max: -100 }
+  rsrq_dB:               { min: -15,  max: -8 }
+  sinr_dB:               { min: -1,   max: 12 }
+  PRB_util:              { min: 0.45, max: 0.85 }
+  throughput_p50_mbps:
+    min: 4
+    max: 20
+    depends_on: sinr_dB
+    corr: positive
+  users:                 { min: 100, max: 400, dist: triangular, mode: 220 }
+
+notes: >
+  Mis-association suspected: adjust handover margins/neighbor offsets to correct serving choices;
+  validate via TA and mobility trends after changes.

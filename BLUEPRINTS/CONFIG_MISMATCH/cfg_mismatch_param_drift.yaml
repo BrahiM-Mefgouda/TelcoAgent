@@ -1,0 +1,31 @@
+intent: CONFIG_MISMATCH
+blueprint_id: CFG_MISMATCH_PARAM_DRIFT
+description: >
+  OSS configuration drift detected versus live parameters; KPIs show mild degradation.
+
+context:
+  area: urban
+  time_window: 12h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak: 0.4, shoulder: 0.4, offpeak: 0.2 }
+  traffic_mix: { eMBB: 0.85, enterprise_private: 0.15 }
+
+constraints:
+  mismatch_count:        { min: 2,  max: 12 }         
+  param_drift_score:     { min: 0.30, max: 0.90 }      
+  drift_age_hours:       { min: 6,  max: 72 }
+  ho_fail_rate:          { min: 2,  max: 12 }         
+  bler:                  { min: 0.02, max: 0.12 }      
+  prb_util:              { min: 0.30, max: 0.85 }
+  throughput_p50_mbps:
+    min: 5
+    max: 30
+    depends_on: bler
+    corr: negative
+
+notes: >
+  Use OSS evidence to confirm parameter drift, dry-run the corrective patch, then proceed to rollout via ticket.

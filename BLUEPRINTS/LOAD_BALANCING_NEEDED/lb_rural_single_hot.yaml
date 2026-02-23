@@ -1,0 +1,34 @@
+intent: LOAD_BALANCING_NEEDED
+blueprint_id: LB_RURAL_SINGLE_HOT
+description: >
+  Rural cluster with a single overloaded site while neighbors are lightly loaded.
+
+context:
+  area: rural
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.75, FWA: 0.25 }
+
+constraints:
+  PRB_util:                  { min: 0.80, max: 0.95 }                 
+  users:                     { min: 120, max: 260, dist: triangular, mode: 180 }
+  neighbor_avg_PRB_util:     { min: 0.25, max: 0.55 }                 
+  imbalance_index:           { min: 0.20, max: 0.50 }               
+  ho_out_rate_per_5min:      { min: 6,   max: 35 }
+  ho_in_rate_per_5min:       { min: 3,   max: 18 }
+  rsrq_dB:                   { min: -13, max: -7 }
+  sinr_dB:                   { min: 3,   max: 16 }
+  throughput_p50_mbps:
+    min: 4
+    max: 20
+    depends_on: PRB_util
+    corr: negative
+  neighbor_distance_km:      { min: 2.5, max: 10.0 }                
+
+notes: >
+  Tune A3/TTT/offsets to push users to neighbors; verify neighbor headroom before shifting load.

@@ -1,0 +1,51 @@
+intent: HIGH_PRB_UTILIZATION
+blueprint_id: HIGH_PRB_URBAN_PEAK
+description: >
+  Urban macro cell during evening rush hour with clear load-driven congestion and active alarm.
+
+context:
+  area: urban
+  time_window: 2h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.8, shoulder: 0.2 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+  PRB_util:
+    min: 0.90
+    max: 0.98
+    dist: mixture
+    p_hi: 0.7
+    hi_min: 0.94
+    hi_max: 0.98
+    lo_min: 0.90
+    lo_max: 0.94
+  DL_thr_Mbps:
+    min: 5
+    max: 15
+    depends_on: PRB_util
+    corr: negative
+  UL_thr_Mbps:
+    min: 2
+    max: 12
+    depends_on: PRB_util
+    corr: negative
+  BLER:
+    min: 0.030
+    max: 0.080
+    depends_on: PRB_util
+    corr: positive
+  RLF_rate: { min: 0.020, max: 0.050 }
+  sched_latency_p95_ms:
+    min: 28
+    max: 100
+    depends_on: PRB_util
+    corr: positive
+  users: { min: 200, max: 350, dist: triangular, mode: 290 }
+
+notes: >
+  Strong, sustained congestion pattern; inspect PRB trend within the window before applying short-term tuning.

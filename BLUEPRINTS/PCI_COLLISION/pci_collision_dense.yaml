@@ -1,0 +1,40 @@
+intent: PCI_COLLISION
+blueprint_id: PCI_COLLISION_DENSE
+description: >
+  Dense urban grid; PCI collision observed after adding a new carrier, degrading mobility and quality.
+
+context:
+  area: urban
+  time_window: 6h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+  pci_self:                { min: 0,   max: 503 }
+  pci_neighbor:            { min: 0,   max: 503 }
+  neighbor_pci_overlap:   { min: 30,  max: 70 }           
+  HO_success:              { min: 0.68, max: 0.86 }
+  ho_fail_rate:           { min: 14,  max: 30 }
+  ping_pong_rate:         { min: 10,  max: 28 }
+  rsrq_dB:                 { min: -18, max: -9 }
+  sinr_dB:
+    min: -4
+    max: 11
+    corr_with: rsrq_dB
+    slope: 0.35
+  BLER:                    { min: 0.06, max: 0.16 }       
+  prb_util:                { min: 0.50, max: 0.90 }
+  throughput_p50_mbps:
+    min: 4
+    max: 24
+    depends_on: sinr_dB
+    corr: positive
+  users:                   { min: 220, max: 600, dist: triangular, mode: 360 }
+
+notes: >
+  Resolve PCI (re-plan) and update neighbor relations; BLER and HO success should improve post-fix.

@@ -1,0 +1,39 @@
+intent: DEGRADED_BACKHAUL
+blueprint_id: BACKHAUL_LINK_FLAP
+description: >
+  Intermittent backhaul link flapping causing sporadic throughput dips despite acceptable radio KPIs.
+
+context:
+  area: suburban
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.85, FWA: 0.15 }
+
+constraints:
+
+  bh_link_flaps_per_hr:   { min: 1,   max: 10 }
+  bh_loss_burst_rate:    { min: 0.2, max: 2.0 }
+  bh_latency_p95_ms:      { min: 20,  max: 90 }
+  jitter_p95_ms:          { min: 5,   max: 35 }
+  interface_errors:       { min: 10,  max: 800 }    
+
+
+  PRB_util:               { min: 0.40, max: 0.80 }
+  sinr_dB:                { min: 6,    max: 20 }
+  rsrp_dBm:               { min: -110, max: -95 }
+
+
+  DL_thr_Mbps:
+    min: 6
+    max: 20
+    depends_on: jitter_p95_ms
+    corr: negative
+  users:                  { min: 80,   max: 350, dist: triangular, mode: 180 }
+
+notes: >
+  Capture time-series dips and link flaps; provide interface/error evidence and escalate to transport for remediation.

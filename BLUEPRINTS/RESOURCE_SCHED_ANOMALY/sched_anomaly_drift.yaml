@@ -1,0 +1,31 @@
+intent: RESOURCE_SCHED_ANOMALY
+blueprint_id: SCHED_ANOMALY_DRIFT
+description: >
+  Scheduler drift causing uneven PRB allocation and QoS imbalance across traffic classes.
+
+context:
+  area: urban
+  time_window: 6h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { shoulder: 0.7, peak: 0.3 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  PRB_util:                 { min: 0.70, max: 0.95 }                    
+  prb_fairness_index:       { min: 0.45, max: 0.80 }                    
+  prb_allocation_skew:     { min: 12,  max: 40 }                      
+  qci_high_prio_share:     { min: 15,  max: 40 }                       
+  qci_best_effort_share:   { min: 45,  max: 75 }                       
+  p50_thr_mbps:             { min: 6,   max: 24 }
+  p95_thr_mbps:             { min: 12,  max: 60 }
+  p95_minus_p50_gap_mbps:   { min: 6,   max: 36 }                      
+  sched_latency_p95_ms:     { min: 25,  max: 110 }
+  rsrq_dB:                  { min: -14, max: -8 }                       
+  sinr_dB:                  { min: 2,   max: 16 }
+
+notes: >
+  Tune scheduler weights/priorities and QoS shares; verify improvement via fairness index and class-share trends post-change.

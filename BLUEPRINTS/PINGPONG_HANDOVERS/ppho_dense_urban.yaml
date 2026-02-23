@@ -1,0 +1,42 @@
+intent: PINGPONG_HANDOVERS
+blueprint_id: PPHO_DENSE_URBAN
+description: >
+  Dense urban cluster with overlapping macros/micros causing frequent back-and-forth (ping-pong) handovers.
+
+context:
+  area: urban
+  time_window: 4h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.6, shoulder: 0.3, offpeak: 0.1 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+
+  HO_success:              { min: 0.80, max: 0.92 }           
+  ping_pong_rate:         { min: 12,  max: 30 }
+  ho_attempts_per_5min:    { min: 40,  max: 160 }
+  ho_fail_rate:           { min: 6,   max: 16 }
+
+  rsrp_dBm:                { min: -114, max: -96 }
+  rsrq_dB:                 { min: -14,  max: -7 }
+  sinr_dB:                 { min: 0,    max: 14 }
+
+  PRB_util:                { min: 0.60, max: 0.90 }           
+  users:                   { min: 180,  max: 520, dist: triangular, mode: 320 }
+
+  a3_offset_dB:            { min: 0.0,  max: 4.0 }
+  ttt_ms:                  { min: 80,   max: 320 }
+  hysteresis_dB:           { min: 0.0,  max: 4.0 }
+
+  throughput_p50_mbps:
+    min: 5
+    max: 28
+    depends_on: sinr_dB
+    corr: positive
+
+notes: >
+  Increase hysteresis and adjust TTT/A3 to dampen ping-pong; tidy neighbor relations if overlap drives oscillation.

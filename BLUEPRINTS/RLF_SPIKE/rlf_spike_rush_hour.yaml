@@ -1,0 +1,39 @@
+intent: RLF_SPIKE
+blueprint_id: RLF_SPIKE_RUSH_HOUR
+description: >
+  Urban rush hour: RLF rate spikes with mobility instability; congestion contributes.
+
+context:
+  area: urban
+  time_window: 2h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.8, shoulder: 0.2 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+
+  RLF_rate:              { min: 0.035, max: 0.08 }       
+  HO_success:            { min: 0.75,  max: 0.90 }
+  ho_fail_rate:         { min: 10,   max: 26 }
+  t310_expiry_rate:     { min: 6,    max: 18 }          
+
+  PRB_util:              { min: 0.70, max: 0.95 }        
+  sched_latency_p95_ms:  { min: 30,   max: 110, depends_on: PRB_util, corr: positive }
+
+  rsrq_dB:               { min: -16,  max: -8 }
+  sinr_dB:               { min: 0,    max: 12, corr_with: rsrq_dB, slope: 0.35 }
+  BLER:                  { min: 0.03, max: 0.10 }
+
+  throughput_p50_mbps:
+    min: 4
+    max: 22
+    depends_on: PRB_util
+    corr: negative
+  users:                 { min: 180, max: 520, dist: triangular, mode: 320 }
+
+notes: >
+  Tune T310/TTT (and hysteresis if needed) based on the spike pattern; verify congestion contribution and adjust accordingly.

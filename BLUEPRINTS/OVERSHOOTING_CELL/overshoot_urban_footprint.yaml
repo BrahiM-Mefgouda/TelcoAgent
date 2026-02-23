@@ -1,0 +1,38 @@
+intent: OVERSHOOTING_CELL
+blueprint_id: OVERSHOOT_URBAN_FOOTPRINT
+description: >
+  Urban macro overshooting into an adjacent district, causing distant serving and border HO issues.
+
+context:
+  area: urban
+  time_window: 12h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { mixed: 1.0 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  ta_p95_m:               { min: 500,  max: 1800 }
+  ta_std_m:               { min: 90,   max: 280 }
+  distant_serving_ratio: { min: 10,   max: 30 }      
+
+  rsrp_dBm:               { min: -118, max: -100 }
+  rsrq_dB:                { min: -16,  max: -9 }
+  sinr_dB:                { min: -3,   max: 10 }
+
+  ho_fail_rate:          { min: 6,    max: 18 }
+  ping_pong_rate:        { min: 8,    max: 22 }
+
+  PRB_util:               { min: 0.55, max: 0.85 }   
+  throughput_p50_mbps:
+    min: 4
+    max: 22
+    depends_on: sinr_dB
+    corr: positive
+  users:                  { min: 150,  max: 500, dist: triangular, mode: 280 }
+
+notes: >
+  Reduce tilt/power to rein in footprint; verify neighbor relations and adjust offsets if needed.

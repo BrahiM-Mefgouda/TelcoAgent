@@ -1,0 +1,28 @@
+intent: LOAD_BALANCING_NEEDED
+blueprint_id: LB_NEIGHBOR_LAG
+description: >
+  One hot cell while neighbors are underutilized; clear inter-cell load imbalance.
+
+context:
+  area: urban
+  time_window: 4h
+  alarm: false
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.6, shoulder: 0.4 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  PRB_util:                { min: 0.85, max: 0.98 }                  
+  users:                   { min: 180, max: 360, dist: triangular, mode: 260 } 
+  neighbor_avg_PRB_util:   { min: 0.35, max: 0.65 }                  
+  imbalance_index:         { min: 0.18, max: 0.45 }             
+  ho_out_rate_per_5min:    { min: 10,  max: 60 }
+  ho_in_rate_per_5min:     { min: 5,   max: 30 }
+  rsrq_dB:                  { min: -14, max: -7 }
+  sinr_dB:                  { min: 2,   max: 14 }
+
+notes: >
+  Adjust load-balancing policies (A3/TTT/offsets) and ANR where applicable; verify neighbor capacity before shifting load.

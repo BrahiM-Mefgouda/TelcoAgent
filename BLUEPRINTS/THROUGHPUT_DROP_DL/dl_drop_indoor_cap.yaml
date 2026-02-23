@@ -1,0 +1,39 @@
+intent: THROUGHPUT_DROP_DL
+blueprint_id: DL_DROP_INDOOR_CAP
+description: >
+  Indoor enterprise site with a capacity-limited carrier; downlink saturation during business hours.
+
+context:
+  area: indoor
+  time_window: 4h
+  alarm: true
+  tech: NR
+  cell_role: micro
+
+priors:
+  time_of_day: { business_hours: 0.8, offpeak: 0.2 }
+  traffic_mix: { enterprise_private: 0.6, eMBB: 0.4 }
+
+constraints:
+  PRB_util:
+    min: 0.82
+    max: 0.96
+  DL_thr_Mbps:
+    min: 3
+    max: 12
+    depends_on: PRB_util
+    corr: negative
+  BLER:
+    min: 0.02
+    max: 0.06
+    depends_on: PRB_util
+    corr: positive
+  sched_latency_p95_ms:
+    min: 25
+    max: 90
+    depends_on: PRB_util
+    corr: positive
+  users: { min: 120, max: 240, dist: triangular, mode: 180 }
+
+notes: >
+  Classic capacity bottleneck in business hours; prefer scheduler/PRB allocation tuning (and prioritization) for immediate relief.

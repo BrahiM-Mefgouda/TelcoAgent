@@ -1,0 +1,43 @@
+intent: HQOS_LATENCY_VIOLATION
+blueprint_id: LATENCY_SLA_PEAK_LOAD
+description: >
+  Latency SLA breach during a high-load period; congestion is the primary driver.
+
+context:
+  area: urban
+  time_window: 2h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.7, shoulder: 0.3 }
+  traffic_mix: { eMBB: 0.9, enterprise_private: 0.1 }
+
+constraints:
+  PRB_util:
+    min: 0.80
+    max: 0.96
+  latency_ms:
+    min: 35
+    max: 80
+    depends_on: PRB_util
+    corr: positive
+  sched_latency_p95_ms:
+    min: 30
+    max: 110
+    depends_on: PRB_util
+    corr: positive
+  BLER:
+    min: 0.02
+    max: 0.08
+  throughput_p50_mbps:
+    min: 4
+    max: 18
+    depends_on: PRB_util
+    corr: negative
+  users: { min: 180, max: 420, dist: triangular, mode: 300 }
+
+notes: >
+  Prioritize scheduler/QoS for low-latency traffic: adjust priorities/TTI/queueing.
+  Validate correlation between PRB_util and latency before applying changes.

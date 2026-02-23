@@ -1,0 +1,46 @@
+intent: THROUGHPUT_DROP_DL
+blueprint_id: DL_DROP_URBAN_PEAK
+description: >
+  Urban macro at evening peak; scheduler under strain with DL throughput dip.
+
+context:
+  area: urban
+  time_window: 3h
+  alarm: true
+  tech: NR
+  cell_role: macro
+
+priors:
+  time_of_day: { peak_evening: 0.8, shoulder: 0.2 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+  PRB_util:
+    min: 0.75
+    max: 0.95
+  DL_thr_Mbps:
+    min: 4
+    max: 15
+    depends_on: PRB_util
+    corr: negative
+  BLER:
+    min: 0.02
+    max: 0.07
+    depends_on: PRB_util
+    corr: positive
+  sched_latency_p95_ms:
+    min: 28
+    max: 110
+    depends_on: PRB_util
+    corr: positive
+  rsrq_dB:                { min: -15, max: -8 }
+  sinr_dB:
+    min: 0
+    max: 12
+    corr_with: rsrq_dB
+    slope: 0.35
+  users:                  { min: 180, max: 320, dist: triangular, mode: 260 }
+
+notes: >
+  Correlate low DL throughput with high PRB and moderate BLER; propose scheduler/PRB tuning
+  (weights/priorities) for peak relief and verify improvement.

@@ -1,0 +1,36 @@
+intent: BEAM_MISALIGNMENT
+blueprint_id: BEAM_MMWAVE_STREET_CANYON
+description: >
+  Urban street canyon on mmWave (FR2). Beam mispointing plus blockage causes patchy coverage and volatile SINR.
+
+context:
+  area: urban
+  time_window: 4h
+  alarm: false
+  tech: NR
+  cell_role: micro
+
+priors:
+  time_of_day: { peak_commute: 0.55, shoulder: 0.30, offpeak: 0.15 }
+  traffic_mix: { eMBB: 0.95, enterprise_private: 0.05 }
+
+constraints:
+  rsrp_dBm:                 { min: -125, max: -95 }
+  sinr_dB:                  { min: -8,   max: 18,  corr_with: rsrp_dBm, slope: 0.40 }
+  nlos_ratio:               { min: 30,   max: 80 }
+  coverage_gap_ratio:       { min: 10,   max: 35 }
+  dominance_ratio:          { min: 0.20, max: 0.55 }
+  ssb_rsrp_var_dB:          { min: 6.0,  max: 15.0 }
+  bfr_events_per_hr:        { min: 10,   max: 60 }
+  blockage_events_per_hr:   { min: 5,    max: 40 }
+  beam_switch_rate_per_min: { min: 2,    max: 15 }
+  rach_fail_rate:           { min: 0.5,  max: 4.0 }
+  throughput_p50_mbps:
+    min: 50
+    max: 900
+    depends_on: sinr_dB
+    corr: positive
+  users: { min: 30, max: 150, dist: triangular, mode: 80 }
+
+notes: >
+  Diagnose with SSB heatmap and blockage scan when indicated. Recommend beam re-tilt/weighting; open field ticket if needed.
