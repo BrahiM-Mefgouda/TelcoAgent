@@ -26,7 +26,6 @@ This repository accompanies the paper **“TelcoAgent-Bench: A Multilingual Benc
 - [📚 Intent and blueprint coverage](#-intent-and-blueprint-coverage)
 - [📝 Dataset notes (Data Card)](#-dataset-notes-data-card)
 - [📖 Citation](#-citation)
-- [📄 License](#-license)
 
 ---
 
@@ -381,7 +380,3 @@ If you use this repository in your research, please cite the accompanying paper.
 ```
 
 ---
-
-## 📄 License
-
-This repository is released under the license specified in the `LICENSE` file.
