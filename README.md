@@ -3,6 +3,8 @@
 
 This repository accompanies the paper **“TelcoAgent-Bench: A Multilingual Benchmark for Telecom AI Agents”** and provides the benchmark assets, blueprint-driven data generation framework, and evaluation artifacts used to assess multilingual telecom AI agents.
 
+The link to the paper: https://arxiv.org/abs/2604.06209
+
 > **Core idea:** TelcoAgent-Bench does not only test whether a model can answer telecom questions.  
 > It evaluates whether an **agent** can:
 > 1. infer the correct troubleshooting **intent**,
@@ -370,13 +372,8 @@ Each category is instantiated through structured blueprints that define KPI-cons
 
 If you use this repository in your research, please cite the accompanying paper.
 
-```bibtex
-@misc{bariah2026telcoagentbench,
-  title={TelcoAgent-Bench: A Multilingual Benchmark for Telecom AI Agents},
-  author={Lina Bariah and Brahim Mefgouda and Farbod Tavakkoli and Enrique Molero and Louis Powell and M{\'e}rouane Debbah},
-  year={2026},
-  note={Manuscript}
-}
+```
+
 ```
 
 ---
