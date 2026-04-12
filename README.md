@@ -373,7 +373,12 @@ Each category is instantiated through structured blueprints that define KPI-cons
 If you use this repository in your research, please cite the accompanying paper.
 
 ```
-
+@article{bariah2026telcoagent,
+  title={TelcoAgent-Bench: A Multilingual Benchmark for Telecom AI Agents},
+  author={Bariah, Lina and Mefgouda, Brahim and Tavakkoli, Farbod and Molero, Enrique and Powell, Louis and Debbah, M{\'e}rouane},
+  journal={arXiv preprint arXiv:2604.06209},
+  year={2026}
+}
 ```
 
 ---
